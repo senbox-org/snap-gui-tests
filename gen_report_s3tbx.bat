@@ -1,0 +1,1 @@
+"C:\Program Files (x86)\qfs\qftest\qftest-4.0.3\bin\qftest" -batch -genreport -report -J-Xmx1024m -J-Duser.language=en  C:\Users\olga\Projects\Testing\test_suite\reports\senbox_20+y+M+d -report.name senbox_20+y+M+d C:\Users\olga\Projects\Testing\test_suite\protokolls\senbox\

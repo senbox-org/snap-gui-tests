@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.2">
+  <include>qfs.qft</include>
+  <include>../lib/main.qft</include>
+  <TestSet id="_1" name="01_01_prism_imaging_tools"
+           reportname="01-01 Imaging tools PRISM">
+    <DependencyReference id="_1lXI"
+                         reference="dependencies.start_application"/>
+    <TestSet id="_D" name="open_product_open_image_view">
+      <DataDriver id="_3y4"
+                  loopreportname="Open image view of $(dataInDir)/$(fileName) data product"
+                  name="dataTable">
+        <ProcedureCall id="_Bt4" procedure="tables.prism"/>
+      </DataDriver>
+      <TestCase id="_2" name="test" reportname="$(productName)">
+        <ProcedureCall id="_1lEv" procedure="import_data.raster_data">
+          <variable name="import_data">prism</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1lEu"
+                       procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+      </TestCase>
+    </TestSet>
+  </TestSet>
+  <PackageRoot id="_3"/>
+  <ExtraSequence id="_4"/>
+  <WindowList id="_5"/>
+</RootStep>

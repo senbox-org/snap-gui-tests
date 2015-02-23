@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.3">
+  <include>qfs.qft</include>
+  <include>components.qft</include>
+  <include>main.qft</include>
+  <dependency>check.qft</dependency>
+  <dependency>main.qft</dependency>
+  <dependency>workflow.qft</dependency>
+  <PackageRoot id="_3">
+    <Package id="_1k-S" name="open">
+      <Procedure disabled="true" id="_1l8W" name="statistics_dialog">
+        <TryStep id="_1lBA">
+          <ProcedureCall id="_1lB5"
+                         procedure="do_click.main_toolbar.analysis.statistics"/>
+          <ProcedureCall id="_1lB9" procedure="wait.appear.dialog"/>
+          <CatchSequence exception="TestException" id="_1lBB" maxerror="0">
+            <ProcedureCall id="_1lBC" procedure="run-log.logError">
+              <variable name="message">Statistics dialog does not appear</variable>
+              <variable name="withScreenshots">true</variable>
+            </ProcedureCall>
+          </CatchSequence>
+        </TryStep>
+      </Procedure>
+      <Procedure disabled="true" id="_1oSk" name="product">
+        <variable name="prod_dir"/>
+        <variable name="in_out"/>
+        <variable name="prod"/>
+        <variable name="product_type"/>
+        <ProcedureCall id="_1oSl" procedure="set.variable.path">
+          <comment>${path:data_directory}</comment>
+        </ProcedureCall>
+        <IfSequence id="_1oSm" test="&#34;$(in_out)&#34;==&#34;out&#34;">
+          <SetGlobalStep id="_1oSn" varname="source_dir">
+            <default>${path:output_data_directory}</default>
+          </SetGlobalStep>
+          <ElseSequence id="_1oSo">
+            <SetGlobalStep id="_1oSp" varname="source_dir">
+              <default>${path:input_data_directory}</default>
+            </SetGlobalStep>
+          </ElseSequence>
+        </IfSequence>
+        <IfSequence disabled="true" id="_1oSr"
+                    test="&#34;$(in_out)&#34;==&#34;out&#34;">
+          <ProcedureCall id="_1oSs"
+                         procedure="set.variable.output_data_directory">
+            <variable name="output_dir"/>
+          </ProcedureCall>
+          <SetGlobalStep id="_1oSt" varname="source_dir">
+            <default>$(output_data_directory)</default>
+          </SetGlobalStep>
+          <ElseSequence id="_1oSu">
+            <ProcedureCall id="_1oSv"
+                           procedure="set.variable.path.input_data_directory"/>
+            <SetGlobalStep id="_1oSw" varname="source_dir">
+              <default>$(input_data_directory)</default>
+            </SetGlobalStep>
+          </ElseSequence>
+        </IfSequence>
+        <ProcedureCall id="_1oSx" procedure="set.variable.product_attributes">
+          <variable name="prod_type">$(product_type)</variable>
+        </ProcedureCall>
+        <TestStep id="_1oSy" name="open_product">
+          <comment>@teststep Open 'Open Product' dialog.</comment>
+          <SetGlobalStep id="_1oSz" varname="open_product_dialog_appears">
+            <default>true</default>
+          </SetGlobalStep>
+          <TryStep disabled="true" id="_1oS+"
+                   name="open_product_dialog_by_clicking_open_icon">
+            <ProcedureCall id="_1oS-"
+                           procedure="do_click.main_toolbar.standard.open"/>
+            <ProcedureCall id="_1oT0"
+                           procedure="wait.appear.open_product_dialog"/>
+            <CatchSequence exception="TestException" id="_1oT1" maxerror="0">
+              <SetGlobalStep id="_1oT2" varname="open_product_dialog_appears">
+                <default>false</default>
+              </SetGlobalStep>
+              <ProcedureCall id="_1oT3"
+                             procedure="run-log.eroor_message.dialog_does_not_appear">
+                <variable name="dialog">Open Product</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+          <TryStep id="_1oT4" name="open_product_dialog_by_selecting_menu">
+            <ProcedureCall id="_1oT5" procedure="utility.openProduct"/>
+            <CatchSequence exception="TestException" id="_1oT6" maxerror="0">
+              <TryStep id="_1oT7">
+                <ProcedureCall id="_1oT8" procedure="utility.openProduct"/>
+                <CatchSequence exception="TestException" id="_1oT9"
+                               maxerror="0">
+                  <SetGlobalStep id="_1oTA"
+                                 varname="open_product_dialog_appears">
+                    <default>false</default>
+                  </SetGlobalStep>
+                  <ProcedureCall id="_1oTB"
+                                 procedure="run-log.eroor_message.dialog_does_not_appear">
+                    <variable name="dialog">Open Product</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </TestStep>
+        <IfSequence id="_1oTC"
+                    test="&#34;$(open_product_dialog_appears)&#34;==&#34;true&#34;">
+          <IfSequence id="_1oTD" test="${qftest:windows}">
+            <SetGlobalStep id="_1oTE" varname="input_file">
+              <default>$(source_dir)$(prod_dir)/$(prod)</default>
+            </SetGlobalStep>
+            <ElseifSequence disabled="true" id="_1oTF" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1oTG" varname="input_file">
+                <default>$(source_dir)$(prod_dir)/$(prod)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1oTH">
+              <SetGlobalStep id="_1oTI" varname="input_file">
+                <default>$(source_dir)$(prod_dir)/$(prod)</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+          <ProcedureCall id="_1oTJ" procedure="select.file_of_type">
+            <variable name="file_of_type">$(reader)</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogOpen_Product.textDateiname:"
+                         id="_1oTK">
+            <text>$(input_file)</text>
+            <comment>@teststep Select $(input_file).</comment>
+          </TextInputStep>
+          <ProcedureCall id="_1oTL"
+                         procedure="do_click.open_product_dialog.open"/>
+        </IfSequence>
+        <BasicSequence id="_1oTM" name="find_error_dialog_click_ok">
+          <TryStep id="_1oTN" name="find_error_dialog_click_ok">
+            <ProcedureCall id="_1oTO"
+                           procedure="wait.appear.error_dialog_open_product"/>
+            <ProcedureCall id="_1oTP" procedure="run-log.make_screensot">
+              <variable name="iw_name">error_dialog_open_product</variable>
+              <variable name="iw_name_example">error_dialog</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1oTQ"
+                           procedure="do_click.error_dialog.button_Yes_dialog_Open_Product"/>
+            <ProcedureCall id="_1oTR"
+                           procedure="run-log.eroor_message.error_dialog_appears">
+              <variable name="dialog">'Open Product' error</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1oTS" maxerror="0">
+              <ProcedureCall id="_1oTT"
+                             procedure="wait.appear.product_is_opened"/>
+            </CatchSequence>
+          </TryStep>
+          <TryStep id="_1oTU" name="find_error_dialog_click_ok">
+            <ProcedureCall id="_1oTV"
+                           procedure="wait.appear.error_dialog_SNAP_open_product"/>
+            <ProcedureCall id="_1oTW" procedure="run-log.make_screensot">
+              <variable name="iw_name">dialog_SNAP_open_product</variable>
+              <variable name="iw_name_example">error_dialog</variable>
+            </ProcedureCall>
+            <TryStep id="_1oTX">
+              <ProcedureCall id="_1oTY"
+                             procedure="get.text_error_dialog_SNAP_Open_Product"/>
+              <CatchSequence exception="TestException" id="_1oTZ"
+                             maxerror="0">
+                <SetGlobalStep id="_1oTa" varname="error_text">
+                  <default>$(prod_dir)/$(prod) can not be opened</default>
+                </SetGlobalStep>
+              </CatchSequence>
+            </TryStep>
+            <ProcedureCall id="_1oTb"
+                           procedure="do_click.error_dialog.button_OK_error_dialog_SNAP_Open_Product"/>
+            <ServerScriptStep id="_1oTc" name="error">
+              <code>rc.logError("'$(error_text)'.")</code>
+            </ServerScriptStep>
+            <CatchSequence exception="TestException" id="_1oTd" maxerror="0">
+              <ProcedureCall id="_1oTe"
+                             procedure="wait.appear.product_is_opened"/>
+            </CatchSequence>
+          </TryStep>
+        </BasicSequence>
+        <IfSequence disabled="true" id="_1oTf" name="mac"
+                    test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+          <ProcedureCall id="_1oTg"
+                         procedure="do_click.main_toolbar.standard.open"/>
+          <ProcedureCall id="_1oTh" procedure="get.file_nr_in_the_folder">
+            <variable name="file_name">$(prod)</variable>
+          </ProcedureCall>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogESA_S-3_Toolbox_-_Open_Data_Product(s).tableFile:@Name&amp;$(file_nr_in_the_folder)"
+                          event="MOUSE_MPRC" id="_1oTi" modifiers="16"/>
+          <ProcedureCall id="_1oTj"
+                         procedure="do_click.open_product_dialog.open"/>
+        </IfSequence>
+      </Procedure>
+      <Procedure id="_1l3s" name="product">
+        <variable name="prod_dir"/>
+        <variable name="in_out"/>
+        <variable name="prod"/>
+        <variable name="product_type"/>
+        <ProcedureCall id="_1l3w" procedure="set.variable.path">
+          <comment>${path:data_directory}</comment>
+        </ProcedureCall>
+        <IfSequence id="_1oSd" test="&#34;$(in_out)&#34;==&#34;out&#34;">
+          <SetGlobalStep id="_1oSf" varname="data_source_directory">
+            <default>${path:output_data_directory}</default>
+          </SetGlobalStep>
+          <ElseSequence id="_1oSg">
+            <ProcedureCall id="_1oSj"
+                           procedure="set.variable.data_source_directory">
+              <variable name="data_type">$(prod_dir)</variable>
+            </ProcedureCall>
+          </ElseSequence>
+        </IfSequence>
+        <IfSequence disabled="true" id="_1lBD"
+                    test="&#34;$(in_out)&#34;==&#34;out&#34;">
+          <ProcedureCall id="_1lBF"
+                         procedure="set.variable.output_data_directory">
+            <variable name="output_dir"/>
+          </ProcedureCall>
+          <SetGlobalStep id="_1lBG" varname="source_dir">
+            <default>$(output_data_directory)</default>
+          </SetGlobalStep>
+          <ElseSequence id="_1lBE">
+            <ProcedureCall id="_1oSc"
+                           procedure="set.variable.path.input_data_directory"/>
+            <SetGlobalStep id="_1lBH" varname="source_dir">
+              <default>$(input_data_directory)</default>
+            </SetGlobalStep>
+          </ElseSequence>
+        </IfSequence>
+        <ProcedureCall id="_1oS1" procedure="set.variable.product_attributes">
+          <variable name="prod_type">$(product_type)</variable>
+        </ProcedureCall>
+        <TestStep id="_1oRQ" name="open_product">
+          <comment>@teststep Open 'Open Product' dialog.</comment>
+          <SetGlobalStep id="_1oRm" varname="open_product_dialog_appears">
+            <default>true</default>
+          </SetGlobalStep>
+          <TryStep disabled="true" id="_1oS3"
+                   name="open_product_dialog_by_clicking_open_icon">
+            <ProcedureCall id="_1l3v"
+                           procedure="do_click.main_toolbar.standard.open"/>
+            <ProcedureCall id="_1l3u"
+                           procedure="wait.appear.open_product_dialog"/>
+            <CatchSequence exception="TestException" id="_1oS4" maxerror="0">
+              <SetGlobalStep id="_1oS5" varname="open_product_dialog_appears">
+                <default>false</default>
+              </SetGlobalStep>
+              <ProcedureCall id="_1oS6"
+                             procedure="run-log.eroor_message.dialog_does_not_appear">
+                <variable name="dialog">Open Product</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+          <TryStep id="_1oQT" name="open_product_dialog_by_selecting_menu">
+            <ProcedureCall id="_1oQS" procedure="utility.openProduct"/>
+            <CatchSequence exception="TestException" id="_1oQU" maxerror="0">
+              <TryStep id="_1oQW">
+                <ProcedureCall id="_1oQX" procedure="utility.openProduct"/>
+                <CatchSequence exception="TestException" id="_1oQZ"
+                               maxerror="0">
+                  <SetGlobalStep id="_1oRn"
+                                 varname="open_product_dialog_appears">
+                    <default>false</default>
+                  </SetGlobalStep>
+                  <ProcedureCall id="_1oQb"
+                                 procedure="run-log.eroor_message.dialog_does_not_appear">
+                    <variable name="dialog">Open Product</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </TestStep>
+        <IfSequence id="_1oRt"
+                    test="&#34;$(open_product_dialog_appears)&#34;==&#34;true&#34;">
+          <SetGlobalStep id="_1omf" varname="input_file">
+            <default>$(data_source_directory)$(prod)</default>
+          </SetGlobalStep>
+          <IfSequence disabled="true" id="_1l4+" test="${qftest:windows}">
+            <SetGlobalStep id="_1oRq" varname="input_file">
+              <default>$(source_dir)$(prod_dir)/$(prod)</default>
+            </SetGlobalStep>
+            <ElseifSequence disabled="true" id="_1l4-" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1oRr" varname="input_file">
+                <default>$(source_dir)$(prod_dir)/$(prod)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1l50">
+              <SetGlobalStep id="_1oRs" varname="input_file">
+                <default>$(source_dir)$(prod_dir)/$(prod)</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+          <ProcedureCall id="_1oS2" procedure="select.file_of_type">
+            <variable name="file_of_type">$(reader)</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogOpen_Product.textDateiname:"
+                         id="_1oRu">
+            <text>$(input_file)</text>
+            <comment>@teststep Select $(input_file).</comment>
+          </TextInputStep>
+          <ProcedureCall id="_1oRv"
+                         procedure="do_click.open_product_dialog.open"/>
+        </IfSequence>
+        <BasicSequence id="_1oSE" name="find_error_dialog_click_ok">
+          <TryStep id="_1oRw" name="find_error_dialog_click_ok">
+            <ProcedureCall id="_1oRx"
+                           procedure="wait.appear.error_dialog_open_product"/>
+            <ProcedureCall id="_1oRy" procedure="run-log.make_screensot">
+              <variable name="iw_name">error_dialog_open_product</variable>
+              <variable name="iw_name_example">error_dialog</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1oRz"
+                           procedure="do_click.error_dialog.button_Yes_dialog_Open_Product"/>
+            <ProcedureCall id="_1oR+"
+                           procedure="run-log.eroor_message.error_dialog_appears">
+              <variable name="dialog">'Open Product' error</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1oR-" maxerror="0">
+              <ProcedureCall id="_1oS0"
+                             procedure="wait.appear.product_is_opened"/>
+            </CatchSequence>
+          </TryStep>
+          <TryStep id="_1oS7" name="find_error_dialog_click_ok">
+            <ProcedureCall id="_1oS8"
+                           procedure="wait.appear.error_dialog_SNAP_open_product"/>
+            <ProcedureCall id="_1oS9" procedure="run-log.make_screensot">
+              <variable name="iw_name">dialog_SNAP_open_product</variable>
+              <variable name="iw_name_example">error_dialog</variable>
+            </ProcedureCall>
+            <TryStep id="_1oSO">
+              <ProcedureCall id="_1oSF"
+                             procedure="get.text_error_dialog_SNAP_Open_Product"/>
+              <CatchSequence exception="TestException" id="_1oSP"
+                             maxerror="0">
+                <SetGlobalStep id="_1oSQ" varname="error_text">
+                  <default>$(prod_dir)/$(prod) can not be opened</default>
+                </SetGlobalStep>
+              </CatchSequence>
+            </TryStep>
+            <ProcedureCall id="_1oSA"
+                           procedure="do_click.error_dialog.button_OK_error_dialog_SNAP_Open_Product"/>
+            <ServerScriptStep id="_1oMr" name="error">
+              <code>rc.logError("'$(error_text)'.")</code>
+            </ServerScriptStep>
+            <CatchSequence exception="TestException" id="_1oSC" maxerror="0">
+              <ProcedureCall id="_1oSD"
+                             procedure="wait.appear.product_is_opened"/>
+            </CatchSequence>
+          </TryStep>
+        </BasicSequence>
+        <IfSequence disabled="true" id="_1l45" name="mac"
+                    test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+          <ProcedureCall id="_1l4d"
+                         procedure="do_click.main_toolbar.standard.open"/>
+          <ProcedureCall id="_1l4b" procedure="get.file_nr_in_the_folder">
+            <variable name="file_name">$(prod)</variable>
+          </ProcedureCall>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogESA_S-3_Toolbox_-_Open_Data_Product(s).tableFile:@Name&amp;$(file_nr_in_the_folder)"
+                          event="MOUSE_MPRC" id="_1l0+" modifiers="16"/>
+          <ProcedureCall id="_1l4c"
+                         procedure="do_click.open_product_dialog.open"/>
+        </IfSequence>
+      </Procedure>
+      <Procedure id="_1oRE" name="band_Maths_tool">
+        <ProcedureCall id="_1oRe" procedure="do_click.menubar"/>
+        <ProcedureCall id="_1lF2" procedure="do_click.menu.tools"/>
+        <ProcedureCall id="_1lF5"
+                       procedure="check.menu.tools.menuItemBandMath_enabled"/>
+        <IfSequence id="_1oRY"
+                    test="&#34;$(menuItemBandMath_enabled)&#34;==&#34;true&#34;">
+          <TryStep id="_1oRN">
+            <ProcedureCall id="_1oRM" procedure="utility.bandMaths"/>
+            <CatchSequence exception="TestException" id="_1oRO" maxerror="0">
+              <TryStep id="_1oRS">
+                <ProcedureCall id="_1oRT" procedure="utility.bandMaths"/>
+                <CatchSequence exception="TestException" id="_1oRU"
+                               maxerror="0">
+                  <ProcedureCall id="_1oRX"
+                                 procedure="run-log.eroor_message.tool_does_not_appear">
+                    <variable name="tool">Band Maths tool</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+          <ElseSequence id="_1oRZ">
+            <ProcedureCall id="_1oRb"
+                           procedure="run-log.eroor_message.menu_item_is_disabled">
+              <variable name="menu">Create Band from Math Expression...</variable>
+            </ProcedureCall>
+          </ElseSequence>
+        </IfSequence>
+      </Procedure>
+      <Procedure disabled="true" id="_1oSR" name="image_view">
+        <comment>@teststep Open image view</comment>
+        <TryStep disabled="true" id="_1oSS">
+          <ProcedureCall id="_1oST" procedure="do_click.menu.view"/>
+          <ProcedureCall id="_1oSU"
+                         procedure="do_click.menu.view.showImageView"/>
+          <CatchSequence exception="TestException" id="_1oSV" maxerror="0">
+            <TryStep id="_1oSW">
+              <ProcedureCall id="_1oSX" procedure="do_click.menubar"/>
+              <ProcedureCall id="_1oSY" procedure="do_click.menu.view"/>
+              <ProcedureCall id="_1oSZ"
+                             procedure="do_click.menu.view.showImageView"/>
+              <CatchSequence exception="TestException" id="_1oSa"
+                             maxerror="0">
+                <ServerScriptStep id="_1oSb" name="error">
+                  <code>rc.logError("Menu 'Show image view' can not be selected")</code>
+                </ServerScriptStep>
+              </CatchSequence>
+            </TryStep>
+          </CatchSequence>
+        </TryStep>
+      </Procedure>
+      <Procedure disabled="true" id="_1lBI" name="metadata_view">
+        <comment>@teststep Open metadata view</comment>
+        <TryStep id="_1lBJ">
+          <ProcedureCall id="_1lBK" procedure="do_click.menu.view"/>
+          <ProcedureCall id="_1lBL"
+                         procedure="do_click.menu.view.showMetadataView"/>
+          <CatchSequence exception="TestException" id="_1lBM" maxerror="0">
+            <TryStep id="_1lBN">
+              <ProcedureCall id="_1lBO" procedure="do_click.menubar"/>
+              <ProcedureCall id="_1lBP" procedure="do_click.menu.view"/>
+              <ProcedureCall id="_1lBQ"
+                             procedure="do_click.menu.view.showMetadataView"/>
+              <CatchSequence exception="TestException" id="_1lBR"
+                             maxerror="0">
+                <ServerScriptStep id="_1lBS" name="error">
+                  <code>rc.logError("Menu 'Show Metadata view' can not be selected")</code>
+                </ServerScriptStep>
+              </CatchSequence>
+            </TryStep>
+          </CatchSequence>
+        </TryStep>
+      </Procedure>
+    </Package>
+    <Package id="_1oRH" name="utility">
+      <Procedure id="_1oRI" name="bandMaths">
+        <ProcedureCall id="_1oRd" procedure="do_click.menubar"/>
+        <ProcedureCall id="_1oRc" procedure="do_click.menu.tools"/>
+        <ProcedureCall id="_1oRK"
+                       procedure="do_click.menu.tools.create_band_from_Math_expression"/>
+        <ProcedureCall id="_1oRL"
+                       procedure="wait.appear.tools.band_Maths_dialog"/>
+      </Procedure>
+      <Procedure id="_1oQP" name="openProduct">
+        <ProcedureCall id="_1oQQ" procedure="do_click.menu.file"/>
+        <ProcedureCall id="_1oQR"
+                       procedure="do_click.menu.file.open_product"/>
+        <ProcedureCall id="_1oQV"
+                       procedure="wait.appear.open_product_dialog"/>
+      </Procedure>
+    </Package>
+  </PackageRoot>
+  <ExtraSequence id="_4"/>
+  <WindowList id="_5"/>
+</RootStep>

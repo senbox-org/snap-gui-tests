@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.2">
+  <include>qfs.qft</include>
+  <include>../lib/main.qft</include>
+  <TestSet id="_1" name="01_02_navigation" reportname="01 02 Navigation">
+    <DependencyReference id="_1lWz"
+                         reference="dependencies.start_application"/>
+    <TestCase id="_2" name="zooming">
+      <ProcedureCall id="_1lW-"
+                     procedure="set.product_meta_data.SeaDAS_szcs_L2"/>
+      <ProcedureCall id="_1l5E" procedure="preparation.application_for_test"/>
+      <ProcedureCall disabled="true" id="_1l4S"
+                     procedure="do_click.main_toolbar.views.navigation"/>
+      <TestStep id="_1lXS" name="check_components">
+        <ProcedureCall id="_1lXV"
+                       procedure="check.tools.imaging.navigation.help_button_enabled"/>
+        <ProcedureCall id="_1lXW"
+                       procedure="check.tools.imaging.navigation.zoomIn_button_enabled"/>
+        <ProcedureCall id="_1lXX"
+                       procedure="check.tools.imaging.navigation.zoomOut_button_enabled"/>
+        <ProcedureCall id="_1lXY"
+                       procedure="check.tools.imaging.navigation.zoomDefault_button_enabled"/>
+        <ProcedureCall id="_1lXZ"
+                       procedure="check.tools.imaging.navigation.zoomAll_button_enabled"/>
+        <ProcedureCall id="_1lXa"
+                       procedure="check.tools.imaging.navigation.syncViews_button_enabled"/>
+        <ProcedureCall id="_1lXb"
+                       procedure="check.tools.imaging.navigation.syncCursor_button_enabled"/>
+        <ProcedureCall id="_1lXT"
+                       procedure="check.tools.imaging.navigation.zoom_factor">
+          <variable name="val">1 : 2.5</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1lXU"
+                       procedure="check.tools.imaging.navigation.rotation">
+          <variable name="val">0°</variable>
+        </ProcedureCall>
+      </TestStep>
+      <ProcedureCall id="_1lXc"
+                     procedure="do_click.tools.imaging.navigation.zoomDefault_button"/>
+      <TestStep id="_1lXd" name="check_components">
+        <ProcedureCall id="_1lXl"
+                       procedure="check.tools.imaging.navigation.zoom_factor">
+          <variable name="val">1 : 1</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1lXm"
+                       procedure="check.tools.imaging.navigation.rotation">
+          <variable name="val">0°</variable>
+        </ProcedureCall>
+      </TestStep>
+      <RepeatSequence count="15" id="_1l5D" name="zoomIn">
+        <ProcedureCall id="_1lXn"
+                       procedure="do_click.tools.imaging.navigation.zoomIn_button"/>
+      </RepeatSequence>
+      <ProcedureCall id="_1lXo" procedure="do_click.main_toolbar.tools.zoom"/>
+      <BasicSequence id="_1l44" name="zooming">
+        <comment>@teststep Zoom In</comment>
+        <MouseEventStep clicks="0" client="$(client)"
+                        component="NbMainWindow.ProductSceneViewTopComponent_1.panel"
+                        event="MOUSE_MOVED" id="_1oa-" modifiers="0" x="319"
+                        y="283"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="NbMainWindow.ProductSceneViewTopComponent_1.panel"
+                        event="MOUSE_PRESSED" id="_1ob0" modifiers="16"
+                        x="319" y="283"/>
+        <MouseEventStep clicks="0" client="$(client)"
+                        component="NbMainWindow.ProductSceneViewTopComponent_1.panel"
+                        event="MOUSE_DRAGGED" id="_1ob1" modifiers="16"
+                        x="498" y="404"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="NbMainWindow.ProductSceneViewTopComponent_1.panel"
+                        event="MOUSE_RELEASED" id="_1ob2" modifiers="16"
+                        x="498" y="404"/>
+        <MouseEventStep clicks="0" client="$(client)"
+                        component="NbMainWindow.ProductSceneViewTopComponent_1.panel"
+                        event="MOUSE_MOVED" id="_1ob3" modifiers="0" x="280"
+                        y="242"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="NbMainWindow.ProductSceneViewTopComponent_1.panel"
+                        event="MOUSE_PRESSED" id="_1ob4" modifiers="16"
+                        x="280" y="242"/>
+        <MouseEventStep clicks="0" client="$(client)"
+                        component="NbMainWindow.ProductSceneViewTopComponent_1.panel"
+                        event="MOUSE_DRAGGED" id="_1ob5" modifiers="16"
+                        x="557" y="434"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="NbMainWindow.ProductSceneViewTopComponent_1.panel"
+                        event="MOUSE_RELEASED" id="_1ob6" modifiers="16"
+                        x="557" y="434"/>
+        <MouseEventStep clicks="0" client="$(client)"
+                        component="NbMainWindow.ProductSceneViewTopComponent_1.panel"
+                        event="MOUSE_MOVED" id="_1ob7" modifiers="0" x="157"
+                        y="320"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="NbMainWindow.ProductSceneViewTopComponent_1.panel"
+                        event="MOUSE_PRESSED" id="_1ob8" modifiers="16"
+                        x="157" y="320"/>
+        <MouseEventStep clicks="0" client="$(client)"
+                        component="NbMainWindow.ProductSceneViewTopComponent_1.panel"
+                        event="MOUSE_DRAGGED" id="_1ob9" modifiers="16"
+                        x="583" y="569"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="NbMainWindow.ProductSceneViewTopComponent_1.panel"
+                        event="MOUSE_RELEASED" id="_1obA" modifiers="16"
+                        x="583" y="569"/>
+      </BasicSequence>
+      <ProcedureCall id="_1obB"
+                     procedure="do_click.main_toolbar.tools.selectTool"/>
+      <ProcedureCall id="_1obC"
+                     procedure="do_click.tools.imaging.navigation.zoomAll_button"/>
+      <TestStep id="_1obD" name="check_components">
+        <ProcedureCall id="_1obL"
+                       procedure="check.tools.imaging.navigation.zoom_factor">
+          <variable name="val">1 : 2.5</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1obM"
+                       procedure="check.tools.imaging.navigation.rotation">
+          <variable name="val">0°</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1obN" name="change_zooming_factor">
+        <SetGlobalStep id="_1obW" local="true" varname="zf">
+          <default>1 : 10000</default>
+        </SetGlobalStep>
+        <ProcedureCall id="_1obO"
+                       procedure="set.imaging_tools.navigation.zoom_factor">
+          <variable name="val">$(zf)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1obV"
+                       procedure="check.tools.imaging.navigation.zoom_factor">
+          <variable name="val">$(zf)</variable>
+        </ProcedureCall>
+        <SetGlobalStep id="_1obX" local="true" varname="zf">
+          <default>100000 : 1</default>
+        </SetGlobalStep>
+        <ProcedureCall id="_1obY"
+                       procedure="set.imaging_tools.navigation.zoom_factor">
+          <variable name="val">$(zf)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1obZ"
+                       procedure="check.tools.imaging.navigation.zoom_factor">
+          <variable name="val">$(zf)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1obh"
+                       procedure="do_click.tools.imaging.navigation.zoomDefault_button"/>
+        <SetGlobalStep id="_1oba" local="true" varname="zf">
+          <default>1 : 0</default>
+        </SetGlobalStep>
+        <ProcedureCall id="_1obb"
+                       procedure="set.imaging_tools.navigation.zoom_factor">
+          <variable name="val">$(zf)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1obc"
+                       procedure="check.tools.imaging.navigation.zoom_factor">
+          <variable name="val">$(zf)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1obi"
+                       procedure="do_click.tools.imaging.navigation.zoomDefault_button"/>
+        <SetGlobalStep id="_1obd" local="true" varname="zf">
+          <default>0 : 1</default>
+        </SetGlobalStep>
+        <ProcedureCall id="_1obe"
+                       procedure="set.imaging_tools.navigation.zoom_factor">
+          <variable name="val">$(zf)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1obf"
+                       procedure="check.tools.imaging.navigation.zoom_factor">
+          <variable name="val">$(zf)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1obj"
+                       procedure="do_click.tools.imaging.navigation.zoomDefault_button"/>
+        <SetGlobalStep id="_1obk" local="true" varname="zf">
+          <default>0 : e</default>
+        </SetGlobalStep>
+        <ProcedureCall id="_1obl"
+                       procedure="set.imaging_tools.navigation.zoom_factor">
+          <variable name="val">$(zf)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1obm"
+                       procedure="check.tools.imaging.navigation.zoom_factor">
+          <variable name="val">$(zf)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1obn"
+                       procedure="do_click.tools.imaging.navigation.zoomDefault_button"/>
+        <ProcedureCall id="_1obo"
+                       procedure="check.tools.imaging.navigation.zoom_factor">
+          <variable name="val">1 : 1</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1obQ" name="change_rotation">
+        <SetGlobalStep id="_1obq" local="true" varname="r">
+          <default>25°</default>
+        </SetGlobalStep>
+        <ProcedureCall id="_1obS"
+                       procedure="set.imaging_tools.navigation.rotation">
+          <variable name="val">$(r)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1obp"
+                       procedure="check.tools.imaging.navigation.rotation">
+          <variable name="val">$(r)</variable>
+        </ProcedureCall>
+        <SetGlobalStep id="_1obr" local="true" varname="r"/>
+        <ProcedureCall id="_1obs"
+                       procedure="set.imaging_tools.navigation.rotation">
+          <variable name="val">$(r)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1obt"
+                       procedure="check.tools.imaging.navigation.rotation">
+          <variable name="val">0°</variable>
+        </ProcedureCall>
+      </TestStep>
+      <ProcedureCall id="_1l4T" procedure="close.all_products"/>
+    </TestCase>
+  </TestSet>
+  <PackageRoot id="_3"/>
+  <ExtraSequence id="_4"/>
+  <WindowList id="_5"/>
+</RootStep>

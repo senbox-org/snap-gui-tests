@@ -1,0 +1,2867 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.3">
+  <include>qfs.qft</include>
+  <include>components.qft</include>
+  <include>main.qft</include>
+  <dependency>check.qft</dependency>
+  <dependency>main.qft</dependency>
+  <dependency>workflow.qft</dependency>
+  <PackageRoot id="_3">
+    <Package id="_1lB5" name="set">
+      <Package disabled="true" id="_1lBQ" name="import_dialog">
+        <Procedure id="_1lBO" name="file_name">
+          <ProcedureCall disabled="true" id="_1oh3"
+                         procedure="set.variable.path.input_data_directory"/>
+          <ServerScriptStep disabled="true" id="_CuW" name="print_file_name">
+            <code>print "$(fileName)"                </code>
+            <comment> </comment>
+          </ServerScriptStep>
+          <ProcedureCall id="_1l2z" procedure="set.variable.path"/>
+          <ServerScriptStep id="_1lN0" name="find_SMOS_in_file_name">
+            <code>import string 
+#print "$(fileName)"
+var1 = "$(fileName)"
+rc.setGlobal("smos", var1[:3])
+              </code>
+            <comment> </comment>
+          </ServerScriptStep>
+          <ServerScriptStep disabled="true" id="_1lBr" name="print">
+            <code>print "smos = ","$(smos)" 
+              </code>
+            <comment> </comment>
+          </ServerScriptStep>
+          <IfSequence id="_1lN1"
+                      test="&#34;$(smos)&#34;==&#34;SM_&#34; and &#34;$(fileName)&#34;==&#34;$(productName)&#34;">
+            <SetGlobalStep id="_1lN2" varname="file">
+              <default>${path:input_data_directory}$(dataInDir)/$(fileName)/$(fileName).HDR</default>
+            </SetGlobalStep>
+            <ElseSequence id="_1lN3">
+              <SetGlobalStep id="_1lN4" varname="file">
+                <default>${path:input_data_directory}$(dataInDir)/$(fileName)</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogESA_S-3_Toolbox_-_Import_Product.textFile_name:"
+                         id="_1kz7">
+            <text>$(file)</text>
+          </TextInputStep>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogESA_S-3_Toolbox_-_Import_Product.textFile_name:"
+                         disabled="true" id="_1lM-">
+            <text>$(file)</text>
+          </TextInputStep>
+        </Procedure>
+      </Package>
+      <Package id="_1oaT" name="imaging_tools">
+        <Package id="_1oaU" name="navigation">
+          <Procedure id="_1ocE" name="zoom_factor">
+            <variable name="val"/>
+            <comment>@teststep Insert zoom factor.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="NbMainWindow.Content_displayer.text2"
+                           id="_1ocG">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1oaf" name="rotation">
+            <variable name="val"/>
+            <comment>@teststep Insert rotation.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="NbMainWindow.Content_displayer.text"
+                           id="_1ogf">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+        </Package>
+      </Package>
+      <Package id="_1ogi" name="tools">
+        <Package id="_1oOq" name="bandMaths">
+          <Procedure id="_1oPC" name="bandName">
+            <variable name="val"/>
+            <comment>@teststep Insert band name.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="BandMathsDialog.bandName" id="_1oPF">
+              <text>$(val)</text>
+            </TextInputStep>
+            <KeyEventStep client="$(client)"
+                          component="BandMathsDialog.bandName" event="KEY_PTR"
+                          id="_1oPp" keychar="10" keycode="10" modifiers="0"/>
+          </Procedure>
+          <Procedure id="_1oPK" name="bandDescription">
+            <variable name="val"/>
+            <comment>@teststep Insert band description.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="BandMathsDialog.bandDescription"
+                           id="_1oPN">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1oPS" name="bandUnit">
+            <variable name="val"/>
+            <comment>@teststep Insert band unit.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="BandMathsDialog.bandUnit" id="_1oPW">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1oPa" name="bandWavelength">
+            <variable name="val"/>
+            <comment>@teststep Insert band wavelength</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="BandMathsDialog.bandWavelength"
+                           id="_1oPf">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1oOs" name="noDataValue">
+            <variable name="val"/>
+            <comment>@teststep Insert noData value</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="BandMathsDialog.noDataValue" id="_1oO-">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1oPi" name="expression">
+            <variable name="val"/>
+            <comment>@teststep Insert expression.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="BandMathsDialog.expression" id="_1oPj">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+        </Package>
+        <Package id="_1oU9" name="expression_Editor">
+          <Procedure id="_1oWH" name="experession">
+            <variable name="exp"/>
+            <TextInputStep client="$(client)"
+                           component="dialogBand_Maths_Expression_Editor.codeArea"
+                           id="_1oV2">
+              <text>$(exp)</text>
+            </TextInputStep>
+          </Procedure>
+        </Package>
+      </Package>
+      <Package disabled="true" id="_1lFb" name="placemark_dialog">
+        <Package id="_1lHo" name="new_pin">
+          <Procedure id="_1lHp" name="name">
+            <variable name="var"/>
+            <TextInputStep clear="true" client="$(client)"
+                           component="New_Pin.name" id="_1lHr">
+              <text>$(var)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1lIT" name="label">
+            <variable name="var"/>
+            <TextInputStep clear="true" client="$(client)"
+                           component="New_Pin.label" id="_1lIa">
+              <text>$(var)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1lJ7" name="latitude">
+            <variable name="var"/>
+            <TextInputStep clear="true" client="$(client)"
+                           component="New_Pin.lat" id="_1lJK">
+              <text>$(var)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1lJn" name="longitude">
+            <variable name="var"/>
+            <TextInputStep clear="true" client="$(client)"
+                           component="New_Pin.lon" id="_1lK3">
+              <text>$(var)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1lKR" name="pixelX">
+            <variable name="var"/>
+            <ProcedureCall id="_1lMt"
+                           procedure="check.placemark_dialog.pixelX_new_pin_enabled"/>
+            <IfSequence id="_1lMx"
+                        test="&#34;$(pixelX_new_pin_enabled)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1lMy"
+                             procedure="select.placemark_dialog.usePixelPos_new_pin"/>
+            </IfSequence>
+            <TextInputStep clear="true" client="$(client)"
+                           component="New_Pin.pixelX" id="_1lKa">
+              <text>$(var)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1lKr" name="pixelY">
+            <variable name="var"/>
+            <ProcedureCall id="_1lMv"
+                           procedure="check.placemark_dialog.pixelY_new_pin_enabled"/>
+            <IfSequence id="_1lMz"
+                        test="&#34;$(pixelY_new_pin_enabled)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1lM+"
+                             procedure="select.placemark_dialog.usePixelPos_new_pin"/>
+            </IfSequence>
+            <TextInputStep clear="true" client="$(client)"
+                           component="New_Pin.pixelY" id="_1lL3">
+              <text>$(var)</text>
+            </TextInputStep>
+          </Procedure>
+        </Package>
+      </Package>
+      <Package id="_1lBM" name="product_meta_data">
+        <Procedure id="_1oZN" name="SeaDAS_szcs_L2">
+          <SetGlobalStep id="_1oZO" varname="dataInDir">
+            <default>seadas_octs_l2</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1oZP" varname="fileName">
+            <default>C1986010234000.L2_MLAC_OC</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1oZQ" varname="bandName">
+            <default>aot_670</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1oZR" varname="err_band"/>
+          <SetGlobalStep id="_1oZS" varname="group_id1">
+            <default>0</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1oZT" varname="view_Id1">
+            <default>0</default>
+            <comment>
+</comment>
+          </SetGlobalStep>
+        </Procedure>
+        <Procedure id="_1oZG" name="MODIS_L1B">
+          <SetGlobalStep id="_1oZH" varname="dataInDir">
+            <default>modis_l1b</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1oZI" varname="fileName">
+            <default>A2006302181500.L1B_LAC</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1oZJ" varname="bandName">
+            <default>IWV</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1oZK" varname="err_band">
+            <default>IWV_err</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1oZL" varname="group_id1">
+            <default>2</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1oZM" varname="view_Id1">
+            <default>0</default>
+            <comment>
+</comment>
+          </SetGlobalStep>
+        </Procedure>
+        <Procedure disabled="true" id="_1l8Q" name="S3A_OL_2">
+          <SetGlobalStep id="_1l8R" varname="dataInDir">
+            <default>sentinel-3/S3A_OL_2_LFR____20070425T152940_20070425T153025_20140610T111104_0045_000_000______LN2_D_NR____.SEN3</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1lBE" varname="fileName">
+            <default>xfdumanifest.xml</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1lBF" varname="bandName">
+            <default>IWV</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1l8S" varname="err_band">
+            <default>IWV_err</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1lBG" varname="group_id1">
+            <default>2</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1lBH" varname="view_Id1">
+            <default>0</default>
+            <comment>
+</comment>
+          </SetGlobalStep>
+        </Procedure>
+        <Procedure disabled="true" id="_1lBR" name="S3A_OL_1">
+          <SetGlobalStep id="_1l59" varname="dataInDir">
+            <default>sentinel-3/S3A_OL_1_EFR____20130621T100921_20130621T101417_20140613T170503_0295_001_002______LN2_D_NR____.SEN3</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1l5A" varname="fileName">
+            <default>xfdumanifest.xml</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1l5B" varname="bandName">
+            <default>Oa05_radiance</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1lBW" varname="group_id1">
+            <default>0</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1lBX" varname="view_Id1">
+            <default>4</default>
+            <comment>
+</comment>
+          </SetGlobalStep>
+        </Procedure>
+        <Procedure disabled="true" id="_1lB+" name="SMOS_MIR_SCLF1C">
+          <SetGlobalStep id="_1lB-" varname="dataInDir">
+            <default>SMOS/MIR_SCLF1C/SM_TEST_MIR_SCLF1C_20120704T010214_20120704T015527_620_001_1</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1lC0" varname="fileName">
+            <default>SM_TEST_MIR_SCLF1C_20120704T010214_20120704T015527_620_001_1.HDR</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1lC1" varname="bandName">
+            <default>BT_Value_Y</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1lC2" varname="group_id1"/>
+          <SetGlobalStep id="_1lC3" varname="view_Id1">
+            <default>1</default>
+            <comment>
+</comment>
+          </SetGlobalStep>
+        </Procedure>
+      </Package>
+      <Package id="_6" name="variable">
+        <Procedure id="_B" name="path">
+          <SetGlobalStep id="_1ogx" varname="user_home">
+            <default>${system:user.home}</default>
+          </SetGlobalStep>
+          <IfSequence id="_1kwF" test="${qftest:windows}">
+            <LoadPropertiesStep id="_1ogy"
+                                propertyfile="../properties/path_win.properties"
+                                resourcename="path"/>
+            <ElseifSequence id="_1kxk" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <LoadPropertiesStep id="_1og+"
+                                  propertyfile="../properties/path_mac.properties"
+                                  resourcename="path"/>
+            </ElseifSequence>
+            <ElseSequence id="_1kwG">
+              <LoadPropertiesStep id="_1ogz"
+                                  propertyfile="../properties/path_lin.properties"
+                                  resourcename="path"/>
+            </ElseSequence>
+          </IfSequence>
+          <BasicSequence disabled="true" id="_1ohl" name="print">
+            <ServerScriptStep id="_1ohm" name="print">
+              <code>print "data_directory = ${path:data_directory}"</code>
+            </ServerScriptStep>
+            <ServerScriptStep id="_1ohn" name="print">
+              <code>print "data_directory2 = ${path:data_directory2}"  </code>
+            </ServerScriptStep>
+            <ServerScriptStep id="_1oho" name="print">
+              <code>print "screenshot_path = ${path:screenshot_path}"  </code>
+            </ServerScriptStep>
+            <ServerScriptStep id="_1ohq" name="print">
+              <code>print "input_data_directory=${path:input_data_directory}"</code>
+            </ServerScriptStep>
+            <ServerScriptStep id="_1ohr" name="print">
+              <code>print "output_data_directory=${path:output_data_directory}"</code>
+            </ServerScriptStep>
+            <ServerScriptStep id="_1ohs" name="print">
+              <code>print "parameters_file_dir=${path:parameters_file_dir}"</code>
+            </ServerScriptStep>
+            <ServerScriptStep id="_1oht" name="print">
+              <code>print "graph_file_dir=${path:graph_file_dir}"</code>
+            </ServerScriptStep>
+            <ServerScriptStep id="_1ohu" name="print">
+              <code>print "temp_directory=${path:temp_directory}"</code>
+            </ServerScriptStep>
+            <ServerScriptStep id="_1ohv" name="print">
+              <code>print "sut_bin_directory=${path:sut_bin_directory}"</code>
+            </ServerScriptStep>
+            <ServerScriptStep id="_1ohw" name="print">
+              <code>print "sut_working_directory=${path:sut_working_directory}"</code>
+            </ServerScriptStep>
+            <ServerScriptStep id="_1ohx" name="print">
+              <code>print "slash=${path:slash}"</code>
+            </ServerScriptStep>
+            <ServerScriptStep id="_1ohy" name="print">
+              <code>print "screenshot_path=${path:screenshot_path}"</code>
+            </ServerScriptStep>
+            <ServerScriptStep id="_1ohp" name="print">
+              <code>print "screenshot_path2 = ${path:screenshot_path2}"  </code>
+            </ServerScriptStep>
+          </BasicSequence>
+        </Procedure>
+        <Procedure id="_1omR" name="data_source_directory">
+          <variable name="data_type"/>
+          <ProcedureCall id="_1orC" procedure="set.variable.path"/>
+          <IfSequence id="_1orD" test="${qftest:windows}">
+            <LoadPropertiesStep id="_1orE"
+                                propertyfile="../properties/subdir_win.properties"
+                                resourcename="subdir"/>
+            <ElseifSequence id="_1orF" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <LoadPropertiesStep id="_1orG"
+                                  propertyfile="../properties/subdir_mac.properties"
+                                  resourcename="subdir"/>
+            </ElseifSequence>
+            <ElseSequence id="_1orH">
+              <LoadPropertiesStep id="_1orI"
+                                  propertyfile="../properties/subdir_lin.properties"
+                                  resourcename="subdir"/>
+            </ElseSequence>
+          </IfSequence>
+          <TryStep id="_1orJ">
+            <SetGlobalStep id="_1orQ" varname="data_source_directory">
+              <default>${path:input_data_directory}${subdir:$(data_type)}</default>
+            </SetGlobalStep>
+            <ServerScriptStep id="_1orN" name="print">
+              <code>print "data_source_dir = $(data_source_directory)"</code>
+            </ServerScriptStep>
+            <CatchSequence exception="TestException" id="_1orO" maxerror="0">
+              <ProcedureCall id="_1orP" procedure="run-log.logError">
+                <variable name="message">It was no no property or resource called $(data_type)</variable>
+                <variable name="withScreenshots">false</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+          <IfSequence disabled="true" id="_1ome"
+                      test="&#34;$(data_type)&#34;==&#34;&#34;">
+            <ElseifSequence id="_1omf"
+                            test="&#34;$(data_type)&#34;==&#34;arcInfo_binary_grid&#34;">
+              <IfSequence id="_1omg" test="${qftest:windows}">
+                <SetGlobalStep id="_1omh" varname="data_subdirectory"/>
+                <ElseifSequence id="_1omi" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1omj" varname="data_subdirectory"/>
+                </ElseifSequence>
+                <ElseSequence id="_1omk"/>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1oml"
+                            test="&#34;$(data_type)&#34;==&#34;csv&#34;">
+              <IfSequence id="_1omm" test="${qftest:windows}">
+                <SetGlobalStep id="_1omn" varname="data_subdirectory">
+                  <default>applications\generic_reader\CSV\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1omo" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1omp" varname="data_subdirectory">
+                    <default>applications/generic_reader/CSV/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1omq">
+                  <SetGlobalStep id="_1omr" varname="data_subdirectory">
+                    <default>applications/generic_reader/CSV/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1oms"
+                            test="&#34;$(data_type)&#34;==&#34;envi&#34;">
+              <IfSequence id="_1omt" test="${qftest:windows}">
+                <SetGlobalStep id="_1omu" varname="data_subdirectory">
+                  <default>applications\generic_reader\ENVI_reader\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1omv" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1omw" varname="data_subdirectory">
+                    <default>applications/generic_reader/ENVI_reader/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1omx">
+                  <SetGlobalStep id="_1omy" varname="data_subdirectory">
+                    <default>applications/generic_reader/ENVI_reader/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1omz"
+                            test="&#34;$(data_type)&#34;==&#34;geotiff&#34;">
+              <IfSequence id="_1om+" test="${qftest:windows}">
+                <SetGlobalStep id="_1om-" varname="data_subdirectory">
+                  <default>applications\generic_reader\GeoTIFF\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1on0" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1on1" varname="data_subdirectory">
+                    <default>applications/generic_reader/GeoTIFF/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1on2">
+                  <SetGlobalStep id="_1on3" varname="data_subdirectory">
+                    <default>applications/generic_reader/GeoTIFF/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1on4"
+                            test="&#34;$(data_type)&#34;==&#34;hdf_eos_gridded&#34;">
+              <IfSequence id="_1on5" test="${qftest:windows}">
+                <SetGlobalStep id="_1on6" varname="data_subdirectory">
+                  <default>sensors_platforms\MODIS\HDF_EOS_gridded\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1on7" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1on8" varname="data_subdirectory">
+                    <default>sensors_platforms/MODIS/HDF_EOS_gridded/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1on9">
+                  <SetGlobalStep id="_1onA" varname="data_subdirectory">
+                    <default>sensors_platforms/MODIS/HDF_EOS_gridded/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1onB"
+                            test="&#34;$(data_type)&#34;==&#34;netCdf_beam&#34;">
+              <IfSequence id="_1onC" test="${qftest:windows}">
+                <SetGlobalStep id="_1onD" varname="data_subdirectory">
+                  <default>applications\generic_reader\NetCDF\NetCDF-BEAM\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1onE" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1onF" varname="data_subdirectory">
+                    <default>applications/generic_reader/NetCDF/NetCDF-BEAM/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1onG">
+                  <SetGlobalStep id="_1onH" varname="data_subdirectory">
+                    <default>applications/generic_reader/NetCDF/NetCDF-BEAM/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1onI"
+                            test="&#34;$(data_type)&#34;==&#34;netCdf4_beam&#34;">
+              <IfSequence id="_1onJ" test="${qftest:windows}">
+                <SetGlobalStep id="_1onK" varname="data_subdirectory">
+                  <default>applications\generic_reader\NetCDF\NetCDF4-BEAM\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1onL" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1onM" varname="data_subdirectory">
+                    <default>applications/generic_reader/NetCDF/NetCDF4-BEAM/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1onN">
+                  <SetGlobalStep id="_1onO" varname="data_subdirectory">
+                    <default>applications/generic_reader/NetCDF/NetCDF4-BEAM/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1onP"
+                            test="&#34;$(data_type)&#34;==&#34;netCdf_cf&#34;">
+              <IfSequence id="_1onQ" test="${qftest:windows}">
+                <SetGlobalStep id="_1onR" varname="data_subdirectory">
+                  <default>applications\generic_reader\NetCDF\NetCDF-CF\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1onS" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1onT" varname="data_subdirectory">
+                    <default>applications/generic_reader/NetCDF/NetCDF-CF/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1onU">
+                  <SetGlobalStep id="_1onV" varname="data_subdirectory">
+                    <default>applications/generic_reader/NetCDF/NetCDF-CF/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1onW"
+                            test="&#34;$(data_type)&#34;==&#34;netCdf4_cf&#34;">
+              <IfSequence id="_1onX" test="${qftest:windows}">
+                <SetGlobalStep id="_1onY" varname="data_subdirectory">
+                  <default>applications\generic_reader\NetCDF\NetCDF4-CF\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1onZ" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1ona" varname="data_subdirectory">
+                    <default>applications/generic_reader/NetCDF/NetCDF4-CF/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1onb">
+                  <SetGlobalStep id="_1onc" varname="data_subdirectory">
+                    <default>applications/generic_reader/NetCDF/NetCDF4-CF/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1ond"
+                            test="&#34;$(data_type)&#34;==&#34;pgx&#34;">
+              <IfSequence id="_1one" test="${qftest:windows}">
+                <SetGlobalStep id="_1onf" varname="data_subdirectory"/>
+                <ElseifSequence id="_1ong" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1onh" varname="data_subdirectory"/>
+                </ElseifSequence>
+                <ElseSequence id="_1oni"/>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1onj"
+                            test="&#34;$(data_type)&#34;==&#34;aquarius&#34;">
+              <IfSequence id="_1onk" test="${qftest:windows}">
+                <SetGlobalStep id="_1onl" varname="data_subdirectory">
+                  <default>applications\SeaDAS\Aquarius\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1onm" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1onn" varname="data_subdirectory">
+                    <default>applications/SeaDAS/Aquarius/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1ono">
+                  <SetGlobalStep id="_1onp" varname="data_subdirectory">
+                    <default>applications/SeaDAS/Aquarius/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1onq"
+                            test="&#34;$(data_type)&#34;==&#34;atsr&#34;">
+              <IfSequence id="_1onr" test="${qftest:windows}">
+                <SetGlobalStep id="_1ons" varname="data_subdirectory">
+                  <default>sensors_platforms\ERS\ATSR2\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1ont" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1onu" varname="data_subdirectory">
+                    <default>sensors_platforms/ERS/ATSR2/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1onv">
+                  <SetGlobalStep id="_1onw" varname="data_subdirectory">
+                    <default>sensors_platforms/ERS/ATSR2/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1onx"
+                            test="&#34;$(data_type)&#34;==&#34;avnir2&#34;">
+              <IfSequence id="_1ony" test="${qftest:windows}">
+                <SetGlobalStep id="_1onz" varname="data_subdirectory">
+                  <default>sensors_platforms\AVNIR2\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1on+" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1on-" varname="data_subdirectory">
+                    <default>sensors_platforms/AVNIR2/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1oo0">
+                  <SetGlobalStep id="_1oo1" varname="data_subdirectory">
+                    <default>sensors_platforms/AVNIR2/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1oo2"
+                            test="&#34;$(data_type)&#34;==&#34;chris&#34;">
+              <IfSequence id="_1oo3" test="${qftest:windows}">
+                <SetGlobalStep id="_1oo4" varname="data_subdirectory">
+                  <default>sensors_platforms\CHRIS_PROBA\HDF4\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1oo5" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1oo6" varname="data_subdirectory">
+                    <default>sensors_platforms/CHRIS_PROBA/HDF4/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1oo7">
+                  <SetGlobalStep id="_1oo8" varname="data_subdirectory">
+                    <default>sensors_platforms/CHRIS_PROBA/HDF4/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1oo9"
+                            test="&#34;$(data_type)&#34;==&#34;envisat_meris&#34;">
+              <IfSequence id="_1ooA" test="${qftest:windows}">
+                <SetGlobalStep id="_1ooB" varname="data_subdirectory">
+                  <default>sensors_platforms\MERIS\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1ooC" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1ooD" varname="data_subdirectory">
+                    <default>sensors_platforms/MERIS/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1ooE">
+                  <SetGlobalStep id="_1ooF" varname="data_subdirectory">
+                    <default>sensors_platforms/MERIS/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1ooG"
+                            test="&#34;$(data_type)&#34;==&#34;envisat_aatsr&#34;">
+              <IfSequence id="_1ooH" test="${qftest:windows}">
+                <SetGlobalStep id="_1ooI" varname="data_subdirectory">
+                  <default>sensors_platforms\AATSR\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1ooJ" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1ooK" varname="data_subdirectory">
+                    <default>sensors_platforms/AATSR/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1ooL">
+                  <SetGlobalStep id="_1ooM" varname="data_subdirectory">
+                    <default>sensors_platforms/AATSR/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1ooN"
+                            test="&#34;$(data_type)&#34;==&#34;ers_atsr1_e1&#34;">
+              <IfSequence id="_1ooO" test="${qftest:windows}">
+                <SetGlobalStep id="_1ooP" varname="data_subdirectory">
+                  <default>sensors_platforms\ERS\ATSR1\E1\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1ooQ" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1ooR" varname="data_subdirectory">
+                    <default>sensors_platforms/ERS/ATSR1/E1/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1ooS">
+                  <SetGlobalStep id="_1ooT" varname="data_subdirectory">
+                    <default>sensors_platforms/ERS/ATSR1/E1/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1ooU"
+                            test="&#34;$(data_type)&#34;==&#34;ers_atsr2_e2&#34;">
+              <IfSequence id="_1ooV" test="${qftest:windows}">
+                <SetGlobalStep id="_1ooW" varname="data_subdirectory">
+                  <default>sensors_platforms\ERS\ATSR2\E2\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1ooX" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1ooY" varname="data_subdirectory">
+                    <default>sensors_platforms/ERS/ATSR2/E2/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1ooZ">
+                  <SetGlobalStep id="_1ooa" varname="data_subdirectory">
+                    <default>sensors_platforms/ERS/ATSR2/E2/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1oob"
+                            test="&#34;$(data_type)&#34;==&#34;hico_L1b&#34;">
+              <IfSequence id="_1ooc" test="${qftest:windows}">
+                <SetGlobalStep id="_1ood" varname="data_subdirectory">
+                  <default>sensors_platforms\HICO\L1B\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1ooe" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1oof" varname="data_subdirectory">
+                    <default>sensors_platforms/HICO/L1B/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1oog">
+                  <SetGlobalStep id="_1ooh" varname="data_subdirectory">
+                    <default>sensors_platforms/HICO/L1B/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1ooi"
+                            test="&#34;$(data_type)&#34;==&#34;hico_envi_format&#34;">
+              <IfSequence id="_1ooj" test="${qftest:windows}">
+                <SetGlobalStep id="_1ook" varname="data_subdirectory">
+                  <default>sensors_platforms\HICO\ENVI_format\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1ool" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1oom" varname="data_subdirectory">
+                    <default>sensors_platforms/HICO/ENVI_format/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1oon">
+                  <SetGlobalStep id="_1ooo" varname="data_subdirectory">
+                    <default>sensors_platforms/HICO/ENVI_format/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1oop"
+                            test="&#34;$(data_type)&#34;==&#34;landsat5_tm_fast&#34;">
+              <IfSequence id="_1ooq" test="${qftest:windows}">
+                <SetGlobalStep id="_1oor" varname="data_subdirectory">
+                  <default>sensors_platforms\LANDSAT\LANDSAT_5_TM\fastTM\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1oos" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1oot" varname="data_subdirectory">
+                    <default>sensors_platforms/LANDSAT/LANDSAT_5_TM/fastTM/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1oou">
+                  <SetGlobalStep id="_1oov" varname="data_subdirectory">
+                    <default>sensors_platforms/LANDSAT/LANDSAT_5_TM/fastTM/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1oow"
+                            test="&#34;$(data_type)&#34;==&#34;landsat_geoTIFF&#34;">
+              <IfSequence id="_1oox" test="${qftest:windows}">
+                <SetGlobalStep id="_1ooy" varname="data_subdirectory">
+                  <default>sensors_platforms\LANDSAT\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1ooz" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1oo+" varname="data_subdirectory">
+                    <default>sensors_platforms/LANDSAT/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1oo-">
+                  <SetGlobalStep id="_1op0" varname="data_subdirectory">
+                    <default>sensors_platforms/LANDSAT/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1op1"
+                            test="&#34;$(data_type)&#34;==&#34;meris_binned_L3&#34;">
+              <IfSequence id="_1op2" test="${qftest:windows}">
+                <SetGlobalStep id="_1op3" varname="data_subdirectory">
+                  <default>projects\L3_ENV_MER\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1op4" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1op5" varname="data_subdirectory">
+                    <default>projects/L3_ENV_MER/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1op6">
+                  <SetGlobalStep id="_1op7" varname="data_subdirectory">
+                    <default>projects/L3_ENV_MER/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1op8"
+                            test="&#34;$(data_type)&#34;==&#34;modisL1B&#34;">
+              <IfSequence id="_1op9" test="${qftest:windows}">
+                <SetGlobalStep id="_1opA" varname="data_subdirectory">
+                  <default>sensors_platforms\MODIS\L1B\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1opB" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1opC" varname="data_subdirectory">
+                    <default>sensors_platforms/MODIS/L1B/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1opD">
+                  <SetGlobalStep id="_1opE" varname="data_subdirectory">
+                    <default>sensors_platforms/MODIS/L1B/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1opF"
+                            test="&#34;$(data_type)&#34;==&#34;modis_MOD_MXD_MYD&#34;">
+              <IfSequence id="_1opG" test="${qftest:windows}">
+                <SetGlobalStep id="_1opH" varname="data_subdirectory">
+                  <default>sensors_platforms\MODIS\MOD_MXD_MYD\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1opI" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1opJ" varname="data_subdirectory">
+                    <default>sensors_platforms/MODIS/MOD_MXD_MYD/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1opK">
+                  <SetGlobalStep id="_1opL" varname="data_subdirectory">
+                    <default>sensors_platforms/MODIS/MOD_MXD_MYD/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1opM"
+                            test="&#34;$(data_type)&#34;==&#34;noaa_avhrr_3_L1b&#34;">
+              <IfSequence id="_1opN" test="${qftest:windows}">
+                <SetGlobalStep id="_1opO" varname="data_subdirectory">
+                  <default>sensors_platforms\AVHRR_3_L1B\NOAA\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1opP" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1opQ" varname="data_subdirectory">
+                    <default>sensors_platforms/AVHRR_3_L1B/NOAA/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1opR">
+                  <SetGlobalStep id="_1opS" varname="data_subdirectory">
+                    <default>sensors_platforms/AVHRR_3_L1B/NOAA/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1opT"
+                            test="&#34;$(data_type)&#34;==&#34;ocm2_L1B&#34;">
+              <IfSequence id="_1opU" test="${qftest:windows}">
+                <SetGlobalStep id="_1opV" varname="data_subdirectory"/>
+                <ElseifSequence id="_1opW" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1opX" varname="data_subdirectory"/>
+                </ElseifSequence>
+                <ElseSequence id="_1opY"/>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1opZ"
+                            test="&#34;$(data_type)&#34;==&#34;prism&#34;">
+              <IfSequence id="_1opa" test="${qftest:windows}">
+                <SetGlobalStep id="_1opb" varname="data_subdirectory">
+                  <default>sensors_platforms\PRISM\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1opc" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1opd" varname="data_subdirectory">
+                    <default>sensors_platforms/PRISM/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1ope">
+                  <SetGlobalStep id="_1opf" varname="data_subdirectory">
+                    <default>sensors_platforms/PRISM/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1opg"
+                            test="&#34;$(data_type)&#34;==&#34;seaDAS&#34;">
+              <IfSequence id="_1oph" test="${qftest:windows}">
+                <SetGlobalStep id="_1opi" varname="data_subdirectory">
+                  <default>applications\SeaDAS\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1opj" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1opk" varname="data_subdirectory">
+                    <default>applications/SeaDAS/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1opl">
+                  <SetGlobalStep id="_1opm" varname="data_subdirectory">
+                    <default>applications/SeaDAS/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1opn"
+                            test="&#34;$(data_type)&#34;==&#34;sentinel3&#34;">
+              <IfSequence id="_1opo" test="${qftest:windows}">
+                <SetGlobalStep id="_1opp" varname="data_subdirectory">
+                  <default>sensors_platforms\sentinel-3\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1opq" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1opr" varname="data_subdirectory">
+                    <default>sensors_platforms/sentinel-3/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1ops">
+                  <SetGlobalStep id="_1opt" varname="data_subdirectory">
+                    <default>sensors_platforms/sentinel-3/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1opu"
+                            test="&#34;$(data_type)&#34;==&#34;spot_vgt&#34;">
+              <IfSequence id="_1opv" test="${qftest:windows}">
+                <SetGlobalStep id="_1opw" varname="data_subdirectory">
+                  <default>sensors_platforms\SPOT_VGT\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1opx" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1opy" varname="data_subdirectory">
+                    <default>sensors_platforms/SPOT_VGT/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1opz">
+                  <SetGlobalStep id="_1op+" varname="data_subdirectory">
+                    <default>sensors_platforms/SPOT_VGT/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1op-"
+                            test="&#34;$(data_type)&#34;==&#34;viirs&#34;">
+              <IfSequence id="_1oq0" test="${qftest:windows}">
+                <SetGlobalStep id="_1oq1" varname="data_subdirectory">
+                  <default>applications\SeaDAS\VIIRS\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1oq2" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1oq3" varname="data_subdirectory">
+                    <default>applications/SeaDAS/VIIRS/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1oq4"/>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1oq5"
+                            test="&#34;$(data_type)&#34;==&#34;sar_asar&#34;">
+              <IfSequence id="_1oq6" test="${qftest:windows}">
+                <SetGlobalStep id="_1oq7" varname="data_subdirectory">
+                  <default>sensors_platforms\ASAR\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1oq8" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1oq9" varname="data_subdirectory">
+                    <default>sensors_platforms/ASAR/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1oqA">
+                  <SetGlobalStep id="_1oqB" varname="data_subdirectory">
+                    <default>sensors_platforms/ASAR/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1oqC"
+                            test="&#34;$(data_type)&#34;==&#34;sar_ers&#34;">
+              <IfSequence id="_1oqD" test="${qftest:windows}">
+                <SetGlobalStep id="_1oqE" varname="data_subdirectory">
+                  <default>sensors_platforms\ERS\SAR\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1oqF" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1oqG" varname="data_subdirectory">
+                    <default>sensors_platforms/ERS/SAR/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1oqH">
+                  <SetGlobalStep id="_1oqI" varname="data_subdirectory">
+                    <default>sensors_platforms/ERS/SAR/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1oqJ"
+                            test="&#34;$(data_type)&#34;==&#34;dimap&#34;">
+              <IfSequence id="_1oqK" test="${qftest:windows}">
+                <SetGlobalStep id="_1oqL" varname="data_subdirectory">
+                  <default>applications\generic_reader\BEAM-DIMAP\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1oqM" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1oqN" varname="data_subdirectory">
+                    <default>applications/generic_reader/BEAM-DIMAP/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1oqO">
+                  <SetGlobalStep id="_1oqP" varname="data_subdirectory">
+                    <default>applications/generic_reader/BEAM-DIMAP/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1oqQ"
+                            test="&#34;$(data_type)&#34;==&#34;getasse&#34;">
+              <IfSequence id="_1oqR" test="${qftest:windows}">
+                <SetGlobalStep id="_1oqS" varname="data_subdirectory">
+                  <default>applications\dem\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1oqT" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1oqU" varname="data_subdirectory">
+                    <default>applications/dem/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1oqV">
+                  <SetGlobalStep id="_1oqW" varname="data_subdirectory">
+                    <default>applications/dem/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1oqX"
+                            test="&#34;$(data_type)&#34;==&#34;rgb&#34;">
+              <IfSequence id="_1oqY" test="${qftest:windows}">
+                <SetGlobalStep id="_1oqZ" varname="data_subdirectory">
+                  <default>applications\generic_reader\RGB\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1oqa" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1oqb" varname="data_subdirectory">
+                    <default>applications/generic_reader/RGB/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1oqc">
+                  <SetGlobalStep id="_1oqd" varname="data_subdirectory">
+                    <default>applications/generic_reader/RGB/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseifSequence>
+            <ElseifSequence id="_1oqe"
+                            test="&#34;$(data_type)&#34;==&#34;smos&#34;">
+              <IfSequence id="_1oqf" test="${qftest:windows}">
+                <SetGlobalStep id="_1oqg" varname="data_subdirectory">
+                  <default>sensors_platforms\SMOS\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1oqh" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1oqi" varname="data_subdirectory">
+                    <default>sensors_platforms/SMOS/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1oqj"/>
+              </IfSequence>
+            </ElseifSequence>
+          </IfSequence>
+        </Procedure>
+        <Procedure id="_1oGt" name="output_data_directory">
+          <variable name="output_dir"/>
+          <ProcedureCall id="_1oGu" procedure="set.variable.path"/>
+          <IfSequence id="_1oh4" test="&#34;$(output_dir)&#34;==&#34;&#34;">
+            <SetGlobalStep id="_1oh6" varname="output_data_directory">
+              <default>${path:output_data_directory}</default>
+            </SetGlobalStep>
+            <ElseSequence id="_1ohB">
+              <SetGlobalStep id="_1ohD" varname="output_data_directory">
+                <default>${path:output_data_directory}$(output_dir)${path:slash}</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+          <IfSequence disabled="true" id="_1oG-"
+                      test="&#34;$(output_dir)&#34;==&#34;&#34;">
+            <IfSequence id="_1oGv" test="${qftest:windows}">
+              <SetGlobalStep id="_1oGw" varname="output_data_directory">
+                <default>$(data_directory)out\</default>
+              </SetGlobalStep>
+              <ElseifSequence id="_1oGx" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <SetGlobalStep id="_1oGy" varname="output_data_directory">
+                  <default>$(data_directory)/out/</default>
+                </SetGlobalStep>
+              </ElseifSequence>
+              <ElseSequence id="_1oGz">
+                <SetGlobalStep id="_1oG+" varname="output_data_directory">
+                  <default>$(data_directory)/out/</default>
+                </SetGlobalStep>
+              </ElseSequence>
+            </IfSequence>
+            <ElseSequence id="_1oH0">
+              <IfSequence id="_1oH1" test="${qftest:windows}">
+                <SetGlobalStep id="_1oH2" varname="output_data_directory">
+                  <default>$(data_directory)out\$(output_dir)\</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1oH3" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <SetGlobalStep id="_1oH4" varname="output_data_directory">
+                    <default>$(data_directory)/out/$(output_dir)/</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+                <ElseSequence id="_1oH5">
+                  <SetGlobalStep id="_1oH6" varname="output_data_directory">
+                    <default>$(data_directory)/out/$(output_dir)/</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+            </ElseSequence>
+          </IfSequence>
+        </Procedure>
+        <Procedure id="_9w4" name="output_format">
+          <variable name="out_form"/>
+          <IfSequence id="_1olN"
+                      test="&#34;$(out_form)&#34;==&#34;netCDF_CF&#34; or &#34;$(out_form)&#34;==&#34;netCDF4_CF&#34;">
+            <SetGlobalStep id="_1oku" varname="output_netcdf_cf">
+              <default>true</default>
+            </SetGlobalStep>
+            <ElseSequence id="_1olO">
+              <SetGlobalStep id="_1olK" varname="output_netcdf_cf">
+                <default>false</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+          <LoadPropertiesStep id="_1olH"
+                              propertyfile="../properties/output_format.properties"
+                              resourcename="format"/>
+          <TryStep id="_1omA">
+            <SetGlobalStep id="_1olI" varname="of">
+              <default>${format:$(out_form)_of}</default>
+            </SetGlobalStep>
+            <SetGlobalStep id="_1olJ" varname="fr">
+              <default>${format:$(out_form)_fr}</default>
+            </SetGlobalStep>
+            <CatchSequence exception="TestException" id="_1omB" maxerror="0">
+              <SetGlobalStep id="_1omC" varname="output_netcdf_cf">
+                <default>false</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1omD" varname="supported_format">
+                <default>false</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1omF" varname="of"/>
+              <SetGlobalStep id="_1omG" varname="fr">
+                <default>dim</default>
+              </SetGlobalStep>
+              <ProcedureCall id="_1omE" procedure="run-log.logError">
+                <variable name="message">$(out_form) format is not supported</variable>
+                <variable name="withScreenshots">false</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+          <IfSequence disabled="true" id="_1okf"
+                      test="&#34;$(out_form)&#34;==&#34;dimap&#34;">
+            <SetGlobalStep id="_1okg" varname="of">
+              <default>-f BEAM-DIMAP</default>
+            </SetGlobalStep>
+            <SetGlobalStep id="_1okh" varname="fr">
+              <default>dim</default>
+            </SetGlobalStep>
+            <SetGlobalStep id="_1oki" varname="output_netcdf_cf">
+              <default>false</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1okj"
+                            test="&#34;$(out_form)&#34;==&#34;geotiff&#34;">
+              <SetGlobalStep id="_1okk" varname="of">
+                <default>-f GeoTIFF</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1okl" varname="fr">
+                <default>tif</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1okm" varname="output_netcdf_cf">
+                <default>false</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1okn"
+                            test="&#34;$(out_form)&#34;==&#34;hdf5&#34;">
+              <SetGlobalStep id="_1oko" varname="of">
+                <default>-f HDF5</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1okp" varname="fr">
+                <default>h5</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1okq" varname="output_netcdf_cf">
+                <default>false</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1okr"
+                            test="&#34;$(out_form)&#34;==&#34;netCDF_CF&#34;">
+              <SetGlobalStep id="_1oks" varname="of">
+                <default>-f NetCDF-CF</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1okt" varname="fr">
+                <default>nc</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1okv"
+                            test="&#34;$(out_form)&#34;==&#34;netCDF4_CF&#34;">
+              <SetGlobalStep id="_1okw" varname="of">
+                <default>-f NetCDF4-CF</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1okx" varname="fr">
+                <default>nc</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oky" varname="output_netcdf_cf">
+                <default>true</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1okz"
+                            test="&#34;$(out_form)&#34;==&#34;netCDF_beam&#34;">
+              <SetGlobalStep id="_1ok+" varname="of">
+                <default>-f NetCDF-BEAM</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1ok-" varname="fr">
+                <default>nc</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1ol0" varname="output_netcdf_cf">
+                <default>false</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1ol1"
+                            test="&#34;$(out_form)&#34;==&#34;netCDF4_beam&#34;">
+              <SetGlobalStep id="_1ol2" varname="of">
+                <default>-f NetCDF4-BEAM</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1ol3" varname="fr">
+                <default>nc</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1ol4" varname="output_netcdf_cf">
+                <default>false</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1ol5"
+                            test="&#34;$(out_form)&#34;==&#34;N1&#34;">
+              <SetGlobalStep id="_1ol6" varname="of"/>
+              <SetGlobalStep id="_1ol7" varname="fr">
+                <default>N1</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1ol8" varname="output_netcdf_cf">
+                <default>false</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1ol9"
+                            test="&#34;$(out_form)&#34;==&#34;&#34;">
+              <SetGlobalStep id="_1olA" varname="of"/>
+              <SetGlobalStep id="_1olB" varname="fr">
+                <default>dim</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1olC" varname="output_netcdf_cf">
+                <default>false</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1olD" name="notSupportedFormat">
+              <SetGlobalStep id="_1olE" varname="output_netcdf_cf">
+                <default>false</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1olF" varname="supported_format">
+                <default>false</default>
+              </SetGlobalStep>
+              <ProcedureCall id="_1olG" procedure="run-log.logError">
+                <variable name="message">$(out_form) format is not supported</variable>
+                <variable name="withScreenshots">false</variable>
+              </ProcedureCall>
+            </ElseSequence>
+          </IfSequence>
+          <ServerScriptStep id="_1olL" name="print">
+            <code>print "of = $(of)"</code>
+          </ServerScriptStep>
+          <ServerScriptStep id="_1olM" name="print">
+            <code>print "fr = $(fr)"</code>
+          </ServerScriptStep>
+        </Procedure>
+        <Procedure id="_8" name="client_senbox">
+          <SetGlobalStep id="_1kyC" varname="client">
+            <default>senbox</default>
+          </SetGlobalStep>
+        </Procedure>
+        <Procedure id="_1oHW" name="gpt_client_name">
+          <SetGlobalStep id="_1kLs" varname="gpt_client_name">
+            <default>gpt_$(client_nr)</default>
+          </SetGlobalStep>
+          <ServerScriptStep id="_1oHb" name="set_variable_increase_on_1">
+            <code>vl = $(client_nr)
+vl = vl + 1   
+rc.setGlobal("cn", vl)                       </code>
+          </ServerScriptStep>
+          <ServerScriptStep disabled="true" id="_1oHa" name="print">
+            <code>print "***** $(client_nr)"</code>
+          </ServerScriptStep>
+          <SetGlobalStep id="_1oHX" varname="client_nr">
+            <default>$(cn)</default>
+          </SetGlobalStep>
+          <ServerScriptStep disabled="true" id="_1oHZ" name="print">
+            <code>print "***** gpt_client_name = $(gpt_client_name)"</code>
+          </ServerScriptStep>
+        </Procedure>
+        <Procedure id="_1oWI" name="product_attributes">
+          <variable name="prod_type"/>
+          <IfSequence id="_1oi0" test="&#34;$(prod_type)&#34;==&#34;&#34;">
+            <SetGlobalStep id="_1oi1" varname="product_group"/>
+            <SetGlobalStep id="_1oi2" varname="reader">
+              <default>All Files</default>
+            </SetGlobalStep>
+            <SetGlobalStep id="_1oi3" varname="menu_item"/>
+            <ElseSequence id="_1okW">
+              <TryStep id="_1omL">
+                <LoadPropertiesStep id="_1okX"
+                                    propertyfile="../properties/product_attributes.properties"
+                                    resourcename="attribut"/>
+                <SetGlobalStep id="_1okY" varname="product_group">
+                  <default>${attribut:$(prod_type)_product_group}</default>
+                </SetGlobalStep>
+                <SetGlobalStep id="_1okZ" varname="reader">
+                  <default>${attribut:$(prod_type)_reader}</default>
+                </SetGlobalStep>
+                <SetGlobalStep id="_1oka" varname="menu_item">
+                  <default>${attribut:$(prod_type)_menu_item}</default>
+                </SetGlobalStep>
+                <CatchSequence exception="TestException" id="_1omM"
+                               maxerror="0">
+                  <SetGlobalStep id="_1omO" varname="product_group"/>
+                  <SetGlobalStep id="_1omP" varname="reader">
+                    <default>All Files</default>
+                  </SetGlobalStep>
+                  <SetGlobalStep id="_1omQ" varname="menu_item"/>
+                  <ProcedureCall id="_1omN" procedure="run-log.logError">
+                    <variable name="message">It was no no property or resource called $(prod_type)</variable>
+                    <variable name="withScreenshots">false</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </ElseSequence>
+          </IfSequence>
+          <IfSequence disabled="true" id="_1oWJ"
+                      test="&#34;$(prod_type)&#34;==&#34;&#34;">
+            <SetGlobalStep id="_1oZC" varname="product_group"/>
+            <SetGlobalStep id="_1muD" varname="reader">
+              <default>All Files</default>
+            </SetGlobalStep>
+            <SetGlobalStep id="_1oZB" varname="menu_item"/>
+            <ElseifSequence id="_1oWL"
+                            test="&#34;$(prod_type)&#34;==&#34;arcInfo_binary_grid&#34;">
+              <SetGlobalStep id="_1oWg" varname="product_group">
+                <default>generic</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYb" varname="menu_item">
+                <default>arcInfo_binary_grid</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYB" varname="reader">
+                <default>Reads Arc/Info Binary Grids</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oWl"
+                            test="&#34;$(prod_type)&#34;==&#34;csv&#34;">
+              <SetGlobalStep id="_1oWm" varname="product_group">
+                <default>generic</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYc" varname="menu_item">
+                <default>csv</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYW" varname="reader">
+                <default>CSV products (*.csv,*.txt)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oWn"
+                            test="&#34;$(prod_type)&#34;==&#34;envi&#34;">
+              <SetGlobalStep id="_1oWo" varname="product_group">
+                <default>generic</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYd" varname="menu_item">
+                <default>envi</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYD" varname="reader">
+                <default>ENVI Data Products (*.hdr,*.zip)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oWp"
+                            test="&#34;$(prod_type)&#34;==&#34;geotiff&#34;">
+              <SetGlobalStep id="_1oWq" varname="product_group">
+                <default>generic</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYe" varname="menu_item">
+                <default>geotiff</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oXw" varname="reader">
+                <default>GeoTIFF data product. (*.tif,*.tiff,*.btf)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oWr"
+                            test="&#34;$(prod_type)&#34;==&#34;hdf_eos_gridded&#34;">
+              <SetGlobalStep id="_1oWs" varname="product_group">
+                <default>generic</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYf" varname="menu_item">
+                <default>hdf_eos_gridded</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYP" varname="reader">
+                <default>HDF-EOS products (*.hdf,*.hdf.gz)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oWt"
+                            test="&#34;$(prod_type)&#34;==&#34;netCdf_beam&#34;">
+              <SetGlobalStep id="_1oWu" varname="product_group">
+                <default>generic</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYg" varname="menu_item">
+                <default>netCdf_beam</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oY4" varname="reader">
+                <default>BEAM NetCDF products (*.nc,*.nc.gz)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oWv"
+                            test="&#34;$(prod_type)&#34;==&#34;netCdf_cf&#34;">
+              <SetGlobalStep id="_1oWw" varname="product_group">
+                <default>generic</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYh" varname="menu_item">
+                <default>netCdf_cf</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYR" varname="reader">
+                <default>NetCDF following CF-Convention (*.nc,*.nc.gz,*.grb,*.grb.gz)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oWx"
+                            test="&#34;$(prod_type)&#34;==&#34;netCdf_generic&#34;">
+              <SetGlobalStep id="_1oWy" varname="product_group">
+                <default>generic</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYi" varname="menu_item">
+                <default>netCdf_generic</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYH" varname="reader">
+                <default>Generic NetCDF Data Product (*.nc,*.hdf.gz,*.nc.gz,*.hdf,*.grb.gz,*.grb)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oWz"
+                            test="&#34;$(prod_type)&#34;==&#34;pgx&#34;">
+              <SetGlobalStep id="_1oW+" varname="product_group">
+                <default>generic</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYj" varname="menu_item">
+                <default>pgx</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oY2" varname="reader">
+                <default>PGX images (*.pgx)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oWK"
+                            test="&#34;$(prod_type)&#34;==&#34;aquarius&#34;">
+              <SetGlobalStep id="_1oWh" varname="product_group">
+                <default>multispectral</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYk" varname="menu_item">
+                <default>aquarius</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oX+" varname="reader">
+                <default>Aquarius Products (*.h5,*.L1A_SCI,*.L2_SCI_V1.3,*.main)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oX3"
+                            test="&#34;$(prod_type)&#34;==&#34;atsr&#34;">
+              <SetGlobalStep id="_1oX4" varname="product_group">
+                <default>multispectral</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYl" varname="menu_item">
+                <default>atsr</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYJ" varname="reader">
+                <default>ATSR1/ATSR2 products</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oX5"
+                            test="&#34;$(prod_type)&#34;==&#34;avnir2&#34;">
+              <SetGlobalStep id="_1oX6" varname="product_group">
+                <default>multispectral</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYm" varname="menu_item">
+                <default>avnir2</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYS" varname="reader">
+                <default>AVNIR-2 Products</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oX7"
+                            test="&#34;$(prod_type)&#34;==&#34;binned_SeaDAS&#34;">
+              <SetGlobalStep id="_1oX8" varname="product_group">
+                <default>multispectral</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYn" varname="menu_item">
+                <default>binned_SeaDAS</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oY9" varname="reader">
+                <default>SeaDAS-Supported Level 3 Products (*.hdf,*.main,*.L3m*)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oX9"
+                            test="&#34;$(prod_type)&#34;==&#34;chris&#34;">
+              <SetGlobalStep id="_1oXA" varname="product_group">
+                <default>multispectral</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYo" varname="menu_item">
+                <default>chris</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYC" varname="reader">
+                <default>CHRIS/Proba HDF4 Data Products (*.hdf)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oXB"
+                            test="&#34;$(prod_type)&#34;==&#34;envisat&#34;">
+              <SetGlobalStep id="_1oXC" varname="product_group">
+                <default>multispectral</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYp" varname="menu_item">
+                <default>envisat_meris_aatsr</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oXv" varname="reader">
+                <default>ENVISAT MERIS, AATSR, ASAR and ERS1/2 SAR products (*.N1,*.E1,*.E2,*.zip,*.gz)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oXD"
+                            test="&#34;$(prod_type)&#34;==&#34;ers_atsr&#34;">
+              <SetGlobalStep id="_1oXE" varname="product_group">
+                <default>multispectral</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYq" varname="menu_item">
+                <default>ers_atsr</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYU" varname="reader">
+                <default>ENVISAT MERIS, AATSR, ASAR and ERS1/2 SAR products (*.N1,*.E1,*.E2,*.zip,*.gz)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oXF"
+                            test="&#34;$(prod_type)&#34;==&#34;hico_L1b&#34;">
+              <SetGlobalStep id="_1oXG" varname="product_group">
+                <default>multispectral</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYr" varname="menu_item">
+                <default>hico_L1b</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oY5" varname="reader">
+                <default>HICO L1B Products (*.h5)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oXH"
+                            test="&#34;$(prod_type)&#34;==&#34;hico_envi_format&#34;">
+              <SetGlobalStep id="_1oXI" varname="product_group">
+                <default>multispectral</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYs" varname="menu_item">
+                <default>hico_envi_format</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYO" varname="reader">
+                <default>HICO Data Products (*.hdr)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oXJ"
+                            test="&#34;$(prod_type)&#34;==&#34;landsat5_TM&#34;">
+              <SetGlobalStep id="_1oXK" varname="product_group">
+                <default>multispectral</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYt" varname="menu_item">
+                <default>landsat_TM</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oY7" varname="reader">
+                <default>Landsat 5 TM Product Reader (*.dat,*.zip)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oXL"
+                            test="&#34;$(prod_type)&#34;==&#34;landsat_geoTIFF&#34;">
+              <SetGlobalStep id="_1oXM" varname="product_group">
+                <default>multispectral</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYu" varname="menu_item">
+                <default>landsat_geoTIFF</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYA" varname="reader">
+                <default>Landsat Data Products (GeoTIFF)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oXN"
+                            test="&#34;$(prod_type)&#34;==&#34;meris_binned_L3&#34;">
+              <SetGlobalStep id="_1oXO" varname="product_group">
+                <default>multispectral</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYv" varname="menu_item">
+                <default>meris_binned_L3</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYG" varname="reader">
+                <default>MERIS Binned Level-3 (netCDF) Data Product (*.nc)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oXP"
+                            test="&#34;$(prod_type)&#34;==&#34;modisL1B&#34;">
+              <SetGlobalStep id="_1oXQ" varname="product_group">
+                <default>multispectral</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYw" varname="menu_item">
+                <default>modisL1B</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYV" varname="reader">
+                <default>MODIS L1B Products (*.hdf,*.L1B_LAC,*.L1B_HKM,*.L1B_QKM)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oXR"
+                            test="&#34;$(prod_type)&#34;==&#34;modis_MOD_MXD_MYD&#34;">
+              <SetGlobalStep id="_1oXS" varname="product_group">
+                <default>multispectral</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYx" varname="menu_item">
+                <default>modis_MOD_MXD_MYD</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oY8" varname="reader">
+                <default>MODIS HDF4 Data Products (*.hdf)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oXT"
+                            test="&#34;$(prod_type)&#34;==&#34;noaa_avhrr_3_L1b&#34;">
+              <SetGlobalStep id="_1oXU" varname="product_group">
+                <default>multispectral</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYy" varname="menu_item">
+                <default>noaa_avhrr_3_L1b</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oXz" varname="reader">
+                <default>NOAA-AVHRR/3 Level-1b Data Product</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oXV"
+                            test="&#34;$(prod_type)&#34;==&#34;ocm2_L1B&#34;">
+              <SetGlobalStep id="_1oXW" varname="product_group">
+                <default>multispectral</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYz" varname="menu_item">
+                <default>ocm2_L1B</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oY6" varname="reader">
+                <default>OCM2 L1B Products (*.hdf)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oXX"
+                            test="&#34;$(prod_type)&#34;==&#34;prism&#34;">
+              <SetGlobalStep id="_1oXY" varname="product_group">
+                <default>multispectral</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oY+" varname="menu_item">
+                <default>prism</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYE" varname="reader">
+                <default>PRISM Products</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oXZ"
+                            test="&#34;$(prod_type)&#34;==&#34;seaDAS_L1&#34;">
+              <SetGlobalStep id="_1oXa" varname="product_group">
+                <default>multispectral</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oY-" varname="menu_item">
+                <default>seaDAS_L1</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oXt" varname="reader">
+                <default>SeaDAS-Supported Level 1 Products (*.hdf,*.L1A_GAC,*.L1A_LAC,*.L1B_GAC,*.L1B_LAC,*.L1A_MLAC,*.L1A_H*)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oXb"
+                            test="&#34;$(prod_type)&#34;==&#34;seaDAS_L2&#34;">
+              <SetGlobalStep id="_1oXc" varname="product_group">
+                <default>multispectral</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oZ0" varname="menu_item">
+                <default>seaDAS_L2</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYQ" varname="reader">
+                <default>SeaDAS-Supported Level 2 Products (*.hdf,*.L2_GAC_OC,*.L2_LAC_OC,*.L2_LAC_SST,*.L2_LAC_SST4,*.L2_MLAC_OC)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oXd"
+                            test="&#34;$(prod_type)&#34;==&#34;seaDAS_L3&#34;">
+              <SetGlobalStep id="_1oXe" varname="product_group">
+                <default>multispectral</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oZ1" varname="menu_item">
+                <default>seaDAS_L3</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oY1" varname="reader">
+                <default>SeaDAS-Level-3-alike NetCDF files containing binned Level-3 data (*.nc)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oXf"
+                            test="&#34;$(prod_type)&#34;==&#34;seaDAS_browse_L1_L2&#34;">
+              <SetGlobalStep id="_1oXg" varname="product_group">
+                <default>multispectral</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oZ2" varname="menu_item">
+                <default>seaDAS_browse_L1_L2</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYI" varname="reader">
+                <default>SeaDAS-Supported Browse Products (*.hdf,*.L1*BRS,*.L2*BRS)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oXh"
+                            test="&#34;$(prod_type)&#34;==&#34;sentinel3&#34;">
+              <SetGlobalStep id="_1oXi" varname="product_group">
+                <default>multispectral</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oZ3" varname="menu_item">
+                <default>sentinel3</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYZ" varname="reader">
+                <default>Sentinel-3 products (*.xml)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oXl"
+                            test="&#34;$(prod_type)&#34;==&#34;spot_vgt&#34;">
+              <SetGlobalStep id="_1oXm" varname="product_group">
+                <default>multispectral</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oZ5" varname="menu_item">
+                <default>spot_vgt</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oXy" varname="reader">
+                <default>SPOT VGT Data Products (*.txt,*.TXT,*.zip,*.ZIP)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oXn"
+                            test="&#34;$(prod_type)&#34;==&#34;viirs&#34;">
+              <SetGlobalStep id="_1oXo" varname="product_group">
+                <default>multispectral</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oZ6" varname="menu_item">
+                <default>viirs</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oXx" varname="reader">
+                <default>VIIRS SDR/EDR Products (*.h5)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oXp"
+                            test="&#34;$(prod_type)&#34;==&#34;sar_asar&#34;">
+              <SetGlobalStep id="_1oXq" varname="product_group">
+                <default>sar</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oZ7" varname="menu_item">
+                <default>asar</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYM" varname="reader">
+                <default>ENVISAT MERIS, AATSR, ASAR and ERS1/2 SAR products (*.N1,*.E1,*.E2,*.zip,*.gz)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oWf"
+                            test="&#34;$(prod_type)&#34;==&#34;sar_ers&#34;">
+              <SetGlobalStep id="_1oWi" varname="product_group">
+                <default>sar</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oZ8" varname="menu_item">
+                <default>ers_sar</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYN" varname="reader">
+                <default>ENVISAT MERIS, AATSR, ASAR and ERS1/2 SAR products (*.N1,*.E1,*.E2,*.zip,*.gz)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oWj"
+                            test="&#34;$(prod_type)&#34;==&#34;dimap&#34;">
+              <SetGlobalStep id="_1oWk" varname="product_group"/>
+              <SetGlobalStep id="_1oZ9" varname="menu_item">
+                <default>dimap_product</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYL" varname="reader">
+                <default>BEAM-DIMAP product files (*.dim)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oZD"
+                            test="&#34;$(prod_type)&#34;==&#34;getasse&#34;">
+              <SetGlobalStep id="_1oZE" varname="product_group"/>
+              <SetGlobalStep id="_1oZF" varname="menu_item">
+                <default>getasse</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYK" varname="reader">
+                <default>GETASSE30 Data Product Tile (*.getasse30)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oX1"
+                            test="&#34;$(prod_type)&#34;==&#34;rgb&#34;">
+              <SetGlobalStep id="_1oX2" varname="product_group"/>
+              <SetGlobalStep id="_1oZA" varname="menu_item">
+                <default>rgb</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oX-" varname="reader">
+                <default>Image files (*.png,*.gif,*.jpg,*.bmp,*.pnm,*.pbm,*.pgm,*.ppm)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseifSequence id="_1oXj"
+                            test="&#34;$(prod_type)&#34;==&#34;smos&#34;">
+              <SetGlobalStep id="_1oXk" varname="product_group"/>
+              <SetGlobalStep id="_1oZ4" varname="menu_item">
+                <default>smos</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oYa" varname="reader">
+                <default>SMOS Data Products (*.HDR,*.DBL,*.zip,*.ZIP)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+          </IfSequence>
+          <ServerScriptStep disabled="true" id="_1okb" name="print">
+            <code>print "product_group = $(product_group)"</code>
+          </ServerScriptStep>
+          <ServerScriptStep disabled="true" id="_1okc" name="print">
+            <code>print "reader = $(reader)"</code>
+          </ServerScriptStep>
+          <ServerScriptStep disabled="true" id="_1oke" name="print">
+            <code>print "menu_item = $(menu_item)"</code>
+          </ServerScriptStep>
+        </Procedure>
+        <Procedure disabled="true" id="_1oHB" name="gpt_calling">
+          <IfSequence id="_5JR" test="${qftest:windows}">
+            <SetGlobalStep id="_1oHC" varname="gpt_calling">
+              <default>gpt.bat</default>
+            </SetGlobalStep>
+            <ElseSequence id="_5JZ">
+              <SetGlobalStep id="_1oHD" varname="gpt_calling">
+                <default>gpt.sh</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </Procedure>
+        <Procedure disabled="true" id="_1l6l" name="more_less_options">
+          <SetGlobalStep id="_1l6m" varname="more_options">
+            <default>More Options</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1l6n" varname="less_options">
+            <default>Less Options</default>
+          </SetGlobalStep>
+        </Procedure>
+        <Procedure disabled="true" id="_1l8H" name="rough_statistics">
+          <SetGlobalStep id="_1l8J" varname="rough_statistics">
+            <default>Rough statistics!</default>
+          </SetGlobalStep>
+        </Procedure>
+        <Procedure id="_A7z" name="variable_increase_on_1">
+          <variable name="var_int"/>
+          <IfSequence id="_1oH7" test="&#34;$(var_int)&#34;==&#34;&#34;">
+            <SetGlobalStep id="_1oH8" varname="wv">
+              <default>1</default>
+            </SetGlobalStep>
+            <ElseSequence id="_1oH9">
+              <SetGlobalStep id="_1oHA" varname="wv">
+                <default>$(var_int)</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+          <ServerScriptStep id="_A7+" name="set_variable_increase_on_1">
+            <code>vl = $(wv)
+vl = vl + 1   
+rc.setGlobal("wv", vl)                       </code>
+          </ServerScriptStep>
+          <SetGlobalStep id="_1oHV" varname="sleep_time">
+            <default>$(wv)</default>
+          </SetGlobalStep>
+        </Procedure>
+      </Package>
+    </Package>
+  </PackageRoot>
+  <ExtraSequence id="_4">
+    <Procedure id="_1oZV" name="data_subdirectory">
+      <variable name="data_type"/>
+      <ProcedureCall id="_1ohc" procedure="set.variable.path"/>
+      <IfSequence id="_1ohd" test="${qftest:windows}">
+        <LoadPropertiesStep id="_1ohe"
+                            propertyfile="../properties/subdir_win.properties"
+                            resourcename="subdir"/>
+        <ElseifSequence id="_1ohf" name="MAC?"
+                        test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+          <LoadPropertiesStep id="_1ohg"
+                              propertyfile="../properties/subdir_mac.properties"
+                              resourcename="subdir"/>
+        </ElseifSequence>
+        <ElseSequence id="_1ohh">
+          <LoadPropertiesStep id="_1ohi"
+                              propertyfile="../properties/subdir_lin.properties"
+                              resourcename="subdir"/>
+        </ElseSequence>
+      </IfSequence>
+      <TryStep id="_1omH">
+        <SetGlobalStep id="_1ohj" varname="data_subdirectory">
+          <default>${subdir:$(data_type)}</default>
+        </SetGlobalStep>
+        <CatchSequence exception="TestException" id="_1omI" maxerror="0">
+          <ProcedureCall id="_1omJ" procedure="run-log.logError">
+            <variable name="message">It was no no property or resource called $(data_type)</variable>
+            <variable name="withScreenshots">false</variable>
+          </ProcedureCall>
+        </CatchSequence>
+      </TryStep>
+      <ServerScriptStep disabled="true" id="_1ohk" name="print">
+        <code>print "data_subdirectory = $(data_subdirectory)"</code>
+      </ServerScriptStep>
+      <IfSequence disabled="true" id="_1oZW"
+                  test="&#34;$(data_type)&#34;==&#34;&#34;">
+        <ElseifSequence id="_1oZa"
+                        test="&#34;$(data_type)&#34;==&#34;arcInfo_binary_grid&#34;">
+          <IfSequence id="_1ofa" test="${qftest:windows}">
+            <SetGlobalStep id="_1ofb" varname="data_subdirectory"/>
+            <ElseifSequence id="_1ofc" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1ofd" varname="data_subdirectory"/>
+            </ElseifSequence>
+            <ElseSequence id="_1ofe"/>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1oZe"
+                        test="&#34;$(data_type)&#34;==&#34;csv&#34;">
+          <IfSequence id="_1ofV" test="${qftest:windows}">
+            <SetGlobalStep id="_1ofW" varname="data_subdirectory">
+              <default>applications\generic_reader\CSV\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1ofX" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1ofY" varname="data_subdirectory">
+                <default>applications/generic_reader/CSV/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1ofZ">
+              <SetGlobalStep id="_1og4" varname="data_subdirectory">
+                <default>applications/generic_reader/CSV/</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1oZi"
+                        test="&#34;$(data_type)&#34;==&#34;envi&#34;">
+          <IfSequence id="_1ofQ" test="${qftest:windows}">
+            <SetGlobalStep id="_1ofR" varname="data_subdirectory">
+              <default>applications\generic_reader\ENVI_reader\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1ofS" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1ofT" varname="data_subdirectory">
+                <default>applications/generic_reader/ENVI_reader/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1ofU">
+              <SetGlobalStep id="_1og3" varname="data_subdirectory">
+                <default>applications/generic_reader/ENVI_reader/</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1oZm"
+                        test="&#34;$(data_type)&#34;==&#34;geotiff&#34;">
+          <IfSequence id="_1ofL" test="${qftest:windows}">
+            <SetGlobalStep id="_1ofM" varname="data_subdirectory">
+              <default>applications\generic_reader\GeoTIFF\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1ofN" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1ofO" varname="data_subdirectory">
+                <default>applications/generic_reader/GeoTIFF/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1ofP">
+              <SetGlobalStep id="_1og2" varname="data_subdirectory">
+                <default>applications/generic_reader/GeoTIFF/</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1oZq"
+                        test="&#34;$(data_type)&#34;==&#34;hdf_eos_gridded&#34;">
+          <IfSequence id="_1ofG" test="${qftest:windows}">
+            <SetGlobalStep id="_1ofH" varname="data_subdirectory">
+              <default>sensors_platforms\MODIS\HDF_EOS_gridded\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1ofI" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1ofJ" varname="data_subdirectory">
+                <default>sensors_platforms/MODIS/HDF_EOS_gridded/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1ofK">
+              <SetGlobalStep id="_1og5" varname="data_subdirectory">
+                <default>sensors_platforms/MODIS/HDF_EOS_gridded/</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1oZu"
+                        test="&#34;$(data_type)&#34;==&#34;netCdf_beam&#34;">
+          <IfSequence id="_1ofB" test="${qftest:windows}">
+            <SetGlobalStep id="_1ofC" varname="data_subdirectory">
+              <default>applications\generic_reader\NetCDF\NetCDF-BEAM\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1ofD" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1ofE" varname="data_subdirectory">
+                <default>applications/generic_reader/NetCDF/NetCDF-BEAM/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1ofF">
+              <SetGlobalStep id="_1ofw" varname="data_subdirectory">
+                <default>applications/generic_reader/NetCDF/NetCDF-BEAM/</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1ofx"
+                        test="&#34;$(data_type)&#34;==&#34;netCdf4_beam&#34;">
+          <IfSequence id="_1ofy" test="${qftest:windows}">
+            <SetGlobalStep id="_1ofz" varname="data_subdirectory">
+              <default>applications\generic_reader\NetCDF\NetCDF4-BEAM\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1of+" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1of-" varname="data_subdirectory">
+                <default>applications/generic_reader/NetCDF/NetCDF4-BEAM/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1og0">
+              <SetGlobalStep id="_1og1" varname="data_subdirectory">
+                <default>applications/generic_reader/NetCDF/NetCDF4-BEAM/</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1oZy"
+                        test="&#34;$(data_type)&#34;==&#34;netCdf_cf&#34;">
+          <IfSequence id="_1of6" test="${qftest:windows}">
+            <SetGlobalStep id="_1of7" varname="data_subdirectory">
+              <default>applications\generic_reader\NetCDF\NetCDF-CF\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1of8" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1of9" varname="data_subdirectory">
+                <default>applications/generic_reader/NetCDF/NetCDF-CF/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1ofA">
+              <SetGlobalStep id="_1ofo" varname="data_subdirectory">
+                <default>applications/generic_reader/NetCDF/NetCDF-CF/</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1ofp"
+                        test="&#34;$(data_type)&#34;==&#34;netCdf4_cf&#34;">
+          <IfSequence id="_1ofq" test="${qftest:windows}">
+            <SetGlobalStep id="_1ofr" varname="data_subdirectory">
+              <default>applications\generic_reader\NetCDF\NetCDF4-CF\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1ofs" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1oft" varname="data_subdirectory">
+                <default>applications/generic_reader/NetCDF/NetCDF4-CF/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1ofu">
+              <SetGlobalStep id="_1ofv" varname="data_subdirectory">
+                <default>applications/generic_reader/NetCDF/NetCDF4-CF/</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1oa4"
+                        test="&#34;$(data_type)&#34;==&#34;pgx&#34;">
+          <IfSequence id="_1oey" test="${qftest:windows}">
+            <SetGlobalStep id="_1oez" varname="data_subdirectory"/>
+            <ElseifSequence id="_1oe+" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1oe-" varname="data_subdirectory"/>
+            </ElseifSequence>
+            <ElseSequence id="_1of0"/>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1oa8"
+                        test="&#34;$(data_type)&#34;==&#34;aquarius&#34;">
+          <IfSequence id="_1oet" test="${qftest:windows}">
+            <SetGlobalStep id="_1oeu" varname="data_subdirectory">
+              <default>applications\SeaDAS\Aquarius\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1oev" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1oew" varname="data_subdirectory">
+                <default>applications/SeaDAS/Aquarius/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1oex">
+              <SetGlobalStep id="_1ofn" varname="data_subdirectory">
+                <default>applications/SeaDAS/Aquarius/</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1oaC"
+                        test="&#34;$(data_type)&#34;==&#34;atsr&#34;">
+          <IfSequence id="_1oeo" test="${qftest:windows}">
+            <SetGlobalStep id="_1oep" varname="data_subdirectory">
+              <default>sensors_platforms\ERS\ATSR2\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1oeq" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1oer" varname="data_subdirectory">
+                <default>sensors_platforms/ERS/ATSR2/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1oes">
+              <SetGlobalStep id="_1og6" varname="data_subdirectory">
+                <default>sensors_platforms/ERS/ATSR2/</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1oaG"
+                        test="&#34;$(data_type)&#34;==&#34;avnir2&#34;">
+          <IfSequence id="_1oej" test="${qftest:windows}">
+            <SetGlobalStep id="_1oek" varname="data_subdirectory">
+              <default>sensors_platforms\AVNIR2\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1oel" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1oem" varname="data_subdirectory">
+                <default>sensors_platforms/AVNIR2/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1oen">
+              <SetGlobalStep id="_1og7" varname="data_subdirectory">
+                <default>sensors_platforms/AVNIR2/</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1oaO"
+                        test="&#34;$(data_type)&#34;==&#34;chris&#34;">
+          <IfSequence id="_1oeZ" test="${qftest:windows}">
+            <SetGlobalStep id="_1oea" varname="data_subdirectory">
+              <default>sensors_platforms\CHRIS_PROBA\HDF4\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1oeb" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1oec" varname="data_subdirectory">
+                <default>sensors_platforms/CHRIS_PROBA/HDF4/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1oed">
+              <SetGlobalStep id="_1og8" varname="data_subdirectory">
+                <default>sensors_platforms/CHRIS_PROBA/HDF4/</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1ogA"
+                        test="&#34;$(data_type)&#34;==&#34;envisat_meris&#34;">
+          <IfSequence id="_1ogB" test="${qftest:windows}">
+            <SetGlobalStep id="_1ogC" varname="data_subdirectory">
+              <default>sensors_platforms\MERIS\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1ogD" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1ogE" varname="data_subdirectory">
+                <default>sensors_platforms/MERIS/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1ogF">
+              <SetGlobalStep id="_1ogG" varname="data_subdirectory">
+                <default>sensors_platforms/MERIS/</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1oaS"
+                        test="&#34;$(data_type)&#34;==&#34;envisat_aatsr&#34;">
+          <IfSequence id="_1oeU" test="${qftest:windows}">
+            <SetGlobalStep id="_1oeV" varname="data_subdirectory">
+              <default>sensors_platforms\AATSR\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1oeW" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1oeX" varname="data_subdirectory">
+                <default>sensors_platforms/AATSR/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1oeY">
+              <SetGlobalStep id="_1og9" varname="data_subdirectory">
+                <default>sensors_platforms/AATSR/</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1ogI"
+                        test="&#34;$(data_type)&#34;==&#34;ers_atsr1_e1&#34;">
+          <IfSequence id="_1ogJ" test="${qftest:windows}">
+            <SetGlobalStep id="_1ogK" varname="data_subdirectory">
+              <default>sensors_platforms\ERS\ATSR1\E1\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1ogL" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1ogM" varname="data_subdirectory">
+                <default>sensors_platforms/ERS/ATSR1/E1/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1ogN">
+              <SetGlobalStep id="_1ogO" varname="data_subdirectory">
+                <default>sensors_platforms/ERS/ATSR1/E1/</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1oaW"
+                        test="&#34;$(data_type)&#34;==&#34;ers_atsr2_e2&#34;">
+          <IfSequence id="_1oeP" test="${qftest:windows}">
+            <SetGlobalStep id="_1oeQ" varname="data_subdirectory">
+              <default>sensors_platforms\ERS\ATSR2\E2\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1oeR" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1oeS" varname="data_subdirectory">
+                <default>sensors_platforms/ERS/ATSR2/E2/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1oeT">
+              <SetGlobalStep id="_1ogH" varname="data_subdirectory">
+                <default>sensors_platforms/ERS/ATSR2/E2/</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1oaa"
+                        test="&#34;$(data_type)&#34;==&#34;hico_L1b&#34;">
+          <IfSequence id="_1oeK" test="${qftest:windows}">
+            <SetGlobalStep id="_1oeL" varname="data_subdirectory">
+              <default>sensors_platforms\HICO\L1B\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1oeM" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1oeN" varname="data_subdirectory">
+                <default>sensors_platforms/HICO/L1B/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1oeO">
+              <SetGlobalStep id="_1ogP" varname="data_subdirectory">
+                <default>sensors_platforms/HICO/L1B/</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1oae"
+                        test="&#34;$(data_type)&#34;==&#34;hico_envi_format&#34;">
+          <IfSequence id="_1oeF" test="${qftest:windows}">
+            <SetGlobalStep id="_1oeG" varname="data_subdirectory">
+              <default>sensors_platforms\HICO\ENVI_format\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1oeH" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1oeI" varname="data_subdirectory">
+                <default>sensors_platforms/HICO/ENVI_format/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1oeJ">
+              <SetGlobalStep id="_1ogQ" varname="data_subdirectory">
+                <default>sensors_platforms/HICO/ENVI_format/</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1oai"
+                        test="&#34;$(data_type)&#34;==&#34;landsat5_tm_fast&#34;">
+          <IfSequence id="_1oeA" test="${qftest:windows}">
+            <SetGlobalStep id="_1oeB" varname="data_subdirectory">
+              <default>sensors_platforms\LANDSAT\LANDSAT_5_TM\fastTM\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1oeC" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1oeD" varname="data_subdirectory">
+                <default>sensors_platforms/LANDSAT/LANDSAT_5_TM/fastTM/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1oeE">
+              <SetGlobalStep id="_1ogR" varname="data_subdirectory">
+                <default>sensors_platforms/LANDSAT/LANDSAT_5_TM/fastTM/</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1oam"
+                        test="&#34;$(data_type)&#34;==&#34;landsat_geoTIFF&#34;">
+          <IfSequence id="_1oe5" test="${qftest:windows}">
+            <SetGlobalStep id="_1oe6" varname="data_subdirectory">
+              <default>sensors_platforms\LANDSAT\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1oe7" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1oe8" varname="data_subdirectory">
+                <default>sensors_platforms/LANDSAT/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1oe9">
+              <SetGlobalStep id="_1ogS" varname="data_subdirectory">
+                <default>sensors_platforms/LANDSAT/</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1oaq"
+                        test="&#34;$(data_type)&#34;==&#34;meris_binned_L3&#34;">
+          <IfSequence id="_1oe0" test="${qftest:windows}">
+            <SetGlobalStep id="_1oe1" varname="data_subdirectory">
+              <default>projects\L3_ENV_MER\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1oe2" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1oe3" varname="data_subdirectory">
+                <default>projects/L3_ENV_MER/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1oe4">
+              <SetGlobalStep id="_1ogc" varname="data_subdirectory">
+                <default>projects/L3_ENV_MER/</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1oau"
+                        test="&#34;$(data_type)&#34;==&#34;modisL1B&#34;">
+          <IfSequence id="_1odx" test="${qftest:windows}">
+            <SetGlobalStep id="_1ody" varname="data_subdirectory">
+              <default>sensors_platforms\MODIS\L1B\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1odz" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1od+" varname="data_subdirectory">
+                <default>sensors_platforms/MODIS/L1B/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1od-">
+              <SetGlobalStep id="_1ogT" varname="data_subdirectory">
+                <default>sensors_platforms/MODIS/L1B/</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1oay"
+                        test="&#34;$(data_type)&#34;==&#34;modis_MOD_MXD_MYD&#34;">
+          <IfSequence id="_1ods" test="${qftest:windows}">
+            <SetGlobalStep id="_1odt" varname="data_subdirectory">
+              <default>sensors_platforms\MODIS\MOD_MXD_MYD\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1odu" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1odv" varname="data_subdirectory">
+                <default>sensors_platforms/MODIS/MOD_MXD_MYD/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1odw">
+              <SetGlobalStep id="_1ogU" varname="data_subdirectory">
+                <default>sensors_platforms/MODIS/MOD_MXD_MYD/</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1ob0"
+                        test="&#34;$(data_type)&#34;==&#34;noaa_avhrr_3_L1b&#34;">
+          <IfSequence id="_1odn" test="${qftest:windows}">
+            <SetGlobalStep id="_1odo" varname="data_subdirectory">
+              <default>sensors_platforms\AVHRR_3_L1B\NOAA\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1odp" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1odq" varname="data_subdirectory">
+                <default>sensors_platforms/AVHRR_3_L1B/NOAA/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1odr">
+              <SetGlobalStep id="_1ogV" varname="data_subdirectory">
+                <default>sensors_platforms/AVHRR_3_L1B/NOAA/</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1ob4"
+                        test="&#34;$(data_type)&#34;==&#34;ocm2_L1B&#34;">
+          <IfSequence id="_1odi" test="${qftest:windows}">
+            <SetGlobalStep id="_1odj" varname="data_subdirectory"/>
+            <ElseifSequence id="_1odk" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1odl" varname="data_subdirectory"/>
+            </ElseifSequence>
+            <ElseSequence id="_1odm"/>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1ob8"
+                        test="&#34;$(data_type)&#34;==&#34;prism&#34;">
+          <IfSequence id="_1odd" test="${qftest:windows}">
+            <SetGlobalStep id="_1ode" varname="data_subdirectory">
+              <default>sensors_platforms\PRISM\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1odf" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1odg" varname="data_subdirectory">
+                <default>sensors_platforms/PRISM/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1odh">
+              <SetGlobalStep id="_1ogW" varname="data_subdirectory">
+                <default>sensors_platforms/PRISM/</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1obO"
+                        test="&#34;$(data_type)&#34;==&#34;seaDAS&#34;">
+          <IfSequence id="_1odJ" test="${qftest:windows}">
+            <SetGlobalStep id="_1odK" varname="data_subdirectory">
+              <default>applications\SeaDAS\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1odL" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1odM" varname="data_subdirectory">
+                <default>applications/SeaDAS/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1odN">
+              <SetGlobalStep id="_1ofm" varname="data_subdirectory">
+                <default>applications/SeaDAS/</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1obS"
+                        test="&#34;$(data_type)&#34;==&#34;sentinel3&#34;">
+          <IfSequence id="_1odE" test="${qftest:windows}">
+            <SetGlobalStep id="_1odF" varname="data_subdirectory">
+              <default>sensors_platforms\sentinel-3\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1odG" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1odH" varname="data_subdirectory">
+                <default>sensors_platforms/sentinel-3/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1odI">
+              <SetGlobalStep id="_1ogX" varname="data_subdirectory">
+                <default>sensors_platforms/sentinel-3/</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1obW"
+                        test="&#34;$(data_type)&#34;==&#34;spot_vgt&#34;">
+          <IfSequence id="_1od9" test="${qftest:windows}">
+            <SetGlobalStep id="_1odA" varname="data_subdirectory">
+              <default>sensors_platforms\SPOT_VGT\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1odB" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1odC" varname="data_subdirectory">
+                <default>sensors_platforms/SPOT_VGT/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1odD">
+              <SetGlobalStep id="_1ogY" varname="data_subdirectory">
+                <default>sensors_platforms/SPOT_VGT/</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1oba"
+                        test="&#34;$(data_type)&#34;==&#34;viirs&#34;">
+          <IfSequence id="_1od4" test="${qftest:windows}">
+            <SetGlobalStep id="_1od5" varname="data_subdirectory">
+              <default>applications\SeaDAS\VIIRS\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1od6" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1od7" varname="data_subdirectory">
+                <default>applications/SeaDAS/VIIRS/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1od8"/>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1obe"
+                        test="&#34;$(data_type)&#34;==&#34;sar_asar&#34;">
+          <IfSequence id="_1oc-" test="${qftest:windows}">
+            <SetGlobalStep id="_1od0" varname="data_subdirectory">
+              <default>sensors_platforms\ASAR\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1od1" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1od2" varname="data_subdirectory">
+                <default>sensors_platforms/ASAR/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1od3">
+              <SetGlobalStep id="_1ogZ" varname="data_subdirectory">
+                <default>sensors_platforms/ASAR/</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1obi"
+                        test="&#34;$(data_type)&#34;==&#34;sar_ers&#34;">
+          <IfSequence id="_1ocw" test="${qftest:windows}">
+            <SetGlobalStep id="_1ocx" varname="data_subdirectory">
+              <default>sensors_platforms\ERS\SAR\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1ocy" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1ocz" varname="data_subdirectory">
+                <default>sensors_platforms/ERS/SAR/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1oc+">
+              <SetGlobalStep id="_1oga" varname="data_subdirectory">
+                <default>sensors_platforms/ERS/SAR/</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1obm"
+                        test="&#34;$(data_type)&#34;==&#34;dimap&#34;">
+          <IfSequence id="_1ocr" test="${qftest:windows}">
+            <SetGlobalStep id="_1ocs" varname="data_subdirectory">
+              <default>applications\generic_reader\BEAM-DIMAP\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1oct" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1ocu" varname="data_subdirectory">
+                <default>applications/generic_reader/BEAM-DIMAP/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1ocv">
+              <SetGlobalStep id="_1ofl" varname="data_subdirectory">
+                <default>applications/generic_reader/BEAM-DIMAP/</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1obq"
+                        test="&#34;$(data_type)&#34;==&#34;getasse&#34;">
+          <IfSequence id="_1ocm" test="${qftest:windows}">
+            <SetGlobalStep id="_1ocn" varname="data_subdirectory">
+              <default>applications\dem\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1oco" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1ocp" varname="data_subdirectory">
+                <default>applications/dem/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1ocq">
+              <SetGlobalStep id="_1ofk" varname="data_subdirectory">
+                <default>applications/dem/</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1obu"
+                        test="&#34;$(data_type)&#34;==&#34;rgb&#34;">
+          <IfSequence id="_58D" test="${qftest:windows}">
+            <SetGlobalStep id="_1occ" varname="data_subdirectory">
+              <default>applications\generic_reader\RGB\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1l3m" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1ocd" varname="data_subdirectory">
+                <default>applications/generic_reader/RGB/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_58I">
+              <SetGlobalStep id="_1oce" varname="data_subdirectory">
+                <default>applications/generic_reader/RGB/</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </ElseifSequence>
+        <ElseifSequence id="_1oby"
+                        test="&#34;$(data_type)&#34;==&#34;smos&#34;">
+          <IfSequence id="_1ocf" test="${qftest:windows}">
+            <SetGlobalStep id="_1ocb" varname="data_subdirectory">
+              <default>sensors_platforms\SMOS\</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1och" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1ocl" varname="data_subdirectory">
+                <default>sensors_platforms/SMOS/</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1ocj"/>
+          </IfSequence>
+        </ElseifSequence>
+      </IfSequence>
+    </Procedure>
+    <ProcedureCall id="_1oMg" procedure="set.variable.output_format">
+      <variable name="out_form">test</variable>
+    </ProcedureCall>
+    <ServerScriptStep id="_1oh2" name="print">
+      <code>print "data_directory = ${path:data_directory}"</code>
+    </ServerScriptStep>
+    <ServerScriptStep id="_1og-" name="print">
+      <code>print "data_directory2 = ${path:data_directory2}"  </code>
+    </ServerScriptStep>
+    <ServerScriptStep id="_1oh0" name="print">
+      <code>print "screenshot_path = ${path:screenshot_path}"  </code>
+    </ServerScriptStep>
+    <ServerScriptStep id="_1oh1" name="print">
+      <code>print "screenshot_path2 = ${path:screenshot_path2}"  </code>
+    </ServerScriptStep>
+    <Package id="_1k+b" name="rasterData">
+      <Package id="_1k+c" name="generic">
+        <Procedure id="_1mOz" name="arcInfo_binary_grid">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importArcBinGrid"
+                          event="MOUSE_MPRC" id="_1mO+" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1mO-" name="csv">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importCsvProduct"
+                          event="MOUSE_MPRC" id="_1mP0" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1mPA" name="envi">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importEnviProduct"
+                          event="MOUSE_MPRC" id="_1mPB" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1k+d" name="geotiff">
+          <comment>@teststep Click 'import geoTIFF Product' menu item</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importGeoTIFFProduct"
+                          event="MOUSE_MPRC" id="_1k+j" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1mPL" name="hdf_eos_gridded">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importHdfEosProduct"
+                          event="MOUSE_MPRC" id="_1mPM" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1mQ2" name="netCdf_beam">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importNetCdfBEAMProduct"
+                          event="MOUSE_MPRC" id="_1mQ3" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1mQ8" name="netCdf_cf">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importNetCdfCFProduct"
+                          event="MOUSE_MPRC" id="_1mQ9" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1mPW" name="netCdf_generic">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importNetCdfGenericProduct"
+                          event="MOUSE_MPRC" id="_1mPX" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1mQE" name="pgx">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importPgxProduct"
+                          event="MOUSE_MPRC" id="_1mQF" modifiers="16"/>
+        </Procedure>
+      </Package>
+      <Package id="_1k+m" name="multispectral">
+        <Procedure id="_1mJ0" name="aquarius">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importAquariusProduct"
+                          event="MOUSE_MPRC" id="_1mJ2" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1m2s" name="atsr">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importAtsrProduct"
+                          event="MOUSE_MPRC" id="_1mI5" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1mIb" name="avnir2">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importAvnir2Product"
+                          event="MOUSE_MPRC" id="_1mId" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1mJR" name="binned_SeaDAS">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importBinnedProduct"
+                          event="MOUSE_MPRC" id="_1mJT" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1mJs" name="chris">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importChrisProduct"
+                          event="MOUSE_MPRC" id="_1mJu" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1m2N" name="envisat_meris_aatsr">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importEnvisatProduct"
+                          event="MOUSE_MPRC" id="_1m2P" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1mKi" name="ers_atsr">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importErsProduct"
+                          event="MOUSE_MPRC" id="_1mKj" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1mLM" name="hico_L1b">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importHICOL1BProduct"
+                          event="MOUSE_MPRC" id="_1mLN" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1mL1" name="hico_envi_format">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importHicoProduct"
+                          event="MOUSE_MPRC" id="_1mL2" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1mM0" name="landsat_TM">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importLandsatTMProduct"
+                          event="MOUSE_MPRC" id="_1mM1" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1mLh" name="landsat_geoTIFF">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importLandsatGeoTIFFProduct"
+                          event="MOUSE_MPRC" id="_1mLi" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1mML" name="meris_binned_L3">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importMerisBinnedL3Product"
+                          event="MOUSE_MPRC" id="_1mMM" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1mMr" name="modisL1B">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importModisL1BProduct"
+                          event="MOUSE_MPRC" id="_1mMs" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1mMb" name="modis_MOD_MXD_MYD">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importModisProduct"
+                          event="MOUSE_MPRC" id="_1mMc" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1mN5" name="noaa_avhrr_3_L1b">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importNoaaAvhrr3L1bProduct"
+                          event="MOUSE_MPRC" id="_1mN6" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1mNL" name="ocm2_L1B">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importOCM2L1BProduct"
+                          event="MOUSE_MPRC" id="_1mNM" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1mNb" name="prism">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importPrismProduct"
+                          event="MOUSE_MPRC" id="_1mNc" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1mO6" name="seaDAS_L1">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importSeadasL1Product"
+                          event="MOUSE_MPRC" id="_1mO7" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1mOH" name="seaDAS_L2">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importSeadasL2Product"
+                          event="MOUSE_MPRC" id="_1mOI" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1mOS" name="seaDAS_L3">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importSeadasL3Product"
+                          event="MOUSE_MPRC" id="_1mOT" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1mNx" name="seaDAS_browse_L1_L2">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importSeadasBrowseProduct"
+                          event="MOUSE_MPRC" id="_1mNy" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1k+n" name="sentinel3">
+          <comment>@teststep Click 'import sentinel-3 Product' menu item</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importSentinel3Product"
+                          event="MOUSE_MPRC" id="_1k+q" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1mNm" name="spot_vgt">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importSpotVgtProduct"
+                          event="MOUSE_MPRC" id="_1mNn" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1mOd" name="viirs">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importViirsProduct"
+                          event="MOUSE_MPRC" id="_1mOe" modifiers="16"/>
+        </Procedure>
+      </Package>
+      <Package id="_1k+w" name="sar">
+        <Procedure id="_1k+x" name="asar">
+          <comment>@teststep Click 'import ASAR Product' menu item</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importEnvisatASARProduct"
+                          event="MOUSE_MPRC" id="_1k-3" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1m2I" name="ers_sar">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.importErsSARProduct"
+                          event="MOUSE_MPRC" id="_1lKC" modifiers="16"/>
+        </Procedure>
+      </Package>
+      <Procedure id="_1kyZ" name="dimap_product">
+        <comment>@teststep Click 'import BEAM-DIMAP Product' menu item</comment>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="mainFrameESA_S-3_Toolbox.importDimapProduct"
+                        event="MOUSE_MPRC" id="_2O" modifiers="16"/>
+      </Procedure>
+      <Procedure id="_1lEd" name="smos">
+        <comment>@teststep Click 'import SMOS Product' menu item</comment>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="mainFrameESA_S-3_Toolbox.importSmosProductDataBlockFile"
+                        event="MOUSE_MPRC" id="_1kz4" modifiers="16"/>
+      </Procedure>
+      <Procedure id="_1kzV" name="generic">
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="mainFrameESA_S-3_Toolbox.importFileFormats"
+                        event="MOUSE_MPRC" id="_1kza" modifiers="16"/>
+      </Procedure>
+      <Procedure id="_1kzJ" name="getasse">
+        <comment>@teststep Click 'import getasse30' menu item</comment>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="mainFrameESA_S-3_Toolbox.importGETASSE30Product"
+                        event="MOUSE_MPRC" id="_1kzO" modifiers="16"/>
+      </Procedure>
+      <Procedure id="_1kzm" name="multispectral">
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="mainFrameESA_S-3_Toolbox.importMultispectral"
+                        event="MOUSE_MPRC" id="_1kzu" modifiers="16"/>
+      </Procedure>
+      <Procedure id="_1k+4" name="rgb">
+        <comment>@teststep Click 'import RGB image Product' menu item</comment>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="mainFrameESA_S-3_Toolbox.importImageProduct"
+                        event="MOUSE_MPRC" id="_1k+D" modifiers="16"/>
+      </Procedure>
+      <Procedure id="_1m2L" name="sar">
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="mainFrameESA_S-3_Toolbox.importSAR"
+                        event="MOUSE_MPRC" id="_1m2M" modifiers="16"/>
+      </Procedure>
+    </Package>
+  </ExtraSequence>
+  <WindowList id="_5"/>
+</RootStep>

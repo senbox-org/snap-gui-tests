@@ -1,0 +1,1221 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.3">
+  <include>qfs.qft</include>
+  <include>do_click.qft</include>
+  <include>check.qft</include>
+  <include>export.qft</include>
+  <include>get.qft</include>
+  <include>select.qft</include>
+  <include>set.qft</include>
+  <include>wait.qft</include>
+  <include>workflow.qft</include>
+  <include>save.qft</include>
+  <dependency>manualTestRunner.qft</dependency>
+  <dependency>check.qft</dependency>
+  <dependency>do_click.qft</dependency>
+  <dependency>export.qft</dependency>
+  <dependency>get.qft</dependency>
+  <dependency>select.qft</dependency>
+  <dependency>set.qft</dependency>
+  <dependency>save.qft</dependency>
+  <dependency>wait.qft</dependency>
+  <dependency>workflow.qft</dependency>
+  <dependency>../imaging_tools/01_01_aquarius.qft</dependency>
+  <dependency>../imaging_tools/01_01_asar.qft</dependency>
+  <dependency>../imaging_tools/01_01_atsr.qft</dependency>
+  <dependency>../imaging_tools/01_01_avnir2.qft</dependency>
+  <dependency>../imaging_tools/01_01_chris.qft</dependency>
+  <dependency>../imaging_tools/01_01_dimap.qft</dependency>
+  <dependency>../imaging_tools/01_01_envisat.qft</dependency>
+  <dependency>../imaging_tools/01_01_ers_atsr.qft</dependency>
+  <dependency>../imaging_tools/01_01_ers_sar.qft</dependency>
+  <dependency>../imaging_tools/01_01_geotiff.qft</dependency>
+  <dependency>../imaging_tools/01_01_hdf_eos_gridded.qft</dependency>
+  <dependency>../imaging_tools/01_01_hico_envi_format.qft</dependency>
+  <dependency>../imaging_tools/01_01_landsat_geotiff.qft</dependency>
+  <dependency>../imaging_tools/01_01_landsat_tm.qft</dependency>
+  <dependency>../imaging_tools/01_01_modis_MOD_MXD_MYD.qft</dependency>
+  <dependency>../imaging_tools/01_01_modisL1B.qft</dependency>
+  <dependency>../imaging_tools/01_01_netCdf_beam.qft</dependency>
+  <dependency>../imaging_tools/01_01_netCdf_cf.qft</dependency>
+  <dependency>../imaging_tools/01_01_netCdf_generic.qft</dependency>
+  <dependency>../imaging_tools/01_01_noaa_avhrr_3_L1b.qft</dependency>
+  <dependency>../imaging_tools/01_01_prism.qft</dependency>
+  <dependency>../imaging_tools/01_01_seaDAS_L1.qft</dependency>
+  <dependency>../imaging_tools/01_01_seaDAS_L2.qft</dependency>
+  <dependency>../imaging_tools/01_01_seaDAS_L3.qft</dependency>
+  <dependency>../imaging_tools/01_01_sentinel3.qft</dependency>
+  <dependency>../imaging_tools/01_01_smos.qft</dependency>
+  <dependency>../imaging_tools/01_01_spot_vgt.qft</dependency>
+  <dependency>../imaging_tools/01_01_viirs.qft</dependency>
+  <dependency>../imaging_tools/01_02_navigation.qft</dependency>
+  <dependency>../imaging_tools/01_03_uncertainty_visualisation.qft</dependency>
+  <dependency>../analysis_tools/02_01_sentinel3_band_statistics.qft</dependency>
+  <dependency>../utilities/03_01_create_filtered_band.qft</dependency>
+  <variable name="client">snap</variable>
+  <PackageRoot id="_3">
+    <Package id="_1ky8" name="cleaning">
+      <Procedure id="_1kwU" name="temp_dir">
+        <ProcedureCall disabled="true" id="_1kwW"
+                       procedure="set.variable.path.temp_directory"/>
+        <IfSequence disabled="true" id="_1oMt" test="${qftest:windows}">
+          <IfSequence id="_1oMu" name="if .snap directory exists"
+                      test="'$(temp_directory2)'.find('Windows') !=0">
+            <IfSequence id="_1oMv" name="if cache directory exists"
+                        test="'$(temp_directory2)\\cache'.find('Windows') !=0">
+              <SetGlobalStep id="_1oMw" local="true" varname="cn_cache">
+                <default>del_cache</default>
+              </SetGlobalStep>
+              <ShellClientStarter client="$(cn_cache)"
+                                  command="RMDIR /S /Q cache"
+                                  directory="$(temp_directory2)" id="_1oMx"/>
+              <ProcedureCall id="_1oMy" procedure="stop.exit_program">
+                <variable name="client_name">$(cn_cache)</variable>
+              </ProcedureCall>
+            </IfSequence>
+            <IfSequence id="_1oMz" name="if snap-app directory exists"
+                        test="'$(temp_directory2)\\snap-app'.find('Windows') !=0">
+              <SetGlobalStep id="_1oM+" local="true" varname="cn_app">
+                <default>del_app</default>
+              </SetGlobalStep>
+              <ShellClientStarter client="$(cn_app)"
+                                  command="RMDIR /S /Q snap-app"
+                                  directory="$(temp_directory2)" id="_1oM-"/>
+              <ProcedureCall id="_1oN0" procedure="stop.exit_program">
+                <variable name="client_name">$(cn_app)</variable>
+              </ProcedureCall>
+            </IfSequence>
+          </IfSequence>
+          <ElseifSequence id="_1oN1" name="MAC?"
+                          test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+            <IfSequence id="_1oN2" name="if cache directory exists"
+                        test="'$(temp_directory2)\\cache'.find('Windows') !=0">
+              <SetGlobalStep id="_1oN3" local="true" varname="cn_cache">
+                <default>del_cache</default>
+              </SetGlobalStep>
+              <ShellClientStarter client="$(cn_cache)"
+                                  command="rm -R -f cache"
+                                  directory="$(temp_directory2)" id="_1oN4"/>
+              <ProcedureCall id="_1oN5" procedure="stop.exit_program">
+                <variable name="client_name">$(cn_cache)</variable>
+              </ProcedureCall>
+            </IfSequence>
+            <IfSequence id="_1oN6" name="if snap-app directory exists"
+                        test="'$(temp_directory2)\\snap-app'.find('Windows') !=0">
+              <SetGlobalStep id="_1oN7" local="true" varname="cn_app">
+                <default>del_app</default>
+              </SetGlobalStep>
+              <ShellClientStarter client="$(cn_app)"
+                                  command="rm -R -f snap-app"
+                                  directory="$(temp_directory2)" id="_1oN8"/>
+              <ProcedureCall id="_1oN9" procedure="stop.exit_program">
+                <variable name="client_name">$(cn_app)</variable>
+              </ProcedureCall>
+            </IfSequence>
+            <IfSequence id="_1oNA" name="if beam-ui directory exists"
+                        test="'$(temp_directory2)\\beam-ui'.find('Windows') !=0">
+              <SetGlobalStep id="_1oNB" local="true" varname="cn_ui">
+                <default>del_ui</default>
+              </SetGlobalStep>
+              <ShellClientStarter client="$(cn_ui)"
+                                  command="rm -R -f beam-ui "
+                                  directory="$(temp_directory2)" id="_1oNC"/>
+              <ProcedureCall id="_1oND" procedure="stop.exit_program">
+                <variable name="client_name">$(cn_ui)</variable>
+              </ProcedureCall>
+            </IfSequence>
+          </ElseifSequence>
+          <ElseSequence id="_1oNE"/>
+        </IfSequence>
+        <ProcedureCall id="_1oMs" procedure="set.variable.path"/>
+        <TestStep id="_1oNd" name="set_system_and_commando">
+          <IfSequence id="_1oNF" test="${qftest:windows}">
+            <SetGlobalStep id="_1oNe" varname="delete_commando">
+              <default>RMDIR /S /Q</default>
+            </SetGlobalStep>
+            <SetGlobalStep id="_1oNf" varname="operation_system">
+              <default>Windows</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1oNh" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1oNu" varname="delete_commando">
+                <default>rm -R -f</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oNv" varname="operation_system">
+                <default>Mac OS X</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1oNc">
+              <SetGlobalStep id="_1oNg" varname="delete_commando">
+                <default>rm -R -f</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oNw" varname="operation_system">
+                <default>Linux</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </TestStep>
+        <TestStep id="_1oO7" name="delete">
+          <IfSequence id="_1oNx" name="if cache directory exists"
+                      test="'${path:temp_directory2}cache'.find('$(operation_system)') !=0">
+            <SetGlobalStep id="_1oNy" local="true" varname="cn_cache">
+              <default>del_cache</default>
+            </SetGlobalStep>
+            <ShellClientStarter client="$(cn_cache)"
+                                command="$(delete_commando) cache"
+                                directory="${path:temp_directory2}"
+                                id="_1oNz"/>
+            <ProcedureCall id="_1oN+" procedure="stop.exit_program">
+              <variable name="client_name">$(cn_cache)</variable>
+            </ProcedureCall>
+          </IfSequence>
+          <IfSequence id="_1oN-" name="if snap-app directory exists"
+                      test="'${path:temp_directory2}snap-app'.find('$(operation_system)') !=0">
+            <SetGlobalStep id="_1oO0" local="true" varname="cn_app">
+              <default>del_app</default>
+            </SetGlobalStep>
+            <ShellClientStarter client="$(cn_app)"
+                                command="$(delete_commando) snap-app"
+                                directory="${path:temp_directory2}"
+                                id="_1oO1"/>
+            <ProcedureCall id="_1oO2" procedure="stop.exit_program">
+              <variable name="client_name">$(cn_app)</variable>
+            </ProcedureCall>
+          </IfSequence>
+          <IfSequence id="_1oO3" name="if beam-ui directory exists"
+                      test="'${path:temp_directory2}beam-ui'.find('$(operation_system)') !=0">
+            <SetGlobalStep id="_1oO4" local="true" varname="cn_ui">
+              <default>del_ui</default>
+            </SetGlobalStep>
+            <ShellClientStarter client="$(cn_ui)"
+                                command="$(delete_commando) beam-ui "
+                                directory="${path:temp_directory2}"
+                                id="_1oO5"/>
+            <ProcedureCall id="_1oO6" procedure="stop.exit_program">
+              <variable name="client_name">$(cn_ui)</variable>
+            </ProcedureCall>
+          </IfSequence>
+        </TestStep>
+      </Procedure>
+      <Procedure id="_1ky9" name="global_variables">
+        <ServerScriptStep id="_1kyA" name="clearGlobals">
+          <code>rc.clearGlobals()</code>
+        </ServerScriptStep>
+      </Procedure>
+    </Package>
+    <Package id="_1l8u" name="dependencies">
+      <Dependency id="_1lWZ" name="start_application">
+        <SetupSequence id="_1lWa" name="start">
+          <ProcedureCall id="_1lWb" procedure="start.snap.application"/>
+        </SetupSequence>
+        <CleanupSequence id="_1lWc" name="exit">
+          <ProcedureCall id="_1lEv" procedure="stop.exit_snap"/>
+        </CleanupSequence>
+      </Dependency>
+      <Dependency disabled="true" id="_1l8z" name="start_SUT">
+        <SetupSequence id="_1l8+" name="start">
+          <ProcedureCall id="_1l9P" procedure="set.variable.client_senbox"/>
+          <TryStep id="_1l8-" name="already started?">
+            <ClientWaiter client="$(client)" id="_1l90" timeout="0"/>
+            <CatchSequence exception="ClientNotConnectedException" id="_1l91"
+                           maxerror="0" name="not start -&gt; start">
+              <ProcedureCall id="_1l9K" procedure="start.snap.application"/>
+            </CatchSequence>
+          </TryStep>
+        </SetupSequence>
+        <CleanupSequence id="_1l93" name="stop">
+          <ProcedureCall id="_1l9Q" procedure="set.variable.client_senbox"/>
+          <TryStep id="_1l94" name="has ended?">
+            <ProcessWaiter client="$(client)" id="_1l95" timeout="1"/>
+            <CatchSequence exception="TestException" id="_1l96" maxerror="0"
+                           name="does not end -&gt; end">
+              <ProcedureCall id="_1oI7" procedure="stop.exit_snap"/>
+            </CatchSequence>
+          </TryStep>
+        </CleanupSequence>
+        <ErrorHandler id="_1l98" name="error_handling">
+          <TryStep id="_1l99" name="SUT has ended?">
+            <ProcessWaiter client="$(client)" id="_1l9A" timeout="1"/>
+            <CatchSequence exception="TestException" id="_1l9B" maxerror="0"
+                           name="SUT does not end -&gt; end">
+              <ProcedureCall id="_1l9C"
+                             procedure="qfs.swing.cleanup.closeAllModalDialogs">
+                <variable name="maxDialogs">5</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1l9N" procedure="stop.terminate_program">
+                <variable name="client_name">$(client)</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+        </ErrorHandler>
+        <CatchSequence exception="TestException" id="_1l9E" maxerror="0"
+                       name="handle unexpected exception">
+          <TryStep id="_1l9F" name="SUT has ended?">
+            <ProcessWaiter client="$(client)" id="_1l9G" timeout="1"/>
+            <CatchSequence exception="TestException" id="_1l9H" maxerror="0"
+                           name="SUT does not end -&gt; end">
+              <ProcedureCall id="_1l9I"
+                             procedure="qfs.swing.cleanup.closeAllModalDialogs">
+                <variable name="maxDialogs">5</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1l9O" procedure="stop.terminate_program">
+                <variable name="client_name">$(client)</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+        </CatchSequence>
+      </Dependency>
+    </Package>
+    <Package id="_1lBD" name="resize">
+      <Procedure id="_1l6h" name="product_view_panel">
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="mainFrameESA_S-3_Toolbox.DockedHiddenContainer.panel2"
+                        event="MOUSE_MPRC" id="_1l6i" modifiers="16" x="2"
+                        y="617"/>
+      </Procedure>
+      <Procedure id="_1l1q" name="import_dialog">
+        <ComponentEventStep client="$(client)"
+                            component="dialogESA_S-3_Toolbox_-_Import_ENVISAT_Product"
+                            event="COMPONENT_RESIZED" id="_1l1r" param1="887"
+                            param2="438"/>
+      </Procedure>
+    </Package>
+    <Package id="_1lAb" name="run-log">
+      <Package id="_1oHx" name="eroor_message">
+        <Procedure disabled="true" id="_1oHy"
+                   name="dialog_Import_Product_does_not_appear">
+          <ServerScriptStep id="_1lJB" name="error">
+            <code>rc.logError("'SNAP - Import Product' dialog does not appear.")</code>
+          </ServerScriptStep>
+        </Procedure>
+        <Procedure id="_1oI9" name="dialog_does_not_appear">
+          <variable name="dialog"/>
+          <ServerScriptStep id="_1oIA" name="error">
+            <code>rc.logError("'$(dialog)' dialog does not appear.")</code>
+          </ServerScriptStep>
+        </Procedure>
+        <Procedure id="_1oMq" name="error_dialog_appears">
+          <variable name="dialog"/>
+          <ServerScriptStep id="_1oMr" name="error">
+            <code>rc.logError("'$(dialog)' dialog appears.")</code>
+          </ServerScriptStep>
+        </Procedure>
+        <Procedure id="_1oMU" name="tool_does_not_appear">
+          <variable name="tool"/>
+          <ServerScriptStep id="_1oMV" name="error">
+            <code>rc.logError("'$(tool)' does not appear.")</code>
+          </ServerScriptStep>
+        </Procedure>
+        <Procedure id="_1oMY" name="node_does_not_exist">
+          <variable name="node_name"/>
+          <ServerScriptStep id="_1oMZ" name="error">
+            <code>rc.logError("'$(node_name)' does not exist.")</code>
+          </ServerScriptStep>
+        </Procedure>
+        <Procedure id="_1oMW" name="menu_item_is_disabled">
+          <variable name="menu"/>
+          <ServerScriptStep id="_1oMX" name="error">
+            <code>rc.logError("Menu '$(menu)' is disabled.")</code>
+          </ServerScriptStep>
+        </Procedure>
+      </Package>
+      <Procedure id="_A4N" name="make_screensot">
+        <variable name="iw_name"/>
+        <variable name="iw_name_example">error_dialog</variable>
+        <ProcedureCall id="_1oGq" procedure="set.variable.path"/>
+        <ProcedureCall id="_1kjS"
+                       procedure="qfs.run-log.screenshots.logScreenshotOfMonitor">
+          <variable name="iw_name">$(iw_name)</variable>
+          <variable name="iw_name_example">error_dialog</variable>
+          <variable name="monitor">0</variable>
+          <variable name="inSUT">false</variable>
+          <variable name="title"/>
+          <variable name="dontcompactify">false</variable>
+          <variable name="report">true</variable>
+        </ProcedureCall>
+        <IfSequence id="_AM8" test="${qftest:windows}">
+          <SetGlobalStep id="_1oGs" varname="image_path">
+            <default>$(screenshot_path2)</default>
+          </SetGlobalStep>
+          <ElseSequence id="_AM9">
+            <SetGlobalStep id="_1oGt" varname="image_path">
+              <default>$(screenshot_path)</default>
+            </SetGlobalStep>
+          </ElseSequence>
+        </IfSequence>
+        <ServerScriptStep id="_AMA" name="screenshot">
+          <code>from imagewrapper import ImageWrapper
+iw = ImageWrapper(rc)
+currenScreenshot = iw.grabScreenshot()
+iw.savePng ("$(image_path)$(iw_name).png", currenScreenshot)
+</code>
+        </ServerScriptStep>
+      </Procedure>
+      <Procedure id="_1l2+" name="log_client_output">
+        <variable name="client_name"/>
+        <ServerScriptStep id="_1l2-" name="log_output">
+          <code>rc.logMessage(rc.lookup("qftest", "client.output.$(client_name)"),
+dontcompactify=True, report=True, nowrap=True)</code>
+        </ServerScriptStep>
+      </Procedure>
+      <Procedure id="_2FT" name="logError">
+        <variable name="message"/>
+        <variable name="withScreenshots"/>
+        <comment>Write an error into the run-log.</comment>
+        <IfSequence id="_1juL" test="$(withScreenshots)">
+          <TryStep id="_1kJU">
+            <ClientScriptStep client="$(client)"
+                              engine="${default:guiengine:}" id="_2FU"
+                              name="Try to log Error in SUT script to take screenshots of individual SUT windows.">
+              <code>rc.logError(rc.lookup("message"))</code>
+            </ClientScriptStep>
+            <CatchSequence exception="TestException" id="_1kJV" maxerror="0">
+              <ServerScriptStep id="_1kJW"
+                                name="log error in server script - only screenshot of the whole screen is taken">
+                <code>rc.logError(rc.lookup("message"))</code>
+              </ServerScriptStep>
+            </CatchSequence>
+          </TryStep>
+          <ElseSequence id="_1juM">
+            <ServerScriptStep id="_1juN"
+                              name="log error in server script - only screenshot of the whole screen is taken">
+              <code>rc.logError(rc.lookup("message"))</code>
+            </ServerScriptStep>
+          </ElseSequence>
+        </IfSequence>
+      </Procedure>
+    </Package>
+    <Package id="_1lAa" name="shellutils">
+      <Procedure id="_6T7" name="mkdir">
+        <variable name="directory">aDirectory</variable>
+        <comment>Create a given directory. It also creates non-existing parent directories.</comment>
+        <ServerScriptStep id="_6T8">
+          <code>from java.io import File
+
+directory = rc.lookup("directory")
+directory = File(directory)
+directory.mkdirs()
+
+if directory.exists() == 0:
+	raise UserException("Creating directory " + directory.getCanonicalPath() + " didn't work! Perhaps you have no permissions!")</code>
+        </ServerScriptStep>
+      </Procedure>
+      <Procedure id="_6Sc" name="removeDirectory">
+        <variable name="directory">aDirectory</variable>
+        <comment>Remove a given directory.</comment>
+        <ServerScriptStep id="_6Sd">
+          <code>import shutil
+
+directory = rc.lookup("directory")
+try:
+	shutil.rmtree (directory)
+except:
+	raise UserException("Removing directory " + directory + " didn't work! Perhaps you have no permissions!")
+
+</code>
+        </ServerScriptStep>
+      </Procedure>
+      <Procedure id="_6Sz" name="deleteFile">
+        <variable name="file">aFile</variable>
+        <comment>Delete a file.</comment>
+        <ServerScriptStep id="_6T0">
+          <code>from java.io import File
+
+file = rc.lookup("file")
+file = File(file)
+file.delete()
+
+if file.exists():
+    rc.logMessage("File still exists. Waiting 1000 ms")
+    from java.lang import Thread
+    Thread.sleep(1000)
+    if file.exists():
+        file.delete()
+        if file.exists():
+            raise UserException("Cannot delete file " + file.getCanonicalPath() + ". Perhaps you don't have the required permissions!")</code>
+        </ServerScriptStep>
+      </Procedure>
+    </Package>
+    <Package id="_1kwL" name="start">
+      <Package id="_1kwM" name="snap">
+        <Procedure id="_1oGf" name="client_senbox">
+          <comment>@teststep Start SNAP.
+</comment>
+          <BasicSequence disabled="true" id="_1oIn" name="start_try_bkp">
+            <TryStep id="_1oIO">
+              <ClientWaiter client="$(client)" id="_1oIL" timeout="0"/>
+              <CatchSequence exception="TestException" id="_1oIP"
+                             maxerror="0">
+                <ShellClientStarter client="$(client)"
+                                    command="$(working_directory)\snap\bin\snap64.exe --userdir $(working_directory)\userdir"
+                                    directory="$(working_directory)\snap\bin"
+                                    id="_1oIB"/>
+              </CatchSequence>
+            </TryStep>
+            <IfSequence disabled="true" id="_1oJE" test="${qftest:windows}">
+              <ElseifSequence id="_1oJF" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+              <ElseSequence id="_1oJG"/>
+            </IfSequence>
+          </BasicSequence>
+          <BasicSequence id="_1oJA" name="start_try">
+            <TryStep id="_1oIQ">
+              <ClientWaiter client="$(client)" id="_1oIM" timeout="0"/>
+              <CatchSequence exception="TestException" id="_1oIR"
+                             maxerror="0">
+                <ProcedureCall id="_1oJJ" procedure="stop.terminate_program">
+                  <variable name="client_name">$(client)</variable>
+                </ProcedureCall>
+                <IfSequence id="_1oOB" test="${qftest:windows}">
+                  <SetGlobalStep id="_1oOA" varname="start">
+                    <default>"${path:sut_bin_directory}\snap_start.bat"</default>
+                  </SetGlobalStep>
+                  <ElseSequence id="_1oOD">
+                    <SetGlobalStep id="_1oOE" varname="start">
+                      <default>"${path:sut_bin_directory}/snap_start.sh"</default>
+                    </SetGlobalStep>
+                  </ElseSequence>
+                </IfSequence>
+                <ShellClientStarter client="$(client)" command="$(start)"
+                                    directory="${path:sut_bin_directory}"
+                                    id="_1oID" postdelay="5000"/>
+                <ShellClientStarter client="$(client)"
+                                    command="&#34;B:\Users\olga\Projects\Testing\SUT\snaptop-u-testing\snap\bin\snap_start.bat&#34;"
+                                    directory="B:\Users\olga\Projects\Testing\SUT\snaptop-u-testing\snap\bin"
+                                    disabled="true" id="_1oO9"
+                                    postdelay="5000"/>
+              </CatchSequence>
+            </TryStep>
+            <RepeatSequence count="60" id="_1oMf" name="try_start" var="i">
+              <TryStep id="_1oIb">
+                <ProcedureCall id="_1oJf"
+                               procedure="wait.appear.snap_window"/>
+                <ServerScriptStep id="_1oMg" name="print">
+                  <code>print "****try start number $(i)****"  </code>
+                </ServerScriptStep>
+                <BreakStep id="_1oMh"/>
+                <CatchSequence exception="TestException" id="_1oIe"
+                               maxerror="0">
+                  <ProcedureCall id="_1oJK"
+                                 procedure="stop.terminate_program">
+                    <variable name="client_name">$(client)</variable>
+                  </ProcedureCall>
+                  <ShellClientStarter client="$(client)" command="$(start)"
+                                      directory="${path:sut_bin_directory}"
+                                      id="_1oOG" postdelay="5000"/>
+                  <ShellClientStarter client="$(client)"
+                                      command="&#34;B:\Users\olga\Projects\Testing\SUT\snaptop-u-testing\snap\bin\snap_start.bat&#34;"
+                                      directory="B:\Users\olga\Projects\Testing\SUT\snaptop-u-testing\snap\bin"
+                                      disabled="true" id="_1oId"
+                                      postdelay="5000"/>
+                </CatchSequence>
+              </TryStep>
+            </RepeatSequence>
+          </BasicSequence>
+        </Procedure>
+        <Procedure id="_1kwN" name="application">
+          <ProcedureCall id="_1kyB" procedure="cleaning.global_variables"/>
+          <ProcedureCall id="_1kwS" procedure="set.variable.client_senbox"/>
+          <ProcedureCall id="_1kwT" procedure="set.variable.path"/>
+          <ProcedureCall disabled="true" id="_1oO8"
+                         procedure="set.variable.path.working_directory"/>
+          <ProcedureCall id="_1kx8" procedure="cleaning.temp_dir"/>
+          <TryStep id="_1l9R" name="already started?">
+            <ProcedureCall id="_1oJI" procedure="set.variable.client_senbox"/>
+            <ClientWaiter client="$(client)" id="_1oJH" timeout="0"/>
+            <CatchSequence exception="ClientNotConnectedException" id="_1l9T"
+                           maxerror="0" name="not start -&gt; start">
+              <TryStep id="_1oGd">
+                <ProcedureCall id="_1oGn"
+                               procedure="start.snap.client_senbox"/>
+                <CatchSequence exception="TestException" id="_1oGe"
+                               maxerror="0">
+                  <ProcedureCall id="_1oGp"
+                                 procedure="stop.terminate_program">
+                    <variable name="client_name">$(client)</variable>
+                  </ProcedureCall>
+                  <ProcedureCall id="_1oGo"
+                                 procedure="start.snap.client_senbox"/>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+          <TryStep id="_1oJN" name="started?">
+            <ClientWaiter client="$(client)" id="_1kwQ"/>
+            <ProcedureCall disabled="true" id="_1l30"
+                           procedure="run-log.log_client_output">
+              <variable name="client_name">$(client)</variable>
+            </ProcedureCall>
+            <BasicSequence id="_1oIG" name="tmp">
+              <TryStep id="_1oII">
+                <ClientWaiter client="$(client)" id="_1oIK"/>
+                <ProcedureCall id="_1oIF" procedure="close.all_products"/>
+                <CatchSequence exception="TestException" id="_1oIJ"
+                               maxerror="0"/>
+              </TryStep>
+            </BasicSequence>
+            <TryStep disabled="true" id="_1kxD"
+                     name="click_No_Toolbox_Question">
+              <ProcedureCall id="_1oHC"
+                             procedure="wait.appear.dialogESA_S-3_Toolbox_Question"/>
+              <ProcedureCall id="_1kxC"
+                             procedure="do_click.buttonNo_Toolbox_Question"/>
+              <CatchSequence exception="TestException" id="_1kxE"
+                             maxerror="0">
+                <TryStep id="_1kxT" name="click_No_Toolbox_Question">
+                  <ProcedureCall id="_1oHD" predelay="2000"
+                                 procedure="wait.appear.dialogESA_S-3_Toolbox_Question"/>
+                  <ProcedureCall id="_1kxV"
+                                 procedure="do_click.buttonNo_Toolbox_Question"/>
+                  <CatchSequence exception="TestException" id="_1kxW"
+                                 maxerror="0">
+                    <TryStep id="_1oHE" name="click_No_Toolbox_Question">
+                      <ProcedureCall id="_1oHF" predelay="30000"
+                                     procedure="wait.appear.dialogESA_S-3_Toolbox_Question"/>
+                      <ProcedureCall id="_1oHG"
+                                     procedure="do_click.buttonNo_Toolbox_Question"/>
+                      <CatchSequence exception="TestException" id="_1oHH"
+                                     maxerror="0">
+                        <ServerScriptStep id="_1oHI" name="error">
+                          <code>rc.logError("'SNAP - Question' dialog does not appear!")</code>
+                        </ServerScriptStep>
+                      </CatchSequence>
+                    </TryStep>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+            <CatchSequence exception="TestException" id="_1oJO" maxerror="0">
+              <ServerScriptStep id="_1oJP" name="error">
+                <code>rc.logError("SNAP is not started")</code>
+              </ServerScriptStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+      </Package>
+    </Package>
+    <Package id="_1kwX" name="stop">
+      <Procedure id="_9aM" name="terminate_program">
+        <variable name="client_name"/>
+        <ClientStopper client="$(client_name)" disabled="true" id="_9aN"
+                       postdelay="200">
+          <comment>A normal close did not work, so we simply terminate the application.
+</comment>
+        </ClientStopper>
+        <TryStep id="_9bD">
+          <ClientWaiter client="$(client_name)" errorlevel="0" id="_9bO"
+                        raise="false" timeout="10"/>
+          <ClientStopper client="$(client_name)" id="_9bF" postdelay="200">
+            <comment>A normal close did not work, so we simply terminate the application.
+</comment>
+          </ClientStopper>
+          <CatchSequence exception="TestException" id="_9bE" maxerror="0"/>
+        </TryStep>
+      </Procedure>
+      <Procedure disabled="true" id="_9aQ" name="exit_program">
+        <variable name="client_name"/>
+        <TryStep id="_9aR" name="check if really stopped">
+          <ProcedureCall id="_1kwb" procedure="wait.program_end">
+            <variable name="waiting_period">1000</variable>
+            <variable name="client_name">$(client_name)</variable>
+          </ProcedureCall>
+          <CatchSequence exception="ClientNotTerminatedException" id="_9aT"
+                         maxerror="0" name="notTerminated">
+            <comment>The Wait for client to terminate node throws an exeption if it did not stop.
+In this case we catch the exeption in this node and perform a hard close.
+</comment>
+            <ProcedureCall id="_1kwc" procedure="stop.terminate_program">
+              <variable name="client_name">$(client_name)</variable>
+            </ProcedureCall>
+          </CatchSequence>
+        </TryStep>
+      </Procedure>
+      <Procedure id="_1kxN" name="exit_snap">
+        <TryStep id="_1oMa" name="select_menu_Exit">
+          <IfSequence id="_1l4f" test="${qftest:windows}">
+            <ProcedureCall id="_1kxO" procedure="do_click.menu.file"/>
+            <ProcedureCall id="_1kxP" procedure="do_click.menu.file.exit"/>
+            <ElseifSequence id="_1l4h" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <ProcedureCall id="_1l4z" procedure="stop.terminate_program">
+                <variable name="client_name">$(client)</variable>
+              </ProcedureCall>
+            </ElseifSequence>
+            <ElseSequence id="_1l4k">
+              <ProcedureCall id="_1oMd" procedure="do_click.menu.file"/>
+              <ProcedureCall id="_1oMe" procedure="do_click.menu.file.exit"/>
+            </ElseSequence>
+          </IfSequence>
+          <CatchSequence exception="TestException" id="_1oMb" maxerror="0">
+            <ProcedureCall id="_1oIH" procedure="stop.terminate_program">
+              <variable name="client_name">$(client)</variable>
+            </ProcedureCall>
+          </CatchSequence>
+        </TryStep>
+        <TryStep id="_1oMm" name="click_No_in_Confirm_dialog">
+          <ProcedureCall id="_1oMn"
+                         procedure="do_click.dialog_Confirm.buttonNo"/>
+          <CatchSequence exception="TestException" id="_1oMo" maxerror="0"/>
+        </TryStep>
+        <ProcedureCall id="_1oMp" procedure="stop.terminate_program">
+          <variable name="client_name">$(client)</variable>
+        </ProcedureCall>
+      </Procedure>
+    </Package>
+    <Package id="_1k-G" name="tables">
+      <Procedure id="_1oHJ" name="aquarius">
+        <ExcelDataBinder excelfile="../tables/input_data/aquarius.xls"
+                         id="_1oHK" name="aquarius" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oHL" name="asar">
+        <ExcelDataBinder excelfile="../tables/input_data/asar.xls" id="_1oHM"
+                         name="asar" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oGw" name="atsr">
+        <ExcelDataBinder excelfile="../tables/input_data/atsr.xls" id="_1oGx"
+                         name="atsr" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oGy" name="avnir2">
+        <ExcelDataBinder excelfile="../tables/input_data/avnir2.xls"
+                         id="_1oGz" name="avnir2" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oG+" name="chris">
+        <ExcelDataBinder excelfile="../tables/input_data/chris.xls" id="_1oG-"
+                         name="chris" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oH2" name="dimap">
+        <ExcelDataBinder excelfile="../tables/input_data/dimap.xls" id="_1oH3"
+                         name="dimap" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1k-H" name="envisat_multispectral">
+        <ExcelDataBinder excelfile="../tables/input_data/envisat_multispectral.xls"
+                         id="_1k-I" name="envisat" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oH0" name="ers_atsr">
+        <ExcelDataBinder excelfile="../tables/input_data/ers_atsr.xls"
+                         id="_1oH1" name="ers_atsr" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oHr" name="ers_sar">
+        <ExcelDataBinder excelfile="../tables/input_data/ers_sar.xls"
+                         id="_1oHs" name="ers_sar" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oI2" name="geotiff">
+        <ExcelDataBinder excelfile="../tables/input_data/geotiff.xls"
+                         id="_1oI3" name="geotiff" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oHN" name="hdf_eos_gridded">
+        <ExcelDataBinder excelfile="../tables/input_data/hdf_eos_gridded.xls"
+                         id="_1oHO" name="hdf_eos_gridded"
+                         sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oHt" name="hico_envi_format">
+        <ExcelDataBinder excelfile="../tables/input_data/hico_envi_format.xls"
+                         id="_1oHu" name="hico_envi_format"
+                         sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oHP" name="landsat_geotiff">
+        <ExcelDataBinder excelfile="../tables/input_data/landsat_geotiff.xls"
+                         id="_1oHQ" name="landsat_geotiff"
+                         sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oHR" name="landsat_tm">
+        <ExcelDataBinder excelfile="../tables/input_data/landsat_tm_fast.xls"
+                         id="_1oHS" name="landsat_tm" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oHV" name="modisL1B">
+        <ExcelDataBinder excelfile="../tables/input_data/modisL1B.xls"
+                         id="_1oHW" name="modisL1B" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oHT" name="modis_MOD_MXD_MYD">
+        <ExcelDataBinder excelfile="../tables/input_data/modis_MOD_MXD_MYD.xls"
+                         id="_1oHU" name="modis_MOD_MXD_MYD"
+                         sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oHv" name="netCdf_beam">
+        <ExcelDataBinder excelfile="../tables/input_data/netCdf_beam.xls"
+                         id="_1oHw" name="netCdf_beam" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oI0" name="netCdf_cf">
+        <ExcelDataBinder excelfile="../tables/input_data/netCdf_cf.xls"
+                         id="_1oI1" name="netCdf_cf" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oHX" name="noaa_avhrr_3_L1b">
+        <ExcelDataBinder excelfile="../tables/input_data/avhrr_3_L1b_noaa.xls"
+                         id="_1oHY" name="noaa_avhrr_3_L1b"
+                         sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oHZ" name="prism">
+        <ExcelDataBinder excelfile="../tables/input_data/prism.xls" id="_1oHa"
+                         name="prism" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oI4" name="s">
+        <ExcelDataBinder excelfile="../tables/input_data/atsr.xls" id="_1oI5"
+                         name="s" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oHl" name="seaDAS_L1">
+        <ExcelDataBinder excelfile="../tables/input_data/seaDAS_L1.xls"
+                         id="_1oHm" name="seaDAS_L1" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oHn" name="seaDAS_L2">
+        <ExcelDataBinder excelfile="../tables/input_data/seaDAS_L2.xls"
+                         id="_1oHo" name="seaDAS_L2" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oHb" name="seaDAS_L3">
+        <ExcelDataBinder excelfile="../tables/input_data/seaDAS_L3.xls"
+                         id="_1oHc" name="seaDAS_L3" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oGu" name="sentinel3">
+        <ExcelDataBinder excelfile="../tables/input_data/sentinel.xls"
+                         id="_1oGv" name="sentinel3" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1lBZ" name="smos">
+        <ExcelDataBinder excelfile="../tables/input_data/smos.xls" id="_1lBa"
+                         name="smos" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oHd" name="spot_vgt">
+        <ExcelDataBinder excelfile="../tables/input_data/spot_vgt.xls"
+                         id="_1oHe" name="spot_vgt" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_361" name="uncertainty_visualisation">
+        <variable name="testFile">${qftest:suite.dir}/manualtester/uncertainty_visualisation.xls</variable>
+        <SetGlobalStep id="_364" varname="testFile">
+          <default>${qftest:suite.dir}/manualtester/uncertainty_visualisation.xls</default>
+        </SetGlobalStep>
+        <ServerScriptStep disabled="true" id="_1lBQ" name="print">
+          <code>print "$(testFile)"</code>
+        </ServerScriptStep>
+      </Procedure>
+      <Procedure id="_1oHf" name="viirs">
+        <ExcelDataBinder excelfile="../tables/input_data/viirs.xls" id="_1oHg"
+                         name="viirs" sheetname="listing"/>
+      </Procedure>
+    </Package>
+    <Package id="_1lBb" name="tree">
+      <Procedure id="_-" name="expand">
+        <variable name="tree_id"/>
+        <ProcedureCall id="_1oI6" procedure="qfs.swing.tree.expandNodes">
+          <variable name="id">$(tree_id)</variable>
+          <variable name="callbackProc"/>
+        </ProcedureCall>
+      </Procedure>
+      <Procedure id="_1lBt" name="rowCount">
+        <variable name="tree_id"/>
+        <SetGlobalStep id="_1oGc" local="true" varname="id">
+          <default>$(tree_id)</default>
+        </SetGlobalStep>
+        <ComponentWaiter client="$(client)" component="$(id)" id="_1oGY"
+                         timeout="$[rc.getOption(Options.OPT_PLAY_TIMEOUT_COMPONENT)]"/>
+        <ClientScriptStep client="$(client)" engine="${default:guiengine:awt}"
+                          id="_1oGZ">
+          <code>tree = rc.getComponent(rc.lookup("id"))
+
+rowCount = tree.getRowCount()
+
+rc.setGlobal("rowCount", rowCount)</code>
+        </ClientScriptStep>
+        <ServerScriptStep id="_1oGa" name="print">
+          <code>print "$(rowCount)"</code>
+        </ServerScriptStep>
+      </Procedure>
+    </Package>
+    <Package id="_1lAZ" name="utils">
+      <Procedure id="qfs.utils.killAllClients" name="killAllClients"
+                 uid="_1kHX">
+        <variable name="timeout">5000</variable>
+        <comment>Kill all running clients.</comment>
+        <ServerScriptStep id="_6dG"
+                          name="look for all running clients and kill them">
+          <code>clients = rc.lookup("qftest", "clients")
+
+for c in clients.split('\n'):
+    rc.callProcedure("qfs.utils.killClient", {"client" : c})</code>
+        </ServerScriptStep>
+      </Procedure>
+      <Procedure id="qfs.utils.killClient" name="killClient" uid="_1lAe">
+        <variable name="client"/>
+        <variable name="timeout">5000</variable>
+        <comment>Kill a client.</comment>
+        <TryStep id="_6d5" name="client already stopped?">
+          <ProcessWaiter client="$(client)" id="_6d4" timeout="0"/>
+          <CatchSequence exception="ClientNotTerminatedException" id="_6dH"
+                         maxerror="0" name="client not stopped -&gt; stop it">
+            <ClientStopper client="$(client)" id="_6d2"/>
+            <ProcessWaiter client="$(client)" id="_6d3" timeout="$(timeout)"/>
+          </CatchSequence>
+          <CatchSequence exception="NoSuchClientException" id="_6d6"
+                         maxerror="0"
+                         name="client doesn't exist -&gt; ignore"/>
+        </TryStep>
+      </Procedure>
+      <Procedure id="_6Pr" name="printMessage">
+        <variable name="message">aMessage</variable>
+        <comment>Print a given message to STDOUT.</comment>
+        <ServerScriptStep id="_6Ps">
+          <code>print rc.lookup("message")</code>
+        </ServerScriptStep>
+      </Procedure>
+      <Procedure id="_1jwx" name="sleep">
+        <variable name="sleeptime">100</variable>
+        <comment>Sleep a given time.</comment>
+        <IfSequence id="_1lA-" test="rc.lookup(&#34;sleeptime&#34;)">
+          <BasicSequence id="_1lB0" name="do sleep" postdelay="$(sleeptime)"/>
+        </IfSequence>
+      </Procedure>
+    </Package>
+  </PackageRoot>
+  <ExtraSequence id="_4">
+    <ProcedureCall id="_1lEt" procedure="check.product.tree_number_elements">
+      <variable name="number_elements">1</variable>
+    </ProcedureCall>
+    <Package id="_1lbo" name="smos_box">
+      <Package id="_1lbx" name="grid_point_bt_chart"/>
+      <Package id="_1lby" name="grid_point_flag_matrix"/>
+      <Package id="_1lbz" name="grid_point_data_table"/>
+      <Package id="_1lb+" name="snapshot"/>
+    </Package>
+    <ProcedureCall id="_1oGb" procedure="qfs.swing.tree.collapseNodes">
+      <variable name="id">mainFrameESA_S-3_Toolbox.ProductsToolView.Control.tree&amp;/0</variable>
+    </ProcedureCall>
+    <TestStep id="_1lBY" name="teststep">
+      <comment>@teststep xxxx</comment>
+    </TestStep>
+    <TestCase id="_1lAP" name="test">
+      <ProcedureCall id="_1lAQ" procedure="do_click.menu.edit"/>
+      <ProcedureCall id="_1lAR" procedure="do_click.menu.edit.preferences"/>
+      <ProcedureCall id="_1lAS" procedure="wait.appear.preferences_dialog"/>
+      <ProcedureCall id="_1lAT"
+                     procedure="do_click.preferences_dialog.button_OK"/>
+    </TestCase>
+    <Procedure id="_6ec" name="text_in_file">
+      <variable name="file"/>
+      <variable name="text"/>
+      <variable name="file_example">/home/olga/Testing/testdata/out/data_out_dir/output_file</variable>
+      <TryStep id="_ECv">
+        <ServerScriptStep id="_6eb" name="Check_external_file">
+          <code>fh = open("$(file)")
+searchtext = "$(text)"
+
+found = 0
+for line in fh.readlines():
+    if searchtext in line:
+        found = 1
+        break
+
+if found == 0:
+    rc.logError("Couldn't find '" + searchtext + "' in $(file)!")
+
+fh.close()</code>
+          <comment>Check an external file</comment>
+        </ServerScriptStep>
+        <CatchSequence exception="TestException" id="_ECw" maxerror="0">
+          <ProcedureCall id="_ECx" procedure="scripts.error.error_text">
+            <variable name="text">can not open $(file)</variable>
+          </ProcedureCall>
+        </CatchSequence>
+      </TryStep>
+    </Procedure>
+    <ServerScriptStep id="_1l5H">
+      <code>B:\Users\olga\Projects\Testing\test_suite\snap\change_snap_config.py</code>
+    </ServerScriptStep>
+    <ServerScriptStep id="_1l5A" name="print">
+      <code>print "${default:varname:defaultvalue}"</code>
+    </ServerScriptStep>
+    <ServerScriptStep id="_1l5G" name="print">
+      <code>print "${system:user.home}"  </code>
+    </ServerScriptStep>
+    <Test disabled="true" id="_9rA" name="scripts">
+      <ServerScriptStep id="_1kxf" name="print">
+        <code>print "${qftest:windows}"  </code>
+      </ServerScriptStep>
+      <ServerScriptStep id="_1kxg" name="print">
+        <code>print '${qftest:suite.dir}'  </code>
+      </ServerScriptStep>
+      <ServerScriptStep id="_1kxi" name="print">
+        <code>print '${system:os.name}' .find('Mac OS X')&gt;=0 </code>
+      </ServerScriptStep>
+      <ServerScriptStep id="_1kHY" name="log_commando">
+        <code>rc.logMessage(("Commando: gpt.bat $(request_path_win)$(xml_file_dir)\$(request_name).xml $(param) $(source_prod)"),
+dontcompactify=True, report=True, nowrap=True)</code>
+      </ServerScriptStep>
+      <ServerScriptStep id="_1kil" name="log_output">
+        <code>rc.logMessage(rc.lookup("qftest", "client.output.$(client_name)"),
+dontcompactify=True, report=True, nowrap=True)</code>
+      </ServerScriptStep>
+      <ServerScriptStep id="_BsI" name="clearGlobals">
+        <code>rc.clearGlobals()</code>
+      </ServerScriptStep>
+      <ServerScriptStep id="_CEX"
+                        name="set_variable_absolute_value_of_difference">
+        <code>import math
+vl = math.fabs($(x1)-$(x2))
+rc.setGlobal("abs_diff", vl)                       </code>
+      </ServerScriptStep>
+      <Test id="_9hi" name="scripting_beispiel">
+        <ServerScriptStep id="_9hj">
+          <code>import string
+data = []
+# read the data from the file
+fd = open(rc.lookup("filename"), "r")
+line = fd.readline()
+while line:
+    # remove whitespace
+    line = string.strip(line)
+    # split the line into separate fields
+    # and add them to the data array
+    if len(line) &gt; 0:
+        data.append(string.split(line, "|"))
+    line = fd.readline()
+
+# now iterate over the rows
+for row in data:
+    # call a qftest procedure to create
+    # one new table row
+    rc.callProcedure("table.createRow",
+                     {'name': row[0], 'age': row[1],
+                      'address': row[2]})
+
+# verify that the table-rows have been filled correctly
+table = rc.getComponent("tabAddresses")
+
+# check the number of rows
+if table.getRowCount() != len(data):
+    rc.logError("Row count mismatch")
+else:
+    # check each row
+    for i in range(len(data)):
+        if str(table.getValueAt(i, 0)) != data[i][0]:
+            rc.logError("Name mismatch in row " + `i`)
+        if str(table.getValueAt(i, 1)) != data[i][1]:
+            rc.logError("Age mismatch in row " + `i`)
+        if str(table.getValueAt(i, 2)) != data[i][2]:
+            rc.logError("Address mismatch in row " + `i`)</code>
+        </ServerScriptStep>
+      </Test>
+      <ClientScriptStep client="VISAT" id="_7hm">
+        <code>import re
+
+com = rc.getComponent("myTextArea")
+text = com.getText()
+m = re.search("Projection:(.*)", text)
+if m:
+   prj = m.group(1).strip()
+   print prj
+   # ...
+else:
+   rc.logError("Projection not found")
+</code>
+        <comment>man muss noch die richtige Komponenten-Id eintragen</comment>
+      </ClientScriptStep>
+      <ServerScriptStep id="_Cbr" name="checkEqual">
+        <code>rc.checkEqual("$(rad5)", "$(get_rad)", "check radiance_5",
+rc.ERROR)</code>
+      </ServerScriptStep>
+      <ServerScriptStep id="_8FL" name="Check_external_file">
+        <code>fh = open("$(file)")
+searchtext = "$(text)"
+
+found = 0
+for line in fh.readlines():
+    if searchtext in line:
+        found = 1
+        break
+
+if found == 0:
+    rc.logError("Couldn't find '" + searchtext + "' in $(file)!")
+
+fh.close()</code>
+        <comment>Check an external file</comment>
+      </ServerScriptStep>
+      <ServerScriptStep id="_3GJ" name="check">
+        <code>rc.check('$(userHome).beam/beam-core/auxdata/rgb_profiles'.find('Windows')&gt;0, "OK", int level rc.error))</code>
+      </ServerScriptStep>
+      <ServerScriptStep id="_CuW" name="findInString">
+        <code>import string 
+trafic = "$(down_trafic)"
+rc.setGlobal("pnv", string.find(trafic, "MB")
+print "$(pnv)"  
+rc.check($(pnv)&gt;0, "OK", level=rc.ERROR)    
+              </code>
+        <comment> </comment>
+      </ServerScriptStep>
+      <ServerScriptStep id="_1lBn" name="find_SMOS_in_file_name">
+        <code>import string 
+print "$(fileName)"
+var1 = "$(fileName)"
+var2 = "SM_"
+print var1
+print var2      
+print var1.find(var2)
+rc.setGlobal("smos", var1.find(var2))   
+              </code>
+        <comment> </comment>
+      </ServerScriptStep>
+      <ServerScriptStep id="_9VA" name="set_variable_increase_on_1">
+        <code>vl = $(w)
+vl = vl + 1   
+rc.setGlobal("w", vl)                       </code>
+      </ServerScriptStep>
+      <ServerScriptStep id="_AUb" name="replace_whitespaces">
+        <code>import string
+
+pn = "$(productName)"
+pn = pn.replace(".", "_")
+rc.setGlobal("productName2", pn.replace(" ", "_"))      </code>
+      </ServerScriptStep>
+      <ServerScriptStep id="_9pM" name="substring">
+        <code>import string 
+pn = "emnj_jgj.nat"
+index = string.find(pn, ".nat")
+rc.setGlobal("pnv", pn[:index])   
+              </code>
+        <comment>(pr_name_in_grabber)
+pnv =   
+rc.setGlobal("pnv", 0)   
+pnv = pn[:index]
+print pnv  </comment>
+      </ServerScriptStep>
+      <ServerScriptStep id="_9pN" name="substring">
+        <code>import string 
+pn = "AVHR_x1x_1B_M02_20070902034303Z_20070902052503Z_N_O_20070902052546Z.nat'"
+index = string.find(pn, ".nat")
+rc.setGlobal("pn_end", pn[index:])   
+            </code>
+        <comment>(pr_name_in_grabber)
+pnv =   
+rc.setGlobal("pnv", 0)   
+pnv = pn[:index]
+print pnv  </comment>
+      </ServerScriptStep>
+      <ServerScriptStep id="_1lBq" name="find_SMOS_in_file_name">
+        <code>import string 
+#print "$(fileName)"
+var1 = "$(fileName)"
+var2 = "SM_"
+#print var1
+#print var2      
+#print var1.find(var2)
+rc.setGlobal("smos", var1.find(var2))   </code>
+        <comment> </comment>
+      </ServerScriptStep>
+      <ServerScriptStep id="_50z" name="message">
+        <code>rc.logMessage("Computing can been canceled!", dontcompactify=true)</code>
+        <comment>Computing can been canceled!</comment>
+      </ServerScriptStep>
+      <ServerScriptStep id="_2q5" name="error">
+        <code>rc.logError("'Modified product ' dialog does not appear!")</code>
+      </ServerScriptStep>
+    </Test>
+    <WhileSequence id="_1kw9"
+                   test="&#34;$(id_text)&#34;&lt;&gt;&#34;$(layer_label)&#34;">
+      <FetchTextStep client="VISAT"
+                     component="Dialog2.LayerManagerToolView.Control2.tree&amp;/$(idn)"
+                     id="_1kwA" varname="id_text"/>
+      <ServerScriptStep id="_1kwB" name="set_variable_increase_on_1">
+        <code>idn1 = $(idn)
+idn1 = idn1 + 1   
+rc.setGlobal("idn", idn1)                       </code>
+      </ServerScriptStep>
+      <ServerScriptStep id="_1kwC" name="set_layer_id">
+        <code>lidn1 = $(idn)
+lidn1 = lidn1 - 1   
+rc.setGlobal("layer_id", lidn1)                       </code>
+      </ServerScriptStep>
+    </WhileSequence>
+    <IfSequence id="_58D" test="${qftest:windows}">
+      <ElseifSequence id="_1l3m" name="MAC?"
+                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+      <ElseSequence id="_58I"/>
+    </IfSequence>
+  </ExtraSequence>
+  <WindowList id="_5">
+    <WindowStep class="Dialog"
+                feature="ESA S-3 Toolbox - Import SMOS-EEF Product"
+                height="438"
+                id="dialogESA_S-3_Toolbox_-_Import_SMOS-EEF_Product"
+                modal="true" uid="_1p" width="656" x="152" y="181">
+      <extrafeature name="qfs:class" negate="false" regexp="false" state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                    state="0">Window</extrafeature>
+      <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                    state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Window:Dialog</extrafeature>
+      <ComponentStep class="FileChooser" classcount="1" classindex="0"
+                     height="400"
+                     id="dialogESA_S-3_Toolbox_-_Import_SMOS-EEF_Product.fileChooser"
+                     uid="_1q" width="640" x="8" y="30">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">org.esa.beam.visat.actions.ProductImportAction$$ProductFileChooser</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">FileChooser</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JFileChooser</extrafeature>
+        <ComponentStep class="TextField" classcount="1" classindex="0"
+                       feature="Label: File name:" height="20"
+                       id="dialogESA_S-3_Toolbox_-_Import_SMOS-EEF_Product.textFile_name:"
+                       uid="_1r" width="304" x="181" y="342">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JTextField</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">TextField</extrafeature>
+          <extrafeature name="qfs:label" negate="false" regexp="false"
+                        state="1">File name:</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JTextField</extrafeature>
+        </ComponentStep>
+        <ComponentStep class="Button" classcount="12" classindex="10"
+                       feature="Import Product" height="23"
+                       id="dialogESA_S-3_Toolbox_-_Import_SMOS-EEF_Product.buttonImport_Product"
+                       uid="_1s" width="115" x="515" y="340">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JButton</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">Button</extrafeature>
+          <extrafeature name="qfs:label" negate="false" regexp="false"
+                        state="1">Import Product</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JButton</extrafeature>
+        </ComponentStep>
+        <ComponentStep class="Button" classcount="12" classindex="4"
+                       feature="Subset..." height="23"
+                       id="dialogESA_S-3_Toolbox_-_Import_SMOS-EEF_Product.buttonSubset..."
+                       uid="_1t" width="77" x="546" y="36">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JButton</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">Button</extrafeature>
+          <extrafeature name="qfs:label" negate="false" regexp="false"
+                        state="1">Subset...</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JButton</extrafeature>
+        </ComponentStep>
+        <ComponentStep class="ComboBox" classcount="2" classindex="1"
+                       feature="Label: Files of type:" height="20"
+                       id="dialogESA_S-3_Toolbox_-_Import_SMOS-EEF_Product.comboFiles_of_type:"
+                       uid="_1u" width="304" x="181" y="370">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JComboBox</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">ComboBox</extrafeature>
+          <extrafeature name="qfs:label" negate="false" regexp="false"
+                        state="1">Files of type:</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JComboBox</extrafeature>
+        </ComponentStep>
+        <ComponentStep class="Button" classcount="12" classindex="11"
+                       feature="Cancel" height="23"
+                       id="dialogESA_S-3_Toolbox_-_Import_SMOS-EEF_Product.buttonCancel"
+                       uid="_1v" width="115" x="515" y="367">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JButton</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">Button</extrafeature>
+          <extrafeature name="qfs:label" negate="false" regexp="false"
+                        state="1">Cancel</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JButton</extrafeature>
+        </ComponentStep>
+      </ComponentStep>
+    </WindowStep>
+  </WindowList>
+</RootStep>
