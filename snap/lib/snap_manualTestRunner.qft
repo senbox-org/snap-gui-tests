@@ -1,0 +1,671 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.3">
+  <include>qfs.qft</include>
+  <include>snap_main.qft</include>
+  <variable name="testSheet">Tests</variable>
+  <variable name="resultSheet">Results</variable>
+  <variable name="tests"/>
+  <variable name="defaultState">FAILED</variable>
+  <variable name="testCaseColumn">TestCase</variable>
+  <variable name="shortDescColumn">Short Description</variable>
+  <variable name="commentColumn">Comment</variable>
+  <variable name="stepDescColumn">Step Description</variable>
+  <variable name="expResultColumn">Expected Result</variable>
+  <variable name="recResultColumn">Received Result</variable>
+  <variable name="stateColumn">State</variable>
+  <variable name="startFromRunner">0</variable>
+  <variable name="testname">dummy</variable>
+  <variable name="comment"/>
+  <comment>snap</comment>
+  <TestCase id="_1l4l" name="uncertainty_visualisation">
+    <comment>@teststep Preparation 'Uncertainty visualisation' tool for tests</comment>
+    <ProcedureCall id="_1l5H" procedure="start.snap.application"/>
+    <ProcedureCall id="_1l5f" procedure="product_meta_data.S3A_OL_2"/>
+    <ProcedureCall id="_1l5p" procedure="preparation.application_for_test"/>
+    <ProcedureCall id="_1l8O"
+                   procedure="do_click.main_toolbar.views.uncertainty_visualisation"/>
+    <ProcedureCall id="_1l8P" procedure="resize.product_view_panel"/>
+    <ProcedureCall id="_368"
+                   procedure="select.uncertainty_visualisation.more_options"/>
+  </TestCase>
+  <Test id="_1l5K" name="launching_tests">
+    <comment>@teststep Launching test</comment>
+    <ProcedureCall id="_1l5L" procedure="tables.uncertainty_visualisation"/>
+    <ProcedureCall id="_1l5M" local="true" procedure="qfs.utils.getDate"
+                   retvarname="today">
+      <variable name="format">yyyyMMdd</variable>
+      <variable name="offset"/>
+    </ProcedureCall>
+    <ServerScriptStep id="_1l5N" name="call new test-cases">
+      <code>from jxl import *
+from jxl.write import *
+from java.io import File
+from de.qfs.apps.qftest import ManualStepDialog
+
+global sheet
+global resultSheet
+global execInfo
+global prevResult
+global prevRecResult
+global testcase
+global rowCount
+global windowTitle
+global indexWindowtitle
+global indexExpectedResult
+global indexReceivedResult
+global indexStatus
+global indexStep
+global indexTestCase
+global indexComment
+global currentTestIndex
+global currentStepIndex
+global prevWindowtitle
+global prevComment
+global oldResult
+global oldRecResult
+
+testFile= rc.lookup("testFile")
+resultFile = testFile[:-4] + "_result_$(today).xls"
+
+workbook = Workbook.getWorkbook(File(testFile))            
+resultBook = Workbook.createWorkbook(File(resultFile), workbook)
+
+indexOfTitleRow = 0
+testSheetVar = rc.lookup("testSheet")
+resultSheetVar = rc.lookup("resultSheet")
+indexWindowtitle = -1
+indexExpectedResult = -1
+indexReceivedResult = -1
+indexStatus = -1
+indexStep = -1
+indexTestCase = -1  
+indexComment = -1    
+
+sheet = workbook.getSheet(testSheetVar)
+resultTemplateSheet = workbook.getSheet(testSheetVar)
+
+resultSheet = resultBook.getSheet(testSheetVar)
+resultSheet.setName(resultSheetVar)
+
+descriptionRow = sheet.getRow(indexOfTitleRow)            
+rowCount = sheet.getRows()
+for i in range(len(descriptionRow)):
+	colHeading = descriptionRow[i].getContents()
+	if colHeading == rc.lookup("shortDescColumn"):
+         indexWindowtitle = i
+	elif colHeading == rc.lookup("expResultColumn"):
+         indexExpectedResult = i
+	elif colHeading == rc.lookup("recResultColumn"):
+         indexReceivedResult = i
+	elif colHeading == rc.lookup("stateColumn"):
+         indexStatus = i
+	elif colHeading == rc.lookup("stepDescColumn"):
+         indexStep = i
+	elif colHeading == rc.lookup("testCaseColumn"):
+         indexTestCase = i
+	elif colHeading == rc.lookup("commentColumn"):
+         indexComment = i
+
+descriptionRow = resultTemplateSheet.getRow(indexOfTitleRow)            
+rowCount = resultTemplateSheet.getRows()
+for i in range(len(descriptionRow)):
+	colHeading = descriptionRow[i].getContents()
+	if colHeading == rc.lookup("recResultColumn"):
+         indexReceivedResult = i
+	elif colHeading == rc.lookup("stateColumn"):
+         indexStatus = i
+
+windowTitle = ""
+comment = ""
+prevResult = ""
+prevRecResult = ""
+execInfo = ""
+currentStepIndex = -1
+prevWindowtitle = ""
+prevComment = ""
+usePrevTitle = 0
+prevTestcase = -1
+oldResult = ""
+oldRecResult = ""
+testcase = ""
+
+#split tests area
+tests = "$(tests)"
+allTests = []
+
+if tests != "":
+	commaParts = tests.split(",")
+
+	for cP in commaParts:   
+	   if cP.find("-") != -1:
+		parts = cP.split("-")
+		for i in range(int(parts[0]), int(parts[1])+1):
+		  allTests.append(str(i))
+	   else:
+		allTests.append(cP)
+
+try:
+  removeRows = []
+
+  i = 1 #skip first row, because that's the description row
+
+  while i &lt; rowCount:    
+      if i &lt; 1:
+          i = 1
+          
+      while i &lt;= currentStepIndex: #step was part of test
+          i = i + 1
+    
+      if i == rowCount:   
+          break
+      
+      if prevResult == ManualStepDialog.CANCELED:
+          break
+
+      noExec = 0
+      if usePrevTitle == 1 and prevWindowtitle != "":
+            testcase = prevTestcase
+      else:   
+         prevTestcase = testcase   
+         testcase = sheet.getCell(indexTestCase, i).getContents()
+         
+      if allTests != None:
+	if (len(allTests) &gt; 0) and (not testcase in allTests):
+          noExec = 1
+
+      if noExec != 1:          
+        currentTestIndex = i    
+        
+        if usePrevTitle == 1 and prevWindowtitle != "":
+            windowTitle = prevWindowtitle
+            comment = prevComment
+            usePrevTitle = 0
+        else:
+            prevWindowtitle = windowTitle
+            precComment = comment
+            windowTitle = sheet.getCell(indexWindowtitle, currentTestIndex).getContents()
+            comment = sheet.getCell(indexComment, currentTestIndex).getContents()
+
+        rc.callTest("singleTest", {"testname" : testcase + " " + windowTitle, "comment" : comment, "startFromRunner" : "1"})        
+    
+      else:
+	removeRows.append(i)
+                  
+      if execInfo == ManualStepDialog.PREV:
+           i = i - 1
+           usePrevTitle = 1
+      else:    
+           i = i + 1
+           execInfo = ""       
+      
+  
+  for rr in range(len(removeRows)):
+	resultSheet.removeRow(removeRows[rr] - rr)
+
+finally:
+  resultBook.write()
+  resultBook.close()
+  workbook.close()
+           </code>
+      <comment>Read the Excel file and call the test-case "singleTest" for each test-case.</comment>
+    </ServerScriptStep>
+  </Test>
+  <TestCase condition="&#34;$(startFromRunner)&#34; == &#34;1&#34;" id="_1l5O"
+            name="singleTest" reportname="$(testname)">
+    <comment>$(comment)</comment>
+    <ServerScriptStep id="_1l5P" name="call test steps">
+      <code>from jxl import *
+from jxl.write import *
+from java.io import File
+from de.qfs.apps.qftest import ManualStepDialog
+
+global prevResult
+global prevRecResult
+global execInfo
+global currentTestIndex
+global indexTestCase
+global currentStepIndex
+global prevWindowtitle
+global resultSheet
+global indexReceivedResult
+global indexStatus
+global prev
+global oldResult
+global oldRecResult
+
+i = currentTestIndex
+
+while i &lt; rowCount:
+      if prevResult == ManualStepDialog.CANCELED:
+          break
+           
+      if currentTestIndex &lt;= currentStepIndex:
+        testcase = sheet.getCell(indexTestCase, i).getContents()
+        if testcase != "": #new test case, call new test
+  	  break
+      currentStepIndex = i          
+      
+      try:
+          oldRecResult = resultSheet.getCell(indexReceivedResult, i).getContents()
+          oldResult = resultSheet.getCell(indexStatus, i).getContents()            
+      except:
+           oldRecResult = ""
+           oldResult = ""
+           
+      rc.callProcedure("executeSingleStep")
+
+      if execInfo == ManualStepDialog.PREV:
+          i = i - 1
+          currentStepIndex = i - 1
+          if currentTestIndex &gt; currentStepIndex:
+             currentTestIndex = currentTestIndex - 2
+             oldtestcase = testcase
+             testcase = sheet.getCell(indexTestCase, i).getContents()
+             if testcase != oldtestcase: #former test case, call former test
+                break
+      else:     
+          i = i + 1 
+          
+          </code>
+    </ServerScriptStep>
+  </TestCase>
+  <Test id="_1l5S" name="close_application">
+    <ProcedureCall id="_1l5T" procedure="stop.exit_s3tbx"/>
+  </Test>
+  <PackageRoot id="_2">
+    <Procedure id="_35P" name="executeSingleStep">
+      <comment>Open the ManualStepDialog asking for the test-result.
+
+
+@author QFS</comment>
+      <ServerScriptStep id="_360" name="call test step">
+        <code>from jxl import *
+from jxl.write import *
+from java.io import File
+from de.qfs.apps.qftest import ManualStepDialog
+from java.lang import String
+
+global sheet
+global resultSheet
+global execInfo
+global prevResult
+global prevRecResult
+global testcase
+global rowCount
+global windowTitle
+global indexWindowtitle
+global indexExpectedResult
+global indexReceivedResult
+global indexStatus
+global indexStep
+global indexTestCase
+global currentTestIndex
+global currentStepIndex
+global oldResult
+global oldRecResult
+
+information = ""
+result = ""
+
+try:
+    step = sheet.getCell(indexStep, currentStepIndex).getContents()
+    expectedResult = sheet.getCell(indexExpectedResult, currentStepIndex).getContents()
+
+    if execInfo == ManualStepDialog.PREV:  
+        md = ManualStepDialog(None, testcase + " " + windowTitle, step, expectedResult, oldResult, oldRecResult, "")
+
+        oldRecResult = ""
+        oldResult = ""
+
+        information = md.getReceivedResult()
+        result = md.getResult()
+        execInfo = md.getExecInfo()
+        
+        if execInfo == "":
+            execInfo = ManualStepDialog.CANCELED
+            result = ManualStepDialog.CANCELED
+            
+        prevResult = result
+        prevRecResult = information
+
+    elif execInfo != ManualStepDialog.SKIPTEST:        
+        if oldRecResult == "" and oldResult == "": #this step is shown up the first time in this test-run
+            if rc.lookup("defaultState") == "PASSED":
+                md = ManualStepDialog(None, testcase + " " + windowTitle, step, expectedResult, "PASSED", oldRecResult, "")
+            else:
+                md = ManualStepDialog(None, testcase + " " + windowTitle, step, expectedResult)
+
+        else: #this step has been executed at least once during this test-run
+            md = ManualStepDialog(None, testcase + " " + windowTitle, step, expectedResult, oldResult, oldRecResult, "")
+
+        information = md.getReceivedResult()
+        result = md.getResult()
+        execInfo = md.getExecInfo()
+
+        if execInfo == "":
+            execInfo = ManualStepDialog.CANCELED
+            result = ManualStepDialog.CANCELED
+            
+        if execInfo != ManualStepDialog.PREV:
+            prevResult = result
+            prevRecResult = information
+    else:
+        information = "Step has been skipped!"
+        prevResult = ManualStepDialog.SKIPPED
+        prevRecResult = ""
+        result = ManualStepDialog.SKIPPED
+
+    if execInfo != ManualStepDialog.PREV:
+        rc.logMessage("Result of step " + step)
+        rc.logMessage("Exepceted result: " + expectedResult)
+        if information != None and information != "":
+            rc.logMessage("Received result: " + information)
+        if result == ManualStepDialog.FAILED:
+            rc.logError("Step failed -&gt; + Expected Result: '" + expectedResult + "' received: '" + information + "'!")
+        elif result == ManualStepDialog.PASSED:
+            rc.logMessage("Step passed!")
+        else:
+            rc.logWarning("Step has been skipped or canceled!")
+
+        #write resultstatus
+        recResult = Label(indexReceivedResult, currentStepIndex, information)               
+        try:
+            v_recResult = sheet.getCell(indexReceivedResult, currentStepIndex)               
+            if v_recResult != None:
+                cf = v_recResult.getCellFeatures()
+                if cf != None:
+                    wcf = WritableCellFeatures(cf)
+                    recResult.setCellFeatures(wcf)
+
+                cff = v_recResult.getCellFormat()
+                if cff != None:
+                    recResult.setCellFormat(cff)
+        except:
+            #do nothing
+            pass
+
+        #write status
+        statusLabel = Label(indexStatus, currentStepIndex, result)               
+        try:
+            v_statusLabel = sheet.getCell(indexStatus, currentStepIndex)               
+            if v_statusLabel != None:
+                cf = v_statusLabel.getCellFeatures()
+                if cf != None:
+                    wcf = WritableCellFeatures(cf)
+                    statusLabel.setCellFeatures(wcf)
+
+                cff = v_statusLabel.getCellFormat()
+                if cff != None:
+                    statusLabel .setCellFormat(cff)
+        except:
+            #do nothing
+            pass
+
+        try:    
+            resultSheet.addCell(recResult)
+            resultSheet.addCell(statusLabel)     
+        except:
+            print "Error writing cell!"
+
+finally:
+    pass
+</code>
+      </ServerScriptStep>
+    </Procedure>
+  </PackageRoot>
+  <ExtraSequence id="_3">
+    <Dependency id="_1l4X" name="start_application">
+      <SetupSequence id="_1l4Y" name="start_s3tbx">
+        <ProcedureCall id="_1l4Z" procedure="start.snap.application"/>
+      </SetupSequence>
+      <CleanupSequence id="_1l4a" name="exit_s3tbx">
+        <ProcedureCall id="_1l4b" procedure="stop.exit_s3tbx"/>
+        <ProcedureCall id="_1l5U"
+                       procedure="do_click.product_modified_dialog.button_Yes"/>
+      </CleanupSequence>
+    </Dependency>
+    <Test id="_35G">
+      <comment>Test node for launching tests.
+It has to be a Test node to raise no conflicts in reporting.</comment>
+      <ProcedureCall id="_1l5Q" local="true" procedure="qfs.utils.getDate"
+                     retvarname="today">
+        <variable name="format">yyyyMMdd</variable>
+        <variable name="offset"/>
+      </ProcedureCall>
+      <ServerScriptStep id="_1l5R" name="call new test-cases">
+        <code>from jxl import *
+from jxl.write import *
+from java.io import File
+from de.qfs.apps.qftest import ManualStepDialog
+
+global sheet
+global resultSheet
+global execInfo
+global prevResult
+global prevRecResult
+global testcase
+global rowCount
+global windowTitle
+global indexWindowtitle
+global indexExpectedResult
+global indexReceivedResult
+global indexStatus
+global indexStep
+global indexTestCase
+global indexComment
+global currentTestIndex
+global currentStepIndex
+global prevWindowtitle
+global prevComment
+global oldResult
+global oldRecResult
+
+testFile= rc.lookup("testFile")
+resultFile = testFile[:-4] + "_result_$(today).xls"
+
+workbook = Workbook.getWorkbook(File(testFile))            
+resultBook = Workbook.createWorkbook(File(resultFile), workbook)
+
+indexOfTitleRow = 0
+testSheetVar = rc.lookup("testSheet")
+resultSheetVar = rc.lookup("resultSheet")
+indexWindowtitle = -1
+indexExpectedResult = -1
+indexReceivedResult = -1
+indexStatus = -1
+indexStep = -1
+indexTestCase = -1  
+indexComment = -1    
+
+sheet = workbook.getSheet(testSheetVar)
+resultTemplateSheet = workbook.getSheet(testSheetVar)
+
+resultSheet = resultBook.getSheet(testSheetVar)
+resultSheet.setName(resultSheetVar)
+
+descriptionRow = sheet.getRow(indexOfTitleRow)            
+rowCount = sheet.getRows()
+for i in range(len(descriptionRow)):
+	colHeading = descriptionRow[i].getContents()
+	if colHeading == rc.lookup("shortDescColumn"):
+         indexWindowtitle = i
+	elif colHeading == rc.lookup("expResultColumn"):
+         indexExpectedResult = i
+	elif colHeading == rc.lookup("recResultColumn"):
+         indexReceivedResult = i
+	elif colHeading == rc.lookup("stateColumn"):
+         indexStatus = i
+	elif colHeading == rc.lookup("stepDescColumn"):
+         indexStep = i
+	elif colHeading == rc.lookup("testCaseColumn"):
+         indexTestCase = i
+	elif colHeading == rc.lookup("commentColumn"):
+         indexComment = i
+
+descriptionRow = resultTemplateSheet.getRow(indexOfTitleRow)            
+rowCount = resultTemplateSheet.getRows()
+for i in range(len(descriptionRow)):
+	colHeading = descriptionRow[i].getContents()
+	if colHeading == rc.lookup("recResultColumn"):
+         indexReceivedResult = i
+	elif colHeading == rc.lookup("stateColumn"):
+         indexStatus = i
+
+windowTitle = ""
+comment = ""
+prevResult = ""
+prevRecResult = ""
+execInfo = ""
+currentStepIndex = -1
+prevWindowtitle = ""
+prevComment = ""
+usePrevTitle = 0
+prevTestcase = -1
+oldResult = ""
+oldRecResult = ""
+testcase = ""
+
+#split tests area
+tests = "$(tests)"
+allTests = []
+
+if tests != "":
+	commaParts = tests.split(",")
+
+	for cP in commaParts:   
+	   if cP.find("-") != -1:
+		parts = cP.split("-")
+		for i in range(int(parts[0]), int(parts[1])+1):
+		  allTests.append(str(i))
+	   else:
+		allTests.append(cP)
+
+try:
+  removeRows = []
+
+  i = 1 #skip first row, because that's the description row
+
+  while i &lt; rowCount:    
+      if i &lt; 1:
+          i = 1
+          
+      while i &lt;= currentStepIndex: #step was part of test
+          i = i + 1
+    
+      if i == rowCount:   
+          break
+      
+      if prevResult == ManualStepDialog.CANCELED:
+          break
+
+      noExec = 0
+      if usePrevTitle == 1 and prevWindowtitle != "":
+            testcase = prevTestcase
+      else:   
+         prevTestcase = testcase   
+         testcase = sheet.getCell(indexTestCase, i).getContents()
+         
+      if allTests != None:
+	if (len(allTests) &gt; 0) and (not testcase in allTests):
+          noExec = 1
+
+      if noExec != 1:          
+        currentTestIndex = i    
+        
+        if usePrevTitle == 1 and prevWindowtitle != "":
+            windowTitle = prevWindowtitle
+            comment = prevComment
+            usePrevTitle = 0
+        else:
+            prevWindowtitle = windowTitle
+            precComment = comment
+            windowTitle = sheet.getCell(indexWindowtitle, currentTestIndex).getContents()
+            comment = sheet.getCell(indexComment, currentTestIndex).getContents()
+
+        rc.callTest("singleTest", {"testname" : testcase + " " + windowTitle, "comment" : comment, "startFromRunner" : "1"})        
+    
+      else:
+	removeRows.append(i)
+                  
+      if execInfo == ManualStepDialog.PREV:
+           i = i - 1
+           usePrevTitle = 1
+      else:    
+           i = i + 1
+           execInfo = ""       
+      
+  
+  for rr in range(len(removeRows)):
+	resultSheet.removeRow(removeRows[rr] - rr)
+
+finally:
+  resultBook.write()
+  resultBook.close()
+  workbook.close()
+           </code>
+        <comment>Read the Excel file and call the test-case "singleTest" for each test-case.</comment>
+      </ServerScriptStep>
+    </Test>
+    <TestCase condition="&#34;$(startFromRunner)&#34; == &#34;1&#34;"
+              id="_35N" name="singleTest" reportname="$(testname)">
+      <comment>$(comment)</comment>
+      <ServerScriptStep id="_35p" name="call test steps">
+        <code>from jxl import *
+from jxl.write import *
+from java.io import File
+from de.qfs.apps.qftest import ManualStepDialog
+
+global prevResult
+global prevRecResult
+global execInfo
+global currentTestIndex
+global indexTestCase
+global currentStepIndex
+global prevWindowtitle
+global resultSheet
+global indexReceivedResult
+global indexStatus
+global prev
+global oldResult
+global oldRecResult
+
+i = currentTestIndex
+
+while i &lt; rowCount:
+      if prevResult == ManualStepDialog.CANCELED:
+          break
+           
+      if currentTestIndex &lt;= currentStepIndex:
+        testcase = sheet.getCell(indexTestCase, i).getContents()
+        if testcase != "": #new test case, call new test
+  	  break
+      currentStepIndex = i          
+      
+      try:
+          oldRecResult = resultSheet.getCell(indexReceivedResult, i).getContents()
+          oldResult = resultSheet.getCell(indexStatus, i).getContents()            
+      except:
+           oldRecResult = ""
+           oldResult = ""
+           
+      rc.callProcedure("executeSingleStep")
+
+      if execInfo == ManualStepDialog.PREV:
+          i = i - 1
+          currentStepIndex = i - 1
+          if currentTestIndex &gt; currentStepIndex:
+             currentTestIndex = currentTestIndex - 2
+             oldtestcase = testcase
+             testcase = sheet.getCell(indexTestCase, i).getContents()
+             if testcase != oldtestcase: #former test case, call former test
+                break
+      else:     
+          i = i + 1 
+          
+          </code>
+      </ServerScriptStep>
+    </TestCase>
+  </ExtraSequence>
+  <WindowList id="_4"/>
+</RootStep>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.3">
+  <include>qfs.qft</include>
+  <include>snap_components.qft</include>
+  <include>snap_main.qft</include>
+  <dependency>snap_check.qft</dependency>
+  <dependency>snap_main.qft</dependency>
+  <dependency>snap_workflow.qft</dependency>
+  <PackageRoot id="_3">
+    <Package id="_1lB5" name="wait">
+      <Package id="_1lBB" name="appear">
+        <Procedure id="_1l3q" name="open_product_dialog">
+          <comment>@teststep Wait if 'Open Product' dialog appears.</comment>
+          <ComponentWaiter client="$(client)" component="dialogOpen_Product"
+                           id="_1mhH"/>
+        </Procedure>
+        <Procedure id="_9Z5" name="product_is_opened">
+          <comment>@teststep Wait if product appears.</comment>
+          <ProcedureCall id="_1l52" procedure="check.product.not_opened"/>
+          <IfSequence id="_1l53"
+                      test="&#34;$(not_opened)&#34;==&#34;true&#34;">
+            <TryStep id="_9Z6">
+              <ComponentWaiter client="VISAT"
+                               component="NbMainWindow.Product_Explorer.tree"
+                               errorlevel="0" id="_9ZA" raise="false"/>
+              <CatchSequence exception="TestException" id="_9Z8"
+                             maxerror="0"/>
+            </TryStep>
+          </IfSequence>
+        </Procedure>
+        <Procedure id="_1l3Z" name="product_modified_dialog">
+          <ComponentWaiter client="$(client)"
+                           component="dialogSNAP_-_Open_Product" id="_1mhn"
+                           timeout="100"/>
+        </Procedure>
+        <Procedure id="_1mho" name="snap_window">
+          <ComponentWaiter client="$(client)" component="NbMainWindow"
+                           id="_1mhp" timeout="500"/>
+        </Procedure>
+        <Procedure id="_1mjh" name="save_product_dialog"/>
+        <Procedure id="_1mjj" name="dialog_SNAP-Error">
+          <ComponentWaiter client="$(client)" component="dialogSNAP_-_Error"
+                           id="_1mmw"/>
+        </Procedure>
+        <Procedure id="_1mmy" name="error_dialog_open_product">
+          <ComponentWaiter client="$(client)"
+                           component="dialogOpen_Product.buttonYes" id="_1oQ7"
+                           timeout="100"/>
+        </Procedure>
+        <Procedure id="_1oQ8" name="error_dialog_SNAP_open_product">
+          <ComponentWaiter client="$(client)"
+                           component="dialogSNAP_-_Open_Product.buttonOK"
+                           id="_1oQ9" timeout="100"/>
+        </Procedure>
+        <Procedure disabled="true" id="_1mQI" name="dialogCustomize_Toolbars">
+          <ComponentWaiter client="$(client)"
+                           component="dialogCustomize_Toolbars" id="_1mNP"/>
+        </Procedure>
+        <Package id="_1mcI" name="tools">
+          <Procedure id="_1mhq" name="band_Maths_dialog">
+            <ComponentWaiter client="$(client)" component="BandMathsDialog"
+                             id="_1mjg"/>
+          </Procedure>
+          <Procedure id="_1mmx" name="band_Maths_Expression_Editor">
+            <ComponentWaiter client="$(client)"
+                             component="dialogBand_Maths_Expression_Editor"
+                             id="_1mju"/>
+          </Procedure>
+          <Procedure id="_1oeR" name="dialogSNAP_Attach_Pixel_Geo-Coding">
+            <ComponentWaiter client="$(client)"
+                             component="dialogSNAP_-_Attach_Pixel_Geo-Coding.buttonYes"
+                             id="_1ob4" timeout="100"/>
+          </Procedure>
+          <Procedure disabled="true" id="_1mcN" name="dialogTemplate_Manager">
+            <ComponentWaiter client="$(client)"
+                             component="dialogTemplate_Manager" id="_1mOp"/>
+          </Procedure>
+          <Procedure disabled="true" id="_1mcR" name="dialogPlugins">
+            <ComponentWaiter client="$(client)" component="dialogPlugins"
+                             id="_1mOt"/>
+          </Procedure>
+          <Procedure disabled="true" id="_1mcJ" name="dialogOptions">
+            <ComponentWaiter client="$(client)" component="dialogOptions"
+                             id="_1mOx"/>
+          </Procedure>
+        </Package>
+        <Procedure disabled="true" id="_1lK4" name="import_dialog">
+          <ComponentWaiter client="$(client)"
+                           component="dialogESA_S-3_Toolbox_-_Import_Product"
+                           id="_1lK5"/>
+        </Procedure>
+        <Package disabled="true" id="_1lGe" name="import_dialog">
+          <Procedure disabled="true" id="_1lGf" name="envisat">
+            <ComponentWaiter client="$(client)"
+                             component="dialogESA_S-3_Toolbox_-_Import_ENVISAT_Product"
+                             id="_1lK1"/>
+          </Procedure>
+          <Procedure disabled="true" id="_1kzm" name="sentinel_3">
+            <ComponentWaiter client="$(client)"
+                             component="dialogESA_S-3_Toolbox_-_Import_SENTINEL-3_Product"
+                             id="_1kzx"/>
+          </Procedure>
+          <Procedure disabled="true" id="_1lK2" name="smos_eef">
+            <ComponentWaiter client="$(client)"
+                             component="dialogESA_S-3_Toolbox_-_Import_Product"
+                             id="_1lK3"/>
+          </Procedure>
+        </Package>
+        <Procedure disabled="true" id="_1lAF" name="preferences_dialog">
+          <ComponentWaiter client="$(client)"
+                           component="dialogESA_S-3_Toolbox_Preferences_-_UI_Behavior"
+                           id="_1l73"/>
+        </Procedure>
+        <Procedure disabled="true" id="_1lB6" name="dialog">
+          <ComponentWaiter client="$(client)" component="Dialog" id="_1lB8"/>
+        </Procedure>
+        <Procedure disabled="true" id="_1lBF" name="new_pin_dialog">
+          <ComponentWaiter client="$(client)" component="New_Pin" id="_1lGd"/>
+        </Procedure>
+        <Procedure disabled="true" id="_1k-o" name="view">
+          <variable name="prod_nr"/>
+          <variable name="band_name"/>
+          <comment>@teststep Check view title</comment>
+          <ComponentWaiter client="$(client)"
+                           component="mainFrameESA_S-3_Toolbox.intFrame_band"
+                           id="_1k-V" raise="false"/>
+        </Procedure>
+        <Procedure disabled="true" id="_1lK6"
+                   name="dialogESA_S-3_Toolbox_Question">
+          <ComponentWaiter client="$(client)"
+                           component="dialogESA_S-3_Toolbox_-_Question"
+                           id="_1kxS"/>
+        </Procedure>
+        <Procedure disabled="true" id="_1mQH" name="warning_dialog">
+          <ComponentWaiter client="$(client)"
+                           component="dialogESA_S-3_Toolbox_-_Warning"
+                           errorlevel="0" id="_1mJU" raise="false"
+                           resvarname="warning_dialog" timeout="500"/>
+        </Procedure>
+      </Package>
+      <Package id="_1lBA" name="disappear">
+        <Procedure id="_1k-h" name="creating_image_progress monitor">
+          <variable name="bandName"/>
+          <ComponentWaiter absence="true" client="$(client)"
+                           component="dialogSNAP_-_Creating_image_for_band"
+                           id="_1mhY"/>
+        </Procedure>
+        <Procedure disabled="true" id="_1lB9"
+                   name="computing_statistics_progress monitor">
+          <ComponentWaiter absence="true" client="$(client)"
+                           component="dialogComputing_Statistics" id="_1l9V"
+                           raise="false" timeout="3000000"/>
+        </Procedure>
+      </Package>
+      <Procedure id="_1mQJ" name="dialogInformation">
+        <ComponentWaiter client="$(client)" component="dialogInformation"
+                         id="_1mao"/>
+      </Procedure>
+    </Package>
+  </PackageRoot>
+  <ExtraSequence id="_4"/>
+  <WindowList id="_5"/>
+</RootStep>

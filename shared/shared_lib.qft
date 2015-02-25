@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.3">
+  <include>qfs.qft</include>
+  <include>gpt.qft</include>
+  <include>variables.qft</include>
+  <dependency>../snap/lib/snap_main.qft</dependency>
+  <dependency>../s3tbx/lib/s3tbx_main.qft</dependency>
+  <PackageRoot id="_3">
+    <Package id="_1o++" name="cleanup">
+      <Procedure id="_1o-F" name="output_data_folder">
+        <variable name="directory"></variable>
+        <ProcedureCall id="_1o-p" procedure="system_and_commando"/>
+        <TestStep id="_1o-y" name="remove_output_folder">
+          <SetGlobalStep id="_1o-q" local="true" varname="del_out_client">
+            <default>del_out</default>
+          </SetGlobalStep>
+          <ShellClientStarter client="$(del_out_client)"
+                              command="$(delete_commando) $(directory)"
+                              directory="${path:output_data_directory}"
+                              id="_1o-r"/>
+          <ProcedureCall id="_1o-s" procedure="utils.exit_program">
+            <variable name="client_name">$(del_out_client)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1o-x" name="create_output_folder">
+          <SetGlobalStep id="_1o-u" local="true" varname="mkdir_client">
+            <default>mkdir_client</default>
+          </SetGlobalStep>
+          <ShellClientStarter client="$(mkdir_client)"
+                              command="$(mkdir_commando) $(directory)"
+                              directory="${path:output_data_directory}"
+                              id="_1o-v">
+            <comment>MKDIR</comment>
+          </ShellClientStarter>
+          <ProcedureCall id="_1o-w" procedure="utils.exit_program">
+            <variable name="client_name">$(mkdir_client)</variable>
+          </ProcedureCall>
+        </TestStep>
+      </Procedure>
+      <Procedure id="_1o-J" name="temp_dir">
+        <variable name="client"/>
+        <comment>s3tbx</comment>
+        <ProcedureCall id="_1oO8" procedure="path"/>
+        <ProcedureCall id="_1oOJ" procedure="system_and_commando"/>
+        <TestStep id="_1o-K" name="delete">
+          <IfSequence id="_1o-h" test="&#34;$(client)&#34;==&#34;s3tbx&#34;">
+            <IfSequence id="_1oNx" name="s3tbx cache folder"
+                        test="'${path:temp_s3tbx}cache'.find('$(operation_system)') !=0">
+              <SetGlobalStep id="_1o-L" local="true" varname="cn_cache">
+                <default>del_cache</default>
+              </SetGlobalStep>
+              <ShellClientStarter client="$(cn_cache)"
+                                  command="$(delete_commando) cache"
+                                  directory="${path:temp_s3tbx}" id="_1oNz"/>
+              <ProcedureCall id="_1o-M" procedure="utils.exit_program">
+                <variable name="client_name">$(cn_cache)</variable>
+              </ProcedureCall>
+            </IfSequence>
+            <IfSequence id="_1oN-" name="s3tbx-app folder"
+                        test="'${path:temp_s3tbx}snap-app'.find('$(operation_system)') !=0">
+              <SetGlobalStep id="_1o-N" local="true" varname="cn_app">
+                <default>del_app</default>
+              </SetGlobalStep>
+              <ShellClientStarter client="$(cn_app)"
+                                  command="$(delete_commando) snap-app"
+                                  directory="${path:temp_s3tbx}" id="_1oO1"/>
+              <ProcedureCall id="_1o-O" procedure="utils.exit_program">
+                <variable name="client_name">$(cn_app)</variable>
+              </ProcedureCall>
+            </IfSequence>
+            <IfSequence id="_1oO3" name="s3tbx-ui folder"
+                        test="'${path:temp_s3tbx}beam-ui'.find('$(operation_system)') !=0">
+              <SetGlobalStep id="_1o-P" local="true" varname="cn_ui">
+                <default>del_ui</default>
+              </SetGlobalStep>
+              <ShellClientStarter client="$(cn_ui)"
+                                  command="$(delete_commando) beam-ui "
+                                  directory="${path:temp_s3tbx}" id="_1oO5"/>
+              <ProcedureCall id="_1o-Q" procedure="utils.exit_program">
+                <variable name="client_name">$(cn_ui)</variable>
+              </ProcedureCall>
+            </IfSequence>
+            <ElseifSequence id="_1o-i"
+                            test="&#34;$(client)&#34;==&#34;snap&#34;">
+              <IfSequence id="_1oOR" name="snap cache folder"
+                          test="'${path:temp_snap}cache'.find('$(operation_system)') !=0">
+                <SetGlobalStep id="_1oNy" local="true" varname="cn_cache">
+                  <default>del_cache</default>
+                </SetGlobalStep>
+                <ShellClientStarter client="$(cn_cache)"
+                                    command="$(delete_commando) cache"
+                                    directory="${path:temp_snap}" id="_1oOS"/>
+                <ProcedureCall id="_1oN+" procedure="utils.exit_program">
+                  <variable name="client_name">$(cn_cache)</variable>
+                </ProcedureCall>
+              </IfSequence>
+              <IfSequence id="_1oOT" name="snap-app folder"
+                          test="'${path:temp_snap}snap-app'.find('$(operation_system)') !=0">
+                <SetGlobalStep id="_1oO0" local="true" varname="cn_app">
+                  <default>del_app</default>
+                </SetGlobalStep>
+                <ShellClientStarter client="$(cn_app)"
+                                    command="$(delete_commando) snap-app"
+                                    directory="${path:temp_snap}" id="_1oOU"/>
+                <ProcedureCall id="_1oO2" procedure="utils.exit_program">
+                  <variable name="client_name">$(cn_app)</variable>
+                </ProcedureCall>
+              </IfSequence>
+              <IfSequence id="_1oOV" name="snap-ui folder"
+                          test="'${path:temp_snap}beam-ui'.find('$(operation_system)') !=0">
+                <SetGlobalStep id="_1oO4" local="true" varname="cn_ui">
+                  <default>del_ui</default>
+                </SetGlobalStep>
+                <ShellClientStarter client="$(cn_ui)"
+                                    command="$(delete_commando) beam-ui "
+                                    directory="${path:temp_snap}" id="_1oOW"/>
+                <ProcedureCall id="_1oO6" procedure="utils.exit_program">
+                  <variable name="client_name">$(cn_ui)</variable>
+                </ProcedureCall>
+              </IfSequence>
+            </ElseifSequence>
+          </IfSequence>
+        </TestStep>
+      </Procedure>
+      <Procedure id="_1ky9" name="global_variables">
+        <ServerScriptStep id="_1kyA" name="clearGlobals">
+          <code>rc.clearGlobals()</code>
+        </ServerScriptStep>
+      </Procedure>
+    </Package>
+    <Package id="_1o+s" name="run-log">
+      <Package id="_1o+t" name="error_message">
+        <Procedure id="_1oHy" name="dialog_Import_Product_does_not_appear">
+          <ServerScriptStep id="_1lJB" name="error">
+            <code>rc.logError("'ESA S-3 Toolbox - Import Product' dialog does not appear.")</code>
+          </ServerScriptStep>
+        </Procedure>
+        <Procedure id="_1oI9" name="dialog_does_not_appear">
+          <variable name="dialog"/>
+          <ServerScriptStep id="_1oIA" name="error">
+            <code>rc.logError("'$(dialog)' dialog does not appear.")</code>
+          </ServerScriptStep>
+        </Procedure>
+        <Procedure id="_1oMq" name="error_dialog_appears">
+          <variable name="dialog"/>
+          <ServerScriptStep id="_1oMr" name="error">
+            <code>rc.logError("'$(dialog)' dialog appears.")</code>
+          </ServerScriptStep>
+        </Procedure>
+        <Procedure id="_1oMU" name="tool_does_not_appear">
+          <variable name="tool"/>
+          <ServerScriptStep id="_1oMV" name="error">
+            <code>rc.logError("'$(tool)' does not appear.")</code>
+          </ServerScriptStep>
+        </Procedure>
+        <Procedure id="_1oMY" name="node_does_not_exist">
+          <variable name="node_name"/>
+          <ServerScriptStep id="_1oMZ" name="error">
+            <code>rc.logError("'$(node_name)' does not exist.")</code>
+          </ServerScriptStep>
+        </Procedure>
+        <Procedure id="_1oMW" name="menu_item_is_disabled">
+          <variable name="menu"/>
+          <ServerScriptStep id="_1oMX" name="error">
+            <code>rc.logError("Menu '$(menu)' is disabled.")</code>
+          </ServerScriptStep>
+        </Procedure>
+      </Package>
+      <Procedure id="_1o+-" name="make_screensot">
+        <variable name="iw_name"/>
+        <variable name="iw_name_example">error_dialog</variable>
+        <ProcedureCall id="_1kjS"
+                       procedure="qfs.run-log.screenshots.logScreenshotOfMonitor">
+          <variable name="iw_name">$(iw_name)</variable>
+          <variable name="iw_name_example">error_dialog</variable>
+          <variable name="monitor">0</variable>
+          <variable name="inSUT">false</variable>
+          <variable name="title"/>
+          <variable name="dontcompactify">false</variable>
+          <variable name="report">true</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1oGq" procedure="path"/>
+        <IfSequence id="_AM8" test="${qftest:windows}">
+          <SetGlobalStep id="_1oGs" local="true" varname="image_path">
+            <default>${path:screenshot_path2}</default>
+          </SetGlobalStep>
+          <ElseSequence id="_AM9">
+            <SetGlobalStep id="_1oGt" local="true" varname="image_path">
+              <default>${path:screenshot_path}</default>
+            </SetGlobalStep>
+          </ElseSequence>
+        </IfSequence>
+        <ServerScriptStep id="_AMA" name="screenshot">
+          <code>from imagewrapper import ImageWrapper
+iw = ImageWrapper(rc)
+currenScreenshot = iw.grabScreenshot()
+iw.savePng ("$(image_path)$(iw_name).png", currenScreenshot)
+</code>
+        </ServerScriptStep>
+      </Procedure>
+      <Procedure id="_1o-0" name="log_client_output">
+        <variable name="client_name"/>
+        <TryStep id="_1o-m">
+          <ServerScriptStep id="_1o-l" name="log_output">
+            <code>rc.logMessage(rc.lookup("qftest", "client.output.$(client_name)"),
+dontcompactify=True, report=True, nowrap=True)</code>
+          </ServerScriptStep>
+          <CatchSequence exception="TestException" id="_1o-n" maxerror="0"/>
+        </TryStep>
+        <ServerScriptStep disabled="true" id="_1o-z" name="log_output">
+          <code>rc.logMessage(rc.lookup("qftest", "client.output.$(client_name)"),
+dontcompactify=True, report=True, nowrap=True)</code>
+        </ServerScriptStep>
+      </Procedure>
+      <Procedure id="_1o-2" name="logError">
+        <variable name="message"/>
+        <variable name="withScreenshots"/>
+        <comment>Write an error into the run-log.</comment>
+        <IfSequence id="_1o-3" test="$(withScreenshots)">
+          <TryStep id="_1o-4">
+            <ClientScriptStep client="$(client)"
+                              engine="${default:guiengine:}" id="_1o-5"
+                              name="Try to log Error in SUT script to take screenshots of individual SUT windows.">
+              <code>rc.logError(rc.lookup("message"))</code>
+            </ClientScriptStep>
+            <CatchSequence exception="TestException" id="_1o-6" maxerror="0">
+              <ServerScriptStep id="_1o-7"
+                                name="log error in server script - only screenshot of the whole screen is taken">
+                <code>rc.logError(rc.lookup("message"))</code>
+              </ServerScriptStep>
+            </CatchSequence>
+          </TryStep>
+          <ElseSequence id="_1o-8">
+            <ServerScriptStep id="_1o-9"
+                              name="log error in server script - only screenshot of the whole screen is taken">
+              <code>rc.logError(rc.lookup("message"))</code>
+            </ServerScriptStep>
+          </ElseSequence>
+        </IfSequence>
+      </Procedure>
+    </Package>
+    <Package id="_1o+z" name="tree">
+      <Procedure id="_1o-a" name="expand">
+        <variable name="tree_id"/>
+        <ProcedureCall id="_1o-b" procedure="qfs.swing.tree.expandNodes">
+          <variable name="id">$(tree_id)</variable>
+          <variable name="callbackProc"/>
+        </ProcedureCall>
+      </Procedure>
+      <Procedure id="_1o-c" name="rowCount">
+        <variable name="tree_id"/>
+        <SetGlobalStep id="_1o-d" local="true" varname="id">
+          <default>$(tree_id)</default>
+        </SetGlobalStep>
+        <ComponentWaiter client="$(client)" component="$(id)" id="_1o-e"
+                         timeout="$[rc.getOption(Options.OPT_PLAY_TIMEOUT_COMPONENT)]"/>
+        <ClientScriptStep client="$(client)" engine="${default:guiengine:awt}"
+                          id="_1o-f">
+          <code>tree = rc.getComponent(rc.lookup("id"))
+
+rowCount = tree.getRowCount()
+
+rc.setGlobal("rowCount", rowCount)</code>
+        </ClientScriptStep>
+        <ServerScriptStep id="_1o-g" name="print">
+          <code>print "$(rowCount)"</code>
+        </ServerScriptStep>
+      </Procedure>
+    </Package>
+    <Package id="_1o-C" name="shellutils">
+      <Procedure id="_1o-D" name="mkdir">
+        <variable name="directory">aDirectory</variable>
+        <comment>Create a given directory. It also creates non-existing parent directories.</comment>
+        <ServerScriptStep id="_1o-E">
+          <code>from java.io import File
+
+directory = rc.lookup("directory")
+directory = File(directory)
+directory.mkdirs()
+
+if directory.exists() == 0:
+	raise UserException("Creating directory " + directory.getCanonicalPath() + " didn't work! Perhaps you have no permissions!")</code>
+        </ServerScriptStep>
+      </Procedure>
+      <Procedure id="_6Sc" name="removeDirectory">
+        <variable name="directory">aDirectory</variable>
+        <comment>Remove a given directory.</comment>
+        <ServerScriptStep id="_6Sd">
+          <code>import shutil
+
+directory = rc.lookup("directory")
+try:
+	shutil.rmtree (directory)
+except:
+	raise UserException("Removing directory " + directory + " didn't work! Perhaps you have no permissions!")
+
+</code>
+        </ServerScriptStep>
+      </Procedure>
+      <Procedure id="_1o-H" name="deleteFile">
+        <variable name="file">aFile</variable>
+        <comment>Delete a file.</comment>
+        <ServerScriptStep id="_1o-I">
+          <code>from java.io import File
+
+file = rc.lookup("file")
+file = File(file)
+file.delete()
+
+if file.exists():
+    rc.logMessage("File still exists. Waiting 1000 ms")
+    from java.lang import Thread
+    Thread.sleep(1000)
+    if file.exists():
+        file.delete()
+        if file.exists():
+            raise UserException("Cannot delete file " + file.getCanonicalPath() + ". Perhaps you don't have the required permissions!")</code>
+        </ServerScriptStep>
+      </Procedure>
+    </Package>
+    <Package id="_1lAZ" name="utils">
+      <Procedure id="_9aQ" name="exit_program">
+        <variable name="client_name"/>
+        <TryStep id="_9aR" name="check if really stopped">
+          <ProcessWaiter client="$(client_name)" errorlevel="0" id="_1o-V"
+                         raise="false" timeout="1000"/>
+          <CatchSequence exception="ClientNotTerminatedException" id="_9aT"
+                         maxerror="0" name="notTerminated">
+            <comment>The Wait for client to terminate node throws an exeption if it did not stop.
+In this case we catch the exeption in this node and perform a hard close.
+</comment>
+            <ProcedureCall id="_1kwc" procedure="utils.terminate_process">
+              <variable name="client_name">$(client_name)</variable>
+            </ProcedureCall>
+          </CatchSequence>
+        </TryStep>
+      </Procedure>
+      <Procedure id="_1o+u" name="terminate_process">
+        <variable name="client_name"/>
+        <TryStep id="_1o+v">
+          <ClientWaiter client="$(client_name)" errorlevel="0" id="_1o+w"
+                        raise="false" timeout="10"/>
+          <ClientStopper client="$(client_name)" id="_1o+x" postdelay="200">
+            <comment>A normal close did not work, so we simply terminate the application.
+</comment>
+          </ClientStopper>
+          <CatchSequence exception="TestException" id="_1o+y" maxerror="0"/>
+        </TryStep>
+      </Procedure>
+    </Package>
+  </PackageRoot>
+  <ExtraSequence id="_4">
+    <ServerScriptStep id="_1oh2" name="print">
+      <code>print "data_directory = ${path:data_directory}"</code>
+    </ServerScriptStep>
+  </ExtraSequence>
+  <WindowList id="_5"/>
+</RootStep>

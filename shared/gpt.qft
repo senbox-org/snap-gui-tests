@@ -1,0 +1,619 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.3">
+  <include>qfs.qft</include>
+  <include>variables.qft</include>
+  <include>shared_lib.qft</include>
+  <dependency>../s3tbx/lib/s3tbx_main.qft</dependency>
+  <dependency>../snap/lib/snap_main.qft</dependency>
+  <PackageRoot id="_3">
+    <comment>s3tbx</comment>
+    <Package id="_1oIW" name="gpt">
+      <Procedure id="_1oOx" name="run_operator_check_output_file">
+        <TestStep id="_1oOy" name="set_variables">
+          <ProcedureCall id="_1oOz" procedure="variable_increase_on_1">
+            <variable name="var_int">$(sleep_time)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1oQu" procedure="utils.gpt_calling"/>
+          <ProcedureCall id="_1oO-" procedure="path"/>
+          <TestStep id="_1oP0" name="set_iput">
+            <IfSequence id="_1o-L"
+                        test="&#34;$(dataInDir)&#34;&lt;&gt;&#34;&#34;">
+              <ProcedureCall id="_1o-M" procedure="data_source_directory">
+                <variable name="data_type">$(dataInDir)</variable>
+              </ProcedureCall>
+              <SetGlobalStep id="_1o-N" local="true" varname="i1">
+                <default>$(sourceOption)$(data_source_directory)$(fileName)</default>
+              </SetGlobalStep>
+            </IfSequence>
+            <IfSequence id="_1o-O"
+                        test="&#34;$(dataInDir2)&#34;&lt;&gt;&#34;&#34;">
+              <ProcedureCall id="_1o-P" procedure="data_source_directory">
+                <variable name="data_type">$(dataInDir2)</variable>
+              </ProcedureCall>
+              <SetGlobalStep id="_1o-Q" local="true" varname="i2">
+                <default>$(sourceOption2)$(data_source_directory)$(fileName2)</default>
+              </SetGlobalStep>
+            </IfSequence>
+            <IfSequence id="_1o-R"
+                        test="&#34;$(dataInDir3)&#34;&lt;&gt;&#34;&#34;">
+              <ProcedureCall id="_1o-S" procedure="data_source_directory">
+                <variable name="data_type">$(dataInDir3)</variable>
+              </ProcedureCall>
+              <SetGlobalStep id="_1o-T" local="true" varname="i3">
+                <default>$(sourceOption3)$(data_source_directory)$(fileName3)</default>
+              </SetGlobalStep>
+            </IfSequence>
+            <IfSequence id="_1o-U"
+                        test="&#34;$(dataInDir)&#34;&lt;&gt;&#34;&#34; and &#34;$(dataInDir2)&#34;&lt;&gt;&#34;&#34;  and &#34;$(dataInDir3)&#34;&lt;&gt;&#34;&#34; ">
+              <SetGlobalStep id="_1o-V" varname="input">
+                <default>$(i1) $(i2) $(i3)</default>
+              </SetGlobalStep>
+              <ElseifSequence id="_1o-W"
+                              test="&#34;$(dataInDir)&#34;&lt;&gt;&#34;&#34; and &#34;$(dataInDir2)&#34;&lt;&gt;&#34;&#34;  and &#34;$(dataInDir3)&#34;==&#34;&#34; ">
+                <SetGlobalStep id="_1o-X" varname="input">
+                  <default>$(i1) $(i2)</default>
+                </SetGlobalStep>
+              </ElseifSequence>
+              <ElseSequence id="_1o-Y">
+                <SetGlobalStep id="_1o-Z" varname="input">
+                  <default>$(i1)</default>
+                </SetGlobalStep>
+              </ElseSequence>
+            </IfSequence>
+          </TestStep>
+          <TestStep id="_1oPG"
+                    name="set_graph_file_or_operator_and_parameters_file">
+            <ProcedureCall id="_1oPH" procedure="output_data_directory">
+              <variable name="output_dir">$(data_out_dir)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1oPI" procedure="graph_file_dir">
+              <variable name="xml_dir">$(xml_file_dir)</variable>
+            </ProcedureCall>
+            <IfSequence id="_1oPJ"
+                        test="&#34;$(parameters_file)&#34;&lt;&gt;&#34;&#34;">
+              <SetGlobalStep id="_1oPK" varname="new_param">
+                <default>-p $(parameters_file_dir)$(parameters_file) $(param)</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oPL" varname="outfn">
+                <default>$(wv)_use_parameters_file</default>
+              </SetGlobalStep>
+              <ElseifSequence id="_1oPM"
+                              test="&#34;$(xml_file)&#34;&lt;&gt;&#34;&#34;">
+                <SetGlobalStep id="_1o+a" varname="new_param">
+                  <default>$(graph_file_dir)$(xml_file).xml $(param)</default>
+                </SetGlobalStep>
+                <SetGlobalStep id="_1oPO" varname="outfn">
+                  <default>$(wv)_$(xml_file)</default>
+                </SetGlobalStep>
+              </ElseifSequence>
+            </IfSequence>
+          </TestStep>
+          <ProcedureCall id="_1o+G" procedure="utils.gpt_client_name">
+            <variable name="client_nr">$(wv)</variable>
+          </ProcedureCall>
+          <ServerScriptStep disabled="true" id="_1oPQ" name="print">
+            <code>print "************ graph or parameters file = $(new_param)*****************"  </code>
+          </ServerScriptStep>
+        </TestStep>
+        <IfSequence id="_1oPR" postdelay="2000"
+                    test="&#34;$(supported_format)&#34;==&#34;true&#34;">
+          <TestStep id="_1oPT" name="compose_command_line ">
+            <comment>@teststep Set Command Line</comment>
+            <SetGlobalStep id="_1oPU" varname="gpt_commando">
+              <default>$(gpt_calling) $(new_param) $(of) -t $(output_data_directory)$(outfn).$(fr) $(input)</default>
+            </SetGlobalStep>
+          </TestStep>
+          <TestStep id="_1oPV" name="run_operator">
+            <comment>$(gpt_commando)</comment>
+            <ShellClientStarter client="$(gpt_client_name)"
+                                command="$(gpt_commando)"
+                                directory="${path:s3tbx_bin_directory}"
+                                id="_1oPW" postdelay="10000"/>
+            <ServerScriptStep disabled="true" id="_1o+b" name="print">
+              <code>print "************ gpt_client_name = $(gpt_client_name)*****************"  </code>
+            </ServerScriptStep>
+            <ProcedureCall id="_1o+c" procedure="run-log.log_client_output">
+              <variable name="client_name">$(gpt_client_name)</variable>
+            </ProcedureCall>
+          </TestStep>
+          <ProcedureCall id="_1o-p" procedure="gpt.processing_end">
+            <variable name="waiting_period">$(wv)00</variable>
+            <variable name="client_name">$(gpt_client_name)</variable>
+          </ProcedureCall>
+        </IfSequence>
+        <TestStep id="_1oPY" name="check_output">
+          <TestStep id="_1oPZ" name="set_output_file">
+            <IfSequence id="_1oPa" test="${qftest:windows}">
+              <SetGlobalStep id="_1oPb" varname="outfile">
+                <default>${path:data_directory}out\\$(data_out_dir)\\$(outfn).$(fr)</default>
+              </SetGlobalStep>
+              <ElseifSequence id="_1oPc" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <SetGlobalStep id="_1oPd" varname="outfile">
+                  <default>${path:data_directory}out/$(data_out_dir)/$(outfn).$(fr)</default>
+                </SetGlobalStep>
+              </ElseifSequence>
+              <ElseSequence id="_1oPe">
+                <SetGlobalStep id="_1oPf" varname="outfile">
+                  <default>${path:data_directory}out/$(data_out_dir)/$(outfn).$(fr)</default>
+                </SetGlobalStep>
+              </ElseSequence>
+            </IfSequence>
+          </TestStep>
+          <ProcedureCall id="_1oPg"
+                         procedure="external_files.check_file_exists_setGlobal">
+            <variable name="fileName">$(outfile)</variable>
+          </ProcedureCall>
+          <IfSequence id="_1oPh"
+                      test="&#34;$(fileExists)&#34;==&#34;False&#34;">
+            <TestStep id="_1oPi" name="wait" postdelay="5000">
+              <ProcedureCall id="_1oQb" procedure="gpt.processing_end">
+                <variable name="waiting_period">$(wv)00</variable>
+                <variable name="client_name">$(gpt_client_name)</variable>
+              </ProcedureCall>
+            </TestStep>
+            <ProcedureCall id="_1oPk"
+                           procedure="external_files.check_file_exists_setGlobal">
+              <variable name="fileName">$(outfile)</variable>
+            </ProcedureCall>
+            <IfSequence id="_1o-+"
+                        test="&#34;$(fileExists)&#34;==&#34;False&#34;">
+              <ProcedureCall id="_1p02" procedure="run-log.logError">
+                <variable name="message">$(outfile) is not processed</variable>
+                <variable name="withScreenshots">false</variable>
+              </ProcedureCall>
+            </IfSequence>
+          </IfSequence>
+        </TestStep>
+        <ServerScriptStep disabled="true" id="_1o+J" name="print">
+          <code>print "of = $(of)"</code>
+        </ServerScriptStep>
+      </Procedure>
+      <Procedure id="_1kwZ" name="processing_end">
+        <variable name="waiting_period"/>
+        <variable name="client_name"/>
+        <ProcedureCall id="_1o+H" procedure="utils.terminate_process">
+          <variable name="client_name">$(client_name)</variable>
+        </ProcedureCall>
+      </Procedure>
+    </Package>
+    <Package id="_1l8Q" name="preparation">
+      <Procedure id="_1oHp" name="environment_for_gpt_test">
+        <variable name="out_dir"/>
+        <ServerScriptStep id="_1kyA" name="clearGlobals">
+          <code>rc.clearGlobals()</code>
+        </ServerScriptStep>
+        <SetGlobalStep id="_1oND" varname="client_nr">
+          <default>0</default>
+        </SetGlobalStep>
+        <ProcedureCall id="_1oOT" procedure="output_data_directory">
+          <variable name="output_dir">$(out_dir)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o-q" procedure="cleanup.output_data_folder">
+          <variable name="directory">$(out_dir)</variable>
+        </ProcedureCall>
+        <TryStep disabled="true" id="_1oN7" name="remove_directory">
+          <ProcedureCall id="_1oQq"
+                         procedure="qfs.shellutils.removeDirectory">
+            <variable name="directory">$(output_data_directory)</variable>
+          </ProcedureCall>
+          <CatchSequence exception="TestException" id="_1oN8" maxerror="0"/>
+        </TryStep>
+        <TryStep disabled="true" id="_1oN5" name="mkdir">
+          <ProcedureCall id="_1o+Y" procedure="shellutils.mkdir">
+            <variable name="directory">$(output_data_directory)</variable>
+          </ProcedureCall>
+          <CatchSequence exception="TestException" id="_1oN6" maxerror="0"/>
+        </TryStep>
+      </Procedure>
+    </Package>
+    <Package id="_1oGd" name="external_files">
+      <Procedure id="_9aq" name="check_file_exists_setGlobal">
+        <variable name="fileName"/>
+        <variable name="fileName_example">out/out_dir/output_file.dim</variable>
+        <ServerScriptStep id="_1oGf" name="check_fileExists_setGlobal">
+          <code>from java.io import File
+rc.setGlobal("fileExists", File("$(fileName)").exists())</code>
+        </ServerScriptStep>
+        <ServerScriptStep id="_1oGg" name="print">
+          <code>print "fileExists = $(fileExists)"  </code>
+        </ServerScriptStep>
+      </Procedure>
+    </Package>
+    <Package id="_1oQd" name="tables">
+      <Procedure id="_1oQe" name="band_maths">
+        <ExcelDataBinder excelfile="tables/gpt/bandMaths.xls" id="_9V6"
+                         name="dataTable" sheetname="requests"/>
+      </Procedure>
+      <Procedure id="_1oQf" name="collocation">
+        <ExcelDataBinder excelfile="tables/gpt/collocation.xls" id="_1oQg"
+                         name="dataTable" sheetname="requests"/>
+      </Procedure>
+    </Package>
+    <Package id="_1lAZ" name="utils">
+      <Procedure id="_1o+A" name="gpt_client_name">
+        <variable name="client_nr"/>
+        <SetGlobalStep id="_1o+B" varname="gpt_client_name">
+          <default>gpt$(client_nr)</default>
+        </SetGlobalStep>
+        <ServerScriptStep id="_1o+C" name="set_variable_increase_on_1">
+          <code>vl = $(client_nr)
+vl = vl + 1   
+rc.setGlobal("cn", vl)                       </code>
+        </ServerScriptStep>
+        <ServerScriptStep disabled="true" id="_1o+D" name="print">
+          <code>print "***** $(client_nr)"</code>
+        </ServerScriptStep>
+        <SetGlobalStep id="_1o+E" varname="client_nr">
+          <default>$(cn)</default>
+        </SetGlobalStep>
+        <ServerScriptStep disabled="true" id="_1o+F" name="print">
+          <code>print "***** gpt_client_name = $(gpt_client_name)"</code>
+        </ServerScriptStep>
+      </Procedure>
+      <Procedure id="_1oHB" name="gpt_calling">
+        <IfSequence id="_5JR" test="${qftest:windows}">
+          <SetGlobalStep id="_1oHC" varname="gpt_calling">
+            <default>gpt.bat</default>
+          </SetGlobalStep>
+          <ElseSequence id="_5JZ">
+            <SetGlobalStep id="_1oHD" varname="gpt_calling">
+              <default>gpt.sh</default>
+            </SetGlobalStep>
+          </ElseSequence>
+        </IfSequence>
+      </Procedure>
+    </Package>
+  </PackageRoot>
+  <ExtraSequence id="_4">
+    <Procedure id="_E5Y" name="select_deselect_mask">
+      <ProcedureCall id="_E5a" procedure="get.getRowCount">
+        <variable name="id">Dialog2.maskTable</variable>
+      </ProcedureCall>
+      <ServerScriptStep id="_9pO" name="print">
+        <code>print "Masks number = $(rowCount)"  </code>
+      </ServerScriptStep>
+      <IfSequence id="_E5h" test="$(rowCount)&gt;0">
+        <RepeatSequence count="$(rowCount)" id="_E5i" name="check_masks"
+                        var="m">
+          <TryStep id="_E5k" name="select_visible">
+            <ProcedureCall id="_E5l"
+                           procedure="maskManager.help.checkin_visible">
+              <variable name="line_nr">$(m)</variable>
+            </ProcedureCall>
+            <ProcedureCall disabled="true" id="_E5m"
+                           procedure="maskManager.help.checkin_visible">
+              <variable name="line_nr">$(m)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_E5n" maxerror="0">
+              <ProcedureCall id="_E5p" procedure="scripts.error.error_text">
+                <variable name="text">Mask $(m) cannot be selected.</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+          <TryStep id="_E5z" name="deselect_visible">
+            <ProcedureCall id="_E5+"
+                           procedure="maskManager.help.checkin_visible">
+              <variable name="line_nr">$(m)</variable>
+            </ProcedureCall>
+            <ProcedureCall disabled="true" id="_E5-"
+                           procedure="maskManager.help.checkin_visible">
+              <variable name="line_nr">$(m)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_E60" maxerror="0">
+              <ProcedureCall id="_E61" procedure="scripts.error.error_text">
+                <variable name="text">Mask $(m) cannot be selected.</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+          <ProcedureCall id="_1kdi"
+                         procedure="clicks.run_the_Garbage_Collector"/>
+        </RepeatSequence>
+        <ElseSequence id="_E5x">
+          <ProcedureCall id="_E5y" procedure="scripts.error.error_text">
+            <variable name="text">Mask Manager is empty</variable>
+          </ProcedureCall>
+        </ElseSequence>
+      </IfSequence>
+    </Procedure>
+    <Procedure id="_BwH" name="open_product_check_masks_and_layers">
+      <SetGlobalStep id="_1lXD" varname="prod_id_visat_tree">
+        <default>0</default>
+      </SetGlobalStep>
+      <ProcedureCall id="_94u" procedure="preparing_for_test"/>
+      <ProcedureCall id="_C-t"
+                     procedure="checks.checkProductNotOpened_return_prodNotOpened_variable"/>
+      <IfSequence id="_C-u"
+                  test="&#34;$(prodNotOpened)&#34;==&#34;false&#34;">
+        <IfSequence id="_1kX2"
+                    test="&#34;$(view_opened)&#34;==&#34;true&#34;">
+          <TestStep id="_DgH" name="check_mask_manager">
+            <ProcedureCall id="_6Vn" procedure="opens.openMaskManagerDialog"/>
+            <ProcedureCall id="_C4B" procedure="maskManager.check.header">
+              <variable name="roi">true</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_C4C"
+                           procedure="maskManager.check.def_layout_MaskManager"/>
+            <ProcedureCall disabled="true" id="_C4D"
+                           procedure="selects.selectProductInVisatTree">
+              <variable name="index">1</variable>
+              <variable name="product_name">$(productName)</variable>
+            </ProcedureCall>
+            <ProcedureCall disabled="true" id="_C4E"
+                           procedure="maskManager.check.header">
+              <variable name="roi">false</variable>
+            </ProcedureCall>
+            <ProcedureCall disabled="true" id="_C4F"
+                           procedure="maskManager.check.def_layout_MaskManager"/>
+            <IfSequence disabled="true" id="_9MT"
+                        test="&#34;$(bandGroup)&#34;==&#34;&#34;">
+              <ProcedureCall id="_8No"
+                             procedure="selects.selectBandInProductTree">
+                <variable name="band">$(bandName)</variable>
+                <variable name="index">1</variable>
+                <variable name="product_name">$(productName)</variable>
+              </ProcedureCall>
+              <ElseSequence id="_9MU">
+                <ProcedureCall id="_9MV"
+                               procedure="selects.selectBandInProductTree">
+                  <variable name="band">$(bandGroup)/$(bandName)</variable>
+                  <variable name="index">1</variable>
+                  <variable name="product_name">$(productName)</variable>
+                </ProcedureCall>
+              </ElseSequence>
+            </IfSequence>
+            <ProcedureCall disabled="true" id="_DcK"
+                           procedure="maskManager.check.header">
+              <variable name="roi">true</variable>
+            </ProcedureCall>
+            <IfSequence id="_E63"
+                        test="&#34;$(prodType2)&#34;==&#34;sentinel_3&#34;">
+              <ProcedureCall id="_E62"
+                             procedure="maskManager.help.select_deselect_mask"/>
+              <ProcedureCall id="_1kX8"
+                             procedure="clicks.run_the_Garbage_Collector"/>
+              <ProcedureCall id="_1kXZ"
+                             procedure="clicks.run_the_Garbage_Collector"/>
+              <ProcedureCall id="_1kXa"
+                             procedure="clicks.run_the_Garbage_Collector"/>
+              <ProcedureCall id="_E65" procedure="maskManager.get_mask_name">
+                <variable name="maskId">0</variable>
+              </ProcedureCall>
+              <ElseSequence id="_E64">
+                <ProcedureCall id="_DcL"
+                               procedure="maskManager.check.masks_in_maskManager"/>
+              </ElseSequence>
+            </IfSequence>
+            <SetGlobalStep id="_DtW" varname="mask_count">
+              <default>$(rowCount)</default>
+            </SetGlobalStep>
+            <ProcedureCall id="_959" procedure="closes.closeMaskManager"/>
+          </TestStep>
+          <TestStep id="_DcW" name="check_masks_in_LayerManager">
+            <ProcedureCall id="_DcX"
+                           procedure="opens.LayerManager.openLayerManagerDialog"/>
+            <ProcedureCall id="_Dql" procedure="layerManager.find_layer_node">
+              <variable name="layer_name">$(masks_mask)</variable>
+            </ProcedureCall>
+            <IfSequence id="_E6G"
+                        test="&#34;$(layer_node_found)&#34;==&#34;true&#34; and $(mask_count)&gt;0">
+              <SetGlobalStep id="_E6H" varname="masks_nodeId">
+                <default>$(layer_node_id)</default>
+              </SetGlobalStep>
+              <ProcedureCall id="_E6J"
+                             procedure="opens.LayerManager.open_node">
+                <variable name="node">$(masks_nodeId)</variable>
+              </ProcedureCall>
+              <IfSequence id="_E6I"
+                          test="&#34;$(prodType2)&#34;==&#34;sentinel_3&#34;">
+                <ProcedureCall id="_E7G"
+                               procedure="layerManager.select_deselect_mask_layer">
+                  <variable name="mask_node_id">$(masks_nodeId)</variable>
+                </ProcedureCall>
+                <ElseSequence id="_E6L">
+                  <IfSequence id="_E6M"
+                              test="&#34;$(prodType2)&#34;==&#34;avhrr_gac&#34;">
+                    <ProcedureCall id="_E6N"
+                                   procedure="layerManager.sytem_mask_names">
+                      <variable name="prodType">$(prodType2)</variable>
+                      <variable name="id">1</variable>
+                      <variable name="basis_layer">$(bandName)</variable>
+                    </ProcedureCall>
+                    <ElseifSequence id="_E6O"
+                                    test="&#34;$(masks)&#34;==&#34;unknow&#34;">
+                      <ProcedureCall id="_E6P"
+                                     procedure="layerManager.select_sytem_masks"/>
+                    </ElseifSequence>
+                    <ElseSequence id="_E6Q">
+                      <ProcedureCall id="_E6R"
+                                     procedure="opens.LayerManager.open_node">
+                        <variable name="node">$(masks_nodeId)</variable>
+                      </ProcedureCall>
+                      <ProcedureCall id="_E6S"
+                                     procedure="selects.layerManager.select_layer">
+                        <variable name="node_id1">$(masks_nodeId)</variable>
+                        <variable name="node_id2">0</variable>
+                      </ProcedureCall>
+                      <IfSequence id="_E6T"
+                                  test="&#34;$(layer_node_found)&#34;==&#34;true&#34;">
+                        <ProcedureCall id="_E6U"
+                                       procedure="layerManager.sytem_mask_names">
+                          <variable name="prodType">$(prodType)</variable>
+                          <variable name="id">1</variable>
+                          <variable name="basis_layer">$(bandName)</variable>
+                        </ProcedureCall>
+                        <ElseSequence id="_E6V">
+                          <ProcedureCall id="_E6W"
+                                         procedure="layerManager.sytem_mask_names">
+                            <variable name="prodType">$(prodType)</variable>
+                            <variable name="id">1</variable>
+                            <variable name="basis_layer">$(bandName)</variable>
+                          </ProcedureCall>
+                        </ElseSequence>
+                      </IfSequence>
+                    </ElseSequence>
+                  </IfSequence>
+                </ElseSequence>
+              </IfSequence>
+            </IfSequence>
+            <ProcedureCall id="_1kXb"
+                           procedure="clicks.run_the_Garbage_Collector"/>
+            <ProcedureCall id="_1kXc"
+                           procedure="clicks.run_the_Garbage_Collector"/>
+            <SetGlobalStep id="_E6X" varname="mask_count">
+              <default>$(rowCount)</default>
+            </SetGlobalStep>
+            <ProcedureCall id="_Dct" procedure="closes.closeLayerManager"/>
+          </TestStep>
+        </IfSequence>
+        <SetGlobalStep id="_Deh" varname="mask_number">
+          <default>0</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_Dei" varname="masks">
+          <default>unknow</default>
+        </SetGlobalStep>
+      </IfSequence>
+    </Procedure>
+    <Procedure id="_9XO" name="computeStatistics">
+      <SetGlobalStep id="_DuY" varname="prod_id_visat_tree">
+        <default>0</default>
+      </SetGlobalStep>
+      <TestStep id="_FSh" name="computeStatistics" postdelay="1000">
+        <ProcedureCall id="_FSi" procedure="open.statisticDialog"/>
+        <ProcedureCall id="_FSj"
+                       procedure="select.statistics.deselect_checkBox_UseRoi"/>
+        <ProcedureCall id="_FSk" postdelay="5000"
+                       procedure="clicks.statistics.button_compute"/>
+        <TestStep id="_1kiH"
+                  name="wait_Computing_Statistics_progress_monitor_disappear">
+          <TryStep id="_1kiI">
+            <ProcedureCall id="_1kiJ" postdelay="2000"
+                           procedure="wait.computeStatistics"/>
+            <CatchSequence exception="TestException" id="_1kiK" maxerror="0"/>
+          </TryStep>
+          <TryStep id="_1kiL">
+            <ProcedureCall id="_1kiM" postdelay="2000"
+                           procedure="wait.computeStatistics"/>
+            <CatchSequence exception="TestException" id="_1kiN" maxerror="0"/>
+          </TryStep>
+        </TestStep>
+        <ProcedureCall disabled="true" id="_FSm" postdelay="2000"
+                       procedure="checks.statistics.text_not_roi"/>
+        <ProcedureCall id="_FSn"
+                       procedure="checks.statistics.statistics_label">
+          <variable name="txt">$(bandName)</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_FSo" name="computeStatistics_for_roi_mask">
+        <IfSequence id="_FSp"
+                    test="&#34;$(mask_name1)&#34;&lt;&gt;&#34;&#34; or &#34;$(mask_name2)&#34;&lt;&gt;&#34;&#34;">
+          <IfSequence id="_FSq"
+                      test="&#34;$(mask_name2)&#34;&lt;&gt;&#34;&#34;">
+            <SetGlobalStep id="_FSr" local="true" varname="mask_name">
+              <default>$(mask_name2)</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_FSs"
+                            test="&#34;$(mask_name1)&#34;&lt;&gt;&#34;&#34;">
+              <SetGlobalStep id="_FSt" local="true" varname="mask_name">
+                <default>$(mask_name1)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+          </IfSequence>
+          <IfSequence id="_FSu"
+                      test="&#34;$(mask_name)&#34;&lt;&gt;&#34;no&#34;">
+            <TestStep id="_FSv" name="compute_for_all_roi_mask"
+                      postdelay="2000">
+              <ProcedureCall id="_FSw"
+                             procedure="select.statistics.checkBox_UseRoi"/>
+              <ProcedureCall id="_FSx"
+                             procedure="select.statistics.select_all"/>
+              <ProcedureCall id="_FSy"
+                             procedure="clicks.statistics.button_compute"/>
+              <TestStep id="_1ki8"
+                        name="wait_Computing_Statistics_progress_monitor_disappear">
+                <TryStep id="_1ki9">
+                  <ProcedureCall id="_1ki7" postdelay="2000"
+                                 procedure="wait.computeStatistics"/>
+                  <CatchSequence exception="TestException" id="_1kiA"
+                                 maxerror="0"/>
+                </TryStep>
+                <TryStep id="_1kiB">
+                  <ProcedureCall id="_1kiC" postdelay="2000"
+                                 procedure="wait.computeStatistics"/>
+                  <CatchSequence exception="TestException" id="_1kiD"
+                                 maxerror="0"/>
+                </TryStep>
+              </TestStep>
+              <ProcedureCall id="_FS+"
+                             procedure="checks.statistics.text_statistics_for_all_roi"/>
+              <ProcedureCall disabled="true" id="_FS-"
+                             procedure="select.statistics.roi_mask">
+                <variable name="roi_mask">$(mask_name)</variable>
+              </ProcedureCall>
+              <ProcedureCall disabled="true" id="_FT0"
+                             procedure="checks.statistics.use_roi_selected"/>
+              <ProcedureCall disabled="true" id="_FT1"
+                             procedure="checks.statistics.use_roi_selected"/>
+              <ProcedureCall disabled="true" id="_FT2"
+                             procedure="select.statistics.roi_mask">
+                <variable name="roi_mask">$(mask_name)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_FT3"
+                             procedure="clicks.statistics.button_OK_failed_compute_statistics_shoot_error"/>
+            </TestStep>
+            <TestStep id="_FT4" name="compute_for_one_mask">
+              <ProcedureCall id="_FT5"
+                             procedure="select.statistics.select_none"/>
+              <ProcedureCall id="_FT6" procedure="select.statistics.one_mask">
+                <variable name="roi_mask">$(mask_name)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_FT7"
+                             procedure="clicks.statistics.button_compute"/>
+              <ProcedureCall id="_FT8" postdelay="2000"
+                             procedure="wait.computeStatistics"/>
+              <ProcedureCall id="_FT9"
+                             procedure="checks.statistics.button_Compute_enabled"/>
+              <IfSequence id="_FTA"
+                          test="&#34;$(button_Compute_enabled)&#34;==&#34;true&#34;">
+                <ProcedureCall id="_FTB"
+                               procedure="clicks.statistics.button_compute_help"/>
+              </IfSequence>
+              <ProcedureCall id="_FTC" postdelay="2000"
+                             procedure="wait.computeStatistics"/>
+              <ProcedureCall id="_FTD"
+                             procedure="checks.statistics.button_Compute_enabled"/>
+              <IfSequence id="_FTE"
+                          test="&#34;$(button_Compute_enabled)&#34;==&#34;true&#34;">
+                <ProcedureCall id="_FTF"
+                               procedure="clicks.statistics.button_compute_help"/>
+              </IfSequence>
+              <ProcedureCall id="_FTG" postdelay="2000"
+                             procedure="wait.computeStatistics"/>
+              <ProcedureCall id="_FTH"
+                             procedure="checks.statistics.text_statistics_for_roi_mask">
+                <variable name="roimask">$(mask_name)</variable>
+              </ProcedureCall>
+            </TestStep>
+            <ProcedureCall id="_1kiO"
+                           procedure="select.statistics.deselect_checkBox_UseRoi"/>
+          </IfSequence>
+        </IfSequence>
+      </TestStep>
+      <ProcedureCall id="_FTI"
+                     procedure="clicks.statistics.button_OK_failed_compute_statistics_shoot_error"/>
+      <ProcedureCall id="_1kid" procedure="scripts.make_screensot">
+        <variable name="iw_name">computeStatistics</variable>
+        <variable name="iw_name_example">error_dialog</variable>
+      </ProcedureCall>
+      <ServerScriptStep id="_FTK" name="An error">
+        <code>rc.logError("'$(dataInDir)/$(productName)' could not be opened! Check the dataInDir or the product")</code>
+      </ServerScriptStep>
+      <ProcedureCall id="_DYC"
+                     procedure="scripts.error.product_is_not_opened_in_VISAT">
+        <variable name="product_name">$(dataInDir)/$(fileName)</variable>
+      </ProcedureCall>
+    </Procedure>
+  </ExtraSequence>
+  <WindowList id="_5"/>
+</RootStep>

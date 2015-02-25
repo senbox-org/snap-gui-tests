@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.3">
+  <include>qfs.qft</include>
+  <include>../lib/s3tbx_main.qft</include>
+  <TestSet id="_1" name="01_01_netCdf_generic_imaging_tools"
+           reportname="01-01 Imaging tools NetCDF-CF">
+    <Dependency id="_1l4X" name="start_application">
+      <comment>@teststep Check if ESA S-3 Toolbox started else start </comment>
+      <SetupSequence id="_6" name="start_s3tbx">
+        <ProcedureCall id="_A" procedure="start.s3tbx.application"/>
+      </SetupSequence>
+      <CleanupSequence id="_8" name="exit_s3tbx">
+        <ProcedureCall id="_B" procedure="stop.exit_s3tbx"/>
+      </CleanupSequence>
+    </Dependency>
+    <TestSet id="_D" name="import_netCdf_cf_product_open_image_view">
+      <DataDriver id="_3y4"
+                  loopreportname="Open image view of $(dataInDir)/$(fileName) data product"
+                  name="dataTable">
+        <ProcedureCall id="_Bt4" procedure="tables.netCdf_cf"/>
+      </DataDriver>
+      <TestCase id="_2" name="test" reportname="$(productName)">
+        <ProcedureCall id="_1lEv"
+                       procedure="import_data.raster_data.generic.netCdf_generic"/>
+        <ProcedureCall id="_1lEu" procedure="test_events.imaging_tools"/>
+      </TestCase>
+    </TestSet>
+    <TestSet id="_1lEw" name="import_netCdf_beam_product_open_image_view">
+      <DataDriver id="_1lEx"
+                  loopreportname="Open image view of $(dataInDir)/$(fileName) data product"
+                  name="dataTable">
+        <ProcedureCall id="_1lEy" procedure="tables.netCdf_beam"/>
+      </DataDriver>
+      <TestCase id="_1lEz" name="test" reportname="$(productName)">
+        <ProcedureCall id="_1lE+"
+                       procedure="import_data.raster_data.generic.netCdf_generic"/>
+        <ProcedureCall id="_1lE-" procedure="test_events.imaging_tools"/>
+      </TestCase>
+    </TestSet>
+  </TestSet>
+  <PackageRoot id="_3"/>
+  <ExtraSequence id="_4"/>
+  <WindowList id="_5"/>
+</RootStep>

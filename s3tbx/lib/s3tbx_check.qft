@@ -1,0 +1,655 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.3">
+  <include>qfs.qft</include>
+  <include>s3tbx_main.qft</include>
+  <include>s3tbx_components.qft</include>
+  <dependency>s3tbx_main.qft</dependency>
+  <PackageRoot id="_3">
+    <comment>s3tbx</comment>
+    <Package id="_1l8s" name="check">
+      <Package disabled="true" id="_1l2F" name="files_of_type">
+        <Procedure id="_1l2C" name="asar">
+          <ProcedureCall id="_1l2G" procedure="import.resize_import_dialog"/>
+          <CheckStringStep checktype="value" client="$(client)"
+                           component="dialogESA_S-3_Toolbox_-_Import_ENVISAT_Product.comboFiles_of_type:"
+                           id="_1m2d">
+            <text>ENVISAT MERIS, AATSR, ASAR and ERS1/2 SAR products (*.N1,*.E1,*.E2,*.zip,*.gz)</text>
+          </CheckStringStep>
+        </Procedure>
+        <Procedure id="_1m2c" name="envisat">
+          <CheckStringStep checktype="value" client="$(client)"
+                           component="dialogESA_S-3_Toolbox_-_Import_ENVISAT_Product.comboFiles_of_type:"
+                           id="_1m2S">
+            <text>ENVISAT MERIS, AATSR, ASAR and ERS1/2 SAR products (*.N1,*.E1,*.E2,*.zip,*.gz)</text>
+          </CheckStringStep>
+        </Procedure>
+        <Procedure id="_1m2e" name="ers_sar">
+          <CheckStringStep checktype="value" client="$(client)"
+                           component="dialogESA_S-3_Toolbox_-_Import_ENVISAT_Product.comboFiles_of_type:"
+                           id="_1lK2">
+            <text>ENVISAT MERIS, AATSR, ASAR and ERS1/2 SAR products (*.N1,*.E1,*.E2,*.zip,*.gz)</text>
+          </CheckStringStep>
+        </Procedure>
+        <Procedure id="_1l1z" name="dimap"/>
+        <Procedure id="_1l23" name="geotiff"/>
+        <Procedure id="_1l29" name="rgb"/>
+        <Procedure id="_1l26" name="sentinel3">
+          <CheckStringStep checktype="value" client="$(client)"
+                           component="dialogESA_S-3_Toolbox_-_Import_SENTINEL-3_Product.comboFiles_of_type:"
+                           id="_1kz+">
+            <text>Sentinel-3 products (*.xml)</text>
+          </CheckStringStep>
+        </Procedure>
+        <Procedure id="_1l1w" name="smos">
+          <CheckStringStep checktype="value" client="$(client)"
+                           component="dialogESA_S-3_Toolbox_-_Import_SMOS-EEF_Product.comboFiles_of_type:"
+                           id="_1kzB">
+            <text>SMOS Data Products (*.HDR,*.DBL,*.zip,*.ZIP)</text>
+          </CheckStringStep>
+        </Procedure>
+      </Package>
+      <Package id="_1kxG" name="menu">
+        <Procedure id="_H" name="file_enabled">
+          <comment>@teststep Check menu File enabled</comment>
+          <CheckBooleanStep checktype="enabled" client="$(client)"
+                            component="file" id="_I"/>
+        </Procedure>
+      </Package>
+      <Package id="_1oGh" name="masks_layers">
+        <Procedure id="_1oGi" name="all_mask_and_layer">
+          <TestStep id="_1oLh" name="check_mask_manager">
+            <comment>@teststep Check Mask Managment.</comment>
+            <ProcedureCall id="_1oLi"
+                           procedure="do_click.main_toolbar.views.mask_manager">
+              <comment>@teststep Open Mask Manager</comment>
+            </ProcedureCall>
+            <SetGlobalStep id="_1oLj" varname="table">
+              <default>Dialog.maskTable</default>
+            </SetGlobalStep>
+            <ProcedureCall id="_1oLk" procedure="get.rowCount">
+              <variable name="id">$(table)</variable>
+              <comment>@teststep Get number of masks.</comment>
+            </ProcedureCall>
+            <ServerScriptStep disabled="true" id="_1oLl" name="print">
+              <code>print "Masks number = $(rowCount)"  </code>
+            </ServerScriptStep>
+            <SetGlobalStep id="_1oLm" varname="masks_number">
+              <default>$(rowCount)</default>
+            </SetGlobalStep>
+            <IfSequence id="_1oLn" test="$(masks_number)&gt;0">
+              <comment>@teststep Select and deselect all the mask after each other.</comment>
+              <RepeatSequence count="$(masks_number)" id="_1oLo"
+                              name="check_masks" var="m">
+                <SetGlobalStep id="_1oLp" varname="table">
+                  <default>Dialog.maskTable</default>
+                </SetGlobalStep>
+                <TryStep id="_1oLq" name="select_visible">
+                  <ProcedureCall id="_1oLr"
+                                 procedure="do_click.table.checkbox">
+                    <variable name="tableId">$(table)</variable>
+                    <variable name="column">0</variable>
+                    <variable name="row">$(m)</variable>
+                  </ProcedureCall>
+                  <CatchSequence exception="TestException" id="_1oLs"
+                                 maxerror="0">
+                    <ServerScriptStep id="_1oLt" name="error">
+                      <code>rc.logError("Mask $(m) cannot be selected.")</code>
+                    </ServerScriptStep>
+                  </CatchSequence>
+                </TryStep>
+                <TryStep id="_1oLu" name="deselect_visible">
+                  <ProcedureCall id="_1oLv"
+                                 procedure="do_click.table.checkbox">
+                    <variable name="tableId">$(table)</variable>
+                    <variable name="column">0</variable>
+                    <variable name="row">$(m)</variable>
+                  </ProcedureCall>
+                  <CatchSequence exception="TestException" id="_1oLw"
+                                 maxerror="0">
+                    <ServerScriptStep id="_1oLx" name="error">
+                      <code>rc.logError("Mask $(m) cannot be selected.")</code>
+                    </ServerScriptStep>
+                  </CatchSequence>
+                </TryStep>
+              </RepeatSequence>
+              <ElseSequence id="_1oLy">
+                <ServerScriptStep id="_1oLz" name="error">
+                  <code>rc.logError("Mask manager is empty.")</code>
+                </ServerScriptStep>
+              </ElseSequence>
+            </IfSequence>
+            <ProcedureCall id="_1oL+" procedure="close.dialog">
+              <comment>@teststep Close Mask Manager</comment>
+            </ProcedureCall>
+            <ProcedureCall id="_1oL-"
+                           procedure="do_click.run_the_Garbage_Collector">
+              <comment>@teststep Force a garbage collection.</comment>
+            </ProcedureCall>
+          </TestStep>
+          <TestStep id="_1oM0" name="check_layer_manager">
+            <comment>@teststep Check Layer Managment.</comment>
+            <ProcedureCall id="_1oM1"
+                           procedure="do_click.main_toolbar.views.layer_manager">
+              <comment>@teststep Open Layer Manager</comment>
+            </ProcedureCall>
+            <ProcedureCall id="_1oM2" procedure="get.layer_node_id">
+              <variable name="layer_name">Masks</variable>
+              <comment>@teststep Find Masks in the layer manager</comment>
+            </ProcedureCall>
+            <ServerScriptStep disabled="true" id="_1oM3" name="print">
+              <code>print "Layer Masks id = $(layer_node_id)"  </code>
+            </ServerScriptStep>
+            <ProcedureCall id="_1oM4" procedure="do_click.tree.layer_node">
+              <variable name="layer_node1">$(layer_node_id)</variable>
+              <variable name="layer_node2"/>
+              <comment>@teststep Open Masks node in the layer manager</comment>
+            </ProcedureCall>
+            <IfSequence id="_1oM5" test="$(masks_number)&gt;0">
+              <comment>@teststep Select and deselect all the layer after each other.</comment>
+              <RepeatSequence count="$(masks_number)" id="_1oM6"
+                              name="check_masks" var="m">
+                <ProcedureCall id="_1oM7"
+                               procedure="do_click.tree.layer_checkbox">
+                  <variable name="layer_node1">$(layer_node_id)</variable>
+                  <variable name="layer_node2">$(m)</variable>
+                </ProcedureCall>
+              </RepeatSequence>
+              <ProcedureCall id="_1oM8"
+                             procedure="do_click.run_the_Garbage_Collector"/>
+              <RepeatSequence count="$(masks_number)" id="_1oM9"
+                              name="check_masks" var="m">
+                <ProcedureCall id="_1oMA"
+                               procedure="do_click.tree.layer_checkbox">
+                  <variable name="layer_node1">$(layer_node_id)</variable>
+                  <variable name="layer_node2">$(m)</variable>
+                </ProcedureCall>
+              </RepeatSequence>
+              <ProcedureCall id="_1oMB"
+                             procedure="do_click.run_the_Garbage_Collector">
+                <comment>@teststep Force a garbage collection.</comment>
+              </ProcedureCall>
+              <ElseSequence id="_1oMC">
+                <ServerScriptStep id="_1oMD" name="error">
+                  <code>rc.logError("Layer manager is empty.")</code>
+                </ServerScriptStep>
+              </ElseSequence>
+            </IfSequence>
+            <ProcedureCall id="_1oME" procedure="close.dialog">
+              <comment>@teststep Close Layer Manager</comment>
+            </ProcedureCall>
+          </TestStep>
+        </Procedure>
+      </Package>
+      <Package id="_1l8p" name="navigation_window">
+        <Procedure id="_1l8q" name="zoomFactor">
+          <variable name="val"/>
+          <comment>@teststep Check zoom factor</comment>
+          <CheckStringStep client="$(client)"
+                           component="mainFrameESA_S-3_Toolbox.NavigationToolView.Control.text"
+                           id="_1l8r">
+            <text>$(val)</text>
+          </CheckStringStep>
+        </Procedure>
+      </Package>
+      <Package id="_1lFb" name="placemark_dialog">
+        <Procedure id="_1lHh" name="pixelX_new_pin_enabled">
+          <CheckBooleanStep checktype="enabled" client="$(client)"
+                            component="New_Pin.pixelX" id="_1lHi"
+                            resvarname="pixelX_new_pin_enabled"/>
+        </Procedure>
+        <Procedure id="_1lHe" name="pixelX_new_pin_enabled_status">
+          <variable name="pixelX_new_pin_enabled"/>
+          <CheckBooleanStep checktype="enabled" client="$(client)"
+                            component="New_Pin.pixelX" id="_1lHf"
+                            state="$(pixelX_new_pin_enabled)"/>
+        </Procedure>
+        <Procedure id="_1lHj" name="pixelY_new_pin_enabled">
+          <CheckBooleanStep checktype="enabled" client="$(client)"
+                            component="New_Pin.pixelY" id="_1lHT"
+                            resvarname="pixelY_new_pin_enabled"/>
+        </Procedure>
+        <Procedure id="_1lHl" name="pixelY_new_pin_enabled_status">
+          <variable name="pixelY_new_pin_enabled"/>
+          <CheckBooleanStep checktype="enabled" client="$(client)"
+                            component="New_Pin.pixelY" id="_1lHm"
+                            state="$(pixelY_new_pin_enabled)"/>
+        </Procedure>
+        <Procedure id="_1lHc" name="usePixelPos_new_pin_selected">
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="New_Pin.usePixelPos" id="_1lHd"
+                            resvarname="usePixelPos_new_pin_selected"/>
+        </Procedure>
+        <Procedure id="_1lHK" name="usePixelPos_new_pin_selected_status">
+          <variable name="usePixelPos_selected"/>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="New_Pin.usePixelPos" id="_1lF2"
+                            state="$(usePixelPos_selected)"/>
+        </Procedure>
+      </Package>
+      <Package id="_1l35" name="product">
+        <Procedure id="_9Kn" name="not_opened">
+          <CheckItemsStep client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.ProductsToolView.Control.tree"
+                          id="_9Kp" resvarname="not_opened"/>
+        </Procedure>
+        <Procedure id="_1lCP" name="tree_number_elements">
+          <variable name="number_elements"/>
+          <IfSequence id="_1lCU"
+                      test="&#34;$(number_elements)&#34;&lt;&gt;&#34;&#34;">
+            <IfSequence id="_58D" test="${qftest:windows}">
+              <SetGlobalStep id="_1oGc" local="true"
+                             varname="tree_component_id">
+                <default>mainFrameESA_S-3_Toolbox.ProductsToolView.Control.tree</default>
+              </SetGlobalStep>
+              <ElseifSequence id="_1l3m" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <SetGlobalStep id="_1oMG" local="true"
+                               varname="tree_component_id">
+                  <default>ProductsToolView.Control.tree</default>
+                </SetGlobalStep>
+              </ElseifSequence>
+              <ElseSequence id="_58I">
+                <SetGlobalStep id="_1oMF" local="true"
+                               varname="tree_component_id">
+                  <default>ProductsToolView.Control.tree</default>
+                </SetGlobalStep>
+              </ElseSequence>
+            </IfSequence>
+            <ProcedureCall id="_1lCQ" procedure="tree.expand">
+              <variable name="tree_id">$(tree_component_id)&amp;/0</variable>
+              <comment>mainFrameESA_S-3_Toolbox.ProductsToolView.Control.tree&amp;/0</comment>
+            </ProcedureCall>
+            <ProcedureCall id="_1m2g" procedure="tree.rowCount">
+              <variable name="tree_id">$(tree_component_id)</variable>
+            </ProcedureCall>
+            <ServerScriptStep id="_Cbr" name="checkEqual">
+              <code>rc.checkEqual($(rowCount)*1, $(number_elements)*1, "tree elements", rc.ERROR)</code>
+            </ServerScriptStep>
+          </IfSequence>
+        </Procedure>
+      </Package>
+      <Package id="_1lbo" name="smos_box">
+        <Package id="_1lbx" name="grid_point_bt_chart">
+          <Procedure id="_1lc4" name="snap_to_pin_selected">
+            <comment>@teststep Check 'Snap to selected pin' selected</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="Dialog.checkSnap_to_selected_pin"
+                              id="_1m0F" resvarname="snap_to_pin_selected"/>
+          </Procedure>
+          <Procedure id="_1m0J" name="snap_to_pin_selected_status">
+            <variable name="snap_to_pin"/>
+            <comment>@teststep Check 'Snap to selected pin' selected status</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="Dialog.checkSnap_to_selected_pin"
+                              id="_1m0K" state="$(snap_to_pin)"/>
+          </Procedure>
+          <Procedure id="_1lda" name="check_X_selected">
+            <comment>@teststep Check 'X' checkbox selected</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="Dialog.checkX" id="_1m0G"
+                              resvarname="check_X_selected"/>
+          </Procedure>
+          <Procedure id="_1m0L" name="check_X_selected_status">
+            <variable name="x_selected"/>
+            <comment>@teststep Check 'X' checkbox selected status</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="Dialog.checkX" id="_1m0M"
+                              state="$(x_selected)"/>
+          </Procedure>
+          <Procedure id="_1lf4" name="check_Y_selected">
+            <comment>@teststep Check 'Y' checkbox selected</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="Dialog.checkY" id="_1m0H"
+                              resvarname="check_Y_selected"/>
+          </Procedure>
+          <Procedure id="_1m0N" name="check_Y_selected_status">
+            <variable name="y_selected"/>
+            <comment>@teststep Check 'Y' checkbox selected status</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="Dialog.checkY" id="_1m0O"
+                              state="$(y_selected)"/>
+          </Procedure>
+          <Procedure id="_1lx4" name="check_XY_selected">
+            <comment>@teststep Check 'XY' checkbox selected</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="Dialog.checkXY" id="_1m0I"
+                              resvarname="check_XY_selected"/>
+          </Procedure>
+          <Procedure id="_1m0P" name="check_XY_selected_status">
+            <variable name="xy_selected"/>
+            <comment>@teststep Check 'XY' checkbox selected status</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="Dialog.checkXY" id="_1m0Q"
+                              state="$(xy_selected)"/>
+          </Procedure>
+        </Package>
+        <Package id="_1lby" name="grid_point_flag_matrix">
+          <Procedure id="_1m0U" name="snap_to_pin_selected">
+            <comment>@teststep Check 'Snap to selected pin' selected</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="Dialog.checkSnap_to_selected_pin2"
+                              id="_1m0V" resvarname="snap_to_pin_selected"/>
+          </Procedure>
+          <Procedure id="_1m0R" name="snap_to_pin_selected_status">
+            <variable name="snap_to_pin"/>
+            <comment>@teststep Check 'Snap to selected pin' selected status</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="Dialog.checkSnap_to_selected_pin2"
+                              id="_1m0T" state="$(snap_to_pin)"/>
+          </Procedure>
+        </Package>
+        <Package id="_1lbz" name="grid_point_data_table">
+          <Procedure id="_1m0W" name="snap_to_pin_selected">
+            <comment>@teststep Check 'Snap to selected pin' selected</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="Dialog.checkSnap_to_selected_pin3"
+                              id="_1lHt" resvarname="snap_to_pin_selected"/>
+          </Procedure>
+          <Procedure id="_1m0Y" name="snap_to_pin_selected_status">
+            <variable name="snap_to_pin"/>
+            <comment>@teststep Check 'Snap to selected pin' selected status</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="Dialog.checkSnap_to_selected_pin3"
+                              id="_1m0a" state="$(snap_to_pin)"/>
+          </Procedure>
+        </Package>
+        <Package id="_1lb+" name="snapshot">
+          <Procedure id="_1m0b" name="id">
+            <variable name="val"/>
+            <comment>@teststep Check Snapshot ID</comment>
+            <CheckStringStep client="$(client)"
+                             component="Dialog.SnapshotInfoToolView.Control.textID:"
+                             id="_1m0c">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1m2X" name="mode">
+            <variable name="mode"/>
+            <comment>@teststep Check selected mode</comment>
+            <CheckStringStep checktype="value" client="$(client)"
+                             component="Dialog.SnapshotInfoToolView.Control.comboMode:"
+                             id="_1m2Z">
+              <text>$(mode)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1m0n" name="comboMode_enabled">
+            <comment>@teststep Check combobox 'Mode' enabled</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="Dialog.SnapshotInfoToolView.Control.comboMode:"
+                              id="_1lJe" resvarname="comboMode_enabled"/>
+          </Procedure>
+          <Procedure id="_1m2a" name="comboMode_enabled_status">
+            <variable name="comboMode"/>
+            <comment>@teststep Check combobox 'Mode' enabled status</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="Dialog.SnapshotInfoToolView.Control.comboMode:"
+                              id="_1m2b" state="$(comboMode)"/>
+          </Procedure>
+          <Procedure id="_1m1L" name="synchronise_with_view_selected">
+            <comment>@teststep Check 'Synchronise with view' selected</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="Dialog.checkSynchronise_with_view"
+                              id="_1m1O"
+                              resvarname="synchronise_with_view_selected"/>
+          </Procedure>
+          <Procedure id="_1m25" name="synchronise_with_view_selected_status">
+            <variable name="synchronise_with_view"/>
+            <comment>@teststep Check 'Synchronise with view' selected status</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="Dialog.checkSynchronise_with_view"
+                              id="_1m26" state="$(synchronise_with_view)"/>
+          </Procedure>
+          <Procedure id="_1lz2" name="browse_selected_status">
+            <variable name="browse_selected"/>
+            <comment>@teststep Check 'Browse' selected status</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="Dialog.radioBrowse" id="_1lIT"
+                              state="$(browse_selected)"/>
+          </Procedure>
+          <Procedure id="_1m27" name="browse_enabled">
+            <comment>@teststep Check 'Browse' enabled</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="Dialog.radioBrowse" id="_1m29"
+                              resvarname="browse_enabled"/>
+          </Procedure>
+          <Procedure id="_1m2A" name="browse_enabled_status">
+            <variable name="browse_enabled"/>
+            <comment>@teststep Check 'Browse' enabled status</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="Dialog.radioBrowse" id="_1m2C"
+                              state="$(browse_enabled)"/>
+          </Procedure>
+          <Procedure id="_1lza" name="snapshot_selected_status">
+            <variable name="snapshot_selected"/>
+            <comment>@teststep Check 'Snapshot' selected status</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="Dialog.radioSnapshot" id="_1lIV"
+                              state="$(snapshot_selected)"/>
+          </Procedure>
+          <Procedure id="_1m2D" name="snapshot_enabled">
+            <comment>@teststep Check 'Snapshot' enabled</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="Dialog.radioSnapshot" id="_1m2F"
+                              resvarname="snapshot_enabled"/>
+          </Procedure>
+          <Procedure id="_1m2G" name="snapshot_enabled_status">
+            <variable name="snapshot_enabled"/>
+            <comment>@teststep Check 'Snapshot' enabled status</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="Dialog.radioSnapshot" id="_1m2H"
+                              state="$(snapshot_enabled)"/>
+          </Procedure>
+          <Procedure id="_1m2L" name="follow_selected">
+            <comment>@teststep Check 'Follow' selected</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="Dialog.checkFollow" id="_1m2M"
+                              resvarname="follow_selected"/>
+          </Procedure>
+          <Procedure id="_1l+6" name="follow_selected_status">
+            <variable name="follow"/>
+            <comment>@teststep Check 'Follow' selected status</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="Dialog.checkFollow" id="_1lIX"
+                              state="&#34;$(follow)&#34;"/>
+          </Procedure>
+          <Procedure id="_1m2N" name="follow_enabled">
+            <comment>@teststep Check 'Follow' enabled</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="Dialog.checkFollow" id="_1m2O"
+                              resvarname="follow_enabled"/>
+          </Procedure>
+          <Procedure id="_1m2I" name="follow_enabled_status">
+            <variable name="follow_enabled"/>
+            <comment>@teststep Check 'Follow' enabled status</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="Dialog.checkFollow" id="_1m2K"
+                              state="$(follow_enabled)"/>
+          </Procedure>
+          <Procedure id="_1m2P" name="locate_in_view_enabled">
+            <comment>@teststep Check 'Locate in view' button enabled</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="Dialog.buttonLocate_in_view"
+                              id="_1m2Q" resvarname="locate_in_view_enabled"/>
+          </Procedure>
+          <Procedure id="_1l+e" name="locate_in_view_enabled_status">
+            <variable name="locate_in_view"/>
+            <comment>@teststep Check 'Locate in view' button enabled status</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="Dialog.buttonLocate_in_view"
+                              id="_1lIZ" state="$(locate_in_view)"/>
+          </Procedure>
+        </Package>
+      </Package>
+      <Package id="_1l8t" name="statistics_dialog">
+        <Procedure id="_1l9E" name="title">
+          <variable name="band"/>
+          <comment>@teststep Check statistics dialog title</comment>
+          <CheckStringStep client="$(client)"
+                           component="Dialog.labelStatistics_-_[1]_band"
+                           id="_1l9F">
+            <text>Statistics - [1] Oa05_radiance</text>
+          </CheckStringStep>
+        </Procedure>
+        <Procedure id="_1lBv" name="use_ROI_mask_selected">
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="Dialog.checkUse_ROI_mask(s):"
+                            id="_1lBw" resvarname="use_ROI_mask_selected"/>
+        </Procedure>
+        <Procedure id="_1l9X" name="use_ROI_mask_selected_status">
+          <variable name="roi_selected"/>
+          <comment>@teststep Check statistics dialog ROI Mask selection</comment>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="Dialog.checkUse_ROI_mask(s):"
+                            id="_1l9a" state="$(roi_selected)"/>
+        </Procedure>
+        <Procedure id="_1l9q" name="selected_mask">
+          <variable name="mask"/>
+          <comment>@teststep Check statistics dialog selected mask</comment>
+          <CheckStringStep client="$(client)"
+                           component="Dialog.StatisticsToolView.Control.text"
+                           id="_1l9u">
+            <text>$(mask)</text>
+          </CheckStringStep>
+        </Procedure>
+        <Procedure id="_1lBx" name="checkSelect_all_selected">
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="Dialog.checkSelect_all" id="_1lBy"
+                            resvarname="checkSelect_all_selected"/>
+        </Procedure>
+        <Procedure id="_1lA7" name="checkSelect_all_selected_status">
+          <variable name="select_all"/>
+          <comment>@teststep Check statistics dialog 'Select All' selection</comment>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="Dialog.checkSelect_all" id="_1lAK"
+                            state="$(select_all)"/>
+        </Procedure>
+        <Procedure id="_1lCL" name="checkSelect_none_selected">
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="Dialog.checkSelect_none" id="_1lCM"
+                            resvarname="checkSelect_none_selected"/>
+        </Procedure>
+        <Procedure id="_1lBz" name="checkSelect_none_selected_status">
+          <variable name="select_none"/>
+          <comment>@teststep Check statistics dialog 'Select None' selection</comment>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="Dialog.checkSelect_none" id="_1lB+"
+                            state="$(select_none)"/>
+        </Procedure>
+        <Procedure id="_1lCN" name="useAutoAccuracy_selected">
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="Dialog.useAutoAccuracy" id="_1lCO"
+                            resvarname="useAutoAccuracy_selected"/>
+        </Procedure>
+        <Procedure id="_1lC3" name="useAutoAccuracy_selected_status">
+          <variable name="autoAccuracy"/>
+          <comment>@teststep Check statistics dialog 'Use Auto Accuracy' selection</comment>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="Dialog.useAutoAccuracy" id="_1lC5"
+                            state="$(autoAccuracy)"/>
+        </Procedure>
+        <Procedure id="_1lC9" name="histogram_accuracy">
+          <variable name="val"/>
+          <comment>@teststep Check statistics dialog histogram accuracy</comment>
+          <CheckStringStep client="$(client)"
+                           component="Dialog.accuracy.textHistogram_accuracy:"
+                           id="_1lCC">
+            <text>$(val)</text>
+          </CheckStringStep>
+        </Procedure>
+      </Package>
+      <Package id="_7" name="uncertainty_visualisation">
+        <Package id="_1l7r" name="text">
+          <Procedure id="_1l7t" name="band_name">
+            <variable name="err_band"/>
+            <comment>@teststep Check band in 'Uncertainty Visualisation' tool</comment>
+            <SetGlobalStep id="_1l8G" varname="name_text">
+              <default>Name: $(err_band)</default>
+            </SetGlobalStep>
+            <CheckStringStep client="$(client)"
+                             component="mainFrameESA_S-3_Toolbox.labelName_err_band"
+                             id="_1l7v">
+              <text>$(name_text)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1l89" name="max">
+            <variable name="max"/>
+            <comment>@teststep Check max value in 'Uncertainty Visualisation' tool</comment>
+            <SetGlobalStep id="_1l8M" varname="max_text">
+              <default>Max: $(max)</default>
+            </SetGlobalStep>
+            <CheckStringStep client="$(client)"
+                             component="mainFrameESA_S-3_Toolbox.label_Max"
+                             id="_1l8E">
+              <text>$(max_text)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1l83" name="min">
+            <variable name="min"/>
+            <comment>@teststep Check min value in 'Uncertainty Visualisation' tool</comment>
+            <SetGlobalStep id="_1l8L" varname="min_text">
+              <default>Min: $(min)</default>
+            </SetGlobalStep>
+            <CheckStringStep client="$(client)"
+                             component="mainFrameESA_S-3_Toolbox.label_Min"
+                             id="_1l87">
+              <text>Min: 0.0</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1l7s" name="rough_statistics">
+            <comment>@teststep Check rough statistics in 'Uncertainty Visualisation' tool</comment>
+            <ProcedureCall id="_1l8K"
+                           procedure="set.variable.rough_statistics"/>
+            <CheckStringStep client="$(client)"
+                             component="mainFrameESA_S-3_Toolbox.labelRough_statistics!"
+                             id="_1l59">
+              <text>$(rough_statistics)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1l7z" name="unit">
+            <variable name="unit"/>
+            <comment>@teststep Check unit in 'Uncertainty Visualisation' tool</comment>
+            <SetGlobalStep id="_1l8F" varname="unit_text">
+              <default>Unit: $(unit)</default>
+            </SetGlobalStep>
+            <CheckStringStep client="$(client)"
+                             component="mainFrameESA_S-3_Toolbox.labelUnit_unit"
+                             id="_1l80">
+              <text>$(unit_text)</text>
+            </CheckStringStep>
+          </Procedure>
+        </Package>
+        <Procedure id="_1l6T" name="label_More_Options">
+          <variable name="txt"/>
+          <variable name="txt_example">More Options ; Less Options</variable>
+          <CheckStringStep client="$(client)"
+                           component="mainFrameESA_S-3_Toolbox.labelMore_Options"
+                           id="_1l6f">
+            <text>$(txt)</text>
+          </CheckStringStep>
+        </Procedure>
+      </Package>
+      <Package id="_1k-n" name="view">
+        <Procedure id="_1k-o" name="title">
+          <variable name="prod_nr"/>
+          <variable name="band_name"/>
+          <comment>@teststep Check view title</comment>
+          <CheckStringStep client="$(client)"
+                           component="mainFrameESA_S-3_Toolbox.intFrame_band"
+                           id="_1k-V">
+            <text>[$(prod_nr)] $(band_name)</text>
+          </CheckStringStep>
+        </Procedure>
+        <Procedure id="_1k-k" name="visible">
+          <variable name="prod_nr"/>
+          <variable name="band_name"/>
+          <CheckBooleanStep checktype="visible" client="$(client)"
+                            component="mainFrameESA_S-3_Toolbox.intFrame_band.panel"
+                            id="_1k-m"/>
+        </Procedure>
+      </Package>
+    </Package>
+  </PackageRoot>
+  <ExtraSequence id="_4"/>
+  <WindowList id="_5"/>
+</RootStep>

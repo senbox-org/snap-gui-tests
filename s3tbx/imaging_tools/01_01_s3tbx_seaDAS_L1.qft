@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.3">
+  <include>qfs.qft</include>
+  <include>../lib/s3tbx_main.qft</include>
+  <TestSet id="_1" name="01_01_seaDAS_L1_imaging_tools"
+           reportname="01-01 Imaging tools SeaDAS L1 (OCTS, CZCS, SeaWiFS)">
+    <Dependency id="_1l4X" name="start_application">
+      <comment>@teststep Check if ESA S-3 Toolbox started else start </comment>
+      <SetupSequence id="_6" name="start_s3tbx">
+        <ProcedureCall id="_A" procedure="start.s3tbx.application"/>
+      </SetupSequence>
+      <CleanupSequence id="_8" name="exit_s3tbx">
+        <ProcedureCall id="_B" procedure="stop.exit_s3tbx"/>
+      </CleanupSequence>
+    </Dependency>
+    <TestSet id="_D" name="open_product_open_image_view">
+      <DataDriver id="_3y4"
+                  loopreportname="Open image view of $(dataInDir)/$(fileName) data product"
+                  name="dataTable">
+        <ProcedureCall id="_Bt4" procedure="tables.seaDAS_L1"/>
+      </DataDriver>
+      <TestCase id="_2" name="test" reportname="$(productName)">
+        <ProcedureCall id="_1lEv"
+                       procedure="import_data.raster_data.multispectral.seaDAS_L1"/>
+        <ProcedureCall id="_1lEu" procedure="test_events.imaging_tools"/>
+      </TestCase>
+    </TestSet>
+  </TestSet>
+  <PackageRoot id="_3"/>
+  <ExtraSequence id="_4"/>
+  <WindowList id="_5"/>
+</RootStep>

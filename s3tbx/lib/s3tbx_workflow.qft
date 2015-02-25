@@ -1,0 +1,3420 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.3">
+  <include>qfs.qft</include>
+  <include>s3tbx_select.qft</include>
+  <include>s3tbx_components.qft</include>
+  <include>s3tbx_main.qft</include>
+  <include>s3tbx_open.qft</include>
+  <include>s3tbx_close.qft</include>
+  <include>s3tbx_check.qft</include>
+  <include>s3tbx_do_click.qft</include>
+  <dependency>s3tbx_main.qft</dependency>
+  <comment>s3tbx</comment>
+  <PackageRoot id="_3">
+    <Package id="_1lHP" name="test_events">
+      <Procedure id="_1lHQ" name="imaging_tools">
+        <ProcedureCall id="_1l52" procedure="check.product.not_opened"/>
+        <IfSequence id="_1l53"
+                    test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+          <ProcedureCall id="_1l39"
+                         procedure="utility.open_image_view_check_it">
+            <comment>@teststep Open image view and check it.</comment>
+          </ProcedureCall>
+          <TestStep id="_1lXz" name="check_world_map">
+            <comment>@teststep Check World Map.</comment>
+            <ProcedureCall id="_1lHR"
+                           procedure="do_click.main_toolbar.views.worldmap">
+              <comment>@teststep Open world map.</comment>
+            </ProcedureCall>
+            <ProcedureCall id="_1lXt" procedure="close.dialog">
+              <comment>@teststep Close World Map.</comment>
+            </ProcedureCall>
+          </TestStep>
+          <IfSequence id="_1lY7" test="&#34;$(mask1 )&#34;&lt;&gt;&#34;&#34;">
+            <TestStep id="_1lXE" name="check_mask_manager">
+              <comment>@teststep Check Mask Managment.</comment>
+              <ProcedureCall id="_1lHS"
+                             procedure="do_click.main_toolbar.views.mask_manager">
+                <comment>@teststep Open Mask Manager</comment>
+              </ProcedureCall>
+              <SetGlobalStep id="_1lY1" varname="table">
+                <default>Dialog.maskTable</default>
+              </SetGlobalStep>
+              <ProcedureCall id="_1lX-" procedure="get.rowCount">
+                <variable name="id">$(table)</variable>
+                <comment>@teststep Get number of masks.</comment>
+              </ProcedureCall>
+              <ServerScriptStep disabled="true" id="_1lY2" name="print">
+                <code>print "Masks number = $(rowCount)"  </code>
+              </ServerScriptStep>
+              <SetGlobalStep id="_1oHG" varname="masks_number">
+                <default>$(rowCount)</default>
+              </SetGlobalStep>
+              <IfSequence id="_1lXe" test="$(masks_number)&gt;0">
+                <comment>@teststep Select and deselect all the mask after each other.</comment>
+                <RepeatSequence count="$(masks_number)" id="_1lXf"
+                                name="check_masks" var="m">
+                  <SetGlobalStep id="_1lYI" varname="table">
+                    <default>Dialog.maskTable</default>
+                  </SetGlobalStep>
+                  <TryStep id="_1lYJ" name="select_visible">
+                    <ProcedureCall id="_1lYK"
+                                   procedure="do_click.table.checkbox">
+                      <variable name="tableId">$(table)</variable>
+                      <variable name="column">0</variable>
+                      <variable name="row">$(m)</variable>
+                    </ProcedureCall>
+                    <CatchSequence exception="TestException" id="_1lYL"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lYM" name="error">
+                        <code>rc.logError("Mask $(m) cannot be selected.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                  <TryStep id="_1lYN" name="deselect_visible">
+                    <ProcedureCall id="_1lYO"
+                                   procedure="do_click.table.checkbox">
+                      <variable name="tableId">$(table)</variable>
+                      <variable name="column">0</variable>
+                      <variable name="row">$(m)</variable>
+                    </ProcedureCall>
+                    <CatchSequence exception="TestException" id="_1lYP"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lYQ" name="error">
+                        <code>rc.logError("Mask $(m) cannot be selected.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </RepeatSequence>
+                <ElseSequence id="_1lXr">
+                  <ServerScriptStep id="_1lY8" name="error">
+                    <code>rc.logError("Mask manager is empty.")</code>
+                  </ServerScriptStep>
+                </ElseSequence>
+              </IfSequence>
+              <ProcedureCall id="_1lXC" procedure="close.dialog">
+                <comment>@teststep Close Mask Manager</comment>
+              </ProcedureCall>
+              <ProcedureCall id="_1lYR"
+                             procedure="do_click.run_the_Garbage_Collector">
+                <comment>@teststep Force a garbage collection.</comment>
+              </ProcedureCall>
+            </TestStep>
+            <TestStep id="_1lYV" name="check_layer_manager">
+              <comment>@teststep Check Layer Managment.</comment>
+              <ProcedureCall id="_1lHT"
+                             procedure="do_click.main_toolbar.views.layer_manager">
+                <comment>@teststep Open Layer Manager</comment>
+              </ProcedureCall>
+              <ProcedureCall id="_1oH6" procedure="get.layer_node_id">
+                <variable name="layer_name">Masks</variable>
+                <comment>@teststep Find Masks in the layer manager</comment>
+              </ProcedureCall>
+              <ServerScriptStep disabled="true" id="_1lYZ" name="print">
+                <code>print "Layer Masks id = $(layer_node_id)"  </code>
+              </ServerScriptStep>
+              <ProcedureCall id="_1oHH" procedure="do_click.tree.layer_node">
+                <variable name="layer_node1">$(layer_node_id)</variable>
+                <variable name="layer_node2"/>
+                <comment>@teststep Open Masks node in the layer manager</comment>
+              </ProcedureCall>
+              <IfSequence id="_1oHJ" test="$(masks_number)&gt;0">
+                <comment>@teststep Select and deselect all the layer after each other.</comment>
+                <RepeatSequence count="$(masks_number)" id="_1oHK"
+                                name="check_masks" var="m">
+                  <ProcedureCall id="_1oHA"
+                                 procedure="do_click.tree.layer_checkbox">
+                    <variable name="layer_node1">$(layer_node_id)</variable>
+                    <variable name="layer_node2">$(m)</variable>
+                  </ProcedureCall>
+                </RepeatSequence>
+                <ProcedureCall id="_1oHV"
+                               procedure="do_click.run_the_Garbage_Collector"/>
+                <RepeatSequence count="$(masks_number)" id="_1oHY"
+                                name="check_masks" var="m">
+                  <ProcedureCall id="_1oHZ"
+                                 procedure="do_click.tree.layer_checkbox">
+                    <variable name="layer_node1">$(layer_node_id)</variable>
+                    <variable name="layer_node2">$(m)</variable>
+                  </ProcedureCall>
+                </RepeatSequence>
+                <ProcedureCall id="_1oHa"
+                               procedure="do_click.run_the_Garbage_Collector">
+                  <comment>@teststep Force a garbage collection.</comment>
+                </ProcedureCall>
+                <ElseSequence id="_1oHW">
+                  <ServerScriptStep id="_1oHX" name="error">
+                    <code>rc.logError("Layer manager is empty.")</code>
+                  </ServerScriptStep>
+                </ElseSequence>
+              </IfSequence>
+              <ProcedureCall id="_1lHU" procedure="close.dialog">
+                <comment>@teststep Close Layer Manager</comment>
+              </ProcedureCall>
+            </TestStep>
+          </IfSequence>
+          <ProcedureCall id="_1lEt"
+                         procedure="check.product.tree_number_elements">
+            <variable name="number_elements">$(elements)</variable>
+            <comment>@teststep Check elements in product tree.</comment>
+          </ProcedureCall>
+          <ProcedureCall id="_1l33" procedure="close.session">
+            <comment>@teststep Close Session.</comment>
+          </ProcedureCall>
+        </IfSequence>
+      </Procedure>
+      <Procedure id="_1lHV" name="open_band_compute_statistics_close_all">
+        <ProcedureCall id="_1lHW"
+                       procedure="utility.open_image_view_check_it"/>
+        <ProcedureCall id="_1l4g" procedure="compute.band_statistics"/>
+        <ProcedureCall id="_1l4h" procedure="close.session"/>
+        <TryStep id="_1l4j" name="close_band_statistics_dialog">
+          <ProcedureCall id="_1l4i" procedure="close.dialog"/>
+          <CatchSequence exception="TestException" id="_1l4k" maxerror="0">
+            <ProcedureCall id="_1l4l" procedure="close.modal_dialogs"/>
+            <ProcedureCall id="_1l4m" procedure="close.dialog"/>
+          </CatchSequence>
+        </TryStep>
+      </Procedure>
+      <Procedure id="_1oJB" name="open_data_in_s3tbx_and_check">
+        <variable name="file_name"/>
+        <variable name="format"/>
+        <ProcedureCall id="_1oMx" procedure="open.product">
+          <variable name="prod_dir">$(data_out_dir)</variable>
+          <variable name="prod">$(file_name).$(fr)</variable>
+          <variable name="in_out">out</variable>
+          <variable name="product_type"/>
+          <comment> 	 
+</comment>
+        </ProcedureCall>
+        <ProcedureCall id="_1o+4" procedure="wait.appear.product_is_opened"/>
+        <ProcedureCall id="_1oLa" procedure="check.product.not_opened"/>
+        <IfSequence id="_1oLb"
+                    test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+          <ProcedureCall id="_1oLc"
+                         procedure="utility.open_image_view_check_it">
+            <comment>@teststep Open image view and check it.</comment>
+          </ProcedureCall>
+          <TestStep id="_1oLd" name="check_world_map">
+            <comment>@teststep Check World Map.</comment>
+            <ProcedureCall id="_1oLe"
+                           procedure="do_click.main_toolbar.views.worldmap">
+              <comment>@teststep Open world map.</comment>
+            </ProcedureCall>
+            <ProcedureCall id="_1oLf" procedure="close.dialog">
+              <comment>@teststep Close World Map.</comment>
+            </ProcedureCall>
+          </TestStep>
+          <TestStep id="_1oMH" name="check_masks_and_layers">
+            <IfSequence id="_1oLg"
+                        test="&#34;$(mask1)&#34;&lt;&gt;&#34;&#34; and &#34;$(output_netcdf_cf)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1oMb"
+                             procedure="check.masks_layers.all_mask_and_layer"/>
+            </IfSequence>
+          </TestStep>
+          <ProcedureCall id="_1oMF"
+                         procedure="check.product.tree_number_elements">
+            <variable name="number_elements">$(elements)</variable>
+            <comment>@teststep Check elements in product tree.</comment>
+          </ProcedureCall>
+          <TestStep id="_1kl3" name="check_metadata">
+            <IfSequence id="_1l0h"
+                        test="&#34;$(output_netcdf_cf)&#34;==&#34;true&#34;">
+              <SetGlobalStep id="_1l0i" varname="mn1">
+                <default>Global_Attributes</default>
+              </SetGlobalStep>
+              <ElseifSequence id="_1l0j" test="&#34;$(fr)&#34;==&#34;N1&#34;">
+                <SetGlobalStep id="_1l0k" varname="mn1">
+                  <default>MPH</default>
+                </SetGlobalStep>
+              </ElseifSequence>
+              <ElseifSequence disabled="true" id="_1oK7"
+                              test="&#34;$(check_timeseries)&#34;==&#34;true&#34;">
+                <SetGlobalStep id="_1l4n" varname="mn1">
+                  <default>TIME_SERIES</default>
+                </SetGlobalStep>
+              </ElseifSequence>
+              <ElseSequence id="_1l0l">
+                <SetGlobalStep id="_1l0m" varname="mn1">
+                  <default>Processing_Graph</default>
+                </SetGlobalStep>
+              </ElseSequence>
+            </IfSequence>
+            <ProcedureCall id="_1oMq"
+                           procedure="utility.open_metadata_check_it">
+              <variable name="metadata_name">$(mn1)</variable>
+            </ProcedureCall>
+          </TestStep>
+          <ElseSequence id="_1o+D">
+            <ProcedureCall id="_1o+E" procedure="run-log.logError">
+              <variable name="message">$(file_name).$(fr) can not be opened</variable>
+              <variable name="withScreenshots">true</variable>
+            </ProcedureCall>
+          </ElseSequence>
+        </IfSequence>
+      </Procedure>
+    </Package>
+    <Package id="_6" name="compute">
+      <Procedure id="_7" name="band_statistics">
+        <ProcedureCall id="_1l5R" procedure="open.statistics_dialog"/>
+        <ProcedureCall id="_1l8Z"
+                       procedure="do_click.statistics_dialog.refreshButton"/>
+        <ProcedureCall id="_1l8e"
+                       procedure="wait.disappear.computing_statistics_progress monitor"/>
+        <IfSequence id="_1lEr" test="&#34;$(mask1)&#34;&lt;&gt;&#34;&#34;">
+          <ProcedureCall id="_1lCf"
+                         procedure="select.statistics_dialog.use_ROI_mask"/>
+          <ProcedureCall id="_1lCg" procedure="select.statistics_dialog.mask">
+            <variable name="mask">$(mask1)</variable>
+          </ProcedureCall>
+          <IfSequence id="_1lEs" test="&#34;$(mask2)&#34;&lt;&gt;&#34;&#34;">
+            <ProcedureCall id="_1lCh"
+                           procedure="select.statistics_dialog.mask">
+              <variable name="mask">$(mask2)</variable>
+            </ProcedureCall>
+          </IfSequence>
+          <ProcedureCall id="_1lCi"
+                         procedure="do_click.statistics_dialog.refreshButton"/>
+          <ProcedureCall id="_1lCj"
+                         procedure="wait.disappear.computing_statistics_progress monitor"/>
+        </IfSequence>
+      </Procedure>
+    </Package>
+    <Package id="_1lFv" name="create">
+      <Procedure id="_1lFw" name="new_pin">
+        <variable name="pin_name"/>
+        <variable name="pin_label"/>
+        <variable name="lat"/>
+        <variable name="long"/>
+        <variable name="x"/>
+        <variable name="y"/>
+        <ProcedureCall id="_1lGw"
+                       procedure="do_click.main_toolbar.views.pin_manager"/>
+        <ProcedureCall id="_1lGY" procedure="wait.appear.dialog"/>
+        <ProcedureCall id="_1lGb"
+                       procedure="do_click.pin_manager.newPin_button"/>
+        <ProcedureCall id="_1lGa" procedure="wait.appear.new_pin_dialog"/>
+        <ProcedureCall id="_1lGf"
+                       procedure="set.placemark_dialog.new_pin.name">
+          <variable name="var">$(pin_name)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1lGg"
+                       procedure="set.placemark_dialog.new_pin.label">
+          <variable name="var">$(pin_label)</variable>
+        </ProcedureCall>
+        <IfSequence id="_1lGe"
+                    test="&#34;$(lat)&#34;&lt;&gt;&#34;&#34;  and &#34;$(long)&#34;&lt;&gt;&#34;&#34;">
+          <ProcedureCall id="_1lGh"
+                         procedure="set.placemark_dialog.new_pin.latitude">
+            <variable name="var">$(lat)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1lGi"
+                         procedure="set.placemark_dialog.new_pin.longitude">
+            <variable name="var">$(long)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1lGo"
+                         procedure="do_click.pin_manager.new_pin_dialog.ok"/>
+          <ElseifSequence id="_1lGl"
+                          test="(&#34;$(lat)&#34;==&#34;&#34;  and &#34;$(long)&#34;==&#34;&#34;) and (&#34;$(x)&#34;&lt;&gt;&#34;&#34;  and &#34;$(x)&#34;&lt;&gt;&#34;&#34;)">
+            <ProcedureCall id="_1lGj"
+                           procedure="set.placemark_dialog.new_pin.pixelX">
+              <variable name="var">$(x)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1lGk"
+                           procedure="set.placemark_dialog.new_pin.pixelY">
+              <variable name="var">$(y)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1lGr"
+                           procedure="do_click.pin_manager.new_pin_dialog.ok"/>
+          </ElseifSequence>
+          <ElseSequence id="_1lGm">
+            <ProcedureCall id="_1lGv" procedure="run-log.make_screensot">
+              <variable name="iw_name">new_pin_can_not_be_created</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1lGc"
+                           procedure="do_click.pin_manager.new_pin_dialog.cancel"/>
+            <ProcedureCall id="_1lGd" procedure="close.dialog"/>
+            <ProcedureCall id="_1lGu" procedure="run-log.logError">
+              <variable name="message">a new pin can not be created</variable>
+              <variable name="withScreenshots">false</variable>
+            </ProcedureCall>
+          </ElseSequence>
+        </IfSequence>
+      </Procedure>
+    </Package>
+    <Package id="_1oOw" name="gpt">
+      <Procedure id="_1oPq" name="test_sequence">
+        <ProcedureCall id="_1oPr" procedure="close.session"/>
+        <IfSequence id="_1oPs"
+                    test="&#34;$(other_formats )&#34;==&#34;true&#34;">
+          <TestStep id="_1oPt" name="dimap">
+            <SetGlobalStep id="_1oPu" varname="f">
+              <default>dimap</default>
+            </SetGlobalStep>
+            <ProcedureCall id="_1oPv" procedure="output_format">
+              <variable name="out_form">$(f)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1oPw"
+                           procedure="gpt.run_operator_check_output_file"/>
+            <TestStep id="_1oQb" name="check_output_file_in_s3tbx">
+              <IfSequence id="_1oQc"
+                          test="&#34;$(fileExists)&#34;==&#34;True&#34;">
+                <IfSequence id="_1oQd"
+                            test="&#34;$(fr)&#34;&lt;&gt;&#34;h5&#34;">
+                  <ProcedureCall id="_1oQe"
+                                 procedure="test_events.open_data_in_s3tbx_and_check">
+                    <variable name="file_name">$(outfn)</variable>
+                    <variable name="format">$(fr)</variable>
+                  </ProcedureCall>
+                </IfSequence>
+                <ElseSequence id="_1oQf">
+                  <ProcedureCall id="_1o+5" procedure="run-log.logError">
+                    <variable name="message">$(outfn).$(fr) is not processed</variable>
+                    <variable name="withScreenshots">false</variable>
+                  </ProcedureCall>
+                </ElseSequence>
+              </IfSequence>
+            </TestStep>
+            <ProcedureCall id="_1oPx" procedure="close.session"/>
+          </TestStep>
+          <TestStep id="_1oPy" name="geotiff">
+            <SetGlobalStep id="_1oPz" varname="f">
+              <default>geotiff</default>
+            </SetGlobalStep>
+            <ProcedureCall id="_1oP+" procedure="output_format">
+              <variable name="out_form">$(f)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1oP-"
+                           procedure="gpt.run_operator_check_output_file"/>
+            <TestStep id="_1oQh" name="check_output_file_in_s3tbx">
+              <IfSequence id="_1oQi"
+                          test="&#34;$(fileExists)&#34;==&#34;True&#34;">
+                <IfSequence id="_1oQj"
+                            test="&#34;$(fr)&#34;&lt;&gt;&#34;h5&#34;">
+                  <ProcedureCall id="_1oQk"
+                                 procedure="test_events.open_data_in_s3tbx_and_check">
+                    <variable name="file_name">$(outfn)</variable>
+                    <variable name="format">$(fr)</variable>
+                  </ProcedureCall>
+                </IfSequence>
+                <ElseSequence id="_1oQl">
+                  <ProcedureCall id="_1o+6" procedure="run-log.logError">
+                    <variable name="message">$(outfn).$(fr) is not processed</variable>
+                    <variable name="withScreenshots">false</variable>
+                  </ProcedureCall>
+                </ElseSequence>
+              </IfSequence>
+            </TestStep>
+            <ProcedureCall id="_1oQ0" procedure="close.session"/>
+          </TestStep>
+          <TestStep id="_1oQ1" name="hdf5">
+            <SetGlobalStep id="_1oQ2" varname="f">
+              <default>hdf5</default>
+            </SetGlobalStep>
+            <ProcedureCall id="_1oQ3" procedure="output_format">
+              <variable name="out_form">$(f)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1oQ4"
+                           procedure="gpt.run_operator_check_output_file"/>
+          </TestStep>
+          <TestStep id="_1oQ5" name="netCDF_CF">
+            <SetGlobalStep id="_1oQ6" varname="f">
+              <default>netCDF_CF</default>
+            </SetGlobalStep>
+            <ProcedureCall id="_1oQ7" procedure="output_format">
+              <variable name="out_form">$(f)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1oQ8"
+                           procedure="gpt.run_operator_check_output_file"/>
+            <TestStep id="_1oQt" name="check_output_file_in_s3tbx">
+              <IfSequence id="_1oQu"
+                          test="&#34;$(fileExists)&#34;==&#34;True&#34;">
+                <IfSequence id="_1oQv"
+                            test="&#34;$(fr)&#34;&lt;&gt;&#34;h5&#34;">
+                  <ProcedureCall id="_1oQw"
+                                 procedure="test_events.open_data_in_s3tbx_and_check">
+                    <variable name="file_name">$(outfn)</variable>
+                    <variable name="format">$(fr)</variable>
+                  </ProcedureCall>
+                </IfSequence>
+                <ElseSequence id="_1oQx">
+                  <ProcedureCall id="_1o+7" procedure="run-log.logError">
+                    <variable name="message">$(outfn).$(fr) is not processed</variable>
+                    <variable name="withScreenshots">false</variable>
+                  </ProcedureCall>
+                </ElseSequence>
+              </IfSequence>
+            </TestStep>
+            <ProcedureCall id="_1oQ9" procedure="close.session"/>
+          </TestStep>
+          <TestStep id="_1oQA" name="netCDF4_CF">
+            <SetGlobalStep id="_1oQB" varname="f">
+              <default>netCDF4_CF</default>
+            </SetGlobalStep>
+            <ProcedureCall id="_1oQC" procedure="output_format">
+              <variable name="out_form">$(f)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1oQD"
+                           procedure="gpt.run_operator_check_output_file"/>
+            <TestStep id="_1oQz" name="check_output_file_in_s3tbx">
+              <IfSequence id="_1oQ+"
+                          test="&#34;$(fileExists)&#34;==&#34;True&#34;">
+                <IfSequence id="_1oQ-"
+                            test="&#34;$(fr)&#34;&lt;&gt;&#34;h5&#34;">
+                  <ProcedureCall id="_1oR0"
+                                 procedure="test_events.open_data_in_s3tbx_and_check">
+                    <variable name="file_name">$(outfn)</variable>
+                    <variable name="format">$(fr)</variable>
+                  </ProcedureCall>
+                </IfSequence>
+                <ElseSequence id="_1oR1">
+                  <ProcedureCall id="_1o+8" procedure="run-log.logError">
+                    <variable name="message">$(outfn).$(fr) is not processed</variable>
+                    <variable name="withScreenshots">false</variable>
+                  </ProcedureCall>
+                </ElseSequence>
+              </IfSequence>
+            </TestStep>
+            <ProcedureCall id="_1oQE" procedure="close.session"/>
+          </TestStep>
+          <TestStep id="_1oQF" name="netCDF_beam">
+            <SetGlobalStep id="_1oQG" varname="f">
+              <default>netCDF_beam</default>
+            </SetGlobalStep>
+            <ProcedureCall id="_1oQH" procedure="output_format">
+              <variable name="out_form">$(f)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1oQI"
+                           procedure="gpt.run_operator_check_output_file"/>
+            <TestStep id="_1oR3" name="check_output_file_in_s3tbx">
+              <IfSequence id="_1oR4"
+                          test="&#34;$(fileExists)&#34;==&#34;True&#34;">
+                <IfSequence id="_1oR5"
+                            test="&#34;$(fr)&#34;&lt;&gt;&#34;h5&#34;">
+                  <ProcedureCall id="_1oR6"
+                                 procedure="test_events.open_data_in_s3tbx_and_check">
+                    <variable name="file_name">$(outfn)</variable>
+                    <variable name="format">$(fr)</variable>
+                  </ProcedureCall>
+                </IfSequence>
+                <ElseSequence id="_1oR7">
+                  <ProcedureCall id="_1o+9" procedure="run-log.logError">
+                    <variable name="message">$(outfn).$(fr) is not processed</variable>
+                    <variable name="withScreenshots">false</variable>
+                  </ProcedureCall>
+                </ElseSequence>
+              </IfSequence>
+            </TestStep>
+            <ProcedureCall id="_1oQJ" procedure="close.session"/>
+          </TestStep>
+          <TestStep id="_1oQK" name="netCDF4_beam">
+            <SetGlobalStep id="_1oQL" varname="f">
+              <default>netCDF4_beam</default>
+            </SetGlobalStep>
+            <ProcedureCall id="_1oQM" procedure="output_format">
+              <variable name="out_form">$(f)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1oQN"
+                           procedure="gpt.run_operator_check_output_file"/>
+            <TestStep id="_1oR9" name="check_output_file_in_s3tbx">
+              <IfSequence id="_1oRA"
+                          test="&#34;$(fileExists)&#34;==&#34;True&#34;">
+                <IfSequence id="_1oRB"
+                            test="&#34;$(fr)&#34;&lt;&gt;&#34;h5&#34;">
+                  <ProcedureCall id="_1oRC"
+                                 procedure="test_events.open_data_in_s3tbx_and_check">
+                    <variable name="file_name">$(outfn)</variable>
+                    <variable name="format">$(fr)</variable>
+                  </ProcedureCall>
+                </IfSequence>
+                <ElseSequence id="_1oRD">
+                  <ProcedureCall id="_1o+A" procedure="run-log.logError">
+                    <variable name="message">$(outfn).$(fr) is not processed</variable>
+                    <variable name="withScreenshots">false</variable>
+                  </ProcedureCall>
+                </ElseSequence>
+              </IfSequence>
+            </TestStep>
+            <ProcedureCall id="_1oQO" procedure="close.session"/>
+          </TestStep>
+          <ElseifSequence id="_1oQP"
+                          test="&#34;$(other_formats )&#34;==&#34;N1&#34;">
+            <TestStep id="_1oQQ" name="N1">
+              <SetGlobalStep id="_1oQR" varname="f">
+                <default>N1</default>
+              </SetGlobalStep>
+              <ProcedureCall id="_1oQS" procedure="output_format">
+                <variable name="out_form">$(f)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1oQT"
+                             procedure="gpt.run_operator_check_output_file"/>
+              <TestStep id="_1oRF" name="check_output_file_in_s3tbx">
+                <IfSequence id="_1oRG"
+                            test="&#34;$(fileExists)&#34;==&#34;True&#34;">
+                  <IfSequence id="_1oRH"
+                              test="&#34;$(fr)&#34;&lt;&gt;&#34;h5&#34;">
+                    <ProcedureCall id="_1oRI"
+                                   procedure="test_events.open_data_in_s3tbx_and_check">
+                      <variable name="file_name">$(outfn)</variable>
+                      <variable name="format">$(fr)</variable>
+                    </ProcedureCall>
+                  </IfSequence>
+                  <ElseSequence id="_1oRJ">
+                    <ProcedureCall id="_1o+B" procedure="run-log.logError">
+                      <variable name="message">$(outfn).$(fr) is not processed</variable>
+                      <variable name="withScreenshots">false</variable>
+                    </ProcedureCall>
+                  </ElseSequence>
+                </IfSequence>
+              </TestStep>
+              <ProcedureCall id="_1oQU" procedure="close.session"/>
+            </TestStep>
+          </ElseifSequence>
+          <ElseSequence id="_1oQV">
+            <SetGlobalStep id="_1oQW" varname="f"/>
+            <ProcedureCall id="_1oQX" procedure="output_format">
+              <variable name="out_form">dimap</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1oQY"
+                           procedure="gpt.run_operator_check_output_file"/>
+            <TestStep id="_1oRL" name="check_output_file_in_s3tbx">
+              <IfSequence id="_1oRM"
+                          test="&#34;$(fileExists)&#34;==&#34;True&#34;">
+                <IfSequence id="_1oRN"
+                            test="&#34;$(fr)&#34;&lt;&gt;&#34;h5&#34;">
+                  <ProcedureCall id="_1oRO"
+                                 procedure="test_events.open_data_in_s3tbx_and_check">
+                    <variable name="file_name">$(outfn)</variable>
+                    <variable name="format">$(fr)</variable>
+                  </ProcedureCall>
+                </IfSequence>
+                <ElseSequence id="_1oRP">
+                  <ProcedureCall id="_1o+C" procedure="run-log.logError">
+                    <variable name="message">$(outfn).$(fr) is not processed</variable>
+                    <variable name="withScreenshots">false</variable>
+                  </ProcedureCall>
+                </ElseSequence>
+              </IfSequence>
+            </TestStep>
+            <ProcedureCall id="_1oQZ" procedure="close.session"/>
+          </ElseSequence>
+        </IfSequence>
+      </Procedure>
+    </Package>
+    <Package id="_1l2s" name="import_data">
+      <Procedure id="_1lWC" name="import_utility">
+        <variable name="import_data"/>
+        <IfSequence id="_1lWD" test="${qftest:windows}">
+          <TryStep id="_1oNl" name="open_import_dialog">
+            <comment>@teststep Open 'Import Product' dialog</comment>
+            <ProcedureCall id="_1oNm"
+                           procedure="utility.import.$(import_data)"/>
+            <ProcedureCall id="_1oNn" procedure="wait.appear.import_dialog"/>
+            <CatchSequence exception="TestException" id="_1oNo" maxerror="0">
+              <TryStep id="_1oNp">
+                <ProcedureCall id="_1oNq" procedure="do_click.menubar"/>
+                <ProcedureCall id="_1oNr"
+                               procedure="utility.import.$(import_data)"/>
+                <ProcedureCall id="_1oNs"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1oNt"
+                               maxerror="0">
+                  <ProcedureCall id="_1oNu"
+                                 procedure="run-log.error_message.dialog_Import_Product_does_not_appear"/>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+          <ProcedureCall id="_1lWO" procedure="utility.import.fill_dialog"/>
+          <ElseifSequence id="_1lWP" name="MAC?"
+                          test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+            <ProcedureCall id="_1lWQ" procedure="open.product">
+              <variable name="prod_dir">$(dataInDir)</variable>
+              <variable name="prod">$(fileName)</variable>
+              <comment> 	 
+</comment>
+            </ProcedureCall>
+          </ElseifSequence>
+          <ElseSequence id="_1lWR">
+            <TryStep id="_1oNY" name="open_import_dialog">
+              <comment>@teststep Open 'Import Product' dialog</comment>
+              <ProcedureCall id="_1oNZ"
+                             procedure="utility.import.$(import_data)"/>
+              <ProcedureCall id="_1oNi"
+                             procedure="wait.appear.import_dialog"/>
+              <CatchSequence exception="TestException" id="_1oNb"
+                             maxerror="0">
+                <TryStep id="_1oNc">
+                  <ProcedureCall id="_1oNd" procedure="do_click.menubar"/>
+                  <ProcedureCall id="_1oNe"
+                                 procedure="utility.import.$(import_data)"/>
+                  <ProcedureCall id="_1oNf"
+                                 procedure="wait.appear.import_dialog"/>
+                  <CatchSequence exception="TestException" id="_1oNg"
+                                 maxerror="0">
+                    <ProcedureCall id="_1oNh"
+                                   procedure="run-log.error_message.dialog_Import_Product_does_not_appear"/>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+            <ProcedureCall id="_1oNk" procedure="utility.import.fill_dialog"/>
+          </ElseSequence>
+        </IfSequence>
+        <TryStep id="_1lWW"
+                 name="if_file_cannot_be_decoded_click_ok_in_warning_dialog">
+          <ProcedureCall id="_1lWV" procedure="wait.appear.warning_dialog"/>
+          <ProcedureCall id="_1lWZ" procedure="run-log.make_screensot">
+            <variable name="iw_name">warning_dialog</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1lWU"
+                         procedure="do_click.warning_dialog.button_ok"/>
+          <ProcedureCall id="_1lXB" procedure="close.dialog"/>
+          <ServerScriptStep id="_1lJB" name="error">
+            <code>rc.logError("Cannot decode the selected product file.")</code>
+          </ServerScriptStep>
+          <CatchSequence exception="TestException" id="_1lWX" maxerror="0"/>
+        </TryStep>
+      </Procedure>
+      <Package id="_1l5S" name="raster_data">
+        <Package id="_1lT5" name="generic">
+          <Procedure id="_1lQ6" name="arcInfo_binary_grid">
+            <ProcedureCall id="_1lX0" procedure="import_data.import_utility">
+              <variable name="import_data">arcInfo_binary_grid</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lQ7" test="${qftest:windows}">
+              <TryStep id="_1lQ8" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lT6"
+                               procedure="utility.import.arcInfo_binary_grid"/>
+                <ProcedureCall id="_1lQA"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1lQB"
+                               maxerror="0">
+                  <TryStep id="_1lQC">
+                    <ProcedureCall id="_1lQD" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lT7"
+                                   procedure="utility.import.arcInfo_binary_grid"/>
+                    <ProcedureCall id="_1lQF"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lQG"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lQH" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lQI"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lQJ" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lQK" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lQL"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lQM" name="csv">
+            <ProcedureCall id="_1lX1" procedure="import_data.import_utility">
+              <variable name="import_data">csv</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lQN" test="${qftest:windows}">
+              <TryStep id="_1lQO" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lT8" procedure="utility.import.csv"/>
+                <ProcedureCall id="_1lQQ"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1lQR"
+                               maxerror="0">
+                  <TryStep id="_1lQS">
+                    <ProcedureCall id="_1lQT" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lT9" procedure="utility.import.csv"/>
+                    <ProcedureCall id="_1lQV"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lQW"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lQX" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lQY"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lQZ" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lQa" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lQb"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lQc" name="envi">
+            <ProcedureCall id="_1lX2" procedure="import_data.import_utility">
+              <variable name="import_data">envi</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lQd" test="${qftest:windows}">
+              <TryStep id="_1lQe" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lTA" procedure="utility.import.envi"/>
+                <ProcedureCall id="_1lQg"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1lQh"
+                               maxerror="0">
+                  <TryStep id="_1lQi">
+                    <ProcedureCall id="_1lQj" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lTB"
+                                   procedure="utility.import.envi"/>
+                    <ProcedureCall id="_1lQl"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lQm"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lQn" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lQo"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lQp" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lQq" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lQr"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lQs" name="geotiff">
+            <ProcedureCall id="_1lX3" procedure="import_data.import_utility">
+              <variable name="import_data">geotiff</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lQt" test="${qftest:windows}">
+              <TryStep id="_1lQu" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lTC" procedure="utility.import.geotiff"/>
+                <ProcedureCall id="_1lQw"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1lQx"
+                               maxerror="0">
+                  <TryStep id="_1lQy">
+                    <ProcedureCall id="_1lQz" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lTD"
+                                   procedure="utility.import.geotiff"/>
+                    <ProcedureCall id="_1lQ-"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lR0"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lR1" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lR2"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lR3" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lR4" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lR5"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lR6" name="hdf_eos_gridded">
+            <ProcedureCall id="_1lX5" procedure="import_data.import_utility">
+              <variable name="import_data">hdf_eos_gridded</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lR7" test="${qftest:windows}">
+              <TryStep id="_1lR8" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lTE"
+                               procedure="utility.import.hdf_eos_gridded"/>
+                <ProcedureCall id="_1lRA"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1lRB"
+                               maxerror="0">
+                  <TryStep id="_1lRC">
+                    <ProcedureCall id="_1lRD" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lTF"
+                                   procedure="utility.import.hdf_eos_gridded"/>
+                    <ProcedureCall id="_1lRF"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lRG"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lRH" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lRI"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lRJ" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lRK" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lRL"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lTG" name="netCdf_beam">
+            <ProcedureCall id="_1lX6" procedure="import_data.import_utility">
+              <variable name="import_data">netCdf_beam</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lTH" test="${qftest:windows}">
+              <TryStep id="_1lTI" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lTJ"
+                               procedure="utility.import.netCdf_beam"/>
+                <ProcedureCall id="_1lTK"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1lTL"
+                               maxerror="0">
+                  <TryStep id="_1lTM">
+                    <ProcedureCall id="_1lTN" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lW4"
+                                   procedure="utility.import.netCdf_beam"/>
+                    <ProcedureCall id="_1lTP"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lTQ"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lTR" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lTS"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lTT" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lTU" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lTV"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lTW" name="netCdf_cf">
+            <ProcedureCall id="_1lX7" procedure="import_data.import_utility">
+              <variable name="import_data">netCdf_cf</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lTX" test="${qftest:windows}">
+              <TryStep id="_1lTY" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lW5"
+                               procedure="utility.import.netCdf_cf"/>
+                <ProcedureCall id="_1lTa"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1lTb"
+                               maxerror="0">
+                  <TryStep id="_1lTc">
+                    <ProcedureCall id="_1lTd" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lW6"
+                                   procedure="utility.import.netCdf_cf"/>
+                    <ProcedureCall id="_1lTf"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lTg"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lTh" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lTi"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lTj" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lTk" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lTl"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lTm" name="netCdf_generic">
+            <ProcedureCall id="_1lX8" procedure="import_data.import_utility">
+              <variable name="import_data">netCdf_generic</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lTn" test="${qftest:windows}">
+              <TryStep id="_1lTo" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lW7"
+                               procedure="utility.import.netCdf_generic"/>
+                <ProcedureCall id="_1lTq"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1lTr"
+                               maxerror="0">
+                  <TryStep id="_1lTs">
+                    <ProcedureCall id="_1lTt" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lW8"
+                                   procedure="utility.import.netCdf_generic"/>
+                    <ProcedureCall id="_1lTv"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lTw"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lTx" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lTy"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lTz" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lT+" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lT-"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lU0" name="pgx">
+            <ProcedureCall id="_1lX9" procedure="import_data.import_utility">
+              <variable name="import_data">pgx</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lU1" test="${qftest:windows}">
+              <TryStep id="_1lU2" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lW9" procedure="utility.import.pgx"/>
+                <ProcedureCall id="_1lU4"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1lU5"
+                               maxerror="0">
+                  <TryStep id="_1lU6">
+                    <ProcedureCall id="_1lU7" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lWA" procedure="utility.import.pgx"/>
+                    <ProcedureCall id="_1lU9"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lUA"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lUB" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lUC"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lUD" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lUE" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lUF"/>
+            </IfSequence>
+          </Procedure>
+        </Package>
+        <Package id="_1lSx" name="multispectral">
+          <Procedure id="_1lIT" name="aquarius">
+            <ProcedureCall id="_1lWT" procedure="import_data.import_utility">
+              <variable name="import_data">aquarius</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lJ0" test="${qftest:windows}">
+              <TryStep id="_1lJ1" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lJ2"
+                               procedure="utility.import.aquarius"/>
+                <ProcedureCall id="_1lJ4"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1lJ5"
+                               maxerror="0">
+                  <TryStep id="_1lJ6">
+                    <ProcedureCall id="_1lJ7" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lO2"
+                                   procedure="utility.import.aquarius"/>
+                    <ProcedureCall id="_1lJ9"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lJA"
+                                   maxerror="0">
+                      <ProcedureCall id="_1lWB"
+                                     procedure="run-log.error_message.dialog_Import_Product_does_not_appear"/>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lJC"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lJD" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lJE" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lJF"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lIU" name="atsr">
+            <ProcedureCall id="_1lWa" procedure="import_data.import_utility">
+              <variable name="import_data">atsr</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lIm" test="${qftest:windows}">
+              <TryStep id="_1lIn" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lIo" procedure="utility.import.atsr"/>
+                <ProcedureCall id="_1lIq"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1lIr"
+                               maxerror="0">
+                  <TryStep id="_1lIs">
+                    <ProcedureCall id="_1lIt" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lO3"
+                                   procedure="utility.import.atsr"/>
+                    <ProcedureCall id="_1lIv"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lIw"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lIx" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lIy"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lIz" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lI+" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lI-"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lIV" name="avnir2">
+            <ProcedureCall id="_1lWb" procedure="import_data.import_utility">
+              <variable name="import_data">avnir2</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lIW" test="${qftest:windows}">
+              <TryStep id="_1lIX" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lIY" procedure="utility.import.avnir2"/>
+                <ProcedureCall id="_1lIa"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1lIb"
+                               maxerror="0">
+                  <TryStep id="_1lIc">
+                    <ProcedureCall id="_1lId" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lO4"
+                                   procedure="utility.import.avnir2"/>
+                    <ProcedureCall id="_1lIf"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lIg"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lIh" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lIi"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lIj" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lIk" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lIl"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lJG" name="binned_SeaDAS">
+            <ProcedureCall id="_1lWc" procedure="import_data.import_utility">
+              <variable name="import_data">binned_SeaDAS</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lJH" test="${qftest:windows}">
+              <TryStep id="_1lJI" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lJJ"
+                               procedure="utility.import.binned_SeaDAS"/>
+                <ProcedureCall id="_1lJL"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1lJM"
+                               maxerror="0">
+                  <TryStep id="_1lJN">
+                    <ProcedureCall id="_1lJO" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lO5"
+                                   procedure="utility.import.binned_SeaDAS"/>
+                    <ProcedureCall id="_1lJQ"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lJR"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lJS" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lJT"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lJU" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lJV" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lJW"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lJX" name="chris">
+            <ProcedureCall id="_1lWx" procedure="import_data.import_utility">
+              <variable name="import_data">chris</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lJY" test="${qftest:windows}">
+              <TryStep id="_1lJZ" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lJa" procedure="utility.import.chris"/>
+                <ProcedureCall id="_1lJc"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1lJd"
+                               maxerror="0">
+                  <TryStep id="_1lJe">
+                    <ProcedureCall id="_1lJf" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lO6"
+                                   procedure="utility.import.chris"/>
+                    <ProcedureCall id="_1lJh"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lJi"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lJj" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lJk"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lJl" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lJm" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lJn"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1k+n" name="envisat">
+            <ProcedureCall id="_1oNX" procedure="import_data.import_utility">
+              <variable name="import_data">envisat</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1oNH" test="${qftest:windows}">
+              <TryStep id="_1oNI" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1oNJ" procedure="utility.import.envisat"/>
+                <ProcedureCall disabled="true" id="_1oNK"
+                               procedure="wait.appear.import_dialog.envisat"/>
+                <ProcedureCall id="_1oNL"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1oNM"
+                               maxerror="0">
+                  <TryStep id="_1oNN">
+                    <ProcedureCall id="_1oNO" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1oNP"
+                                   procedure="utility.import.envisat"/>
+                    <ProcedureCall id="_1oNQ"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1oNR"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1oNS" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1oNT"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1oNU" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1oNV" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1oNW"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lJo" name="ers_atsr">
+            <ProcedureCall id="_1lWv" procedure="import_data.import_utility">
+              <variable name="import_data">ers_atsr</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lJp" test="${qftest:windows}">
+              <TryStep id="_1lJq" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lJr"
+                               procedure="utility.import.ers_atsr"/>
+                <ProcedureCall id="_1lJt"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1lJu"
+                               maxerror="0">
+                  <TryStep id="_1lJv">
+                    <ProcedureCall id="_1lJw" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lO7"
+                                   procedure="utility.import.ers_atsr"/>
+                    <ProcedureCall id="_1lJy"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lJz"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lJ+" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lJ-"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lK0" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lK1" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lK2"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lK3" name="hico_L1b">
+            <ProcedureCall id="_1lWu" procedure="import_data.import_utility">
+              <variable name="import_data">hico_L1b</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lK4" test="${qftest:windows}">
+              <TryStep id="_1lK5" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lK6"
+                               procedure="utility.import.hico_L1b"/>
+                <ProcedureCall id="_1lK8"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1lK9"
+                               maxerror="0">
+                  <TryStep id="_1lKA">
+                    <ProcedureCall id="_1lKB" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lO8"
+                                   procedure="utility.import.hico_L1b"/>
+                    <ProcedureCall id="_1lKD"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lKE"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lKF" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lKG"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lKH" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lKI" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lKJ"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lKK" name="hico_envi_format">
+            <ProcedureCall id="_1lWt" procedure="import_data.import_utility">
+              <variable name="import_data">hico_envi_format</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lKL" test="${qftest:windows}">
+              <TryStep id="_1lKM" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lKN"
+                               procedure="utility.import.hico_envi_format"/>
+                <ProcedureCall id="_1lKP"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1lKQ"
+                               maxerror="0">
+                  <TryStep id="_1lKR">
+                    <ProcedureCall id="_1lKS" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lO9"
+                                   procedure="utility.import.hico_envi_format"/>
+                    <ProcedureCall id="_1lKU"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lKV"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lKW" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lKX"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lKY" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lKZ" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lKa"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lKb" name="landsat5_TM">
+            <ProcedureCall id="_1lWs" procedure="import_data.import_utility">
+              <variable name="import_data">landsat5_TM</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lKc" test="${qftest:windows}">
+              <TryStep id="_1lKd" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lKe"
+                               procedure="utility.import.landsat5_TM"/>
+                <ProcedureCall id="_1lKg"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1lKh"
+                               maxerror="0">
+                  <TryStep id="_1lKi">
+                    <ProcedureCall id="_1lKj" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lOA"
+                                   procedure="utility.import.landsat5_TM"/>
+                    <ProcedureCall id="_1lKl"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lKm"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lKn" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lKo"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lKp" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lKq" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lKr"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lKs" name="landsat_geoTIFF">
+            <ProcedureCall id="_1lWr" procedure="import_data.import_utility">
+              <variable name="import_data">landsat_geoTIFF</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lKt" test="${qftest:windows}">
+              <TryStep id="_1lKu" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lKv"
+                               procedure="utility.import.landsat_geoTIFF"/>
+                <ProcedureCall id="_1lKx"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1lKy"
+                               maxerror="0">
+                  <TryStep id="_1lKz">
+                    <ProcedureCall id="_1lK+" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lOB"
+                                   procedure="utility.import.landsat_geoTIFF"/>
+                    <ProcedureCall id="_1lL0"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lL1"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lL2" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lL3"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lL4" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lL5" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lL6"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lL7" name="meris_binned_L3">
+            <ProcedureCall id="_1lWq" procedure="import_data.import_utility">
+              <variable name="import_data">meris_binned_L3</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lL8" test="${qftest:windows}">
+              <TryStep id="_1lL9" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lLA"
+                               procedure="utility.import.meris_binned_L3"/>
+                <ProcedureCall id="_1lLC"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1lLD"
+                               maxerror="0">
+                  <TryStep id="_1lLE">
+                    <ProcedureCall id="_1lLF" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lOC"
+                                   procedure="utility.import.meris_binned_L3"/>
+                    <ProcedureCall id="_1lLH"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lLI"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lLJ" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lLK"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lLL" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lLM" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lLN"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lLO" name="modisL1B">
+            <ProcedureCall id="_1lWp" procedure="import_data.import_utility">
+              <variable name="import_data">modisL1B</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lLP" test="${qftest:windows}">
+              <TryStep id="_1lLQ" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lLR"
+                               procedure="utility.import.modisL1B"/>
+                <ProcedureCall id="_1lLT"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1lLU"
+                               maxerror="0">
+                  <TryStep id="_1lLV">
+                    <ProcedureCall id="_1lLW" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lOw"
+                                   procedure="utility.import.modisL1B"/>
+                    <ProcedureCall id="_1lLY"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lLZ"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lLa" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lLb"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lLc" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lLd" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lLe"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lLf" name="modis_MOD_MXD_MYD">
+            <ProcedureCall id="_1lWo" procedure="import_data.import_utility">
+              <variable name="import_data">modis_MOD_MXD_MYD</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lLg" test="${qftest:windows}">
+              <TryStep id="_1lLh" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lLi"
+                               procedure="utility.import.modis_MOD_MXD_MYD"/>
+                <ProcedureCall id="_1lLk"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1lLl"
+                               maxerror="0">
+                  <TryStep id="_1lLm">
+                    <ProcedureCall id="_1lLn" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lOx"
+                                   procedure="utility.import.modis_MOD_MXD_MYD"/>
+                    <ProcedureCall id="_1lLp"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lLq"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lLr" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lLs"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lLt" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lLu" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lLv"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lLw" name="noaa_avhrr_3_L1b">
+            <ProcedureCall id="_1lWn" procedure="import_data.import_utility">
+              <variable name="import_data">noaa_avhrr_3_L1b</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lLx" test="${qftest:windows}">
+              <TryStep id="_1lLy" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lLz"
+                               procedure="utility.import.noaa_avhrr_3_L1b"/>
+                <ProcedureCall id="_1lL-"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1lM0"
+                               maxerror="0">
+                  <TryStep id="_1lM1">
+                    <ProcedureCall id="_1lM2" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lOy"
+                                   procedure="utility.import.noaa_avhrr_3_L1b"/>
+                    <ProcedureCall id="_1lM4"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lM5"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lM6" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lM7"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lM8" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lM9" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lMA"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lMB" name="ocm2_L1B">
+            <ProcedureCall id="_1lWm" procedure="import_data.import_utility">
+              <variable name="import_data">ocm2_L1B</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lMC" test="${qftest:windows}">
+              <TryStep id="_1lMD" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lME"
+                               procedure="utility.import.ocm2_L1B"/>
+                <ProcedureCall id="_1lMG"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1lMH"
+                               maxerror="0">
+                  <TryStep id="_1lMI">
+                    <ProcedureCall id="_1lMJ" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lOz"
+                                   procedure="utility.import.ocm2_L1B"/>
+                    <ProcedureCall id="_1lML"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lMM"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lMN" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lMO"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lMP" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lMQ" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lMR"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lMS" name="prism">
+            <ProcedureCall id="_1lWl" procedure="import_data.import_utility">
+              <variable name="import_data">prism</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lMT" test="${qftest:windows}">
+              <TryStep id="_1lMU" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lMV" procedure="utility.import.prism"/>
+                <ProcedureCall id="_1lMX"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1lMY"
+                               maxerror="0">
+                  <TryStep id="_1lMZ">
+                    <ProcedureCall id="_1lMa" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lO+"
+                                   procedure="utility.import.prism"/>
+                    <ProcedureCall id="_1lMc"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lMd"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lMe" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lMf"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lMg" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lMh" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lMi"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lMj" name="seaDAS_L1">
+            <ProcedureCall id="_1lWk" procedure="import_data.import_utility">
+              <variable name="import_data">seaDAS_L1</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lMk" test="${qftest:windows}">
+              <TryStep id="_1lMl" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lMm"
+                               procedure="utility.import.seaDAS_L1"/>
+                <ProcedureCall id="_1lMo"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1lMp"
+                               maxerror="0">
+                  <TryStep id="_1lMq">
+                    <ProcedureCall id="_1lMr" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lO-"
+                                   procedure="utility.import.seaDAS_L1"/>
+                    <ProcedureCall id="_1lMt"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lMu"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lMv" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lMw"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lMx" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lMy" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lMz"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lM+" name="seaDAS_L2">
+            <ProcedureCall id="_1lWj" procedure="import_data.import_utility">
+              <variable name="import_data">seaDAS_L2</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lM-" test="${qftest:windows}">
+              <TryStep id="_1lN0" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lP0"
+                               procedure="utility.import.seaDAS_L2"/>
+                <ProcedureCall id="_1lN3"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1lN4"
+                               maxerror="0">
+                  <TryStep id="_1lN5">
+                    <ProcedureCall id="_1lN6" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lP1"
+                                   procedure="utility.import.seaDAS_L2"/>
+                    <ProcedureCall id="_1lN8"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lN9"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lNA" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lNB"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lNC" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lND" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lNE"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lNF" name="seaDAS_L3">
+            <ProcedureCall id="_1lWi" procedure="import_data.import_utility">
+              <variable name="import_data">seaDAS_L3</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lNG" test="${qftest:windows}">
+              <TryStep id="_1lNH" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lP2"
+                               procedure="utility.import.seaDAS_L3"/>
+                <ProcedureCall id="_1lNK"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1lNL"
+                               maxerror="0">
+                  <TryStep id="_1lNM">
+                    <ProcedureCall id="_1lNN" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lP3"
+                                   procedure="utility.import.seaDAS_L3"/>
+                    <ProcedureCall id="_1lNP"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lNQ"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lNR" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lNS"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lNT" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lNU" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lNV"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lNW" name="seaDAS_browse_L1_L2">
+            <ProcedureCall id="_1lWh" procedure="import_data.import_utility">
+              <variable name="import_data">seaDAS_browse_L1_L2</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lNX" test="${qftest:windows}">
+              <TryStep id="_1lNY" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lP4"
+                               procedure="utility.import.seaDAS_browse_L1_L2"/>
+                <ProcedureCall id="_1lNb"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1lNc"
+                               maxerror="0">
+                  <TryStep id="_1lNd">
+                    <ProcedureCall id="_1lNe" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lP5"
+                                   procedure="utility.import.seaDAS_browse_L1_L2"/>
+                    <ProcedureCall id="_1lNg"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lNh"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lNi" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lNj"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lNk" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lNl" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lNm"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lGx" name="sentinel3">
+            <ProcedureCall id="_1lWg" procedure="import_data.import_utility">
+              <variable name="import_data">sentinel3</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lGy" test="${qftest:windows}">
+              <TryStep id="_1lGz" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lG+"
+                               procedure="utility.import.sentinel3"/>
+                <ProcedureCall id="_1lG-"
+                               procedure="wait.appear.import_dialog"/>
+                <ProcedureCall disabled="true" id="_1lHL"
+                               procedure="wait.appear.import_dialog.sentinel_3"/>
+                <CatchSequence exception="TestException" id="_1lH0"
+                               maxerror="0">
+                  <TryStep id="_1lH1">
+                    <ProcedureCall id="_1lH2" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lH3"
+                                   procedure="utility.import.sentinel3"/>
+                    <ProcedureCall id="_1lHM"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lH5"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lH6" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lH7"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lH8" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lH9" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lHA"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lEV" name="smos">
+            <ProcedureCall id="_1lWf" procedure="import_data.import_utility">
+              <variable name="import_data">smos</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lEW" test="${qftest:windows}">
+              <TryStep id="_1lEX" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lEY" procedure="utility.import.smos"/>
+                <ProcedureCall id="_1lEZ"
+                               procedure="wait.appear.import_dialog"/>
+                <ProcedureCall disabled="true" id="_1lHN"
+                               procedure="wait.appear.import_dialog.smos_eef"/>
+                <CatchSequence exception="TestException" id="_1lEa"
+                               maxerror="0">
+                  <TryStep id="_1lEb">
+                    <ProcedureCall id="_1lEc" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lEd"
+                                   procedure="utility.import.smos"/>
+                    <ProcedureCall id="_1lHO"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lEf"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lEg" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lEh"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lEi" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lEj" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lEk"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lNn" name="spot_vgt">
+            <ProcedureCall id="_1lWe" procedure="import_data.import_utility">
+              <variable name="import_data">spot_vgt</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lNo" test="${qftest:windows}">
+              <TryStep id="_1lNp" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lNq"
+                               procedure="utility.import.spot_vgt"/>
+                <ProcedureCall id="_1lNs"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1lNt"
+                               maxerror="0">
+                  <TryStep id="_1lNu">
+                    <ProcedureCall id="_1lNv" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lSy"
+                                   procedure="utility.import.spot_vgt"/>
+                    <ProcedureCall id="_1lNx"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lNy"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lNz" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lN+"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lN-" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lO0" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lO1"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lP6" name="viirs">
+            <ProcedureCall id="_1lWd" procedure="import_data.import_utility">
+              <variable name="import_data">viirs</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lP7" test="${qftest:windows}">
+              <TryStep id="_1lP8" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lSz" procedure="utility.import.viirs"/>
+                <ProcedureCall id="_1lPA"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1lPB"
+                               maxerror="0">
+                  <TryStep id="_1lPC">
+                    <ProcedureCall id="_1lPD" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lS+"
+                                   procedure="utility.import.viirs"/>
+                    <ProcedureCall id="_1lPF"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lPG"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lPH" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lPI"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lPJ" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lPK" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lPL"/>
+            </IfSequence>
+          </Procedure>
+        </Package>
+        <Package id="_1lT1" name="sar">
+          <Procedure id="_1lPc" name="asar">
+            <ProcedureCall id="_1lWy" procedure="import_data.import_utility">
+              <variable name="import_data">sar_asar</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lPd" test="${qftest:windows}">
+              <TryStep id="_1lPe" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lPf"
+                               procedure="utility.import.sar_asar"/>
+                <ProcedureCall id="_1lPg"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1lPh"
+                               maxerror="0">
+                  <TryStep id="_1lPi">
+                    <ProcedureCall id="_1lPj" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lT2"
+                                   procedure="utility.import.sar_asar"/>
+                    <ProcedureCall id="_1lPl"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lPm"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lPn" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lPo"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lPp" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lPq" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lPr"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lPs" name="ers">
+            <ProcedureCall id="_1lWz" procedure="import_data.import_utility">
+              <variable name="import_data">sar_ers</variable>
+            </ProcedureCall>
+            <IfSequence disabled="true" id="_1lPt" test="${qftest:windows}">
+              <TryStep id="_1lPu" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <ProcedureCall id="_1lT3" procedure="utility.import.sar_ers"/>
+                <ProcedureCall id="_1lPw"
+                               procedure="wait.appear.import_dialog"/>
+                <CatchSequence exception="TestException" id="_1lPx"
+                               maxerror="0">
+                  <TryStep id="_1lPy">
+                    <ProcedureCall id="_1lPz" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1lT4"
+                                   procedure="utility.import.sar_ers"/>
+                    <ProcedureCall id="_1lP-"
+                                   procedure="wait.appear.import_dialog"/>
+                    <CatchSequence exception="TestException" id="_1lQ0"
+                                   maxerror="0">
+                      <ServerScriptStep id="_1lQ1" name="error">
+                        <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1lQ2"
+                             procedure="utility.import.fill_dialog"/>
+              <ElseifSequence id="_1lQ3" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ProcedureCall id="_1lQ4" procedure="open.product">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <comment> 	 
+</comment>
+                </ProcedureCall>
+              </ElseifSequence>
+              <ElseSequence id="_1lQ5"/>
+            </IfSequence>
+          </Procedure>
+        </Package>
+        <Procedure id="_1lPM" name="dimap">
+          <ProcedureCall id="_1lW+" procedure="import_data.import_utility">
+            <variable name="import_data">dimap</variable>
+          </ProcedureCall>
+          <IfSequence disabled="true" id="_1lPN" test="${qftest:windows}">
+            <TryStep id="_1lPO" name="open_import_dialog">
+              <comment>@teststep Open 'Import Product' dialog</comment>
+              <ProcedureCall id="_1lS-" procedure="utility.import.dimap"/>
+              <ProcedureCall id="_1lPQ"
+                             procedure="wait.appear.import_dialog"/>
+              <CatchSequence exception="TestException" id="_1lPR"
+                             maxerror="0">
+                <TryStep id="_1lPS">
+                  <ProcedureCall id="_1lPT" procedure="do_click.menubar"/>
+                  <ProcedureCall id="_1lT0" procedure="utility.import.dimap"/>
+                  <ProcedureCall id="_1lPV"
+                                 procedure="wait.appear.import_dialog"/>
+                  <CatchSequence exception="TestException" id="_1lPW"
+                                 maxerror="0">
+                    <ServerScriptStep id="_1lPX" name="error">
+                      <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                    </ServerScriptStep>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+            <ProcedureCall id="_1lPY" procedure="utility.import.fill_dialog"/>
+            <ElseifSequence id="_1lPZ" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <ProcedureCall id="_1lPa" procedure="open.product">
+                <variable name="prod_dir">$(dataInDir)</variable>
+                <variable name="prod">$(fileName)</variable>
+                <comment> 	 
+</comment>
+              </ProcedureCall>
+            </ElseifSequence>
+            <ElseSequence id="_1lPb"/>
+          </IfSequence>
+        </Procedure>
+        <Procedure id="_1lRM" name="rgb">
+          <ProcedureCall id="_1lW-" procedure="import_data.import_utility">
+            <variable name="import_data">rgb</variable>
+          </ProcedureCall>
+          <IfSequence disabled="true" id="_1lRN" test="${qftest:windows}">
+            <TryStep id="_1lRO" name="open_import_dialog">
+              <comment>@teststep Open 'Import Product' dialog</comment>
+              <ProcedureCall id="_1lRP" procedure="utility.import.rgb"/>
+              <ProcedureCall id="_1lRQ"
+                             procedure="wait.appear.import_dialog"/>
+              <CatchSequence exception="TestException" id="_1lRR"
+                             maxerror="0">
+                <TryStep id="_1lRS">
+                  <ProcedureCall id="_1lRT" procedure="do_click.menubar"/>
+                  <ProcedureCall id="_1lW2" procedure="utility.import.rgb"/>
+                  <ProcedureCall id="_1lRV"
+                                 procedure="wait.appear.import_dialog"/>
+                  <CatchSequence exception="TestException" id="_1lRW"
+                                 maxerror="0">
+                    <ServerScriptStep id="_1lRX" name="error">
+                      <code>rc.logError("'ESA S-3 Toolbox - Import SENTINEL-3 Product' dialog does not appear.")</code>
+                    </ServerScriptStep>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+            <ProcedureCall id="_1lRY" procedure="utility.import.fill_dialog"/>
+            <ElseifSequence id="_1lRZ" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <ProcedureCall id="_1lRa" procedure="open.product">
+                <variable name="prod_dir">$(dataInDir)</variable>
+                <variable name="prod">$(fileName)</variable>
+                <comment> 	 
+</comment>
+              </ProcedureCall>
+            </ElseifSequence>
+            <ElseSequence id="_1lRb"/>
+          </IfSequence>
+        </Procedure>
+      </Package>
+    </Package>
+    <Package id="_1l8Q" name="preparation">
+      <Procedure id="_1l5e" name="application_for_test">
+        <comment>@teststep Test preparation</comment>
+        <ProcedureCall id="_1l5g" procedure="open.product">
+          <variable name="prod_dir">$(dataInDir)</variable>
+          <variable name="prod">$(fileName)</variable>
+          <comment> 	 
+</comment>
+        </ProcedureCall>
+        <ProcedureCall id="_1l5h" procedure="wait.appear.product_is_opened"/>
+        <ProcedureCall id="_1lFu" procedure="get.bands_node_id">
+          <variable name="prod_id">0</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1l5i" procedure="select.product_tree.band">
+          <variable name="prod_id">0</variable>
+          <variable name="node_id">$(bands_node_id)</variable>
+          <variable name="group_id">$(group_id1)</variable>
+          <variable name="view_id">$(view_Id1)</variable>
+          <comment>
+</comment>
+        </ProcedureCall>
+        <ProcedureCall id="_1l5j" procedure="open.image_view"/>
+        <ProcedureCall id="_1l5k"
+                       procedure="wait.disappear.creating_image_progress monitor">
+          <variable name="bandName">$(bandName)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1l8N" procedure="check.view.title">
+          <variable name="prod_nr">1</variable>
+          <variable name="band_name">$(bandName)</variable>
+        </ProcedureCall>
+      </Procedure>
+    </Package>
+    <Package id="_1l2b" name="utility">
+      <Package id="_1l8U" name="import">
+        <Procedure id="_1l2c" name="aquarius">
+          <ProcedureCall id="_1l2o" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1l2q"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1l2p"
+                         procedure="do_click.menu.file.rasterData.multispectral"/>
+          <ProcedureCall id="_1l2f"
+                         procedure="do_click.menu.file.rasterData.multispectral.aquarius"/>
+        </Procedure>
+        <Procedure id="_1lHX" name="atsr">
+          <ProcedureCall id="_1lHY" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lHZ"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lHa"
+                         procedure="do_click.menu.file.rasterData.multispectral"/>
+          <ProcedureCall id="_1lHb"
+                         procedure="do_click.menu.file.rasterData.multispectral.atsr"/>
+        </Procedure>
+        <Procedure id="_1lHc" name="avnir2">
+          <ProcedureCall id="_1lHd" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lHe"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lHf"
+                         procedure="do_click.menu.file.rasterData.multispectral"/>
+          <ProcedureCall id="_1lHg"
+                         procedure="do_click.menu.file.rasterData.multispectral.avnir2"/>
+        </Procedure>
+        <Procedure id="_1lHh" name="binned_SeaDAS">
+          <ProcedureCall id="_1lHi" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lHj"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lHk"
+                         procedure="do_click.menu.file.rasterData.multispectral"/>
+          <ProcedureCall id="_1lHl"
+                         procedure="do_click.menu.file.rasterData.multispectral.binned_SeaDAS"/>
+        </Procedure>
+        <Procedure id="_1lHm" name="chris">
+          <ProcedureCall id="_1lHn" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lHo"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lHp"
+                         procedure="do_click.menu.file.rasterData.multispectral"/>
+          <ProcedureCall id="_1lHq"
+                         procedure="do_click.menu.file.rasterData.multispectral.chris"/>
+        </Procedure>
+        <Procedure id="_1lHw" name="envisat">
+          <ProcedureCall id="_1lHx" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lHy"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lHz"
+                         procedure="do_click.menu.file.rasterData.multispectral"/>
+          <ProcedureCall id="_1lH+"
+                         procedure="do_click.menu.file.rasterData.multispectral.envisat_meris_aatsr"/>
+        </Procedure>
+        <Procedure id="_1lHr" name="ers_atsr">
+          <ProcedureCall id="_1lHs" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lHt"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lHu"
+                         procedure="do_click.menu.file.rasterData.multispectral"/>
+          <ProcedureCall id="_1lHv"
+                         procedure="do_click.menu.file.rasterData.multispectral.ers_atsr"/>
+        </Procedure>
+        <Procedure id="_1lH-" name="hico_L1b">
+          <ProcedureCall id="_1lI0" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lI1"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lI2"
+                         procedure="do_click.menu.file.rasterData.multispectral"/>
+          <ProcedureCall id="_1lI3"
+                         procedure="do_click.menu.file.rasterData.multispectral.hico_L1b"/>
+        </Procedure>
+        <Procedure id="_1lI4" name="hico_envi_format">
+          <ProcedureCall id="_1lI5" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lI6"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lI7"
+                         procedure="do_click.menu.file.rasterData.multispectral"/>
+          <ProcedureCall id="_1lI8"
+                         procedure="do_click.menu.file.rasterData.multispectral.hico_envi_format"/>
+        </Procedure>
+        <Procedure id="_1lI9" name="landsat5_TM">
+          <ProcedureCall id="_1lIA" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lIB"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lIC"
+                         procedure="do_click.menu.file.rasterData.multispectral"/>
+          <ProcedureCall id="_1lID"
+                         procedure="do_click.menu.file.rasterData.multispectral.landsat_TM"/>
+        </Procedure>
+        <Procedure id="_1lIE" name="landsat_geoTIFF">
+          <ProcedureCall id="_1lIF" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lIG"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lIH"
+                         procedure="do_click.menu.file.rasterData.multispectral"/>
+          <ProcedureCall id="_1lII"
+                         procedure="do_click.menu.file.rasterData.multispectral.landsat_geoTIFF"/>
+        </Procedure>
+        <Procedure id="_1lIJ" name="meris_binned_L3">
+          <ProcedureCall id="_1lIK" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lIL"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lIM"
+                         procedure="do_click.menu.file.rasterData.multispectral"/>
+          <ProcedureCall id="_1lIN"
+                         procedure="do_click.menu.file.rasterData.multispectral.meris_binned_L3"/>
+        </Procedure>
+        <Procedure id="_1lIO" name="modisL1B">
+          <ProcedureCall id="_1lIP" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lIQ"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lIR"
+                         procedure="do_click.menu.file.rasterData.multispectral"/>
+          <ProcedureCall id="_1lIS"
+                         procedure="do_click.menu.file.rasterData.multispectral.modisL1B"/>
+        </Procedure>
+        <Procedure id="_1lOD" name="modis_MOD_MXD_MYD">
+          <ProcedureCall id="_1lOE" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lOF"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lOG"
+                         procedure="do_click.menu.file.rasterData.multispectral"/>
+          <ProcedureCall id="_1lOH"
+                         procedure="do_click.menu.file.rasterData.multispectral.modis_MOD_MXD_MYD"/>
+        </Procedure>
+        <Procedure id="_1lOI" name="noaa_avhrr_3_L1b">
+          <ProcedureCall id="_1lOJ" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lOK"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lOL"
+                         procedure="do_click.menu.file.rasterData.multispectral"/>
+          <ProcedureCall id="_1lOM"
+                         procedure="do_click.menu.file.rasterData.multispectral.noaa_avhrr_3_L1b"/>
+        </Procedure>
+        <Procedure id="_1lON" name="ocm2_L1B">
+          <ProcedureCall id="_1lOO" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lOP"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lOQ"
+                         procedure="do_click.menu.file.rasterData.multispectral"/>
+          <ProcedureCall id="_1lOR"
+                         procedure="do_click.menu.file.rasterData.multispectral.ocm2_L1B"/>
+        </Procedure>
+        <Procedure id="_1lOS" name="prism">
+          <ProcedureCall id="_1lOT" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lOU"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lOV"
+                         procedure="do_click.menu.file.rasterData.multispectral"/>
+          <ProcedureCall id="_1lOW"
+                         procedure="do_click.menu.file.rasterData.multispectral.prism"/>
+        </Procedure>
+        <Procedure id="_1lOX" name="seaDAS_L1">
+          <ProcedureCall id="_1lOY" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lOZ"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lOa"
+                         procedure="do_click.menu.file.rasterData.multispectral"/>
+          <ProcedureCall id="_1lOb"
+                         procedure="do_click.menu.file.rasterData.multispectral.seaDAS_L1"/>
+        </Procedure>
+        <Procedure id="_1lOc" name="seaDAS_L2">
+          <ProcedureCall id="_1lOd" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lOe"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lOf"
+                         procedure="do_click.menu.file.rasterData.multispectral"/>
+          <ProcedureCall id="_1lOg"
+                         procedure="do_click.menu.file.rasterData.multispectral.seaDAS_L2"/>
+        </Procedure>
+        <Procedure id="_1lOh" name="seaDAS_L3">
+          <ProcedureCall id="_1lOi" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lOj"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lOk"
+                         procedure="do_click.menu.file.rasterData.multispectral"/>
+          <ProcedureCall id="_1lOl"
+                         procedure="do_click.menu.file.rasterData.multispectral.seaDAS_L3"/>
+        </Procedure>
+        <Procedure id="_1lOm" name="seaDAS_browse_L1_L2">
+          <ProcedureCall id="_1lOn" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lOo"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lOp"
+                         procedure="do_click.menu.file.rasterData.multispectral"/>
+          <ProcedureCall id="_1lOq"
+                         procedure="do_click.menu.file.rasterData.multispectral.seaDAS_browse_L1_L2"/>
+        </Procedure>
+        <Procedure id="_1lHC" name="sentinel3">
+          <ProcedureCall id="_1lHD" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lHE"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lHF"
+                         procedure="do_click.menu.file.rasterData.multispectral"/>
+          <ProcedureCall id="_1lHG"
+                         procedure="do_click.menu.file.rasterData.multispectral.sentinel3"/>
+        </Procedure>
+        <Procedure id="_1lEm" name="smos">
+          <ProcedureCall id="_1lEn" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lEo"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lEp"
+                         procedure="do_click.menu.file.rasterData.multispectral"/>
+          <ProcedureCall id="_1lEq"
+                         procedure="do_click.menu.file.rasterData.multispectral.smos"/>
+        </Procedure>
+        <Procedure id="_1lRc" name="spot_vgt">
+          <ProcedureCall id="_1lRd" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lRe"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lRf"
+                         procedure="do_click.menu.file.rasterData.multispectral"/>
+          <ProcedureCall id="_1lRg"
+                         procedure="do_click.menu.file.rasterData.multispectral.spot_vgt"/>
+        </Procedure>
+        <Procedure id="_1lRh" name="viirs">
+          <ProcedureCall id="_1lRi" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lRj"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lRk"
+                         procedure="do_click.menu.file.rasterData.multispectral"/>
+          <ProcedureCall id="_1lRl"
+                         procedure="do_click.menu.file.rasterData.multispectral.viirs"/>
+        </Procedure>
+        <Procedure id="_1lRm" name="dimap">
+          <ProcedureCall id="_1lRn" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lRo"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lRp"
+                         procedure="do_click.menu.file.rasterData.dimap_product"/>
+        </Procedure>
+        <Procedure id="_1lST" name="sar_asar">
+          <ProcedureCall id="_1lSU" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lSV"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lSW"
+                         procedure="do_click.menu.file.rasterData.sar"/>
+          <ProcedureCall id="_1lSX"
+                         procedure="do_click.menu.file.rasterData.sar.asar"/>
+        </Procedure>
+        <Procedure id="_1lRr" name="sar_ers">
+          <ProcedureCall id="_1lRs" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lRt"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lRu"
+                         procedure="do_click.menu.file.rasterData.sar"/>
+          <ProcedureCall id="_1lRv"
+                         procedure="do_click.menu.file.rasterData.sar.ers_sar"/>
+        </Procedure>
+        <Procedure id="_1lSY" name="arcInfo_binary_grid">
+          <ProcedureCall id="_1lSZ" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lSa"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lSb"
+                         procedure="do_click.menu.file.rasterData.generic"/>
+          <ProcedureCall id="_1lSc"
+                         procedure="do_click.menu.file.rasterData.generic.arcInfo_binary_grid"/>
+        </Procedure>
+        <Procedure id="_1lSd" name="csv">
+          <ProcedureCall id="_1lSe" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lSf"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lSg"
+                         procedure="do_click.menu.file.rasterData.generic"/>
+          <ProcedureCall id="_1lSh"
+                         procedure="do_click.menu.file.rasterData.generic.csv"/>
+        </Procedure>
+        <Procedure id="_1lSi" name="envi">
+          <ProcedureCall id="_1lSj" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lSk"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lSl"
+                         procedure="do_click.menu.file.rasterData.generic"/>
+          <ProcedureCall id="_1lSm"
+                         procedure="do_click.menu.file.rasterData.generic.envi"/>
+        </Procedure>
+        <Procedure id="_1lSn" name="geotiff">
+          <ProcedureCall id="_1lSo" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lSp"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lSq"
+                         procedure="do_click.menu.file.rasterData.generic"/>
+          <ProcedureCall id="_1lSr"
+                         procedure="do_click.menu.file.rasterData.generic.geotiff"/>
+        </Procedure>
+        <Procedure id="_1lSs" name="hdf_eos_gridded">
+          <ProcedureCall id="_1lSt" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lSu"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lSv"
+                         procedure="do_click.menu.file.rasterData.generic"/>
+          <ProcedureCall id="_1lSw"
+                         procedure="do_click.menu.file.rasterData.generic.hdf_eos_gridded"/>
+        </Procedure>
+        <Procedure id="_1lVG" name="netCdf_beam">
+          <ProcedureCall id="_1lVH" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lVI"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lVJ"
+                         procedure="do_click.menu.file.rasterData.generic"/>
+          <ProcedureCall id="_1lVK"
+                         procedure="do_click.menu.file.rasterData.generic.netCdf_beam"/>
+        </Procedure>
+        <Procedure id="_1lVL" name="netCdf_cf">
+          <ProcedureCall id="_1lVM" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lVN"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lVO"
+                         procedure="do_click.menu.file.rasterData.generic"/>
+          <ProcedureCall id="_1lVP"
+                         procedure="do_click.menu.file.rasterData.generic.netCdf_cf"/>
+        </Procedure>
+        <Procedure id="_1lVQ" name="netCdf_generic">
+          <ProcedureCall id="_1lVR" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lVS"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lVT"
+                         procedure="do_click.menu.file.rasterData.generic"/>
+          <ProcedureCall id="_1lVU"
+                         procedure="do_click.menu.file.rasterData.generic.netCdf_generic"/>
+        </Procedure>
+        <Procedure id="_1lVV" name="pgx">
+          <ProcedureCall id="_1lVW" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lVX"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lVY"
+                         procedure="do_click.menu.file.rasterData.generic"/>
+          <ProcedureCall id="_1lVZ"
+                         procedure="do_click.menu.file.rasterData.generic.pgx"/>
+        </Procedure>
+        <Procedure id="_1lVa" name="rgb">
+          <ProcedureCall id="_1lVb" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1lVc"
+                         procedure="do_click.menu.file.importRasterData"/>
+          <ProcedureCall id="_1lVd"
+                         procedure="do_click.menu.file.rasterData.rgb"/>
+        </Procedure>
+        <Procedure id="_1l34" name="fill_dialog">
+          <comment>@teststep Select product and click 'Import' button</comment>
+          <ProcedureCall id="_1l35" procedure="set.import_dialog.file_name"/>
+          <ProcedureCall id="_1l36" postdelay="500"
+                         procedure="do_click.import_dialog.import_button"/>
+          <ProcedureCall disabled="true" id="_1lHI"
+                         procedure="set.import_dialog.file_name"/>
+          <ProcedureCall disabled="true" id="_1lHJ" postdelay="500"
+                         procedure="do_click.import_dialog.import_button"/>
+        </Procedure>
+      </Package>
+      <Procedure id="_1l38" name="open_image_view_check_it">
+        <ProcedureCall id="_1l3B" procedure="check.product.not_opened"/>
+        <IfSequence id="_1kk7" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
+          <ProcedureCall id="_1l3C"
+                         procedure="wait.appear.product_is_opened"/>
+        </IfSequence>
+        <ProcedureCall id="_1l3D" procedure="check.product.not_opened"/>
+        <IfSequence id="_1l3v" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
+          <ProcedureCall id="_1l3w" predelay="3000"
+                         procedure="wait.appear.product_is_opened"/>
+        </IfSequence>
+        <ProcedureCall id="_1l3x" procedure="check.product.not_opened"/>
+        <IfSequence id="_1l3E" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
+          <ProcedureCall id="_1l3F"
+                         procedure="wait.appear.product_is_opened"/>
+          <ElseSequence id="_1l3G">
+            <IfSequence id="_1lFb"
+                        test="&#34;$(view_Id1)&#34;&lt;&gt;&#34;&#34;">
+              <ProcedureCall id="_1l3K" procedure="get.bands_node_id">
+                <variable name="prod_id">0</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1l3H" procedure="select.product_tree.band">
+                <variable name="prod_id">0</variable>
+                <variable name="node_id">$(bands_node_id)</variable>
+                <variable name="group_id">$(group_id1)</variable>
+                <variable name="view_id">$(view_Id1)</variable>
+                <comment>
+</comment>
+              </ProcedureCall>
+              <ProcedureCall id="_1lFc" procedure="open.image_view"/>
+              <ProcedureCall disabled="true" id="_1lFd"
+                             procedure="do_click.tree.doubleclick_product_node">
+                <variable name="prod_id">0</variable>
+                <variable name="node_id">$(bands_node_number)</variable>
+                <variable name="group_id">$(group_id1)</variable>
+                <variable name="view_id">$(view_Id1)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1lFe"
+                             procedure="wait.disappear.creating_image_progress monitor">
+                <variable name="bandName">$(bandName)</variable>
+              </ProcedureCall>
+              <TryStep id="_1lFf" name="check_view_title">
+                <ProcedureCall id="_1lFg" procedure="check.view.title">
+                  <variable name="prod_nr">1</variable>
+                  <variable name="band_name">$(bandName)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1lFh"
+                               maxerror="0">
+                  <TryStep id="_1lFi" name="check_view_title">
+                    <ProcedureCall id="_1lFj"
+                                   procedure="select.product_tree.band">
+                      <variable name="prod_id">0</variable>
+                      <variable name="node_id">$(bands_node_number)</variable>
+                      <variable name="group_id">$(group_id1)</variable>
+                      <variable name="view_id">$(view_Id1)</variable>
+                      <comment>
+</comment>
+                    </ProcedureCall>
+                    <ProcedureCall id="_1lFk"
+                                   procedure="do_click.tree.doubleclick_product_node">
+                      <variable name="prod_id">0</variable>
+                      <variable name="node_id">$(bands_node_number)</variable>
+                      <variable name="group_id">$(group_id1)</variable>
+                      <variable name="view_id">$(view_Id1)</variable>
+                    </ProcedureCall>
+                    <ProcedureCall id="_1lFl"
+                                   procedure="wait.disappear.creating_image_progress monitor">
+                      <variable name="bandName">$(bandName)</variable>
+                    </ProcedureCall>
+                    <ProcedureCall id="_1lFm" procedure="check.view.title">
+                      <variable name="prod_nr">1</variable>
+                      <variable name="band_name">$(bandName)</variable>
+                    </ProcedureCall>
+                    <CatchSequence exception="TestException" id="_1lFn"
+                                   maxerror="0">
+                      <ServerScriptStep disabled="true" id="_1lFo"
+                                        name="print">
+                        <code>print "bands_node_number = ","$(bands_node_number)"
+print "group_id1 = ","$(group_id1)"
+print "view_Id1 = ", "$(view_Id1)"
+  </code>
+                      </ServerScriptStep>
+                      <ProcedureCall id="_1lFp"
+                                     procedure="select.product_tree.band">
+                        <variable name="prod_id">0</variable>
+                        <variable name="node_id">$(bands_node_number)</variable>
+                        <variable name="group_id">$(group_id1)</variable>
+                        <variable name="view_id">$(view_Id1)</variable>
+                        <comment>
+</comment>
+                      </ProcedureCall>
+                      <ProcedureCall id="_1lFq"
+                                     procedure="do_click.tree.doubleclick_product_node">
+                        <variable name="prod_id">0</variable>
+                        <variable name="node_id">$(bands_node_number)</variable>
+                        <variable name="group_id">$(group_id1)</variable>
+                        <variable name="view_id">$(view_Id1)</variable>
+                      </ProcedureCall>
+                      <ProcedureCall id="_1lFr"
+                                     procedure="wait.disappear.creating_image_progress monitor">
+                        <variable name="bandName">$(bandName)</variable>
+                      </ProcedureCall>
+                      <ProcedureCall id="_1lFs" procedure="wait.appear.view">
+                        <variable name="prod_nr">1</variable>
+                        <variable name="band_name">$(bandName)</variable>
+                      </ProcedureCall>
+                      <ProcedureCall id="_1lFt" procedure="check.view.title">
+                        <variable name="prod_nr">1</variable>
+                        <variable name="band_name">$(bandName)</variable>
+                      </ProcedureCall>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+            </IfSequence>
+          </ElseSequence>
+        </IfSequence>
+      </Procedure>
+      <Procedure id="_1oMc" name="open_metadata_check_it">
+        <variable name="metadata_name"/>
+        <ProcedureCall id="_1oMo" procedure="get.metadata_node_id">
+          <variable name="prod_id">0</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1oMf" procedure="get.additional_metadata_node_id">
+          <variable name="prod_id">0</variable>
+          <variable name="metadata_name">$(metadata_name)</variable>
+        </ProcedureCall>
+        <IfSequence id="_1oMg"
+                    test="&#34;$(additional_metadata_node_id)&#34;&gt;=0">
+          <ProcedureCall id="_1oMh" procedure="select.product_tree.band">
+            <variable name="prod_id">0</variable>
+            <variable name="node_id">$(metadata_node_id)</variable>
+            <variable name="group_id"/>
+            <variable name="view_id">$(additional_metadata_node_id)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1oMi" procedure="open.metadata_view"/>
+          <TryStep id="_1oMj" name="check_view_title">
+            <ProcedureCall id="_1oMk" procedure="check.view.title">
+              <variable name="prod_nr">1</variable>
+              <variable name="band_name">$(mn1)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1oMl" maxerror="0">
+              <ProcedureCall id="_1oMp" procedure="run-log.logError">
+                <variable name="message">Metadata $(mn1) has not be opened</variable>
+                <variable name="withScreenshots">true</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+          <ElseSequence id="_1oMm">
+            <ProcedureCall id="_1oMn" procedure="run-log.logError">
+              <variable name="message">Metadata $(mn1) has not be found</variable>
+              <variable name="withScreenshots">true</variable>
+            </ProcedureCall>
+          </ElseSequence>
+        </IfSequence>
+      </Procedure>
+    </Package>
+  </PackageRoot>
+  <ExtraSequence id="_4">
+    <Procedure id="_E5Y" name="select_deselect_mask">
+      <ProcedureCall id="_E5a" procedure="get.getRowCount">
+        <variable name="id">Dialog2.maskTable</variable>
+      </ProcedureCall>
+      <ServerScriptStep id="_9pO" name="print">
+        <code>print "Masks number = $(rowCount)"  </code>
+      </ServerScriptStep>
+      <IfSequence id="_E5h" test="$(rowCount)&gt;0">
+        <RepeatSequence count="$(rowCount)" id="_E5i" name="check_masks"
+                        var="m">
+          <TryStep id="_E5k" name="select_visible">
+            <ProcedureCall id="_E5l"
+                           procedure="maskManager.help.checkin_visible">
+              <variable name="line_nr">$(m)</variable>
+            </ProcedureCall>
+            <ProcedureCall disabled="true" id="_E5m"
+                           procedure="maskManager.help.checkin_visible">
+              <variable name="line_nr">$(m)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_E5n" maxerror="0">
+              <ProcedureCall id="_E5p" procedure="scripts.error.error_text">
+                <variable name="text">Mask $(m) cannot be selected.</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+          <TryStep id="_E5z" name="deselect_visible">
+            <ProcedureCall id="_E5+"
+                           procedure="maskManager.help.checkin_visible">
+              <variable name="line_nr">$(m)</variable>
+            </ProcedureCall>
+            <ProcedureCall disabled="true" id="_E5-"
+                           procedure="maskManager.help.checkin_visible">
+              <variable name="line_nr">$(m)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_E60" maxerror="0">
+              <ProcedureCall id="_E61" procedure="scripts.error.error_text">
+                <variable name="text">Mask $(m) cannot be selected.</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+          <ProcedureCall id="_1kdi"
+                         procedure="clicks.run_the_Garbage_Collector"/>
+        </RepeatSequence>
+        <ElseSequence id="_E5x">
+          <ProcedureCall id="_E5y" procedure="scripts.error.error_text">
+            <variable name="text">Mask Manager is empty</variable>
+          </ProcedureCall>
+        </ElseSequence>
+      </IfSequence>
+    </Procedure>
+    <Procedure id="_BwH" name="open_product_check_masks_and_layers">
+      <SetGlobalStep id="_1lXD" varname="prod_id_visat_tree">
+        <default>0</default>
+      </SetGlobalStep>
+      <ProcedureCall id="_94u" procedure="preparing_for_test"/>
+      <ProcedureCall id="_C-t"
+                     procedure="checks.checkProductNotOpened_return_prodNotOpened_variable"/>
+      <IfSequence id="_C-u"
+                  test="&#34;$(prodNotOpened)&#34;==&#34;false&#34;">
+        <IfSequence id="_1kX2"
+                    test="&#34;$(view_opened)&#34;==&#34;true&#34;">
+          <TestStep id="_DgH" name="check_mask_manager">
+            <ProcedureCall id="_6Vn" procedure="opens.openMaskManagerDialog"/>
+            <ProcedureCall id="_C4B" procedure="maskManager.check.header">
+              <variable name="roi">true</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_C4C"
+                           procedure="maskManager.check.def_layout_MaskManager"/>
+            <ProcedureCall disabled="true" id="_C4D"
+                           procedure="selects.selectProductInVisatTree">
+              <variable name="index">1</variable>
+              <variable name="product_name">$(productName)</variable>
+            </ProcedureCall>
+            <ProcedureCall disabled="true" id="_C4E"
+                           procedure="maskManager.check.header">
+              <variable name="roi">false</variable>
+            </ProcedureCall>
+            <ProcedureCall disabled="true" id="_C4F"
+                           procedure="maskManager.check.def_layout_MaskManager"/>
+            <IfSequence disabled="true" id="_9MT"
+                        test="&#34;$(bandGroup)&#34;==&#34;&#34;">
+              <ProcedureCall id="_8No"
+                             procedure="selects.selectBandInProductTree">
+                <variable name="band">$(bandName)</variable>
+                <variable name="index">1</variable>
+                <variable name="product_name">$(productName)</variable>
+              </ProcedureCall>
+              <ElseSequence id="_9MU">
+                <ProcedureCall id="_9MV"
+                               procedure="selects.selectBandInProductTree">
+                  <variable name="band">$(bandGroup)/$(bandName)</variable>
+                  <variable name="index">1</variable>
+                  <variable name="product_name">$(productName)</variable>
+                </ProcedureCall>
+              </ElseSequence>
+            </IfSequence>
+            <ProcedureCall disabled="true" id="_DcK"
+                           procedure="maskManager.check.header">
+              <variable name="roi">true</variable>
+            </ProcedureCall>
+            <IfSequence id="_E63"
+                        test="&#34;$(prodType2)&#34;==&#34;sentinel_3&#34;">
+              <ProcedureCall id="_E62"
+                             procedure="maskManager.help.select_deselect_mask"/>
+              <ProcedureCall id="_1kX8"
+                             procedure="clicks.run_the_Garbage_Collector"/>
+              <ProcedureCall id="_1kXZ"
+                             procedure="clicks.run_the_Garbage_Collector"/>
+              <ProcedureCall id="_1kXa"
+                             procedure="clicks.run_the_Garbage_Collector"/>
+              <ProcedureCall id="_E65" procedure="maskManager.get_mask_name">
+                <variable name="maskId">0</variable>
+              </ProcedureCall>
+              <ElseSequence id="_E64">
+                <ProcedureCall id="_DcL"
+                               procedure="maskManager.check.masks_in_maskManager"/>
+              </ElseSequence>
+            </IfSequence>
+            <SetGlobalStep id="_DtW" varname="mask_count">
+              <default>$(rowCount)</default>
+            </SetGlobalStep>
+            <ProcedureCall id="_959" procedure="closes.closeMaskManager"/>
+          </TestStep>
+          <TestStep id="_DcW" name="check_masks_in_LayerManager">
+            <ProcedureCall id="_DcX"
+                           procedure="opens.LayerManager.openLayerManagerDialog"/>
+            <ProcedureCall id="_Dql" procedure="layerManager.find_layer_node">
+              <variable name="layer_name">$(masks_mask)</variable>
+            </ProcedureCall>
+            <IfSequence id="_E6G"
+                        test="&#34;$(layer_node_found)&#34;==&#34;true&#34; and $(mask_count)&gt;0">
+              <SetGlobalStep id="_E6H" varname="masks_nodeId">
+                <default>$(layer_node_id)</default>
+              </SetGlobalStep>
+              <ProcedureCall id="_E6J"
+                             procedure="opens.LayerManager.open_node">
+                <variable name="node">$(masks_nodeId)</variable>
+              </ProcedureCall>
+              <IfSequence id="_E6I"
+                          test="&#34;$(prodType2)&#34;==&#34;sentinel_3&#34;">
+                <ProcedureCall id="_E7G"
+                               procedure="layerManager.select_deselect_mask_layer">
+                  <variable name="mask_node_id">$(masks_nodeId)</variable>
+                </ProcedureCall>
+                <ElseSequence id="_E6L">
+                  <IfSequence id="_E6M"
+                              test="&#34;$(prodType2)&#34;==&#34;avhrr_gac&#34;">
+                    <ProcedureCall id="_E6N"
+                                   procedure="layerManager.sytem_mask_names">
+                      <variable name="prodType">$(prodType2)</variable>
+                      <variable name="id">1</variable>
+                      <variable name="basis_layer">$(bandName)</variable>
+                    </ProcedureCall>
+                    <ElseifSequence id="_E6O"
+                                    test="&#34;$(masks)&#34;==&#34;unknow&#34;">
+                      <ProcedureCall id="_E6P"
+                                     procedure="layerManager.select_sytem_masks"/>
+                    </ElseifSequence>
+                    <ElseSequence id="_E6Q">
+                      <ProcedureCall id="_E6R"
+                                     procedure="opens.LayerManager.open_node">
+                        <variable name="node">$(masks_nodeId)</variable>
+                      </ProcedureCall>
+                      <ProcedureCall id="_E6S"
+                                     procedure="selects.layerManager.select_layer">
+                        <variable name="node_id1">$(masks_nodeId)</variable>
+                        <variable name="node_id2">0</variable>
+                      </ProcedureCall>
+                      <IfSequence id="_E6T"
+                                  test="&#34;$(layer_node_found)&#34;==&#34;true&#34;">
+                        <ProcedureCall id="_E6U"
+                                       procedure="layerManager.sytem_mask_names">
+                          <variable name="prodType">$(prodType)</variable>
+                          <variable name="id">1</variable>
+                          <variable name="basis_layer">$(bandName)</variable>
+                        </ProcedureCall>
+                        <ElseSequence id="_E6V">
+                          <ProcedureCall id="_E6W"
+                                         procedure="layerManager.sytem_mask_names">
+                            <variable name="prodType">$(prodType)</variable>
+                            <variable name="id">1</variable>
+                            <variable name="basis_layer">$(bandName)</variable>
+                          </ProcedureCall>
+                        </ElseSequence>
+                      </IfSequence>
+                    </ElseSequence>
+                  </IfSequence>
+                </ElseSequence>
+              </IfSequence>
+            </IfSequence>
+            <ProcedureCall id="_1kXb"
+                           procedure="clicks.run_the_Garbage_Collector"/>
+            <ProcedureCall id="_1kXc"
+                           procedure="clicks.run_the_Garbage_Collector"/>
+            <SetGlobalStep id="_E6X" varname="mask_count">
+              <default>$(rowCount)</default>
+            </SetGlobalStep>
+            <ProcedureCall id="_Dct" procedure="closes.closeLayerManager"/>
+          </TestStep>
+        </IfSequence>
+        <SetGlobalStep id="_Deh" varname="mask_number">
+          <default>0</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_Dei" varname="masks">
+          <default>unknow</default>
+        </SetGlobalStep>
+      </IfSequence>
+    </Procedure>
+    <Procedure id="_1lDV" name="band_statistics">
+      <ProcedureCall id="_1lDW"
+                     procedure="import_data.raster_data.multispectral.sentinel3"/>
+      <ProcedureCall id="_1lDX" procedure="open.statistics_dialog"/>
+      <ProcedureCall id="_1lDY"
+                     procedure="do_click.statistics_dialog.refreshButton"/>
+      <ProcedureCall id="_1lDZ"
+                     procedure="wait.disappear.computing_statistics_progress monitor"/>
+      <TestStep id="_1lDa"
+                name="S3A_OL_1_EFR____20130621T100921_20130621T101417_20140613T170503_0295_001_002______LN2_D_NR____">
+        <comment>@teststep check statistics</comment>
+        <CheckStringStep client="$(client)"
+                         component="Dialog.labelOa05_radiance" id="_1lDb">
+          <text>Oa05_radiance</text>
+        </CheckStringStep>
+        <Test id="_1lDc" name="pixel_total">
+          <CheckStringStep checktype="item" client="$(client)"
+                           component="Dialog.StatisticsToolView.Control.table.Value&amp;0"
+                           id="_1lDd">
+            <text>31610547</text>
+          </CheckStringStep>
+        </Test>
+        <Test id="_1lDe" name="minimum">
+          <CheckStringStep checktype="item" client="$(client)"
+                           component="Dialog.StatisticsToolView.Control.table.Value&amp;1"
+                           id="_1lDf">
+            <text>50.1576</text>
+          </CheckStringStep>
+        </Test>
+        <Test id="_1lDg" name="maximum">
+          <CheckStringStep checktype="item" client="$(client)"
+                           component="Dialog.StatisticsToolView.Control.table.Value&amp;2"
+                           id="_1lDh">
+            <text>449.6000</text>
+          </CheckStringStep>
+        </Test>
+        <Test id="_1lDi" name="mean">
+          <CheckStringStep checktype="item" client="$(client)"
+                           component="Dialog.StatisticsToolView.Control.table.Value&amp;3"
+                           id="_1lDj">
+            <text>56.1415</text>
+          </CheckStringStep>
+        </Test>
+        <Test id="_1lDk" name="sigma">
+          <CheckStringStep checktype="item" client="$(client)"
+                           component="Dialog.StatisticsToolView.Control.table.Value&amp;4"
+                           id="_1lDl">
+            <text>23.6698</text>
+          </CheckStringStep>
+        </Test>
+        <Test id="_1lDm" name="median">
+          <CheckStringStep checktype="item" client="$(client)"
+                           component="Dialog.StatisticsToolView.Control.table.Value&amp;5"
+                           id="_1lDn">
+            <text>51.3201</text>
+          </CheckStringStep>
+        </Test>
+        <Test id="_1lDo" name="p75_thereshold">
+          <CheckStringStep checktype="item" client="$(client)"
+                           component="Dialog.StatisticsToolView.Control.table.Value&amp;6"
+                           id="_1lDp">
+            <text>58.9453</text>
+          </CheckStringStep>
+        </Test>
+        <Test id="_1lDq" name="p80_thereshold">
+          <CheckStringStep checktype="item" client="$(client)"
+                           component="Dialog.StatisticsToolView.Control.table.Value&amp;7"
+                           id="_1lDr">
+            <text>59.3447</text>
+          </CheckStringStep>
+        </Test>
+        <Test id="_1lDs" name="p85_thereshold">
+          <CheckStringStep checktype="item" client="$(client)"
+                           component="Dialog.StatisticsToolView.Control.table.Value&amp;8"
+                           id="_1lDt">
+            <text>59.3447</text>
+          </CheckStringStep>
+        </Test>
+        <Test id="_1lDu" name="p90_thereshold">
+          <CheckStringStep checktype="item" client="$(client)"
+                           component="Dialog.StatisticsToolView.Control.table.Value&amp;9"
+                           id="_1lDv">
+            <text>59.3447</text>
+          </CheckStringStep>
+        </Test>
+        <Test id="_1lDw" name="max_error">
+          <CheckStringStep checktype="item" client="$(client)"
+                           component="Dialog.StatisticsToolView.Control.table.Value&amp;10"
+                           id="_1lDx">
+            <text>0.3994</text>
+          </CheckStringStep>
+        </Test>
+        <CheckItemsStep checktype="column" client="$(client)"
+                        component="Dialog.StatisticsToolView.Control.table.Value"
+                        id="_1lDy">
+          <item>31610547</item>
+          <item>50.1576</item>
+          <item>449.6000</item>
+          <item>56.1415</item>
+          <item>23.6698</item>
+          <item>51.3201</item>
+          <item>58.9453</item>
+          <item>59.3447</item>
+          <item>59.3447</item>
+          <item>59.3447</item>
+          <item>0.3994</item>
+        </CheckItemsStep>
+      </TestStep>
+      <ProcedureCall id="_1lDz"
+                     procedure="select.statistics_dialog.use_ROI_mask"/>
+      <ProcedureCall id="_1lD+" procedure="select.statistics_dialog.mask">
+        <variable name="mask">$(mask1)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1lD-" procedure="select.statistics_dialog.mask">
+        <variable name="mask">$(mask2)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1lE0"
+                     procedure="do_click.statistics_dialog.refreshButton"/>
+      <ProcedureCall id="_1lE1"
+                     procedure="wait.disappear.computing_statistics_progress monitor"/>
+      <TestStep id="_1lE2" name="S3A_OL_1_EFR____201306_ROI">
+        <comment>@teststep check statistics</comment>
+        <CheckStringStep client="$(client)"
+                         component="Dialog.labelOa05_radiance_with_ROI-mask_quality_flags_land"
+                         id="_1lE3">
+          <text>Oa05_radiance with ROI-mask quality_flags_land</text>
+        </CheckStringStep>
+        <CheckStringStep checktype="item" client="$(client)"
+                         component="Dialog.StatisticsToolView.Control.table2.Value&amp;0"
+                         id="_1lE4">
+          <text>17934466</text>
+        </CheckStringStep>
+        <CheckStringStep checktype="item" client="$(client)"
+                         component="Dialog.StatisticsToolView.Control.table2.Value&amp;1"
+                         id="_1lE5">
+          <text>50.1576</text>
+        </CheckStringStep>
+        <CheckStringStep checktype="item" client="$(client)"
+                         component="Dialog.StatisticsToolView.Control.table2.Value&amp;2"
+                         id="_1lE6">
+          <text>449.6000</text>
+        </CheckStringStep>
+        <CheckStringStep checktype="item" client="$(client)"
+                         component="Dialog.StatisticsToolView.Control.table2.Value&amp;3"
+                         id="_1lE7">
+          <text>52.7436</text>
+        </CheckStringStep>
+        <CheckStringStep checktype="item" client="$(client)"
+                         component="Dialog.StatisticsToolView.Control.table2.Value&amp;4"
+                         id="_1lE8">
+          <text>23.9450</text>
+        </CheckStringStep>
+        <CheckStringStep checktype="item" client="$(client)"
+                         component="Dialog.StatisticsToolView.Control.table2.Value&amp;5"
+                         id="_1lE9">
+          <text>50.9564</text>
+        </CheckStringStep>
+        <CheckStringStep checktype="item" client="$(client)"
+                         component="Dialog.StatisticsToolView.Control.table2.Value&amp;6"
+                         id="_1lEA">
+          <text>50.9564</text>
+        </CheckStringStep>
+        <CheckStringStep checktype="item" client="$(client)"
+                         component="Dialog.StatisticsToolView.Control.table2.Value&amp;7"
+                         id="_1lEB">
+          <text>50.9564</text>
+        </CheckStringStep>
+        <CheckStringStep checktype="item" client="$(client)"
+                         component="Dialog.StatisticsToolView.Control.table2.Value&amp;8"
+                         id="_1lEC">
+          <text>50.9564</text>
+        </CheckStringStep>
+        <CheckStringStep checktype="item" client="$(client)"
+                         component="Dialog.StatisticsToolView.Control.table2.Value&amp;9"
+                         id="_1lED">
+          <text>50.9564</text>
+        </CheckStringStep>
+        <CheckStringStep checktype="item" client="$(client)"
+                         component="Dialog.StatisticsToolView.Control.table2.Value&amp;10"
+                         id="_1lEE">
+          <text>0.3994</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="Dialog.labelOa05_radiance_with_ROI-mask_quality_flags_coastline"
+                         id="_1lEF">
+          <text>Oa05_radiance with ROI-mask quality_flags_coastline</text>
+        </CheckStringStep>
+        <CheckStringStep checktype="item" client="$(client)"
+                         component="Dialog.StatisticsToolView.Control.table3.Value&amp;0"
+                         id="_1lEG">
+          <text>301024</text>
+        </CheckStringStep>
+        <CheckStringStep checktype="item" client="$(client)"
+                         component="Dialog.StatisticsToolView.Control.table3.Value&amp;1"
+                         id="_1lEH">
+          <text>50.5829</text>
+        </CheckStringStep>
+        <CheckStringStep checktype="item" client="$(client)"
+                         component="Dialog.StatisticsToolView.Control.table3.Value&amp;2"
+                         id="_1lEI">
+          <text>449.6000</text>
+        </CheckStringStep>
+        <CheckStringStep checktype="item" client="$(client)"
+                         component="Dialog.StatisticsToolView.Control.table3.Value&amp;3"
+                         id="_1lEJ">
+          <text>57.9296</text>
+        </CheckStringStep>
+        <CheckStringStep checktype="item" client="$(client)"
+                         component="Dialog.StatisticsToolView.Control.table3.Value&amp;4"
+                         id="_1lEK">
+          <text>20.5507</text>
+        </CheckStringStep>
+        <CheckStringStep checktype="item" client="$(client)"
+                         component="Dialog.StatisticsToolView.Control.table3.Value&amp;5"
+                         id="_1lEL">
+          <text>58.5633</text>
+        </CheckStringStep>
+        <CheckStringStep checktype="item" client="$(client)"
+                         component="Dialog.StatisticsToolView.Control.table3.Value&amp;6"
+                         id="_1lEM">
+          <text>58.9623</text>
+        </CheckStringStep>
+        <CheckStringStep checktype="item" client="$(client)"
+                         component="Dialog.StatisticsToolView.Control.table3.Value&amp;6"
+                         id="_1lEN">
+          <text>58.9623</text>
+        </CheckStringStep>
+        <CheckStringStep checktype="item" client="$(client)"
+                         component="Dialog.StatisticsToolView.Control.table3.Value&amp;7"
+                         id="_1lEO">
+          <text>58.9623</text>
+        </CheckStringStep>
+        <CheckStringStep checktype="item" client="$(client)"
+                         component="Dialog.StatisticsToolView.Control.table3.Value&amp;8"
+                         id="_1lEP">
+          <text>58.9623</text>
+        </CheckStringStep>
+        <CheckStringStep checktype="item" client="$(client)"
+                         component="Dialog.StatisticsToolView.Control.table3.Value&amp;9"
+                         id="_1lEQ">
+          <text>58.9623</text>
+        </CheckStringStep>
+        <CheckStringStep checktype="item" client="$(client)"
+                         component="Dialog.StatisticsToolView.Control.table3.Value&amp;10"
+                         id="_1lER">
+          <text>0.3990</text>
+        </CheckStringStep>
+        <CheckStringStep checktype="item" client="$(client)"
+                         component="Dialog.StatisticsToolView.Control.table3.Value&amp;10"
+                         id="_1lES">
+          <text>0.3990</text>
+        </CheckStringStep>
+      </TestStep>
+      <ProcedureCall disabled="true" id="_1lET" procedure="open.product">
+        <variable name="prod_dir">$(dataInDir)</variable>
+        <variable name="prod">$(fileName)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1lEU" procedure="close.session"/>
+    </Procedure>
+    <Procedure id="_9XO" name="computeStatistics">
+      <SetGlobalStep id="_DuY" varname="prod_id_visat_tree">
+        <default>0</default>
+      </SetGlobalStep>
+      <TestStep id="_FSh" name="computeStatistics" postdelay="1000">
+        <ProcedureCall id="_FSi" procedure="open.statisticDialog"/>
+        <ProcedureCall id="_FSj"
+                       procedure="select.statistics.deselect_checkBox_UseRoi"/>
+        <ProcedureCall id="_FSk" postdelay="5000"
+                       procedure="clicks.statistics.button_compute"/>
+        <TestStep id="_1kiH"
+                  name="wait_Computing_Statistics_progress_monitor_disappear">
+          <TryStep id="_1kiI">
+            <ProcedureCall id="_1kiJ" postdelay="2000"
+                           procedure="wait.computeStatistics"/>
+            <CatchSequence exception="TestException" id="_1kiK" maxerror="0"/>
+          </TryStep>
+          <TryStep id="_1kiL">
+            <ProcedureCall id="_1kiM" postdelay="2000"
+                           procedure="wait.computeStatistics"/>
+            <CatchSequence exception="TestException" id="_1kiN" maxerror="0"/>
+          </TryStep>
+        </TestStep>
+        <ProcedureCall disabled="true" id="_FSm" postdelay="2000"
+                       procedure="checks.statistics.text_not_roi"/>
+        <ProcedureCall id="_FSn"
+                       procedure="checks.statistics.statistics_label">
+          <variable name="txt">$(bandName)</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_FSo" name="computeStatistics_for_roi_mask">
+        <IfSequence id="_FSp"
+                    test="&#34;$(mask_name1)&#34;&lt;&gt;&#34;&#34; or &#34;$(mask_name2)&#34;&lt;&gt;&#34;&#34;">
+          <IfSequence id="_FSq"
+                      test="&#34;$(mask_name2)&#34;&lt;&gt;&#34;&#34;">
+            <SetGlobalStep id="_FSr" local="true" varname="mask_name">
+              <default>$(mask_name2)</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_FSs"
+                            test="&#34;$(mask_name1)&#34;&lt;&gt;&#34;&#34;">
+              <SetGlobalStep id="_FSt" local="true" varname="mask_name">
+                <default>$(mask_name1)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+          </IfSequence>
+          <IfSequence id="_FSu"
+                      test="&#34;$(mask_name)&#34;&lt;&gt;&#34;no&#34;">
+            <TestStep id="_FSv" name="compute_for_all_roi_mask"
+                      postdelay="2000">
+              <ProcedureCall id="_FSw"
+                             procedure="select.statistics.checkBox_UseRoi"/>
+              <ProcedureCall id="_FSx"
+                             procedure="select.statistics.select_all"/>
+              <ProcedureCall id="_FSy"
+                             procedure="clicks.statistics.button_compute"/>
+              <TestStep id="_1ki8"
+                        name="wait_Computing_Statistics_progress_monitor_disappear">
+                <TryStep id="_1ki9">
+                  <ProcedureCall id="_1ki7" postdelay="2000"
+                                 procedure="wait.computeStatistics"/>
+                  <CatchSequence exception="TestException" id="_1kiA"
+                                 maxerror="0"/>
+                </TryStep>
+                <TryStep id="_1kiB">
+                  <ProcedureCall id="_1kiC" postdelay="2000"
+                                 procedure="wait.computeStatistics"/>
+                  <CatchSequence exception="TestException" id="_1kiD"
+                                 maxerror="0"/>
+                </TryStep>
+              </TestStep>
+              <ProcedureCall id="_FS+"
+                             procedure="checks.statistics.text_statistics_for_all_roi"/>
+              <ProcedureCall disabled="true" id="_FS-"
+                             procedure="select.statistics.roi_mask">
+                <variable name="roi_mask">$(mask_name)</variable>
+              </ProcedureCall>
+              <ProcedureCall disabled="true" id="_FT0"
+                             procedure="checks.statistics.use_roi_selected"/>
+              <ProcedureCall disabled="true" id="_FT1"
+                             procedure="checks.statistics.use_roi_selected"/>
+              <ProcedureCall disabled="true" id="_FT2"
+                             procedure="select.statistics.roi_mask">
+                <variable name="roi_mask">$(mask_name)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_FT3"
+                             procedure="clicks.statistics.button_OK_failed_compute_statistics_shoot_error"/>
+            </TestStep>
+            <TestStep id="_FT4" name="compute_for_one_mask">
+              <ProcedureCall id="_FT5"
+                             procedure="select.statistics.select_none"/>
+              <ProcedureCall id="_FT6" procedure="select.statistics.one_mask">
+                <variable name="roi_mask">$(mask_name)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_FT7"
+                             procedure="clicks.statistics.button_compute"/>
+              <ProcedureCall id="_FT8" postdelay="2000"
+                             procedure="wait.computeStatistics"/>
+              <ProcedureCall id="_FT9"
+                             procedure="checks.statistics.button_Compute_enabled"/>
+              <IfSequence id="_FTA"
+                          test="&#34;$(button_Compute_enabled)&#34;==&#34;true&#34;">
+                <ProcedureCall id="_FTB"
+                               procedure="clicks.statistics.button_compute_help"/>
+              </IfSequence>
+              <ProcedureCall id="_FTC" postdelay="2000"
+                             procedure="wait.computeStatistics"/>
+              <ProcedureCall id="_FTD"
+                             procedure="checks.statistics.button_Compute_enabled"/>
+              <IfSequence id="_FTE"
+                          test="&#34;$(button_Compute_enabled)&#34;==&#34;true&#34;">
+                <ProcedureCall id="_FTF"
+                               procedure="clicks.statistics.button_compute_help"/>
+              </IfSequence>
+              <ProcedureCall id="_FTG" postdelay="2000"
+                             procedure="wait.computeStatistics"/>
+              <ProcedureCall id="_FTH"
+                             procedure="checks.statistics.text_statistics_for_roi_mask">
+                <variable name="roimask">$(mask_name)</variable>
+              </ProcedureCall>
+            </TestStep>
+            <ProcedureCall id="_1kiO"
+                           procedure="select.statistics.deselect_checkBox_UseRoi"/>
+          </IfSequence>
+        </IfSequence>
+      </TestStep>
+      <ProcedureCall id="_FTI"
+                     procedure="clicks.statistics.button_OK_failed_compute_statistics_shoot_error"/>
+      <ProcedureCall id="_1kid" procedure="scripts.make_screensot">
+        <variable name="iw_name">computeStatistics</variable>
+        <variable name="iw_name_example">error_dialog</variable>
+      </ProcedureCall>
+      <ServerScriptStep id="_FTK" name="An error">
+        <code>rc.logError("'$(dataInDir)/$(productName)' could not be opened! Check the dataInDir or the product")</code>
+      </ServerScriptStep>
+      <ProcedureCall id="_DYC"
+                     procedure="scripts.error.product_is_not_opened_in_VISAT">
+        <variable name="product_name">$(dataInDir)/$(fileName)</variable>
+      </ProcedureCall>
+    </Procedure>
+  </ExtraSequence>
+  <WindowList id="_5"/>
+</RootStep>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.3">
+  <include>qfs.qft</include>
+  <include>s3tbx_components.qft</include>
+  <include>s3tbx_main.qft</include>
+  <dependency>s3tbx_check.qft</dependency>
+  <dependency>s3tbx_main.qft</dependency>
+  <dependency>s3tbx_workflow.qft</dependency>
+  <PackageRoot id="_3">
+    <comment>s3tbx</comment>
+    <Package id="_1lB5" name="close">
+      <Procedure id="_1k-X" name="session">
+        <comment>@teststep Close session</comment>
+        <TryStep id="_1lJu" name="click_OK_in_Warning_dialog">
+          <ProcedureCall id="_1lJv" procedure="wait.appear.warning_dialog"/>
+          <ProcedureCall id="_1lJw"
+                         procedure="do_click.warning_dialog.button_ok"/>
+          <CatchSequence exception="TestException" id="_1lJx" maxerror="0"/>
+        </TryStep>
+        <ProcedureCall id="_1l3B" procedure="check.product.not_opened"/>
+        <IfSequence id="_1kk7"
+                    test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+          <TryStep id="_1l01" name="select_menu_close_session">
+            <ProcedureCall id="_1k-y" procedure="do_click.menu.file"/>
+            <ProcedureCall id="_1l00"
+                           procedure="do_click.menu.file.closeSession"/>
+            <CatchSequence exception="TestException" id="_1l02" maxerror="0">
+              <ServerScriptStep id="_1l03" name="error">
+                <code>rc.logError("Session can not be closed")</code>
+              </ServerScriptStep>
+            </CatchSequence>
+          </TryStep>
+          <TryStep id="_1l3j" name="click_Yes_in_product_modified_dialog">
+            <ProcedureCall id="_1l3h"
+                           procedure="wait.appear.product_modified_dialog"/>
+            <ProcedureCall id="_1l3i"
+                           procedure="do_click.product_modified_dialog.button_Yes"/>
+            <CatchSequence exception="TestException" id="_1l3k" maxerror="0"/>
+          </TryStep>
+          <TryStep id="_1lJp" name="click_Yes_in_product_modified_dialog">
+            <ProcedureCall id="_1lJq"
+                           procedure="wait.appear.product_modified_dialog"/>
+            <ProcedureCall id="_1lJr"
+                           procedure="do_click.product_modified_dialog.button_Yes"/>
+            <CatchSequence exception="TestException" id="_1lJs" maxerror="0"/>
+          </TryStep>
+          <TryStep id="_1lJj" name="click_OK_in_Warning_dialog">
+            <ProcedureCall id="_1lJo" procedure="wait.appear.warning_dialog"/>
+            <ProcedureCall id="_1lJn"
+                           procedure="do_click.warning_dialog.button_ok"/>
+            <CatchSequence exception="TestException" id="_1lJm" maxerror="0"/>
+          </TryStep>
+        </IfSequence>
+      </Procedure>
+      <Procedure id="_1lB6" name="dialog">
+        <ProcedureCall id="_1lJi"
+                       procedure="qfs.swing.cleanup.closeAllDialogs">
+          <variable name="maxDialogs">10</variable>
+        </ProcedureCall>
+      </Procedure>
+      <Procedure id="_1lDa" name="modal_dialogs">
+        <ProcedureCall id="_1lDc"
+                       procedure="qfs.swing.cleanup.closeAllModalDialogs">
+          <variable name="maxDialogs">5</variable>
+        </ProcedureCall>
+      </Procedure>
+    </Package>
+  </PackageRoot>
+  <ExtraSequence id="_4"/>
+  <WindowList id="_5"/>
+</RootStep>

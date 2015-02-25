@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.3">
+  <include>qfs.qft</include>
+  <include>shared_lib.qft</include>
+  <include>gpt.qft</include>
+  <dependency>../snap/lib/snap_main.qft</dependency>
+  <dependency>../s3tbx/lib/s3tbx_main.qft</dependency>
+  <PackageRoot id="_3">
+    <Procedure id="_1orR" name="path">
+      <SetGlobalStep id="_1orS" varname="user_home">
+        <default>${system:user.home}</default>
+      </SetGlobalStep>
+      <IfSequence id="_1orT" test="${qftest:windows}">
+        <LoadPropertiesStep id="_1orU"
+                            propertyfile="properties/path_win.properties"
+                            resourcename="path"/>
+        <ElseifSequence id="_1orV" name="MAC?"
+                        test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+          <LoadPropertiesStep id="_1orW"
+                              propertyfile="properties/path_mac.properties"
+                              resourcename="path"/>
+        </ElseifSequence>
+        <ElseSequence id="_1orX">
+          <LoadPropertiesStep id="_1orY"
+                              propertyfile="properties/path_lin.properties"
+                              resourcename="path"/>
+        </ElseSequence>
+      </IfSequence>
+      <BasicSequence disabled="true" id="_1orZ" name="print">
+        <ServerScriptStep id="_1ora" name="print">
+          <code>print "data_directory = ${path:data_directory}"</code>
+        </ServerScriptStep>
+        <ServerScriptStep id="_1orb" name="print">
+          <code>print "data_directory2 = ${path:data_directory2}"  </code>
+        </ServerScriptStep>
+        <ServerScriptStep id="_1orc" name="print">
+          <code>print "screenshot_path = ${path:screenshot_path}"  </code>
+        </ServerScriptStep>
+        <ServerScriptStep id="_1ord" name="print">
+          <code>print "input_data_directory=${path:input_data_directory}"</code>
+        </ServerScriptStep>
+        <ServerScriptStep id="_1ore" name="print">
+          <code>print "output_data_directory=${path:output_data_directory}"</code>
+        </ServerScriptStep>
+        <ServerScriptStep id="_1orf" name="print">
+          <code>print "parameters_file_dir=${path:parameters_file_dir}"</code>
+        </ServerScriptStep>
+        <ServerScriptStep id="_1org" name="print">
+          <code>print "graph_file_dir=${path:graph_file_dir}"</code>
+        </ServerScriptStep>
+        <ServerScriptStep id="_1orh" name="print">
+          <code>print "temp_directory=${path:temp_directory}"</code>
+        </ServerScriptStep>
+        <ServerScriptStep id="_1ori" name="print">
+          <code>print "sut_bin_directory=${path:sut_bin_directory}"</code>
+        </ServerScriptStep>
+        <ServerScriptStep id="_1orj" name="print">
+          <code>print "snap_working_directory=${path:snap_working_directory}"</code>
+        </ServerScriptStep>
+        <ServerScriptStep id="_1o+b" name="print">
+          <code>print "s3tbx_working_directory=${path:s3tbx_working_directory}"</code>
+        </ServerScriptStep>
+        <ServerScriptStep id="_1ork" name="print">
+          <code>print "slash=${path:slash}"</code>
+        </ServerScriptStep>
+        <ServerScriptStep id="_1orl" name="print">
+          <code>print "screenshot_path=${path:screenshot_path}"</code>
+        </ServerScriptStep>
+        <ServerScriptStep id="_1orm" name="print">
+          <code>print "screenshot_path2 = ${path:screenshot_path2}"  </code>
+        </ServerScriptStep>
+      </BasicSequence>
+    </Procedure>
+    <Procedure id="_1orn" name="data_source_directory">
+      <variable name="data_type"/>
+      <ProcedureCall id="_1oro" procedure="path"/>
+      <IfSequence id="_1orp" test="${qftest:windows}">
+        <LoadPropertiesStep id="_1orq"
+                            propertyfile="properties/subdir_win.properties"
+                            resourcename="subdir"/>
+        <ElseifSequence id="_1orr" name="MAC?"
+                        test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+          <LoadPropertiesStep id="_1ors"
+                              propertyfile="properties/subdir_mac.properties"
+                              resourcename="subdir"/>
+        </ElseifSequence>
+        <ElseSequence id="_1ort">
+          <LoadPropertiesStep id="_1oru"
+                              propertyfile="properties/subdir_lin.properties"
+                              resourcename="subdir"/>
+        </ElseSequence>
+      </IfSequence>
+      <TryStep id="_1orv">
+        <SetGlobalStep id="_1orw" varname="data_source_directory">
+          <default>${path:input_data_directory}${subdir:$(data_type)}</default>
+        </SetGlobalStep>
+        <ServerScriptStep disabled="true" id="_1orx" name="print">
+          <code>print "data_source_dir = $(data_source_directory)"</code>
+        </ServerScriptStep>
+        <CatchSequence exception="TestException" id="_1ory" maxerror="0">
+          <ProcedureCall id="_1o+p" procedure="qfs.run-log.logError">
+            <variable name="message">It was no no property or resource called $(data_type)</variable>
+            <variable name="withScreenshots">false</variable>
+          </ProcedureCall>
+        </CatchSequence>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1ow4" name="output_data_directory">
+      <variable name="output_dir"/>
+      <ProcedureCall id="_1ow5" procedure="path"/>
+      <IfSequence id="_1ow6" test="&#34;$(output_dir)&#34;==&#34;&#34;">
+        <SetGlobalStep id="_1ow7" varname="output_data_directory">
+          <default>${path:output_data_directory}</default>
+        </SetGlobalStep>
+        <ElseSequence id="_1ow8">
+          <SetGlobalStep id="_1ow9" varname="output_data_directory">
+            <default>${path:output_data_directory}$(output_dir)${path:slash}</default>
+          </SetGlobalStep>
+        </ElseSequence>
+      </IfSequence>
+    </Procedure>
+    <Procedure id="_1owO" name="output_format">
+      <variable name="out_form"/>
+      <IfSequence id="_1owP"
+                  test="&#34;$(out_form)&#34;==&#34;netCDF_CF&#34; or &#34;$(out_form)&#34;==&#34;netCDF4_CF&#34;">
+        <SetGlobalStep id="_1owQ" varname="output_netcdf_cf">
+          <default>true</default>
+        </SetGlobalStep>
+        <ElseSequence id="_1owR">
+          <SetGlobalStep id="_1owS" varname="output_netcdf_cf">
+            <default>false</default>
+          </SetGlobalStep>
+        </ElseSequence>
+      </IfSequence>
+      <LoadPropertiesStep id="_1owT"
+                          propertyfile="properties/output_format.properties"
+                          resourcename="format"/>
+      <TryStep id="_1owU">
+        <SetGlobalStep id="_1owV" varname="of">
+          <default>${format:$(out_form)_of}</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1owW" varname="fr">
+          <default>${format:$(out_form)_fr}</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1o+q" varname="supported_format">
+          <default>true</default>
+        </SetGlobalStep>
+        <CatchSequence exception="TestException" id="_1owX" maxerror="0">
+          <SetGlobalStep id="_1owY" varname="output_netcdf_cf">
+            <default>false</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1owZ" varname="supported_format">
+            <default>false</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1owa" varname="of"/>
+          <SetGlobalStep id="_1owb" varname="fr">
+            <default>dim</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1o+o" procedure="qfs.run-log.logError">
+            <variable name="message">$(out_form) format is not supported</variable>
+            <variable name="withScreenshots">false</variable>
+          </ProcedureCall>
+        </CatchSequence>
+      </TryStep>
+      <ServerScriptStep disabled="true" id="_1oxE" name="print">
+        <code>print "of = $(of)"</code>
+      </ServerScriptStep>
+      <ServerScriptStep disabled="true" id="_1oxF" name="print">
+        <code>print "fr = $(fr)"</code>
+      </ServerScriptStep>
+    </Procedure>
+    <Procedure id="_1oxG" name="product_attributes">
+      <variable name="prod_type"/>
+      <IfSequence id="_1oxH" test="&#34;$(prod_type)&#34;==&#34;&#34;">
+        <SetGlobalStep id="_1oxI" varname="product_group"/>
+        <SetGlobalStep id="_1oxJ" varname="reader">
+          <default>All Files</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1oxK" varname="menu_item"/>
+        <ElseSequence id="_1oxL">
+          <TryStep id="_1oxM">
+            <LoadPropertiesStep id="_1oxN"
+                                propertyfile="properties/product_attributes.properties"
+                                resourcename="attribut"/>
+            <SetGlobalStep id="_1oxO" varname="product_group">
+              <default>${attribut:$(prod_type)_product_group}</default>
+            </SetGlobalStep>
+            <SetGlobalStep id="_1oxP" varname="reader">
+              <default>${attribut:$(prod_type)_reader}</default>
+            </SetGlobalStep>
+            <SetGlobalStep id="_1oxQ" varname="menu_item">
+              <default>${attribut:$(prod_type)_menu_item}</default>
+            </SetGlobalStep>
+            <CatchSequence exception="TestException" id="_1oxR" maxerror="0">
+              <SetGlobalStep id="_1oxS" varname="product_group"/>
+              <SetGlobalStep id="_1oxT" varname="reader">
+                <default>All Files</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oxU" varname="menu_item"/>
+              <ProcedureCall id="_1o+n" procedure="qfs.run-log.logError">
+                <variable name="message">It was no no property or resource called $(prod_type)</variable>
+                <variable name="withScreenshots">false</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+        </ElseSequence>
+      </IfSequence>
+      <ServerScriptStep disabled="true" id="_1o+0" name="print">
+        <code>print "product_group = $(product_group)"</code>
+      </ServerScriptStep>
+      <ServerScriptStep disabled="true" id="_1o+1" name="print">
+        <code>print "reader = $(reader)"</code>
+      </ServerScriptStep>
+      <ServerScriptStep disabled="true" id="_1o+2" name="print">
+        <code>print "menu_item = $(menu_item)"</code>
+      </ServerScriptStep>
+    </Procedure>
+    <Procedure id="_1lBO" name="source_data_with_absolute_path">
+      <comment>source_data_with_absolute_path</comment>
+      <ProcedureCall id="_1o+c" procedure="path"/>
+      <ProcedureCall id="_1o+k" procedure="data_source_directory">
+        <variable name="data_type">$(dataInDir)</variable>
+      </ProcedureCall>
+      <ServerScriptStep id="_1o+d" name="find_SMOS_in_file_name">
+        <code>import string 
+#print "$(fileName)"
+var1 = "$(fileName)"
+rc.setGlobal("smos", var1[:3])
+              </code>
+        <comment> </comment>
+      </ServerScriptStep>
+      <ServerScriptStep disabled="true" id="_1o+e" name="print">
+        <code>print "smos = ","$(smos)" 
+              </code>
+        <comment> </comment>
+      </ServerScriptStep>
+      <IfSequence id="_1o+f"
+                  test="&#34;$(smos)&#34;==&#34;SM_&#34; and &#34;$(fileName)&#34;==&#34;$(productName)&#34;">
+        <SetGlobalStep id="_1o+g" varname="file">
+          <default>$(data_source_directory)$(fileName)/$(fileName).HDR</default>
+        </SetGlobalStep>
+        <ElseSequence id="_1o+h">
+          <SetGlobalStep id="_1o+l" varname="file">
+            <default>$(data_source_directory)$(fileName)</default>
+          </SetGlobalStep>
+        </ElseSequence>
+      </IfSequence>
+    </Procedure>
+    <Procedure id="_1oHN" name="graph_file_dir">
+      <variable name="xml_dir"/>
+      <ProcedureCall id="_1o+Z" procedure="path"/>
+      <SetGlobalStep id="_1o+a" varname="graph_file_dir">
+        <default>${path:graph_file_dir}$(xml_dir)${path:slash}</default>
+      </SetGlobalStep>
+      <ServerScriptStep id="_1o+w" name="print">
+        <code>print "graph_file_dir = $(graph_file_dir)"</code>
+      </ServerScriptStep>
+    </Procedure>
+    <Procedure id="_1oO9" name="system_and_commando">
+      <comment>@teststep set system and commando</comment>
+      <IfSequence id="_1oOA" test="${qftest:windows}">
+        <SetGlobalStep id="_1oOB" varname="mkdir_commando">
+          <default>MKDIR</default>
+          <comment>MKDIR</comment>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1o+y" varname="delete_commando">
+          <default>RMDIR /S /Q</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1oOC" varname="operation_system">
+          <default>Windows</default>
+        </SetGlobalStep>
+        <ElseifSequence id="_1oOD" name="MAC?"
+                        test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+          <SetGlobalStep id="_1o+z" varname="mkdir_commando">
+            <default>mkdir</default>
+            <comment>MKDIR</comment>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1oOE" varname="delete_commando">
+            <default>rm -R -f</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1oOF" varname="operation_system">
+            <default>Mac OS X</default>
+          </SetGlobalStep>
+        </ElseifSequence>
+        <ElseSequence id="_1oOG">
+          <SetGlobalStep id="_1o++" varname="mkdir_commando">
+            <default>mkdir</default>
+            <comment>MKDIR</comment>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1oOH" varname="delete_commando">
+            <default>rm -R -f</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1oOI" varname="operation_system">
+            <default>Linux</default>
+          </SetGlobalStep>
+        </ElseSequence>
+      </IfSequence>
+    </Procedure>
+    <Procedure id="_A7z" name="variable_increase_on_1">
+      <variable name="var_int"/>
+      <IfSequence id="_1oH7" test="&#34;$(var_int)&#34;==&#34;&#34;">
+        <SetGlobalStep id="_1oH8" varname="wv">
+          <default>1</default>
+        </SetGlobalStep>
+        <ElseSequence id="_1oH9">
+          <SetGlobalStep id="_1oHA" varname="wv">
+            <default>$(var_int)</default>
+          </SetGlobalStep>
+        </ElseSequence>
+      </IfSequence>
+      <ServerScriptStep id="_A7+" name="set_variable_increase_on_1">
+        <code>vl = $(wv)
+vl = vl + 1   
+rc.setGlobal("wv", vl)                       </code>
+      </ServerScriptStep>
+      <SetGlobalStep id="_1oHV" varname="sleep_time">
+        <default>$(wv)</default>
+      </SetGlobalStep>
+    </Procedure>
+    <Package id="_1lBM" name="product_meta_data">
+      <Procedure id="_1oZN" name="SeaDAS_szcs_L2">
+        <SetGlobalStep id="_1oZO" varname="dataInDir">
+          <default>seadas_octs_l2</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1oZP" varname="fileName">
+          <default>C1986010234000.L2_MLAC_OC</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1oZQ" varname="bandName">
+          <default>aot_670</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1oZR" varname="err_band"/>
+        <SetGlobalStep id="_1oZS" varname="group_id1">
+          <default>0</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1oZT" varname="view_Id1">
+          <default>0</default>
+          <comment>
+</comment>
+        </SetGlobalStep>
+      </Procedure>
+      <Procedure id="_1oZG" name="MODIS_L1B">
+        <SetGlobalStep id="_1oZH" varname="dataInDir">
+          <default>modis_l1b</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1oZI" varname="fileName">
+          <default>A2006302181500.L1B_LAC</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1oZJ" varname="bandName">
+          <default>IWV</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1oZK" varname="err_band">
+          <default>IWV_err</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1oZL" varname="group_id1">
+          <default>2</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1oZM" varname="view_Id1">
+          <default>0</default>
+          <comment>
+</comment>
+        </SetGlobalStep>
+      </Procedure>
+      <Procedure id="_1o+G" name="S3A_OL_2">
+        <SetGlobalStep id="_1o+H" varname="dataInDir">
+          <default>sentinel3_S3A_OL_2_LFR_20070425T152940</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1o+I" varname="fileName">
+          <default>xfdumanifest.xml</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1o+J" varname="bandName">
+          <default>IWV</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1o+K" varname="err_band">
+          <default>IWV_err</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1o+L" varname="group_id1">
+          <default>2</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1o+M" varname="view_Id1">
+          <default>0</default>
+          <comment>
+</comment>
+        </SetGlobalStep>
+      </Procedure>
+      <Procedure id="_1o+N" name="S3A_OL_1">
+        <SetGlobalStep id="_1o+O" varname="dataInDir">
+          <default>sentinel3_S3A_OL_1_EFR_20130621T100921</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1o+P" varname="fileName">
+          <default>xfdumanifest.xml</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1o+Q" varname="bandName">
+          <default>Oa05_radiance</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1o+R" varname="group_id1">
+          <default>0</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1o+S" varname="view_Id1">
+          <default>4</default>
+          <comment>
+</comment>
+        </SetGlobalStep>
+      </Procedure>
+      <Procedure id="_1o+T" name="SMOS_MIR_SCLF1C">
+        <SetGlobalStep id="_1o+U" varname="dataInDir">
+          <default>smos_MIR_SCLF1C_20120704T010214</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1o+V" varname="fileName">
+          <default>SM_TEST_MIR_SCLF1C_20120704T010214_20120704T015527_620_001_1.HDR</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1o+W" varname="bandName">
+          <default>BT_Value_Y</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1o+X" varname="group_id1"/>
+        <SetGlobalStep id="_1o+Y" varname="view_Id1">
+          <default>1</default>
+          <comment>
+</comment>
+        </SetGlobalStep>
+      </Procedure>
+    </Package>
+    <Package id="_1o+m" name="tables">
+      <Procedure id="_1o+r" name="aquarius">
+        <ExcelDataBinder excelfile="tables/input_data/aquarius.xls" id="_1o+s"
+                         name="aquarius" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oHL" name="asar">
+        <ExcelDataBinder excelfile="tables/input_data/asar.xls" id="_1oHM"
+                         name="asar" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oGw" name="atsr">
+        <ExcelDataBinder excelfile="tables/input_data/atsr.xls" id="_1oGx"
+                         name="atsr" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oGy" name="avnir2">
+        <ExcelDataBinder excelfile="tables/input_data/avnir2.xls" id="_1oGz"
+                         name="avnir2" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oG+" name="chris">
+        <ExcelDataBinder excelfile="tables/input_data/chris.xls" id="_1oG-"
+                         name="chris" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oH2" name="dimap">
+        <ExcelDataBinder excelfile="tables/input_data/dimap.xls" id="_1oH3"
+                         name="dimap" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1k-H" name="envisat_multispectral">
+        <ExcelDataBinder excelfile="tables/input_data/envisat_multispectral.xls"
+                         id="_1k-I" name="envisat" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oH0" name="ers_atsr">
+        <ExcelDataBinder excelfile="tables/input_data/ers_atsr.xls" id="_1oH1"
+                         name="ers_atsr" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oHr" name="ers_sar">
+        <ExcelDataBinder excelfile="tables/input_data/ers_sar.xls" id="_1oHs"
+                         name="ers_sar" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oI2" name="geotiff">
+        <ExcelDataBinder excelfile="tables/input_data/geotiff.xls" id="_1oI3"
+                         name="geotiff" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1o+t" name="hdf_eos_gridded">
+        <ExcelDataBinder excelfile="tables/input_data/hdf_eos_gridded.xls"
+                         id="_1oHO" name="hdf_eos_gridded"
+                         sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oHt" name="hico_envi_format">
+        <ExcelDataBinder excelfile="tables/input_data/hico_envi_format.xls"
+                         id="_1oHu" name="hico_envi_format"
+                         sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oHP" name="landsat_geotiff">
+        <ExcelDataBinder excelfile="tables/input_data/landsat_geotiff.xls"
+                         id="_1oHQ" name="landsat_geotiff"
+                         sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oHR" name="landsat_tm">
+        <ExcelDataBinder excelfile="tables/input_data/landsat_tm_fast.xls"
+                         id="_1oHS" name="landsat_tm" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1o+u" name="modisL1B">
+        <ExcelDataBinder excelfile="tables/input_data/modisL1B.xls" id="_1oHW"
+                         name="modisL1B" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oHT" name="modis_MOD_MXD_MYD">
+        <ExcelDataBinder excelfile="tables/input_data/modis_MOD_MXD_MYD.xls"
+                         id="_1oHU" name="modis_MOD_MXD_MYD"
+                         sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oHv" name="netCdf_beam">
+        <ExcelDataBinder excelfile="tables/input_data/netCdf_beam.xls"
+                         id="_1oHw" name="netCdf_beam" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oI0" name="netCdf_cf">
+        <ExcelDataBinder excelfile="tables/input_data/netCdf_cf.xls"
+                         id="_1oI1" name="netCdf_cf" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oHX" name="noaa_avhrr_3_L1b">
+        <ExcelDataBinder excelfile="tables/input_data/avhrr_3_L1b_noaa.xls"
+                         id="_1oHY" name="noaa_avhrr_3_L1b"
+                         sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oHZ" name="prism">
+        <ExcelDataBinder excelfile="tables/input_data/prism.xls" id="_1oHa"
+                         name="prism" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oI4" name="s">
+        <ExcelDataBinder excelfile="tables/input_data/atsr.xls" id="_1oI5"
+                         name="s" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oHl" name="seaDAS_L1">
+        <ExcelDataBinder excelfile="tables/input_data/seaDAS_L1.xls"
+                         id="_1oHm" name="seaDAS_L1" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oHn" name="seaDAS_L2">
+        <ExcelDataBinder excelfile="tables/input_data/seaDAS_L2.xls"
+                         id="_1oHo" name="seaDAS_L2" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oHb" name="seaDAS_L3">
+        <ExcelDataBinder excelfile="tables/input_data/seaDAS_L3.xls"
+                         id="_1oHc" name="seaDAS_L3" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oGu" name="sentinel3">
+        <ExcelDataBinder excelfile="tables/input_data/sentinel.xls" id="_1oGv"
+                         name="sentinel3" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1lBZ" name="smos">
+        <ExcelDataBinder excelfile="tables/input_data/smos.xls" id="_1lBa"
+                         name="smos" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1oHd" name="spot_vgt">
+        <ExcelDataBinder excelfile="tables/input_data/spot_vgt.xls" id="_1oHe"
+                         name="spot_vgt" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_361" name="uncertainty_visualisation">
+        <variable name="testFile">${qftest:suite.dir}/manualtester/uncertainty_visualisation.xls</variable>
+        <SetGlobalStep id="_364" varname="testFile">
+          <default>${qftest:suite.dir}/manualtester/uncertainty_visualisation.xls</default>
+        </SetGlobalStep>
+        <ServerScriptStep disabled="true" id="_1lBQ" name="print">
+          <code>print "$(testFile)"</code>
+        </ServerScriptStep>
+      </Procedure>
+      <Procedure id="_1oHf" name="viirs">
+        <ExcelDataBinder excelfile="tables/input_data/viirs.xls" id="_1oHg"
+                         name="viirs" sheetname="listing"/>
+      </Procedure>
+    </Package>
+  </PackageRoot>
+  <ExtraSequence id="_4">
+    <ServerScriptStep id="_1oh2" name="print">
+      <code>print "data_directory = ${path:data_directory}"</code>
+    </ServerScriptStep>
+  </ExtraSequence>
+  <WindowList id="_5"/>
+</RootStep>

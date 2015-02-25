@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.3">
+  <include>qfs.qft</include>
+  <include>s3tbx_components.qft</include>
+  <include>s3tbx_main.qft</include>
+  <dependency>s3tbx_check.qft</dependency>
+  <dependency>s3tbx_main.qft</dependency>
+  <dependency>s3tbx_workflow.qft</dependency>
+  <PackageRoot id="_3">
+    <Package id="_1k-S" name="open">
+      <Procedure id="_1l8W" name="statistics_dialog">
+        <TryStep id="_1lBA">
+          <ProcedureCall id="_1lB5"
+                         procedure="do_click.main_toolbar.analysis.statistics"/>
+          <ProcedureCall id="_1lB9" procedure="wait.appear.dialog"/>
+          <CatchSequence exception="TestException" id="_1lBB" maxerror="0">
+            <ProcedureCall id="_1lBC" procedure="run-log.logError">
+              <variable name="message">Statistics dialog does not appear</variable>
+              <variable name="withScreenshots">true</variable>
+            </ProcedureCall>
+          </CatchSequence>
+        </TryStep>
+      </Procedure>
+      <Procedure id="_1l3s" name="product">
+        <variable name="prod_dir"/>
+        <variable name="in_out"/>
+        <variable name="prod"/>
+        <variable name="product_type"/>
+        <comment>@teststep Click 'Open Product' Icon, select product and click 'Open' button</comment>
+        <IfSequence id="_1l45" name="mac"
+                    test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+          <ProcedureCall id="_1l4d"
+                         procedure="do_click.main_toolbar.standard.open"/>
+          <ProcedureCall id="_1l4b" procedure="get.file_nr_in_the_folder">
+            <variable name="file_name">$(prod)</variable>
+          </ProcedureCall>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogESA_S-3_Toolbox_-_Open_Data_Product(s).tableFile:@Name&amp;$(file_nr_in_the_folder)"
+                          event="MOUSE_MPRC" id="_1l0+" modifiers="16"/>
+          <ProcedureCall id="_1l4c"
+                         procedure="do_click.open_product_dialog.open"/>
+          <ElseSequence id="_1o+I">
+            <ProcedureCall id="_1ont" procedure="path"/>
+            <IfSequence id="_1onu" test="&#34;$(in_out)&#34;==&#34;out&#34;">
+              <SetGlobalStep id="_1onv" varname="data_source_directory">
+                <default>${path:output_data_directory}$(prod_dir)${path:slash}</default>
+              </SetGlobalStep>
+              <ElseSequence id="_1onw">
+                <ProcedureCall id="_1onx" procedure="data_source_directory">
+                  <variable name="data_type">$(prod_dir)</variable>
+                </ProcedureCall>
+              </ElseSequence>
+            </IfSequence>
+            <SetGlobalStep id="_1ony" varname="input_file">
+              <default>$(data_source_directory)$(prod)</default>
+            </SetGlobalStep>
+            <ServerScriptStep disabled="true" id="_1o+K" name="print">
+              <code>print "input_file = $(input_file)"</code>
+            </ServerScriptStep>
+            <ProcedureCall id="_1onz" procedure="product_attributes">
+              <variable name="prod_type">$(product_type)</variable>
+            </ProcedureCall>
+            <TestStep id="_1on+" name="open_product_dialog">
+              <comment>@teststep Open 'Open Product' dialog.</comment>
+              <SetGlobalStep id="_1on-" varname="open_product_dialog_appears">
+                <default>true</default>
+              </SetGlobalStep>
+              <TryStep id="_1oo0"
+                       name="open_product_dialog_by_main_toolbar_open">
+                <ProcedureCall id="_1oo1"
+                               procedure="do_click.main_toolbar.standard.open"/>
+                <ProcedureCall id="_1oo2"
+                               procedure="wait.appear.open_product_dialog"/>
+                <CatchSequence exception="TestException" id="_1oo3"
+                               maxerror="0">
+                  <SetGlobalStep id="_1oo4"
+                                 varname="open_product_dialog_appears">
+                    <default>false</default>
+                  </SetGlobalStep>
+                  <ProcedureCall id="_1oo5"
+                                 procedure="run-log.error_message.dialog_does_not_appear">
+                    <variable name="dialog">Open Product</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </TestStep>
+            <IfSequence id="_1oo6"
+                        test="&#34;$(open_product_dialog_appears)&#34;==&#34;true&#34;">
+              <TryStep id="_1oo7">
+                <ProcedureCall id="_1oo8" procedure="select.file_of_type">
+                  <variable name="file_of_type">$(reader)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1oo9"
+                               maxerror="0">
+                  <ProcedureCall id="_1ooA" procedure="select.file_of_type">
+                    <variable name="file_of_type">All Files</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+              <TextInputStep clear="true" client="$(client)"
+                             component="dialogESA_S-3_Toolbox_-_Open_Data_Product(s).textFile_name:"
+                             id="_1ooB">
+                <text>$(input_file)</text>
+                <comment>@teststep Select $(input_file).</comment>
+              </TextInputStep>
+              <ProcedureCall id="_1ooC"
+                             procedure="do_click.open_product_dialog.open"/>
+            </IfSequence>
+          </ElseSequence>
+        </IfSequence>
+      </Procedure>
+      <Procedure id="_1k-T" name="image_view">
+        <comment>@teststep Open image view</comment>
+        <TryStep id="_1l2q">
+          <ProcedureCall id="_1l2p" procedure="do_click.menu.view"/>
+          <ProcedureCall id="_1l2o"
+                         procedure="do_click.menu.view.showImageView"/>
+          <CatchSequence exception="TestException" id="_1l2r" maxerror="0">
+            <TryStep id="_1l2v">
+              <ProcedureCall id="_1l2t" procedure="do_click.menubar"/>
+              <ProcedureCall id="_1l2s" procedure="do_click.menu.view"/>
+              <ProcedureCall id="_1l2u"
+                             procedure="do_click.menu.view.showImageView"/>
+              <CatchSequence exception="TestException" id="_1l2w"
+                             maxerror="0">
+                <ServerScriptStep id="_1l2x" name="error">
+                  <code>rc.logError("Menu 'Show image view' can not be selected")</code>
+                </ServerScriptStep>
+              </CatchSequence>
+            </TryStep>
+          </CatchSequence>
+        </TryStep>
+      </Procedure>
+      <Procedure id="_1lBI" name="metadata_view">
+        <comment>@teststep Open metadata view</comment>
+        <TryStep id="_1lBJ">
+          <ProcedureCall id="_1lBK" procedure="do_click.menu.view"/>
+          <ProcedureCall id="_1lBL"
+                         procedure="do_click.menu.view.showMetadataView"/>
+          <CatchSequence exception="TestException" id="_1lBM" maxerror="0">
+            <TryStep id="_1lBN">
+              <ProcedureCall id="_1lBO" procedure="do_click.menubar"/>
+              <ProcedureCall id="_1lBP" procedure="do_click.menu.view"/>
+              <ProcedureCall id="_1lBQ"
+                             procedure="do_click.menu.view.showMetadataView"/>
+              <CatchSequence exception="TestException" id="_1lBR"
+                             maxerror="0">
+                <ServerScriptStep id="_1lBS" name="error">
+                  <code>rc.logError("Menu 'Show Metadata view' can not be selected")</code>
+                </ServerScriptStep>
+              </CatchSequence>
+            </TryStep>
+          </CatchSequence>
+        </TryStep>
+      </Procedure>
+    </Package>
+  </PackageRoot>
+  <ExtraSequence id="_4"/>
+  <WindowList id="_5"/>
+</RootStep>
