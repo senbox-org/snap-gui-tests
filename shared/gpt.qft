@@ -10,6 +10,7 @@
     <comment>s3tbx</comment>
     <Package id="_1oIW" name="gpt">
       <Procedure id="_1oOx" name="run_operator_check_output_file">
+        <variable name="application"/>
         <TestStep id="_1oOy" name="set_variables">
           <ProcedureCall id="_1oOz" procedure="variable_increase_on_1">
             <variable name="var_int">$(sleep_time)</variable>
@@ -104,12 +105,26 @@
               <default>$(gpt_calling) $(new_param) $(of) -t $(output_data_directory)$(outfn).$(fr) $(input)</default>
             </SetGlobalStep>
           </TestStep>
+          <TestStep id="_1p0A" name="set_working_directory">
+            <IfSequence id="_1o-h"
+                        test="&#34;$(application)&#34;==&#34;s3tbx&#34;">
+              <SetGlobalStep id="_1p03" local="true" varname="folder">
+                <default>${path:s3tbx_bin_directory}</default>
+              </SetGlobalStep>
+              <ElseifSequence id="_1o-i"
+                              test="&#34;$(application)&#34;==&#34;snap&#34;">
+                <SetGlobalStep id="_1p0B" local="true" varname="folder">
+                  <default>${path:snap_bin_directory}</default>
+                </SetGlobalStep>
+              </ElseifSequence>
+            </IfSequence>
+          </TestStep>
           <TestStep id="_1oPV" name="run_operator">
             <comment>$(gpt_commando)</comment>
             <ShellClientStarter client="$(gpt_client_name)"
                                 command="$(gpt_commando)"
-                                directory="${path:s3tbx_bin_directory}"
-                                id="_1oPW" postdelay="10000"/>
+                                directory="$(folder)" id="_1oPW"
+                                postdelay="10000"/>
             <ServerScriptStep disabled="true" id="_1o+b" name="print">
               <code>print "************ gpt_client_name = $(gpt_client_name)*****************"  </code>
             </ServerScriptStep>

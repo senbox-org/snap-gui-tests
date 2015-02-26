@@ -14,10 +14,21 @@
         <Procedure id="_1lBO" name="file_name">
           <ProcedureCall id="_1orz"
                          procedure="source_data_with_absolute_path"/>
+          <ServerScriptStep id="_1os2" name="replace">
+            <code>import string
+pn = "$(file)"
+pn = pn.replace("\\", "\\")
+rc.setGlobal("file2", pn)    </code>
+          </ServerScriptStep>
+          <ServerScriptStep id="_1os1" name="print">
+            <code>print "file path = $(file2)"  
+              </code>
+            <comment> </comment>
+          </ServerScriptStep>
           <TextInputStep clear="true" client="$(client)"
                          component="dialogESA_S-3_Toolbox_-_Import_Product.textFile_name:"
                          id="_1orx">
-            <text>$(file)</text>
+            <text>$(file2)</text>
           </TextInputStep>
         </Procedure>
       </Package>

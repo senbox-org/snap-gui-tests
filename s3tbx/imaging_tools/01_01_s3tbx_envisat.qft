@@ -5,20 +5,15 @@
   <include>../lib/s3tbx_main.qft</include>
   <TestSet id="_1" name="01_01_envisat_imaging_tools"
            reportname="01-01 Imaging tools ENVISAT MERIS,AATSR">
-    <Dependency id="_1l4X" name="start_application">
-      <comment>@teststep Check if ESA S-3 Toolbox started else start </comment>
-      <SetupSequence id="_6" name="start_s3tbx">
-        <ProcedureCall id="_A" procedure="start.s3tbx.application"/>
-      </SetupSequence>
-      <CleanupSequence id="_8" name="exit_s3tbx">
-        <ProcedureCall id="_B" procedure="stop.exit_s3tbx"/>
-      </CleanupSequence>
-    </Dependency>
+    <DependencyReference id="_1l8R" reference="dependencies.start_SUT"/>
     <TestSet id="_D" name="open_product_open_image_view">
       <DataDriver id="_3y4"
                   loopreportname="Open image view of $(dataInDir)/$(fileName) data product"
                   name="dataTable">
         <ProcedureCall id="_Bt4" procedure="tables.envisat_multispectral"/>
+        <ExcelDataBinder disabled="true"
+                         excelfile="../../shared/tables/input_data/envisat_multispectral.xls"
+                         id="_1k-I" name="envisat" sheetname="listing_a"/>
       </DataDriver>
       <TestCase id="_2" name="test" reportname="$(productName)">
         <ProcedureCall id="_1lEv"

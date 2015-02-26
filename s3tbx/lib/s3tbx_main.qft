@@ -65,58 +65,13 @@
   <PackageRoot id="_3">
     <comment>s3tbx</comment>
     <Package id="_1l8u" name="dependencies">
-      <Dependency id="_1l8z" name="start_SUT">
-        <SetupSequence id="_1l8+" name="start">
-          <ProcedureCall id="_1l9P" procedure="set.variable.client_senbox"/>
-          <TryStep id="_1l8-" name="already started?">
-            <ClientWaiter client="$(client)" id="_1l90" timeout="0"/>
-            <CatchSequence exception="ClientNotConnectedException" id="_1l91"
-                           maxerror="0" name="not start -&gt; start">
-              <ProcedureCall id="_1l9K" procedure="start.s3tbx.application"/>
-            </CatchSequence>
-          </TryStep>
+      <Dependency id="_1lWZ" name="start_SUT">
+        <SetupSequence id="_1lWa" name="start">
+          <ProcedureCall id="_1o-i" procedure="start.s3tbx.application"/>
         </SetupSequence>
-        <CleanupSequence id="_1l93" name="stop">
-          <ProcedureCall id="_1l9Q" procedure="set.variable.client_senbox"/>
-          <TryStep id="_1l94" name="has ended?">
-            <ProcessWaiter client="$(client)" id="_1l95" timeout="1"/>
-            <CatchSequence exception="TestException" id="_1l96" maxerror="0"
-                           name="does not end -&gt; end">
-              <ProcedureCall id="_1l9L" procedure="stop.exit_s3tbx"/>
-            </CatchSequence>
-          </TryStep>
+        <CleanupSequence id="_1lWc" name="exit">
+          <ProcedureCall id="_1o-j" procedure="stop.exit_s3tbx"/>
         </CleanupSequence>
-        <ErrorHandler id="_1l98" name="error_handling">
-          <TryStep id="_1l99" name="SUT has ended?">
-            <ProcessWaiter client="$(client)" id="_1l9A" timeout="1"/>
-            <CatchSequence exception="TestException" id="_1l9B" maxerror="0"
-                           name="SUT does not end -&gt; end">
-              <ProcedureCall id="_1l9C"
-                             procedure="qfs.swing.cleanup.closeAllModalDialogs">
-                <variable name="maxDialogs">5</variable>
-              </ProcedureCall>
-              <ProcedureCall id="_1l9N" procedure="utils.terminate_process">
-                <variable name="client_name">$(client)</variable>
-              </ProcedureCall>
-            </CatchSequence>
-          </TryStep>
-        </ErrorHandler>
-        <CatchSequence exception="TestException" id="_1l9E" maxerror="0"
-                       name="handle unexpected exception">
-          <TryStep id="_1l9F" name="SUT has ended?">
-            <ProcessWaiter client="$(client)" id="_1l9G" timeout="1"/>
-            <CatchSequence exception="TestException" id="_1l9H" maxerror="0"
-                           name="SUT does not end -&gt; end">
-              <ProcedureCall id="_1l9I"
-                             procedure="qfs.swing.cleanup.closeAllModalDialogs">
-                <variable name="maxDialogs">5</variable>
-              </ProcedureCall>
-              <ProcedureCall id="_1l9O" procedure="utils.terminate_process">
-                <variable name="client_name">$(client)</variable>
-              </ProcedureCall>
-            </CatchSequence>
-          </TryStep>
-        </CatchSequence>
       </Dependency>
       <Dependency id="_1oP4" name="start_SUT_for_gpt_tests">
         <SetupSequence id="_1l4Y" name="start_s3tbx">
@@ -250,6 +205,59 @@
     </Package>
   </PackageRoot>
   <ExtraSequence id="_4">
+    <Dependency disabled="true" id="_1l8z" name="start_SUT">
+      <SetupSequence id="_1l8+" name="start">
+        <ProcedureCall id="_1l9P" procedure="set.variable.client_senbox"/>
+        <TryStep id="_1l8-" name="already started?">
+          <ClientWaiter client="$(client)" id="_1l90" timeout="0"/>
+          <CatchSequence exception="ClientNotConnectedException" id="_1l91"
+                         maxerror="0" name="not start -&gt; start">
+            <ProcedureCall id="_1l9K" procedure="start.s3tbx.application"/>
+          </CatchSequence>
+        </TryStep>
+      </SetupSequence>
+      <CleanupSequence id="_1l93" name="stop">
+        <ProcedureCall id="_1l9Q" procedure="set.variable.client_senbox"/>
+        <TryStep id="_1l94" name="has ended?">
+          <ProcessWaiter client="$(client)" id="_1l95" timeout="1"/>
+          <CatchSequence exception="TestException" id="_1l96" maxerror="0"
+                         name="does not end -&gt; end">
+            <ProcedureCall id="_1l9L" procedure="stop.exit_s3tbx"/>
+          </CatchSequence>
+        </TryStep>
+      </CleanupSequence>
+      <ErrorHandler id="_1l98" name="error_handling">
+        <TryStep id="_1l99" name="SUT has ended?">
+          <ProcessWaiter client="$(client)" id="_1l9A" timeout="1"/>
+          <CatchSequence exception="TestException" id="_1l9B" maxerror="0"
+                         name="SUT does not end -&gt; end">
+            <ProcedureCall id="_1l9C"
+                           procedure="qfs.swing.cleanup.closeAllModalDialogs">
+              <variable name="maxDialogs">5</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1l9N" procedure="utils.terminate_process">
+              <variable name="client_name">$(client)</variable>
+            </ProcedureCall>
+          </CatchSequence>
+        </TryStep>
+      </ErrorHandler>
+      <CatchSequence exception="TestException" id="_1l9E" maxerror="0"
+                     name="handle unexpected exception">
+        <TryStep id="_1l9F" name="SUT has ended?">
+          <ProcessWaiter client="$(client)" id="_1l9G" timeout="1"/>
+          <CatchSequence exception="TestException" id="_1l9H" maxerror="0"
+                         name="SUT does not end -&gt; end">
+            <ProcedureCall id="_1l9I"
+                           procedure="qfs.swing.cleanup.closeAllModalDialogs">
+              <variable name="maxDialogs">5</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1l9O" procedure="utils.terminate_process">
+              <variable name="client_name">$(client)</variable>
+            </ProcedureCall>
+          </CatchSequence>
+        </TryStep>
+      </CatchSequence>
+    </Dependency>
     <ProcedureCall id="_1o-h" procedure="check.product.tree_number_elements">
       <variable name="number_elements">1</variable>
     </ProcedureCall>

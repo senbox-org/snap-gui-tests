@@ -345,6 +345,9 @@
     </Package>
     <Package id="_1oOw" name="gpt">
       <Procedure id="_1oPq" name="test_sequence">
+        <SetGlobalStep id="_1o+F" varname="app">
+          <default>s3tbx</default>
+        </SetGlobalStep>
         <ProcedureCall id="_1oPr" procedure="close.session"/>
         <IfSequence id="_1oPs"
                     test="&#34;$(other_formats )&#34;==&#34;true&#34;">
@@ -356,7 +359,9 @@
               <variable name="out_form">$(f)</variable>
             </ProcedureCall>
             <ProcedureCall id="_1oPw"
-                           procedure="gpt.run_operator_check_output_file"/>
+                           procedure="gpt.run_operator_check_output_file">
+              <variable name="application">$(app)</variable>
+            </ProcedureCall>
             <TestStep id="_1oQb" name="check_output_file_in_s3tbx">
               <IfSequence id="_1oQc"
                           test="&#34;$(fileExists)&#34;==&#34;True&#34;">
@@ -386,7 +391,9 @@
               <variable name="out_form">$(f)</variable>
             </ProcedureCall>
             <ProcedureCall id="_1oP-"
-                           procedure="gpt.run_operator_check_output_file"/>
+                           procedure="gpt.run_operator_check_output_file">
+              <variable name="application">$(app)</variable>
+            </ProcedureCall>
             <TestStep id="_1oQh" name="check_output_file_in_s3tbx">
               <IfSequence id="_1oQi"
                           test="&#34;$(fileExists)&#34;==&#34;True&#34;">
@@ -416,7 +423,9 @@
               <variable name="out_form">$(f)</variable>
             </ProcedureCall>
             <ProcedureCall id="_1oQ4"
-                           procedure="gpt.run_operator_check_output_file"/>
+                           procedure="gpt.run_operator_check_output_file">
+              <variable name="application">$(app)</variable>
+            </ProcedureCall>
           </TestStep>
           <TestStep id="_1oQ5" name="netCDF_CF">
             <SetGlobalStep id="_1oQ6" varname="f">
@@ -426,7 +435,9 @@
               <variable name="out_form">$(f)</variable>
             </ProcedureCall>
             <ProcedureCall id="_1oQ8"
-                           procedure="gpt.run_operator_check_output_file"/>
+                           procedure="gpt.run_operator_check_output_file">
+              <variable name="application">$(app)</variable>
+            </ProcedureCall>
             <TestStep id="_1oQt" name="check_output_file_in_s3tbx">
               <IfSequence id="_1oQu"
                           test="&#34;$(fileExists)&#34;==&#34;True&#34;">
@@ -456,7 +467,9 @@
               <variable name="out_form">$(f)</variable>
             </ProcedureCall>
             <ProcedureCall id="_1oQD"
-                           procedure="gpt.run_operator_check_output_file"/>
+                           procedure="gpt.run_operator_check_output_file">
+              <variable name="application">$(app)</variable>
+            </ProcedureCall>
             <TestStep id="_1oQz" name="check_output_file_in_s3tbx">
               <IfSequence id="_1oQ+"
                           test="&#34;$(fileExists)&#34;==&#34;True&#34;">
@@ -486,7 +499,9 @@
               <variable name="out_form">$(f)</variable>
             </ProcedureCall>
             <ProcedureCall id="_1oQI"
-                           procedure="gpt.run_operator_check_output_file"/>
+                           procedure="gpt.run_operator_check_output_file">
+              <variable name="application">$(app)</variable>
+            </ProcedureCall>
             <TestStep id="_1oR3" name="check_output_file_in_s3tbx">
               <IfSequence id="_1oR4"
                           test="&#34;$(fileExists)&#34;==&#34;True&#34;">
@@ -516,7 +531,9 @@
               <variable name="out_form">$(f)</variable>
             </ProcedureCall>
             <ProcedureCall id="_1oQN"
-                           procedure="gpt.run_operator_check_output_file"/>
+                           procedure="gpt.run_operator_check_output_file">
+              <variable name="application">$(app)</variable>
+            </ProcedureCall>
             <TestStep id="_1oR9" name="check_output_file_in_s3tbx">
               <IfSequence id="_1oRA"
                           test="&#34;$(fileExists)&#34;==&#34;True&#34;">
@@ -548,7 +565,9 @@
                 <variable name="out_form">$(f)</variable>
               </ProcedureCall>
               <ProcedureCall id="_1oQT"
-                             procedure="gpt.run_operator_check_output_file"/>
+                             procedure="gpt.run_operator_check_output_file">
+                <variable name="application">$(app)</variable>
+              </ProcedureCall>
               <TestStep id="_1oRF" name="check_output_file_in_s3tbx">
                 <IfSequence id="_1oRG"
                             test="&#34;$(fileExists)&#34;==&#34;True&#34;">
@@ -577,7 +596,9 @@
               <variable name="out_form">dimap</variable>
             </ProcedureCall>
             <ProcedureCall id="_1oQY"
-                           procedure="gpt.run_operator_check_output_file"/>
+                           procedure="gpt.run_operator_check_output_file">
+              <variable name="application">$(app)</variable>
+            </ProcedureCall>
             <TestStep id="_1oRL" name="check_output_file_in_s3tbx">
               <IfSequence id="_1oRM"
                           test="&#34;$(fileExists)&#34;==&#34;True&#34;">
@@ -2277,26 +2298,36 @@
 </comment>
         </ProcedureCall>
         <ProcedureCall id="_1l5h" procedure="wait.appear.product_is_opened"/>
-        <ProcedureCall id="_1lFu" procedure="get.bands_node_id">
-          <variable name="prod_id">0</variable>
-        </ProcedureCall>
-        <ProcedureCall id="_1l5i" procedure="select.product_tree.band">
-          <variable name="prod_id">0</variable>
-          <variable name="node_id">$(bands_node_id)</variable>
-          <variable name="group_id">$(group_id1)</variable>
-          <variable name="view_id">$(view_Id1)</variable>
-          <comment>
+        <ProcedureCall id="_1o+K" procedure="check.product.not_opened"/>
+        <IfSequence id="_1o+L"
+                    test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+          <ProcedureCall id="_1lFu" procedure="get.bands_node_id">
+            <variable name="prod_id">0</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1l5i" procedure="select.product_tree.band">
+            <variable name="prod_id">0</variable>
+            <variable name="node_id">$(bands_node_id)</variable>
+            <variable name="group_id">$(group_id1)</variable>
+            <variable name="view_id">$(view_Id1)</variable>
+            <comment>
 </comment>
-        </ProcedureCall>
-        <ProcedureCall id="_1l5j" procedure="open.image_view"/>
-        <ProcedureCall id="_1l5k"
-                       procedure="wait.disappear.creating_image_progress monitor">
-          <variable name="bandName">$(bandName)</variable>
-        </ProcedureCall>
-        <ProcedureCall id="_1l8N" procedure="check.view.title">
-          <variable name="prod_nr">1</variable>
-          <variable name="band_name">$(bandName)</variable>
-        </ProcedureCall>
+          </ProcedureCall>
+          <ProcedureCall id="_1l5j" procedure="open.image_view"/>
+          <ProcedureCall id="_1l5k"
+                         procedure="wait.disappear.creating_image_progress monitor">
+            <variable name="bandName">$(bandName)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1l8N" procedure="check.view.title">
+            <variable name="prod_nr">1</variable>
+            <variable name="band_name">$(bandName)</variable>
+          </ProcedureCall>
+          <ElseSequence id="_1o+e">
+            <ProcedureCall id="_1o+f" procedure="run-log.logError">
+              <variable name="message">$(fileName) can not be opened</variable>
+              <variable name="withScreenshots">true</variable>
+            </ProcedureCall>
+          </ElseSequence>
+        </IfSequence>
       </Procedure>
     </Package>
     <Package id="_1l2b" name="utility">
@@ -2697,72 +2728,7 @@
                   <variable name="band_name">$(bandName)</variable>
                 </ProcedureCall>
                 <CatchSequence exception="TestException" id="_1lFh"
-                               maxerror="0">
-                  <TryStep id="_1lFi" name="check_view_title">
-                    <ProcedureCall id="_1lFj"
-                                   procedure="select.product_tree.band">
-                      <variable name="prod_id">0</variable>
-                      <variable name="node_id">$(bands_node_number)</variable>
-                      <variable name="group_id">$(group_id1)</variable>
-                      <variable name="view_id">$(view_Id1)</variable>
-                      <comment>
-</comment>
-                    </ProcedureCall>
-                    <ProcedureCall id="_1lFk"
-                                   procedure="do_click.tree.doubleclick_product_node">
-                      <variable name="prod_id">0</variable>
-                      <variable name="node_id">$(bands_node_number)</variable>
-                      <variable name="group_id">$(group_id1)</variable>
-                      <variable name="view_id">$(view_Id1)</variable>
-                    </ProcedureCall>
-                    <ProcedureCall id="_1lFl"
-                                   procedure="wait.disappear.creating_image_progress monitor">
-                      <variable name="bandName">$(bandName)</variable>
-                    </ProcedureCall>
-                    <ProcedureCall id="_1lFm" procedure="check.view.title">
-                      <variable name="prod_nr">1</variable>
-                      <variable name="band_name">$(bandName)</variable>
-                    </ProcedureCall>
-                    <CatchSequence exception="TestException" id="_1lFn"
-                                   maxerror="0">
-                      <ServerScriptStep disabled="true" id="_1lFo"
-                                        name="print">
-                        <code>print "bands_node_number = ","$(bands_node_number)"
-print "group_id1 = ","$(group_id1)"
-print "view_Id1 = ", "$(view_Id1)"
-  </code>
-                      </ServerScriptStep>
-                      <ProcedureCall id="_1lFp"
-                                     procedure="select.product_tree.band">
-                        <variable name="prod_id">0</variable>
-                        <variable name="node_id">$(bands_node_number)</variable>
-                        <variable name="group_id">$(group_id1)</variable>
-                        <variable name="view_id">$(view_Id1)</variable>
-                        <comment>
-</comment>
-                      </ProcedureCall>
-                      <ProcedureCall id="_1lFq"
-                                     procedure="do_click.tree.doubleclick_product_node">
-                        <variable name="prod_id">0</variable>
-                        <variable name="node_id">$(bands_node_number)</variable>
-                        <variable name="group_id">$(group_id1)</variable>
-                        <variable name="view_id">$(view_Id1)</variable>
-                      </ProcedureCall>
-                      <ProcedureCall id="_1lFr"
-                                     procedure="wait.disappear.creating_image_progress monitor">
-                        <variable name="bandName">$(bandName)</variable>
-                      </ProcedureCall>
-                      <ProcedureCall id="_1lFs" procedure="wait.appear.view">
-                        <variable name="prod_nr">1</variable>
-                        <variable name="band_name">$(bandName)</variable>
-                      </ProcedureCall>
-                      <ProcedureCall id="_1lFt" procedure="check.view.title">
-                        <variable name="prod_nr">1</variable>
-                        <variable name="band_name">$(bandName)</variable>
-                      </ProcedureCall>
-                    </CatchSequence>
-                  </TryStep>
-                </CatchSequence>
+                               maxerror="0"/>
               </TryStep>
             </IfSequence>
           </ElseSequence>

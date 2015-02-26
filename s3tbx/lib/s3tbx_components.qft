@@ -1679,31 +1679,19 @@
                       component="mainFrameESA_S-3_Toolbox.showGraticuleOverlay2"
                       event="MOUSE_MPRC" id="_1oVk" modifiers="16"/>
     </BasicSequence>
-    <BasicSequence id="_1oVt" name="Aufnahme 25.02.15 13:56">
+    <BasicSequence id="_1oWS" name="Aufnahme 26.02.15 10:49">
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="mainFrameESA_S-3_Toolbox.file"
+                      event="MOUSE_MPRC" id="_1oWT" modifiers="16"/>
       <CheckStringStep client="$(client)"
-                       component="dialogESA_S-3_Toolbox_-_Product_Modified.buttonYes"
-                       id="_1oVu">
-        <text>Yes</text>
+                       component="mainFrameESA_S-3_Toolbox.importEnvisatASARProduct"
+                       id="_1oWU">
+        <text>ENVISAT ASAR</text>
       </CheckStringStep>
       <CheckStringStep client="$(client)"
-                       component="dialogESA_S-3_Toolbox_-_Product_Modified.buttonNo"
-                       id="_1oVv">
-        <text>No</text>
-      </CheckStringStep>
-    </BasicSequence>
-    <BasicSequence id="_1oVy" name="Aufnahme 25.02.15 14:16">
-      <CheckBooleanStep checktype="visible" client="$(client)"
-                        component="dialogESA_S-3_Toolbox_-_Warning.panel"
-                        id="_1oVz"/>
-      <CheckStringStep client="$(client)"
-                       component="dialogESA_S-3_Toolbox_-_Warning.buttonOK"
-                       id="_1oV+">
-        <text>OK</text>
-      </CheckStringStep>
-      <CheckStringStep client="$(client)"
-                       component="dialogESA_S-3_Toolbox_-_Warning.labelNo_appropriate_reader_found:_E:_testdata_out_gpt_collocation_105_collocate.nc"
-                       id="_1oV-">
-        <text>No appropriate reader found: E:\testdata\out\gpt_collocation\105_collocate.nc</text>
+                       component="mainFrameESA_S-3_Toolbox.importErsSARProduct"
+                       id="_1oWV">
+        <text>ERS 1 / 2 SAR (.E1, .E2)</text>
       </CheckStringStep>
     </BasicSequence>
   </ExtraSequence>
@@ -8232,6 +8220,81 @@
                       state="1">Close</extrafeature>
         <extrafeature name="qfs:systemclass" negate="false" regexp="false"
                       state="0">javax.swing.JButton</extrafeature>
+      </ComponentStep>
+    </WindowStep>
+    <WindowStep class="Dialog"
+                feature="ESA S-3 Toolbox - Import NetCDF-CF Product"
+                height="438"
+                id="dialogESA_S-3_Toolbox_-_Import_NetCDF-CF_Product"
+                modal="true" uid="_1oW0" width="656" x="152" y="181">
+      <extrafeature name="qfs:class" negate="false" regexp="false" state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                    state="0">Dialog</extrafeature>
+      <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                    state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Window:Dialog</extrafeature>
+      <ComponentStep class="FileChooser" classcount="1" classindex="0"
+                     height="400"
+                     id="dialogESA_S-3_Toolbox_-_Import_NetCDF-CF_Product.fileChooser"
+                     uid="_1oW1" width="640" x="8" y="30">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">org.esa.beam.visat.actions.ProductImportAction$$ProductFileChooser</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">FileChooser</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JFileChooser</extrafeature>
+        <ComponentStep class="Button" classcount="12" classindex="10"
+                       feature="Import Product" height="23"
+                       id="dialogESA_S-3_Toolbox_-_Import_NetCDF-CF_Product.buttonImport_Product"
+                       uid="_1oW2" width="115" x="540" y="340">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JButton</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">Button</extrafeature>
+          <extrafeature name="qfs:label" negate="false" regexp="false"
+                        state="1">Import Product</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JButton</extrafeature>
+        </ComponentStep>
+        <ComponentStep class="TextField" classcount="1" classindex="0"
+                       feature="Label: File name:" height="20"
+                       id="dialogESA_S-3_Toolbox_-_Import_NetCDF-CF_Product.textFile_name:"
+                       uid="_1oW3" width="329" x="181" y="342">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JTextField</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">TextField</extrafeature>
+          <extrafeature name="qfs:label" negate="false" regexp="false"
+                        state="1">File name:</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JTextField</extrafeature>
+        </ComponentStep>
+        <ComponentStep class="ComboBox" classcount="2" classindex="1"
+                       feature="Label: Files of type:" height="20"
+                       id="dialogESA_S-3_Toolbox_-_Import_NetCDF-CF_Product.comboFiles_of_type:"
+                       uid="_1oW4" width="329" x="181" y="370">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JComboBox</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">ComboBox</extrafeature>
+          <extrafeature name="qfs:label" negate="false" regexp="false"
+                        state="1">Files of type:</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JComboBox</extrafeature>
+        </ComponentStep>
+        <ComponentStep class="Button" classcount="12" classindex="11"
+                       feature="Cancel" height="23"
+                       id="dialogESA_S-3_Toolbox_-_Import_NetCDF-CF_Product.buttonCancel"
+                       uid="_1oW5" width="115" x="540" y="367">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JButton</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">Button</extrafeature>
+          <extrafeature name="qfs:label" negate="false" regexp="false"
+                        state="1">Cancel</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JButton</extrafeature>
+        </ComponentStep>
       </ComponentStep>
     </WindowStep>
   </WindowList>

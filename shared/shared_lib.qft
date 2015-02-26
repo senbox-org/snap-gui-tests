@@ -9,7 +9,7 @@
   <PackageRoot id="_3">
     <Package id="_1o++" name="cleanup">
       <Procedure id="_1o-F" name="output_data_folder">
-        <variable name="directory"></variable>
+        <variable name="directory"/>
         <ProcedureCall id="_1o-p" procedure="system_and_commando"/>
         <TestStep id="_1o-y" name="remove_output_folder">
           <SetGlobalStep id="_1o-q" local="true" varname="del_out_client">
@@ -201,15 +201,15 @@ iw.savePng ("$(image_path)$(iw_name).png", currenScreenshot)
       </Procedure>
       <Procedure id="_1o-0" name="log_client_output">
         <variable name="client_name"/>
-        <TryStep id="_1o-m">
+        <TryStep disabled="true" id="_1o-m">
           <ServerScriptStep id="_1o-l" name="log_output">
-            <code>rc.logMessage(rc.lookup("qftest", "client.output.$(client_name)"),
+            <code>rc.logMessage(rc.lookup("qftest", "client.output.$(client_name)", expand=False),
 dontcompactify=True, report=True, nowrap=True)</code>
           </ServerScriptStep>
           <CatchSequence exception="TestException" id="_1o-n" maxerror="0"/>
         </TryStep>
-        <ServerScriptStep disabled="true" id="_1o-z" name="log_output">
-          <code>rc.logMessage(rc.lookup("qftest", "client.output.$(client_name)"),
+        <ServerScriptStep id="_1o-+" name="log_output">
+          <code>rc.logMessage(rc.lookup("qftest", "client.output.$(client_name)", expand=False),
 dontcompactify=True, report=True, nowrap=True)</code>
         </ServerScriptStep>
       </Procedure>
