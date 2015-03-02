@@ -98,12 +98,29 @@
                   </ProcedureCall>
                 </CatchSequence>
               </TryStep>
-              <TextInputStep clear="true" client="$(client)"
-                             component="dialogESA_S-3_Toolbox_-_Open_Data_Product(s).textFile_name:"
-                             id="_1ooB">
-                <text>$(input_file)</text>
-                <comment>@teststep Select $(input_file).</comment>
-              </TextInputStep>
+              <IfSequence id="_1o+L" test="${qftest:windows}">
+                <TextInputStep clear="true" client="$(client)"
+                               component="dialogESA_S-3_Toolbox_-_Open_Data_Product(s).textFile_name:"
+                               id="_1ooB">
+                  <text>$(input_file)</text>
+                  <comment>@teststep Select $(input_file).</comment>
+                </TextInputStep>
+                <ElseifSequence id="_1o+M" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <TextInputStep clear="true" client="$(client)"
+                                 component="textFile_Name:2" id="_1o+O">
+                    <text>$(input_file)</text>
+                    <comment>@teststep Select $(input_file).</comment>
+                  </TextInputStep>
+                </ElseifSequence>
+                <ElseSequence id="_1o+N">
+                  <TextInputStep clear="true" client="$(client)"
+                                 component="textFile_Name:2" id="_1o+P">
+                    <text>$(input_file)</text>
+                    <comment>@teststep Select $(input_file).</comment>
+                  </TextInputStep>
+                </ElseSequence>
+              </IfSequence>
               <ProcedureCall id="_1ooC"
                              procedure="do_click.open_product_dialog.open"/>
             </IfSequence>
@@ -156,6 +173,12 @@
       </Procedure>
     </Package>
   </PackageRoot>
-  <ExtraSequence id="_4"/>
+  <ExtraSequence id="_4">
+    <IfSequence id="_1mQf" test="${qftest:windows}">
+      <ElseifSequence id="_1mQh" name="MAC?"
+                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+      <ElseSequence id="_1mQi"/>
+    </IfSequence>
+  </ExtraSequence>
   <WindowList id="_5"/>
 </RootStep>

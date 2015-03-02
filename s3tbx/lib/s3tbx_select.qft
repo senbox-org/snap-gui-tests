@@ -15,13 +15,26 @@
         <variable name="file_of_type"/>
         <comment>@teststep Select 'File of type'.</comment>
         <TryStep id="_1oUY">
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="dialogESA_S-3_Toolbox_-_Open_Data_Product(s).comboFiles_of_type:"
-                          event="MOUSE_MPRC" id="_1oVr" modifiers="16" x="330"
-                          y="16"/>
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="dialogESA_S-3_Toolbox_-_Open_Data_Product(s).listInvokerFeature:_Label_file_of_type"
-                          event="MOUSE_MPRC" id="_1oVs" modifiers="16"/>
+          <IfSequence id="_1obe" test="${qftest:windows}">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogESA_S-3_Toolbox_-_Open_Data_Product(s).comboFiles_of_type:"
+                            event="MOUSE_MPRC" id="_1oVr" modifiers="16"
+                            x="330" y="16"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogESA_S-3_Toolbox_-_Open_Data_Product(s).listInvokerFeature:_Label_file_of_type"
+                            event="MOUSE_MPRC" id="_1oVs" modifiers="16"/>
+            <ElseifSequence id="_1obf" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+            <ElseSequence id="_1obg">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="comboFiles_of_Type:3"
+                              event="MOUSE_MPRC" id="_1oba" modifiers="16"
+                              x="158" y="11"/>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="listInvokerFeature:_Label:_Files_of_Type:2@$(file_of_type)"
+                              event="MOUSE_MPRC" id="_1obb" modifiers="16"/>
+            </ElseSequence>
+          </IfSequence>
           <CatchSequence exception="TestException" id="_1oUZ" maxerror="0">
             <ProcedureCall id="_1oUa" procedure="run-log.logError">
               <variable name="message">$(file_of_type) can not be selected</variable>
@@ -622,6 +635,12 @@ None</comment>
       </Package>
     </Package>
   </PackageRoot>
-  <ExtraSequence id="_4"/>
+  <ExtraSequence id="_4">
+    <IfSequence id="_1mQf" test="${qftest:windows}">
+      <ElseifSequence id="_1mQh" name="MAC?"
+                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+      <ElseSequence id="_1mQi"/>
+    </IfSequence>
+  </ExtraSequence>
   <WindowList id="_5"/>
 </RootStep>

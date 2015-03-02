@@ -112,8 +112,8 @@
                               id="_1oP3"/>
             <ElseSequence id="_1orm">
               <SUTClientStarter client="$(client)"
-                                directory="&#34;${path:s3tbx_working_directory}"
-                                executable="&#34;${path:s3tbx_bin_directory}/s3tbx-d.sh&#34;"
+                                directory="${path:s3tbx_working_directory}"
+                                executable="${path:s3tbx_bin_directory}/s3tbx-d.sh"
                                 id="_1oro"/>
             </ElseSequence>
           </IfSequence>
@@ -199,7 +199,25 @@
               <variable name="client_name">$(client)</variable>
             </ProcedureCall>
           </ElseifSequence>
-          <ElseSequence id="_1l4k"/>
+          <ElseSequence id="_1l4k">
+            <ProcedureCall id="_1o-q" procedure="close.session"/>
+            <TryStep id="_1o-k">
+              <ProcedureCall id="_1o-l" procedure="do_click.menu.file"/>
+              <ProcedureCall id="_1o-m" procedure="do_click.menu.file.exit"/>
+              <CatchSequence exception="TestException" id="_1o-n"
+                             maxerror="0">
+                <ProcedureCall id="_1o-p"
+                               procedure="set.variable.client_senbox"/>
+                <ProcedureCall id="_1o-o" procedure="utils.exit_program">
+                  <variable name="client_name">$(client)</variable>
+                </ProcedureCall>
+              </CatchSequence>
+            </TryStep>
+            <ProcedureCall id="_1o-r" procedure="set.variable.client_senbox"/>
+            <ProcedureCall id="_1o-s" procedure="utils.exit_program">
+              <variable name="client_name">$(client)</variable>
+            </ProcedureCall>
+          </ElseSequence>
         </IfSequence>
       </Procedure>
     </Package>

@@ -25,11 +25,26 @@ rc.setGlobal("file2", pn)    </code>
               </code>
             <comment> </comment>
           </ServerScriptStep>
-          <TextInputStep clear="true" client="$(client)"
-                         component="dialogESA_S-3_Toolbox_-_Import_Product.textFile_name:"
-                         id="_1orx">
-            <text>$(file2)</text>
-          </TextInputStep>
+          <IfSequence id="_1os3" test="${qftest:windows}">
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogESA_S-3_Toolbox_-_Import_Product.textFile_name:"
+                           id="_1orx">
+              <text>$(file2)</text>
+            </TextInputStep>
+            <ElseifSequence id="_1os4" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <TextInputStep clear="true" client="$(client)"
+                             component="textFile_Name:" id="_1os7">
+                <text>$(file2)</text>
+              </TextInputStep>
+            </ElseifSequence>
+            <ElseSequence id="_1os5">
+              <TextInputStep clear="true" client="$(client)"
+                             component="textFile_Name:" id="_1os6">
+                <text>$(file2)</text>
+              </TextInputStep>
+            </ElseSequence>
+          </IfSequence>
         </Procedure>
       </Package>
       <Package id="_1l76" name="navigation">
@@ -132,6 +147,12 @@ rc.setGlobal("file2", pn)    </code>
       </Package>
     </Package>
   </PackageRoot>
-  <ExtraSequence id="_4"/>
+  <ExtraSequence id="_4">
+    <IfSequence id="_1mQf" test="${qftest:windows}">
+      <ElseifSequence id="_1mQh" name="MAC?"
+                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+      <ElseSequence id="_1mQi"/>
+    </IfSequence>
+  </ExtraSequence>
   <WindowList id="_5"/>
 </RootStep>

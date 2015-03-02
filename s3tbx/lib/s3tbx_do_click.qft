@@ -51,18 +51,28 @@
       <Package id="_1lB4" name="import_dialog">
         <Procedure id="_1k-E" name="cancel_button">
           <comment>@teststep Click 'Cancel' button</comment>
+          <ComponentWaiter client="$(client)"
+                           component="dialogESA_S-3_Toolbox_-_Import_Product_lin"
+                           id="_1oaS"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="textFile_Name:" event="MOUSE_MPRC"
+                          id="_1oaT" modifiers="16" x="112" y="17"/>
+          <CheckStringStep checktype="value" client="$(client)"
+                           component="comboFiles_of_Type:" id="_1oaU">
+            <text>ATSR1/ATSR2 products</text>
+          </CheckStringStep>
           <IfSequence id="_1oVD" test="${qftest:windows}">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogESA_S-3_Toolbox_-_Import_Product.buttonCancel"
+                            event="MOUSE_MPRC" id="_1kz-" modifiers="16"/>
             <ElseifSequence id="_1oVE" name="MAC?"
                             test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-            <ElseSequence id="_1oVF"/>
+            <ElseSequence id="_1oVF">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="dialogESA_S-3_Toolbox_-_Import_Product_lin.buttonCancel"
+                              event="MOUSE_MPRC" id="_1oaX" modifiers="16"/>
+            </ElseSequence>
           </IfSequence>
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="dialogESA_S-3_Toolbox_-_Import_Product.buttonCancel"
-                          event="MOUSE_MPRC" id="_1kz-" modifiers="16"/>
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="dialogESA_S-3_Toolbox_-_Import_SENTINEL-3_Product.buttonCancel"
-                          disabled="true" event="MOUSE_MPRC" id="_1m2q"
-                          modifiers="16"/>
         </Procedure>
         <Procedure id="_1k-x" name="import_button">
           <comment>@teststep Click 'Import' button</comment>
@@ -71,17 +81,17 @@
                             component="dialogESA_S-3_Toolbox_-_Import_Product.buttonImport_Product"
                             event="MOUSE_MPRC" id="_1l0A" modifiers="16"/>
             <ElseifSequence id="_1mQh" name="MAC?"
-                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-            <ElseSequence id="_1mQi">
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
               <MouseEventStep clicks="1" client="$(client)"
                               component="buttonImport_Product2"
                               event="MOUSE_MPRC" id="_1mQj" modifiers="16"/>
+            </ElseifSequence>
+            <ElseSequence id="_1mQi">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="buttonImport_Product2"
+                              event="MOUSE_MPRC" id="_1oaW" modifiers="16"/>
             </ElseSequence>
           </IfSequence>
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="dialogESA_S-3_Toolbox_-_Import_SENTINEL-3_Product.buttonImport_Product"
-                          disabled="true" event="MOUSE_MPRC" id="_1m2p"
-                          modifiers="16"/>
         </Procedure>
         <Procedure id="_1l1B" name="subset_button">
           <comment>@teststep Click 'Subset' button</comment>
@@ -90,17 +100,17 @@
                             component="dialogESA_S-3_Toolbox_-_Import_Product.buttonSubset..."
                             event="MOUSE_MPRC" id="_1l1Q" modifiers="16"/>
             <ElseifSequence id="_1mQb" name="MAC?"
-                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="buttonSubset..." event="MOUSE_MPRC"
+                              id="_1obe" modifiers="16"/>
+            </ElseifSequence>
             <ElseSequence id="_1mQc">
               <MouseEventStep clicks="1" client="$(client)"
                               component="buttonSubset..." event="MOUSE_MPRC"
-                              id="_1mQe" modifiers="16"/>
+                              id="_1obS" modifiers="16"/>
             </ElseSequence>
           </IfSequence>
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="dialogESA_S-3_Toolbox_-_Import_SENTINEL-3_Product.buttonSubset..."
-                          disabled="true" event="MOUSE_MPRC" id="_1m2r"
-                          modifiers="16"/>
         </Procedure>
       </Package>
       <Package id="_1kxH" name="menu">
@@ -112,11 +122,15 @@
                               component="mainFrameESA_S-3_Toolbox.preferences2"
                               event="MOUSE_MPRC" id="_1oVO" modifiers="16"/>
               <ElseifSequence id="_1oNU" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oNW">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="preferences" event="MOUSE_MPRC"
                                 id="_1lA8" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oNW">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.preferences2"
+                                event="MOUSE_MPRC" id="_1obC" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -139,8 +153,8 @@
                   </ElseifSequence>
                   <ElseSequence id="_1oNZ">
                     <MouseEventStep clicks="1" client="$(client)"
-                                    component="importArcBinGrid"
-                                    event="MOUSE_MPRC" id="_1mO+"
+                                    component="mainFrameESA_S-3_Toolbox.importArcBinGrid"
+                                    event="MOUSE_MPRC" id="_1oaH"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -152,11 +166,16 @@
                                   event="MOUSE_MPRC" id="_1mNO"
                                   modifiers="16"/>
                   <ElseifSequence id="_1oNb" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1oNc">
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
                                     component="importCsvProduct"
                                     event="MOUSE_MPRC" id="_1mP0"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1oNc">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="mainFrameESA_S-3_Toolbox.importCsvProduct"
+                                    event="MOUSE_MPRC" id="_1oaI"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -168,11 +187,16 @@
                                   event="MOUSE_MPRC" id="_1mNP"
                                   modifiers="16"/>
                   <ElseifSequence id="_1oNe" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1oNf">
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
                                     component="importEnviProduct"
                                     event="MOUSE_MPRC" id="_1mPB"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1oNf">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="mainFrameESA_S-3_Toolbox.importEnviProduct"
+                                    event="MOUSE_MPRC" id="_1oaJ"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -188,8 +212,8 @@
                                   test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
                   <ElseSequence id="_1oNi">
                     <MouseEventStep clicks="1" client="$(client)"
-                                    component="importGeoTIFFProduct"
-                                    event="MOUSE_MPRC" id="_1k+j"
+                                    component="mainFrameESA_S-3_Toolbox.importGeoTIFFProduct"
+                                    event="MOUSE_MPRC" id="_1oaK"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -201,11 +225,16 @@
                                   event="MOUSE_MPRC" id="_1mNR"
                                   modifiers="16"/>
                   <ElseifSequence id="_1oNk" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1oNl">
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
                                     component="importHdfEosProduct"
                                     event="MOUSE_MPRC" id="_1mPM"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1oNl">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="mainFrameESA_S-3_Toolbox.importHdfEosProduct"
+                                    event="MOUSE_MPRC" id="_1oaL"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -217,11 +246,16 @@
                                   event="MOUSE_MPRC" id="_1mNT"
                                   modifiers="16"/>
                   <ElseifSequence id="_1oNn" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1oNo">
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
                                     component="importNetCdfBEAMProduct"
                                     event="MOUSE_MPRC" id="_1mQ3"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1oNo">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="mainFrameESA_S-3_Toolbox.importNetCdfBEAMProduct"
+                                    event="MOUSE_MPRC" id="_1oaN"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -235,14 +269,14 @@
                   <ElseifSequence id="_1oNq" name="MAC?"
                                   test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
-                                    component="mainFrameESA_S-3_Toolbox.importNetCdfCFProduct"
-                                    event="MOUSE_MPRC" id="_1mNU"
+                                    component="importNetCdfCFProduct"
+                                    event="MOUSE_MPRC" id="_1mQ9"
                                     modifiers="16"/>
                   </ElseifSequence>
                   <ElseSequence id="_1oNr">
                     <MouseEventStep clicks="1" client="$(client)"
-                                    component="importNetCdfCFProduct"
-                                    event="MOUSE_MPRC" id="_1mQ9"
+                                    component="mainFrameESA_S-3_Toolbox.importNetCdfCFProduct"
+                                    event="MOUSE_MPRC" id="_1oaO"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -254,11 +288,16 @@
                                   event="MOUSE_MPRC" id="_1mNS"
                                   modifiers="16"/>
                   <ElseifSequence id="_1oNt" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1oNu">
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
                                     component="importNetCdfGenericProduct"
                                     event="MOUSE_MPRC" id="_1mPX"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1oNu">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="mainFrameESA_S-3_Toolbox.importNetCdfGenericProduct"
+                                    event="MOUSE_MPRC" id="_1oaM"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -270,11 +309,16 @@
                                   event="MOUSE_MPRC" id="_1mNV"
                                   modifiers="16"/>
                   <ElseifSequence id="_1oNw" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1oNx">
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
                                     component="importPgxProduct"
                                     event="MOUSE_MPRC" id="_1mQF"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1oNx">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="mainFrameESA_S-3_Toolbox.importPgxProduct"
+                                    event="MOUSE_MPRC" id="_1oaP"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -288,11 +332,16 @@
                                   event="MOUSE_MPRC" id="_1mNa"
                                   modifiers="16"/>
                   <ElseifSequence id="_1oNz" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1oN+">
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
                                     component="importAquariusProduct"
                                     event="MOUSE_MPRC" id="_1mJ2"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1oN+">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="mainFrameESA_S-3_Toolbox.importAquariusProduct"
+                                    event="MOUSE_MPRC" id="_1oag"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -304,11 +353,16 @@
                                   event="MOUSE_MPRC" id="_1mNY"
                                   modifiers="16"/>
                   <ElseifSequence id="_1oO0" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1oO1">
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
                                     component="importAtsrProduct"
                                     event="MOUSE_MPRC" id="_1mI5"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1oO1">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="mainFrameESA_S-3_Toolbox.importAtsrProduct"
+                                    event="MOUSE_MPRC" id="_1oae"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -320,11 +374,16 @@
                                   event="MOUSE_MPRC" id="_1mNZ"
                                   modifiers="16"/>
                   <ElseifSequence id="_1oO3" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1oO4">
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
                                     component="importAvnir2Product"
                                     event="MOUSE_MPRC" id="_1mId"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1oO4">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="mainFrameESA_S-3_Toolbox.importAvnir2Product"
+                                    event="MOUSE_MPRC" id="_1oaf"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -336,11 +395,16 @@
                                   event="MOUSE_MPRC" id="_1oVK"
                                   modifiers="16"/>
                   <ElseifSequence id="_1oO6" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1oO7">
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
                                     component="importBinnedProduct"
                                     event="MOUSE_MPRC" id="_1mJT"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1oO7">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="mainFrameESA_S-3_Toolbox.importBinnedProduct"
+                                    event="MOUSE_MPRC" id="_1oah"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -352,11 +416,16 @@
                                   event="MOUSE_MPRC" id="_1oVL"
                                   modifiers="16"/>
                   <ElseifSequence id="_1oO9" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1oOA">
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
                                     component="importChrisProduct"
                                     event="MOUSE_MPRC" id="_1mJu"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1oOA">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="mainFrameESA_S-3_Toolbox.importChrisProduct"
+                                    event="MOUSE_MPRC" id="_1oai"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -368,11 +437,16 @@
                                   event="MOUSE_MPRC" id="_1mNd"
                                   modifiers="16"/>
                   <ElseifSequence id="_1oOC" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1oOD">
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
                                     component="importEnvisatProduct"
                                     event="MOUSE_MPRC" id="_1m2P"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1oOD">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="mainFrameESA_S-3_Toolbox.importEnvisatProduct"
+                                    event="MOUSE_MPRC" id="_1oaj"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -384,11 +458,16 @@
                                   event="MOUSE_MPRC" id="_1mNe"
                                   modifiers="16"/>
                   <ElseifSequence id="_1oOF" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1oOG">
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
                                     component="importErsProduct"
                                     event="MOUSE_MPRC" id="_1mKj"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1oOG">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="mainFrameESA_S-3_Toolbox.importErsProduct"
+                                    event="MOUSE_MPRC" id="_1oak"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -400,11 +479,16 @@
                                   event="MOUSE_MPRC" id="_1mNg"
                                   modifiers="16"/>
                   <ElseifSequence id="_1oOI" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1oOJ">
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
                                     component="importHICOL1BProduct"
                                     event="MOUSE_MPRC" id="_1mLN"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1oOJ">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="mainFrameESA_S-3_Toolbox.importHICOL1BProduct"
+                                    event="MOUSE_MPRC" id="_1oam"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -416,11 +500,16 @@
                                   event="MOUSE_MPRC" id="_1mNf"
                                   modifiers="16"/>
                   <ElseifSequence id="_1oOL" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1oOM">
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
                                     component="importHicoProduct"
                                     event="MOUSE_MPRC" id="_1mL2"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1oOM">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="mainFrameESA_S-3_Toolbox.importHicoProduct"
+                                    event="MOUSE_MPRC" id="_1oal"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -432,11 +521,16 @@
                                   event="MOUSE_MPRC" id="_1mNi"
                                   modifiers="16"/>
                   <ElseifSequence id="_1oOO" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1oOP">
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
                                     component="importLandsatTMProduct"
                                     event="MOUSE_MPRC" id="_1mM1"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1oOP">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="mainFrameESA_S-3_Toolbox.importLandsatTMProduct"
+                                    event="MOUSE_MPRC" id="_1oao"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -448,11 +542,16 @@
                                   event="MOUSE_MPRC" id="_1mNh"
                                   modifiers="16"/>
                   <ElseifSequence id="_1oOR" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1oOS">
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
                                     component="importLandsatGeoTIFFProduct"
                                     event="MOUSE_MPRC" id="_1mLi"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1oOS">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="mainFrameESA_S-3_Toolbox.importLandsatGeoTIFFProduct"
+                                    event="MOUSE_MPRC" id="_1oan"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -464,11 +563,16 @@
                                   event="MOUSE_MPRC" id="_1mNj"
                                   modifiers="16"/>
                   <ElseifSequence id="_1oOU" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1oOV">
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
                                     component="importMerisBinnedL3Product"
                                     event="MOUSE_MPRC" id="_1mMM"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1oOV">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="mainFrameESA_S-3_Toolbox.importMerisBinnedL3Product"
+                                    event="MOUSE_MPRC" id="_1oap"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -480,11 +584,16 @@
                                   event="MOUSE_MPRC" id="_1mNl"
                                   modifiers="16"/>
                   <ElseifSequence id="_1oOX" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1oOY">
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
                                     component="importModisL1BProduct"
                                     event="MOUSE_MPRC" id="_1mMs"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1oOY">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="mainFrameESA_S-3_Toolbox.importModisL1BProduct"
+                                    event="MOUSE_MPRC" id="_1oar"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -496,11 +605,16 @@
                                   event="MOUSE_MPRC" id="_1mNk"
                                   modifiers="16"/>
                   <ElseifSequence id="_1oOa" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1oOb">
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
                                     component="importModisProduct"
                                     event="MOUSE_MPRC" id="_1mMc"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1oOb">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="mainFrameESA_S-3_Toolbox.importModisProduct"
+                                    event="MOUSE_MPRC" id="_1oaq"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -512,11 +626,16 @@
                                   event="MOUSE_MPRC" id="_1oVM"
                                   modifiers="16"/>
                   <ElseifSequence id="_1oOd" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1oOe">
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
                                     component="importNoaaAvhrr3L1bProduct"
                                     event="MOUSE_MPRC" id="_1mN6"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1oOe">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="mainFrameESA_S-3_Toolbox.importNoaaAvhrr3L1bProduct"
+                                    event="MOUSE_MPRC" id="_1oas"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -528,11 +647,16 @@
                                   event="MOUSE_MPRC" id="_1oVN"
                                   modifiers="16"/>
                   <ElseifSequence id="_1oOg" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1oOh">
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
                                     component="importOCM2L1BProduct"
                                     event="MOUSE_MPRC" id="_1mNM"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1oOh">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="mainFrameESA_S-3_Toolbox.importOCM2L1BProduct"
+                                    event="MOUSE_MPRC" id="_1oat"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -544,11 +668,16 @@
                                   event="MOUSE_MPRC" id="_1mNo"
                                   modifiers="16"/>
                   <ElseifSequence id="_1oOj" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1oOk">
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
                                     component="importPrismProduct"
                                     event="MOUSE_MPRC" id="_1mNc"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1oOk">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="mainFrameESA_S-3_Toolbox.importPrismProduct"
+                                    event="MOUSE_MPRC" id="_1oau"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -560,11 +689,16 @@
                                   event="MOUSE_MPRC" id="_1mNs"
                                   modifiers="16"/>
                   <ElseifSequence id="_1oOm" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1oOn">
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
                                     component="importSeadasL1Product"
                                     event="MOUSE_MPRC" id="_1mO7"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1oOn">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="mainFrameESA_S-3_Toolbox.importSeadasL1Product"
+                                    event="MOUSE_MPRC" id="_1oay"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -576,11 +710,16 @@
                                   event="MOUSE_MPRC" id="_1mNt"
                                   modifiers="16"/>
                   <ElseifSequence id="_1oOp" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1oOq">
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
                                     component="importSeadasL2Product"
                                     event="MOUSE_MPRC" id="_1mOI"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1oOq">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="mainFrameESA_S-3_Toolbox.importSeadasL2Product"
+                                    event="MOUSE_MPRC" id="_1oaz"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -592,11 +731,16 @@
                                   event="MOUSE_MPRC" id="_1mNu"
                                   modifiers="16"/>
                   <ElseifSequence id="_1oOs" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1oOt">
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
                                     component="importSeadasL3Product"
                                     event="MOUSE_MPRC" id="_1mOT"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1oOt">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="mainFrameESA_S-3_Toolbox.importSeadasL3Product"
+                                    event="MOUSE_MPRC" id="_1oa+"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -608,11 +752,16 @@
                                   event="MOUSE_MPRC" id="_1mNr"
                                   modifiers="16"/>
                   <ElseifSequence id="_1oOv" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1oOw">
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
                                     component="importSeadasBrowseProduct"
                                     event="MOUSE_MPRC" id="_1mNy"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1oOw">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="mainFrameESA_S-3_Toolbox.importSeadasBrowseProduct"
+                                    event="MOUSE_MPRC" id="_1oax"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -625,11 +774,16 @@
                                   event="MOUSE_MPRC" id="_1mNp"
                                   modifiers="16"/>
                   <ElseifSequence id="_1oOy" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1oOz">
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
                                     component="importSentinel3Product"
                                     event="MOUSE_MPRC" id="_1k+q"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1oOz">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="mainFrameESA_S-3_Toolbox.importSentinel3Product"
+                                    event="MOUSE_MPRC" id="_1oav"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -642,11 +796,16 @@
                                   event="MOUSE_MPRC" id="_1mNJ"
                                   modifiers="16"/>
                   <ElseifSequence id="_1oO-" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1oP0">
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
                                     component="importSmosProductDataBlockFile"
                                     event="MOUSE_MPRC" id="_1kz4"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1oP0">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="mainFrameESA_S-3_Toolbox.importSmosProductDataBlockFile"
+                                    event="MOUSE_MPRC" id="_1oaF"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -658,11 +817,16 @@
                                   event="MOUSE_MPRC" id="_1mNq"
                                   modifiers="16"/>
                   <ElseifSequence id="_1oP2" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1oP3">
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
                                     component="importSpotVgtProduct"
                                     event="MOUSE_MPRC" id="_1mNn"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1oP3">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="mainFrameESA_S-3_Toolbox.importSpotVgtProduct"
+                                    event="MOUSE_MPRC" id="_1oaw"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -674,11 +838,16 @@
                                   event="MOUSE_MPRC" id="_1mNv"
                                   modifiers="16"/>
                   <ElseifSequence id="_1oP5" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1oP6">
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
                                     component="importViirsProduct"
                                     event="MOUSE_MPRC" id="_1mOe"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1oP6">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="mainFrameESA_S-3_Toolbox.importViirsProduct"
+                                    event="MOUSE_MPRC" id="_1oa-"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -693,11 +862,16 @@
                                   event="MOUSE_MPRC" id="_1oVP"
                                   modifiers="16"/>
                   <ElseifSequence id="_1oP8" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1oP9">
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
                                     component="importEnvisatASARProduct"
                                     event="MOUSE_MPRC" id="_1k-3"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1oP9">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="mainFrameESA_S-3_Toolbox.importEnvisatASARProduct"
+                                    event="MOUSE_MPRC" id="_1ob9"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -711,14 +885,14 @@
                   <ElseifSequence id="_1oPB" name="MAC?"
                                   test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                     <MouseEventStep clicks="1" client="$(client)"
-                                    component="mainFrameESA_S-3_Toolbox.importErsSARProduct"
-                                    event="MOUSE_MPRC" id="_1mNz"
+                                    component="importErsSARProduct"
+                                    event="MOUSE_MPRC" id="_1lKC"
                                     modifiers="16"/>
                   </ElseifSequence>
                   <ElseSequence id="_1oPC">
                     <MouseEventStep clicks="1" client="$(client)"
-                                    component="importErsSARProduct"
-                                    event="MOUSE_MPRC" id="_1lKC"
+                                    component="mainFrameESA_S-3_Toolbox.importErsSARProduct"
+                                    event="MOUSE_MPRC" id="_1obA"
                                     modifiers="16"/>
                   </ElseSequence>
                 </IfSequence>
@@ -731,11 +905,16 @@
                                 component="mainFrameESA_S-3_Toolbox.importDimapProduct"
                                 event="MOUSE_MPRC" id="_1mND" modifiers="16"/>
                 <ElseifSequence id="_1oPE" name="MAC?"
-                                test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                <ElseSequence id="_1oPF">
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                   <MouseEventStep clicks="1" client="$(client)"
                                   component="importDimapProduct"
                                   event="MOUSE_MPRC" id="_2O" modifiers="16"/>
+                </ElseifSequence>
+                <ElseSequence id="_1oPF">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="mainFrameESA_S-3_Toolbox.importDimapProduct"
+                                  event="MOUSE_MPRC" id="_1oa9"
+                                  modifiers="16"/>
                 </ElseSequence>
               </IfSequence>
             </Procedure>
@@ -745,12 +924,17 @@
                                 component="mainFrameESA_S-3_Toolbox.importFileFormats"
                                 event="MOUSE_MPRC" id="_1mNF" modifiers="16"/>
                 <ElseifSequence id="_1oPH" name="MAC?"
-                                test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                <ElseSequence id="_1oPI">
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                   <MouseEventStep clicks="1" client="$(client)"
                                   component="importFileFormats"
                                   event="MOUSE_MPRC" id="_1kza"
                                   modifiers="16"/>
+                </ElseifSequence>
+                <ElseSequence id="_1oPI">
+                  <MouseEventStep clicks="0" client="$(client)"
+                                  component="mainFrameESA_S-3_Toolbox.importFileFormats"
+                                  event="MOUSE_MPRC" id="_1oa3"
+                                  modifiers="0"/>
                 </ElseSequence>
               </IfSequence>
             </Procedure>
@@ -761,11 +945,16 @@
                                 component="mainFrameESA_S-3_Toolbox.importGETASSE30Product"
                                 event="MOUSE_MPRC" id="_1mNE" modifiers="16"/>
                 <ElseifSequence id="_1oPK" name="MAC?"
-                                test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                <ElseSequence id="_1oPL">
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                   <MouseEventStep clicks="1" client="$(client)"
                                   component="importGETASSE30Product"
                                   event="MOUSE_MPRC" id="_1kzO"
+                                  modifiers="16"/>
+                </ElseifSequence>
+                <ElseSequence id="_1oPL">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="mainFrameESA_S-3_Toolbox.importGETASSE30Product"
+                                  event="MOUSE_MPRC" id="_1oaA"
                                   modifiers="16"/>
                 </ElseSequence>
               </IfSequence>
@@ -776,12 +965,17 @@
                                 component="mainFrameESA_S-3_Toolbox.importMultispectral"
                                 event="MOUSE_MPRC" id="_1mNG" modifiers="16"/>
                 <ElseifSequence id="_1oPN" name="MAC?"
-                                test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                <ElseSequence id="_1oPO">
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                   <MouseEventStep clicks="1" client="$(client)"
                                   component="importMultispectral"
                                   event="MOUSE_MPRC" id="_1kzu"
                                   modifiers="16"/>
+                </ElseifSequence>
+                <ElseSequence id="_1oPO">
+                  <MouseEventStep clicks="0" client="$(client)"
+                                  component="mainFrameESA_S-3_Toolbox.importMultispectral"
+                                  event="MOUSE_MPRC" id="_1oY+"
+                                  modifiers="0"/>
                 </ElseSequence>
               </IfSequence>
             </Procedure>
@@ -792,11 +986,16 @@
                                 component="mainFrameESA_S-3_Toolbox.importImageProduct"
                                 event="MOUSE_MPRC" id="_1mNH" modifiers="16"/>
                 <ElseifSequence id="_1oPQ" name="MAC?"
-                                test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                <ElseSequence id="_1oPR">
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                   <MouseEventStep clicks="1" client="$(client)"
                                   component="importImageProduct"
                                   event="MOUSE_MPRC" id="_1k+D"
+                                  modifiers="16"/>
+                </ElseifSequence>
+                <ElseSequence id="_1oPR">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="mainFrameESA_S-3_Toolbox.importImageProduct"
+                                  event="MOUSE_MPRC" id="_1oaD"
                                   modifiers="16"/>
                 </ElseSequence>
               </IfSequence>
@@ -807,11 +1006,16 @@
                                 component="mainFrameESA_S-3_Toolbox.importSAR"
                                 event="MOUSE_MPRC" id="_1mNI" modifiers="16"/>
                 <ElseifSequence id="_1oPT" name="MAC?"
-                                test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                <ElseSequence id="_1oPU">
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                   <MouseEventStep clicks="1" client="$(client)"
                                   component="importSAR" event="MOUSE_MPRC"
                                   id="_1m2M" modifiers="16"/>
+                </ElseifSequence>
+                <ElseSequence id="_1oPU">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="mainFrameESA_S-3_Toolbox.importSAR"
+                                  event="MOUSE_MPRC" id="_1oZ0"
+                                  modifiers="16"/>
                 </ElseSequence>
               </IfSequence>
             </Procedure>
@@ -823,11 +1027,15 @@
                               component="mainFrameESA_S-3_Toolbox.closeSession"
                               event="MOUSE_MPRC" id="_1mN7" modifiers="16"/>
               <ElseifSequence id="_1oPW" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oPX">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="closeSession" event="MOUSE_MPRC"
                                 id="_1k--" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oPX">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.closeSession"
+                                event="MOUSE_MPRC" id="_1oZz" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -838,10 +1046,14 @@
                               component="mainFrameESA_S-3_Toolbox.exit"
                               event="MOUSE_MPRC" id="_1mO0" modifiers="16"/>
               <ElseifSequence id="_1oPZ" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oPa">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)" component="exit"
                                 event="MOUSE_MPRC" id="_1kxK" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oPa">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.exit"
+                                event="MOUSE_MPRC" id="_1obB" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -851,11 +1063,15 @@
                               component="mainFrameESA_S-3_Toolbox.importRasterData"
                               event="MOUSE_MPRC" id="_1mNC" modifiers="16"/>
               <ElseifSequence id="_1oPc" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oPd">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="importRasterData"
                                 event="MOUSE_MPRC" id="_1kyI" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oPd">
+                <MouseEventStep clicks="0" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.importRasterData"
+                                event="MOUSE_MPRC" id="_1oa4" modifiers="0"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -865,11 +1081,15 @@
                               component="mainFrameESA_S-3_Toolbox.importVectorData"
                               event="MOUSE_MPRC" id="_1mOO" modifiers="16"/>
               <ElseifSequence id="_1oPf" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oPg">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="importVectorData"
                                 event="MOUSE_MPRC" id="_1kyE" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oPg">
+                <MouseEventStep clicks="0" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.importVectorData"
+                                event="MOUSE_MPRC" id="_1oYq" modifiers="0"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -880,11 +1100,15 @@
                               component="mainFrameESA_S-3_Toolbox.reopen"
                               event="MOUSE_MPRC" id="_1mN3" modifiers="16"/>
               <ElseifSequence id="_1oPi" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oPj">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="reopen" event="MOUSE_MPRC" id="_1x"
                                 modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oPj">
+                <MouseEventStep clicks="0" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.reopen"
+                                event="MOUSE_MPRC" id="_1oZ+" modifiers="0"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -896,11 +1120,15 @@
                               component="mainFrameESA_S-3_Toolbox.layoutToolViews"
                               event="MOUSE_MPRC" id="_1oVi" modifiers="16"/>
               <ElseifSequence id="_1oPl" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oPm">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="layoutToolViews" event="MOUSE_MPRC"
                                 id="_1l0m" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oPm">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.layoutToolViews"
+                                event="MOUSE_MPRC" id="_1ocL" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -910,11 +1138,15 @@
                               component="mainFrameESA_S-3_Toolbox.showGcpOverlay2"
                               event="MOUSE_MPRC" id="_1oVf" modifiers="16"/>
               <ElseifSequence id="_1oPo" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oPp">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="showGcpOverlay" event="MOUSE_MPRC"
                                 id="_1l2e" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oPp">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.showGcpOverlay2"
+                                event="MOUSE_MPRC" id="_1od0" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -924,11 +1156,15 @@
                               component="mainFrameESA_S-3_Toolbox.showImageView"
                               event="MOUSE_MPRC" id="_1oVX" modifiers="16"/>
               <ElseifSequence id="_1oPr" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oPs">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="showImageView" event="MOUSE_MPRC"
                                 id="_1l1M" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oPs">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.showImageView"
+                                event="MOUSE_MPRC" id="_1ocN" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -938,11 +1174,15 @@
                               component="mainFrameESA_S-3_Toolbox.showMetadataView"
                               event="MOUSE_MPRC" id="_1oVZ" modifiers="16"/>
               <ElseifSequence id="_1oPu" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oPv">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="showMetadataView"
                                 event="MOUSE_MPRC" id="_1l1i" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oPv">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.showMetadataView"
+                                event="MOUSE_MPRC" id="_1ocP" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -952,11 +1192,15 @@
                               component="mainFrameESA_S-3_Toolbox.showPinOverlay2"
                               event="MOUSE_MPRC" id="_1oVe" modifiers="16"/>
               <ElseifSequence id="_1oPx" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oPy">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="showPinOverlay" event="MOUSE_MPRC"
                                 id="_1l2Z" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oPy">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.showPinOverlay2"
+                                event="MOUSE_MPRC" id="_1od1" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -966,11 +1210,15 @@
                               component="mainFrameESA_S-3_Toolbox.showPlacemarkView"
                               event="MOUSE_MPRC" id="_1oVa" modifiers="16"/>
               <ElseifSequence id="_1oP+" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oP-">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="showPlacemarkView"
                                 event="MOUSE_MPRC" id="_1l1-" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oP-">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.showPlacemarkView"
+                                event="MOUSE_MPRC" id="_1ocQ" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -980,26 +1228,33 @@
                               component="mainFrameESA_S-3_Toolbox.showShapeOverlay2"
                               event="MOUSE_MPRC" id="_1oVc" modifiers="16"/>
               <ElseifSequence id="_1oQ1" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oQ2">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="showShapeOverlay"
                                 event="MOUSE_MPRC" id="_1l2H" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oQ2">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.showShapeOverlay2"
+                                event="MOUSE_MPRC" id="_1od2" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
           <Procedure id="_1l0U" name="showToolViews">
             <IfSequence id="_1oQ3" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.showToolViews"
+                              event="MOUSE_MPRC" id="_1oVj" modifiers="16"/>
               <ElseifSequence id="_1oQ4" name="MAC?"
                               test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.showToolViews"
-                                event="MOUSE_MPRC" id="_1oVj" modifiers="16"/>
+                                component="showToolViews" event="MOUSE_MPRC"
+                                id="_1l0V" modifiers="16"/>
               </ElseifSequence>
               <ElseSequence id="_1oQ5">
                 <MouseEventStep clicks="1" client="$(client)"
-                                component="showToolViews" event="MOUSE_MPRC"
-                                id="_1l0V" modifiers="16"/>
+                                component="mainFrameESA_S-3_Toolbox.showToolViews"
+                                event="MOUSE_MPRC" id="_1ocK" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1009,11 +1264,15 @@
                               component="mainFrameESA_S-3_Toolbox.showWorldMapOverlay2"
                               event="MOUSE_MPRC" id="_1oVg" modifiers="16"/>
               <ElseifSequence id="_1oQ7" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oQ8">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="showWorldMapOverlay"
                                 event="MOUSE_MPRC" id="_1l2j" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oQ8">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.showWorldMapOverlay2"
+                                event="MOUSE_MPRC" id="_1od3" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1023,28 +1282,19 @@
                               component="mainFrameESA_S-3_Toolbox.toolBars"
                               event="MOUSE_MPRC" id="_1oVk" modifiers="16"/>
               <ElseifSequence id="_1oQA" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oQB">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="toolBars" event="MOUSE_MPRC"
                                 id="_1l11" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oQB">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.toolBars"
+                                event="MOUSE_MPRC" id="_1ocM" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
         </Package>
-        <Procedure id="_1l9-" name="edit">
-          <IfSequence id="_1oQC" test="${qftest:windows}">
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="mainFrameESA_S-3_Toolbox.edit"
-                            event="MOUSE_MPRC" id="_1oVh" modifiers="16"/>
-            <ElseifSequence id="_1oQD" name="MAC?"
-                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-            <ElseSequence id="_1oQE">
-              <MouseEventStep clicks="1" client="$(client)" component="edit"
-                              event="MOUSE_MPRC" id="_1lA0" modifiers="16"/>
-            </ElseSequence>
-          </IfSequence>
-        </Procedure>
         <Procedure id="_1e" name="file">
           <IfSequence id="_58D" test="${qftest:windows}">
             <MouseEventStep clicks="1" client="$(client)"
@@ -1053,8 +1303,26 @@
             <ElseifSequence id="_1l3m" name="MAC?"
                             test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
             <ElseSequence id="_58I">
-              <MouseEventStep clicks="1" client="$(client)" component="file"
-                              event="MOUSE_MPRC" id="_1f" modifiers="16"/>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.file"
+                              event="MOUSE_MPRC" id="_1oYP" modifiers="16"/>
+            </ElseSequence>
+          </IfSequence>
+        </Procedure>
+        <Procedure id="_1oYY" name="edit">
+          <IfSequence id="_1oYf" test="${qftest:windows}">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="mainFrameESA_S-3_Toolbox.edit"
+                            event="MOUSE_MPRC" id="_1oYg" modifiers="16"/>
+            <ElseifSequence id="_1oYh" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <MouseEventStep clicks="1" client="$(client)" component="edit"
+                              event="MOUSE_MPRC" id="_1oYi" modifiers="16"/>
+            </ElseifSequence>
+            <ElseSequence id="_1oYj">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.edit"
+                              event="MOUSE_MPRC" id="_1oYk" modifiers="16"/>
             </ElseSequence>
           </IfSequence>
         </Procedure>
@@ -1066,8 +1334,96 @@
             <ElseifSequence id="_1oQJ" name="MAC?"
                             test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
             <ElseSequence id="_1oQK">
-              <MouseEventStep clicks="1" client="$(client)" component="view"
-                              event="MOUSE_MPRC" id="_1l0H" modifiers="16"/>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.view"
+                              event="MOUSE_MPRC" id="_1oYR" modifiers="16"/>
+            </ElseSequence>
+          </IfSequence>
+        </Procedure>
+        <Procedure id="_1l9-" name="analysis">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.analysis"
+                          event="MOUSE_MPRC" id="_1oYS" modifiers="16"/>
+          <IfSequence id="_1oQC" test="${qftest:windows}">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="mainFrameESA_S-3_Toolbox.analysis"
+                            event="MOUSE_MPRC" id="_1oZ9" modifiers="16"/>
+            <ElseifSequence id="_1oQD" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+            <ElseSequence id="_1oQE">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.analysis"
+                              event="MOUSE_MPRC" id="_1oZA" modifiers="16"/>
+            </ElseSequence>
+          </IfSequence>
+        </Procedure>
+        <Procedure id="_1oYl" name="utilities">
+          <IfSequence id="_1oYs" test="${qftest:windows}">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="mainFrameESA_S-3_Toolbox.tools"
+                            event="MOUSE_MPRC" id="_1oYn" modifiers="16"/>
+            <ElseifSequence id="_1oYu" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+            <ElseSequence id="_1oYw">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.tools"
+                              event="MOUSE_MPRC" id="_1oZo" modifiers="16"/>
+            </ElseSequence>
+          </IfSequence>
+        </Procedure>
+        <Procedure id="_1oYy" name="processing">
+          <IfSequence id="_1oZ3" test="${qftest:windows}">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="mainFrameESA_S-3_Toolbox.processing"
+                            event="MOUSE_MPRC" id="_1oY-" modifiers="16"/>
+            <ElseifSequence id="_1oZ5" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+            <ElseSequence id="_1oZ7">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.processing"
+                              event="MOUSE_MPRC" id="_1oZp" modifiers="16"/>
+            </ElseSequence>
+          </IfSequence>
+        </Procedure>
+        <Procedure id="_1oZB" name="graphs">
+          <IfSequence id="_1oZI" test="${qftest:windows}">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="mainFrameESA_S-3_Toolbox.Graphs"
+                            event="MOUSE_MPRC" id="_1oZq" modifiers="16"/>
+            <ElseifSequence id="_1oZK" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+            <ElseSequence id="_1oZM">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.Graphs"
+                              event="MOUSE_MPRC" id="_1oZr" modifiers="16"/>
+            </ElseSequence>
+          </IfSequence>
+        </Procedure>
+        <Procedure id="_1oZO" name="window">
+          <IfSequence id="_1oZV" test="${qftest:windows}">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="mainFrameESA_S-3_Toolbox.window"
+                            event="MOUSE_MPRC" id="_1oZT" modifiers="16"/>
+            <ElseifSequence id="_1oZX" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+            <ElseSequence id="_1oZZ">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.window"
+                              event="MOUSE_MPRC" id="_1oZs" modifiers="16"/>
+            </ElseSequence>
+          </IfSequence>
+        </Procedure>
+        <Procedure id="_1oZb" name="help">
+          <IfSequence id="_1oZi" test="${qftest:windows}">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="mainFrameESA_S-3_Toolbox.help"
+                            event="MOUSE_MPRC" id="_1oZh" modifiers="16"/>
+            <ElseifSequence id="_1oZk" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+            <ElseSequence id="_1oZm">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.help"
+                              event="MOUSE_MPRC" id="_1oZt" modifiers="16"/>
             </ElseSequence>
           </IfSequence>
         </Procedure>
@@ -1081,10 +1437,14 @@
                               component="mainFrameESA_S-3_Toolbox.open"
                               event="MOUSE_MPRC" id="_1oVo" modifiers="16"/>
               <ElseifSequence id="_1oQM" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oQN">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)" component="open"
                                 event="MOUSE_MPRC" id="_1l0q" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oQN">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.open"
+                                event="MOUSE_MPRC" id="_1obE" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1095,11 +1455,15 @@
                               component="mainFrameESA_S-3_Toolbox.preferences"
                               event="MOUSE_MPRC" id="_1oVq" modifiers="16"/>
               <ElseifSequence id="_1oQP" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oQQ">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="preferences2" event="MOUSE_MPRC"
                                 id="_1lRj" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oQQ">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.preferences"
+                                event="MOUSE_MPRC" id="_1obG" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1110,11 +1474,15 @@
                               component="mainFrameESA_S-3_Toolbox.properties"
                               event="MOUSE_MPRC" id="_1oVr" modifiers="16"/>
               <ElseifSequence id="_1oQS" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oQT">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="properties" event="MOUSE_MPRC"
                                 id="_1lRn" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oQT">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.properties"
+                                event="MOUSE_MPRC" id="_1obH" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1125,11 +1493,15 @@
                               component="mainFrameESA_S-3_Toolbox.showUpdateDialog"
                               event="MOUSE_MPRC" id="_1oVs" modifiers="16"/>
               <ElseifSequence id="_1oQV" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oQW">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="showUpdateDialog"
                                 event="MOUSE_MPRC" id="_1lGO" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oQW">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.showUpdateDialog"
+                                event="MOUSE_MPRC" id="_1obI" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1140,11 +1512,15 @@
                               component="mainFrameESA_S-3_Toolbox.helpTopics"
                               event="MOUSE_MPRC" id="_1oVt" modifiers="16"/>
               <ElseifSequence id="_1oQY" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oQZ">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="helpTopics" event="MOUSE_MPRC"
                                 id="_1lGR" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oQZ">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.helpTopics"
+                                event="MOUSE_MPRC" id="_1obJ" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1155,11 +1531,15 @@
                               component="mainFrameESA_S-3_Toolbox.save"
                               event="MOUSE_MPRC" id="_1oVp" modifiers="16"/>
               <ElseifSequence id="_1oQb" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oQc">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="save2" event="MOUSE_MPRC"
                                 id="_1lQo" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oQc">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.save"
+                                event="MOUSE_MPRC" id="_1obF" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1170,10 +1550,14 @@
                               component="mainFrameESA_S-3_Toolbox.new"
                               event="MOUSE_MPRC" id="_1oVn" modifiers="16"/>
               <ElseifSequence id="_1oQe" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oQf">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)" component="new"
                                 event="MOUSE_MPRC" id="_1lRf" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oQf">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.new"
+                                event="MOUSE_MPRC" id="_1obD" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1186,11 +1570,15 @@
                               component="mainFrameESA_S-3_Toolbox.showNoDataOverlay"
                               event="MOUSE_MPRC" id="_1oVu" modifiers="16"/>
               <ElseifSequence id="_1oQh" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oQi">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="showNoDataOverlay"
                                 event="MOUSE_MPRC" id="_1lSQ" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oQi">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.showNoDataOverlay"
+                                event="MOUSE_MPRC" id="_1obK" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1201,11 +1589,15 @@
                               component="mainFrameESA_S-3_Toolbox.showShapeOverlay"
                               event="MOUSE_MPRC" id="_1oVv" modifiers="16"/>
               <ElseifSequence id="_1oQk" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oQl">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="showShapeOverlay2"
                                 event="MOUSE_MPRC" id="_1lSo" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oQl">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.showShapeOverlay"
+                                event="MOUSE_MPRC" id="_1obL" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1216,11 +1608,15 @@
                               component="mainFrameESA_S-3_Toolbox.showGraticuleOverlay"
                               event="MOUSE_MPRC" id="_1oVw" modifiers="16"/>
               <ElseifSequence id="_1oWg" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oWh">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="showGraticuleOverlay"
                                 event="MOUSE_MPRC" id="_1lTA" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oWh">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.showGraticuleOverlay"
+                                event="MOUSE_MPRC" id="_1obM" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1231,11 +1627,15 @@
                               component="mainFrameESA_S-3_Toolbox.showWorldMapOverlay"
                               event="MOUSE_MPRC" id="_1oVx" modifiers="16"/>
               <ElseifSequence id="_1oQn" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oQo">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="showWorldMapOverlay2"
                                 event="MOUSE_MPRC" id="_1lTw" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oQo">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.showWorldMapOverlay"
+                                event="MOUSE_MPRC" id="_1obN" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1246,11 +1646,15 @@
                               component="mainFrameESA_S-3_Toolbox.showPinOverlay"
                               event="MOUSE_MPRC" id="_1oVz" modifiers="16"/>
               <ElseifSequence id="_1oQq" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oQr">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="showPinOverlay2" event="MOUSE_MPRC"
                                 id="_1lU3" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oQr">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.showPinOverlay"
+                                event="MOUSE_MPRC" id="_1obO" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1261,11 +1665,15 @@
                               component="mainFrameESA_S-3_Toolbox.showGcpOverlay"
                               event="MOUSE_MPRC" id="_1oVy" modifiers="16"/>
               <ElseifSequence id="_1oQt" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oQu">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="showGcpOverlay2" event="MOUSE_MPRC"
                                 id="_1lUD" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oQu">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.showGcpOverlay"
+                                event="MOUSE_MPRC" id="_1oXb" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1278,11 +1686,15 @@
                               component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.InformationToolView.showCmd"
                               event="MOUSE_MPRC" id="_1oV+" modifiers="16"/>
               <ElseifSequence id="_1oQw" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oQx">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="org.esa.beam.visat.toolviews.stat.InformationToolView.showCmd"
                                 event="MOUSE_MPRC" id="_1lUW" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oQx">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.InformationToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXc" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1293,11 +1705,15 @@
                               component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.GeoCodingToolView.showCmd"
                               event="MOUSE_MPRC" id="_1oV-" modifiers="16"/>
               <ElseifSequence id="_1oQz" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oQ+">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="org.esa.beam.visat.toolviews.stat.GeoCodingToolView.showCmd"
                                 event="MOUSE_MPRC" id="_1lUi" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oQ+">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.GeoCodingToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXd" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1308,11 +1724,15 @@
                               component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.StatisticsToolView.showCmd"
                               event="MOUSE_MPRC" id="_1oW0" modifiers="16"/>
               <ElseifSequence id="_1oR0" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oR1">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="org.esa.beam.visat.toolviews.stat.StatisticsToolView.showCmd"
                                 event="MOUSE_MPRC" id="_1lB3" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oR1">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.StatisticsToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXe" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1323,11 +1743,15 @@
                               component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.HistogramPlotToolView.showCmd"
                               event="MOUSE_MPRC" id="_1oW1" modifiers="16"/>
               <ElseifSequence id="_1oR3" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oR4">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="org.esa.beam.visat.toolviews.stat.HistogramPlotToolView.showCmd"
                                 event="MOUSE_MPRC" id="_1lUs" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oR4">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.HistogramPlotToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXf" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1338,11 +1762,15 @@
                               component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.DensityPlotToolView.showCmd"
                               event="MOUSE_MPRC" id="_1oW2" modifiers="16"/>
               <ElseifSequence id="_1oR6" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oR7">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="org.esa.beam.visat.toolviews.stat.DensityPlotToolView.showCmd"
                                 event="MOUSE_MPRC" id="_1lVG" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oR7">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.DensityPlotToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXg" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1353,11 +1781,15 @@
                               component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.ScatterPlotToolView.showCmd"
                               event="MOUSE_MPRC" id="_1oW3" modifiers="16"/>
               <ElseifSequence id="_1oR9" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oRA">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="org.esa.beam.visat.toolviews.stat.ScatterPlotToolView.showCmd"
                                 event="MOUSE_MPRC" id="_1lVK" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRA">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.ScatterPlotToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXh" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1368,11 +1800,15 @@
                               component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.ProfilePlotToolView.showCmd"
                               event="MOUSE_MPRC" id="_1oW4" modifiers="16"/>
               <ElseifSequence id="_1oRC" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oRD">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="org.esa.beam.visat.toolviews.stat.ProfilePlotToolView.showCmd"
                                 event="MOUSE_MPRC" id="_1lVO" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRD">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.ProfilePlotToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXi" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1385,11 +1821,15 @@
                               component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.ProductsToolView.showCmd"
                               event="MOUSE_MPRC" id="_1oW5" modifiers="16"/>
               <ElseifSequence id="_1oRF" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oRG">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="org.esa.beam.visat.ProductsToolView.showCmd"
                                 event="MOUSE_MPRC" id="_1lVm" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRG">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.ProductsToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXj" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1400,11 +1840,15 @@
                               component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.imageinfo.ColorManipulationToolView.showCmd"
                               event="MOUSE_MPRC" id="_1oW6" modifiers="16"/>
               <ElseifSequence id="_1oRI" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oRJ">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="org.esa.beam.visat.toolviews.imageinfo.ColorManipulationToolView.showCmd"
                                 event="MOUSE_MPRC" id="_1lW3" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRJ">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.imageinfo.ColorManipulationToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXk" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1415,11 +1859,15 @@
                               component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.imageinfo.UncertaintyVisualisationToolView.showCmd"
                               event="MOUSE_MPRC" id="_1oW7" modifiers="16"/>
               <ElseifSequence id="_1oRL" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oRM">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="org.esa.beam.visat.toolviews.imageinfo.UncertaintyVisualisationToolView.showCmd"
                                 event="MOUSE_MPRC" id="_1lWM" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRM">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.imageinfo.UncertaintyVisualisationToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXl" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1430,11 +1878,15 @@
                               component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.layermanager.LayerManagerToolView.showCmd"
                               event="MOUSE_MPRC" id="_1oW8" modifiers="16"/>
               <ElseifSequence id="_1oRO" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oRP">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="org.esa.beam.visat.toolviews.layermanager.LayerManagerToolView.showCmd"
                                 event="MOUSE_MPRC" id="_1lWe" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRP">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.layermanager.LayerManagerToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXm" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1445,11 +1897,15 @@
                               component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.mask.MaskManagerToolView.showCmd"
                               event="MOUSE_MPRC" id="_1oW9" modifiers="16"/>
               <ElseifSequence id="_1oRR" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oRS">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="org.esa.beam.visat.toolviews.mask.MaskManagerToolView.showCmd"
                                 event="MOUSE_MPRC" id="_1lWw" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRS">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.mask.MaskManagerToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXn" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1460,11 +1916,15 @@
                               component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.nav.NavigationToolView.showCmd"
                               event="MOUSE_MPRC" id="_1oWA" modifiers="16"/>
               <ElseifSequence id="_1oRU" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oRV">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="org.esa.beam.visat.toolviews.nav.NavigationToolView.showCmd"
                                 event="MOUSE_MPRC" id="_1l8t" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRV">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.nav.NavigationToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXo" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1475,11 +1935,15 @@
                               component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.pixelinfo.PixelInfoToolView.showCmd"
                               event="MOUSE_MPRC" id="_1oWB" modifiers="16"/>
               <ElseifSequence id="_1oRX" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oRY">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="org.esa.beam.visat.toolviews.pixelinfo.PixelInfoToolView.showCmd"
                                 event="MOUSE_MPRC" id="_1l9Z" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRY">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.pixelinfo.PixelInfoToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXp" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1490,11 +1954,15 @@
                               component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.placemark.PlacemarkEditorToolView.showCmd"
                               event="MOUSE_MPRC" id="_1oWC" modifiers="16"/>
               <ElseifSequence id="_1oRa" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oRb">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="org.esa.beam.visat.toolviews.placemark.PlacemarkEditorToolView.showCmd"
                                 event="MOUSE_MPRC" id="_1lXA" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRb">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.placemark.PlacemarkEditorToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXq" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1505,11 +1973,15 @@
                               component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.placemark.gcp.GcpManagerToolView.showCmd"
                               event="MOUSE_MPRC" id="_1oWD" modifiers="16"/>
               <ElseifSequence id="_1oRd" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oRe">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="org.esa.beam.visat.toolviews.placemark.gcp.GcpManagerToolView.showCmd"
                                 event="MOUSE_MPRC" id="_1lXS" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRe">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.placemark.gcp.GcpManagerToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXr" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1520,11 +1992,15 @@
                               component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.placemark.pin.PinManagerToolView.showCmd"
                               event="MOUSE_MPRC" id="_1oWE" modifiers="16"/>
               <ElseifSequence id="_1oRg" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oRh">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="org.esa.beam.visat.toolviews.placemark.pin.PinManagerToolView.showCmd"
                                 event="MOUSE_MPRC" id="_1lXk" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRh">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.placemark.pin.PinManagerToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXs" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1535,11 +2011,15 @@
                               component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.spectrum.SpectrumToolView.showCmd"
                               event="MOUSE_MPRC" id="_1oWF" modifiers="16"/>
               <ElseifSequence id="_1oRj" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oRk">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="org.esa.beam.visat.toolviews.spectrum.SpectrumToolView.showCmd"
                                 event="MOUSE_MPRC" id="_1lY0" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRk">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.spectrum.SpectrumToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXt" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1550,11 +2030,15 @@
                               component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.worldmap.WorldMapToolView.showCmd"
                               event="MOUSE_MPRC" id="_1oWG" modifiers="16"/>
               <ElseifSequence id="_1oRm" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oRn">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="org.esa.beam.visat.toolviews.worldmap.WorldMapToolView.showCmd"
                                 event="MOUSE_MPRC" id="_1lK2" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRn">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.worldmap.WorldMapToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXu" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1567,11 +2051,15 @@
                               component="mainFrameESA_S-3_Toolbox.selectTool"
                               event="MOUSE_MPRC" id="_1oWH" modifiers="16"/>
               <ElseifSequence id="_1oRp" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oRq">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="selectTool" event="MOUSE_MPRC"
                                 id="_1l7a" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRq">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.selectTool"
+                                event="MOUSE_MPRC" id="_1oXv" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1582,11 +2070,15 @@
                               component="mainFrameESA_S-3_Toolbox.rangeFinder"
                               event="MOUSE_MPRC" id="_1oWI" modifiers="16"/>
               <ElseifSequence id="_1oRs" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oRt">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="rangeFinder" event="MOUSE_MPRC"
                                 id="_1lY-" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRt">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.rangeFinder"
+                                event="MOUSE_MPRC" id="_1oXw" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1597,11 +2089,15 @@
                               component="mainFrameESA_S-3_Toolbox.zoomTool"
                               event="MOUSE_MPRC" id="_1oWJ" modifiers="16"/>
               <ElseifSequence id="_1oRv" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oRw">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="zoomTool" event="MOUSE_MPRC"
                                 id="_1l7P" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRw">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.zoomTool"
+                                event="MOUSE_MPRC" id="_1obP" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1612,11 +2108,15 @@
                               component="mainFrameESA_S-3_Toolbox.pannerTool"
                               event="MOUSE_MPRC" id="_1oWK" modifiers="16"/>
               <ElseifSequence id="_1oRy" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oRz">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="pannerTool" event="MOUSE_MPRC"
                                 id="_1lZ6" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRz">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.pannerTool"
+                                event="MOUSE_MPRC" id="_1oXy" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1627,11 +2127,15 @@
                               component="mainFrameESA_S-3_Toolbox.gcpTool"
                               event="MOUSE_MPRC" id="_1oWM" modifiers="16"/>
               <ElseifSequence id="_1oR-" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oS0">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="gcpTool" event="MOUSE_MPRC"
                                 id="_1l7z" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oS0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.gcpTool"
+                                event="MOUSE_MPRC" id="_1oX+" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1642,11 +2146,15 @@
                               component="mainFrameESA_S-3_Toolbox.pinTool"
                               event="MOUSE_MPRC" id="_1oWL" modifiers="16"/>
               <ElseifSequence id="_1oS2" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oS3">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="pinTool" event="MOUSE_MPRC"
                                 id="_1l8I" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oS3">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.pinTool"
+                                event="MOUSE_MPRC" id="_1oXz" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1657,11 +2165,15 @@
                               component="mainFrameESA_S-3_Toolbox.magicWandTool"
                               event="MOUSE_MPRC" id="_1oWN" modifiers="16"/>
               <ElseifSequence id="_1oS5" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oS6">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="magicWandTool" event="MOUSE_MPRC"
                                 id="_1lZD" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oS6">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.magicWandTool"
+                                event="MOUSE_MPRC" id="_1oX-" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1672,11 +2184,15 @@
                               component="mainFrameESA_S-3_Toolbox.drawLineTool"
                               event="MOUSE_MPRC" id="_1oWO" modifiers="16"/>
               <ElseifSequence id="_1oS8" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oS9">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="drawLineTool" event="MOUSE_MPRC"
                                 id="_1l8A" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oS9">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.drawLineTool"
+                                event="MOUSE_MPRC" id="_1oY0" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1687,11 +2203,15 @@
                               component="mainFrameESA_S-3_Toolbox.drawPolylineTool"
                               event="MOUSE_MPRC" id="_1oWP" modifiers="16"/>
               <ElseifSequence id="_1oSB" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oSC">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="drawPolylineTool"
                                 event="MOUSE_MPRC" id="_1l8P" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oSC">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.drawPolylineTool"
+                                event="MOUSE_MPRC" id="_1obQ" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1702,11 +2222,15 @@
                               component="mainFrameESA_S-3_Toolbox.drawRectangleTool"
                               event="MOUSE_MPRC" id="_1oWQ" modifiers="16"/>
               <ElseifSequence id="_1oSE" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oSF">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="drawRectangleTool"
                                 event="MOUSE_MPRC" id="_1l8X" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oSF">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.drawRectangleTool"
+                                event="MOUSE_MPRC" id="_1oY2" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1717,11 +2241,15 @@
                               component="mainFrameESA_S-3_Toolbox.drawEllipseTool"
                               event="MOUSE_MPRC" id="_1oWR" modifiers="16"/>
               <ElseifSequence id="_1oSH" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oSI">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="drawEllipseTool" event="MOUSE_MPRC"
                                 id="_1l8f" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oSI">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.drawEllipseTool"
+                                event="MOUSE_MPRC" id="_1oY3" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1732,11 +2260,15 @@
                               component="mainFrameESA_S-3_Toolbox.drawPolygonTool"
                               event="MOUSE_MPRC" id="_1oWS" modifiers="16"/>
               <ElseifSequence id="_1oSK" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oSL">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="drawPolygonTool" event="MOUSE_MPRC"
                                 id="_1l8n" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oSL">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.drawPolygonTool"
+                                event="MOUSE_MPRC" id="_1oY4" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1747,11 +2279,15 @@
                               component="mainFrameESA_S-3_Toolbox.createVectorDataNode"
                               event="MOUSE_MPRC" id="_1oWT" modifiers="16"/>
               <ElseifSequence id="_1oSN" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oSO">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="createVectorDataNode"
                                 event="MOUSE_MPRC" id="_1l4S" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oSO">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.createVectorDataNode"
+                                event="MOUSE_MPRC" id="_1oY5" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1764,11 +2300,15 @@
                               component="mainFrameESA_S-3_Toolbox.org.esa.beam.smos.visat.GridPointBtDataChartToolView.showCmd"
                               event="MOUSE_MPRC" id="_1oWU" modifiers="16"/>
               <ElseifSequence id="_1oSQ" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oSR">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="org.esa.beam.smos.visat.GridPointBtDataChartToolView.showCmd"
                                 event="MOUSE_MPRC" id="_1lZL" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oSR">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.smos.visat.GridPointBtDataChartToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oY6" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1779,11 +2319,15 @@
                               component="mainFrameESA_S-3_Toolbox.org.esa.beam.smos.visat.GridPointBtDataFlagmatrixToolView.showCmd"
                               event="MOUSE_MPRC" id="_1oWV" modifiers="16"/>
               <ElseifSequence id="_1oST" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oSU">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="org.esa.beam.smos.visat.GridPointBtDataFlagmatrixToolView.showCmd"
                                 event="MOUSE_MPRC" id="_1lZd" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oSU">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.smos.visat.GridPointBtDataFlagmatrixToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oY7" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1794,11 +2338,15 @@
                               component="mainFrameESA_S-3_Toolbox.org.esa.beam.smos.visat.GridPointBtDataTableToolView.showCmd"
                               event="MOUSE_MPRC" id="_1oWW" modifiers="16"/>
               <ElseifSequence id="_1oSW" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oSX">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="org.esa.beam.smos.visat.GridPointBtDataTableToolView.showCmd"
                                 event="MOUSE_MPRC" id="_1lHr" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oSX">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.smos.visat.GridPointBtDataTableToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oY8" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1809,11 +2357,15 @@
                               component="mainFrameESA_S-3_Toolbox.org.esa.beam.smos.visat.SnapshotInfoToolView.showCmd"
                               event="MOUSE_MPRC" id="_1oWX" modifiers="16"/>
               <ElseifSequence id="_1oSZ" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oSa">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="org.esa.beam.smos.visat.SnapshotInfoToolView.showCmd"
                                 event="MOUSE_MPRC" id="_1lZx" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oSa">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.smos.visat.SnapshotInfoToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oY9" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1826,11 +2378,15 @@
                               component="mainFrameESA_S-3_Toolbox.timeSeriesGraphToolView.showCmd"
                               event="MOUSE_MPRC" id="_1oWY" modifiers="16"/>
               <ElseifSequence id="_1oSc" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oSd">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="timeSeriesGraphToolView.showCmd"
                                 event="MOUSE_MPRC" id="_1lJ0" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oSd">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.timeSeriesGraphToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oYA" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1841,11 +2397,15 @@
                               component="mainFrameESA_S-3_Toolbox.timeSeriesManagerToolView.showCmd"
                               event="MOUSE_MPRC" id="_1oWZ" modifiers="16"/>
               <ElseifSequence id="_1oSf" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oSg">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="timeSeriesManagerToolView.showCmd"
                                 event="MOUSE_MPRC" id="_1lae" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oSg">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.timeSeriesManagerToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oYB" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1856,11 +2416,15 @@
                               component="mainFrameESA_S-3_Toolbox.timeSeriesMatrixToolView.showCmd"
                               event="MOUSE_MPRC" id="_1oWa" modifiers="16"/>
               <ElseifSequence id="_1oSi" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oSj">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="timeSeriesMatrixToolView.showCmd"
                                 event="MOUSE_MPRC" id="_1lau" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oSj">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.timeSeriesMatrixToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oYC" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1871,11 +2435,15 @@
                               component="mainFrameESA_S-3_Toolbox.timeSeriesPlayerToolView.showCmd"
                               event="MOUSE_MPRC" id="_1oWb" modifiers="16"/>
               <ElseifSequence id="_1oSl" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oSm">
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="timeSeriesPlayerToolView.showCmd"
                                 event="MOUSE_MPRC" id="_1lb8" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oSm">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.timeSeriesPlayerToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oYD" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -1996,11 +2564,15 @@
                             component="buttonCancel2" event="MOUSE_MPRC"
                             id="_1l3-" modifiers="16"/>
             <ElseifSequence id="_1oT7" name="MAC?"
-                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-            <ElseSequence id="_1oT8">
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
               <MouseEventStep clicks="1" client="$(client)"
                               component="buttonCancel2" event="MOUSE_MPRC"
                               id="_1oXS" modifiers="16"/>
+            </ElseifSequence>
+            <ElseSequence id="_1oT8">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="dialogESA_S-3_Toolbox_-_Open_Data_Product(s).buttonCancel"
+                              event="MOUSE_MPRC" id="_1obd" modifiers="16"/>
             </ElseSequence>
           </IfSequence>
         </Procedure>
@@ -2011,11 +2583,15 @@
                             component="buttonOpen_Product" event="MOUSE_MPRC"
                             id="_1l43" modifiers="16"/>
             <ElseifSequence id="_1oTA" name="MAC?"
-                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-            <ElseSequence id="_1oTB">
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
               <MouseEventStep clicks="1" client="$(client)"
                               component="buttonOpen_Product"
                               event="MOUSE_MPRC" id="_1oXT" modifiers="16"/>
+            </ElseifSequence>
+            <ElseSequence id="_1oTB">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="buttonOpen_Product2"
+                              event="MOUSE_MPRC" id="_1obc" modifiers="16"/>
             </ElseSequence>
           </IfSequence>
         </Procedure>
@@ -2133,7 +2709,7 @@
               <ElseSequence id="_1oTW">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="dialogESA_S-3_Toolbox_-_Product_Modified.buttonNo"
-                                event="MOUSE_MPRC" id="_1oWp" modifiers="16"/>
+                                event="MOUSE_MPRC" id="_1odI" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
             <CatchSequence exception="TestException" id="_1l9y" maxerror="0"/>
@@ -2150,7 +2726,7 @@
                               test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
               <ElseSequence id="_1oTZ">
                 <MouseEventStep clicks="1" client="$(client)"
-                                component="dialogESA_S-3_Toolbox_-_Products_Modified.buttonYes"
+                                component="dialogESA_S-3_Toolbox_-_Product_Modified.buttonYes"
                                 event="MOUSE_MPRC" id="_1l9u" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
@@ -2752,11 +3328,15 @@
                           component="mainFrameESA_S-3_Toolbox.buttonTipRun_the_Garbage_Collector"
                           event="MOUSE_MPRC" id="_1oWd" modifiers="16"/>
           <ElseifSequence id="_1oV8" name="MAC?"
-                          test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+                          test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="buttonTipRun_the_Garbage_Collector"
+                            event="MOUSE_MPRC" id="_1odR" modifiers="16"/>
+          </ElseifSequence>
           <ElseSequence id="_1oV9">
             <MouseEventStep clicks="1" client="$(client)"
                             component="buttonTipRun_the_Garbage_Collector"
-                            event="MOUSE_MPRC" id="_1mJi" modifiers="16"/>
+                            event="MOUSE_MPRC" id="_1odO" modifiers="16"/>
           </ElseSequence>
         </IfSequence>
       </Procedure>

@@ -99,12 +99,6 @@
         </TestStep>
         <IfSequence id="_1oPR" postdelay="2000"
                     test="&#34;$(supported_format)&#34;==&#34;true&#34;">
-          <TestStep id="_1oPT" name="compose_command_line ">
-            <comment>@teststep Set Command Line</comment>
-            <SetGlobalStep id="_1oPU" varname="gpt_commando">
-              <default>$(gpt_calling) $(new_param) $(of) -t $(output_data_directory)$(outfn).$(fr) $(input)</default>
-            </SetGlobalStep>
-          </TestStep>
           <TestStep id="_1p0A" name="set_working_directory">
             <IfSequence id="_1o-h"
                         test="&#34;$(application)&#34;==&#34;s3tbx&#34;">
@@ -119,14 +113,27 @@
               </ElseifSequence>
             </IfSequence>
           </TestStep>
+          <TestStep id="_1oPT" name="compose_command_line ">
+            <comment>@teststep Set Command Line</comment>
+            <IfSequence id="_1p0b" test="${qftest:windows}">
+              <SetGlobalStep id="_1oPU" varname="gpt_commando">
+                <default>$(gpt_calling) $(new_param) $(of) -t $(output_data_directory)$(outfn).$(fr) $(input)</default>
+              </SetGlobalStep>
+              <ElseSequence id="_1p0c">
+                <SetGlobalStep id="_1p0f" varname="gpt_commando">
+                  <default>$(folder)/$(gpt_calling) $(new_param) $(of) -t $(output_data_directory)$(outfn).$(fr) $(input)</default>
+                </SetGlobalStep>
+              </ElseSequence>
+            </IfSequence>
+          </TestStep>
           <TestStep id="_1oPV" name="run_operator">
             <comment>$(gpt_commando)</comment>
             <ShellClientStarter client="$(gpt_client_name)"
                                 command="$(gpt_commando)"
                                 directory="$(folder)" id="_1oPW"
                                 postdelay="10000"/>
-            <ServerScriptStep disabled="true" id="_1o+b" name="print">
-              <code>print "************ gpt_client_name = $(gpt_client_name)*****************"  </code>
+            <ServerScriptStep disabled="true" id="_1p0C" name="print">
+              <code>print "$(gpt_commando)"  </code>
             </ServerScriptStep>
             <ProcedureCall id="_1o+c" procedure="run-log.log_client_output">
               <variable name="client_name">$(gpt_client_name)</variable>
@@ -282,6 +289,9 @@ rc.setGlobal("cn", vl)                       </code>
     </Package>
   </PackageRoot>
   <ExtraSequence id="_4">
+    <IfSequence id="_1p0L" test="${qftest:windows}">
+      <ElseSequence id="_1p0N"/>
+    </IfSequence>
     <Procedure id="_E5Y" name="select_deselect_mask">
       <ProcedureCall id="_E5a" procedure="get.getRowCount">
         <variable name="id">Dialog2.maskTable</variable>
