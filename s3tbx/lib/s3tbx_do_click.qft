@@ -3292,6 +3292,25 @@
           </IfSequence>
         </Procedure>
       </Package>
+      <Package id="_1odS" name="error_dialog">
+        <Procedure id="_1odT" name="button_OK_ESA_S-3_Toolbox_Error">
+          <IfSequence id="_1ode" test="${qftest:windows}">
+            <MouseEventStep clicks="1" client="$(client)" component="buttonOK"
+                            event="MOUSE_MPRC" id="_1odh" modifiers="16"/>
+            <ElseifSequence id="_1odf" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="buttonOK" event="MOUSE_MPRC"
+                              id="_1odi" modifiers="16"/>
+            </ElseifSequence>
+            <ElseSequence id="_1odg">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="buttonOK" event="MOUSE_MPRC"
+                              id="_1odj" modifiers="16"/>
+            </ElseSequence>
+          </IfSequence>
+        </Procedure>
+      </Package>
       <Package id="_1mQG" name="warning_dialog">
         <Procedure id="_1mQH" name="button_ok">
           <IfSequence id="_1mMl" test="${qftest:windows}">
@@ -3358,6 +3377,12 @@
       </Procedure>
     </Package>
   </PackageRoot>
-  <ExtraSequence id="_4"/>
+  <ExtraSequence id="_4">
+    <IfSequence id="_1odY" test="${qftest:windows}">
+      <ElseifSequence id="_1oda" name="MAC?"
+                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+      <ElseSequence id="_1odc"/>
+    </IfSequence>
+  </ExtraSequence>
   <WindowList id="_5"/>
 </RootStep>

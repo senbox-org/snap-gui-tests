@@ -52,19 +52,22 @@
               </SetGlobalStep>
               <ShellClientStarter client="$(cn_cache)"
                                   command="$(delete_commando) cache"
-                                  directory="${path:temp_s3tbx}" id="_1oNz"/>
+                                  directory="${path:temp_s3tbx}" id="_1p00"/>
+              <ServerScriptStep disabled="true" id="_1o--" name="print">
+                <code>print "working_directory = ${path:temp_s3tbx}"</code>
+              </ServerScriptStep>
               <ProcedureCall id="_1o-M" procedure="utils.exit_program">
                 <variable name="client_name">$(cn_cache)</variable>
               </ProcedureCall>
             </IfSequence>
             <IfSequence id="_1oN-" name="s3tbx-app folder"
                         test="'${path:temp_s3tbx}snap-app'.find('$(operation_system)') !=0">
-              <SetGlobalStep id="_1o-N" local="true" varname="cn_app">
+              <SetGlobalStep id="_1p03" local="true" varname="cn_app">
                 <default>del_app</default>
               </SetGlobalStep>
               <ShellClientStarter client="$(cn_app)"
-                                  command="$(delete_commando) snap-app"
-                                  directory="${path:temp_s3tbx}" id="_1oO1"/>
+                                  command="$(delete_commando) s3tbx-app"
+                                  directory="${path:temp_s3tbx}" id="_1p01"/>
               <ProcedureCall id="_1o-O" procedure="utils.exit_program">
                 <variable name="client_name">$(cn_app)</variable>
               </ProcedureCall>
@@ -75,7 +78,7 @@
                 <default>del_ui</default>
               </SetGlobalStep>
               <ShellClientStarter client="$(cn_ui)"
-                                  command="$(delete_commando) beam-ui "
+                                  command="$(delete_commando) snap-ui"
                                   directory="${path:temp_s3tbx}" id="_1oO5"/>
               <ProcedureCall id="_1o-Q" procedure="utils.exit_program">
                 <variable name="client_name">$(cn_ui)</variable>

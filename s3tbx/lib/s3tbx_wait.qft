@@ -134,6 +134,22 @@
                            component="dialogESA_S-3_Toolbox_-_Question"
                            id="_1kxS"/>
         </Procedure>
+        <Procedure id="_1odX" name="error_dialog">
+          <IfSequence id="_1odb" test="${qftest:windows}">
+            <ComponentWaiter client="$(client)"
+                             component="dialogESA_S-3_Toolbox_-_Error"
+                             errorlevel="0" id="_1odc" raise="false"
+                             resvarname="warning_dialog" timeout="500"/>
+            <ElseifSequence id="_1odd" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+            <ElseSequence id="_1ode">
+              <ComponentWaiter client="$(client)"
+                               component="dialogESA_S-3_Toolbox_-_Error"
+                               errorlevel="0" id="_1odg" raise="false"
+                               resvarname="warning_dialog" timeout="500"/>
+            </ElseSequence>
+          </IfSequence>
+        </Procedure>
         <Procedure id="_1mQH" name="warning_dialog">
           <IfSequence id="_1mMl" test="${qftest:windows}">
             <ComponentWaiter client="$(client)"

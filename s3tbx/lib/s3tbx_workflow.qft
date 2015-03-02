@@ -658,23 +658,48 @@
             </ProcedureCall>
           </ElseifSequence>
           <ElseSequence id="_1lWR">
-            <TryStep id="_1oNY" name="open_import_dialog">
+            <TryStep disabled="true" id="_1oNY" name="find_error_dialog">
               <comment>@teststep Open 'Import Product' dialog</comment>
-              <ProcedureCall id="_1oNZ"
-                             procedure="utility.import.$(import_data)"/>
-              <ProcedureCall id="_1oNi"
-                             procedure="wait.appear.import_dialog"/>
+              <ProcedureCall id="_1o+q" procedure="run-log.make_screensot">
+                <variable name="iw_name">error_dialog_$(import_data)</variable>
+                <variable name="iw_name_example">error_dialog</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1oNi" procedure="wait.appear.error_dialog"/>
+              <ProcedureCall id="_1o+r"
+                             procedure="do_click.error_dialog.button_OK_ESA_S-3_Toolbox_Error"/>
+              <TryStep id="_1o+u">
+                <ComponentWaiter client="$(client)"
+                                 component="dialogESA_S-3_Toolbox_-_Import_Product"
+                                 id="_1o+x" timeout="100"/>
+                <ProcedureCall id="_1o+t"
+                               procedure="do_click.import_dialog.cancel_button"/>
+                <CatchSequence exception="TestException" id="_1o+v"
+                               maxerror="0"/>
+              </TryStep>
+              <ProcedureCall id="_1o+s" procedure="run-log.logError">
+                <variable name="message">Error dialog appears</variable>
+                <variable name="withScreenshots">false</variable>
+              </ProcedureCall>
               <CatchSequence exception="TestException" id="_1oNb"
+                             maxerror="0"/>
+            </TryStep>
+            <TryStep id="_1o+g" name="open_import_dialog">
+              <comment>@teststep Open 'Import Product' dialog</comment>
+              <ProcedureCall id="_1o+h"
+                             procedure="utility.import.$(import_data)"/>
+              <ProcedureCall id="_1o+i"
+                             procedure="wait.appear.import_dialog"/>
+              <CatchSequence exception="TestException" id="_1o+j"
                              maxerror="0">
-                <TryStep id="_1oNc">
-                  <ProcedureCall id="_1oNd" procedure="do_click.menubar"/>
-                  <ProcedureCall id="_1oNe"
+                <TryStep id="_1o+k">
+                  <ProcedureCall id="_1o+l" procedure="do_click.menubar"/>
+                  <ProcedureCall id="_1o+m"
                                  procedure="utility.import.$(import_data)"/>
-                  <ProcedureCall id="_1oNf"
+                  <ProcedureCall id="_1o+n"
                                  procedure="wait.appear.import_dialog"/>
-                  <CatchSequence exception="TestException" id="_1oNg"
+                  <CatchSequence exception="TestException" id="_1o+o"
                                  maxerror="0">
-                    <ProcedureCall id="_1oNh"
+                    <ProcedureCall id="_1o+p"
                                    procedure="run-log.error_message.dialog_Import_Product_does_not_appear"/>
                   </CatchSequence>
                 </TryStep>
@@ -696,6 +721,29 @@
             <code>rc.logError("Cannot decode the selected product file.")</code>
           </ServerScriptStep>
           <CatchSequence exception="TestException" id="_1lWX" maxerror="0"/>
+        </TryStep>
+        <TryStep id="_1o+y" name="find_error_dialog">
+          <comment>@teststep Open 'Import Product' dialog</comment>
+          <ProcedureCall id="_1o++" procedure="wait.appear.error_dialog"/>
+          <ProcedureCall id="_1o+z" procedure="run-log.make_screensot">
+            <variable name="iw_name">error_dialog_$(import_data)</variable>
+            <variable name="iw_name_example">error_dialog</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1o+-"
+                         procedure="do_click.error_dialog.button_OK_ESA_S-3_Toolbox_Error"/>
+          <TryStep id="_1o-0">
+            <ComponentWaiter client="$(client)"
+                             component="dialogESA_S-3_Toolbox_-_Import_Product"
+                             id="_1o-1" timeout="100"/>
+            <ProcedureCall id="_1o-2"
+                           procedure="do_click.import_dialog.cancel_button"/>
+            <CatchSequence exception="TestException" id="_1o-3" maxerror="0"/>
+          </TryStep>
+          <ProcedureCall id="_1o-4" procedure="run-log.logError">
+            <variable name="message">Error dialog appears</variable>
+            <variable name="withScreenshots">false</variable>
+          </ProcedureCall>
+          <CatchSequence exception="TestException" id="_1o-5" maxerror="0"/>
         </TryStep>
       </Procedure>
       <Package id="_1l5S" name="raster_data">

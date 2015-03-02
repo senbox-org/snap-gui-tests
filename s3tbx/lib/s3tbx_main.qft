@@ -89,10 +89,20 @@
     </Package>
     <Package id="_1lBD" name="resize">
       <Procedure id="_1l6h" name="product_view_panel">
-        <MouseEventStep clicks="1" client="$(client)"
-                        component="DockedHiddenContainer.panel"
-                        event="MOUSE_MPRC" id="_1l6i" modifiers="16" x="2"
-                        y="617"/>
+        <IfSequence id="_1o-t" test="${qftest:windows}">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.DockedHiddenContainer"
+                          event="MOUSE_MPRC" id="_1o-w" modifiers="16" x="2"
+                          y="617"/>
+          <ElseifSequence id="_1o-u" name="MAC?"
+                          test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+          <ElseSequence id="_1o-v">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="mainFrameESA_S-3_Toolbox.DockedHiddenContainer"
+                            event="MOUSE_MPRC" id="_1o-x" modifiers="16" x="2"
+                            y="617"/>
+          </ElseSequence>
+        </IfSequence>
       </Procedure>
       <Procedure id="_1l1q" name="import_dialog">
         <ComponentEventStep client="$(client)"
