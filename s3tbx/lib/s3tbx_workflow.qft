@@ -2750,7 +2750,8 @@
               <ProcedureCall id="_1l3K" procedure="get.bands_node_id">
                 <variable name="prod_id">0</variable>
               </ProcedureCall>
-              <ProcedureCall id="_1l3H" procedure="select.product_tree.band">
+              <ProcedureCall id="_1l3H" postdelay="500"
+                             procedure="select.product_tree.band">
                 <variable name="prod_id">0</variable>
                 <variable name="node_id">$(bands_node_id)</variable>
                 <variable name="group_id">$(group_id1)</variable>
@@ -2759,14 +2760,21 @@
 </comment>
               </ProcedureCall>
               <ProcedureCall id="_1lFc" procedure="open.image_view"/>
-              <ProcedureCall disabled="true" id="_1lFd"
-                             procedure="do_click.tree.doubleclick_product_node">
-                <variable name="prod_id">0</variable>
-                <variable name="node_id">$(bands_node_number)</variable>
-                <variable name="group_id">$(group_id1)</variable>
-                <variable name="view_id">$(view_Id1)</variable>
-              </ProcedureCall>
-              <ProcedureCall id="_1lFe"
+              <IfSequence id="_1o-9"
+                          test="&#34;$(show_image_view)&#34;==&#34;false&#34;">
+                <TryStep id="_1o-A">
+                  <ProcedureCall id="_1o-B"
+                                 procedure="do_click.double_click.product_node">
+                    <variable name="prod_id">0</variable>
+                    <variable name="node_id">$(bands_node_number)</variable>
+                    <variable name="group_id">$(group_id1)</variable>
+                    <variable name="view_id">$(view_Id1)</variable>
+                  </ProcedureCall>
+                  <CatchSequence exception="TestException" id="_1o-C"
+                                 maxerror="0"/>
+                </TryStep>
+              </IfSequence>
+              <ProcedureCall id="_1o-D"
                              procedure="wait.disappear.creating_image_progress monitor">
                 <variable name="bandName">$(bandName)</variable>
               </ProcedureCall>

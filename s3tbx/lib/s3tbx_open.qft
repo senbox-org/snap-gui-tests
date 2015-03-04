@@ -129,6 +129,9 @@
       </Procedure>
       <Procedure id="_1k-T" name="image_view">
         <comment>@teststep Open image view</comment>
+        <SetGlobalStep id="_1o+R" varname="show_image_view">
+          <default>true</default>
+        </SetGlobalStep>
         <TryStep id="_1l2q">
           <ProcedureCall id="_1l2p" procedure="do_click.menu.view"/>
           <ProcedureCall id="_1l2o"
@@ -141,6 +144,9 @@
                              procedure="do_click.menu.view.showImageView"/>
               <CatchSequence exception="TestException" id="_1l2w"
                              maxerror="0">
+                <SetGlobalStep id="_1o+Q" varname="show_image_view">
+                  <default>false</default>
+                </SetGlobalStep>
                 <ServerScriptStep id="_1l2x" name="error">
                   <code>rc.logError("Menu 'Show image view' can not be selected")</code>
                 </ServerScriptStep>

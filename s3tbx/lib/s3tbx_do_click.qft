@@ -9,43 +9,60 @@
   <dependency>s3tbx_workflow.qft</dependency>
   <PackageRoot id="_3">
     <Package id="_1lB5" name="do_click">
-      <Package id="_1mQI" name="table">
-        <Procedure id="_1mQJ" name="checkbox">
-          <variable name="tableId"/>
-          <variable name="column"/>
-          <variable name="row"/>
-          <ServerScriptStep disabled="true" id="_1lYU" name="print">
-            <code>print "Masks = $(tableId).$(column)&amp;$(row)"  </code>
+      <Package id="_1odu" name="double_click">
+        <Procedure id="_1lDm" name="product_node" postdelay="1000">
+          <variable name="prod_id"/>
+          <variable name="node_id"/>
+          <variable name="group_id"/>
+          <variable name="view_id"/>
+          <comment>@teststep Doubleclick on the node in product tree</comment>
+          <IfSequence id="_1l09"
+                      test="&#34;$(group_id)&#34;&lt;&gt;&#34;&#34;">
+            <SetGlobalStep id="_1odv" varname="element_id">
+              <default>$(prod_id)/$(node_id)/$(group_id)/$(view_id)</default>
+            </SetGlobalStep>
+            <ElseSequence id="_1l0B">
+              <SetGlobalStep id="_1odw" varname="element_id">
+                <default>$(prod_id)/$(node_id)/$(view_id)</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+          <ServerScriptStep id="_1l5G" name="print">
+            <code>print "$(element_id)"  </code>
           </ServerScriptStep>
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="$(tableId).$(column)&amp;$(row)"
-                          event="MOUSE_MPRC" id="_1mJc" modifiers="16"/>
+          <IfSequence id="_1oTa" test="${qftest:windows}">
+            <MouseEventStep clicks="2" client="$(client)"
+                            component="mainFrameESA_S-3_Toolbox.ProductsToolView.Control.tree&amp;/$(element_id)"
+                            event="MOUSE_MPRC" hardevent="true" id="_1lEg"
+                            modifiers="16"/>
+            <ElseifSequence id="_1oTb" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+            <ElseSequence id="_1oTc">
+              <MouseEventStep clicks="2" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.ProductsToolView.Control.tree&amp;/$(element_id)"
+                              event="MOUSE_MPRC" hardevent="true" id="_1ods"
+                              modifiers="16"/>
+            </ElseSequence>
+          </IfSequence>
         </Procedure>
       </Package>
-      <Package id="_8" name="uncertainty_visualisation">
-        <Procedure id="_1l6R" name="more_options">
-          <comment>@teststep Click 'More Options'</comment>
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="mainFrameESA_S-3_Toolbox.MoreOptionsPane.headerButton"
-                          event="MOUSE_MPRC" id="_1l6S" modifiers="16"/>
-        </Procedure>
-        <Procedure id="_1l7X" name="radioBasic">
-          <comment>@teststep Click 'Basic' radiobutton</comment>
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="mainFrameESA_S-3_Toolbox.radioBasic"
-                          event="MOUSE_MPRC" id="_1l71" modifiers="16"/>
-        </Procedure>
-        <Procedure id="_1l7Z" name="radioSliders">
-          <comment>@teststep Click 'Sliders' radiobutton</comment>
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="mainFrameESA_S-3_Toolbox.radioSliders"
-                          event="MOUSE_MPRC" id="_1lB6" modifiers="16"/>
-        </Procedure>
-        <Procedure id="_1lB7" name="radioTable">
-          <comment>@teststep Click 'Table' radiobutton</comment>
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="mainFrameESA_S-3_Toolbox.radioTable"
-                          event="MOUSE_MPRC" id="_1lB8" modifiers="16"/>
+      <Package id="_1odS" name="error_dialog">
+        <Procedure id="_1odT" name="button_OK_ESA_S-3_Toolbox_Error">
+          <IfSequence id="_1ode" test="${qftest:windows}">
+            <MouseEventStep clicks="1" client="$(client)" component="buttonOK"
+                            event="MOUSE_MPRC" id="_1odh" modifiers="16"/>
+            <ElseifSequence id="_1odf" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="buttonOK" event="MOUSE_MPRC"
+                              id="_1odi" modifiers="16"/>
+            </ElseifSequence>
+            <ElseSequence id="_1odg">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="buttonOK" event="MOUSE_MPRC"
+                              id="_1odj" modifiers="16"/>
+            </ElseSequence>
+          </IfSequence>
         </Procedure>
       </Package>
       <Package id="_1lB4" name="import_dialog">
@@ -112,6 +129,1027 @@
             </ElseSequence>
           </IfSequence>
         </Procedure>
+      </Package>
+      <Package id="_1l3o" name="main_toolbar">
+        <Package id="_1lOH" name="analysis">
+          <Procedure id="_1lVH" name="correlative_plot">
+            <comment>@teststep Click 'Correlative plot' icon in menubar</comment>
+            <IfSequence id="_1oR8" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.ScatterPlotToolView.showCmd"
+                              event="MOUSE_MPRC" id="_1oW3" modifiers="16"/>
+              <ElseifSequence id="_1oR9" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="org.esa.beam.visat.toolviews.stat.ScatterPlotToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1lVK" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRA">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.ScatterPlotToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXh" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lUX" name="geo_coding_information">
+            <comment>@teststep Click 'Geo-Coding Information' icon in menubar</comment>
+            <IfSequence id="_1oQy" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.GeoCodingToolView.showCmd"
+                              event="MOUSE_MPRC" id="_1oV-" modifiers="16"/>
+              <ElseifSequence id="_1oQz" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="org.esa.beam.visat.toolviews.stat.GeoCodingToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1lUi" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oQ+">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.GeoCodingToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXd" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lUl" name="histogram">
+            <comment>@teststep Click 'Histogram' icon in menubar</comment>
+            <IfSequence id="_1oR2" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.HistogramPlotToolView.showCmd"
+                              event="MOUSE_MPRC" id="_1oW1" modifiers="16"/>
+              <ElseifSequence id="_1oR3" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="org.esa.beam.visat.toolviews.stat.HistogramPlotToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1lUs" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oR4">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.HistogramPlotToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXf" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lUJ" name="information">
+            <comment>@teststep Click 'Information' icon in menubar</comment>
+            <IfSequence id="_1oQv" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.InformationToolView.showCmd"
+                              event="MOUSE_MPRC" id="_1oV+" modifiers="16"/>
+              <ElseifSequence id="_1oQw" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="org.esa.beam.visat.toolviews.stat.InformationToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1lUW" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oQx">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.InformationToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXc" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lVN" name="profile_plot">
+            <comment>@teststep Click 'Profile plot' icon in menubar</comment>
+            <IfSequence id="_1oRB" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.ProfilePlotToolView.showCmd"
+                              event="MOUSE_MPRC" id="_1oW4" modifiers="16"/>
+              <ElseifSequence id="_1oRC" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="org.esa.beam.visat.toolviews.stat.ProfilePlotToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1lVO" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRD">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.ProfilePlotToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXi" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lVB" name="scatter_plot">
+            <comment>@teststep Click 'Scatter plot' icon in menubar</comment>
+            <IfSequence id="_1oR5" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.DensityPlotToolView.showCmd"
+                              event="MOUSE_MPRC" id="_1oW2" modifiers="16"/>
+              <ElseifSequence id="_1oR6" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="org.esa.beam.visat.toolviews.stat.DensityPlotToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1lVG" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oR7">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.DensityPlotToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXg" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lB2" name="statistics">
+            <comment>@teststep Click 'Statistics' icon in menubar</comment>
+            <IfSequence id="_1oQ-" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.StatisticsToolView.showCmd"
+                              event="MOUSE_MPRC" id="_1oW0" modifiers="16"/>
+              <ElseifSequence id="_1oR0" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="org.esa.beam.visat.toolviews.stat.StatisticsToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1lB3" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oR1">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.StatisticsToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXe" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+        </Package>
+        <Package id="_1lOG" name="layers">
+          <Procedure id="_1lU8" name="gcps_overlay">
+            <comment>@teststep Click 'GPS overlay' icon in menubar</comment>
+            <IfSequence id="_1oQs" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.showGcpOverlay"
+                              event="MOUSE_MPRC" id="_1oVy" modifiers="16"/>
+              <ElseifSequence id="_1oQt" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="showGcpOverlay2" event="MOUSE_MPRC"
+                                id="_1lUD" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oQu">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.showGcpOverlay"
+                                event="MOUSE_MPRC" id="_1oXb" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lSd" name="geometry_overlay">
+            <comment>@teststep Click 'Geometry overlay' icon in menubar</comment>
+            <IfSequence id="_1oQj" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.showShapeOverlay"
+                              event="MOUSE_MPRC" id="_1oVv" modifiers="16"/>
+              <ElseifSequence id="_1oQk" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="showShapeOverlay2"
+                                event="MOUSE_MPRC" id="_1lSo" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oQl">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.showShapeOverlay"
+                                event="MOUSE_MPRC" id="_1obL" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lT0" name="graticule_overlay">
+            <comment>@teststep Click 'Graticule overlay' icon in menubar</comment>
+            <IfSequence id="_1oWe" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.showGraticuleOverlay"
+                              event="MOUSE_MPRC" id="_1oVw" modifiers="16"/>
+              <ElseifSequence id="_1oWg" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="showGraticuleOverlay"
+                                event="MOUSE_MPRC" id="_1lTA" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oWh">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.showGraticuleOverlay"
+                                event="MOUSE_MPRC" id="_1obM" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lSE" name="noData_overlay">
+            <comment>@teststep Click 'No-Data overlay' icon in menubar</comment>
+            <IfSequence id="_1oQg" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.showNoDataOverlay"
+                              event="MOUSE_MPRC" id="_1oVu" modifiers="16"/>
+              <ElseifSequence id="_1oQh" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="showNoDataOverlay"
+                                event="MOUSE_MPRC" id="_1lSQ" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oQi">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.showNoDataOverlay"
+                                event="MOUSE_MPRC" id="_1obK" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lTz" name="pins_overlay">
+            <comment>@teststep Click 'PINs overlay' icon in menubar</comment>
+            <IfSequence id="_1oQp" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.showPinOverlay"
+                              event="MOUSE_MPRC" id="_1oVz" modifiers="16"/>
+              <ElseifSequence id="_1oQq" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="showPinOverlay2" event="MOUSE_MPRC"
+                                id="_1lU3" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oQr">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.showPinOverlay"
+                                event="MOUSE_MPRC" id="_1obO" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lTo" name="world_map_overlay">
+            <comment>@teststep Click 'World map overlay' icon in menubar</comment>
+            <IfSequence id="_1oQm" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.showWorldMapOverlay"
+                              event="MOUSE_MPRC" id="_1oVx" modifiers="16"/>
+              <ElseifSequence id="_1oQn" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="showWorldMapOverlay2"
+                                event="MOUSE_MPRC" id="_1lTw" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oQo">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.showWorldMapOverlay"
+                                event="MOUSE_MPRC" id="_1obN" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+        </Package>
+        <Package id="_1lZE" name="smos_box">
+          <Procedure id="_1lZK" name="grid_point_bt_chart">
+            <comment>@teststep Click 'Grid point brightness temperature chart' icon in menubar</comment>
+            <IfSequence id="_1oSP" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.smos.visat.GridPointBtDataChartToolView.showCmd"
+                              event="MOUSE_MPRC" id="_1oWU" modifiers="16"/>
+              <ElseifSequence id="_1oSQ" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="org.esa.beam.smos.visat.GridPointBtDataChartToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1lZL" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oSR">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.smos.visat.GridPointBtDataChartToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oY6" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1la4" name="grid_point_data_table">
+            <comment>@teststep Click 'Grid point data table' icon in menubar</comment>
+            <IfSequence id="_1oSV" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.smos.visat.GridPointBtDataTableToolView.showCmd"
+                              event="MOUSE_MPRC" id="_1oWW" modifiers="16"/>
+              <ElseifSequence id="_1oSW" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="org.esa.beam.smos.visat.GridPointBtDataTableToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1lHr" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oSX">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.smos.visat.GridPointBtDataTableToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oY8" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lZa" name="grid_point_flag_matrix">
+            <comment>@teststep Click 'Grid point flag matrix diagram' icon in menubar</comment>
+            <IfSequence id="_1oSS" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.smos.visat.GridPointBtDataFlagmatrixToolView.showCmd"
+                              event="MOUSE_MPRC" id="_1oWV" modifiers="16"/>
+              <ElseifSequence id="_1oST" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="org.esa.beam.smos.visat.GridPointBtDataFlagmatrixToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1lZd" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oSU">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.smos.visat.GridPointBtDataFlagmatrixToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oY7" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lZq" name="snapshot">
+            <comment>@teststep Click 'Snapshot information tool' icon in menubar</comment>
+            <IfSequence id="_1oSY" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.smos.visat.SnapshotInfoToolView.showCmd"
+                              event="MOUSE_MPRC" id="_1oWX" modifiers="16"/>
+              <ElseifSequence id="_1oSZ" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="org.esa.beam.smos.visat.SnapshotInfoToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1lZx" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oSa">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.smos.visat.SnapshotInfoToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oY9" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+        </Package>
+        <Package id="_1lOF" name="standard">
+          <Procedure id="_1lS4" name="help">
+            <comment>@teststep Click 'Help' icon in menubar</comment>
+            <IfSequence id="_1oQX" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.helpTopics"
+                              event="MOUSE_MPRC" id="_1oVt" modifiers="16"/>
+              <ElseifSequence id="_1oQY" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="helpTopics" event="MOUSE_MPRC"
+                                id="_1lGR" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oQZ">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.helpTopics"
+                                event="MOUSE_MPRC" id="_1obJ" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lRw" name="module_manager">
+            <comment>@teststep Click 'Module Manager' icon in menubar</comment>
+            <IfSequence id="_1oQU" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.showUpdateDialog"
+                              event="MOUSE_MPRC" id="_1oVs" modifiers="16"/>
+              <ElseifSequence id="_1oQV" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="showUpdateDialog"
+                                event="MOUSE_MPRC" id="_1lGO" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oQW">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.showUpdateDialog"
+                                event="MOUSE_MPRC" id="_1obI" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lQs" name="new">
+            <comment>@teststep Click 'New' icon in menubar</comment>
+            <IfSequence id="_1oQd" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.new"
+                              event="MOUSE_MPRC" id="_1oVn" modifiers="16"/>
+              <ElseifSequence id="_1oQe" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)" component="new"
+                                event="MOUSE_MPRC" id="_1lRf" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oQf">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.new"
+                                event="MOUSE_MPRC" id="_1obD" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1l3p" name="open">
+            <comment>@teststep Click 'Open' icon in menubar</comment>
+            <IfSequence id="_1oQL" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.open"
+                              event="MOUSE_MPRC" id="_1oVo" modifiers="16"/>
+              <ElseifSequence id="_1oQM" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)" component="open"
+                                event="MOUSE_MPRC" id="_1l0q" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oQN">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.open"
+                                event="MOUSE_MPRC" id="_1obE" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lOK" name="preferences">
+            <comment>@teststep Click 'Preferences' icon in menubar</comment>
+            <IfSequence id="_1oQO" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.preferences"
+                              event="MOUSE_MPRC" id="_1oVq" modifiers="16"/>
+              <ElseifSequence id="_1oQP" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="preferences2" event="MOUSE_MPRC"
+                                id="_1lRj" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oQQ">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.preferences"
+                                event="MOUSE_MPRC" id="_1obG" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lRm" name="property_editor">
+            <comment>@teststep Click 'Priperties' icon in menubar</comment>
+            <IfSequence id="_1oQR" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.properties"
+                              event="MOUSE_MPRC" id="_1oVr" modifiers="16"/>
+              <ElseifSequence id="_1oQS" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="properties" event="MOUSE_MPRC"
+                                id="_1lRn" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oQT">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.properties"
+                                event="MOUSE_MPRC" id="_1obH" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lQ0" name="save">
+            <comment>@teststep Click 'Save' icon in menubar</comment>
+            <IfSequence id="_1oQa" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.save"
+                              event="MOUSE_MPRC" id="_1oVp" modifiers="16"/>
+              <ElseifSequence id="_1oQb" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="save2" event="MOUSE_MPRC"
+                                id="_1lQo" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oQc">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.save"
+                                event="MOUSE_MPRC" id="_1obF" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+        </Package>
+        <Package id="_1lZF" name="time_series">
+          <Procedure id="_1lI-" name="graph">
+            <comment>@teststep Click 'Time Series Graph' icon in menubar</comment>
+            <IfSequence id="_1oSb" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.timeSeriesGraphToolView.showCmd"
+                              event="MOUSE_MPRC" id="_1oWY" modifiers="16"/>
+              <ElseifSequence id="_1oSc" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="timeSeriesGraphToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1lJ0" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oSd">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.timeSeriesGraphToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oYA" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1laa" name="manager">
+            <comment>@teststep Click 'Time Series Manager' icon in menubar</comment>
+            <IfSequence id="_1oSe" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.timeSeriesManagerToolView.showCmd"
+                              event="MOUSE_MPRC" id="_1oWZ" modifiers="16"/>
+              <ElseifSequence id="_1oSf" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="timeSeriesManagerToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1lae" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oSg">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.timeSeriesManagerToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oYB" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lan" name="matrix">
+            <comment>@teststep Click 'Time Series Matrix' icon in menubar</comment>
+            <IfSequence id="_1oSh" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.timeSeriesMatrixToolView.showCmd"
+                              event="MOUSE_MPRC" id="_1oWa" modifiers="16"/>
+              <ElseifSequence id="_1oSi" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="timeSeriesMatrixToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1lau" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oSj">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.timeSeriesMatrixToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oYC" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1la+" name="player">
+            <comment>@teststep Click 'Time Series Player' icon in menubar</comment>
+            <IfSequence id="_1oSk" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.timeSeriesPlayerToolView.showCmd"
+                              event="MOUSE_MPRC" id="_1oWb" modifiers="16"/>
+              <ElseifSequence id="_1oSl" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="timeSeriesPlayerToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1lb8" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oSm">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.timeSeriesPlayerToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oYD" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+        </Package>
+        <Package id="_1lOJ" name="tools">
+          <Procedure id="_1l7Q" name="createVectorDataNode">
+            <comment>@teststep Click 'Create Vector Data Container' icon in menubar</comment>
+            <IfSequence id="_1oSM" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.createVectorDataNode"
+                              event="MOUSE_MPRC" id="_1oWT" modifiers="16"/>
+              <ElseifSequence id="_1oSN" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="createVectorDataNode"
+                                event="MOUSE_MPRC" id="_1l4S" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oSO">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.createVectorDataNode"
+                                event="MOUSE_MPRC" id="_1oY5" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1l8b" name="draw_ellipse">
+            <comment>@teststep Click 'Draw ellipse' icon in menubar</comment>
+            <IfSequence id="_1oSG" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.drawEllipseTool"
+                              event="MOUSE_MPRC" id="_1oWR" modifiers="16"/>
+              <ElseifSequence id="_1oSH" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="drawEllipseTool" event="MOUSE_MPRC"
+                                id="_1l8f" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oSI">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.drawEllipseTool"
+                                event="MOUSE_MPRC" id="_1oY3" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1l86" name="draw_line">
+            <comment>@teststep Click 'Draw line' icon in menubar</comment>
+            <IfSequence id="_1oS7" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.drawLineTool"
+                              event="MOUSE_MPRC" id="_1oWO" modifiers="16"/>
+              <ElseifSequence id="_1oS8" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="drawLineTool" event="MOUSE_MPRC"
+                                id="_1l8A" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oS9">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.drawLineTool"
+                                event="MOUSE_MPRC" id="_1oY0" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1l8i" name="draw_polygon">
+            <comment>@teststep Click 'Draw polygon' icon in menubar</comment>
+            <IfSequence id="_1oSJ" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.drawPolygonTool"
+                              event="MOUSE_MPRC" id="_1oWS" modifiers="16"/>
+              <ElseifSequence id="_1oSK" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="drawPolygonTool" event="MOUSE_MPRC"
+                                id="_1l8n" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oSL">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.drawPolygonTool"
+                                event="MOUSE_MPRC" id="_1oY4" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1l8N" name="draw_polyline">
+            <comment>@teststep Click 'Draw polyline' icon in menubar</comment>
+            <IfSequence id="_1oSA" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.drawPolylineTool"
+                              event="MOUSE_MPRC" id="_1oWP" modifiers="16"/>
+              <ElseifSequence id="_1oSB" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="drawPolylineTool"
+                                event="MOUSE_MPRC" id="_1l8P" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oSC">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.drawPolylineTool"
+                                event="MOUSE_MPRC" id="_1obQ" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1l8U" name="draw_rectangle">
+            <comment>@teststep Click 'Draw rectangle' icon in menubar</comment>
+            <IfSequence id="_1oSD" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.drawRectangleTool"
+                              event="MOUSE_MPRC" id="_1oWQ" modifiers="16"/>
+              <ElseifSequence id="_1oSE" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="drawRectangleTool"
+                                event="MOUSE_MPRC" id="_1l8X" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oSF">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.drawRectangleTool"
+                                event="MOUSE_MPRC" id="_1oY2" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1l7w" name="gcp">
+            <comment>@teststep Click 'Set GCP' icon in menubar</comment>
+            <IfSequence id="_1oR+" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.gcpTool"
+                              event="MOUSE_MPRC" id="_1oWM" modifiers="16"/>
+              <ElseifSequence id="_1oR-" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="gcpTool" event="MOUSE_MPRC"
+                                id="_1l7z" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oS0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.gcpTool"
+                                event="MOUSE_MPRC" id="_1oX+" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lZC" name="magic_wand">
+            <comment>@teststep Click 'Magic Wand' icon in menubar</comment>
+            <IfSequence id="_1oS4" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.magicWandTool"
+                              event="MOUSE_MPRC" id="_1oWN" modifiers="16"/>
+              <ElseifSequence id="_1oS5" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="magicWandTool" event="MOUSE_MPRC"
+                                id="_1lZD" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oS6">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.magicWandTool"
+                                event="MOUSE_MPRC" id="_1oX-" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lZ2" name="panner">
+            <comment>@teststep Click 'Panner' icon in menubar</comment>
+            <IfSequence id="_1oRx" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.pannerTool"
+                              event="MOUSE_MPRC" id="_1oWK" modifiers="16"/>
+              <ElseifSequence id="_1oRy" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="pannerTool" event="MOUSE_MPRC"
+                                id="_1lZ6" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRz">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.pannerTool"
+                                event="MOUSE_MPRC" id="_1oXy" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1l7k" name="pin">
+            <comment>@teststep Click 'Set PIN' icon in menubar</comment>
+            <IfSequence id="_1oS1" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.pinTool"
+                              event="MOUSE_MPRC" id="_1oWL" modifiers="16"/>
+              <ElseifSequence id="_1oS2" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="pinTool" event="MOUSE_MPRC"
+                                id="_1l8I" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oS3">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.pinTool"
+                                event="MOUSE_MPRC" id="_1oXz" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lYz" name="range_finder">
+            <comment>@teststep Click 'Range Finder' icon in menubar</comment>
+            <IfSequence id="_1oRr" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.rangeFinder"
+                              event="MOUSE_MPRC" id="_1oWI" modifiers="16"/>
+              <ElseifSequence id="_1oRs" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="rangeFinder" event="MOUSE_MPRC"
+                                id="_1lY-" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRt">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.rangeFinder"
+                                event="MOUSE_MPRC" id="_1oXw" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1l7Y" name="selectTool">
+            <comment>@teststep Click 'Select Tool' icon in menubar</comment>
+            <IfSequence id="_1oRo" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.selectTool"
+                              event="MOUSE_MPRC" id="_1oWH" modifiers="16"/>
+              <ElseifSequence id="_1oRp" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="selectTool" event="MOUSE_MPRC"
+                                id="_1l7a" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRq">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.selectTool"
+                                event="MOUSE_MPRC" id="_1oXv" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1l7O" name="zoom">
+            <comment>@teststep Click 'Zoom Tool' icon in menubar</comment>
+            <IfSequence id="_1oRu" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.zoomTool"
+                              event="MOUSE_MPRC" id="_1oWJ" modifiers="16"/>
+              <ElseifSequence id="_1oRv" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="zoomTool" event="MOUSE_MPRC"
+                                id="_1l7P" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRw">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.zoomTool"
+                                event="MOUSE_MPRC" id="_1obP" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+        </Package>
+        <Package id="_1lOI" name="views">
+          <Procedure id="_1lVn" name="colour_manipulation">
+            <comment>@teststep Click 'Colour Manipulation' icon in menubar</comment>
+            <IfSequence id="_1oRH" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.imageinfo.ColorManipulationToolView.showCmd"
+                              event="MOUSE_MPRC" id="_1oW6" modifiers="16"/>
+              <ElseifSequence id="_1oRI" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="org.esa.beam.visat.toolviews.imageinfo.ColorManipulationToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1lW3" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRJ">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.imageinfo.ColorManipulationToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXk" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lXL" name="gcp_manager">
+            <comment>@teststep Click 'GCP Manager' icon in menubar</comment>
+            <IfSequence id="_1oRc" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.placemark.gcp.GcpManagerToolView.showCmd"
+                              event="MOUSE_MPRC" id="_1oWD" modifiers="16"/>
+              <ElseifSequence id="_1oRd" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="org.esa.beam.visat.toolviews.placemark.gcp.GcpManagerToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1lXS" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRe">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.placemark.gcp.GcpManagerToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXr" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lWP" name="layer_manager">
+            <comment>@teststep Click 'Layer Manager' icon in menubar</comment>
+            <IfSequence id="_1oRN" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.layermanager.LayerManagerToolView.showCmd"
+                              event="MOUSE_MPRC" id="_1oW8" modifiers="16"/>
+              <ElseifSequence id="_1oRO" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="org.esa.beam.visat.toolviews.layermanager.LayerManagerToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1lWe" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRP">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.layermanager.LayerManagerToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXm" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lWj" name="mask_manager">
+            <comment>@teststep Click 'Mask Manager' icon in menubar</comment>
+            <IfSequence id="_1oRQ" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.mask.MaskManagerToolView.showCmd"
+                              event="MOUSE_MPRC" id="_1oW9" modifiers="16"/>
+              <ElseifSequence id="_1oRR" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="org.esa.beam.visat.toolviews.mask.MaskManagerToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1lWw" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRS">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.mask.MaskManagerToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXn" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1l8s" name="navigation">
+            <comment>@teststep Click 'Navigation' icon in menubar</comment>
+            <IfSequence id="_1oRT" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.nav.NavigationToolView.showCmd"
+                              event="MOUSE_MPRC" id="_1oWA" modifiers="16"/>
+              <ElseifSequence id="_1oRU" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="org.esa.beam.visat.toolviews.nav.NavigationToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1l8t" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRV">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.nav.NavigationToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXo" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lXf" name="pin_manager">
+            <comment>@teststep Click 'PIN Manager' icon in menubar</comment>
+            <IfSequence id="_1oRf" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.placemark.pin.PinManagerToolView.showCmd"
+                              event="MOUSE_MPRC" id="_1oWE" modifiers="16"/>
+              <ElseifSequence id="_1oRg" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="org.esa.beam.visat.toolviews.placemark.pin.PinManagerToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1lXk" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRh">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.placemark.pin.PinManagerToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXs" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1l9V" name="pixel_info">
+            <comment>@teststep Click 'Pixel Info' icon in menubar</comment>
+            <IfSequence id="_1oRW" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.pixelinfo.PixelInfoToolView.showCmd"
+                              event="MOUSE_MPRC" id="_1oWB" modifiers="16"/>
+              <ElseifSequence id="_1oRX" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="org.esa.beam.visat.toolviews.pixelinfo.PixelInfoToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1l9Z" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRY">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.pixelinfo.PixelInfoToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXp" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lVT" name="product_browser">
+            <comment>@teststep Click 'Product Browser' icon in menubar</comment>
+            <IfSequence id="_1oRE" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.ProductsToolView.showCmd"
+                              event="MOUSE_MPRC" id="_1oW5" modifiers="16"/>
+              <ElseifSequence id="_1oRF" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="org.esa.beam.visat.ProductsToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1lVm" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRG">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.ProductsToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXj" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lXz" name="spectrum">
+            <comment>@teststep Click 'Spectrum' icon in menubar</comment>
+            <IfSequence id="_1oRi" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.spectrum.SpectrumToolView.showCmd"
+                              event="MOUSE_MPRC" id="_1oWF" modifiers="16"/>
+              <ElseifSequence id="_1oRj" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="org.esa.beam.visat.toolviews.spectrum.SpectrumToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1lY0" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRk">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.spectrum.SpectrumToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXt" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lW5" name="uncertainty_visualisation">
+            <comment>@teststep Click 'Uncertainty Visualisation' icon in menubar</comment>
+            <IfSequence id="_1oRK" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.imageinfo.UncertaintyVisualisationToolView.showCmd"
+                              event="MOUSE_MPRC" id="_1oW7" modifiers="16"/>
+              <ElseifSequence id="_1oRL" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="org.esa.beam.visat.toolviews.imageinfo.UncertaintyVisualisationToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1lWM" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRM">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.imageinfo.UncertaintyVisualisationToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXl" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lX1" name="vector_data_editor">
+            <comment>@teststep Click 'Vector Data Editor' icon in menubar</comment>
+            <IfSequence id="_1oRZ" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.placemark.PlacemarkEditorToolView.showCmd"
+                              event="MOUSE_MPRC" id="_1oWC" modifiers="16"/>
+              <ElseifSequence id="_1oRa" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="org.esa.beam.visat.toolviews.placemark.PlacemarkEditorToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1lXA" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRb">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.placemark.PlacemarkEditorToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXq" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lK1" name="worldmap">
+            <comment>@teststep Click 'World Map' icon in menubar</comment>
+            <IfSequence id="_1oRl" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.worldmap.WorldMapToolView.showCmd"
+                              event="MOUSE_MPRC" id="_1oWG" modifiers="16"/>
+              <ElseifSequence id="_1oRm" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="org.esa.beam.visat.toolviews.worldmap.WorldMapToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1lK2" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oRn">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.worldmap.WorldMapToolView.showCmd"
+                                event="MOUSE_MPRC" id="_1oXu" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+        </Package>
       </Package>
       <Package id="_1kxH" name="menu">
         <Package id="_1lAD" name="edit">
@@ -1295,17 +2333,20 @@
             </IfSequence>
           </Procedure>
         </Package>
-        <Procedure id="_1e" name="file">
-          <IfSequence id="_58D" test="${qftest:windows}">
+        <Procedure id="_1l9-" name="analysis">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.analysis"
+                          event="MOUSE_MPRC" id="_1oYS" modifiers="16"/>
+          <IfSequence id="_1oQC" test="${qftest:windows}">
             <MouseEventStep clicks="1" client="$(client)"
-                            component="mainFrameESA_S-3_Toolbox.file"
-                            event="MOUSE_MPRC" id="_1mMZ" modifiers="16"/>
-            <ElseifSequence id="_1l3m" name="MAC?"
+                            component="mainFrameESA_S-3_Toolbox.analysis"
+                            event="MOUSE_MPRC" id="_1oZ9" modifiers="16"/>
+            <ElseifSequence id="_1oQD" name="MAC?"
                             test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-            <ElseSequence id="_58I">
+            <ElseSequence id="_1oQE">
               <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.file"
-                              event="MOUSE_MPRC" id="_1oYP" modifiers="16"/>
+                              component="mainFrameESA_S-3_Toolbox.analysis"
+                              event="MOUSE_MPRC" id="_1oZA" modifiers="16"/>
             </ElseSequence>
           </IfSequence>
         </Procedure>
@@ -1326,62 +2367,17 @@
             </ElseSequence>
           </IfSequence>
         </Procedure>
-        <Procedure id="_1k-+" name="view">
-          <IfSequence id="_1oQI" test="${qftest:windows}">
+        <Procedure id="_1e" name="file">
+          <IfSequence id="_58D" test="${qftest:windows}">
             <MouseEventStep clicks="1" client="$(client)"
-                            component="mainFrameESA_S-3_Toolbox.view"
-                            event="MOUSE_MPRC" id="_1oVT" modifiers="16"/>
-            <ElseifSequence id="_1oQJ" name="MAC?"
+                            component="mainFrameESA_S-3_Toolbox.file"
+                            event="MOUSE_MPRC" id="_1mMZ" modifiers="16"/>
+            <ElseifSequence id="_1l3m" name="MAC?"
                             test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-            <ElseSequence id="_1oQK">
+            <ElseSequence id="_58I">
               <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.view"
-                              event="MOUSE_MPRC" id="_1oYR" modifiers="16"/>
-            </ElseSequence>
-          </IfSequence>
-        </Procedure>
-        <Procedure id="_1l9-" name="analysis">
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="mainFrameESA_S-3_Toolbox.analysis"
-                          event="MOUSE_MPRC" id="_1oYS" modifiers="16"/>
-          <IfSequence id="_1oQC" test="${qftest:windows}">
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="mainFrameESA_S-3_Toolbox.analysis"
-                            event="MOUSE_MPRC" id="_1oZ9" modifiers="16"/>
-            <ElseifSequence id="_1oQD" name="MAC?"
-                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-            <ElseSequence id="_1oQE">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.analysis"
-                              event="MOUSE_MPRC" id="_1oZA" modifiers="16"/>
-            </ElseSequence>
-          </IfSequence>
-        </Procedure>
-        <Procedure id="_1oYl" name="utilities">
-          <IfSequence id="_1oYs" test="${qftest:windows}">
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="mainFrameESA_S-3_Toolbox.tools"
-                            event="MOUSE_MPRC" id="_1oYn" modifiers="16"/>
-            <ElseifSequence id="_1oYu" name="MAC?"
-                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-            <ElseSequence id="_1oYw">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.tools"
-                              event="MOUSE_MPRC" id="_1oZo" modifiers="16"/>
-            </ElseSequence>
-          </IfSequence>
-        </Procedure>
-        <Procedure id="_1oYy" name="processing">
-          <IfSequence id="_1oZ3" test="${qftest:windows}">
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="mainFrameESA_S-3_Toolbox.processing"
-                            event="MOUSE_MPRC" id="_1oY-" modifiers="16"/>
-            <ElseifSequence id="_1oZ5" name="MAC?"
-                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-            <ElseSequence id="_1oZ7">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.processing"
-                              event="MOUSE_MPRC" id="_1oZp" modifiers="16"/>
+                              component="mainFrameESA_S-3_Toolbox.file"
+                              event="MOUSE_MPRC" id="_1oYP" modifiers="16"/>
             </ElseSequence>
           </IfSequence>
         </Procedure>
@@ -1399,20 +2395,6 @@
             </ElseSequence>
           </IfSequence>
         </Procedure>
-        <Procedure id="_1oZO" name="window">
-          <IfSequence id="_1oZV" test="${qftest:windows}">
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="mainFrameESA_S-3_Toolbox.window"
-                            event="MOUSE_MPRC" id="_1oZT" modifiers="16"/>
-            <ElseifSequence id="_1oZX" name="MAC?"
-                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-            <ElseSequence id="_1oZZ">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.window"
-                              event="MOUSE_MPRC" id="_1oZs" modifiers="16"/>
-            </ElseSequence>
-          </IfSequence>
-        </Procedure>
         <Procedure id="_1oZb" name="help">
           <IfSequence id="_1oZi" test="${qftest:windows}">
             <MouseEventStep clicks="1" client="$(client)"
@@ -1427,1027 +2409,62 @@
             </ElseSequence>
           </IfSequence>
         </Procedure>
-      </Package>
-      <Package id="_1l3o" name="main_toolbar">
-        <Package id="_1lOF" name="standard">
-          <Procedure id="_1l3p" name="open">
-            <comment>@teststep Click 'Open' icon in menubar</comment>
-            <IfSequence id="_1oQL" test="${qftest:windows}">
+        <Procedure id="_1oYy" name="processing">
+          <IfSequence id="_1oZ3" test="${qftest:windows}">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="mainFrameESA_S-3_Toolbox.processing"
+                            event="MOUSE_MPRC" id="_1oY-" modifiers="16"/>
+            <ElseifSequence id="_1oZ5" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+            <ElseSequence id="_1oZ7">
               <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.open"
-                              event="MOUSE_MPRC" id="_1oVo" modifiers="16"/>
-              <ElseifSequence id="_1oQM" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)" component="open"
-                                event="MOUSE_MPRC" id="_1l0q" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oQN">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.open"
-                                event="MOUSE_MPRC" id="_1obE" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lOK" name="preferences">
-            <comment>@teststep Click 'Preferences' icon in menubar</comment>
-            <IfSequence id="_1oQO" test="${qftest:windows}">
+                              component="mainFrameESA_S-3_Toolbox.processing"
+                              event="MOUSE_MPRC" id="_1oZp" modifiers="16"/>
+            </ElseSequence>
+          </IfSequence>
+        </Procedure>
+        <Procedure id="_1oYl" name="utilities">
+          <IfSequence id="_1oYs" test="${qftest:windows}">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="mainFrameESA_S-3_Toolbox.tools"
+                            event="MOUSE_MPRC" id="_1oYn" modifiers="16"/>
+            <ElseifSequence id="_1oYu" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+            <ElseSequence id="_1oYw">
               <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.preferences"
-                              event="MOUSE_MPRC" id="_1oVq" modifiers="16"/>
-              <ElseifSequence id="_1oQP" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="preferences2" event="MOUSE_MPRC"
-                                id="_1lRj" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oQQ">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.preferences"
-                                event="MOUSE_MPRC" id="_1obG" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lRm" name="property_editor">
-            <comment>@teststep Click 'Priperties' icon in menubar</comment>
-            <IfSequence id="_1oQR" test="${qftest:windows}">
+                              component="mainFrameESA_S-3_Toolbox.tools"
+                              event="MOUSE_MPRC" id="_1oZo" modifiers="16"/>
+            </ElseSequence>
+          </IfSequence>
+        </Procedure>
+        <Procedure id="_1k-+" name="view">
+          <IfSequence id="_1oQI" test="${qftest:windows}">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="mainFrameESA_S-3_Toolbox.view"
+                            event="MOUSE_MPRC" id="_1oVT" modifiers="16"/>
+            <ElseifSequence id="_1oQJ" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+            <ElseSequence id="_1oQK">
               <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.properties"
-                              event="MOUSE_MPRC" id="_1oVr" modifiers="16"/>
-              <ElseifSequence id="_1oQS" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="properties" event="MOUSE_MPRC"
-                                id="_1lRn" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oQT">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.properties"
-                                event="MOUSE_MPRC" id="_1obH" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lRw" name="module_manager">
-            <comment>@teststep Click 'Module Manager' icon in menubar</comment>
-            <IfSequence id="_1oQU" test="${qftest:windows}">
+                              component="mainFrameESA_S-3_Toolbox.view"
+                              event="MOUSE_MPRC" id="_1oYR" modifiers="16"/>
+            </ElseSequence>
+          </IfSequence>
+        </Procedure>
+        <Procedure id="_1oZO" name="window">
+          <IfSequence id="_1oZV" test="${qftest:windows}">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="mainFrameESA_S-3_Toolbox.window"
+                            event="MOUSE_MPRC" id="_1oZT" modifiers="16"/>
+            <ElseifSequence id="_1oZX" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+            <ElseSequence id="_1oZZ">
               <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.showUpdateDialog"
-                              event="MOUSE_MPRC" id="_1oVs" modifiers="16"/>
-              <ElseifSequence id="_1oQV" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="showUpdateDialog"
-                                event="MOUSE_MPRC" id="_1lGO" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oQW">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.showUpdateDialog"
-                                event="MOUSE_MPRC" id="_1obI" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lS4" name="help">
-            <comment>@teststep Click 'Help' icon in menubar</comment>
-            <IfSequence id="_1oQX" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.helpTopics"
-                              event="MOUSE_MPRC" id="_1oVt" modifiers="16"/>
-              <ElseifSequence id="_1oQY" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="helpTopics" event="MOUSE_MPRC"
-                                id="_1lGR" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oQZ">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.helpTopics"
-                                event="MOUSE_MPRC" id="_1obJ" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lQ0" name="save">
-            <comment>@teststep Click 'Save' icon in menubar</comment>
-            <IfSequence id="_1oQa" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.save"
-                              event="MOUSE_MPRC" id="_1oVp" modifiers="16"/>
-              <ElseifSequence id="_1oQb" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="save2" event="MOUSE_MPRC"
-                                id="_1lQo" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oQc">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.save"
-                                event="MOUSE_MPRC" id="_1obF" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lQs" name="new">
-            <comment>@teststep Click 'New' icon in menubar</comment>
-            <IfSequence id="_1oQd" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.new"
-                              event="MOUSE_MPRC" id="_1oVn" modifiers="16"/>
-              <ElseifSequence id="_1oQe" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)" component="new"
-                                event="MOUSE_MPRC" id="_1lRf" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oQf">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.new"
-                                event="MOUSE_MPRC" id="_1obD" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-        </Package>
-        <Package id="_1lOG" name="layers">
-          <Procedure id="_1lSE" name="noData_overlay">
-            <comment>@teststep Click 'No-Data overlay' icon in menubar</comment>
-            <IfSequence id="_1oQg" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.showNoDataOverlay"
-                              event="MOUSE_MPRC" id="_1oVu" modifiers="16"/>
-              <ElseifSequence id="_1oQh" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="showNoDataOverlay"
-                                event="MOUSE_MPRC" id="_1lSQ" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oQi">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.showNoDataOverlay"
-                                event="MOUSE_MPRC" id="_1obK" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lSd" name="geometry_overlay">
-            <comment>@teststep Click 'Geometry overlay' icon in menubar</comment>
-            <IfSequence id="_1oQj" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.showShapeOverlay"
-                              event="MOUSE_MPRC" id="_1oVv" modifiers="16"/>
-              <ElseifSequence id="_1oQk" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="showShapeOverlay2"
-                                event="MOUSE_MPRC" id="_1lSo" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oQl">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.showShapeOverlay"
-                                event="MOUSE_MPRC" id="_1obL" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lT0" name="graticule_overlay">
-            <comment>@teststep Click 'Graticule overlay' icon in menubar</comment>
-            <IfSequence id="_1oWe" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.showGraticuleOverlay"
-                              event="MOUSE_MPRC" id="_1oVw" modifiers="16"/>
-              <ElseifSequence id="_1oWg" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="showGraticuleOverlay"
-                                event="MOUSE_MPRC" id="_1lTA" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oWh">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.showGraticuleOverlay"
-                                event="MOUSE_MPRC" id="_1obM" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lTo" name="world_map_overlay">
-            <comment>@teststep Click 'World map overlay' icon in menubar</comment>
-            <IfSequence id="_1oQm" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.showWorldMapOverlay"
-                              event="MOUSE_MPRC" id="_1oVx" modifiers="16"/>
-              <ElseifSequence id="_1oQn" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="showWorldMapOverlay2"
-                                event="MOUSE_MPRC" id="_1lTw" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oQo">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.showWorldMapOverlay"
-                                event="MOUSE_MPRC" id="_1obN" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lTz" name="pins_overlay">
-            <comment>@teststep Click 'PINs overlay' icon in menubar</comment>
-            <IfSequence id="_1oQp" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.showPinOverlay"
-                              event="MOUSE_MPRC" id="_1oVz" modifiers="16"/>
-              <ElseifSequence id="_1oQq" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="showPinOverlay2" event="MOUSE_MPRC"
-                                id="_1lU3" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oQr">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.showPinOverlay"
-                                event="MOUSE_MPRC" id="_1obO" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lU8" name="gcps_overlay">
-            <comment>@teststep Click 'GPS overlay' icon in menubar</comment>
-            <IfSequence id="_1oQs" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.showGcpOverlay"
-                              event="MOUSE_MPRC" id="_1oVy" modifiers="16"/>
-              <ElseifSequence id="_1oQt" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="showGcpOverlay2" event="MOUSE_MPRC"
-                                id="_1lUD" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oQu">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.showGcpOverlay"
-                                event="MOUSE_MPRC" id="_1oXb" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-        </Package>
-        <Package id="_1lOH" name="analysis">
-          <Procedure id="_1lUJ" name="information">
-            <comment>@teststep Click 'Information' icon in menubar</comment>
-            <IfSequence id="_1oQv" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.InformationToolView.showCmd"
-                              event="MOUSE_MPRC" id="_1oV+" modifiers="16"/>
-              <ElseifSequence id="_1oQw" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="org.esa.beam.visat.toolviews.stat.InformationToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1lUW" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oQx">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.InformationToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1oXc" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lUX" name="geo_coding_information">
-            <comment>@teststep Click 'Geo-Coding Information' icon in menubar</comment>
-            <IfSequence id="_1oQy" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.GeoCodingToolView.showCmd"
-                              event="MOUSE_MPRC" id="_1oV-" modifiers="16"/>
-              <ElseifSequence id="_1oQz" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="org.esa.beam.visat.toolviews.stat.GeoCodingToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1lUi" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oQ+">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.GeoCodingToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1oXd" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lB2" name="statistics">
-            <comment>@teststep Click 'Statistics' icon in menubar</comment>
-            <IfSequence id="_1oQ-" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.StatisticsToolView.showCmd"
-                              event="MOUSE_MPRC" id="_1oW0" modifiers="16"/>
-              <ElseifSequence id="_1oR0" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="org.esa.beam.visat.toolviews.stat.StatisticsToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1lB3" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oR1">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.StatisticsToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1oXe" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lUl" name="histogram">
-            <comment>@teststep Click 'Histogram' icon in menubar</comment>
-            <IfSequence id="_1oR2" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.HistogramPlotToolView.showCmd"
-                              event="MOUSE_MPRC" id="_1oW1" modifiers="16"/>
-              <ElseifSequence id="_1oR3" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="org.esa.beam.visat.toolviews.stat.HistogramPlotToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1lUs" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oR4">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.HistogramPlotToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1oXf" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lVB" name="scatter_plot">
-            <comment>@teststep Click 'Scatter plot' icon in menubar</comment>
-            <IfSequence id="_1oR5" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.DensityPlotToolView.showCmd"
-                              event="MOUSE_MPRC" id="_1oW2" modifiers="16"/>
-              <ElseifSequence id="_1oR6" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="org.esa.beam.visat.toolviews.stat.DensityPlotToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1lVG" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oR7">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.DensityPlotToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1oXg" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lVH" name="correlative_plot">
-            <comment>@teststep Click 'Correlative plot' icon in menubar</comment>
-            <IfSequence id="_1oR8" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.ScatterPlotToolView.showCmd"
-                              event="MOUSE_MPRC" id="_1oW3" modifiers="16"/>
-              <ElseifSequence id="_1oR9" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="org.esa.beam.visat.toolviews.stat.ScatterPlotToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1lVK" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oRA">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.ScatterPlotToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1oXh" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lVN" name="profile_plot">
-            <comment>@teststep Click 'Profile plot' icon in menubar</comment>
-            <IfSequence id="_1oRB" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.ProfilePlotToolView.showCmd"
-                              event="MOUSE_MPRC" id="_1oW4" modifiers="16"/>
-              <ElseifSequence id="_1oRC" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="org.esa.beam.visat.toolviews.stat.ProfilePlotToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1lVO" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oRD">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.stat.ProfilePlotToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1oXi" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-        </Package>
-        <Package id="_1lOI" name="views">
-          <Procedure id="_1lVT" name="product_browser">
-            <comment>@teststep Click 'Product Browser' icon in menubar</comment>
-            <IfSequence id="_1oRE" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.ProductsToolView.showCmd"
-                              event="MOUSE_MPRC" id="_1oW5" modifiers="16"/>
-              <ElseifSequence id="_1oRF" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="org.esa.beam.visat.ProductsToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1lVm" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oRG">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.ProductsToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1oXj" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lVn" name="colour_manipulation">
-            <comment>@teststep Click 'Colour Manipulation' icon in menubar</comment>
-            <IfSequence id="_1oRH" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.imageinfo.ColorManipulationToolView.showCmd"
-                              event="MOUSE_MPRC" id="_1oW6" modifiers="16"/>
-              <ElseifSequence id="_1oRI" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="org.esa.beam.visat.toolviews.imageinfo.ColorManipulationToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1lW3" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oRJ">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.imageinfo.ColorManipulationToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1oXk" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lW5" name="uncertainty_visualisation">
-            <comment>@teststep Click 'Uncertainty Visualisation' icon in menubar</comment>
-            <IfSequence id="_1oRK" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.imageinfo.UncertaintyVisualisationToolView.showCmd"
-                              event="MOUSE_MPRC" id="_1oW7" modifiers="16"/>
-              <ElseifSequence id="_1oRL" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="org.esa.beam.visat.toolviews.imageinfo.UncertaintyVisualisationToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1lWM" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oRM">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.imageinfo.UncertaintyVisualisationToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1oXl" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lWP" name="layer_manager">
-            <comment>@teststep Click 'Layer Manager' icon in menubar</comment>
-            <IfSequence id="_1oRN" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.layermanager.LayerManagerToolView.showCmd"
-                              event="MOUSE_MPRC" id="_1oW8" modifiers="16"/>
-              <ElseifSequence id="_1oRO" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="org.esa.beam.visat.toolviews.layermanager.LayerManagerToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1lWe" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oRP">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.layermanager.LayerManagerToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1oXm" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lWj" name="mask_manager">
-            <comment>@teststep Click 'Mask Manager' icon in menubar</comment>
-            <IfSequence id="_1oRQ" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.mask.MaskManagerToolView.showCmd"
-                              event="MOUSE_MPRC" id="_1oW9" modifiers="16"/>
-              <ElseifSequence id="_1oRR" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="org.esa.beam.visat.toolviews.mask.MaskManagerToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1lWw" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oRS">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.mask.MaskManagerToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1oXn" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1l8s" name="navigation">
-            <comment>@teststep Click 'Navigation' icon in menubar</comment>
-            <IfSequence id="_1oRT" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.nav.NavigationToolView.showCmd"
-                              event="MOUSE_MPRC" id="_1oWA" modifiers="16"/>
-              <ElseifSequence id="_1oRU" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="org.esa.beam.visat.toolviews.nav.NavigationToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1l8t" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oRV">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.nav.NavigationToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1oXo" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1l9V" name="pixel_info">
-            <comment>@teststep Click 'Pixel Info' icon in menubar</comment>
-            <IfSequence id="_1oRW" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.pixelinfo.PixelInfoToolView.showCmd"
-                              event="MOUSE_MPRC" id="_1oWB" modifiers="16"/>
-              <ElseifSequence id="_1oRX" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="org.esa.beam.visat.toolviews.pixelinfo.PixelInfoToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1l9Z" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oRY">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.pixelinfo.PixelInfoToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1oXp" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lX1" name="vector_data_editor">
-            <comment>@teststep Click 'Vector Data Editor' icon in menubar</comment>
-            <IfSequence id="_1oRZ" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.placemark.PlacemarkEditorToolView.showCmd"
-                              event="MOUSE_MPRC" id="_1oWC" modifiers="16"/>
-              <ElseifSequence id="_1oRa" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="org.esa.beam.visat.toolviews.placemark.PlacemarkEditorToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1lXA" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oRb">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.placemark.PlacemarkEditorToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1oXq" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lXL" name="gcp_manager">
-            <comment>@teststep Click 'GCP Manager' icon in menubar</comment>
-            <IfSequence id="_1oRc" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.placemark.gcp.GcpManagerToolView.showCmd"
-                              event="MOUSE_MPRC" id="_1oWD" modifiers="16"/>
-              <ElseifSequence id="_1oRd" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="org.esa.beam.visat.toolviews.placemark.gcp.GcpManagerToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1lXS" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oRe">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.placemark.gcp.GcpManagerToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1oXr" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lXf" name="pin_manager">
-            <comment>@teststep Click 'PIN Manager' icon in menubar</comment>
-            <IfSequence id="_1oRf" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.placemark.pin.PinManagerToolView.showCmd"
-                              event="MOUSE_MPRC" id="_1oWE" modifiers="16"/>
-              <ElseifSequence id="_1oRg" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="org.esa.beam.visat.toolviews.placemark.pin.PinManagerToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1lXk" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oRh">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.placemark.pin.PinManagerToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1oXs" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lXz" name="spectrum">
-            <comment>@teststep Click 'Spectrum' icon in menubar</comment>
-            <IfSequence id="_1oRi" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.spectrum.SpectrumToolView.showCmd"
-                              event="MOUSE_MPRC" id="_1oWF" modifiers="16"/>
-              <ElseifSequence id="_1oRj" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="org.esa.beam.visat.toolviews.spectrum.SpectrumToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1lY0" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oRk">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.spectrum.SpectrumToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1oXt" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lK1" name="worldmap">
-            <comment>@teststep Click 'World Map' icon in menubar</comment>
-            <IfSequence id="_1oRl" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.worldmap.WorldMapToolView.showCmd"
-                              event="MOUSE_MPRC" id="_1oWG" modifiers="16"/>
-              <ElseifSequence id="_1oRm" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="org.esa.beam.visat.toolviews.worldmap.WorldMapToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1lK2" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oRn">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.visat.toolviews.worldmap.WorldMapToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1oXu" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-        </Package>
-        <Package id="_1lOJ" name="tools">
-          <Procedure id="_1l7Y" name="selectTool">
-            <comment>@teststep Click 'Select Tool' icon in menubar</comment>
-            <IfSequence id="_1oRo" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.selectTool"
-                              event="MOUSE_MPRC" id="_1oWH" modifiers="16"/>
-              <ElseifSequence id="_1oRp" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="selectTool" event="MOUSE_MPRC"
-                                id="_1l7a" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oRq">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.selectTool"
-                                event="MOUSE_MPRC" id="_1oXv" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lYz" name="range_finder">
-            <comment>@teststep Click 'Range Finder' icon in menubar</comment>
-            <IfSequence id="_1oRr" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.rangeFinder"
-                              event="MOUSE_MPRC" id="_1oWI" modifiers="16"/>
-              <ElseifSequence id="_1oRs" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="rangeFinder" event="MOUSE_MPRC"
-                                id="_1lY-" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oRt">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.rangeFinder"
-                                event="MOUSE_MPRC" id="_1oXw" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1l7O" name="zoom">
-            <comment>@teststep Click 'Zoom Tool' icon in menubar</comment>
-            <IfSequence id="_1oRu" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.zoomTool"
-                              event="MOUSE_MPRC" id="_1oWJ" modifiers="16"/>
-              <ElseifSequence id="_1oRv" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="zoomTool" event="MOUSE_MPRC"
-                                id="_1l7P" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oRw">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.zoomTool"
-                                event="MOUSE_MPRC" id="_1obP" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lZ2" name="panner">
-            <comment>@teststep Click 'Panner' icon in menubar</comment>
-            <IfSequence id="_1oRx" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.pannerTool"
-                              event="MOUSE_MPRC" id="_1oWK" modifiers="16"/>
-              <ElseifSequence id="_1oRy" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="pannerTool" event="MOUSE_MPRC"
-                                id="_1lZ6" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oRz">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.pannerTool"
-                                event="MOUSE_MPRC" id="_1oXy" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1l7w" name="gcp">
-            <comment>@teststep Click 'Set GCP' icon in menubar</comment>
-            <IfSequence id="_1oR+" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.gcpTool"
-                              event="MOUSE_MPRC" id="_1oWM" modifiers="16"/>
-              <ElseifSequence id="_1oR-" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="gcpTool" event="MOUSE_MPRC"
-                                id="_1l7z" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oS0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.gcpTool"
-                                event="MOUSE_MPRC" id="_1oX+" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1l7k" name="pin">
-            <comment>@teststep Click 'Set PIN' icon in menubar</comment>
-            <IfSequence id="_1oS1" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.pinTool"
-                              event="MOUSE_MPRC" id="_1oWL" modifiers="16"/>
-              <ElseifSequence id="_1oS2" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="pinTool" event="MOUSE_MPRC"
-                                id="_1l8I" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oS3">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.pinTool"
-                                event="MOUSE_MPRC" id="_1oXz" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lZC" name="magic_wand">
-            <comment>@teststep Click 'Magic Wand' icon in menubar</comment>
-            <IfSequence id="_1oS4" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.magicWandTool"
-                              event="MOUSE_MPRC" id="_1oWN" modifiers="16"/>
-              <ElseifSequence id="_1oS5" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="magicWandTool" event="MOUSE_MPRC"
-                                id="_1lZD" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oS6">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.magicWandTool"
-                                event="MOUSE_MPRC" id="_1oX-" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1l86" name="draw_line">
-            <comment>@teststep Click 'Draw line' icon in menubar</comment>
-            <IfSequence id="_1oS7" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.drawLineTool"
-                              event="MOUSE_MPRC" id="_1oWO" modifiers="16"/>
-              <ElseifSequence id="_1oS8" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="drawLineTool" event="MOUSE_MPRC"
-                                id="_1l8A" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oS9">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.drawLineTool"
-                                event="MOUSE_MPRC" id="_1oY0" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1l8N" name="draw_polyline">
-            <comment>@teststep Click 'Draw polyline' icon in menubar</comment>
-            <IfSequence id="_1oSA" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.drawPolylineTool"
-                              event="MOUSE_MPRC" id="_1oWP" modifiers="16"/>
-              <ElseifSequence id="_1oSB" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="drawPolylineTool"
-                                event="MOUSE_MPRC" id="_1l8P" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oSC">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.drawPolylineTool"
-                                event="MOUSE_MPRC" id="_1obQ" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1l8U" name="draw_rectangle">
-            <comment>@teststep Click 'Draw rectangle' icon in menubar</comment>
-            <IfSequence id="_1oSD" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.drawRectangleTool"
-                              event="MOUSE_MPRC" id="_1oWQ" modifiers="16"/>
-              <ElseifSequence id="_1oSE" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="drawRectangleTool"
-                                event="MOUSE_MPRC" id="_1l8X" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oSF">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.drawRectangleTool"
-                                event="MOUSE_MPRC" id="_1oY2" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1l8b" name="draw_ellipse">
-            <comment>@teststep Click 'Draw ellipse' icon in menubar</comment>
-            <IfSequence id="_1oSG" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.drawEllipseTool"
-                              event="MOUSE_MPRC" id="_1oWR" modifiers="16"/>
-              <ElseifSequence id="_1oSH" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="drawEllipseTool" event="MOUSE_MPRC"
-                                id="_1l8f" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oSI">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.drawEllipseTool"
-                                event="MOUSE_MPRC" id="_1oY3" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1l8i" name="draw_polygon">
-            <comment>@teststep Click 'Draw polygon' icon in menubar</comment>
-            <IfSequence id="_1oSJ" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.drawPolygonTool"
-                              event="MOUSE_MPRC" id="_1oWS" modifiers="16"/>
-              <ElseifSequence id="_1oSK" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="drawPolygonTool" event="MOUSE_MPRC"
-                                id="_1l8n" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oSL">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.drawPolygonTool"
-                                event="MOUSE_MPRC" id="_1oY4" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1l7Q" name="createVectorDataNode">
-            <comment>@teststep Click 'Create Vector Data Container' icon in menubar</comment>
-            <IfSequence id="_1oSM" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.createVectorDataNode"
-                              event="MOUSE_MPRC" id="_1oWT" modifiers="16"/>
-              <ElseifSequence id="_1oSN" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="createVectorDataNode"
-                                event="MOUSE_MPRC" id="_1l4S" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oSO">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.createVectorDataNode"
-                                event="MOUSE_MPRC" id="_1oY5" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-        </Package>
-        <Package id="_1lZE" name="smos_box">
-          <Procedure id="_1lZK" name="grid_point_bt_chart">
-            <comment>@teststep Click 'Grid point brightness temperature chart' icon in menubar</comment>
-            <IfSequence id="_1oSP" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.smos.visat.GridPointBtDataChartToolView.showCmd"
-                              event="MOUSE_MPRC" id="_1oWU" modifiers="16"/>
-              <ElseifSequence id="_1oSQ" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="org.esa.beam.smos.visat.GridPointBtDataChartToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1lZL" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oSR">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.smos.visat.GridPointBtDataChartToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1oY6" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lZa" name="grid_point_flag_matrix">
-            <comment>@teststep Click 'Grid point flag matrix diagram' icon in menubar</comment>
-            <IfSequence id="_1oSS" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.smos.visat.GridPointBtDataFlagmatrixToolView.showCmd"
-                              event="MOUSE_MPRC" id="_1oWV" modifiers="16"/>
-              <ElseifSequence id="_1oST" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="org.esa.beam.smos.visat.GridPointBtDataFlagmatrixToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1lZd" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oSU">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.smos.visat.GridPointBtDataFlagmatrixToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1oY7" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1la4" name="grid_point_data_table">
-            <comment>@teststep Click 'Grid point data table' icon in menubar</comment>
-            <IfSequence id="_1oSV" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.smos.visat.GridPointBtDataTableToolView.showCmd"
-                              event="MOUSE_MPRC" id="_1oWW" modifiers="16"/>
-              <ElseifSequence id="_1oSW" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="org.esa.beam.smos.visat.GridPointBtDataTableToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1lHr" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oSX">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.smos.visat.GridPointBtDataTableToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1oY8" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lZq" name="snapshot">
-            <comment>@teststep Click 'Snapshot information tool' icon in menubar</comment>
-            <IfSequence id="_1oSY" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.org.esa.beam.smos.visat.SnapshotInfoToolView.showCmd"
-                              event="MOUSE_MPRC" id="_1oWX" modifiers="16"/>
-              <ElseifSequence id="_1oSZ" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="org.esa.beam.smos.visat.SnapshotInfoToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1lZx" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oSa">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.org.esa.beam.smos.visat.SnapshotInfoToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1oY9" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-        </Package>
-        <Package id="_1lZF" name="time_series">
-          <Procedure id="_1lI-" name="graph">
-            <comment>@teststep Click 'Time Series Graph' icon in menubar</comment>
-            <IfSequence id="_1oSb" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.timeSeriesGraphToolView.showCmd"
-                              event="MOUSE_MPRC" id="_1oWY" modifiers="16"/>
-              <ElseifSequence id="_1oSc" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="timeSeriesGraphToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1lJ0" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oSd">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.timeSeriesGraphToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1oYA" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1laa" name="manager">
-            <comment>@teststep Click 'Time Series Manager' icon in menubar</comment>
-            <IfSequence id="_1oSe" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.timeSeriesManagerToolView.showCmd"
-                              event="MOUSE_MPRC" id="_1oWZ" modifiers="16"/>
-              <ElseifSequence id="_1oSf" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="timeSeriesManagerToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1lae" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oSg">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.timeSeriesManagerToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1oYB" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lan" name="matrix">
-            <comment>@teststep Click 'Time Series Matrix' icon in menubar</comment>
-            <IfSequence id="_1oSh" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.timeSeriesMatrixToolView.showCmd"
-                              event="MOUSE_MPRC" id="_1oWa" modifiers="16"/>
-              <ElseifSequence id="_1oSi" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="timeSeriesMatrixToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1lau" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oSj">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.timeSeriesMatrixToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1oYC" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1la+" name="player">
-            <comment>@teststep Click 'Time Series Player' icon in menubar</comment>
-            <IfSequence id="_1oSk" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.timeSeriesPlayerToolView.showCmd"
-                              event="MOUSE_MPRC" id="_1oWb" modifiers="16"/>
-              <ElseifSequence id="_1oSl" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="timeSeriesPlayerToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1lb8" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oSm">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="mainFrameESA_S-3_Toolbox.timeSeriesPlayerToolView.showCmd"
-                                event="MOUSE_MPRC" id="_1oYD" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-        </Package>
+                              component="mainFrameESA_S-3_Toolbox.window"
+                              event="MOUSE_MPRC" id="_1oZs" modifiers="16"/>
+            </ElseSequence>
+          </IfSequence>
+        </Procedure>
       </Package>
       <Package id="_1l5I" name="navigation">
         <Procedure id="_1l6e" name="helpButton">
@@ -2598,18 +2615,18 @@
       </Package>
       <Package id="_1lEh" name="pin_manager">
         <Package id="_1lI1" name="new_pin_dialog">
-          <Procedure id="_1lHK" name="usePixelPos_checkBox">
-            <comment>@teststep Click 'Use pixel Position' checkbox</comment>
-            <IfSequence id="_1oTC" test="${qftest:windows}">
+          <Procedure id="_1lIB" name="cancel">
+            <comment>@teststep Click 'Cancel' button</comment>
+            <IfSequence id="_1oTI" test="${qftest:windows}">
               <MouseEventStep clicks="1" client="$(client)"
-                              component="New_Pin.usePixelPos"
-                              event="MOUSE_MPRC" id="_1lHM" modifiers="16"/>
-              <ElseifSequence id="_1oTD" name="MAC?"
+                              component="New_Pin.PlacemarkDialog.cancel"
+                              event="MOUSE_MPRC" id="_1lFC" modifiers="16"/>
+              <ElseifSequence id="_1oTJ" name="MAC?"
                               test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oTE">
+              <ElseSequence id="_1oTK">
                 <MouseEventStep clicks="1" client="$(client)"
-                                component="New_Pin.usePixelPos"
-                                event="MOUSE_MPRC" id="_1oXO" modifiers="16"/>
+                                component="New_Pin.PlacemarkDialog.cancel"
+                                event="MOUSE_MPRC" id="_1oXQ" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -2628,18 +2645,18 @@
               </ElseSequence>
             </IfSequence>
           </Procedure>
-          <Procedure id="_1lIB" name="cancel">
-            <comment>@teststep Click 'Cancel' button</comment>
-            <IfSequence id="_1oTI" test="${qftest:windows}">
+          <Procedure id="_1lHK" name="usePixelPos_checkBox">
+            <comment>@teststep Click 'Use pixel Position' checkbox</comment>
+            <IfSequence id="_1oTC" test="${qftest:windows}">
               <MouseEventStep clicks="1" client="$(client)"
-                              component="New_Pin.PlacemarkDialog.cancel"
-                              event="MOUSE_MPRC" id="_1lFC" modifiers="16"/>
-              <ElseifSequence id="_1oTJ" name="MAC?"
+                              component="New_Pin.usePixelPos"
+                              event="MOUSE_MPRC" id="_1lHM" modifiers="16"/>
+              <ElseifSequence id="_1oTD" name="MAC?"
                               test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oTK">
+              <ElseSequence id="_1oTE">
                 <MouseEventStep clicks="1" client="$(client)"
-                                component="New_Pin.PlacemarkDialog.cancel"
-                                event="MOUSE_MPRC" id="_1oXQ" modifiers="16"/>
+                                component="New_Pin.usePixelPos"
+                                event="MOUSE_MPRC" id="_1oXO" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -2734,132 +2751,8 @@
           </TryStep>
         </Procedure>
       </Package>
-      <Package id="_1lEe" name="tree">
-        <Procedure id="_1lDm" name="doubleclick_product_node"
-                   postdelay="1000">
-          <variable name="prod_id"/>
-          <variable name="node_id"/>
-          <variable name="group_id"/>
-          <variable name="view_id"/>
-          <comment>@teststep Doubleclick on the node in product tree</comment>
-          <IfSequence id="_1oTa" test="${qftest:windows}">
-            <IfSequence id="_1l09" test="&#34;$(group_id)&#34;==&#34;&#34;">
-              <MouseEventStep clicks="2" client="$(client)"
-                              component="mainFrameESA_S-3_Toolbox.ProductsToolView.Control.tree&amp;/$(prod_id)/$(node_id)/$(view_id)"
-                              event="MOUSE_MPRC" hardevent="true" id="_1lEg"
-                              modifiers="16"/>
-              <ElseSequence id="_1l0B">
-                <MouseEventStep clicks="2" client="$(client)"
-                                component="ProductsToolView.Control.tree&amp;/$(prod_id)/$(node_id)/$(group_id)/$(view_id)"
-                                event="MOUSE_MPRC" hardevent="true" id="_1lDo"
-                                modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-            <ElseifSequence id="_1oTb" name="MAC?"
-                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-            <ElseSequence id="_1oTc">
-              <IfSequence id="_1oWr" test="&#34;$(group_id)&#34;==&#34;&#34;">
-                <MouseEventStep clicks="2" client="$(client)"
-                                component="ProductsToolView.Control.tree&amp;/$(prod_id)/$(node_id)/$(view_id)"
-                                event="MOUSE_MPRC" hardevent="true" id="_1oWs"
-                                modifiers="16"/>
-                <ElseSequence id="_1oWt">
-                  <MouseEventStep clicks="2" client="$(client)"
-                                  component="ProductsToolView.Control.tree&amp;/$(prod_id)/$(node_id)/$(group_id)/$(view_id)"
-                                  event="MOUSE_MPRC" hardevent="true"
-                                  id="_1oWu" modifiers="16"/>
-                </ElseSequence>
-              </IfSequence>
-            </ElseSequence>
-          </IfSequence>
-        </Procedure>
-        <Procedure id="_1mQM" name="layer_checkbox">
-          <variable name="layer_node1"/>
-          <variable name="layer_node2"/>
-          <IfSequence id="_1oTd" test="${qftest:windows}">
-            <IfSequence id="_1mQN"
-                        test="&#34;$(layer_node2)&#34;==&#34;&#34;">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="Dialog.LayerManagerToolView.Control.treeTransparency:&amp;/$(layer_node1)"
-                              event="MOUSE_MPRC" id="_1mJp" modifiers="16"/>
-              <ElseSequence id="_1mQP">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="Dialog.LayerManagerToolView.Control.treeTransparency:&amp;/$(layer_node1)/$(layer_node2)"
-                                event="MOUSE_MPRC" id="_1mQS" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-            <ElseifSequence id="_1oTe" name="MAC?"
-                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-            <ElseSequence id="_1oTf">
-              <IfSequence id="_1oWv"
-                          test="&#34;$(layer_node2)&#34;==&#34;&#34;">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="Dialog.LayerManagerToolView.Control.treeTransparency:&amp;/$(layer_node1)"
-                                event="MOUSE_MPRC" id="_1oWw" modifiers="16"/>
-                <ElseSequence id="_1oWx">
-                  <MouseEventStep clicks="1" client="$(client)"
-                                  component="Dialog.LayerManagerToolView.Control.treeTransparency:&amp;/$(layer_node1)/$(layer_node2)"
-                                  event="MOUSE_MPRC" id="_1oWy"
-                                  modifiers="16"/>
-                </ElseSequence>
-              </IfSequence>
-            </ElseSequence>
-          </IfSequence>
-        </Procedure>
-        <Procedure id="_1mQT" name="layer_node">
-          <variable name="layer_node1"/>
-          <variable name="layer_node2"/>
-          <IfSequence id="_1oTg" test="${qftest:windows}">
-            <IfSequence id="_1mQU"
-                        test="&#34;$(layer_node2)&#34;==&#34;&#34;">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="Dialog.LayerManagerToolView.Control.treeTransparency:&amp;/$(layer_node1)"
-                              event="MOUSE_MPRC" id="_1mJv" modifiers="16"
-                              x="-12" y="8"/>
-              <ElseSequence id="_1mQW">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="Dialog.LayerManagerToolView.Control.treeTransparency:&amp;/$(layer_node1)/$(layer_node2)"
-                                event="MOUSE_MPRC" id="_1mQY" modifiers="16"
-                                x="-12" y="8"/>
-              </ElseSequence>
-            </IfSequence>
-            <ElseifSequence id="_1oTh" name="MAC?"
-                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-            <ElseSequence id="_1oTi">
-              <IfSequence id="_1oWz"
-                          test="&#34;$(layer_node2)&#34;==&#34;&#34;">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="Dialog.LayerManagerToolView.Control.treeTransparency:&amp;/$(layer_node1)"
-                                event="MOUSE_MPRC" id="_1oW+" modifiers="16"
-                                x="-12" y="8"/>
-                <ElseSequence id="_1oW-">
-                  <MouseEventStep clicks="1" client="$(client)"
-                                  component="Dialog.LayerManagerToolView.Control.treeTransparency:&amp;/$(layer_node1)/$(layer_node2)"
-                                  event="MOUSE_MPRC" id="_1oX0" modifiers="16"
-                                  x="-12" y="8"/>
-                </ElseSequence>
-              </IfSequence>
-            </ElseSequence>
-          </IfSequence>
-        </Procedure>
-      </Package>
       <Package id="_1lbo" name="smos_box">
         <Package id="_1lbx" name="grid_point_bt_chart">
-          <Procedure id="_1lc4" name="snap_to_selected_pin">
-            <comment>@teststep Click 'Snap to selected pin' checkbox</comment>
-            <IfSequence id="_1oTj" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="Dialog.checkSnap_to_selected_pin"
-                              event="MOUSE_MPRC" id="_1lc8" modifiers="16"/>
-              <ElseifSequence id="_1oTk" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oTl">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="Dialog.checkSnap_to_selected_pin"
-                                event="MOUSE_MPRC" id="_1oX1" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
           <Procedure id="_1lda" name="check_X">
             <comment>@teststep Click 'X' checkbox</comment>
             <IfSequence id="_1oTm" test="${qftest:windows}">
@@ -2872,21 +2765,6 @@
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="Dialog.checkX" event="MOUSE_MPRC"
                                 id="_1oX2" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lf4" name="check_Y">
-            <comment>@teststep Click 'Y' checkbox</comment>
-            <IfSequence id="_1oTp" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="Dialog.checkY" event="MOUSE_MPRC"
-                              id="_1lfC" modifiers="16"/>
-              <ElseifSequence id="_1oTq" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oTr">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="Dialog.checkY" event="MOUSE_MPRC"
-                                id="_1oX3" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -2905,6 +2783,21 @@
               </ElseSequence>
             </IfSequence>
           </Procedure>
+          <Procedure id="_1lf4" name="check_Y">
+            <comment>@teststep Click 'Y' checkbox</comment>
+            <IfSequence id="_1oTp" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="Dialog.checkY" event="MOUSE_MPRC"
+                              id="_1lfC" modifiers="16"/>
+              <ElseifSequence id="_1oTq" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+              <ElseSequence id="_1oTr">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="Dialog.checkY" event="MOUSE_MPRC"
+                                id="_1oX3" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
           <Procedure id="_1lxN" name="help">
             <comment>@teststep Click 'Help' button</comment>
             <IfSequence id="_1oTv" test="${qftest:windows}">
@@ -2920,55 +2813,23 @@
               </ElseSequence>
             </IfSequence>
           </Procedure>
-        </Package>
-        <Package id="_1lby" name="grid_point_flag_matrix">
-          <Procedure id="_1lyG" name="snap_to_selected_pin">
+          <Procedure id="_1lc4" name="snap_to_selected_pin">
             <comment>@teststep Click 'Snap to selected pin' checkbox</comment>
-            <IfSequence id="_1oTy" test="${qftest:windows}">
+            <IfSequence id="_1oTj" test="${qftest:windows}">
               <MouseEventStep clicks="1" client="$(client)"
-                              component="Dialog.checkSnap_to_selected_pin2"
-                              event="MOUSE_MPRC" id="_1lgx" modifiers="16"/>
-              <ElseifSequence id="_1oTz" name="MAC?"
+                              component="Dialog.checkSnap_to_selected_pin"
+                              event="MOUSE_MPRC" id="_1lc8" modifiers="16"/>
+              <ElseifSequence id="_1oTk" name="MAC?"
                               test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oT+">
+              <ElseSequence id="_1oTl">
                 <MouseEventStep clicks="1" client="$(client)"
-                                component="Dialog.checkSnap_to_selected_pin2"
-                                event="MOUSE_MPRC" id="_1oX6" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1lyI" name="help">
-            <comment>@teststep Click 'Help' button</comment>
-            <IfSequence id="_1oT-" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="Dialog.helpButton3"
-                              event="MOUSE_MPRC" id="_1lgz" modifiers="16"/>
-              <ElseifSequence id="_1oU0" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oU1">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="Dialog.helpButton3"
-                                event="MOUSE_MPRC" id="_1oX7" modifiers="16"/>
+                                component="Dialog.checkSnap_to_selected_pin"
+                                event="MOUSE_MPRC" id="_1oX1" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
         </Package>
         <Package id="_1lbz" name="grid_point_data_table">
-          <Procedure id="_1lyK" name="snap_to_selected_pin">
-            <comment>@teststep Click 'Snap to selected pin' checkbox</comment>
-            <IfSequence id="_1oU2" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="Dialog.checkSnap_to_selected_pin3"
-                              event="MOUSE_MPRC" id="_1lyO" modifiers="16"/>
-              <ElseifSequence id="_1oU3" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oU4">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="Dialog.checkSnap_to_selected_pin3"
-                                event="MOUSE_MPRC" id="_1oX8" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
           <Procedure id="_1lyP" name="columns">
             <comment>@teststep Click 'Columns...' button</comment>
             <IfSequence id="_1oU5" test="${qftest:windows}">
@@ -3014,22 +2875,76 @@
               </ElseSequence>
             </IfSequence>
           </Procedure>
-        </Package>
-        <Package id="_1lb+" name="snapshot">
-          <Procedure id="_1lyW" name="synchronise_with_view">
-            <comment>@teststep Click 'Synchronise with view' checkbox</comment>
-            <IfSequence id="_1oUE" test="${qftest:windows}">
+          <Procedure id="_1lyK" name="snap_to_selected_pin">
+            <comment>@teststep Click 'Snap to selected pin' checkbox</comment>
+            <IfSequence id="_1oU2" test="${qftest:windows}">
               <MouseEventStep clicks="1" client="$(client)"
-                              component="Dialog.checkSynchronise_with_view"
-                              event="MOUSE_MPRC" id="_1m0E" modifiers="16"/>
-              <ElseifSequence id="_1oUF" name="MAC?"
+                              component="Dialog.checkSnap_to_selected_pin3"
+                              event="MOUSE_MPRC" id="_1lyO" modifiers="16"/>
+              <ElseifSequence id="_1oU3" name="MAC?"
                               test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oUG">
+              <ElseSequence id="_1oU4">
                 <MouseEventStep clicks="1" client="$(client)"
-                                component="Dialog.checkSynchronise_with_view"
-                                event="MOUSE_MPRC" id="_1oXC" modifiers="16"/>
+                                component="Dialog.checkSnap_to_selected_pin3"
+                                event="MOUSE_MPRC" id="_1oX8" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
+          </Procedure>
+        </Package>
+        <Package id="_1lby" name="grid_point_flag_matrix">
+          <Procedure id="_1lyI" name="help">
+            <comment>@teststep Click 'Help' button</comment>
+            <IfSequence id="_1oT-" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="Dialog.helpButton3"
+                              event="MOUSE_MPRC" id="_1lgz" modifiers="16"/>
+              <ElseifSequence id="_1oU0" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+              <ElseSequence id="_1oU1">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="Dialog.helpButton3"
+                                event="MOUSE_MPRC" id="_1oX7" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1lyG" name="snap_to_selected_pin">
+            <comment>@teststep Click 'Snap to selected pin' checkbox</comment>
+            <IfSequence id="_1oTy" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="Dialog.checkSnap_to_selected_pin2"
+                              event="MOUSE_MPRC" id="_1lgx" modifiers="16"/>
+              <ElseifSequence id="_1oTz" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+              <ElseSequence id="_1oT+">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="Dialog.checkSnap_to_selected_pin2"
+                                event="MOUSE_MPRC" id="_1oX6" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+        </Package>
+        <Package id="_1lb+" name="snapshot">
+          <Procedure id="_1lz2" name="browse">
+            <comment>@teststep Click 'Browse' radiobutton</comment>
+            <IfSequence id="_1oUK" test="${qftest:windows}">
+              <ElseifSequence id="_1oUL" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+              <ElseSequence id="_1oUM"/>
+            </IfSequence>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="Dialog.radioBrowse" event="MOUSE_MPRC"
+                            id="_1lzM" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1l+6" name="follow">
+            <comment>@teststep Click 'Follow' checkbox</comment>
+            <IfSequence id="_1oUQ" test="${qftest:windows}">
+              <ElseifSequence id="_1oUR" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+              <ElseSequence id="_1oUS"/>
+            </IfSequence>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="Dialog.checkFollow" event="MOUSE_MPRC"
+                            id="_1lzL" modifiers="16"/>
           </Procedure>
           <Procedure id="_1lyU" name="help">
             <comment>@teststep Click 'Help' button</comment>
@@ -3042,16 +2957,36 @@
                             component="Dialog.helpButton5" event="MOUSE_MPRC"
                             id="_1lzP" modifiers="16"/>
           </Procedure>
-          <Procedure id="_1lz2" name="browse">
-            <comment>@teststep Click 'Browse' radiobutton</comment>
-            <IfSequence id="_1oUK" test="${qftest:windows}">
-              <ElseifSequence id="_1oUL" name="MAC?"
+          <Procedure id="_1l+e" name="locate_in_view">
+            <comment>@teststep Click 'Locate in view' button</comment>
+            <IfSequence id="_1oUT" test="${qftest:windows}">
+              <ElseifSequence id="_1oUU" name="MAC?"
                               test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oUM"/>
+              <ElseSequence id="_1oUV"/>
             </IfSequence>
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="Dialog.radioBrowse" event="MOUSE_MPRC"
-                            id="_1lzM" modifiers="16"/>
+            <ProcedureCall id="_1m1-"
+                           procedure="check.smos_box.snapshot.locate_in_view_enabled"/>
+            <IfSequence id="_1m21"
+                        test="&#34;$(locate_in_view_enabled)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1m22"
+                             procedure="select.smos_box.snapshot.synchronise_with_view"/>
+              <ProcedureCall id="_1m2H"
+                             procedure="do_click.smos_box.snapshot.snapshot"/>
+            </IfSequence>
+            <ProcedureCall id="_1m23"
+                           procedure="check.smos_box.snapshot.locate_in_view_enabled"/>
+            <IfSequence id="_1m24"
+                        test="&#34;$(locate_in_view_enabled)&#34;==&#34;true&#34;">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="Dialog.buttonLocate_in_view"
+                              event="MOUSE_MPRC" id="_1lzH" modifiers="16"/>
+              <ElseSequence id="_1m26">
+                <ProcedureCall id="_1m27" procedure="run-log.logError">
+                  <variable name="message">'Locate in view' button is disabled</variable>
+                  <variable name="withScreenshots">true</variable>
+                </ProcedureCall>
+              </ElseSequence>
+            </IfSequence>
           </Procedure>
           <Procedure id="_1lza" name="snapshot">
             <comment>@teststep Click 'Snapshot' radiobutton</comment>
@@ -3082,45 +3017,18 @@
               </ElseSequence>
             </IfSequence>
           </Procedure>
-          <Procedure id="_1l+6" name="follow">
-            <comment>@teststep Click 'Follow' checkbox</comment>
-            <IfSequence id="_1oUQ" test="${qftest:windows}">
-              <ElseifSequence id="_1oUR" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oUS"/>
-            </IfSequence>
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="Dialog.checkFollow" event="MOUSE_MPRC"
-                            id="_1lzL" modifiers="16"/>
-          </Procedure>
-          <Procedure id="_1l+e" name="locate_in_view">
-            <comment>@teststep Click 'Locate in view' button</comment>
-            <IfSequence id="_1oUT" test="${qftest:windows}">
-              <ElseifSequence id="_1oUU" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oUV"/>
-            </IfSequence>
-            <ProcedureCall id="_1m1-"
-                           procedure="check.smos_box.snapshot.locate_in_view_enabled"/>
-            <IfSequence id="_1m21"
-                        test="&#34;$(locate_in_view_enabled)&#34;==&#34;false&#34;">
-              <ProcedureCall id="_1m22"
-                             procedure="select.smos_box.snapshot.synchronise_with_view"/>
-              <ProcedureCall id="_1m2H"
-                             procedure="do_click.smos_box.snapshot.snapshot"/>
-            </IfSequence>
-            <ProcedureCall id="_1m23"
-                           procedure="check.smos_box.snapshot.locate_in_view_enabled"/>
-            <IfSequence id="_1m24"
-                        test="&#34;$(locate_in_view_enabled)&#34;==&#34;true&#34;">
+          <Procedure id="_1lyW" name="synchronise_with_view">
+            <comment>@teststep Click 'Synchronise with view' checkbox</comment>
+            <IfSequence id="_1oUE" test="${qftest:windows}">
               <MouseEventStep clicks="1" client="$(client)"
-                              component="Dialog.buttonLocate_in_view"
-                              event="MOUSE_MPRC" id="_1lzH" modifiers="16"/>
-              <ElseSequence id="_1m26">
-                <ProcedureCall id="_1m27" procedure="run-log.logError">
-                  <variable name="message">'Locate in view' button is disabled</variable>
-                  <variable name="withScreenshots">true</variable>
-                </ProcedureCall>
+                              component="Dialog.checkSynchronise_with_view"
+                              event="MOUSE_MPRC" id="_1m0E" modifiers="16"/>
+              <ElseifSequence id="_1oUF" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+              <ElseSequence id="_1oUG">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="Dialog.checkSynchronise_with_view"
+                                event="MOUSE_MPRC" id="_1oXC" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -3292,23 +3200,114 @@
           </IfSequence>
         </Procedure>
       </Package>
-      <Package id="_1odS" name="error_dialog">
-        <Procedure id="_1odT" name="button_OK_ESA_S-3_Toolbox_Error">
-          <IfSequence id="_1ode" test="${qftest:windows}">
-            <MouseEventStep clicks="1" client="$(client)" component="buttonOK"
-                            event="MOUSE_MPRC" id="_1odh" modifiers="16"/>
-            <ElseifSequence id="_1odf" name="MAC?"
-                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+      <Package id="_1mQI" name="table">
+        <Procedure id="_1mQJ" name="checkbox">
+          <variable name="tableId"/>
+          <variable name="column"/>
+          <variable name="row"/>
+          <ServerScriptStep disabled="true" id="_1lYU" name="print">
+            <code>print "Masks = $(tableId).$(column)&amp;$(row)"  </code>
+          </ServerScriptStep>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="$(tableId).$(column)&amp;$(row)"
+                          event="MOUSE_MPRC" id="_1mJc" modifiers="16"/>
+        </Procedure>
+      </Package>
+      <Package id="_1lEe" name="tree">
+        <Procedure id="_1mQM" name="layer_checkbox">
+          <variable name="layer_node1"/>
+          <variable name="layer_node2"/>
+          <IfSequence id="_1oTd" test="${qftest:windows}">
+            <IfSequence id="_1mQN"
+                        test="&#34;$(layer_node2)&#34;==&#34;&#34;">
               <MouseEventStep clicks="1" client="$(client)"
-                              component="buttonOK" event="MOUSE_MPRC"
-                              id="_1odi" modifiers="16"/>
-            </ElseifSequence>
-            <ElseSequence id="_1odg">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="buttonOK" event="MOUSE_MPRC"
-                              id="_1odj" modifiers="16"/>
+                              component="Dialog.LayerManagerToolView.Control.treeTransparency:&amp;/$(layer_node1)"
+                              event="MOUSE_MPRC" id="_1mJp" modifiers="16"/>
+              <ElseSequence id="_1mQP">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="Dialog.LayerManagerToolView.Control.treeTransparency:&amp;/$(layer_node1)/$(layer_node2)"
+                                event="MOUSE_MPRC" id="_1mQS" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+            <ElseifSequence id="_1oTe" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+            <ElseSequence id="_1oTf">
+              <IfSequence id="_1oWv"
+                          test="&#34;$(layer_node2)&#34;==&#34;&#34;">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="Dialog.LayerManagerToolView.Control.treeTransparency:&amp;/$(layer_node1)"
+                                event="MOUSE_MPRC" id="_1oWw" modifiers="16"/>
+                <ElseSequence id="_1oWx">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="Dialog.LayerManagerToolView.Control.treeTransparency:&amp;/$(layer_node1)/$(layer_node2)"
+                                  event="MOUSE_MPRC" id="_1oWy"
+                                  modifiers="16"/>
+                </ElseSequence>
+              </IfSequence>
             </ElseSequence>
           </IfSequence>
+        </Procedure>
+        <Procedure id="_1mQT" name="layer_node">
+          <variable name="layer_node1"/>
+          <variable name="layer_node2"/>
+          <IfSequence id="_1oTg" test="${qftest:windows}">
+            <IfSequence id="_1mQU"
+                        test="&#34;$(layer_node2)&#34;==&#34;&#34;">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="Dialog.LayerManagerToolView.Control.treeTransparency:&amp;/$(layer_node1)"
+                              event="MOUSE_MPRC" id="_1mJv" modifiers="16"
+                              x="-12" y="8"/>
+              <ElseSequence id="_1mQW">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="Dialog.LayerManagerToolView.Control.treeTransparency:&amp;/$(layer_node1)/$(layer_node2)"
+                                event="MOUSE_MPRC" id="_1mQY" modifiers="16"
+                                x="-12" y="8"/>
+              </ElseSequence>
+            </IfSequence>
+            <ElseifSequence id="_1oTh" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+            <ElseSequence id="_1oTi">
+              <IfSequence id="_1oWz"
+                          test="&#34;$(layer_node2)&#34;==&#34;&#34;">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="Dialog.LayerManagerToolView.Control.treeTransparency:&amp;/$(layer_node1)"
+                                event="MOUSE_MPRC" id="_1oW+" modifiers="16"
+                                x="-12" y="8"/>
+                <ElseSequence id="_1oW-">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="Dialog.LayerManagerToolView.Control.treeTransparency:&amp;/$(layer_node1)/$(layer_node2)"
+                                  event="MOUSE_MPRC" id="_1oX0" modifiers="16"
+                                  x="-12" y="8"/>
+                </ElseSequence>
+              </IfSequence>
+            </ElseSequence>
+          </IfSequence>
+        </Procedure>
+      </Package>
+      <Package id="_8" name="uncertainty_visualisation">
+        <Procedure id="_1l6R" name="more_options">
+          <comment>@teststep Click 'More Options'</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.MoreOptionsPane.headerButton"
+                          event="MOUSE_MPRC" id="_1l6S" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1l7X" name="radioBasic">
+          <comment>@teststep Click 'Basic' radiobutton</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.radioBasic"
+                          event="MOUSE_MPRC" id="_1l71" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1l7Z" name="radioSliders">
+          <comment>@teststep Click 'Sliders' radiobutton</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.radioSliders"
+                          event="MOUSE_MPRC" id="_1lB6" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1lB7" name="radioTable">
+          <comment>@teststep Click 'Table' radiobutton</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.radioTable"
+                          event="MOUSE_MPRC" id="_1lB8" modifiers="16"/>
         </Procedure>
       </Package>
       <Package id="_1mQG" name="warning_dialog">
@@ -3341,6 +3340,22 @@
           </ElseSequence>
         </IfSequence>
       </Procedure>
+      <Procedure id="_1k-7" name="menubar">
+        <IfSequence id="_1oVA" test="${qftest:windows}">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="mainFrameESA_S-3_Toolbox.menubar"
+                          event="MOUSE_MPRC" id="_1oVm" modifiers="16" x="471"
+                          y="18"/>
+          <ElseifSequence id="_1oVB" name="MAC?"
+                          test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+          <ElseSequence id="_1oVC">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="mainFrameESA_S-3_Toolbox.menubar"
+                            event="MOUSE_MPRC" id="_1k-F" modifiers="16"
+                            x="536" y="12"/>
+          </ElseSequence>
+        </IfSequence>
+      </Procedure>
       <Procedure id="_1mQL" name="run_the_Garbage_Collector">
         <IfSequence id="_1oV7" test="${qftest:windows}">
           <MouseEventStep clicks="1" client="$(client)"
@@ -3356,22 +3371,6 @@
             <MouseEventStep clicks="1" client="$(client)"
                             component="buttonTipRun_the_Garbage_Collector"
                             event="MOUSE_MPRC" id="_1odO" modifiers="16"/>
-          </ElseSequence>
-        </IfSequence>
-      </Procedure>
-      <Procedure id="_1k-7" name="menubar">
-        <IfSequence id="_1oVA" test="${qftest:windows}">
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="mainFrameESA_S-3_Toolbox.menubar"
-                          event="MOUSE_MPRC" id="_1oVm" modifiers="16" x="471"
-                          y="18"/>
-          <ElseifSequence id="_1oVB" name="MAC?"
-                          test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-          <ElseSequence id="_1oVC">
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="mainFrameESA_S-3_Toolbox.menubar"
-                            event="MOUSE_MPRC" id="_1k-F" modifiers="16"
-                            x="536" y="12"/>
           </ElseSequence>
         </IfSequence>
       </Procedure>
