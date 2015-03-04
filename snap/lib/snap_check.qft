@@ -1157,22 +1157,18 @@
       </Package>
       <Procedure id="_1oWg" name="help_appears">
         <comment>@teststep Check Help appears.</comment>
-        <BasicSequence id="_1oWh" name="todo_help_appears">
-          <ProcedureCall id="_1oWi"
-                         procedure="do_click.error_dialog.button_OK_dialog_Band_Maths"/>
-          <TryStep id="_1oaH">
-            <CheckBooleanStep checktype="enabled" client="$(client)"
-                              component="frameHelp.toolbar" id="_1oaF"/>
-            <CheckBooleanStep checktype="enabled" client="$(client)"
-                              component="frameHelp.tabContents.tree"
-                              id="_1oaG"/>
-            <CatchSequence exception="TestException" id="_1oaI" maxerror="0">
-              <ServerScriptStep id="_1oaL" name="error">
-                <code>rc.logError("'Help' does not appear.")</code>
-              </ServerScriptStep>
-            </CatchSequence>
-          </TryStep>
-        </BasicSequence>
+        <TryStep id="_1oaH">
+          <CheckBooleanStep checktype="enabled" client="$(client)"
+                            component="frameHelp.toolbar" id="_1oc+"/>
+          <CheckBooleanStep checktype="enabled" client="$(client)"
+                            component="frameHelp.tabContents.tree"
+                            id="_1oc-"/>
+          <CatchSequence exception="TestException" id="_1oaI" maxerror="0">
+            <ServerScriptStep id="_1oaL" name="error">
+              <code>rc.logError("'Help' does not appear.")</code>
+            </ServerScriptStep>
+          </CatchSequence>
+        </TryStep>
       </Procedure>
     </Package>
   </PackageRoot>

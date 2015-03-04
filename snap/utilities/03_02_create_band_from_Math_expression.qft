@@ -433,7 +433,8 @@
           <CatchSequence exception="TestException" id="_1oTR" maxerror="0"/>
         </TryStep>
         <TestStep id="_1oT2" name="check">
-          <ProcedureCall id="_1oT3" procedure="check.view.visible">
+          <ProcedureCall disabled="true" id="_1oT3"
+                         procedure="check.view.visible">
             <variable name="visible">false</variable>
           </ProcedureCall>
           <ProcedureCall id="_1oT5" procedure="select.product_tree.band">
@@ -471,7 +472,8 @@
           <CatchSequence exception="TestException" id="_1oTv" maxerror="0"/>
         </TryStep>
         <TestStep id="_1oTw" name="check">
-          <ProcedureCall id="_1oTx" procedure="check.view.visible">
+          <ProcedureCall disabled="true" id="_1oTx"
+                         procedure="check.view.visible">
             <variable name="visible">false</variable>
           </ProcedureCall>
           <ProcedureCall id="_1oTy" procedure="select.product_tree.band">
@@ -522,7 +524,7 @@
                 <variable name="iw_name_example">error_dialog</variable>
               </ProcedureCall>
               <ProcedureCall id="_1oUg"
-                             procedure="run-log.eroor_message.dialog_does_not_appear">
+                             procedure="run-log.error_message.dialog_does_not_appear">
                 <variable name="dialog">Invalid Input</variable>
               </ProcedureCall>
             </CatchSequence>
@@ -560,7 +562,7 @@
                 <variable name="iw_name_example">error_dialog</variable>
               </ProcedureCall>
               <ProcedureCall id="_1oV6"
-                             procedure="run-log.eroor_message.dialog_does_not_appear">
+                             procedure="run-log.error_message.dialog_does_not_appear">
                 <variable name="dialog">Invalid Input</variable>
               </ProcedureCall>
             </CatchSequence>
@@ -588,7 +590,7 @@
                 <variable name="iw_name_example">error_dialog</variable>
               </ProcedureCall>
               <ProcedureCall id="_1oVG"
-                             procedure="run-log.eroor_message.dialog_does_not_appear">
+                             procedure="run-log.error_message.dialog_does_not_appear">
                 <variable name="dialog">Invalid Input</variable>
               </ProcedureCall>
             </CatchSequence>
@@ -623,7 +625,7 @@
                        procedure="do_click.error_dialog.button_Cancel_dialog_SNAP_SNAP_Error"/>
         <CatchSequence exception="TestException" id="_1oVU" maxerror="0">
           <ProcedureCall id="_1oVV"
-                         procedure="run-log.eroor_message.dialog_does_not_appear">
+                         procedure="run-log.error_message.dialog_does_not_appear">
             <variable name="dialog">SNAP_Error</variable>
           </ProcedureCall>
         </CatchSequence>
@@ -1051,6 +1053,21 @@ Not fully resolved. The coloring of the images are still slightly different on e
         <ProcedureCall id="_1oWy"
                        procedure="do_click.tools.bandMaths.button_help"/>
         <ProcedureCall id="_1oXF" procedure="check.help_appears"/>
+        <TestStep disabled="true" id="_1oXW" name="handle_error_dialog">
+          <TryStep id="_1oXo" postdelay="2000">
+            <ProcedureCall id="_1oXr" procedure="run-log.make_screensot">
+              <variable name="iw_name">13_help_error_dialog</variable>
+              <variable name="iw_name_example">error_dialog</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1oXp"
+                           procedure="do_click.error_dialog.button_OK_dialog_Invalid_Input"/>
+            <ProcedureCall id="_1oXs"
+                           procedure="run-log.error_message.error_dialog_appears">
+              <variable name="dialog">Band Maths Error</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1oXq" maxerror="0"/>
+          </TryStep>
+        </TestStep>
         <ProcedureCall id="_1oXG" procedure="close.help"/>
         <ProcedureCall id="_1oWx"
                        procedure="do_click.tools.bandMaths.button_cancel"/>

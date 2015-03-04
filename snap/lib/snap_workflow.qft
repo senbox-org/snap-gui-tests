@@ -1012,6 +1012,11 @@
     <Package id="_1l2s" name="import_data">
       <Procedure id="_1lWC" name="raster_data">
         <variable name="import_data"/>
+        <ProcedureCall id="_1ocP" procedure="check.product.not_opened"/>
+        <IfSequence id="_1ocQ"
+                    test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+          <ProcedureCall id="_1ocS" procedure="close.all_products"/>
+        </IfSequence>
         <ProcedureCall id="_1oUI" procedure="product_attributes">
           <variable name="prod_type">$(import_data)</variable>
         </ProcedureCall>
