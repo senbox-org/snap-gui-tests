@@ -126,10 +126,11 @@
     </Package>
     <Package id="_1lBD" name="resize">
       <Procedure id="_1l6h" name="product_view_panel">
-        <MouseEventStep clicks="1" client="$(client)"
-                        component="mainFrameESA_S-3_Toolbox.DockedHiddenContainer.panel2"
-                        event="MOUSE_MPRC" id="_1l6i" modifiers="16" x="2"
-                        y="617"/>
+        <IfSequence id="_1opA" test="${qftest:windows}">
+          <ElseifSequence id="_1opB" name="MAC?"
+                          test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+          <ElseSequence id="_1opC"/>
+        </IfSequence>
       </Procedure>
       <Procedure id="_1l1q" name="import_dialog">
         <ComponentEventStep client="$(client)"
@@ -172,25 +173,26 @@
                   <SetGlobalStep id="_1oOA" varname="start">
                     <default>"${path:snap_bin_directory}\snap_start.bat"</default>
                   </SetGlobalStep>
+                  <ShellClientStarter client="$(client)" command="$(start)"
+                                      directory="${path:snap_bin_directory}"
+                                      id="_1oID" postdelay="5000"/>
                   <ElseSequence id="_1oOD">
                     <SetGlobalStep id="_1oOE" varname="start">
                       <default>"${path:snap_bin_directory}/snap_start.sh"</default>
                     </SetGlobalStep>
+                    <SUTClientStarter client="$(client)"
+                                      directory="${path:snap_working_directory}"
+                                      executable="${path:snap_bin_directory}/snap"
+                                      id="_1oeY">
+                      <comment>snap_working_directory</comment>
+                    </SUTClientStarter>
                   </ElseSequence>
                 </IfSequence>
-                <ShellClientStarter client="$(client)" command="$(start)"
-                                    directory="${path:snap_bin_directory}"
-                                    id="_1oID" postdelay="5000"/>
-                <ShellClientStarter client="$(client)"
-                                    command="&#34;B:\Users\olga\Projects\Testing\SUT\snaptop-u-testing\snap\bin\snap_start.bat&#34;"
-                                    directory="B:\Users\olga\Projects\Testing\SUT\snaptop-u-testing\snap\bin"
-                                    disabled="true" id="_1oO9"
-                                    postdelay="5000"/>
               </CatchSequence>
             </TryStep>
             <RepeatSequence count="60" id="_1oMf" name="try_start" var="i">
               <TryStep id="_1oIb">
-                <ProcedureCall id="_1oJf"
+                <ProcedureCall id="_1oJf" predelay="5000"
                                procedure="wait.appear.snap_window"/>
                 <ServerScriptStep id="_1oMg" name="print">
                   <code>print "****try start number $(i)****"  </code>
@@ -202,14 +204,25 @@
                                  procedure="utils.terminate_process">
                     <variable name="client_name">$(client)</variable>
                   </ProcedureCall>
-                  <ShellClientStarter client="$(client)" command="$(start)"
-                                      directory="${path:snap_bin_directory}"
-                                      id="_1oOG" postdelay="5000"/>
-                  <ShellClientStarter client="$(client)"
-                                      command="&#34;B:\Users\olga\Projects\Testing\SUT\snaptop-u-testing\snap\bin\snap_start.bat&#34;"
-                                      directory="B:\Users\olga\Projects\Testing\SUT\snaptop-u-testing\snap\bin"
-                                      disabled="true" id="_1oId"
-                                      postdelay="5000"/>
+                  <IfSequence id="_1oea" test="${qftest:windows}">
+                    <SetGlobalStep id="_1oeb" varname="start">
+                      <default>"${path:snap_bin_directory}\snap_start.bat"</default>
+                    </SetGlobalStep>
+                    <ShellClientStarter client="$(client)" command="$(start)"
+                                        directory="${path:snap_bin_directory}"
+                                        id="_1oec" postdelay="5000"/>
+                    <ElseSequence id="_1oed">
+                      <SetGlobalStep id="_1oee" varname="start">
+                        <default>"${path:snap_bin_directory}/snap_start.sh"</default>
+                      </SetGlobalStep>
+                      <SUTClientStarter client="$(client)"
+                                        directory="${path:snap_working_directory}"
+                                        executable="${path:snap_bin_directory}/snap"
+                                        id="_1oef">
+                        <comment>snap_working_directory</comment>
+                      </SUTClientStarter>
+                    </ElseSequence>
+                  </IfSequence>
                 </CatchSequence>
               </TryStep>
             </RepeatSequence>
@@ -330,6 +343,11 @@
     </Package>
   </PackageRoot>
   <ExtraSequence id="_4">
+    <IfSequence id="_1op7" test="${qftest:windows}">
+      <ElseifSequence id="_1op8" name="MAC?"
+                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+      <ElseSequence id="_1op9"/>
+    </IfSequence>
     <ProcedureCall id="_1lEt" procedure="check.product.tree_number_elements">
       <variable name="number_elements">1</variable>
     </ProcedureCall>
@@ -339,9 +357,6 @@
       <Package id="_1lbz" name="grid_point_data_table"/>
       <Package id="_1lb+" name="snapshot"/>
     </Package>
-    <ProcedureCall id="_1oGb" procedure="qfs.swing.tree.collapseNodes">
-      <variable name="id">mainFrameESA_S-3_Toolbox.ProductsToolView.Control.tree&amp;/0</variable>
-    </ProcedureCall>
     <TestStep id="_1lBY" name="teststep">
       <comment>@teststep xxxx</comment>
     </TestStep>

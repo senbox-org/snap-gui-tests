@@ -97,12 +97,29 @@
               </ProcedureCall>
             </CatchSequence>
           </TryStep>
-          <TextInputStep clear="true" client="$(client)"
-                         component="dialogOpen_Product.textDateiname:"
-                         id="_1oRu">
-            <text>$(input_file)</text>
-            <comment>@teststep Select $(input_file).</comment>
-          </TextInputStep>
+          <IfSequence id="_1op7" test="${qftest:windows}">
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogOpen_Product.textDateiname:"
+                           id="_1oRu">
+              <text>$(input_file)</text>
+              <comment>@teststep Select $(input_file).</comment>
+            </TextInputStep>
+            <ElseifSequence id="_1op8" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <TextInputStep clear="true" client="$(client)"
+                             component="textSelection:" id="_1ofd">
+                <text>$(input_file)</text>
+                <comment>@teststep Select $(input_file).</comment>
+              </TextInputStep>
+            </ElseifSequence>
+            <ElseSequence id="_1op9">
+              <TextInputStep clear="true" client="$(client)"
+                             component="textSelection:" id="_1opA">
+                <text>$(input_file)</text>
+                <comment>@teststep Select $(input_file).</comment>
+              </TextInputStep>
+            </ElseSequence>
+          </IfSequence>
           <ProcedureCall id="_1oRv"
                          procedure="do_click.open_product_dialog.open"/>
         </IfSequence>

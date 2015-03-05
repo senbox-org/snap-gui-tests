@@ -170,13 +170,44 @@
         <variable name="file_of_type"/>
         <comment>@teststep Select 'File of type'.</comment>
         <TryStep id="_1oUY">
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="dialogOpen_Product.comboFiles_of_type:"
-                          event="MOUSE_MPRC" id="_1msJ" modifiers="16" x="130"
-                          y="13"/>
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="dialogOpen_Product.popupInvokerFeature:_Label:_Files_of_type:.listFiles_of_type"
-                          event="MOUSE_MPRC" id="_1msK" modifiers="16"/>
+          <IfSequence id="_1owN" test="${qftest:windows}">
+            <ElseifSequence id="_1owO" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="dialogOpen_Product.comboFiles_of_type:"
+                              event="MOUSE_MPRC" id="_1msJ" modifiers="16"
+                              x="130" y="13"/>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="dialogOpen_Product.popupInvokerFeature:_Label:_Files_of_type:.listFiles_of_type"
+                              event="MOUSE_MPRC" id="_1msK" modifiers="16"/>
+            </ElseifSequence>
+            <ElseSequence id="_1owP">
+              <TryStep disabled="true" id="_1owc" name="todo">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="comboFilter:" event="MOUSE_MPRC"
+                                id="_1owK" modifiers="4" popup="true" x="38"
+                                y="11"/>
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="listInvokerFeature:_Label:_Filter:@$(file_of_type)"
+                                event="MOUSE_MPRC" id="_1owM" modifiers="16"/>
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="listInvokerFeature:_Label:_Filter:@BEAM-DIMAP product files (*.dim)"
+                                disabled="true" event="MOUSE_MPRC" id="_1owQ"
+                                modifiers="16"/>
+                <CatchSequence exception="TestException" id="_1owd"
+                               maxerror="0">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="comboFilter:.button"
+                                  event="MOUSE_MPRC" id="_1owR" modifiers="4"
+                                  popup="true" x="38" y="11"/>
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="listInvokerFeature:_Label:_Filter:@$(file_of_type)"
+                                  event="MOUSE_MPRC" id="_1owS"
+                                  modifiers="16"/>
+                </CatchSequence>
+              </TryStep>
+            </ElseSequence>
+          </IfSequence>
           <CatchSequence exception="TestException" id="_1oUZ" maxerror="0">
             <ProcedureCall id="_1oUa" procedure="run-log.logError">
               <variable name="message">$(file_of_type) can not be selected</variable>
@@ -745,13 +776,6 @@ None</comment>
         </Procedure>
         <Procedure id="_1l7i" name="visualisation_mode_help">
           <variable name="visualisation_mode"/>
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="mainFrameESA_S-3_Toolbox.popupInvokerName:_mode.list_visualisation_mode"
-                          event="MOUSE_MPRC" id="_1l7j" modifiers="16"/>
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="mainFrameESA_S-3_Toolbox.mode"
-                          event="MOUSE_MPRC" id="_1l7k" modifiers="16" x="58"
-                          y="8"/>
         </Procedure>
       </Package>
     </Package>
@@ -790,6 +814,12 @@ None</comment>
       </Package>
     </Package>
   </PackageRoot>
-  <ExtraSequence id="_4"/>
+  <ExtraSequence id="_4">
+    <IfSequence id="_1op7" test="${qftest:windows}">
+      <ElseifSequence id="_1op8" name="MAC?"
+                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+      <ElseSequence id="_1op9"/>
+    </IfSequence>
+  </ExtraSequence>
   <WindowList id="_5"/>
 </RootStep>

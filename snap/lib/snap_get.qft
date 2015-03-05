@@ -139,7 +139,7 @@ rc.setGlobal("nd", v)                       </code>
           <default>Metadata</default>
         </SetGlobalStep>
         <FetchTextStep client="$(client)"
-                       component="mainFrameESA_S-3_Toolbox.ProductsToolView.Control.tree&amp;/$(prod_id)/$(nd)"
+                       component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(nd)"
                        id="_1mJv" varname="nn"/>
         <WhileSequence id="_1mJw"
                        test="&#34;$(nn)&#34;&lt;&gt;&#34;$(nn0)&#34;">
@@ -152,7 +152,7 @@ rc.setGlobal("nd", v)                       </code>
           </ServerScriptStep>
           <TryStep id="_1mJz">
             <FetchTextStep client="$(client)"
-                           component="mainFrameESA_S-3_Toolbox.ProductsToolView.Control.tree&amp;/$(prod_id)/$(nd)"
+                           component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(nd)"
                            id="_1mJ+" varname="nn"/>
             <CatchSequence exception="TestException" id="_1mJ-" maxerror="0">
               <SetGlobalStep id="_1oRg" varname="metadata_group">
@@ -176,9 +176,22 @@ rc.setGlobal("nd", v)                       </code>
         </ServerScriptStep>
       </Procedure>
       <Procedure id="_1oaR" name="text_error_dialog_SNAP_Open_Product">
-        <FetchTextStep client="$(client)"
-                       component="dialogSNAP_-_Open_Product.labelGeoTiff_imageReader_not_found"
-                       id="_1oaS" varname="error_text"/>
+        <IfSequence id="_1oya" test="${qftest:windows}">
+          <FetchTextStep client="$(client)"
+                         component="dialogSNAP_-_Open_Product.labelGeoTiff_imageReader_not_found"
+                         id="_1oaS" varname="error_text"/>
+          <ElseifSequence id="_1oyb" name="MAC?"
+                          test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+            <FetchTextStep client="$(client)"
+                           component="labelNo_appropriate_product_reader_found."
+                           id="_1oyd" varname="error_text"/>
+          </ElseifSequence>
+          <ElseSequence id="_1oyc">
+            <FetchTextStep client="$(client)"
+                           component="labelNo_appropriate_product_reader_found."
+                           id="_1oye" varname="error_text"/>
+          </ElseSequence>
+        </IfSequence>
       </Procedure>
       <Procedure disabled="true" id="_1mK5"
                  name="additional_metadata_node_id">
@@ -194,7 +207,7 @@ rc.setGlobal("nd", v)                       </code>
           <default>$(metadata_name)</default>
         </SetGlobalStep>
         <FetchTextStep client="$(client)"
-                       component="mainFrameESA_S-3_Toolbox.ProductsToolView.Control.tree&amp;/$(prod_id)/$(metadata_node_id)/$(nd)"
+                       component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(metadata_node_id)/$(nd)"
                        id="_1mK8" varname="nn"/>
         <WhileSequence id="_1mK9"
                        test="&#34;$(nn)&#34;&lt;&gt;&#34;$(nn0)&#34;">
@@ -207,7 +220,7 @@ rc.setGlobal("nd", v)                       </code>
           </ServerScriptStep>
           <TryStep id="_1mKC">
             <FetchTextStep client="$(client)"
-                           component="mainFrameESA_S-3_Toolbox.ProductsToolView.Control.tree&amp;/$(prod_id)/$(metadata_node_id)/$(nd)"
+                           component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(metadata_node_id)/$(nd)"
                            id="_1mKL" varname="nn"/>
             <CatchSequence exception="TestException" id="_1mKE" maxerror="0">
               <SetGlobalStep id="_1mKF" varname="nd">
@@ -349,6 +362,11 @@ rc.setGlobal("rowCount", rowCount)</code>
     </Package>
   </PackageRoot>
   <ExtraSequence id="_4">
+    <IfSequence id="_1op7" test="${qftest:windows}">
+      <ElseifSequence id="_1op8" name="MAC?"
+                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+      <ElseSequence id="_1op9"/>
+    </IfSequence>
     <Procedure disabled="true" id="_1oTg" name="band_id">
       <variable name="prod_id"/>
       <variable name="band"/>

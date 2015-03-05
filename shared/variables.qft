@@ -53,10 +53,16 @@
           <code>print "graph_file_dir=${path:graph_file_dir}"</code>
         </ServerScriptStep>
         <ServerScriptStep id="_1orh" name="print">
-          <code>print "temp_directory=${path:temp_directory}"</code>
+          <code>print "temp_snap_directory=${path:temp_snap}"</code>
+        </ServerScriptStep>
+        <ServerScriptStep id="_1o-0" name="print">
+          <code>print "temp_s3tbx_directory=${path:temp_s3tbx}"</code>
         </ServerScriptStep>
         <ServerScriptStep id="_1ori" name="print">
-          <code>print "sut_bin_directory=${path:sut_bin_directory}"</code>
+          <code>print "snap_bin_directory=${path:snap_bin_directory}"</code>
+        </ServerScriptStep>
+        <ServerScriptStep id="_1o-1" name="print">
+          <code>print "s3tbx_bin_directory=${path:s3tbx_bin_directory}"</code>
         </ServerScriptStep>
         <ServerScriptStep id="_1orj" name="print">
           <code>print "snap_working_directory=${path:snap_working_directory}"</code>
@@ -183,9 +189,22 @@
         <SetGlobalStep id="_1oxK" varname="menu_item"/>
         <ElseSequence id="_1oxL">
           <TryStep id="_1oxM">
-            <LoadPropertiesStep id="_1oxN"
-                                propertyfile="properties/product_attributes.properties"
-                                resourcename="attribut"/>
+            <IfSequence id="_1o-2" test="${qftest:windows}">
+              <LoadPropertiesStep id="_1oxN"
+                                  propertyfile="properties/product_attributes.properties"
+                                  resourcename="attribut"/>
+              <ElseifSequence id="_1o-3" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <LoadPropertiesStep id="_1o-5"
+                                    propertyfile="properties/product_attributes_lin.properties"
+                                    resourcename="attribut"/>
+              </ElseifSequence>
+              <ElseSequence id="_1o-4">
+                <LoadPropertiesStep id="_1o-6"
+                                    propertyfile="properties/product_attributes_lin.properties"
+                                    resourcename="attribut"/>
+              </ElseSequence>
+            </IfSequence>
             <SetGlobalStep id="_1oxO" varname="product_group">
               <default>${attribut:$(prod_type)_product_group}</default>
             </SetGlobalStep>
@@ -553,6 +572,11 @@ rc.setGlobal("wv", vl)                       </code>
     </Package>
   </PackageRoot>
   <ExtraSequence id="_4">
+    <IfSequence id="_1op7" test="${qftest:windows}">
+      <ElseifSequence id="_1op8" name="MAC?"
+                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+      <ElseSequence id="_1op9"/>
+    </IfSequence>
     <ServerScriptStep id="_1oh2" name="print">
       <code>print "data_directory = ${path:data_directory}"</code>
     </ServerScriptStep>

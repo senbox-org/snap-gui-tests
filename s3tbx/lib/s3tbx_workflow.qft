@@ -626,6 +626,9 @@
     <Package id="_1l2s" name="import_data">
       <Procedure id="_1lWC" name="import_utility">
         <variable name="import_data"/>
+        <ProcedureCall id="_1o-K" procedure="close.session">
+          <comment>@teststep Close Session.</comment>
+        </ProcedureCall>
         <IfSequence id="_1lWD" test="${qftest:windows}">
           <TryStep id="_1oNl" name="open_import_dialog">
             <comment>@teststep Open 'Import Product' dialog</comment>
@@ -2766,7 +2769,7 @@
                   <ProcedureCall id="_1o-B"
                                  procedure="do_click.double_click.product_node">
                     <variable name="prod_id">0</variable>
-                    <variable name="node_id">$(bands_node_number)</variable>
+                    <variable name="node_id">$(bands_node_id)</variable>
                     <variable name="group_id">$(group_id1)</variable>
                     <variable name="view_id">$(view_Id1)</variable>
                   </ProcedureCall>
