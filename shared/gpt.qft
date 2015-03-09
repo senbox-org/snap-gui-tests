@@ -6,6 +6,7 @@
   <include>shared_lib.qft</include>
   <dependency>../s3tbx/lib/s3tbx_main.qft</dependency>
   <dependency>../snap/lib/snap_main.qft</dependency>
+  <reference>../s3tbx/lib/s3tbx_workflow.qft</reference>
   <PackageRoot id="_3">
     <comment>s3tbx</comment>
     <Package id="_1oIW" name="gpt">
@@ -57,9 +58,7 @@
                 </SetGlobalStep>
               </ElseifSequence>
               <ElseSequence id="_1o-Y">
-                <SetGlobalStep id="_1o-Z" varname="input">
-                  <default>$(i1)</default>
-                </SetGlobalStep>
+                <SetGlobalStep id="_1o-Z" varname="input"/>
               </ElseSequence>
             </IfSequence>
           </TestStep>
@@ -68,25 +67,46 @@
             <ProcedureCall id="_1oPH" procedure="output_data_directory">
               <variable name="output_dir">$(data_out_dir)</variable>
             </ProcedureCall>
-            <ProcedureCall id="_1oPI" procedure="graph_file_dir">
+            <ProcedureCall disabled="true" id="_1oPI"
+                           procedure="graph_file_dir">
               <variable name="xml_dir">$(xml_file_dir)</variable>
             </ProcedureCall>
             <IfSequence id="_1oPJ"
                         test="&#34;$(parameters_file)&#34;&lt;&gt;&#34;&#34;">
-              <SetGlobalStep id="_1oPK" varname="new_param">
-                <default>-p $(parameters_file_dir)$(parameters_file) $(param)</default>
+              <ProcedureCall id="_1p0t" procedure="param_file_dir"/>
+              <SetGlobalStep id="_1p0u" varname="new_param">
+                <default>$(gpf_op) -p $(param_file_dir)$(parameters_file) $(param)</default>
               </SetGlobalStep>
-              <SetGlobalStep id="_1oPL" varname="outfn">
-                <default>$(wv)_use_parameters_file</default>
-              </SetGlobalStep>
+              <IfSequence id="_1p0v"
+                          test="&#34;$(gpf_op)&#34;==&#34;Binning&#34;">
+                <SetGlobalStep id="_1p0w" varname="outfn">
+                  <default>$(parameters_file)</default>
+                </SetGlobalStep>
+                <ElseSequence id="_1p0x">
+                  <SetGlobalStep id="_1oPL" varname="outfn">
+                    <default>$(wv)_use_parameters_file</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
               <ElseifSequence id="_1oPM"
                               test="&#34;$(xml_file)&#34;&lt;&gt;&#34;&#34;">
+                <ProcedureCall id="_1p0s" procedure="graph_file_dir">
+                  <variable name="xml_dir">$(xml_file_dir)</variable>
+                </ProcedureCall>
                 <SetGlobalStep id="_1o+a" varname="new_param">
                   <default>$(graph_file_dir)$(xml_file).xml $(param)</default>
                 </SetGlobalStep>
-                <SetGlobalStep id="_1oPO" varname="outfn">
-                  <default>$(wv)_$(xml_file)</default>
-                </SetGlobalStep>
+                <IfSequence id="_1p0i"
+                            test="&#34;$(gpf_op)&#34;==&#34;Binning&#34;">
+                  <SetGlobalStep id="_1oPO" varname="outfn">
+                    <default>$(xml_file)</default>
+                  </SetGlobalStep>
+                  <ElseSequence id="_1p0j">
+                    <SetGlobalStep id="_1p0k" varname="outfn">
+                      <default>$(wv)_$(xml_file)</default>
+                    </SetGlobalStep>
+                  </ElseSequence>
+                </IfSequence>
               </ElseifSequence>
             </IfSequence>
           </TestStep>
@@ -95,6 +115,9 @@
           </ProcedureCall>
           <ServerScriptStep disabled="true" id="_1oPQ" name="print">
             <code>print "************ graph or parameters file = $(new_param)*****************"  </code>
+          </ServerScriptStep>
+          <ServerScriptStep id="_1p0r" name="print">
+            <code>print "*** gpt_client_nr = $(wv)"  </code>
           </ServerScriptStep>
         </TestStep>
         <IfSequence id="_1oPR" postdelay="2000"
@@ -128,19 +151,35 @@
           </TestStep>
           <TestStep id="_1oPV" name="run_operator">
             <comment>$(gpt_commando)</comment>
-            <ShellClientStarter client="$(gpt_client_name)"
-                                command="$(gpt_commando)"
-                                directory="$(folder)" id="_1oPW"
-                                postdelay="10000"/>
+            <TryStep id="_1p0m">
+              <ShellClientStarter client="$(gpt_client_name)"
+                                  command="$(gpt_commando)"
+                                  directory="$(folder)" id="_1p0l"
+                                  postdelay="20000"/>
+              <CatchSequence exception="TestException" id="_1p0n"
+                             maxerror="0">
+                <SetGlobalStep id="_1p0o" varname="gpt_client_name">
+                  <default>$(gpt_client_name)_a</default>
+                </SetGlobalStep>
+                <ShellClientStarter client="$(gpt_client_name)"
+                                    command="$(gpt_commando)"
+                                    directory="$(folder)" id="_1p0p"
+                                    postdelay="20000"/>
+              </CatchSequence>
+            </TryStep>
             <ServerScriptStep disabled="true" id="_1p0C" name="print">
               <code>print "$(gpt_commando)"  </code>
             </ServerScriptStep>
-            <ProcedureCall id="_1o+c" procedure="run-log.log_client_output">
+            <ProcedureCall id="_1o+c" postdelay="1000"
+                           procedure="run-log.log_client_output">
               <variable name="client_name">$(gpt_client_name)</variable>
             </ProcedureCall>
+            <ServerScriptStep id="_1p0q" name="print">
+              <code>print "*** gpt_client_name = $(gpt_client_name)"  </code>
+            </ServerScriptStep>
           </TestStep>
-          <ProcedureCall id="_1o-p" procedure="gpt.processing_end">
-            <variable name="waiting_period">$(wv)00</variable>
+          <ProcedureCall id="_1o-p"
+                         procedure="utils.waiting_for_processierung_else_terminate_process">
             <variable name="client_name">$(gpt_client_name)</variable>
           </ProcedureCall>
         </IfSequence>
@@ -170,8 +209,8 @@
           <IfSequence id="_1oPh"
                       test="&#34;$(fileExists)&#34;==&#34;False&#34;">
             <TestStep id="_1oPi" name="wait" postdelay="5000">
-              <ProcedureCall id="_1oQb" procedure="gpt.processing_end">
-                <variable name="waiting_period">$(wv)00</variable>
+              <ProcedureCall id="_1oQb"
+                             procedure="utils.waiting_for_processierung_else_terminate_process">
                 <variable name="client_name">$(gpt_client_name)</variable>
               </ProcedureCall>
             </TestStep>
@@ -192,18 +231,11 @@
           <code>print "of = $(of)"</code>
         </ServerScriptStep>
       </Procedure>
-      <Procedure id="_1kwZ" name="processing_end">
-        <variable name="waiting_period"/>
-        <variable name="client_name"/>
-        <ProcedureCall id="_1o+H" procedure="utils.terminate_process">
-          <variable name="client_name">$(client_name)</variable>
-        </ProcedureCall>
-      </Procedure>
     </Package>
     <Package id="_1l8Q" name="preparation">
       <Procedure id="_1oHp" name="environment_for_gpt_test">
         <variable name="out_dir"/>
-        <ServerScriptStep id="_1kyA" name="clearGlobals">
+        <ServerScriptStep disabled="true" id="_1kyA" name="clearGlobals">
           <code>rc.clearGlobals()</code>
         </ServerScriptStep>
         <SetGlobalStep id="_1oND" varname="client_nr">
@@ -248,6 +280,10 @@ rc.setGlobal("fileExists", File("$(fileName)").exists())</code>
         <ExcelDataBinder excelfile="tables/gpt/bandMaths.xls" id="_9V6"
                          name="dataTable" sheetname="requests"/>
       </Procedure>
+      <Procedure id="_1p0g" name="binning">
+        <ExcelDataBinder excelfile="tables/gpt/binning.xls" id="_1p0h"
+                         name="dataTable" sheetname="requests"/>
+      </Procedure>
       <Procedure id="_1oQf" name="collocation">
         <ExcelDataBinder excelfile="tables/gpt/collocation.xls" id="_1oQg"
                          name="dataTable" sheetname="requests"/>
@@ -286,9 +322,312 @@ rc.setGlobal("cn", vl)                       </code>
           </ElseSequence>
         </IfSequence>
       </Procedure>
+      <Procedure id="_1p04"
+                 name="waiting_for_processierung_else_terminate_process">
+        <variable name="client_name"/>
+        <TryStep id="_6d5" name="waiting_for_processierung">
+          <ProcessWaiter client="$(client_name)" errorlevel="0" id="_1p09"
+                         raise="false" timeout="60000"/>
+          <CatchSequence exception="ClientNotTerminatedException" id="_6dH"
+                         maxerror="0" name="client not stopped -&gt; stop it">
+            <ClientStopper client="$(client_name)" id="_6d2"/>
+            <ProcessWaiter client="$(client_name)" id="_6d3" raise="false"
+                           timeout="10000"/>
+          </CatchSequence>
+          <CatchSequence exception="NoSuchClientException" id="_6d6"
+                         maxerror="0"
+                         name="client doesn't exist -&gt; ignore"/>
+        </TryStep>
+      </Procedure>
     </Package>
   </PackageRoot>
   <ExtraSequence id="_4">
+    <Procedure id="_1p0z" name="s">
+      <variable name="application"/>
+      <IfSequence id="_1o+H"
+                  test="&#34;$(other_formats )&#34;==&#34;true&#34;">
+        <TestStep id="_1o+I" name="dimap">
+          <SetGlobalStep id="_1p0+" varname="f">
+            <default>dimap</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1o+K" procedure="output_format">
+            <variable name="out_form">$(f)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1o+L"
+                         procedure="gpt.run_operator_check_output_file">
+            <variable name="application">$(app)</variable>
+          </ProcedureCall>
+          <TestStep id="_1p0-" name="check_output_file_in_s3tbx">
+            <IfSequence id="_1o+M"
+                        test="&#34;$(fileExists)&#34;==&#34;True&#34;">
+              <IfSequence id="_1o+N"
+                          test="&#34;$(fr)&#34;&lt;&gt;&#34;h5&#34;">
+                <ProcedureCall id="_1o+O"
+                               procedure="../s3tbx/lib/s3tbx_workflow.qft#test_events.open_data_in_s3tbx_and_check">
+                  <variable name="file_name">$(outfn)</variable>
+                  <variable name="format">$(fr)</variable>
+                </ProcedureCall>
+              </IfSequence>
+              <ElseSequence id="_1o+P">
+                <ProcedureCall id="_1o+5" procedure="run-log.logError">
+                  <variable name="message">$(outfn).$(fr) is not processed</variable>
+                  <variable name="withScreenshots">false</variable>
+                </ProcedureCall>
+              </ElseSequence>
+            </IfSequence>
+          </TestStep>
+          <ProcedureCall id="_1o+Q" procedure="close.session"/>
+        </TestStep>
+        <TestStep id="_1o+R" name="geotiff">
+          <SetGlobalStep id="_1o+S" varname="f">
+            <default>geotiff</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1o+T" procedure="output_format">
+            <variable name="out_form">$(f)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1o+U"
+                         procedure="gpt.run_operator_check_output_file">
+            <variable name="application">$(app)</variable>
+          </ProcedureCall>
+          <TestStep id="_1oQh" name="check_output_file_in_s3tbx">
+            <IfSequence id="_1oQi"
+                        test="&#34;$(fileExists)&#34;==&#34;True&#34;">
+              <IfSequence id="_1oQj"
+                          test="&#34;$(fr)&#34;&lt;&gt;&#34;h5&#34;">
+                <ProcedureCall id="_1o+V"
+                               procedure="test_events.open_data_in_s3tbx_and_check">
+                  <variable name="file_name">$(outfn)</variable>
+                  <variable name="format">$(fr)</variable>
+                </ProcedureCall>
+              </IfSequence>
+              <ElseSequence id="_1oQl">
+                <ProcedureCall id="_1o+6" procedure="run-log.logError">
+                  <variable name="message">$(outfn).$(fr) is not processed</variable>
+                  <variable name="withScreenshots">false</variable>
+                </ProcedureCall>
+              </ElseSequence>
+            </IfSequence>
+          </TestStep>
+          <ProcedureCall id="_1o+W" procedure="close.session"/>
+        </TestStep>
+        <TestStep id="_1o+X" name="hdf5">
+          <SetGlobalStep id="_1p10" varname="f">
+            <default>hdf5</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1o+Z" procedure="output_format">
+            <variable name="out_form">$(f)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1p11"
+                         procedure="gpt.run_operator_check_output_file">
+            <variable name="application">$(app)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1o+b" name="netCDF_CF">
+          <SetGlobalStep id="_1p12" varname="f">
+            <default>netCDF_CF</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1o+d" procedure="output_format">
+            <variable name="out_form">$(f)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1o+e"
+                         procedure="gpt.run_operator_check_output_file">
+            <variable name="application">$(app)</variable>
+          </ProcedureCall>
+          <TestStep id="_1o+f" name="check_output_file_in_s3tbx">
+            <IfSequence id="_1o+g"
+                        test="&#34;$(fileExists)&#34;==&#34;True&#34;">
+              <IfSequence id="_1o+h"
+                          test="&#34;$(fr)&#34;&lt;&gt;&#34;h5&#34;">
+                <ProcedureCall id="_1o+i"
+                               procedure="test_events.open_data_in_s3tbx_and_check">
+                  <variable name="file_name">$(outfn)</variable>
+                  <variable name="format">$(fr)</variable>
+                </ProcedureCall>
+              </IfSequence>
+              <ElseSequence id="_1o+j">
+                <ProcedureCall id="_1o+7" procedure="run-log.logError">
+                  <variable name="message">$(outfn).$(fr) is not processed</variable>
+                  <variable name="withScreenshots">false</variable>
+                </ProcedureCall>
+              </ElseSequence>
+            </IfSequence>
+          </TestStep>
+          <ProcedureCall id="_1o+k" procedure="close.session"/>
+        </TestStep>
+        <TestStep id="_1o+l" name="netCDF4_CF">
+          <SetGlobalStep id="_1o+m" varname="f">
+            <default>netCDF4_CF</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1o+n" procedure="output_format">
+            <variable name="out_form">$(f)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1o+o"
+                         procedure="gpt.run_operator_check_output_file">
+            <variable name="application">$(app)</variable>
+          </ProcedureCall>
+          <TestStep id="_1o+p" name="check_output_file_in_s3tbx">
+            <IfSequence id="_1o+q"
+                        test="&#34;$(fileExists)&#34;==&#34;True&#34;">
+              <IfSequence id="_1oQ-"
+                          test="&#34;$(fr)&#34;&lt;&gt;&#34;h5&#34;">
+                <ProcedureCall id="_1o+r"
+                               procedure="test_events.open_data_in_s3tbx_and_check">
+                  <variable name="file_name">$(outfn)</variable>
+                  <variable name="format">$(fr)</variable>
+                </ProcedureCall>
+              </IfSequence>
+              <ElseSequence id="_1oR1">
+                <ProcedureCall id="_1o+8" procedure="run-log.logError">
+                  <variable name="message">$(outfn).$(fr) is not processed</variable>
+                  <variable name="withScreenshots">false</variable>
+                </ProcedureCall>
+              </ElseSequence>
+            </IfSequence>
+          </TestStep>
+          <ProcedureCall id="_1o+s" procedure="close.session"/>
+        </TestStep>
+        <TestStep id="_1o+t" name="netCDF_beam">
+          <SetGlobalStep id="_1o+u" varname="f">
+            <default>netCDF_beam</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1o+v" procedure="output_format">
+            <variable name="out_form">$(f)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1o+w"
+                         procedure="gpt.run_operator_check_output_file">
+            <variable name="application">$(app)</variable>
+          </ProcedureCall>
+          <TestStep id="_1oR3" name="check_output_file_in_s3tbx">
+            <IfSequence id="_1oR4"
+                        test="&#34;$(fileExists)&#34;==&#34;True&#34;">
+              <IfSequence id="_1oR5"
+                          test="&#34;$(fr)&#34;&lt;&gt;&#34;h5&#34;">
+                <ProcedureCall id="_1oR6"
+                               procedure="test_events.open_data_in_s3tbx_and_check">
+                  <variable name="file_name">$(outfn)</variable>
+                  <variable name="format">$(fr)</variable>
+                </ProcedureCall>
+              </IfSequence>
+              <ElseSequence id="_1oR7">
+                <ProcedureCall id="_1o+9" procedure="run-log.logError">
+                  <variable name="message">$(outfn).$(fr) is not processed</variable>
+                  <variable name="withScreenshots">false</variable>
+                </ProcedureCall>
+              </ElseSequence>
+            </IfSequence>
+          </TestStep>
+          <ProcedureCall id="_1o+x" procedure="close.session"/>
+        </TestStep>
+        <TestStep id="_1o+y" name="netCDF4_beam">
+          <SetGlobalStep id="_1o+z" varname="f">
+            <default>netCDF4_beam</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1o++" procedure="output_format">
+            <variable name="out_form">$(f)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1o+-"
+                         procedure="gpt.run_operator_check_output_file">
+            <variable name="application">$(app)</variable>
+          </ProcedureCall>
+          <TestStep id="_1oR9" name="check_output_file_in_s3tbx">
+            <IfSequence id="_1oRA"
+                        test="&#34;$(fileExists)&#34;==&#34;True&#34;">
+              <IfSequence id="_1oRB"
+                          test="&#34;$(fr)&#34;&lt;&gt;&#34;h5&#34;">
+                <ProcedureCall id="_1oRC"
+                               procedure="test_events.open_data_in_s3tbx_and_check">
+                  <variable name="file_name">$(outfn)</variable>
+                  <variable name="format">$(fr)</variable>
+                </ProcedureCall>
+              </IfSequence>
+              <ElseSequence id="_1oRD">
+                <ProcedureCall id="_1p13" procedure="run-log.logError">
+                  <variable name="message">$(outfn).$(fr) is not processed</variable>
+                  <variable name="withScreenshots">false</variable>
+                </ProcedureCall>
+              </ElseSequence>
+            </IfSequence>
+          </TestStep>
+          <ProcedureCall id="_1o-0" procedure="close.session"/>
+        </TestStep>
+        <ElseifSequence id="_1oQP"
+                        test="&#34;$(other_formats )&#34;==&#34;N1&#34;">
+          <TestStep id="_1oQQ" name="N1">
+            <SetGlobalStep id="_1oQR" varname="f">
+              <default>N1</default>
+            </SetGlobalStep>
+            <ProcedureCall id="_1oQS" procedure="output_format">
+              <variable name="out_form">$(f)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1oQT"
+                           procedure="gpt.run_operator_check_output_file">
+              <variable name="application">$(app)</variable>
+            </ProcedureCall>
+            <TestStep id="_1oRF" name="check_output_file_in_s3tbx">
+              <IfSequence id="_1oRG"
+                          test="&#34;$(fileExists)&#34;==&#34;True&#34;">
+                <IfSequence id="_1oRH"
+                            test="&#34;$(fr)&#34;&lt;&gt;&#34;h5&#34;">
+                  <ProcedureCall id="_1oRI"
+                                 procedure="test_events.open_data_in_s3tbx_and_check">
+                    <variable name="file_name">$(outfn)</variable>
+                    <variable name="format">$(fr)</variable>
+                  </ProcedureCall>
+                </IfSequence>
+                <ElseSequence id="_1oRJ">
+                  <ProcedureCall id="_1p14" procedure="run-log.logError">
+                    <variable name="message">$(outfn).$(fr) is not processed</variable>
+                    <variable name="withScreenshots">false</variable>
+                  </ProcedureCall>
+                </ElseSequence>
+              </IfSequence>
+            </TestStep>
+            <ProcedureCall id="_1oQU" procedure="close.session"/>
+          </TestStep>
+        </ElseifSequence>
+        <ElseSequence id="_1oQV">
+          <IfSequence id="_1p15"
+                      test="&#34;$(gpf_op)&#34;==&#34;Binning&#34;">
+            <SetGlobalStep id="_1p16" varname="f">
+              <default>$(other_formats)</default>
+            </SetGlobalStep>
+            <ProcedureCall id="_1p17" procedure="output_format">
+              <variable name="out_form">$(f)</variable>
+            </ProcedureCall>
+            <ElseSequence id="_1p18">
+              <SetGlobalStep id="_1p19" varname="f"/>
+              <ProcedureCall id="_1oQX" procedure="output_format">
+                <variable name="out_form">dimap</variable>
+              </ProcedureCall>
+            </ElseSequence>
+          </IfSequence>
+          <ProcedureCall id="_1oQY"
+                         procedure="gpt.run_operator_check_output_file">
+            <variable name="application">$(app)</variable>
+          </ProcedureCall>
+          <TestStep id="_1oRL" name="check_output_file_in_s3tbx">
+            <IfSequence id="_1oRM"
+                        test="&#34;$(fileExists)&#34;==&#34;True&#34;">
+              <IfSequence id="_1oRN"
+                          test="&#34;$(fr)&#34;&lt;&gt;&#34;h5&#34;">
+                <ProcedureCall id="_1oRO"
+                               procedure="test_events.open_data_in_s3tbx_and_check">
+                  <variable name="file_name">$(outfn)</variable>
+                  <variable name="format">$(fr)</variable>
+                </ProcedureCall>
+              </IfSequence>
+              <ElseSequence id="_1oRP">
+                <ProcedureCall id="_1p1A" procedure="run-log.logError">
+                  <variable name="message">$(outfn).$(fr) is not processed</variable>
+                  <variable name="withScreenshots">false</variable>
+                </ProcedureCall>
+              </ElseSequence>
+            </IfSequence>
+          </TestStep>
+          <ProcedureCall id="_1oQZ" procedure="close.session"/>
+        </ElseSequence>
+      </IfSequence>
+    </Procedure>
     <IfSequence id="_1p0L" test="${qftest:windows}">
       <ElseSequence id="_1p0N"/>
     </IfSequence>

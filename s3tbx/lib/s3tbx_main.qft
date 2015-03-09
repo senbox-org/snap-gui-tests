@@ -62,6 +62,7 @@
   <dependency>../utilities/03_01_s3tbx_create_filtered_band.qft</dependency>
   <dependency>../gpt/040_01_s3tbx_bandMath.qft</dependency>
   <dependency>../gpt/040_02_s3tbx_collocation.qft</dependency>
+  <dependency>../gpt/040_04_s3tbx_binning.qft</dependency>
   <PackageRoot id="_3">
     <comment>s3tbx</comment>
     <Package id="_1l8u" name="dependencies">
@@ -75,12 +76,18 @@
       </Dependency>
       <Dependency id="_1oP4" name="start_SUT_for_gpt_tests">
         <SetupSequence id="_1l4Y" name="start_s3tbx">
-          <ProcedureCall id="_1l4Z"
-                         procedure="preparation.environment_for_gpt_test">
-            <variable name="out_dir">$(data_out_dir)</variable>
-          </ProcedureCall>
           <ProcedureCall id="_1oNA" procedure="set.variable.client_senbox"/>
-          <ProcedureCall id="_A" procedure="start.s3tbx.application"/>
+          <TryStep id="_1o-y" name="already started?">
+            <ClientWaiter client="$(client)" id="_1o-+" timeout="0"/>
+            <CatchSequence exception="ClientNotConnectedException" id="_1o--"
+                           maxerror="0" name="not start -&gt; start">
+              <ProcedureCall id="_A" procedure="start.s3tbx.application"/>
+              <ProcedureCall id="_1l4Z"
+                             procedure="preparation.environment_for_gpt_test">
+                <variable name="out_dir">$(data_out_dir)</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
         </SetupSequence>
         <CleanupSequence id="_8" name="exit_s3tbx">
           <ProcedureCall id="_B" procedure="stop.exit_s3tbx"/>

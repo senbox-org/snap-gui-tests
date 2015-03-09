@@ -70,6 +70,25 @@
           <ProcedureCall id="_1lEv" procedure="stop.exit_snap"/>
         </CleanupSequence>
       </Dependency>
+      <Dependency id="_1oP4" name="start_SUT_for_gpt_tests">
+        <SetupSequence id="_1l4Y" name="start_snap">
+          <ProcedureCall id="_1p00" procedure="set.variable.client_snap"/>
+          <TryStep id="_1o-y" name="already started?">
+            <ClientWaiter client="$(client)" id="_1o-+" timeout="0"/>
+            <CatchSequence exception="ClientNotConnectedException" id="_1o--"
+                           maxerror="0" name="not start -&gt; start">
+              <ProcedureCall id="_1p01" procedure="start.snap.application"/>
+              <ProcedureCall id="_1l4Z"
+                             procedure="preparation.environment_for_gpt_test">
+                <variable name="out_dir">$(data_out_dir)</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+        </SetupSequence>
+        <CleanupSequence id="_8" name="exit_snap">
+          <ProcedureCall id="_1p02" procedure="stop.exit_snap"/>
+        </CleanupSequence>
+      </Dependency>
       <Dependency disabled="true" id="_1l8z" name="start_SUT">
         <SetupSequence id="_1l8+" name="start">
           <ProcedureCall id="_1l9P" procedure="set.variable.client_snap"/>
