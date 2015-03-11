@@ -10,6 +10,88 @@
   <PackageRoot id="_3">
     <Package id="_1lB5" name="wait">
       <Package id="_1lBB" name="appear">
+        <Package id="_1mcI" name="tools">
+          <Procedure id="_1mmx" name="band_Maths_Expression_Editor">
+            <ComponentWaiter client="$(client)"
+                             component="dialogBand_Maths_Expression_Editor"
+                             id="_1mju"/>
+          </Procedure>
+          <Procedure id="_1mhq" name="band_Maths_dialog">
+            <ComponentWaiter client="$(client)" component="BandMathsDialog"
+                             id="_1mjg"/>
+          </Procedure>
+          <Procedure disabled="true" id="_1mcJ" name="dialogOptions">
+            <ComponentWaiter client="$(client)" component="dialogOptions"
+                             id="_1mOx"/>
+          </Procedure>
+          <Procedure disabled="true" id="_1mcR" name="dialogPlugins">
+            <ComponentWaiter client="$(client)" component="dialogPlugins"
+                             id="_1mOt"/>
+          </Procedure>
+          <Procedure id="_1oeR" name="dialogSNAP_Attach_Pixel_Geo-Coding">
+            <ComponentWaiter client="$(client)"
+                             component="dialogSNAP_-_Attach_Pixel_Geo-Coding.buttonYes"
+                             id="_1ob4" timeout="100"/>
+          </Procedure>
+          <Procedure disabled="true" id="_1mcN" name="dialogTemplate_Manager">
+            <ComponentWaiter client="$(client)"
+                             component="dialogTemplate_Manager" id="_1mOp"/>
+          </Procedure>
+        </Package>
+        <Procedure disabled="true" id="_1lB6" name="dialog">
+          <IfSequence id="_1owI" test="${qftest:windows}">
+            <ElseifSequence id="_1owJ" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+            <ElseSequence id="_1owK"/>
+          </IfSequence>
+          <ComponentWaiter client="$(client)" component="Dialog" id="_1lB8"/>
+        </Procedure>
+        <Procedure disabled="true" id="_1mQI" name="dialogCustomize_Toolbars">
+          <ComponentWaiter client="$(client)"
+                           component="dialogCustomize_Toolbars" id="_1mNP"/>
+        </Procedure>
+        <Procedure id="_1ow+" name="dialog_Confirm_Object_Deletion">
+          <ComponentWaiter client="$(client)"
+                           component="dialogConfirm_Object_Deletion"
+                           id="_1ozH"/>
+        </Procedure>
+        <Procedure id="_1mjj" name="dialog_SNAP-Error">
+          <ComponentWaiter client="$(client)" component="dialogSNAP_-_Error"
+                           id="_1mmw"/>
+        </Procedure>
+        <Procedure id="_1oQ8" name="error_dialog_SNAP_open_product">
+          <ComponentWaiter client="$(client)"
+                           component="dialogSNAP_-_Open_Product.buttonOK"
+                           id="_1oQ9" timeout="100"/>
+        </Procedure>
+        <Procedure id="_1mmy" name="error_dialog_open_product">
+          <ComponentWaiter client="$(client)"
+                           component="dialogOpen_Product.buttonYes" id="_1oQ7"
+                           timeout="100"/>
+        </Procedure>
+        <Procedure id="_1lK4" name="import_dialog">
+          <IfSequence id="_1owC" test="${qftest:windows}">
+            <ComponentWaiter client="$(client)" component="dialogOpen_Product"
+                             id="_1ofb"/>
+            <ElseifSequence id="_1owD" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <ComponentWaiter client="$(client)"
+                               component="dialogOpen_Product" id="_1owg"/>
+            </ElseifSequence>
+            <ElseSequence id="_1owE">
+              <ComponentWaiter client="$(client)"
+                               component="dialogOpen_Product" id="_1owh"/>
+            </ElseSequence>
+          </IfSequence>
+        </Procedure>
+        <Procedure disabled="true" id="_1lBF" name="new_pin_dialog">
+          <IfSequence id="_1owL" test="${qftest:windows}">
+            <ElseifSequence id="_1owM" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+            <ElseSequence id="_1owN"/>
+          </IfSequence>
+          <ComponentWaiter client="$(client)" component="New_Pin" id="_1lGd"/>
+        </Procedure>
         <Procedure id="_1l3q" name="open_product_dialog">
           <comment>@teststep Wait if 'Open Product' dialog appears.</comment>
           <IfSequence id="_1ok3" test="${qftest:windows}">
@@ -24,6 +106,13 @@
               <ComponentWaiter client="$(client)"
                                component="dialogOpen_Product" id="_1owB"/>
             </ElseSequence>
+          </IfSequence>
+        </Procedure>
+        <Procedure disabled="true" id="_1lAF" name="preferences_dialog">
+          <IfSequence id="_1owF" test="${qftest:windows}">
+            <ElseifSequence id="_1owG" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+            <ElseSequence id="_1owH"/>
           </IfSequence>
         </Procedure>
         <Procedure id="_9Z5" name="product_is_opened">
@@ -45,9 +134,23 @@
                            component="dialogSNAP_-_Open_Product" id="_1mhn"
                            timeout="100"/>
         </Procedure>
-        <Procedure id="_1mho" name="snap_window">
-          <ComponentWaiter client="$(client)" component="NbMainWindow"
-                           id="_1mhp" timeout="500"/>
+        <Procedure id="_1mjh" name="save_product_as_dialog">
+          <IfSequence id="_1owv" test="${qftest:windows}">
+            <ComponentWaiter client="$(client)"
+                             component="dialogSNAP_-_Save_Product_As"
+                             id="_1owu"/>
+            <ElseifSequence id="_1oww" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <ComponentWaiter client="$(client)"
+                               component="dialogSNAP_-_Save_Product_As"
+                               id="_1owy"/>
+            </ElseifSequence>
+            <ElseSequence id="_1owx">
+              <ComponentWaiter client="$(client)"
+                               component="dialogSNAP_-_Save_Product_As"
+                               id="_1owz"/>
+            </ElseSequence>
+          </IfSequence>
         </Procedure>
         <Procedure id="_1owl" name="save_product_as_question_dialog">
           <IfSequence id="_1own" test="${qftest:windows}">
@@ -67,107 +170,9 @@
             </ElseSequence>
           </IfSequence>
         </Procedure>
-        <Procedure id="_1mjh" name="save_product_as_dialog">
-          <IfSequence id="_1owv" test="${qftest:windows}">
-            <ComponentWaiter client="$(client)"
-                             component="dialogSNAP_-_Save_Product_As"
-                             id="_1owu"/>
-            <ElseifSequence id="_1oww" name="MAC?"
-                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-              <ComponentWaiter client="$(client)"
-                               component="dialogSNAP_-_Save_Product_As"
-                               id="_1owy"/>
-            </ElseifSequence>
-            <ElseSequence id="_1owx">
-              <ComponentWaiter client="$(client)"
-                               component="dialogSNAP_-_Save_Product_As"
-                               id="_1owz"/>
-            </ElseSequence>
-          </IfSequence>
-        </Procedure>
-        <Procedure id="_1mjj" name="dialog_SNAP-Error">
-          <ComponentWaiter client="$(client)" component="dialogSNAP_-_Error"
-                           id="_1mmw"/>
-        </Procedure>
-        <Procedure id="_1mmy" name="error_dialog_open_product">
-          <ComponentWaiter client="$(client)"
-                           component="dialogOpen_Product.buttonYes" id="_1oQ7"
-                           timeout="100"/>
-        </Procedure>
-        <Procedure id="_1oQ8" name="error_dialog_SNAP_open_product">
-          <ComponentWaiter client="$(client)"
-                           component="dialogSNAP_-_Open_Product.buttonOK"
-                           id="_1oQ9" timeout="100"/>
-        </Procedure>
-        <Procedure disabled="true" id="_1mQI" name="dialogCustomize_Toolbars">
-          <ComponentWaiter client="$(client)"
-                           component="dialogCustomize_Toolbars" id="_1mNP"/>
-        </Procedure>
-        <Package id="_1mcI" name="tools">
-          <Procedure id="_1mhq" name="band_Maths_dialog">
-            <ComponentWaiter client="$(client)" component="BandMathsDialog"
-                             id="_1mjg"/>
-          </Procedure>
-          <Procedure id="_1mmx" name="band_Maths_Expression_Editor">
-            <ComponentWaiter client="$(client)"
-                             component="dialogBand_Maths_Expression_Editor"
-                             id="_1mju"/>
-          </Procedure>
-          <Procedure id="_1oeR" name="dialogSNAP_Attach_Pixel_Geo-Coding">
-            <ComponentWaiter client="$(client)"
-                             component="dialogSNAP_-_Attach_Pixel_Geo-Coding.buttonYes"
-                             id="_1ob4" timeout="100"/>
-          </Procedure>
-          <Procedure disabled="true" id="_1mcN" name="dialogTemplate_Manager">
-            <ComponentWaiter client="$(client)"
-                             component="dialogTemplate_Manager" id="_1mOp"/>
-          </Procedure>
-          <Procedure disabled="true" id="_1mcR" name="dialogPlugins">
-            <ComponentWaiter client="$(client)" component="dialogPlugins"
-                             id="_1mOt"/>
-          </Procedure>
-          <Procedure disabled="true" id="_1mcJ" name="dialogOptions">
-            <ComponentWaiter client="$(client)" component="dialogOptions"
-                             id="_1mOx"/>
-          </Procedure>
-        </Package>
-        <Procedure id="_1lK4" name="import_dialog">
-          <IfSequence id="_1owC" test="${qftest:windows}">
-            <ComponentWaiter client="$(client)" component="dialogOpen_Product"
-                             id="_1ofb"/>
-            <ElseifSequence id="_1owD" name="MAC?"
-                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-              <ComponentWaiter client="$(client)"
-                               component="dialogOpen_Product" id="_1owg"/>
-            </ElseifSequence>
-            <ElseSequence id="_1owE">
-              <ComponentWaiter client="$(client)"
-                               component="dialogOpen_Product" id="_1owh"/>
-            </ElseSequence>
-          </IfSequence>
-        </Procedure>
-        <Procedure disabled="true" id="_1lAF" name="preferences_dialog">
-          <IfSequence id="_1owF" test="${qftest:windows}">
-            <ElseifSequence id="_1owG" name="MAC?"
-                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-            <ElseSequence id="_1owH"/>
-          </IfSequence>
-        </Procedure>
-        <Procedure disabled="true" id="_1lB6" name="dialog">
-          <IfSequence id="_1owI" test="${qftest:windows}">
-            <ElseifSequence id="_1owJ" name="MAC?"
-                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-            <ElseSequence id="_1owK"/>
-          </IfSequence>
-          <ComponentWaiter client="$(client)" component="Dialog" id="_1lB8"/>
-        </Procedure>
-        <Procedure disabled="true" id="_1lBF" name="new_pin_dialog">
-          <IfSequence id="_1owL" test="${qftest:windows}">
-            <ElseifSequence id="_1owM" name="MAC?"
-                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-            <ElseSequence id="_1owN"/>
-          </IfSequence>
-          <ComponentWaiter client="$(client)" component="New_Pin" id="_1lGd"/>
+        <Procedure id="_1mho" name="snap_window">
+          <ComponentWaiter client="$(client)" component="NbMainWindow"
+                           id="_1mhp" timeout="500"/>
         </Procedure>
         <Procedure disabled="true" id="_1k-o" name="view">
           <variable name="prod_nr"/>
