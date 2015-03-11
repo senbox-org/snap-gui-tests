@@ -27,6 +27,9 @@
               <SetGlobalStep id="_1o-N" local="true" varname="i1">
                 <default>$(sourceOption)$(data_source_directory)$(fileName)</default>
               </SetGlobalStep>
+              <ElseSequence id="_1p1J">
+                <SetGlobalStep id="_1p1K" local="true" varname="i1"/>
+              </ElseSequence>
             </IfSequence>
             <IfSequence id="_1o-O"
                         test="&#34;$(dataInDir2)&#34;&lt;&gt;&#34;&#34;">
@@ -36,6 +39,9 @@
               <SetGlobalStep id="_1o-Q" local="true" varname="i2">
                 <default>$(sourceOption2)$(data_source_directory)$(fileName2)</default>
               </SetGlobalStep>
+              <ElseSequence id="_1p1F">
+                <SetGlobalStep id="_1p1G" local="true" varname="i2"/>
+              </ElseSequence>
             </IfSequence>
             <IfSequence id="_1o-R"
                         test="&#34;$(dataInDir3)&#34;&lt;&gt;&#34;&#34;">
@@ -45,31 +51,21 @@
               <SetGlobalStep id="_1o-T" local="true" varname="i3">
                 <default>$(sourceOption3)$(data_source_directory)$(fileName3)</default>
               </SetGlobalStep>
-            </IfSequence>
-            <IfSequence id="_1o-U"
-                        test="&#34;$(dataInDir)&#34;&lt;&gt;&#34;&#34; and &#34;$(dataInDir2)&#34;&lt;&gt;&#34;&#34;  and &#34;$(dataInDir3)&#34;&lt;&gt;&#34;&#34; ">
-              <SetGlobalStep id="_1o-V" varname="input">
-                <default>$(i1) $(i2) $(i3)</default>
-              </SetGlobalStep>
-              <ElseifSequence id="_1o-W"
-                              test="&#34;$(dataInDir)&#34;&lt;&gt;&#34;&#34; and &#34;$(dataInDir2)&#34;&lt;&gt;&#34;&#34;  and &#34;$(dataInDir3)&#34;==&#34;&#34; ">
-                <SetGlobalStep id="_1o-X" varname="input">
-                  <default>$(i1) $(i2)</default>
-                </SetGlobalStep>
-              </ElseifSequence>
-              <ElseSequence id="_1o-Y">
-                <SetGlobalStep id="_1o-Z" varname="input"/>
+              <ElseSequence id="_1p1H">
+                <SetGlobalStep id="_1p1I" local="true" varname="i3"/>
               </ElseSequence>
             </IfSequence>
+            <SetGlobalStep id="_1p1L" varname="input">
+              <default>$(i1) $(i2) $(i3)</default>
+            </SetGlobalStep>
+            <ServerScriptStep id="_1p1B" name="print">
+              <code>print "*** gpt_input = $(input)"  </code>
+            </ServerScriptStep>
           </TestStep>
           <TestStep id="_1oPG"
                     name="set_graph_file_or_operator_and_parameters_file">
             <ProcedureCall id="_1oPH" procedure="output_data_directory">
               <variable name="output_dir">$(data_out_dir)</variable>
-            </ProcedureCall>
-            <ProcedureCall disabled="true" id="_1oPI"
-                           procedure="graph_file_dir">
-              <variable name="xml_dir">$(xml_file_dir)</variable>
             </ProcedureCall>
             <IfSequence id="_1oPJ"
                         test="&#34;$(parameters_file)&#34;&lt;&gt;&#34;&#34;">
@@ -113,11 +109,8 @@
           <ProcedureCall id="_1o+G" procedure="utils.gpt_client_name">
             <variable name="client_nr">$(wv)</variable>
           </ProcedureCall>
-          <ServerScriptStep disabled="true" id="_1oPQ" name="print">
+          <ServerScriptStep id="_1oPQ" name="print">
             <code>print "************ graph or parameters file = $(new_param)*****************"  </code>
-          </ServerScriptStep>
-          <ServerScriptStep id="_1p0r" name="print">
-            <code>print "*** gpt_client_nr = $(wv)"  </code>
           </ServerScriptStep>
         </TestStep>
         <IfSequence id="_1oPR" postdelay="2000"
@@ -167,7 +160,7 @@
                                     postdelay="20000"/>
               </CatchSequence>
             </TryStep>
-            <ServerScriptStep disabled="true" id="_1p0C" name="print">
+            <ServerScriptStep id="_1p0C" name="print">
               <code>print "$(gpt_commando)"  </code>
             </ServerScriptStep>
             <ProcedureCall id="_1o+c" postdelay="1000"
@@ -183,6 +176,9 @@
             <variable name="client_name">$(gpt_client_name)</variable>
           </ProcedureCall>
         </IfSequence>
+        <ServerScriptStep disabled="true" id="_1p0r" name="print">
+          <code>print "*** gpt_client_nr = $(wv)"  </code>
+        </ServerScriptStep>
         <TestStep id="_1oPY" name="check_output">
           <TestStep id="_1oPZ" name="set_output_file">
             <IfSequence id="_1oPa" test="${qftest:windows}">
@@ -282,6 +278,14 @@ rc.setGlobal("fileExists", File("$(fileName)").exists())</code>
       </Procedure>
       <Procedure id="_1p0g" name="binning">
         <ExcelDataBinder excelfile="tables/gpt/binning.xls" id="_1p0h"
+                         name="dataTable" sheetname="requests"/>
+      </Procedure>
+      <Procedure id="_1p1M" name="subset">
+        <ExcelDataBinder excelfile="tables/gpt/subset.xls" id="_1p1N"
+                         name="dataTable" sheetname="requests"/>
+      </Procedure>
+      <Procedure id="_1p1O" name="reproject">
+        <ExcelDataBinder excelfile="tables/gpt/reprojection.xls" id="_1p1P"
                          name="dataTable" sheetname="requests"/>
       </Procedure>
       <Procedure id="_1oQf" name="collocation">
