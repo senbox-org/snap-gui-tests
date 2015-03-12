@@ -1487,36 +1487,64 @@
                 <variable name="view_id">$(view_Id1)</variable>
                 <variable name="band">$(bandName)</variable>
               </ProcedureCall>
+              <ProcedureCall disabled="true" id="_1p16"
+                             procedure="do_click.tree.doubleclick_product_node">
+                <variable name="prod_id">0</variable>
+                <variable name="group_id"></variable>
+                <variable name="view_id">$(view_Id1)</variable>
+                <variable name="band">$(bandName)</variable>
+              </ProcedureCall>
               <ProcedureCall id="_1lFe"
                              procedure="wait.disappear.creating_image_progress monitor">
                 <variable name="bandName">$(bandName)</variable>
               </ProcedureCall>
-              <TryStep id="_1oUQ" name="check_image_view">
-                <ProcedureCall id="_1oQd" procedure="check.view.visible">
-                  <variable name="visible">true</variable>
+              <TryStep id="_1p19" name="handle_error">
+                <ProcedureCall id="_1p18"
+                               procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
+                <ProcedureCall id="_1p1B" procedure="run-log.make_screensot">
+                  <variable name="iw_name">open_image_view</variable>
+                  <variable name="iw_name_example">error_dialog</variable>
                 </ProcedureCall>
-                <ProcedureCall id="_1oUM"
-                               procedure="check.view.button_maximize_window_visible">
-                  <variable name="visible">true</variable>
+                <ProcedureCall id="_1p1D"
+                               procedure="run-log.log_client_output">
+                  <variable name="client_name">$(client)</variable>
                 </ProcedureCall>
-                <ProcedureCall id="_1oUN"
-                               procedure="check.view.button_show_opened_documents_list_visible">
-                  <variable name="visible">true</variable>
+                <ProcedureCall id="_1p17"
+                               procedure="do_click.error_dialog.button_OK_dialog_SNAP_SNAP_Error"/>
+                <ProcedureCall id="_1p1C" procedure="run-log.logError">
+                  <variable name="message">Error by opening image view</variable>
+                  <variable name="withScreenshots">true</variable>
                 </ProcedureCall>
-                <ProcedureCall id="_1oUO"
-                               procedure="check.view.button_scroll_documents_right_visible">
-                  <variable name="visible">true</variable>
-                </ProcedureCall>
-                <ProcedureCall id="_1oUP"
-                               procedure="check.view.button_scroll_documents_left_visible">
-                  <variable name="visible">true</variable>
-                </ProcedureCall>
-                <CatchSequence exception="TestException" id="_1oUR"
+                <CatchSequence exception="TestException" id="_1p1A"
                                maxerror="0">
-                  <ProcedureCall id="_1oUS" procedure="run-log.logError">
-                    <variable name="message">image view is not appear</variable>
-                    <variable name="withScreenshots">true</variable>
-                  </ProcedureCall>
+                  <TryStep id="_1oUQ" name="check_image_view">
+                    <ProcedureCall id="_1oQd" procedure="check.view.visible">
+                      <variable name="visible">true</variable>
+                    </ProcedureCall>
+                    <ProcedureCall id="_1oUM"
+                                   procedure="check.view.button_maximize_window_visible">
+                      <variable name="visible">true</variable>
+                    </ProcedureCall>
+                    <ProcedureCall id="_1oUN"
+                                   procedure="check.view.button_show_opened_documents_list_visible">
+                      <variable name="visible">true</variable>
+                    </ProcedureCall>
+                    <ProcedureCall id="_1oUO"
+                                   procedure="check.view.button_scroll_documents_right_visible">
+                      <variable name="visible">true</variable>
+                    </ProcedureCall>
+                    <ProcedureCall id="_1oUP"
+                                   procedure="check.view.button_scroll_documents_left_visible">
+                      <variable name="visible">true</variable>
+                    </ProcedureCall>
+                    <CatchSequence exception="TestException" id="_1oUR"
+                                   maxerror="0">
+                      <ProcedureCall id="_1oUS" procedure="run-log.logError">
+                        <variable name="message">image view is not appear</variable>
+                        <variable name="withScreenshots">true</variable>
+                      </ProcedureCall>
+                    </CatchSequence>
+                  </TryStep>
                 </CatchSequence>
               </TryStep>
             </IfSequence>

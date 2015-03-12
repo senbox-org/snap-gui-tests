@@ -128,13 +128,32 @@
         <Package id="_1oOq" name="bandMaths">
           <Procedure id="_1oQI" name="target_product">
             <variable name="target_product">[1]_MER_RR__1PNMAP20070729_022435_000000792060_00175_28285_0001.N1</variable>
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="BandMathsDialog.productName"
-                            event="MOUSE_MPRC" id="_1mlL" modifiers="16"
-                            x="225" y="13"/>
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="dialogBand_Maths.popupInvokerName:_productName.listTarget_product_target_product"
-                            event="MOUSE_MPRC" id="_1mlM" modifiers="16"/>
+            <IfSequence id="_1pDh" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="BandMathsDialog.productName"
+                              event="MOUSE_MPRC" id="_1mlL" modifiers="16"
+                              x="225" y="13"/>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="dialogBand_Maths.popupInvokerName:_productName.listTarget_product_target_product"
+                              event="MOUSE_MPRC" id="_1mlM" modifiers="16"/>
+              <ElseifSequence id="_1pDi" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="productName" event="MOUSE_MPRC"
+                                id="_1pDm" modifiers="16" x="342" y="13"/>
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="listInvokerName:_productName@$(target_product)"
+                                event="MOUSE_MPRC" id="_1pDn" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1pDj">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="productName" event="MOUSE_MPRC"
+                                id="_1pDo" modifiers="16" x="342" y="13"/>
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="listInvokerName:_productName@$(target_product)"
+                                event="MOUSE_MPRC" id="_1pDp" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
           </Procedure>
           <Procedure id="_1oPr" name="saveExpressionOnly">
             <comment>@teststep Check-in checkbox 'Virtual (save expression only)' .</comment>
@@ -182,7 +201,7 @@
                               event="MOUSE_MPRC" id="_1msK" modifiers="16"/>
             </ElseifSequence>
             <ElseSequence id="_1owP">
-              <TryStep disabled="true" id="_1owc" name="todo">
+              <TryStep id="_1owc" name="todo">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="comboFilter:" event="MOUSE_MPRC"
                                 id="_1owK" modifiers="4" popup="true" x="38"
@@ -196,14 +215,18 @@
                                 modifiers="16"/>
                 <CatchSequence exception="TestException" id="_1owd"
                                maxerror="0">
-                  <MouseEventStep clicks="1" client="$(client)"
-                                  component="comboFilter:.button"
-                                  event="MOUSE_MPRC" id="_1owR" modifiers="4"
-                                  popup="true" x="38" y="11"/>
-                  <MouseEventStep clicks="1" client="$(client)"
-                                  component="listInvokerFeature:_Label:_Filter:@$(file_of_type)"
-                                  event="MOUSE_MPRC" id="_1owS"
-                                  modifiers="16"/>
+                  <TryStep id="_1owe">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="comboFilter:.button"
+                                    event="MOUSE_MPRC" id="_1owR"
+                                    modifiers="4" popup="true" x="38" y="11"/>
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="listInvokerFeature:_Label:_Filter:@$(file_of_type)"
+                                    event="MOUSE_MPRC" id="_1owS"
+                                    modifiers="16"/>
+                    <CatchSequence exception="TestException" id="_1owi"
+                                   maxerror="0"/>
+                  </TryStep>
                 </CatchSequence>
               </TryStep>
             </ElseSequence>

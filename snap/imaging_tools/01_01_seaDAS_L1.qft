@@ -2,18 +2,16 @@
 <!DOCTYPE RootStep>
 <RootStep id="_0" name="root" version="4.0.3">
   <include>qfs.qft</include>
-  <include>../lib/main.qft</include>
-  <reference>../../shared/variables.qft</reference>
+  <include>../lib/snap_main.qft</include>
   <TestSet id="_1" name="01_01_seaDAS_L1_imaging_tools"
            reportname="01-01 Imaging tools SeaDAS L1 (OCTS, CZCS, SeaWiFS)">
-    <DependencyReference id="_1lXI"
+    <DependencyReference id="_1lWj"
                          reference="dependencies.start_application"/>
     <TestSet id="_D" name="open_product_open_image_view">
       <DataDriver id="_3y4"
                   loopreportname="Open image view of $(dataInDir)/$(fileName) data product"
                   name="dataTable">
-        <ProcedureCall id="_Bt4"
-                       procedure="../../shared/variables.qft#tables.seaDAS_L1"/>
+        <ProcedureCall id="_Bt4" procedure="tables.seaDAS_L1"/>
       </DataDriver>
       <TestCase id="_2" name="test" reportname="$(productName)">
         <ProcedureCall id="_1lEv" procedure="import_data.raster_data">

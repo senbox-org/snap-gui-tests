@@ -61,55 +61,154 @@
           <Procedure id="_1oPC" name="bandName">
             <variable name="val"/>
             <comment>@teststep Insert band name.</comment>
-            <TextInputStep clear="true" client="$(client)"
-                           component="BandMathsDialog.bandName" id="_1oPF">
-              <text>$(val)</text>
-            </TextInputStep>
-            <KeyEventStep client="$(client)"
-                          component="BandMathsDialog.bandName" event="KEY_PTR"
-                          id="_1oPp" keychar="10" keycode="10" modifiers="0"/>
+            <IfSequence id="_1pDh" test="${qftest:windows}">
+              <TextInputStep clear="true" client="$(client)"
+                             component="BandMathsDialog.bandName" id="_1pDz">
+                <text>$(val)</text>
+              </TextInputStep>
+              <KeyEventStep client="$(client)"
+                            component="BandMathsDialog.bandName"
+                            event="KEY_PTR" id="_1pD+" keychar="10"
+                            keycode="10" modifiers="0"/>
+              <ElseifSequence id="_1pDi" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <TextInputStep clear="true" client="$(client)"
+                               component="productName" id="_1pD-">
+                  <text>$(val)</text>
+                </TextInputStep>
+                <KeyEventStep client="$(client)" component="productName"
+                              event="KEY_PTR" id="_1pE0" keychar="10"
+                              keycode="10" modifiers="0"/>
+              </ElseifSequence>
+              <ElseSequence id="_1pDj">
+                <TextInputStep clear="true" client="$(client)"
+                               component="productName" id="_1pE1">
+                  <text>$(val)</text>
+                </TextInputStep>
+                <KeyEventStep client="$(client)" component="productName"
+                              event="KEY_PTR" id="_1pE2" keychar="10"
+                              keycode="10" modifiers="0"/>
+              </ElseSequence>
+            </IfSequence>
           </Procedure>
           <Procedure id="_1oPK" name="bandDescription">
             <variable name="val"/>
             <comment>@teststep Insert band description.</comment>
-            <TextInputStep clear="true" client="$(client)"
-                           component="BandMathsDialog.bandDescription"
-                           id="_1oPN">
-              <text>$(val)</text>
-            </TextInputStep>
+            <IfSequence id="_1pDw" test="${qftest:windows}">
+              <TextInputStep clear="true" client="$(client)"
+                             component="BandMathsDialog.bandDescription"
+                             id="_1oPN">
+                <text>$(val)</text>
+              </TextInputStep>
+              <ElseifSequence id="_1pDx" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <TextInputStep clear="true" client="$(client)"
+                               component="bandDescription" id="_1pE3">
+                  <text>$(val)</text>
+                </TextInputStep>
+              </ElseifSequence>
+              <ElseSequence id="_1pDy">
+                <TextInputStep clear="true" client="$(client)"
+                               component="bandDescription" id="_1pE4">
+                  <text>$(val)</text>
+                </TextInputStep>
+              </ElseSequence>
+            </IfSequence>
           </Procedure>
           <Procedure id="_1oPS" name="bandUnit">
             <variable name="val"/>
             <comment>@teststep Insert band unit.</comment>
-            <TextInputStep clear="true" client="$(client)"
-                           component="BandMathsDialog.bandUnit" id="_1oPW">
-              <text>$(val)</text>
-            </TextInputStep>
+            <IfSequence id="_1pDt" test="${qftest:windows}">
+              <TextInputStep clear="true" client="$(client)"
+                             component="BandMathsDialog.bandUnit" id="_1oPW">
+                <text>$(val)</text>
+              </TextInputStep>
+              <ElseifSequence id="_1pDu" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <TextInputStep clear="true" client="$(client)"
+                               component="bandUnit" id="_1pE5">
+                  <text>$(val)</text>
+                </TextInputStep>
+              </ElseifSequence>
+              <ElseSequence id="_1pDv">
+                <TextInputStep clear="true" client="$(client)"
+                               component="bandUnit" id="_1pE6">
+                  <text>$(val)</text>
+                </TextInputStep>
+              </ElseSequence>
+            </IfSequence>
           </Procedure>
           <Procedure id="_1oPa" name="bandWavelength">
             <variable name="val"/>
             <comment>@teststep Insert band wavelength</comment>
-            <TextInputStep clear="true" client="$(client)"
-                           component="BandMathsDialog.bandWavelength"
-                           id="_1oPf">
-              <text>$(val)</text>
-            </TextInputStep>
+            <IfSequence id="_1pDq" test="${qftest:windows}">
+              <TextInputStep clear="true" client="$(client)"
+                             component="BandMathsDialog.bandWavelength"
+                             id="_1oPf">
+                <text>$(val)</text>
+              </TextInputStep>
+              <ElseifSequence id="_1pDr" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <TextInputStep clear="true" client="$(client)"
+                               component="bandWavelength" id="_1pE7">
+                  <text>$(val)</text>
+                </TextInputStep>
+              </ElseifSequence>
+              <ElseSequence id="_1pDs">
+                <TextInputStep clear="true" client="$(client)"
+                               component="bandWavelength" id="_1pE8">
+                  <text>$(val)</text>
+                </TextInputStep>
+              </ElseSequence>
+            </IfSequence>
           </Procedure>
           <Procedure id="_1oOs" name="noDataValue">
             <variable name="val"/>
             <comment>@teststep Insert noData value</comment>
-            <TextInputStep clear="true" client="$(client)"
-                           component="BandMathsDialog.noDataValue" id="_1oO-">
-              <text>$(val)</text>
-            </TextInputStep>
+            <IfSequence id="_1pDn" test="${qftest:windows}">
+              <TextInputStep clear="true" client="$(client)"
+                             component="BandMathsDialog.noDataValue"
+                             id="_1oO-">
+                <text>$(val)</text>
+              </TextInputStep>
+              <ElseifSequence id="_1pDo" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <TextInputStep clear="true" client="$(client)"
+                               component="noDataValue" id="_1pE9">
+                  <text>$(val)</text>
+                </TextInputStep>
+              </ElseifSequence>
+              <ElseSequence id="_1pDp">
+                <TextInputStep clear="true" client="$(client)"
+                               component="noDataValue" id="_1pEA">
+                  <text>$(val)</text>
+                </TextInputStep>
+              </ElseSequence>
+            </IfSequence>
           </Procedure>
           <Procedure id="_1oPi" name="expression">
             <variable name="val"/>
             <comment>@teststep Insert expression.</comment>
-            <TextInputStep clear="true" client="$(client)"
-                           component="BandMathsDialog.expression" id="_1oPj">
-              <text>$(val)</text>
-            </TextInputStep>
+            <IfSequence id="_1pDk" test="${qftest:windows}">
+              <TextInputStep clear="true" client="$(client)"
+                             component="BandMathsDialog.expression"
+                             id="_1oPj">
+                <text>$(val)</text>
+              </TextInputStep>
+              <ElseifSequence id="_1pDl" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <TextInputStep clear="true" client="$(client)"
+                               component="expression" id="_1pEB">
+                  <text>$(val)</text>
+                </TextInputStep>
+              </ElseifSequence>
+              <ElseSequence id="_1pDm">
+                <TextInputStep clear="true" client="$(client)"
+                               component="expression" id="_1pED">
+                  <text>$(val)</text>
+                </TextInputStep>
+              </ElseSequence>
+            </IfSequence>
           </Procedure>
         </Package>
         <Package id="_1oU9" name="expression_Editor">
