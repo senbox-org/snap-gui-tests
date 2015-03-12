@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.3">
+  <include>qfs.qft</include>
+  <include>../lib/snap_main.qft</include>
+  <TestSet id="_2" name="04_01_undo_redo" reportname="04-01 undo redo">
+    <comment>Product generation tools. Arithmetic Expression Editor.</comment>
+    <DependencyReference id="_1oXU"
+                         reference="dependencies.start_application"/>
+    <TestCase id="_8cc" name="01_delete_band_product_tree"
+              reportname="01 delete one band in the product tree">
+      <variable name="band">radiance_2</variable>
+      <ProcedureCall id="_1oXQ" procedure="open.product">
+        <variable name="prod_dir">mer_rr__1p_n1</variable>
+        <variable name="in_out">in</variable>
+        <variable name="prod">MER_RR__1_test.N1</variable>
+        <variable name="product_type"/>
+      </ProcedureCall>
+      <ProcedureCall id="_1oX0" procedure="check.product.not_opened"/>
+      <IfSequence id="_1oX1" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
+        <TryStep id="_1oX2">
+          <ComponentWaiter client="VISAT"
+                           component="NbMainWindow.Product_Explorer.tree"
+                           errorlevel="0" id="_1oX3" raise="false"/>
+          <CatchSequence exception="TestException" id="_1oX4" maxerror="0"/>
+        </TryStep>
+      </IfSequence>
+      <ProcedureCall id="_1oXV" procedure="check.product.not_opened"/>
+      <IfSequence id="_1oXW" test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+        <TestStep id="_1o+2" name="delete_band">
+          <SetGlobalStep id="_1oY2" varname="node_name">
+            <default>$(band)</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1oXb" procedure="select.product_tree.band">
+            <variable name="prod_id">0</variable>
+            <variable name="group_id"/>
+            <variable name="view_id">1</variable>
+            <variable name="band">$(node_name)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ozv" procedure="delete_product_tree_node"/>
+          <ProcedureCall id="_1ozx" procedure="check.product.node_not_exists">
+            <variable name="node">$(node_name)</variable>
+            <variable name="nodeSeparator">@</variable>
+            <variable name="linear">false</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1o+t" name="undo">
+          <ProcedureCall id="_1o+y" procedure="do_click_menubar_undo">
+            <variable name="node_name">$(node_name)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1o+z" procedure="get.get_index_of_node">
+            <variable name="node">$(node_name)</variable>
+            <variable name="nodeSeparator">@</variable>
+            <variable name="linear">false</variable>
+          </ProcedureCall>
+          <ServerScriptStep disabled="true" id="_1o++" name="print">
+            <code>print "$(new_band_id)"</code>
+          </ServerScriptStep>
+        </TestStep>
+        <TestStep id="_1o-3" name="redo">
+          <ProcedureCall id="_1o-B" procedure="do_click_menubar_redo">
+            <variable name="node_name">$(node_name)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1o-C" procedure="check.product.node_not_exists">
+            <variable name="node">$(node_name)</variable>
+            <variable name="nodeSeparator">@</variable>
+            <variable name="linear">false</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1o-F" name="undo">
+          <ProcedureCall id="_1o-P" procedure="do_click_menubar_undo">
+            <variable name="node_name">$(node_name)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1o-Q" procedure="get.get_index_of_node">
+            <variable name="node">$(node_name)</variable>
+            <variable name="nodeSeparator">@</variable>
+            <variable name="linear">false</variable>
+          </ProcedureCall>
+        </TestStep>
+      </IfSequence>
+      <ProcedureCall id="_1oXO" procedure="close.all_products"/>
+    </TestCase>
+    <TestCase id="_1o+F" name="02_delete_some_bands_product_tree"
+              reportname="02 delete some bands in the product tree">
+      <variable name="band1">reflec_5</variable>
+      <variable name="band2">reflec_13</variable>
+      <variable name="band3">algal_1</variable>
+      <ProcedureCall id="_1o+s" procedure="open.product">
+        <variable name="prod_dir">mer_rr__2p_n1</variable>
+        <variable name="in_out">in</variable>
+        <variable name="prod">MER_RR__2_test.N1</variable>
+        <variable name="product_type"/>
+      </ProcedureCall>
+      <ProcedureCall id="_1o+H" procedure="check.product.not_opened"/>
+      <IfSequence id="_1o+I" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
+        <TryStep id="_1o+J">
+          <ComponentWaiter client="VISAT"
+                           component="NbMainWindow.Product_Explorer.tree"
+                           errorlevel="0" id="_1o+K" raise="false"/>
+          <CatchSequence exception="TestException" id="_1o+L" maxerror="0"/>
+        </TryStep>
+      </IfSequence>
+      <ProcedureCall id="_1o+M" procedure="check.product.not_opened"/>
+      <IfSequence id="_1o+N" test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+        <TestStep id="_1o-R" name="delete_band1">
+          <ProcedureCall id="_1o-T" procedure="select.product_tree.band">
+            <variable name="prod_id">0</variable>
+            <variable name="group_id"/>
+            <variable name="view_id">4</variable>
+            <variable name="band">$(band1)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1o-U" procedure="delete_product_tree_node"/>
+          <ProcedureCall id="_1o-V" procedure="check.product.node_not_exists">
+            <variable name="node">$(band1)</variable>
+            <variable name="nodeSeparator">@</variable>
+            <variable name="linear">false</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1o-g" name="delete_band2">
+          <ProcedureCall id="_1o-i" procedure="select.product_tree.band">
+            <variable name="prod_id">0</variable>
+            <variable name="group_id"/>
+            <variable name="view_id">10</variable>
+            <variable name="band">$(band2)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1o-j" procedure="delete_product_tree_node"/>
+          <ProcedureCall id="_1o-k" procedure="check.product.node_not_exists">
+            <variable name="node">$(band2)</variable>
+            <variable name="nodeSeparator">@</variable>
+            <variable name="linear">false</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1o-l" name="delete_band3">
+          <SetGlobalStep id="_1o-m" varname="node_name">
+            <default>$(band3)</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1o-n" procedure="select.product_tree.band">
+            <variable name="prod_id">0</variable>
+            <variable name="group_id"/>
+            <variable name="view_id">12</variable>
+            <variable name="band">$(band3)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1o-o" procedure="delete_product_tree_node"/>
+          <ProcedureCall id="_1o-p" procedure="check.product.node_not_exists">
+            <variable name="node">$(band3)</variable>
+            <variable name="nodeSeparator">@</variable>
+            <variable name="linear">false</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1o-W" name="undo">
+          <ProcedureCall id="_1o-X" procedure="do_click_menubar_undo">
+            <variable name="node_name">$(band3)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1o-q" procedure="do_click_menubar_undo">
+            <variable name="node_name">$(band2)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1o-r" procedure="do_click_menubar_undo">
+            <variable name="node_name">$(band1)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1o-Y" procedure="get.get_index_of_node">
+            <variable name="node">$(band1)</variable>
+            <variable name="nodeSeparator">@</variable>
+            <variable name="linear">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1o-s" procedure="get.get_index_of_node">
+            <variable name="node">$(band2)</variable>
+            <variable name="nodeSeparator">@</variable>
+            <variable name="linear">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1o-t" procedure="get.get_index_of_node">
+            <variable name="node">$(band3)</variable>
+            <variable name="nodeSeparator">@</variable>
+            <variable name="linear">false</variable>
+          </ProcedureCall>
+          <ServerScriptStep disabled="true" id="_1o-Z" name="print">
+            <code>print "$(new_band_id)"</code>
+          </ServerScriptStep>
+        </TestStep>
+        <TestStep id="_1o-a" name="redo">
+          <ProcedureCall id="_1o-b" procedure="do_click_menubar_redo">
+            <variable name="node_name">$(band1)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1o-c" procedure="check.product.node_not_exists">
+            <variable name="node">$(band1)</variable>
+            <variable name="nodeSeparator">@</variable>
+            <variable name="linear">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1o-y" procedure="get.get_index_of_node">
+            <variable name="node">$(band2)</variable>
+            <variable name="nodeSeparator">@</variable>
+            <variable name="linear">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1o-z" procedure="get.get_index_of_node">
+            <variable name="node">$(band3)</variable>
+            <variable name="nodeSeparator">@</variable>
+            <variable name="linear">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1o-u" procedure="do_click_menubar_redo">
+            <variable name="node_name">$(band2)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1p00" procedure="check.product.node_not_exists">
+            <variable name="node">$(band1)</variable>
+            <variable name="nodeSeparator">@</variable>
+            <variable name="linear">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1o-w" procedure="check.product.node_not_exists">
+            <variable name="node">$(band2)</variable>
+            <variable name="nodeSeparator">@</variable>
+            <variable name="linear">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1o--" procedure="get.get_index_of_node">
+            <variable name="node">$(band3)</variable>
+            <variable name="nodeSeparator">@</variable>
+            <variable name="linear">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1o-v" procedure="do_click_menubar_redo">
+            <variable name="node_name">$(band3)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1p01" procedure="check.product.node_not_exists">
+            <variable name="node">$(band1)</variable>
+            <variable name="nodeSeparator">@</variable>
+            <variable name="linear">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1p02" procedure="check.product.node_not_exists">
+            <variable name="node">$(band2)</variable>
+            <variable name="nodeSeparator">@</variable>
+            <variable name="linear">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1o-x" procedure="check.product.node_not_exists">
+            <variable name="node">$(band3)</variable>
+            <variable name="nodeSeparator">@</variable>
+            <variable name="linear">false</variable>
+          </ProcedureCall>
+        </TestStep>
+      </IfSequence>
+      <ProcedureCall id="_1o+r" procedure="close.all_products"/>
+    </TestCase>
+  </TestSet>
+  <PackageRoot id="_4">
+    <Procedure id="_1ozk" name="delete_product_tree_node">
+      <TryStep id="_1ozp">
+        <ProcedureCall id="_1ozl" procedure="do_click.menu.edit"/>
+        <ProcedureCall id="_1ozm" procedure="do_click.menu.edit.delete"/>
+        <ProcedureCall id="_1ozn"
+                       procedure="wait.appear.dialog_Confirm_Object_Deletion"/>
+        <ProcedureCall id="_1ozo"
+                       procedure="do_click.edit.dialog_confirm_object_deletion.button_Yes"/>
+        <CatchSequence exception="TestException" id="_1ozq" maxerror="0">
+          <ProcedureCall id="_1ozr" procedure="do_click.menu.edit"/>
+          <ProcedureCall id="_1ozs" procedure="do_click.menu.edit.delete"/>
+          <ProcedureCall id="_1ozt"
+                         procedure="wait.appear.dialog_Confirm_Object_Deletion"/>
+          <ProcedureCall id="_1ozu"
+                         procedure="do_click.edit.dialog_confirm_object_deletion.button_Yes"/>
+        </CatchSequence>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1ozd" name="do_click_menu_item_redo">
+      <variable name="node_name"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="menuItemRedo_Delete_product_tree_node"
+                      event="MOUSE_MPRC" id="_1ozR" modifiers="16"/>
+    </Procedure>
+    <Procedure id="_1ozf" name="do_click_menu_item_undo">
+      <variable name="node_name"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="menuItemUndo_Delete_product_tree_node"
+                      event="MOUSE_MPRC" id="_1ozT" modifiers="16"/>
+    </Procedure>
+    <Procedure id="_1ozb" name="do_click_menubar_redo">
+      <variable name="node_name"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="buttonTipRedo_Delete_product_tree_node"
+                      event="MOUSE_MPRC" id="_1ozL" modifiers="16"/>
+    </Procedure>
+    <Procedure id="_1ozZ" name="do_click_menubar_undo">
+      <variable name="node_name"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="buttonTipUndo_Delete_product_tree_node"
+                      event="MOUSE_MPRC" id="_1oza" modifiers="16"/>
+    </Procedure>
+  </PackageRoot>
+  <ExtraSequence id="_5"/>
+  <WindowList id="_6"/>
+</RootStep>
