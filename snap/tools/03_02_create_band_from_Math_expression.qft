@@ -87,15 +87,40 @@
                              procedure="check.tools.bandMaths.noDataValueUsed_selected_status">
                 <variable name="sel_status">true</variable>
               </ProcedureCall>
-              <CheckBooleanStep checktype="enabled" client="$(client)"
-                                component="BandMathsDialog.BandMathsDialog.ok"
-                                id="_1mjq"/>
-              <CheckBooleanStep checktype="enabled" client="$(client)"
-                                component="BandMathsDialog.BandMathsDialog.cancel"
-                                id="_1mjr"/>
-              <CheckBooleanStep checktype="enabled" client="$(client)"
-                                component="BandMathsDialog.BandMathsDialog.help"
-                                id="_1mjs"/>
+              <IfSequence id="_1op7" test="${qftest:windows}">
+                <CheckBooleanStep checktype="enabled" client="$(client)"
+                                  component="BandMathsDialog.BandMathsDialog.ok"
+                                  id="_1mjq"/>
+                <CheckBooleanStep checktype="enabled" client="$(client)"
+                                  component="BandMathsDialog.BandMathsDialog.cancel"
+                                  id="_1mjr"/>
+                <CheckBooleanStep checktype="enabled" client="$(client)"
+                                  component="BandMathsDialog.BandMathsDialog.help"
+                                  id="_1mjs"/>
+                <ElseifSequence id="_1op8" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <CheckBooleanStep checktype="enabled" client="$(client)"
+                                    component="BandMathsDialog.ok"
+                                    id="_1opA"/>
+                  <CheckBooleanStep checktype="enabled" client="$(client)"
+                                    component="BandMathsDialog.cancel"
+                                    id="_1opD"/>
+                  <CheckBooleanStep checktype="enabled" client="$(client)"
+                                    component="BandMathsDialog.help"
+                                    id="_1opE"/>
+                </ElseifSequence>
+                <ElseSequence id="_1op9">
+                  <CheckBooleanStep checktype="enabled" client="$(client)"
+                                    component="BandMathsDialog.ok"
+                                    id="_1opF"/>
+                  <CheckBooleanStep checktype="enabled" client="$(client)"
+                                    component="BandMathsDialog.cancel"
+                                    id="_1opG"/>
+                  <CheckBooleanStep checktype="enabled" client="$(client)"
+                                    component="BandMathsDialog.help"
+                                    id="_1opH"/>
+                </ElseSequence>
+              </IfSequence>
             </TestStep>
             <TestStep id="_1oU0" name="deselect_virtual">
               <ProcedureCall id="_1oT-"
@@ -1091,11 +1116,23 @@ Not fully resolved. The coloring of the images are still slightly different on e
       <ProcedureCall id="_1oWO" procedure="check.tools.bandMaths.productName">
         <variable name="val">[1] $(fileName)</variable>
       </ProcedureCall>
-      <ProcedureCall id="_1oWP" procedure="set.tools.bandMaths.bandName">
-        <variable name="val">$(newBand)</variable>
-      </ProcedureCall>
+      <TryStep disabled="true" id="_1opO">
+        <ProcedureCall id="_1opM"
+                       procedure="wait.appear.error.dialog_Band_Maths_error"/>
+        <ProcedureCall id="_1opN"
+                       procedure="do_click.error_dialog.button_OK_dialog_Band_Maths_error"/>
+        <CatchSequence exception="TestException" id="_1opP" maxerror="0">
+          <ProcedureCall id="_1opQ" procedure="run-log.logError">
+            <variable name="message">error dialog appears</variable>
+            <variable name="withScreenshots">true</variable>
+          </ProcedureCall>
+        </CatchSequence>
+      </TryStep>
       <ProcedureCall id="_1oWQ" procedure="set.tools.bandMaths.expression">
         <variable name="val">$(expr)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1oWP" procedure="set.tools.bandMaths.bandName">
+        <variable name="val">$(newBand)</variable>
       </ProcedureCall>
     </Procedure>
     <Procedure id="_1oUJ" name="check_new_band">

@@ -17,8 +17,19 @@
                              id="_1mju"/>
           </Procedure>
           <Procedure id="_1mhq" name="band_Maths_dialog">
-            <ComponentWaiter client="$(client)" component="BandMathsDialog"
-                             id="_1mjg"/>
+            <IfSequence id="_1ozL" test="${qftest:windows}">
+              <ComponentWaiter client="$(client)" component="BandMathsDialog"
+                               id="_1mjg"/>
+              <ElseifSequence id="_1ozM" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ComponentWaiter client="$(client)"
+                                 component="dialogBand_Maths" id="_1ozO"/>
+              </ElseifSequence>
+              <ElseSequence id="_1ozN">
+                <ComponentWaiter client="$(client)"
+                                 component="dialogBand_Maths" id="_1ozP"/>
+              </ElseSequence>
+            </IfSequence>
           </Procedure>
           <Procedure disabled="true" id="_1mcJ" name="dialogOptions">
             <ComponentWaiter client="$(client)" component="dialogOptions"
@@ -39,6 +50,17 @@
           </Procedure>
         </Package>
         <Package id="_1ozK" name="error">
+          <Procedure id="_1pDt" name="dialog_Band_Maths_error">
+            <IfSequence id="_1pDv" test="${qftest:windows}">
+              <ElseifSequence id="_1pDw" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+              <ElseSequence id="_1pDx">
+                <ComponentWaiter client="$(client)"
+                                 component="dialogBand_Maths.buttonOK"
+                                 id="_1pDz" timeout="10"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
           <Procedure id="_1oZ-" name="dialog_SNAP_SNAP_Error">
             <IfSequence id="_1on3" test="${qftest:windows}">
               <ElseifSequence id="_1on4" name="MAC?"
