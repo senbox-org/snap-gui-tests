@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.3">
+  <include>qfs.qft</include>
+  <include>snap_components.qft</include>
+  <include>snap_main.qft</include>
+  <dependency>snap_check.qft</dependency>
+  <dependency>snap_main.qft</dependency>
+  <dependency>snap_workflow.qft</dependency>
+  <PackageRoot id="_3">
+    <Package id="_1lB5" name="geometry">
+      <Package id="_1opA" name="draw">
+        <Procedure id="_1opB" name="line"/>
+        <Procedure id="_1opC" name="rectangle">
+          <variable name="view_name"/>
+          <variable name="x0"/>
+          <variable name="y0"/>
+          <variable name="x1"/>
+          <variable name="y1"/>
+          <ProcedureCall id="_1o+s"
+                         procedure="do_click.main_toolbar.tools.draw_rectangle"/>
+          <ProcedureCall id="_1pDz"
+                         procedure="do_click.view.start_point_drag_to_end_point">
+            <variable name="view_name">$(view_name)</variable>
+            <variable name="start_x">$(x0)</variable>
+            <variable name="start_y">$(y0)</variable>
+            <variable name="end_x">$(x1)</variable>
+            <variable name="end_y">$(y1)</variable>
+          </ProcedureCall>
+          <BasicSequence disabled="true" id="_1o+n" name="draw">
+            <MouseEventStep clicks="0" client="$(client)"
+                            component="NbMainWindow.view.panel"
+                            event="MOUSE_MOVED" id="_1o+o" modifiers="0"
+                            x="252" y="323"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="NbMainWindow.view.panel"
+                            event="MOUSE_PRESSED" id="_1o+p" modifiers="16"
+                            x="252" y="323"/>
+            <MouseEventStep clicks="0" client="$(client)"
+                            component="NbMainWindow.view.panel"
+                            event="MOUSE_DRAGGED" id="_1o+q" modifiers="16"
+                            x="335" y="379"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="NbMainWindow.view.panel"
+                            event="MOUSE_RELEASED" id="_1o+r" modifiers="16"
+                            x="335" y="379"/>
+          </BasicSequence>
+        </Procedure>
+        <Procedure id="_1opD" name="ellipse"/>
+        <Procedure id="_1opE" name="polyline"/>
+        <Procedure id="_1opF" name="polygon"/>
+      </Package>
+    </Package>
+  </PackageRoot>
+  <ExtraSequence id="_4">
+    <IfSequence id="_1op7" test="${qftest:windows}">
+      <ElseifSequence id="_1op8" name="MAC?"
+                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+      <ElseSequence id="_1op9"/>
+    </IfSequence>
+  </ExtraSequence>
+  <WindowList id="_5"/>
+</RootStep>

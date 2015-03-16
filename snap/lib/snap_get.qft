@@ -72,6 +72,69 @@ rc.setGlobal("nd", v)                       </code>
           <code>print "bands_group = $(bands_group)"  </code>
         </ServerScriptStep>
       </Procedure>
+      <Procedure id="_1oyf" name="vector_data_node_id">
+        <variable name="prod_id"/>
+        <SetGlobalStep id="_1oyg" varname="vector_data">
+          <default>true</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1oyh" varname="nd">
+          <default>0</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1oyi" varname="nn0">
+          <default>Vector Data</default>
+        </SetGlobalStep>
+        <FetchTextStep client="$(client)"
+                       component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(nd)"
+                       id="_1oyj" varname="nn"/>
+        <WhileSequence id="_1oyk"
+                       test="&#34;$(nn)&#34;&lt;&gt;&#34;$(nn0)&#34;">
+          <ServerScriptStep disabled="true" id="_1oyl" name="print">
+            <code>print "Node = $(nn)"  </code>
+          </ServerScriptStep>
+          <ServerScriptStep disabled="true" id="_1oym" name="print">
+            <code>print "Node Index = $(nd)"  </code>
+          </ServerScriptStep>
+          <ServerScriptStep id="_1oyn" name="set_variable_increase_on_1">
+            <code>v = $(nd)+ 1   
+rc.setGlobal("nd", v)                       </code>
+          </ServerScriptStep>
+          <TryStep id="_1oyo">
+            <FetchTextStep client="$(client)"
+                           component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(nd)"
+                           id="_1oyp" varname="nn"/>
+            <ServerScriptStep disabled="true" id="_1oyq" name="print">
+              <code>print "nn = $(nn)"  </code>
+            </ServerScriptStep>
+            <CatchSequence exception="TestException" id="_1oyr" maxerror="0">
+              <SetGlobalStep id="_1oys" varname="nd">
+                <default>0</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oy-" varname="vector_data">
+                <default>false</default>
+              </SetGlobalStep>
+              <ServerScriptStep disabled="true" id="_1oyu" name="error">
+                <code>rc.logError("'Bands' node can not be found.")</code>
+              </ServerScriptStep>
+              <BreakStep id="_1oyv"/>
+            </CatchSequence>
+          </TryStep>
+          <ServerScriptStep disabled="true" id="_1oyw" name="print">
+            <code>print "Node = $(nn)"  </code>
+          </ServerScriptStep>
+          <ServerScriptStep disabled="true" id="_1oyx" name="print">
+            <code>print "Node Index = $(nd)"  </code>
+          </ServerScriptStep>
+        </WhileSequence>
+        <SetGlobalStep id="_1oyy" varname="vector_data_node_id">
+          <default>$(nd)</default>
+        </SetGlobalStep>
+        <ServerScriptStep disabled="true" id="_1oyz" name="print">
+          <code>print "bands_node_id = $(vector_data_node_id)"  </code>
+        </ServerScriptStep>
+        <ServerScriptStep disabled="true" id="_1oy+" name="print">
+          <code>print "vector_data = $(vector_data)"  </code>
+        </ServerScriptStep>
+      </Procedure>
       <Procedure id="_1jvQ" name="get_index_of_node">
         <variable name="node"/>
         <variable name="nodeSeparator">@</variable>

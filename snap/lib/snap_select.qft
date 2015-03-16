@@ -76,6 +76,38 @@
                           event="MOUSE_MPRC" hardevent="true" id="_1pDv"
                           modifiers="16"/>
         </Procedure>
+        <Procedure id="_1pD+" name="vector_node" postdelay="500">
+          <variable name="prod_id"/>
+          <variable name="node_id"/>
+          <variable name="node_name"/>
+          <comment>@teststep Select band</comment>
+          <ProcedureCall id="_1pD-" procedure="get.vector_data_node_id">
+            <variable name="prod_id">$(prod_id)</variable>
+          </ProcedureCall>
+          <IfSequence id="_1pE0"
+                      test="&#34;$(vector_data)&#34;==&#34;true&#34;">
+            <SetGlobalStep id="_1pE1" varname="nid">
+              <default>/$(prod_id)/$(vector_data_node_id)/$(node_id)</default>
+            </SetGlobalStep>
+            <ServerScriptStep id="_1pEF" name="print">
+              <code>print "Vector Node = $(nid)"</code>
+            </ServerScriptStep>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="NbMainWindow.Product_Explorer.tree&amp;$(nid)"
+                            event="MOUSE_MPRC" hardevent="true" id="_1pEG"
+                            modifiers="16" postdelay="500"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="NbMainWindow.Product_Explorer.tree&amp;$(nid)"
+                            event="MOUSE_MPRC" hardevent="true" id="_1pEH"
+                            modifiers="16"/>
+            <ElseSequence id="_1pE7">
+              <ProcedureCall id="_1pEJ"
+                             procedure="run-log.error_message.node_does_not_exist">
+                <variable name="node_name">$(node_name)</variable>
+              </ProcedureCall>
+            </ElseSequence>
+          </IfSequence>
+        </Procedure>
         <Procedure id="_1oTh" name="metadata" postdelay="500">
           <variable name="prod_id"/>
           <variable name="group_id"/>
@@ -188,6 +220,25 @@
             </ProcedureCall>
           </Procedure>
         </Package>
+      </Package>
+      <Package id="_1pDw" name="view">
+        <Procedure id="_1pDx" name="geometry">
+          <variable name="view_name"/>
+          <variable name="x0"/>
+          <variable name="y0"/>
+          <variable name="x1"/>
+          <variable name="y1"/>
+          <ProcedureCall id="_1pDy"
+                         procedure="do_click.main_toolbar.tools.selectTool"/>
+          <ProcedureCall id="_1pDz"
+                         procedure="do_click.view.start_point_drag_to_end_point">
+            <variable name="view_name">$(view_name)</variable>
+            <variable name="start_x">$(x0)</variable>
+            <variable name="start_y">$(y0)</variable>
+            <variable name="end_x">$(x1)</variable>
+            <variable name="end_y">$(y1)</variable>
+          </ProcedureCall>
+        </Procedure>
       </Package>
       <Procedure id="_1oUW" name="file_of_type">
         <variable name="file_of_type"/>
