@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.3">
+  <include>qfs.qft</include>
+  <include>processing_main.qft</include>
+  <include>processing_components.qft</include>
+  <dependency>processing_main.qft</dependency>
+  <dependency>../geometric/10_02_reprojection.qft</dependency>
+  <dependency>../geometric/reproj_all_supported_data/10_02_aquarius.qft</dependency>
+  <dependency>../geometric/reproj_all_supported_data/10_02_asar.qft</dependency>
+  <dependency>../geometric/reproj_all_supported_data/10_02_atsr.qft</dependency>
+  <dependency>../geometric/reproj_all_supported_data/10_02_avnir2.qft</dependency>
+  <dependency>../geometric/reproj_all_supported_data/10_02_dimap.qft</dependency>
+  <dependency>../geometric/reproj_all_supported_data/10_02_envi.qft</dependency>
+  <dependency>../geometric/reproj_all_supported_data/10_02_envisat_multispectral.qft</dependency>
+  <dependency>../geometric/reproj_all_supported_data/10_02_ers_atsr.qft</dependency>
+  <dependency>../geometric/reproj_all_supported_data/10_02_ers_sar.qft</dependency>
+  <dependency>../geometric/reproj_all_supported_data/10_02_geotiff.qft</dependency>
+  <dependency>../geometric/reproj_all_supported_data/10_02_hdf_eos_gridded.qft</dependency>
+  <dependency>../geometric/reproj_all_supported_data/10_02_hico_envi_format.qft</dependency>
+  <dependency>../geometric/reproj_all_supported_data/10_02_landsat_geotiff.qft</dependency>
+  <dependency>../geometric/reproj_all_supported_data/10_02_landsat_tm.qft</dependency>
+  <dependency>../geometric/reproj_all_supported_data/10_02_modis_MOD_MXD_MYD.qft</dependency>
+  <dependency>../geometric/reproj_all_supported_data/10_02_modisL1B.qft</dependency>
+  <dependency>../geometric/reproj_all_supported_data/10_02_netcdf.qft</dependency>
+  <dependency>../geometric/reproj_all_supported_data/10_02_prism.qft</dependency>
+  <dependency>../geometric/reproj_all_supported_data/10_02_seaDAS_L1.qft</dependency>
+  <dependency>../geometric/reproj_all_supported_data/10_02_seaDAS_L2.qft</dependency>
+  <dependency>../geometric/reproj_all_supported_data/10_02_sentinel3.qft</dependency>
+  <dependency>../geometric/reproj_all_supported_data/10_02_smos.qft</dependency>
+  <dependency>../geometric/reproj_all_supported_data/10_02_spot_vgt.qft</dependency>
+  <dependency>../geometric/reproj_all_supported_data/10_02_viirs.qft</dependency>
+  <variable name="output_folder">reprojection</variable>
+  <PackageRoot id="_3">
+    <Dependency id="_1php" name="start_application_for_reprojection">
+      <DependencyReference id="_1pO-"
+                           reference="start_application_for_processing">
+        <variable name="output_dir">$(output_folder)</variable>
+      </DependencyReference>
+    </Dependency>
+    <Package id="_1pdI" name="test_sequence">
+      <Procedure id="_1ph2" name="reprojection_check_target_product">
+        <SetGlobalStep id="_1ph7" varname="output_file">
+          <default>reproj_test</default>
+        </SetGlobalStep>
+        <BasicSequence disabled="true" id="_1ph4" name="tmp">
+          <comment>
+</comment>
+          <SetGlobalStep id="_1ph5" varname="dataInDir">
+            <default>mer_rr__1p_n1</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1ph6" varname="fileName">
+            <default>MER_RR__1_test.N1</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1ph8" varname="group_id1"/>
+          <SetGlobalStep id="_1ph9" varname="view_Id1">
+            <default>2</default>
+          </SetGlobalStep>
+          <SetGlobalStep disabled="true" id="_1phB" varname="group_id2"/>
+          <SetGlobalStep disabled="true" id="_1phC" varname="view_Id2">
+            <default>12</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1phD" varname="bandName">
+            <default>radiance_3</default>
+          </SetGlobalStep>
+          <SetGlobalStep disabled="true" id="_1phA" varname="bandName2">
+            <default>radiance_13</default>
+          </SetGlobalStep>
+        </BasicSequence>
+        <ProcedureCall id="_1pi6"
+                       procedure="qfs.swing.cleanup.closeAllModalDialogs">
+          <variable name="maxDialogs">5</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1oXV" procedure="check.product.not_opened"/>
+        <IfSequence id="_1oXW"
+                    test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+          <ProcedureCall id="_1pi7" procedure="close.all_products"/>
+        </IfSequence>
+        <IfSequence id="_1phi" test="&#34;$(processing)&#34;==&#34;true&#34;">
+          <ProcedureCall id="_1ph3" procedure="test_sequence.preparation_io">
+            <variable name="prod_dir">$(dataInDir)</variable>
+            <variable name="prod_name">$(fileName)</variable>
+            <variable name="output_file">$(output_file)</variable>
+          </ProcedureCall>
+          <IfSequence id="_1phl"
+                      test="&#34;$(source_product_opened)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1phG"
+                           procedure="test_sequence.preparation_geo_lat_long"/>
+            <ProcedureCall id="_1phF" procedure="run_reprojection"/>
+            <ProcedureCall id="_1peZ"
+                           procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+            <ProcedureCall id="_1phM"
+                           procedure="test_sequence.preparation_utm_automatic"/>
+            <ProcedureCall id="_1phN" procedure="run_reprojection"/>
+            <ProcedureCall id="_1phO"
+                           procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+          </IfSequence>
+          <ElseifSequence id="_1pi8"
+                          test="&#34;$(processing)&#34;==&#34;geo&#34;">
+            <ProcedureCall id="_1pi9"
+                           procedure="test_sequence.preparation_io">
+              <variable name="prod_dir">$(dataInDir)</variable>
+              <variable name="prod_name">$(fileName)</variable>
+              <variable name="output_file">$(output_file)</variable>
+            </ProcedureCall>
+            <IfSequence id="_1piA"
+                        test="&#34;$(source_product_opened)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1piB"
+                             procedure="test_sequence.preparation_geo_lat_long"/>
+              <ProcedureCall id="_1piC" procedure="run_reprojection"/>
+              <ProcedureCall id="_1piD"
+                             procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+            </IfSequence>
+          </ElseifSequence>
+        </IfSequence>
+        <ProcedureCall disabled="true" id="_1piH"
+                       procedure="close_processing_tool.reprojection"/>
+      </Procedure>
+      <Procedure id="_1pdL" name="preparation_io">
+        <variable name="prod_dir">$(dataInDir)</variable>
+        <variable name="prod_name">$(fileName)</variable>
+        <variable name="output_file">$(output_file)</variable>
+        <ProcedureCall id="_1phv" procedure="open.processing.reprojection"/>
+        <ProcedureCall id="_1pgy" procedure="select_io_tab"/>
+        <ProcedureCall id="_1pg-" procedure="open_source_product">
+          <variable name="prod_dir">$(prod_dir)</variable>
+          <variable name="prod_name">$(prod_name)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pgp"
+                       procedure="set.reprojection.target_directory">
+          <variable name="dir">$(output_folder)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pbb"
+                       procedure="set.reprojection.target_product_name">
+          <variable name="target_product_name">$(output_file)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pbc" procedure="deselect.reprojection.save_as"/>
+      </Procedure>
+      <Procedure id="_1phb" name="preparation_reproj_parameters">
+        <ProcedureCall id="_1phc"
+                       procedure="select_projection_parameters_tab"/>
+        <ProcedureCall id="_1phd"
+                       procedure="default_parameters.geodetic_datum_default"/>
+        <ProcedureCall id="_1phe"
+                       procedure="select.reprojection.geodetic_datum">
+          <variable name="geodetic_datum">$(geodetic_datum_default)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1phf"
+                       procedure="select.reprojection.resampling_method">
+          <variable name="resampling_method">Nearest</variable>
+        </ProcedureCall>
+      </Procedure>
+      <Procedure id="_1pdJ" name="preparation_geo_lat_long">
+        <ProcedureCall id="_1phg"
+                       procedure="test_sequence.preparation_reproj_parameters"/>
+        <ProcedureCall id="_1phX"
+                       procedure="default_parameters.geo_lat_lon_projection"/>
+        <ProcedureCall id="_1pgg" procedure="select.reprojection.projection">
+          <variable name="projection">$(geo_lat_lon_projection)</variable>
+        </ProcedureCall>
+      </Procedure>
+      <Procedure id="_1pdK" name="preparation_utm_automatic">
+        <ProcedureCall id="_1pho"
+                       procedure="test_sequence.preparation_reproj_parameters"/>
+        <ProcedureCall id="_1phY"
+                       procedure="default_parameters.utm_automatic"/>
+        <ProcedureCall id="_1phK" procedure="select.reprojection.projection">
+          <variable name="projection">$(utm_automatic)</variable>
+        </ProcedureCall>
+      </Procedure>
+    </Package>
+    <Procedure id="_1pMT" name="open_source_product">
+      <variable name="prod_dir"/>
+      <variable name="prod_name"/>
+      <ProcedureCall id="_1oSj" procedure="source_data_directory">
+        <variable name="data_type">$(prod_dir)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1pMS"
+                     procedure="do_click.reprojection.button_source_product"/>
+      <ProcedureCall id="_1pHR"
+                     procedure="utility.handle_select_product_dialog">
+        <variable name="file">$(data_source_directory)$(prod_name)</variable>
+      </ProcedureCall>
+      <TryStep id="_1pXT">
+        <ProcedureCall id="_1pXV" procedure="wait.appear.error.dialog_Error"/>
+        <ProcedureCall id="_1pXS"
+                       procedure="do_click.error_dialog.button_OK_Error"/>
+        <SetGlobalStep id="_1phw" varname="source_product_opened">
+          <default>false</default>
+        </SetGlobalStep>
+        <ProcedureCall id="_1pXW" procedure="run-log.logError">
+          <variable name="message">Opening of the product $(data_source_directory)$(prod_name) failed</variable>
+          <variable name="withScreenshots">false</variable>
+        </ProcedureCall>
+        <CatchSequence exception="TestException" id="_1pXU" maxerror="0">
+          <SetGlobalStep id="_1phx" varname="source_product_opened">
+            <default>true</default>
+          </SetGlobalStep>
+        </CatchSequence>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1pON" name="click_ok_in_product_created_dialog">
+      <TryStep id="_1pOQ">
+        <ComponentWaiter client="$(client)" component="dialogReprojection2"
+                         id="_1pdG"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogReprojection2.buttonOK"
+                        event="MOUSE_MPRC" id="_1pdH" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1pOR" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1phE" name="run_reprojection">
+      <ProcedureCall id="_1pgi"
+                     procedure="do_click.reprojection.button_apply"/>
+      <TestStep id="_1piQ" name="handle_errors">
+        <TryStep id="_1pgj">
+          <ProcedureCall id="_1pgk"
+                         procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
+          <ProcedureCall id="_1pgl"
+                         procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
+          <ProcedureCall disabled="true" id="_1oJI"
+                         procedure="set.variable.client_snap"/>
+          <ProcedureCall disabled="true" id="_1pgm"
+                         procedure="run-log.log_client_output">
+            <variable name="client_name">$(client)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pgo"
+                         procedure="run-log.error_message.error_dialog_appears">
+            <variable name="dialog">Error</variable>
+          </ProcedureCall>
+          <CatchSequence exception="TestException" id="_1pgn" maxerror="0"/>
+        </TryStep>
+        <TryStep id="_1piI">
+          <ProcedureCall id="_1piJ"
+                         procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
+          <ProcedureCall id="_1piK"
+                         procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
+          <ProcedureCall disabled="true" id="_1piL"
+                         procedure="set.variable.client_snap"/>
+          <ProcedureCall disabled="true" id="_1piM"
+                         procedure="run-log.log_client_output">
+            <variable name="client_name">$(client)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1piN"
+                         procedure="run-log.error_message.error_dialog_appears">
+            <variable name="dialog">Error</variable>
+          </ProcedureCall>
+          <CatchSequence exception="TestException" id="_1piO" maxerror="0"/>
+        </TryStep>
+        <ProcedureCall id="_1piP"
+                       procedure="qfs.swing.cleanup.closeAllModalDialogs">
+          <variable name="maxDialogs">5</variable>
+        </ProcedureCall>
+      </TestStep>
+      <ProcedureCall id="_1pg+"
+                     procedure="click_ok_in_product_created_dialog"/>
+    </Procedure>
+    <Procedure id="_1pb8" name="select_io_tab">
+      <ProcedureCall id="_1pb9" procedure="select.reprojection.tab">
+        <variable name="tab">I/O Parameters</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pbC" name="select_projection_parameters_tab">
+      <ProcedureCall id="_1pbE" procedure="select.reprojection.tab">
+        <variable name="tab">Reprojection Parameters</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure disabled="true" id="_1pTE"
+               name="get_selected_source_product_todo">
+      <FetchTextStep client="$(client)"
+                     component="dialogReprojection.panelI/O_Parameters.comboName:"
+                     id="_1pTF" varname="source_product"/>
+      <ServerScriptStep id="_1phn" name="print">
+        <code>print "$(source_product)"</code>
+      </ServerScriptStep>
+    </Procedure>
+    <Package id="_1phR" name="default_parameters">
+      <Procedure id="_1phP" name="geodetic_datum_default">
+        <SetGlobalStep id="_1phQ" varname="geodetic_datum_default">
+          <default>World Geodetic System 1984</default>
+        </SetGlobalStep>
+      </Procedure>
+      <Procedure id="_1phT" name="geo_lat_lon_projection">
+        <SetGlobalStep id="_1phU" varname="geo_lat_lon_projection">
+          <default>Geographic Lat/Lon (WGS 84)</default>
+        </SetGlobalStep>
+      </Procedure>
+      <Procedure id="_1phV" name="utm_automatic">
+        <SetGlobalStep id="_1phW" varname="utm_automatic">
+          <default>UTM / WGS 84 (Automatic)</default>
+        </SetGlobalStep>
+      </Procedure>
+      <Procedure disabled="true" id="_1phq" name="output_folder">
+        <SetGlobalStep id="_1phr" varname="output_folder">
+          <default>reprojection</default>
+        </SetGlobalStep>
+      </Procedure>
+    </Package>
+  </PackageRoot>
+  <ExtraSequence id="_4">
+    <ServerScriptStep id="_1l5A" name="print">
+      <code>print "${default:varname:defaultvalue}"</code>
+    </ServerScriptStep>
+    <ServerScriptStep id="_1phm" name="print">
+      <code>print "${default:varname:defaultvalue}"</code>
+    </ServerScriptStep>
+    <IfSequence id="_1op7" test="${qftest:windows}">
+      <ElseifSequence id="_1op8" name="MAC?"
+                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+      <ElseSequence id="_1op9"/>
+    </IfSequence>
+  </ExtraSequence>
+  <WindowList id="_5"/>
+</RootStep>

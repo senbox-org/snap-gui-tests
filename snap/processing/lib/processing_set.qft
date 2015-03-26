@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.3">
+  <include>qfs.qft</include>
+  <include>processing_main.qft</include>
+  <dependency>processing_main.qft</dependency>
+  <dependency>processing_do_click.qft</dependency>
+  <PackageRoot id="_3">
+    <Package id="_1pOj" name="set">
+      <Package id="_1lB5" name="collocation">
+        <Procedure id="_1pNw" name="target_product_name">
+          <variable name="target_product_name"/>
+          <comment>@teststep Insert target product name.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogCollocation2.productName"
+                         id="_1pNx">
+            <text>$(target_product_name)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1pN-" name="target_directory">
+          <variable name="dir"/>
+          <comment>@teststep Insert target directory.</comment>
+          <ProcedureCall id="_1pOk" procedure="select.collocation.save_as"/>
+          <ProcedureCall id="_1pOD" procedure="output_data_directory">
+            <variable name="output_dir">$(dir)</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogCollocation2.productDir" id="_1pO1">
+            <text>$(output_data_directory)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1pO4" name="master_pattern">
+          <variable name="val"/>
+          <comment>@teststep Insert master pattern</comment>
+          <ProcedureCall id="_1pO9"
+                         procedure="select.collocation.rename_master_components"/>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogCollocation2.masterComponentPattern"
+                         id="_1pO7">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1pN9" name="slave_pattern">
+          <variable name="val"/>
+          <comment>@teststep Insert slave pattern</comment>
+          <ProcedureCall id="_1pOA"
+                         procedure="select.collocation.rename_slave_components"/>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogCollocation2.slaveComponentPattern"
+                         id="_1pNP">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+      </Package>
+      <Package id="_1pOp" name="spectral_unmixing">
+        <Procedure id="_1pOq" name="target_product_name">
+          <variable name="target_product_name"/>
+          <comment>@teststep Insert target product name.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogSpectral_Unmixing.productName"
+                         id="_1pOr">
+            <text>$(target_product_name)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1pOs" name="target_directory">
+          <variable name="dir"/>
+          <comment>@teststep Insert target directory.</comment>
+          <ProcedureCall id="_1pOt"
+                         procedure="select.spectral_unmixing.save_as"/>
+          <ProcedureCall id="_1pOu" procedure="output_data_directory">
+            <variable name="output_dir">$(dir)</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogSpectral_Unmixing.productDir"
+                         id="_1pOv">
+            <text>$(output_data_directory)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1pRv" name="abundance_band_name_suffix">
+          <variable name="val"/>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogSpectral_Unmixing.abundanceBandNameSuffix"
+                         id="_1pRw">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1pRz" name="error_band_name_suffix">
+          <variable name="val"/>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogSpectral_Unmixing.errorBandNameSuffix"
+                         id="_1pR-">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1pQl" name="minimal_bandwidth">
+          <variable name="val"/>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogSpectral_Unmixing.minBandwidth"
+                         id="_1pRu">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+      </Package>
+      <Package id="_1pS1" name="ndvi_processor">
+        <Procedure id="_1pWg" name="target_product_name">
+          <variable name="target_product_name"/>
+          <comment>@teststep Insert target product name.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogNDVI.productName" id="_1pUP">
+            <text>$(target_product_name)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1pWi" name="target_directory">
+          <variable name="dir"/>
+          <comment>@teststep Insert target directory.</comment>
+          <ProcedureCall id="_1pWj"
+                         procedure="select.ndvi_processor.save_as"/>
+          <ProcedureCall id="_1pWk" procedure="output_data_directory">
+            <variable name="output_dir">$(dir)</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogNDVI.productDir" id="_1pUe">
+            <text>$(output_data_directory)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1pWm" name="red_factor">
+          <variable name="val"/>
+          <comment>@teststep Insert red factor.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogNDVI.redFactor" id="_1pUu">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1pWn" name="nir_factor">
+          <variable name="val"/>
+          <comment>@teststep Insert NIR factor.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogNDVI.nirFactor" id="_1pUz">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+      </Package>
+      <Package id="_1pW-" name="reprojection">
+        <Procedure id="_1pX0" name="target_product_name">
+          <variable name="target_product_name"/>
+          <comment>@teststep Insert target product name.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogReprojection.productName"
+                         id="_1pX1">
+            <text>$(target_product_name)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1pX2" name="target_directory">
+          <variable name="dir"/>
+          <comment>@teststep Insert target directory.</comment>
+          <ProcedureCall id="_1pX6" procedure="select.reprojection.save_as"/>
+          <ProcedureCall id="_1pX4" procedure="output_data_directory">
+            <variable name="output_dir">$(dir)</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogReprojection.productDir" id="_1pX5">
+            <text>$(output_data_directory)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1paj" name="no_data_value">
+          <variable name="val"/>
+          <comment>@teststep Insert  no-data value.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogReprojection.noDataValue"
+                         id="_1pXg">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+      </Package>
+      <Package id="_1pOd" name="store_parameters_dialog">
+        <Procedure id="_1pMa" name="parameters_file_name">
+          <variable name="file_name"/>
+          <ProcedureCall id="_1pOi" procedure="output_data_directory">
+            <variable name="output_dir">parameters</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogSave_Parameters.textFile_name:"
+                         id="_1pOc">
+            <text>$(output_data_directory)$(file_name)</text>
+          </TextInputStep>
+        </Procedure>
+      </Package>
+      <Package id="_1pOl" name="load_parameters_dialog">
+        <Procedure id="_1pOm" name="parameters_file_name">
+          <variable name="file_name"/>
+          <ProcedureCall id="_1pOn" procedure="output_data_directory">
+            <variable name="output_dir">parameters</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogSave_Parameters.textFile_name:"
+                         id="_1pOo">
+            <text>$(output_data_directory)$(file_name)</text>
+          </TextInputStep>
+        </Procedure>
+      </Package>
+      <Procedure id="_1pQc" name="target_product_with_path">
+        <ProcedureCall id="_1oO-" procedure="path"/>
+        <IfSequence id="_1pQi" test="${qftest:windows}">
+          <SetGlobalStep id="_1pQY" varname="target_product">
+            <default>${path:data_directory}out\\$(output_folder)\\$(output_file)</default>
+          </SetGlobalStep>
+          <ElseifSequence id="_1pQj" name="MAC?"
+                          test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+            <SetGlobalStep id="_1pQZ" varname="target_product">
+              <default>${path:data_directory}out/$(output_folder)/$(output_file)</default>
+            </SetGlobalStep>
+          </ElseifSequence>
+          <ElseSequence id="_1pQk">
+            <SetGlobalStep id="_1pQb" varname="target_product">
+              <default>${path:data_directory}out/$(output_folder)/$(output_file)</default>
+            </SetGlobalStep>
+          </ElseSequence>
+        </IfSequence>
+      </Procedure>
+    </Package>
+  </PackageRoot>
+  <ExtraSequence id="_4">
+    <IfSequence id="_1op7" test="${qftest:windows}">
+      <ElseifSequence id="_1op8" name="MAC?"
+                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+      <ElseSequence id="_1op9"/>
+    </IfSequence>
+  </ExtraSequence>
+  <WindowList id="_5"/>
+</RootStep>

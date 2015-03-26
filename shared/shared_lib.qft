@@ -7,6 +7,35 @@
   <dependency>../snap/lib/snap_main.qft</dependency>
   <dependency>../s3tbx/lib/s3tbx_main.qft</dependency>
   <PackageRoot id="_3">
+    <Package id="_1p2J" name="check_external_file">
+      <Procedure id="_9aq" name="file_exists_setGlobal">
+        <variable name="fileName"/>
+        <comment>@teststep Check if file was processed.</comment>
+        <ServerScriptStep id="_1oGf" name="check_fileExists_setGlobal">
+          <code>from java.io import File
+rc.setGlobal("fileExists", File("$(fileName)").exists())</code>
+        </ServerScriptStep>
+        <ServerScriptStep disabled="true" id="_1oGg" name="print">
+          <code>print "fileExists = $(fileExists)"  </code>
+        </ServerScriptStep>
+      </Procedure>
+      <Procedure id="_1p2K" name="file_was_not_processed_else_shoot_error">
+        <variable name="fileName"/>
+        <comment>@teststep Check if file was not processed, else shoot error</comment>
+        <ServerScriptStep id="_3+e" name="setLocal">
+          <code>from java.io import File
+rc.setLocal("fileExists", File("$(fileName)").exists())</code>
+        </ServerScriptStep>
+        <ServerScriptStep id="_3+f" name="check">
+          <code>from java.io import File
+if $(fileExists)==0:  rc.logMessage("OK")
+else: rc.logError("$(fileName) has been written!")</code>
+        </ServerScriptStep>
+        <ServerScriptStep disabled="true" id="_1p2M" name="print">
+          <code>print "fileExists = $(fileExists)"  </code>
+        </ServerScriptStep>
+      </Procedure>
+    </Package>
     <Package id="_1o++" name="cleanup">
       <Procedure id="_1o-F" name="output_data_folder">
         <variable name="directory"/>
@@ -44,7 +73,94 @@
         <ProcedureCall id="_1oO8" procedure="path"/>
         <ProcedureCall id="_1oOJ" procedure="system_and_commando"/>
         <TestStep id="_1o-K" name="delete">
-          <IfSequence id="_1o-h" test="&#34;$(client)&#34;==&#34;s3tbx&#34;">
+          <IfSequence id="_1p1J" test="&#34;$(client)&#34;==&#34;s3tbx&#34;">
+            <TestStep id="_1p1u" name="s3tbx_cache_folder">
+              <SetGlobalStep id="_1p1L" local="true" varname="cn_cache">
+                <default>del_cache</default>
+              </SetGlobalStep>
+              <ShellClientStarter client="$(cn_cache)"
+                                  command="$(delete_commando) cache"
+                                  directory="${path:temp_s3tbx}" id="_1p1M"/>
+              <ServerScriptStep disabled="true" id="_1p1N" name="print">
+                <code>print "working_directory = ${path:temp_s3tbx}"</code>
+              </ServerScriptStep>
+              <ProcedureCall id="_1p1O" procedure="utils.exit_program">
+                <variable name="client_name">$(cn_cache)</variable>
+              </ProcedureCall>
+            </TestStep>
+            <TestStep id="_1p1+" name="s3tbx_app_folder">
+              <SetGlobalStep id="_1p23" local="true" varname="cn_app">
+                <default>del_app</default>
+              </SetGlobalStep>
+              <ShellClientStarter client="$(cn_app)"
+                                  command="$(delete_commando) s3tbx-app"
+                                  directory="${path:temp_s3tbx}" id="_1p24"/>
+              <ProcedureCall id="_1p25" procedure="utils.exit_program">
+                <variable name="client_name">$(cn_app)</variable>
+              </ProcedureCall>
+            </TestStep>
+            <TestStep id="_1p1v" name="s3tbx_ui_folder">
+              <SetGlobalStep id="_1p1U" local="true" varname="cn_ui">
+                <default>del_ui</default>
+              </SetGlobalStep>
+              <ShellClientStarter client="$(cn_ui)"
+                                  command="$(delete_commando) snap-ui"
+                                  directory="${path:temp_s3tbx}" id="_1p1V"/>
+              <ProcedureCall id="_1p1W" procedure="utils.exit_program">
+                <variable name="client_name">$(cn_ui)</variable>
+              </ProcedureCall>
+            </TestStep>
+            <ElseifSequence id="_1p1X"
+                            test="&#34;$(client)&#34;==&#34;snap&#34;">
+              <TestStep id="_1p26" name="snap_cache_folder">
+                <SetGlobalStep id="_1p1Z" local="true" varname="cn_cache">
+                  <default>del_cache</default>
+                </SetGlobalStep>
+                <ShellClientStarter client="$(cn_cache)"
+                                    command="$(delete_commando) cache"
+                                    directory="${path:temp_snap}" id="_1p1a"/>
+                <ProcedureCall disabled="true" id="_1p1b"
+                               procedure="shellutils.removeDirectory">
+                  <variable name="directory">${path:temp_snap}cache</variable>
+                </ProcedureCall>
+                <ProcedureCall id="_1p1c" procedure="utils.exit_program">
+                  <variable name="client_name">$(cn_cache)</variable>
+                </ProcedureCall>
+              </TestStep>
+              <TestStep id="_1p2B" name="snap_app_folder">
+                <SetGlobalStep id="_1p1g" local="true" varname="cn_app">
+                  <default>del_app</default>
+                </SetGlobalStep>
+                <ShellClientStarter client="$(cn_app)"
+                                    command="$(delete_commando) snap-app"
+                                    directory="${path:temp_snap}" id="_1p1h"/>
+                <ProcedureCall disabled="true" id="_1p1i"
+                               procedure="shellutils.removeDirectory">
+                  <variable name="directory">${path:temp_snap}snap-app</variable>
+                </ProcedureCall>
+                <ProcedureCall id="_1p1j" procedure="utils.exit_program">
+                  <variable name="client_name">$(cn_app)</variable>
+                </ProcedureCall>
+              </TestStep>
+              <TestStep id="_1p2I" name="snap_ui_folder">
+                <SetGlobalStep id="_1p1q" local="true" varname="cn_ui">
+                  <default>del_ui</default>
+                </SetGlobalStep>
+                <ShellClientStarter client="$(cn_ui)"
+                                    command="$(delete_commando) beam-ui "
+                                    directory="${path:temp_snap}" id="_1p1r"/>
+                <ProcedureCall disabled="true" id="_1p1s"
+                               procedure="shellutils.removeDirectory">
+                  <variable name="directory">${path:temp_snap}beam-ui</variable>
+                </ProcedureCall>
+                <ProcedureCall id="_1p1t" procedure="utils.exit_program">
+                  <variable name="client_name">$(cn_ui)</variable>
+                </ProcedureCall>
+              </TestStep>
+            </ElseifSequence>
+          </IfSequence>
+          <IfSequence disabled="true" id="_1o-h"
+                      test="&#34;$(client)&#34;==&#34;s3tbx&#34;">
             <IfSequence id="_1oNx" name="s3tbx cache folder"
                         test="'${path:temp_s3tbx}cache'.find('$(operation_system)') !=0">
               <SetGlobalStep id="_1o-L" local="true" varname="cn_cache">
@@ -87,26 +203,57 @@
             <ElseifSequence id="_1o-i"
                             test="&#34;$(client)&#34;==&#34;snap&#34;">
               <IfSequence id="_1oOR" name="snap cache folder"
-                          test="'${path:temp_snap}cache'.find('$(operation_system)') !=0">
+                          test="'${path:temp_snap}cache'.find('$(operation_system)') &gt;0">
                 <SetGlobalStep id="_1oNy" local="true" varname="cn_cache">
                   <default>del_cache</default>
                 </SetGlobalStep>
                 <ShellClientStarter client="$(cn_cache)"
                                     command="$(delete_commando) cache"
-                                    directory="${path:temp_snap}" id="_1oOS"/>
+                                    directory="${path:temp_snap}" id="_1p0L"/>
+                <ProcedureCall disabled="true" id="_1p0s"
+                               procedure="shellutils.removeDirectory">
+                  <variable name="directory">${path:temp_snap}cache</variable>
+                </ProcedureCall>
                 <ProcedureCall id="_1oN+" procedure="utils.exit_program">
                   <variable name="client_name">$(cn_cache)</variable>
                 </ProcedureCall>
+                <ShellClientStarter client="$(cn_cache)"
+                                    command="$(delete_commando) ${path:temp_snap}cache"
+                                    directory="${path:temp_snap}" id="_1p0B"/>
+                <ProcedureCall disabled="true" id="_1p0A"
+                               procedure="utils.exit_program">
+                  <variable name="client_name">$(cn_cache)a</variable>
+                </ProcedureCall>
               </IfSequence>
               <IfSequence id="_1oOT" name="snap-app folder"
-                          test="'${path:temp_snap}snap-app'.find('$(operation_system)') !=0">
+                          test="'${path:temp_snap}snap-app'.find('$(operation_system)') &gt;0">
                 <SetGlobalStep id="_1oO0" local="true" varname="cn_app">
                   <default>del_app</default>
                 </SetGlobalStep>
                 <ShellClientStarter client="$(cn_app)"
                                     command="$(delete_commando) snap-app"
                                     directory="${path:temp_snap}" id="_1oOU"/>
+                <ProcedureCall disabled="true" id="_1p0v"
+                               procedure="shellutils.removeDirectory">
+                  <variable name="directory">${path:temp_snap}snap-app</variable>
+                </ProcedureCall>
                 <ProcedureCall id="_1oO2" procedure="utils.exit_program">
+                  <variable name="client_name">$(cn_app)</variable>
+                </ProcedureCall>
+              </IfSequence>
+              <IfSequence disabled="true" id="_1p0i" name="snap-app folder"
+                          test="'${path:temp_snap}snap-app'.find('$(operation_system)') !=0">
+                <SetGlobalStep id="_1p0j" local="true" varname="cn_app">
+                  <default>del_app</default>
+                </SetGlobalStep>
+                <ShellClientStarter client="$(cn_app)"
+                                    command="$(delete_commando) snap-app"
+                                    directory="${path:temp_snap}" id="_1p0k"/>
+                <ProcedureCall disabled="true" id="_1p0u"
+                               procedure="shellutils.removeDirectory">
+                  <variable name="directory">${path:temp_snap}snap-app</variable>
+                </ProcedureCall>
+                <ProcedureCall id="_1p0o" procedure="utils.exit_program">
                   <variable name="client_name">$(cn_app)</variable>
                 </ProcedureCall>
               </IfSequence>
@@ -118,6 +265,10 @@
                 <ShellClientStarter client="$(cn_ui)"
                                     command="$(delete_commando) beam-ui "
                                     directory="${path:temp_snap}" id="_1oOW"/>
+                <ProcedureCall disabled="true" id="_1p0w"
+                               procedure="shellutils.removeDirectory">
+                  <variable name="directory">${path:temp_snap}beam-ui</variable>
+                </ProcedureCall>
                 <ProcedureCall id="_1oO6" procedure="utils.exit_program">
                   <variable name="client_name">$(cn_ui)</variable>
                 </ProcedureCall>
@@ -287,9 +438,23 @@ if directory.exists() == 0:
         </ServerScriptStep>
       </Procedure>
       <Procedure id="_6Sc" name="removeDirectory">
-        <variable name="directory">aDirectory</variable>
+        <variable name="directory"/>
         <comment>Remove a given directory.</comment>
-        <ServerScriptStep id="_6Sd">
+        <TryStep id="_1p0p">
+          <ServerScriptStep id="_1p0q">
+            <code>import shutil
+
+directory = rc.lookup("directory")
+try:
+	shutil.rmtree (directory)
+except:
+	raise UserException("Removing directory " + directory + " didn't work! Perhaps you have no permissions!")
+
+</code>
+          </ServerScriptStep>
+          <CatchSequence exception="TestException" id="_1p0r" maxerror="0"/>
+        </TryStep>
+        <ServerScriptStep disabled="true" id="_6Sd">
           <code>import shutil
 
 directory = rc.lookup("directory")
@@ -354,8 +519,61 @@ In this case we catch the exeption in this node and perform a hard close.
     </Package>
   </PackageRoot>
   <ExtraSequence id="_4">
+    <ProcedureCall id="_1p10" procedure="path"/>
+    <Procedure id="_1p1D" name="listingDirectory">
+      <variable name="directory">${path:temp_snap}snap-core</variable>
+      <ServerScriptStep id="_1p1H">
+        <code>import shutil
+
+directory = rc.lookup("directory")
+shutil.disk_usage(directory)
+</code>
+      </ServerScriptStep>
+    </Procedure>
+    <IfSequence id="_1p0x" name="snap-core folder"
+                test="'${path:temp_snap}snap-core'.find('$(operation_system)') &gt;0">
+      <ServerScriptStep id="_1p16" name="print">
+        <code>print "find_directory = '${path:temp_snap}snap-core'.find('$(operation_system)') &gt;0"</code>
+      </ServerScriptStep>
+    </IfSequence>
+    <IfSequence id="_1p11" name="snap-core folder"
+                test="'${path:temp_snap}snap-core'.find('$(operation_system)') !=0">
+      <ServerScriptStep id="_1p17" name="print">
+        <code>print "find_directory = '${path:temp_snap}snap-core'.find('$(operation_system)') !=0"</code>
+      </ServerScriptStep>
+      <ShellClientStarter client="s" command="dir ${path:temp_snap}snap-core"
+                          directory="${path:temp_snap}" id="_1p18"/>
+      <ShellClientStarter client="s2"
+                          command="dir C:\Users\olga_2\.snap\snap-core"
+                          directory="${path:temp_snap}" id="_1p19"/>
+      <ServerScriptStep id="_1p1A">
+        <code>import shutil
+
+directory = rc.lookup("${path:temp_snap}snap-core")
+try:
+	shutil.dir (directory)
+       #shutil.rmtree (directory)
+except:
+	raise UserException("Removing directory " + directory + " didn't work! Perhaps you have no permissions!")
+
+</code>
+      </ServerScriptStep>
+      <ServerScriptStep id="_1p1B">
+        <code>import shutil
+
+directory = rc.lookup("C:\\Users\\olga_2\\.snap\\snap-core")
+try:
+	shutil.dir (directory)
+       #shutil.rmtree (directory)
+except:
+	raise UserException("Removing directory " + directory + " didn't work! Perhaps you have no permissions!")
+
+</code>
+      </ServerScriptStep>
+    </IfSequence>
     <ServerScriptStep id="_1oh2" name="print">
       <code>print "data_directory = ${path:data_directory}"</code>
+      <comment>@teststep </comment>
     </ServerScriptStep>
   </ExtraSequence>
   <WindowList id="_5"/>

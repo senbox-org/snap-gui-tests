@@ -9,11 +9,195 @@
   <dependency>snap_workflow.qft</dependency>
   <PackageRoot id="_3">
     <Package id="_1k-S" name="open">
+      <Package id="_1pH3" name="processing">
+        <Procedure id="_1opL" name="collocation">
+          <comment>@teststep Open Collocation tool.</comment>
+          <TryStep id="_1opa">
+            <ProcedureCall id="_1opN" procedure="do_click.menu.processing"/>
+            <ProcedureCall id="_1opj"
+                           procedure="do_click.menu.processing.geometric_operations"/>
+            <ProcedureCall id="_1opO"
+                           procedure="do_click.menu.processing.geometric_operations.collocation"/>
+            <ProcedureCall id="_1opZ"
+                           procedure="wait.appear.processing_tools.collocation"/>
+            <CatchSequence exception="TestException" id="_1opb" maxerror="0">
+              <TryStep id="_1opc">
+                <ProcedureCall id="_1opd" procedure="do_click.menubar"/>
+                <ProcedureCall id="_1oph"
+                               procedure="do_click.menu.processing"/>
+                <ProcedureCall id="_1opk"
+                               procedure="do_click.menu.processing.geometric_operations"/>
+                <ProcedureCall id="_1ope"
+                               procedure="do_click.menu.processing.geometric_operations.collocation"/>
+                <ProcedureCall id="_1opf"
+                               procedure="wait.appear.processing_tools.collocation"/>
+                <CatchSequence exception="TestException" id="_1opg"
+                               maxerror="0">
+                  <ProcedureCall id="_1opi" procedure="run-log.logError">
+                    <variable name="message">Collocation Tool is not appear</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1pGm" name="spectral_unmixing">
+          <comment>@teststep Open Spectral Unmixing tool.</comment>
+          <TryStep id="_1pGn">
+            <ProcedureCall id="_1pGo" procedure="do_click.menu.processing"/>
+            <ProcedureCall id="_1pGp"
+                           procedure="do_click.menu.processing.spectral_tools"/>
+            <ProcedureCall id="_1pGq"
+                           procedure="do_click.menu.processing.spectral_tools.spectral_unmixing"/>
+            <ProcedureCall id="_1pGr"
+                           procedure="wait.appear.processing_tools.spectral_unmixing"/>
+            <CatchSequence exception="TestException" id="_1pGs" maxerror="0">
+              <TryStep id="_1pGt">
+                <ProcedureCall id="_1pGu" procedure="do_click.menubar"/>
+                <ProcedureCall id="_1pG-"
+                               procedure="do_click.menu.processing"/>
+                <ProcedureCall id="_1pH0"
+                               procedure="do_click.menu.processing.spectral_tools"/>
+                <ProcedureCall id="_1pH1"
+                               procedure="do_click.menu.processing.spectral_tools.spectral_unmixing"/>
+                <ProcedureCall id="_1pGy"
+                               procedure="wait.appear.processing_tools.spectral_unmixing"/>
+                <CatchSequence exception="TestException" id="_1pGz"
+                               maxerror="0">
+                  <ProcedureCall id="_1pG+" procedure="run-log.logError">
+                    <variable name="message">Spectral Unmixing Tool is not appear</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1pH2" name="ndvi_processor">
+          <comment>@teststep Open NDVI processor UI.</comment>
+          <TryStep id="_1pH4">
+            <ProcedureCall id="_1pH5" procedure="do_click.menu.processing"/>
+            <ProcedureCall id="_1pH6"
+                           procedure="do_click.menu.processing.thematic_land_processing"/>
+            <ProcedureCall id="_1pH7"
+                           procedure="do_click.menu.processing.thematic_land_processing.ndvi_processor"/>
+            <ProcedureCall id="_1pH8"
+                           procedure="wait.appear.processing_tools.ndvi_processor"/>
+            <CatchSequence exception="TestException" id="_1pH9" maxerror="0">
+              <TryStep id="_1pHA">
+                <ProcedureCall id="_1pHB" procedure="do_click.menubar"/>
+                <ProcedureCall id="_1pHI"
+                               procedure="do_click.menu.processing"/>
+                <ProcedureCall id="_1pHJ"
+                               procedure="do_click.menu.processing.thematic_land_processing"/>
+                <ProcedureCall id="_1pHK"
+                               procedure="do_click.menu.processing.thematic_land_processing.ndvi_processor"/>
+                <ProcedureCall id="_1pHL"
+                               procedure="wait.appear.processing_tools.ndvi_processor"/>
+                <CatchSequence exception="TestException" id="_1pHG"
+                               maxerror="0">
+                  <ProcedureCall id="_1pHH" procedure="run-log.logError">
+                    <variable name="message">NDVI Processor is not appear</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1pHM" name="reprojection">
+          <comment>@teststep Open Reprojection tool.</comment>
+          <TryStep id="_1ph0" name="is reprojection tool already open?">
+            <ProcedureCall id="_1pLv"
+                           procedure="check.reprojection.reprojection_tool_opened"/>
+            <CatchSequence exception="TestException" id="_1ph1" maxerror="0"
+                           name="not open -&gt; open">
+              <TryStep id="_1pHN">
+                <ProcedureCall id="_1pHO"
+                               procedure="do_click.menu.processing"/>
+                <ProcedureCall id="_1pHP"
+                               procedure="do_click.menu.processing.geometric_operations"/>
+                <ProcedureCall id="_1pHQ"
+                               procedure="do_click.menu.processing.geometric_operations.reprojection"/>
+                <TryStep id="_1pVl" name="click_OK_in_dialog_JIDE_software">
+                  <ProcedureCall id="_1pVk"
+                                 procedure="utility.handle_dialog_JIDE_software"/>
+                  <CatchSequence exception="TestException" id="_1pVm"
+                                 maxerror="0"/>
+                </TryStep>
+                <ProcedureCall id="_1pHR"
+                               procedure="wait.appear.processing_tools.reprojection"/>
+                <CatchSequence exception="TestException" id="_1pHS"
+                               maxerror="0">
+                  <TryStep id="_1pHT">
+                    <ProcedureCall id="_1pHU" procedure="do_click.menubar"/>
+                    <ProcedureCall id="_1pHb"
+                                   procedure="do_click.menu.processing.geometric_operations"/>
+                    <ProcedureCall id="_1pHc"
+                                   procedure="do_click.menu.processing.geometric_operations.reprojection"/>
+                    <TryStep id="_1pVn"
+                             name="click_OK_in_dialog_JIDE_software">
+                      <ProcedureCall id="_1pVo"
+                                     procedure="utility.handle_dialog_JIDE_software"/>
+                      <CatchSequence exception="TestException" id="_1pVp"
+                                     maxerror="0"/>
+                    </TryStep>
+                    <ProcedureCall id="_1pHd"
+                                   procedure="wait.appear.processing_tools.reprojection"/>
+                    <CatchSequence exception="TestException" id="_1pHZ"
+                                   maxerror="0">
+                      <ProcedureCall id="_1pHa" procedure="run-log.logError">
+                        <variable name="message">Reprojection Tool is not appear</variable>
+                        <variable name="withScreenshots">true</variable>
+                      </ProcedureCall>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+      </Package>
+      <Package id="_1opJ" name="tools">
+        <Procedure id="_1oRE" name="band_maths">
+          <comment>@teststep Open Band Maths tool.</comment>
+          <ProcedureCall id="_1oRe" procedure="do_click.menubar"/>
+          <ProcedureCall id="_1lF2" procedure="do_click.menu.tools"/>
+          <ProcedureCall id="_1lF5"
+                         procedure="check.menu.tools.menuItemBandMath_enabled"/>
+          <IfSequence id="_1oRY"
+                      test="&#34;$(menuItemBandMath_enabled)&#34;==&#34;true&#34;">
+            <TryStep id="_1oRN">
+              <ProcedureCall id="_1oRM" procedure="utility.bandMaths"/>
+              <CatchSequence exception="TestException" id="_1oRO"
+                             maxerror="0">
+                <TryStep id="_1oRS">
+                  <ProcedureCall id="_1oRT" procedure="utility.bandMaths"/>
+                  <CatchSequence exception="TestException" id="_1oRU"
+                                 maxerror="0">
+                    <ProcedureCall id="_1oRX"
+                                   procedure="run-log.error_message.tool_does_not_appear">
+                      <variable name="tool">Band Maths tool</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+            <ElseSequence id="_1oRZ">
+              <ProcedureCall id="_1oRb"
+                             procedure="run-log.error_message.menu_item_is_disabled">
+                <variable name="menu">Create Band from Math Expression...</variable>
+              </ProcedureCall>
+            </ElseSequence>
+          </IfSequence>
+        </Procedure>
+      </Package>
       <Procedure disabled="true" id="_1l8W" name="statistics_dialog">
         <TryStep id="_1lBA">
           <ProcedureCall id="_1lB5"
                          procedure="do_click.main_toolbar.analysis.statistics"/>
-          <ProcedureCall id="_1lB9" procedure="wait.appear.dialog"/>
+          <ProcedureCall id="_1lB9" procedure="wait.appear.dialog.dialog"/>
           <CatchSequence exception="TestException" id="_1lBB" maxerror="0">
             <ProcedureCall id="_1lBC" procedure="run-log.logError">
               <variable name="message">Statistics dialog does not appear</variable>
@@ -22,18 +206,41 @@
           </CatchSequence>
         </TryStep>
       </Procedure>
-      <Procedure id="_1l3s" name="product">
+      <Procedure disabled="true" id="_1oSR" name="image_view">
+        <comment>@teststep Open image view</comment>
+        <TryStep disabled="true" id="_1oSS">
+          <ProcedureCall id="_1oST" procedure="do_click.menu.view"/>
+          <ProcedureCall id="_1oSU"
+                         procedure="do_click.menu.view.showImageView"/>
+          <CatchSequence exception="TestException" id="_1oSV" maxerror="0">
+            <TryStep id="_1oSW">
+              <ProcedureCall id="_1oSX" procedure="do_click.menubar"/>
+              <ProcedureCall id="_1oSY" procedure="do_click.menu.view"/>
+              <ProcedureCall id="_1oSZ"
+                             procedure="do_click.menu.view.showImageView"/>
+              <CatchSequence exception="TestException" id="_1oSa"
+                             maxerror="0">
+                <ServerScriptStep id="_1oSb" name="error">
+                  <code>rc.logError("Menu 'Show image view' can not be selected")</code>
+                </ServerScriptStep>
+              </CatchSequence>
+            </TryStep>
+          </CatchSequence>
+        </TryStep>
+      </Procedure>
+      <Procedure id="_1l3s" name="product_in_snap">
         <variable name="prod_dir"/>
         <variable name="in_out"/>
         <variable name="prod"/>
         <variable name="product_type"/>
+        <comment>@teststep Open data product in SNAP.</comment>
         <ProcedureCall id="_1l3w" procedure="path"/>
         <IfSequence id="_1oSd" test="&#34;$(in_out)&#34;==&#34;out&#34;">
           <SetGlobalStep id="_1oSf" varname="data_source_directory">
             <default>${path:output_data_directory}</default>
           </SetGlobalStep>
           <ElseSequence id="_1oSg">
-            <ProcedureCall id="_1oSj" procedure="data_source_directory">
+            <ProcedureCall id="_1oSj" procedure="source_data_directory">
               <variable name="data_type">$(prod_dir)</variable>
             </ProcedureCall>
           </ElseSequence>
@@ -51,7 +258,7 @@
             <ProcedureCall id="_1l3v"
                            procedure="do_click.main_toolbar.standard.open"/>
             <ProcedureCall id="_1l3u"
-                           procedure="wait.appear.open_product_dialog"/>
+                           procedure="wait.appear.dialog.open_product"/>
             <CatchSequence exception="TestException" id="_1oS4" maxerror="0">
               <SetGlobalStep id="_1oS5" varname="open_product_dialog_appears">
                 <default>false</default>
@@ -63,10 +270,12 @@
             </CatchSequence>
           </TryStep>
           <TryStep id="_1oQT" name="open_product_dialog_by_selecting_menu">
-            <ProcedureCall id="_1oQS" procedure="utility.openProduct"/>
+            <ProcedureCall id="_1oQS"
+                           procedure="utility.open_open_product_dialog"/>
             <CatchSequence exception="TestException" id="_1oQU" maxerror="0">
               <TryStep id="_1oQW">
-                <ProcedureCall id="_1oQX" procedure="utility.openProduct"/>
+                <ProcedureCall id="_1oQX"
+                               procedure="utility.open_open_product_dialog"/>
                 <CatchSequence exception="TestException" id="_1oQZ"
                                maxerror="0">
                   <SetGlobalStep id="_1oRn"
@@ -157,7 +366,7 @@
               </CatchSequence>
             </TryStep>
             <ProcedureCall id="_1oSA"
-                           procedure="do_click.error_dialog.button_OK_error_dialog_SNAP_Open_Product"/>
+                           procedure="do_click.error_dialog.button_OK_error_SNAP_Open_Product"/>
             <ServerScriptStep id="_1oMr" name="error">
               <code>rc.logError("'$(error_text)'.")</code>
             </ServerScriptStep>
@@ -175,7 +384,7 @@
                              maxerror="0"/>
             </TryStep>
             <ProcedureCall id="_1om-"
-                           procedure="do_click.error_dialog.button_OK_dialog_SNAP_Error"/>
+                           procedure="do_click.error_dialog.button_OK_SNAP_Error"/>
             <ProcedureCall id="_1on0"
                            procedure="run-log.error_message.error_dialog_appears">
               <variable name="dialog">'Open Product' error</variable>
@@ -196,58 +405,6 @@
           <ProcedureCall id="_1omv"
                          procedure="do_click.open_product_dialog.open"/>
         </IfSequence>
-      </Procedure>
-      <Procedure id="_1oRE" name="band_Maths_tool">
-        <ProcedureCall id="_1oRe" procedure="do_click.menubar"/>
-        <ProcedureCall id="_1lF2" procedure="do_click.menu.tools"/>
-        <ProcedureCall id="_1lF5"
-                       procedure="check.menu.tools.menuItemBandMath_enabled"/>
-        <IfSequence id="_1oRY"
-                    test="&#34;$(menuItemBandMath_enabled)&#34;==&#34;true&#34;">
-          <TryStep id="_1oRN">
-            <ProcedureCall id="_1oRM" procedure="utility.bandMaths"/>
-            <CatchSequence exception="TestException" id="_1oRO" maxerror="0">
-              <TryStep id="_1oRS">
-                <ProcedureCall id="_1oRT" procedure="utility.bandMaths"/>
-                <CatchSequence exception="TestException" id="_1oRU"
-                               maxerror="0">
-                  <ProcedureCall id="_1oRX"
-                                 procedure="run-log.error_message.tool_does_not_appear">
-                    <variable name="tool">Band Maths tool</variable>
-                  </ProcedureCall>
-                </CatchSequence>
-              </TryStep>
-            </CatchSequence>
-          </TryStep>
-          <ElseSequence id="_1oRZ">
-            <ProcedureCall id="_1oRb"
-                           procedure="run-log.error_message.menu_item_is_disabled">
-              <variable name="menu">Create Band from Math Expression...</variable>
-            </ProcedureCall>
-          </ElseSequence>
-        </IfSequence>
-      </Procedure>
-      <Procedure disabled="true" id="_1oSR" name="image_view">
-        <comment>@teststep Open image view</comment>
-        <TryStep disabled="true" id="_1oSS">
-          <ProcedureCall id="_1oST" procedure="do_click.menu.view"/>
-          <ProcedureCall id="_1oSU"
-                         procedure="do_click.menu.view.showImageView"/>
-          <CatchSequence exception="TestException" id="_1oSV" maxerror="0">
-            <TryStep id="_1oSW">
-              <ProcedureCall id="_1oSX" procedure="do_click.menubar"/>
-              <ProcedureCall id="_1oSY" procedure="do_click.menu.view"/>
-              <ProcedureCall id="_1oSZ"
-                             procedure="do_click.menu.view.showImageView"/>
-              <CatchSequence exception="TestException" id="_1oSa"
-                             maxerror="0">
-                <ServerScriptStep id="_1oSb" name="error">
-                  <code>rc.logError("Menu 'Show image view' can not be selected")</code>
-                </ServerScriptStep>
-              </CatchSequence>
-            </TryStep>
-          </CatchSequence>
-        </TryStep>
       </Procedure>
       <Procedure disabled="true" id="_1lBI" name="metadata_view">
         <comment>@teststep Open metadata view</comment>
@@ -273,6 +430,25 @@
       </Procedure>
     </Package>
     <Package id="_1oRH" name="utility">
+      <Procedure id="_1pVd" name="handle_dialog_JIDE_software">
+        <ComponentWaiter client="$(client)"
+                         component="dialogJIDE_Software,_Inc." id="_1pVi"
+                         timeout="100"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogJIDE_Software,_Inc..buttonClick_to_Continue"
+                        event="MOUSE_MPRC" id="_1pVj" modifiers="16"/>
+      </Procedure>
+      <Procedure id="_1opl" name="handle_select_product_dialog">
+        <variable name="file"/>
+        <ProcedureCall id="_1pGl"
+                       procedure="wait.appear.dialog.select_source_product"/>
+        <ProcedureCall id="_1pGj"
+                       procedure="set.select_source_product_dialog.file_name">
+          <variable name="file_name">$(file)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pGk"
+                       procedure="do_click.select_source_product_dialog.button_select"/>
+      </Procedure>
       <Procedure id="_1oRI" name="bandMaths">
         <ProcedureCall id="_1oRd" procedure="do_click.menubar"/>
         <ProcedureCall id="_1oRc" procedure="do_click.menu.tools"/>
@@ -281,12 +457,12 @@
         <ProcedureCall id="_1oRL"
                        procedure="wait.appear.tools.band_Maths_dialog"/>
       </Procedure>
-      <Procedure id="_1oQP" name="openProduct">
+      <Procedure id="_1oQP" name="open_open_product_dialog">
         <ProcedureCall id="_1oQQ" procedure="do_click.menu.file"/>
         <ProcedureCall id="_1oQR"
                        procedure="do_click.menu.file.open_product"/>
         <ProcedureCall id="_1oQV"
-                       procedure="wait.appear.open_product_dialog"/>
+                       procedure="wait.appear.dialog.open_product"/>
       </Procedure>
     </Package>
   </PackageRoot>

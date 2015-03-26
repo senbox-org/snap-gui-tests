@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.3">
+  <include>qfs.qft</include>
+  <include>../../../lib/snap_main.qft</include>
+  <TestSet id="_2" name="10_02_reprojection_prism"
+           reportname="10-02 Reproject PRISM data">
+    <comment>Product generation tools. Arithmetic Expression Editor.</comment>
+    <DependencyReference id="_1ph1"
+                         reference="start_application_for_reprojection"/>
+    <TestSet id="_1pMP" name="processing">
+      <DataDriver id="_3y4"
+                  loopreportname="Open image view of $(dataInDir)/$(fileName) data product"
+                  name="dataTable">
+        <ProcedureCall id="_Bt4" procedure="tables.prism"/>
+      </DataDriver>
+      <TestCase id="_1pgW" name="test_sequence"
+                reportname="Reprojection of the $(productName)">
+        <ProcedureCall id="_1ph0"
+                       procedure="test_sequence.reprojection_check_target_product"/>
+      </TestCase>
+    </TestSet>
+  </TestSet>
+  <PackageRoot id="_4"/>
+  <ExtraSequence id="_5"/>
+  <WindowList id="_6"/>
+</RootStep>

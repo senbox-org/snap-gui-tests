@@ -923,7 +923,7 @@
       <Procedure id="_1oJB" name="open_data_in_snap_and_check">
         <variable name="file_name"/>
         <variable name="format"/>
-        <ProcedureCall id="_1oMx" procedure="open.product">
+        <ProcedureCall id="_1oMx" procedure="open.product_in_snap">
           <variable name="prod_dir">$(data_out_dir)</variable>
           <variable name="prod">$(file_name).$(fr)</variable>
           <variable name="in_out">out</variable>
@@ -931,7 +931,7 @@
           <comment> 	 
 </comment>
         </ProcedureCall>
-        <ProcedureCall id="_1o+4" procedure="wait.appear.product_is_opened"/>
+        <ProcedureCall id="_1o+4" procedure="wait.product_is_opened"/>
         <ProcedureCall id="_1oLa" procedure="check.product.not_opened"/>
         <IfSequence id="_1oLb"
                     test="&#34;$(not_opened)&#34;==&#34;false&#34;">
@@ -1199,7 +1199,7 @@
         <variable name="y"/>
         <ProcedureCall id="_1lGw"
                        procedure="do_click.main_toolbar.views.pin_manager"/>
-        <ProcedureCall id="_1lGY" procedure="wait.appear.dialog"/>
+        <ProcedureCall id="_1lGY" procedure="wait.appear.dialog.dialog"/>
         <ProcedureCall id="_1lGb"
                        procedure="do_click.pin_manager.newPin_button"/>
         <ProcedureCall id="_1lGa" procedure="wait.appear.new_pin_dialog"/>
@@ -1262,7 +1262,7 @@
         <ProcedureCall id="_1oUI" procedure="product_attributes">
           <variable name="prod_type">$(import_data)</variable>
         </ProcedureCall>
-        <ProcedureCall id="_1oRE" procedure="open.product">
+        <ProcedureCall id="_1oRE" procedure="open.product_in_snap">
           <variable name="prod_dir">$(dataInDir)</variable>
           <variable name="in_out">in</variable>
           <variable name="prod">$(fileName)</variable>
@@ -1274,7 +1274,7 @@
                        name="if_import_is_working_again">
           <IfSequence id="_1oaH"
                       test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-            <ProcedureCall id="_1oaj" procedure="open.product">
+            <ProcedureCall id="_1oaj" procedure="open.product_in_snap">
               <variable name="prod_dir">$(dataInDir)</variable>
               <variable name="prod">$(fileName)</variable>
               <variable name="product_type">$(import_data)</variable>
@@ -1315,7 +1315,7 @@
                     </ElseifSequence>
                   </IfSequence>
                   <ProcedureCall id="_1oaS"
-                                 procedure="wait.appear.import_dialog"/>
+                                 procedure="wait.appear.dialog.import_product"/>
                   <ProcedureCall id="_1oaT"
                                  procedure="utility.import.fill_dialog"/>
                   <CatchSequence exception="TestException" id="_1oaU"
@@ -1350,7 +1350,7 @@
                         </ElseifSequence>
                       </IfSequence>
                       <ProcedureCall id="_1oae"
-                                     procedure="wait.appear.import_dialog"/>
+                                     procedure="wait.appear.dialog.import_product"/>
                       <ProcedureCall id="_1oaf"
                                      procedure="utility.import.fill_dialog"/>
                       <CatchSequence exception="TestException" id="_1oag"
@@ -1362,7 +1362,7 @@
                   </CatchSequence>
                 </TryStep>
                 <ElseSequence id="_1oal">
-                  <ProcedureCall id="_1oam" procedure="open.product">
+                  <ProcedureCall id="_1oam" procedure="open.product_in_snap">
                     <variable name="prod_dir">$(dataInDir)</variable>
                     <variable name="in_out">in</variable>
                     <variable name="prod">$(fileName)</variable>
@@ -1387,7 +1387,7 @@
     <Package id="_1l8Q" name="preparation">
       <Procedure id="_1l5e" name="application_for_test">
         <comment>@teststep Test preparation</comment>
-        <ProcedureCall id="_1l5g" procedure="open.product">
+        <ProcedureCall id="_1l5g" procedure="open.product_in_snap">
           <variable name="prod_dir">$(dataInDir)</variable>
           <variable name="prod">$(fileName)</variable>
           <variable name="in_out"/>
@@ -1395,7 +1395,7 @@
           <comment> 	 
 </comment>
         </ProcedureCall>
-        <ProcedureCall id="_1l5h" procedure="wait.appear.product_is_opened"/>
+        <ProcedureCall id="_1l5h" procedure="wait.product_is_opened"/>
         <ProcedureCall id="_1l5i" procedure="select.product_tree.band">
           <variable name="prod_id">0</variable>
           <variable name="group_id">$(group_id1)</variable>
@@ -1454,18 +1454,16 @@
       <Procedure id="_1l38" name="open_image_view_check_it">
         <ProcedureCall id="_1l3B" procedure="check.product.not_opened"/>
         <IfSequence id="_1kk7" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
-          <ProcedureCall id="_1l3C"
-                         procedure="wait.appear.product_is_opened"/>
+          <ProcedureCall id="_1l3C" procedure="wait.product_is_opened"/>
         </IfSequence>
         <ProcedureCall id="_1l3D" procedure="check.product.not_opened"/>
         <IfSequence id="_1l3v" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
           <ProcedureCall id="_1l3w" predelay="3000"
-                         procedure="wait.appear.product_is_opened"/>
+                         procedure="wait.product_is_opened"/>
         </IfSequence>
         <ProcedureCall id="_1l3x" procedure="check.product.not_opened"/>
         <IfSequence id="_1l3E" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
-          <ProcedureCall id="_1l3F"
-                         procedure="wait.appear.product_is_opened"/>
+          <ProcedureCall id="_1l3F" procedure="wait.product_is_opened"/>
           <ElseSequence id="_1l3G">
             <IfSequence id="_1lFb"
                         test="&#34;$(view_Id1)&#34;&lt;&gt;&#34;&#34;">
@@ -1490,7 +1488,7 @@
               <ProcedureCall disabled="true" id="_1p16"
                              procedure="do_click.tree.doubleclick_product_node">
                 <variable name="prod_id">0</variable>
-                <variable name="group_id"></variable>
+                <variable name="group_id"/>
                 <variable name="view_id">$(view_Id1)</variable>
                 <variable name="band">$(bandName)</variable>
               </ProcedureCall>
@@ -1510,7 +1508,7 @@
                   <variable name="client_name">$(client)</variable>
                 </ProcedureCall>
                 <ProcedureCall id="_1p17"
-                               procedure="do_click.error_dialog.button_OK_dialog_SNAP_SNAP_Error"/>
+                               procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
                 <ProcedureCall id="_1p1C" procedure="run-log.logError">
                   <variable name="message">Error by opening image view</variable>
                   <variable name="withScreenshots">true</variable>
@@ -2340,7 +2338,8 @@
           <text>0.3990</text>
         </CheckStringStep>
       </TestStep>
-      <ProcedureCall disabled="true" id="_1lET" procedure="open.product">
+      <ProcedureCall disabled="true" id="_1lET"
+                     procedure="open.product_in_snap">
         <variable name="prod_dir">$(dataInDir)</variable>
         <variable name="prod">$(fileName)</variable>
       </ProcedureCall>

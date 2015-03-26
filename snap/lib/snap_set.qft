@@ -56,6 +56,28 @@
           </Procedure>
         </Package>
       </Package>
+      <Package id="_1pEE" name="select_source_product_dialog">
+        <Procedure id="_1pEF" name="file_name">
+          <variable name="file_name"/>
+          <comment>@teststep Insert  file name.</comment>
+          <IfSequence id="_1pEG" test="${qftest:windows}">
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogSelect_Source_Product.textFile_name:"
+                           id="_1pEJ">
+              <text>$(file_name)</text>
+            </TextInputStep>
+            <ElseifSequence id="_1pEH" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+            <ElseSequence id="_1pEI">
+              <TextInputStep clear="true" client="$(client)"
+                             component="dialogSelect_Source_Product.textFile_name:"
+                             id="_1pEK">
+                <text>dfsfg</text>
+              </TextInputStep>
+            </ElseSequence>
+          </IfSequence>
+        </Procedure>
+      </Package>
       <Package id="_1ogi" name="tools">
         <Package id="_1oOq" name="bandMaths">
           <Procedure id="_1oPC" name="bandName">
@@ -214,6 +236,7 @@
         <Package id="_1oU9" name="expression_Editor">
           <Procedure id="_1oWH" name="experession">
             <variable name="exp"/>
+            <comment>@teststep Insert expression.</comment>
             <TextInputStep client="$(client)"
                            component="dialogBand_Maths_Expression_Editor.codeArea"
                            id="_1oV2">

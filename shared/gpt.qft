@@ -21,7 +21,7 @@
           <TestStep id="_1oP0" name="set_iput">
             <IfSequence id="_1o-L"
                         test="&#34;$(dataInDir)&#34;&lt;&gt;&#34;&#34;">
-              <ProcedureCall id="_1o-M" procedure="data_source_directory">
+              <ProcedureCall id="_1o-M" procedure="source_data_directory">
                 <variable name="data_type">$(dataInDir)</variable>
               </ProcedureCall>
               <SetGlobalStep id="_1o-N" local="true" varname="i1">
@@ -33,7 +33,7 @@
             </IfSequence>
             <IfSequence id="_1o-O"
                         test="&#34;$(dataInDir2)&#34;&lt;&gt;&#34;&#34;">
-              <ProcedureCall id="_1o-P" procedure="data_source_directory">
+              <ProcedureCall id="_1o-P" procedure="source_data_directory">
                 <variable name="data_type">$(dataInDir2)</variable>
               </ProcedureCall>
               <SetGlobalStep id="_1o-Q" local="true" varname="i2">
@@ -45,7 +45,7 @@
             </IfSequence>
             <IfSequence id="_1o-R"
                         test="&#34;$(dataInDir3)&#34;&lt;&gt;&#34;&#34;">
-              <ProcedureCall id="_1o-S" procedure="data_source_directory">
+              <ProcedureCall id="_1o-S" procedure="source_data_directory">
                 <variable name="data_type">$(dataInDir3)</variable>
               </ProcedureCall>
               <SetGlobalStep id="_1o-T" local="true" varname="i3">
@@ -199,7 +199,7 @@
             </IfSequence>
           </TestStep>
           <ProcedureCall id="_1oPg"
-                         procedure="external_files.check_file_exists_setGlobal">
+                         procedure="check_external_file.file_exists_setGlobal">
             <variable name="fileName">$(outfile)</variable>
           </ProcedureCall>
           <IfSequence id="_1oPh"
@@ -211,7 +211,7 @@
               </ProcedureCall>
             </TestStep>
             <ProcedureCall id="_1oPk"
-                           procedure="external_files.check_file_exists_setGlobal">
+                           procedure="check_external_file.file_exists_setGlobal">
               <variable name="fileName">$(outfile)</variable>
             </ProcedureCall>
             <IfSequence id="_1o-+"
@@ -256,19 +256,6 @@
           </ProcedureCall>
           <CatchSequence exception="TestException" id="_1oN6" maxerror="0"/>
         </TryStep>
-      </Procedure>
-    </Package>
-    <Package id="_1oGd" name="external_files">
-      <Procedure id="_9aq" name="check_file_exists_setGlobal">
-        <variable name="fileName"/>
-        <variable name="fileName_example">out/out_dir/output_file.dim</variable>
-        <ServerScriptStep id="_1oGf" name="check_fileExists_setGlobal">
-          <code>from java.io import File
-rc.setGlobal("fileExists", File("$(fileName)").exists())</code>
-        </ServerScriptStep>
-        <ServerScriptStep id="_1oGg" name="print">
-          <code>print "fileExists = $(fileExists)"  </code>
-        </ServerScriptStep>
       </Procedure>
     </Package>
     <Package id="_1oQd" name="tables">

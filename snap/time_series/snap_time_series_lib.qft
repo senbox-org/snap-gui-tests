@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.3">
+  <include>qfs.qft</include>
+  <include>../lib/snap_components.qft</include>
+  <include>../lib/snap_main.qft</include>
+  <dependency>16_01_new_time_series.qft</dependency>
+  <PackageRoot id="_3">
+    <Package id="_1pFN" name="open">
+      <Procedure id="_1opC" name="new_time_series">
+        <TryStep id="_1opF">
+          <ProcedureCall id="_1opD" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1opE"
+                         procedure="do_click.menu.file.new_time_series"/>
+          <ProcedureCall id="_1opI" procedure="wait.new_time_series"/>
+          <CatchSequence exception="TestException" id="_1opG" maxerror="0">
+            <ProcedureCall id="_1opH"
+                           procedure="run-log.error_message.dialog_does_not_appear">
+              <variable name="dialog">New Time Series</variable>
+            </ProcedureCall>
+          </CatchSequence>
+        </TryStep>
+      </Procedure>
+    </Package>
+    <Package id="_1pGp" name="check">
+      <Package id="_1pGq" name="new_time_series">
+        <Procedure id="_1pHH" name="variable_selected">
+          <variable name="variable_name">sst_nadir</variable>
+          <CheckBooleanStep checktype="item_selected" client="$(client)"
+                            component="dialogNew_Time_Series.listSelect_Variables.variable_name"
+                            id="_1p6r" resvarname="variable_selected"/>
+        </Procedure>
+      </Package>
+    </Package>
+    <Package id="_1lB5" name="do_click">
+      <Package id="_1pE9" name="new_time_series">
+        <Procedure id="_1pEe" name="button_plus24">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogNew_Time_Series.buttonPlus24"
+                          event="MOUSE_MPRC" id="_1pEf" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1pEm" name="button_minus24">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogNew_Time_Series.buttonMinus24"
+                          event="MOUSE_MPRC" id="_1pEo" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1pEu" name="button_previous">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogNew_Time_Series.button_Previous"
+                          event="MOUSE_MPRC" id="_1pEx" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1pF0" name="button_next">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogNew_Time_Series.buttonNext"
+                          event="MOUSE_MPRC" id="_1pF4" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1pF8" name="button_finish">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogNew_Time_Series.buttonFinish"
+                          event="MOUSE_MPRC" id="_1pFD" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1pFG" name="button_cancel">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogNew_Time_Series.buttonCancel"
+                          event="MOUSE_MPRC" id="_1pFM" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1pEK" name="button_help">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogNew_Time_Series.buttonHelp"
+                          event="MOUSE_MPRC" id="_1pET" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1pFR" name="menuItem_add_directory">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogNew_Time_Series.menuItemAdd_Directory"
+                          event="MOUSE_MPRC" id="_1pFS" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1pFV" name="menuItem_add_directory_recursive">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogNew_Time_Series.menuItemAdd_Directory_Recursive"
+                          event="MOUSE_MPRC" id="_1pFX" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1pFQ" name="menuItem_add_products">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogNew_Time_Series.menuItemAdd_Product(s)"
+                          event="MOUSE_MPRC" id="_1p56" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1pGh" name="button_use_crs_of">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogNew_Time_Series.button..."
+                          event="MOUSE_MPRC" id="_1p6L" modifiers="16"/>
+        </Procedure>
+      </Package>
+    </Package>
+    <Package id="_1pHM" name="set">
+      <Package id="_1pHN" name="new_time_series">
+        <Procedure id="_1pHL" name="time_series_name">
+          <variable name="val"/>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogNew_Time_Series.textTime_Series_Name:"
+                         id="_1p72">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+      </Package>
+    </Package>
+    <Package id="_1l2b" name="utility">
+      <Package id="_1pFu" name="new_time_series">
+        <Procedure id="_1pG7" name="add_directory">
+          <variable name="dir"/>
+          <ProcedureCall id="_1pGD"
+                         procedure="do_click.new_time_series.button_plus24"/>
+          <ProcedureCall id="_1pGE"
+                         procedure="do_click.new_time_series.menuItem_add_directory"/>
+          <ProcedureCall id="_1pGF" procedure="wait.appear.dialog.open"/>
+          <ProcedureCall id="_1pGZ" procedure="path"/>
+          <TryStep id="_1pGa">
+            <SetGlobalStep id="_1pGb" varname="data_source_directory">
+              <default>${path:timeseries_dir}$(dir)</default>
+            </SetGlobalStep>
+            <ServerScriptStep disabled="true" id="_1pGc" name="print">
+              <code>print "data_source_dir = $(data_source_directory)"</code>
+            </ServerScriptStep>
+            <CatchSequence exception="TestException" id="_1pGd" maxerror="0">
+              <ProcedureCall id="_1pGe" procedure="qfs.run-log.logError">
+                <variable name="message">It was no no property or resource called timeseries_dir</variable>
+                <variable name="withScreenshots">false</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+          <ServerScriptStep id="_1pGf" name="print">
+            <code>print "$(data_source_directory)"</code>
+          </ServerScriptStep>
+          <ProcedureCall id="_1pGg" procedure="do_click.open_dialog.folder">
+            <variable name="data_dir">$(data_source_directory)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pGP"
+                         procedure="do_click.open_dialog.button_open"/>
+        </Procedure>
+        <Procedure id="_1pG9" name="add_directory_recursive">
+          <ProcedureCall id="_1pGH"
+                         procedure="do_click.new_time_series.button_plus24"/>
+          <ProcedureCall id="_1pGI"
+                         procedure="do_click.new_time_series.menuItem_add_directory_recursive"/>
+          <ProcedureCall id="_1pGJ" procedure="wait.appear.dialog.open"/>
+          <ProcedureCall id="_1pGR" procedure="do_click.open_dialog.folder">
+            <variable name="data_dir">/Desktop/Computer/big4 (E:)/testdata/in/applications/timeseries/01</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pGQ"
+                         procedure="do_click.open_dialog.button_open"/>
+        </Procedure>
+        <Procedure id="_1pGB" name="add_products">
+          <ProcedureCall id="_1pGK"
+                         procedure="do_click.new_time_series.button_plus24"/>
+          <ProcedureCall id="_1pGL"
+                         procedure="do_click.new_time_series.menuItem_add_products"/>
+          <ProcedureCall id="_1pHR"
+                         procedure="utility.handle_select_product_dialog">
+            <variable name="file"/>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1pGi" name="select_crs_file">
+          <variable name="crs_file"/>
+          <ProcedureCall id="_1opd"
+                         procedure="do_click.new_time_series.button_use_crs_of"/>
+          <ProcedureCall id="_1pHQ"
+                         procedure="utility.handle_select_product_dialog">
+            <variable name="file">$(crs_file)</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1pGo" name="select_variable">
+          <variable name="variable_name"/>
+          <ProcedureCall id="_1pHJ"
+                         procedure="check.new_time_series.variable_selected">
+            <variable name="variable_name">sst_nadir</variable>
+          </ProcedureCall>
+          <IfSequence id="_1pHK"
+                      test="&#34;$(variable_selected)&#34;==&#34;false&#34;">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogNew_Time_Series.listSelect_Variables.variable_name"
+                            event="MOUSE_MPRC" id="_1p6c" modifiers="16"/>
+          </IfSequence>
+        </Procedure>
+      </Package>
+    </Package>
+    <Package id="_1pFO" name="workflow">
+      <Procedure id="_1pGN" name="create_new_time_series_1">
+        <ProcedureCall id="_1pGO"
+                       procedure="do_click.open_dialog.button_open"/>
+      </Procedure>
+    </Package>
+    <Package id="_1pFP" name="wait">
+      <Procedure id="_1pD-" name="new_time_series">
+        <ComponentWaiter client="$(client)" component="dialogNew_Time_Series"
+                         id="_1p48"/>
+      </Procedure>
+    </Package>
+  </PackageRoot>
+  <ExtraSequence id="_4">
+    <IfSequence id="_1op7" test="${qftest:windows}">
+      <ElseifSequence id="_1op8" name="MAC?"
+                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+      <ElseSequence id="_1op9"/>
+    </IfSequence>
+  </ExtraSequence>
+  <WindowList id="_5"/>
+</RootStep>

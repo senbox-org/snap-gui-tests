@@ -1,0 +1,842 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.3">
+  <include>qfs.qft</include>
+  <include>processing_main.qft</include>
+  <dependency>processing_main.qft</dependency>
+  <dependency>processing_do_click.qft</dependency>
+  <PackageRoot id="_3">
+    <Package id="_1pMj" name="select">
+      <Package id="_1pMl" name="collocation">
+        <Procedure id="_1pMm" name="resampling_type">
+          <variable name="resampling_type"/>
+          <comment>@teststep Select resampling type</comment>
+          <ProcedureCall id="_1pOk" procedure="resampling_types"/>
+          <SetGlobalStep id="_1pOl" varname="restype">
+            <default>${resampling:$(resampling_type)}</default>
+          </SetGlobalStep>
+          <TryStep id="_1pMo">
+            <ProcedureCall id="_1pMp"
+                           procedure="utility.collocation.resampling_type_collocation">
+              <variable name="resampling_type">$(restype)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1pMq" maxerror="0">
+              <TryStep id="_1pMr">
+                <ProcedureCall id="_1pOj"
+                               procedure="utility.collocation.resampling_type_collocation">
+                  <variable name="resampling_type">$(restype)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1pMt"
+                               maxerror="0">
+                  <ProcedureCall id="_1pMu" procedure="run-log.logError">
+                    <variable name="message">$(restype) can not be selected</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1pOX" name="output_format">
+          <variable name="output_format"/>
+          <comment>@teststep Select output format</comment>
+          <TryStep id="_1pOZ">
+            <ProcedureCall id="_1pOa"
+                           procedure="utility.collocation.output_format_collocation">
+              <variable name="output_format_name">$(output_format)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1pOb" maxerror="0">
+              <TryStep id="_1pOc">
+                <ProcedureCall id="_1pOd"
+                               procedure="utility.collocation.output_format_collocation">
+                  <variable name="output_format_name">$(output_format)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1pOe"
+                               maxerror="0">
+                  <ProcedureCall id="_1pOf" procedure="run-log.logError">
+                    <variable name="message">$(output_format) can not be selected</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1pMv" name="save_as">
+          <comment>@teststep Check-in checkbox 'Save as'</comment>
+          <ProcedureCall id="_1pMw"
+                         procedure="check.collocation.checked.save_as"/>
+          <IfSequence id="_1pMx" test="&#34;$(save_as)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1pMy"
+                           procedure="do_click.collocation.save_as"/>
+          </IfSequence>
+          <ProcedureCall id="_1pMz"
+                         procedure="check.collocation.checked.save_as_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1pN3" name="open_in_snap">
+          <comment>@teststep Check-in checkbox 'Open in SNAP'</comment>
+          <ProcedureCall id="_1pN4"
+                         procedure="check.collocation.checked.open_in_snap"/>
+          <IfSequence id="_1pN5"
+                      test="&#34;$(open_in_snap)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1pN6"
+                           procedure="do_click.collocation.open_in_snap"/>
+          </IfSequence>
+          <ProcedureCall id="_1pN7"
+                         procedure="check.collocation.checked.open_in_snap_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1pND" name="rename_master_components">
+          <comment>@teststep Check-in checkbox 'Rename master components'</comment>
+          <ProcedureCall id="_1pNE"
+                         procedure="check.collocation.checked.rename_master_components"/>
+          <IfSequence id="_1pNF"
+                      test="&#34;$(rename_master_components)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1pNG"
+                           procedure="do_click.collocation.rename_master_components"/>
+          </IfSequence>
+          <ProcedureCall id="_1pNH"
+                         procedure="check.collocation.checked.rename_master_components_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1pOI" name="rename_slave_components">
+          <comment>@teststep Check-in checkbox 'Rename slave components'</comment>
+          <ProcedureCall id="_1pOJ"
+                         procedure="check.collocation.checked.rename_slave_components"/>
+          <IfSequence id="_1pOK"
+                      test="&#34;$(rename_slave_components)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1pOL"
+                           procedure="do_click.collocation.rename_slave_components"/>
+          </IfSequence>
+          <ProcedureCall id="_1pOM"
+                         procedure="check.collocation.checked.rename_slave_components_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+      </Package>
+      <Package id="_1pOm" name="spectral_unmixing">
+        <Procedure id="_1pOx" name="output_format">
+          <variable name="output_format"/>
+          <comment>@teststep Select output format</comment>
+          <TryStep id="_1pOy">
+            <ProcedureCall id="_1pOz"
+                           procedure="utility.spectral_unmixing.output_format_spectral_unmixing">
+              <variable name="output_format_name">$(output_format)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1pO+" maxerror="0">
+              <TryStep id="_1pO-">
+                <ProcedureCall id="_1pP0"
+                               procedure="utility.spectral_unmixing.output_format_spectral_unmixing">
+                  <variable name="output_format_name">$(output_format)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1pP1"
+                               maxerror="0">
+                  <ProcedureCall id="_1pP2" procedure="run-log.logError">
+                    <variable name="message">$(output_format) can not be selected</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1pP3" name="save_as">
+          <comment>@teststep Check-in checkbox 'Save as'</comment>
+          <ProcedureCall id="_1pP4"
+                         procedure="check.spectral_unmixing.checked.save_as"/>
+          <IfSequence id="_1pP5" test="&#34;$(save_as)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1pP6"
+                           procedure="do_click.spectral_unmixing.save_as"/>
+          </IfSequence>
+          <ProcedureCall id="_1pP7"
+                         procedure="check.spectral_unmixing.checked.save_as_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1pP8" name="open_in_snap">
+          <comment>@teststep Check-in checkbox 'Open in SNAP'</comment>
+          <ProcedureCall id="_1pP9"
+                         procedure="check.spectral_unmixing.checked.open_in_snap"/>
+          <IfSequence id="_1pPA"
+                      test="&#34;$(open_in_snap)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1pPB"
+                           procedure="do_click.spectral_unmixing.open_in_snap"/>
+          </IfSequence>
+          <ProcedureCall id="_1pPC"
+                         procedure="check.spectral_unmixing.checked.open_in_snap_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1pQy" name="compute_error_bands">
+          <comment>@teststep Check-in checkbox 'Compute error bands'</comment>
+          <ProcedureCall id="_1pQz"
+                         procedure="check.spectral_unmixing.checked.compute_error_bands"/>
+          <IfSequence id="_1pQ+"
+                      test="&#34;$(compute_error_bands)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1pR1"
+                           procedure="do_click.spectral_unmixing.compute_error_bands"/>
+          </IfSequence>
+          <ProcedureCall id="_1pR0"
+                         procedure="check.spectral_unmixing.checked.compute_error_bands_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1pRo" name="unmixing_model_name">
+          <variable name="unmixing_model_name"/>
+          <variable name="example">Unconstrained LSU; Fully Constrained LSU;Constrained LSU</variable>
+          <TryStep id="_1pRq">
+            <ProcedureCall id="_1pRp"
+                           procedure="utility.spectral_unmixing.unmixing_model_name_spectral_unmixing">
+              <variable name="unmixing_model_name">$(unmixing_model_name)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1pRr" maxerror="0">
+              <TryStep id="_1pRs">
+                <ProcedureCall id="_1pRw"
+                               procedure="utility.spectral_unmixing.unmixing_model_name_spectral_unmixing">
+                  <variable name="unmixing_model_name">$(unmixing_model_name)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1pRu"
+                               maxerror="0">
+                  <ProcedureCall id="_1pRv" procedure="run-log.logError">
+                    <variable name="message">$(unmixing_model_name) can not be selected</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+      </Package>
+      <Package id="_1pS1" name="ndvi_processor">
+        <Procedure id="_1pS4" name="tab">
+          <variable name="tab"/>
+          <variable name="example">I/O Parameters;Processing Parameters</variable>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogNDVI.tabbed_tab" event="MOUSE_MPRC"
+                          id="_1pV-" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1pW0" name="output_format">
+          <variable name="output_format"/>
+          <comment>@teststep Select output format</comment>
+          <TryStep id="_1pW1">
+            <ProcedureCall id="_1pW2"
+                           procedure="utility.ndvi.output_format_ndvi_processor">
+              <variable name="output_format_name">$(output_format)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1pW3" maxerror="0">
+              <TryStep id="_1pW4">
+                <ProcedureCall id="_1pWJ"
+                               procedure="utility.ndvi.output_format_ndvi_processor">
+                  <variable name="output_format_name">$(output_format)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1pW6"
+                               maxerror="0">
+                  <ProcedureCall id="_1pW7" procedure="run-log.logError">
+                    <variable name="message">$(output_format) can not be selected</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1pW8" name="save_as">
+          <comment>@teststep Check-in checkbox 'Save as'</comment>
+          <ProcedureCall id="_1pW9"
+                         procedure="check.ndvi_processor.checked.save_as"/>
+          <IfSequence id="_1pWA" test="&#34;$(save_as)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1pWB"
+                           procedure="do_click.ndvi_processor.save_as"/>
+          </IfSequence>
+          <ProcedureCall id="_1pWC"
+                         procedure="check.ndvi_processor.checked.save_as_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1pWD" name="open_in_snap">
+          <comment>@teststep Check-in checkbox 'Open in SNAP'</comment>
+          <ProcedureCall id="_1pWE"
+                         procedure="check.ndvi_processor.checked.open_in_snap"/>
+          <IfSequence id="_1pWF"
+                      test="&#34;$(open_in_snap)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1pWG"
+                           procedure="do_click.ndvi_processor.open_in_snap"/>
+          </IfSequence>
+          <ProcedureCall id="_1pWH"
+                         procedure="check.ndvi_processor.checked.open_in_snap_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1pWb" name="red_source_band">
+          <variable name="red_source_band"/>
+          <TryStep id="_1pWf">
+            <ProcedureCall id="_1pWm"
+                           procedure="utility.ndvi.red_source_band_ndvi_processor">
+              <variable name="red_source_band">$(red_source_band)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1pWh" maxerror="0">
+              <TryStep id="_1pWi">
+                <ProcedureCall id="_1pWn"
+                               procedure="utility.ndvi.red_source_band_ndvi_processor">
+                  <variable name="red_source_band">$(red_source_band)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1pWk"
+                               maxerror="0">
+                  <ProcedureCall id="_1pWl" procedure="run-log.logError">
+                    <variable name="message">$(red_source_band) can not be selected</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1pWd" name="nir_source_band">
+          <variable name="nir_source_band"/>
+          <TryStep id="_1pWo">
+            <ProcedureCall id="_1pWp"
+                           procedure="utility.ndvi.nir_source_band_ndvi_processor">
+              <variable name="nir_source_band">$(nir_source_band)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1pWq" maxerror="0">
+              <TryStep id="_1pWr">
+                <ProcedureCall id="_1pWv"
+                               procedure="utility.ndvi.nir_source_band_ndvi_processor">
+                  <variable name="nir_source_band">$(nir_source_band)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1pWt"
+                               maxerror="0">
+                  <ProcedureCall id="_1pWu" procedure="run-log.logError">
+                    <variable name="message">$(nir_source_band) can not be selected</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+      </Package>
+      <Package id="_1pW-" name="reprojection">
+        <Procedure id="_1pX2" name="tab">
+          <variable name="tab"/>
+          <variable name="example">I/O Parameters;Reprojection Parameters</variable>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogReprojection.tabbed.tab"
+                          event="MOUSE_MPRC" id="_1pXT" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1pX4" name="output_format">
+          <variable name="output_format"/>
+          <comment>@teststep Select output format</comment>
+          <TryStep id="_1pX5">
+            <ProcedureCall id="_1pX6"
+                           procedure="utility.reprojection.output_format_reproj">
+              <variable name="output_format_name">$(output_format)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1pX7" maxerror="0">
+              <TryStep id="_1pX8">
+                <ProcedureCall id="_1pXR"
+                               procedure="utility.reprojection.output_format_reproj">
+                  <variable name="output_format_name">$(output_format)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1pXA"
+                               maxerror="0">
+                  <ProcedureCall id="_1pXB" procedure="run-log.logError">
+                    <variable name="message">$(output_format) can not be selected</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1pXC" name="save_as">
+          <comment>@teststep Check-in checkbox 'Save as'</comment>
+          <ProcedureCall id="_1pXD"
+                         procedure="check.reprojection.checked.save_as"/>
+          <IfSequence id="_1pXE" test="&#34;$(save_as)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1pXF"
+                           procedure="do_click.reprojection.save_as"/>
+          </IfSequence>
+          <ProcedureCall id="_1pXG"
+                         procedure="check.reprojection.checked.save_as_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1pXH" name="open_in_snap">
+          <comment>@teststep Check-in checkbox 'Open in SNAP'</comment>
+          <ProcedureCall id="_1pXI"
+                         procedure="check.reprojection.checked.open_in_snap"/>
+          <IfSequence id="_1pXJ"
+                      test="&#34;$(open_in_snap)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1pXK"
+                           procedure="do_click.reprojection.open_in_snap"/>
+          </IfSequence>
+          <ProcedureCall id="_1pXL"
+                         procedure="check.reprojection.checked.open_in_snap_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1pbj" name="projection">
+          <variable name="projection"/>
+          <comment>@teststep Select projection</comment>
+          <TryStep id="_1pev">
+            <ProcedureCall id="_1pew"
+                           procedure="utility.reprojection.projection">
+              <variable name="projection">$(projection)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1pex" maxerror="0">
+              <TryStep id="_1pey">
+                <ProcedureCall id="_1pfH"
+                               procedure="utility.reprojection.projection">
+                  <variable name="projection">$(projection)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1pe+"
+                               maxerror="0">
+                  <ProcedureCall id="_1pe-" procedure="run-log.logError">
+                    <variable name="message">$(projection) can not be selected</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1pdJ" name="geodetic_datum">
+          <variable name="geodetic_datum"/>
+          <comment>@teststep Select geodetic datum</comment>
+          <ProcedureCall id="_1pfO"
+                         procedure="check.reprojection.enabled.geodetic_datum"/>
+          <IfSequence id="_1pfP"
+                      test="&#34;$(geodetic_datum)&#34;==&#34;true&#34;">
+            <TryStep id="_1pf0">
+              <ProcedureCall id="_1pfJ"
+                             procedure="utility.reprojection.datum">
+                <variable name="geodetic_datum">$(geodetic_datum)</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1pf2"
+                             maxerror="0">
+                <TryStep id="_1pf3">
+                  <ProcedureCall id="_1pfK"
+                                 procedure="utility.reprojection.datum">
+                    <variable name="geodetic_datum">$(geodetic_datum)</variable>
+                  </ProcedureCall>
+                  <CatchSequence exception="TestException" id="_1pf5"
+                                 maxerror="0">
+                    <ProcedureCall id="_1pf6" procedure="run-log.logError">
+                      <variable name="message">$(geodetic_datum) can not be selected</variable>
+                      <variable name="withScreenshots">true</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </IfSequence>
+        </Procedure>
+        <Procedure id="_1pXe" name="resampling_method">
+          <variable name="resampling_method"/>
+          <variable name="example">Nearest; Bicubic; Bilinear</variable>
+          <comment>@teststep Select resampling method</comment>
+          <TryStep id="_1pf7">
+            <ProcedureCall id="_1pfM"
+                           procedure="utility.reprojection.resampling">
+              <variable name="resampling_method">$(resampling_method)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1pf9" maxerror="0">
+              <TryStep id="_1pfA">
+                <ProcedureCall id="_1pfN"
+                               procedure="utility.reprojection.resampling">
+                  <variable name="resampling_method">$(resampling_method)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1pfC"
+                               maxerror="0">
+                  <ProcedureCall id="_1pfD" procedure="run-log.logError">
+                    <variable name="message">$(resampling_method) can not be selected</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1pZL" name="preserve_resolution">
+          <comment>@teststep Check-in checkbox 'Preserve resolution'.</comment>
+          <ProcedureCall id="_1pfX"
+                         procedure="check.reprojection.checked.preserve_resolution"/>
+          <IfSequence id="_1pfU"
+                      test="&#34;$(preserve_resolution)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1pfV"
+                           procedure="do_click.reprojection.preserve_resolution"/>
+          </IfSequence>
+          <ProcedureCall id="_1pfY"
+                         procedure="check.reprojection.checked.preserve_resolution_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1pZM" name="reproject_tie_point_grids">
+          <comment>@teststep Check-in checkbox 'Reproject tie-point grids'.</comment>
+          <ProcedureCall id="_1pfZ"
+                         procedure="check.reprojection.checked.reproject_tie_point_grids"/>
+          <IfSequence id="_1pfd"
+                      test="&#34;$(reproject_tie_point_grids)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1pfe"
+                           procedure="do_click.reprojection.reproject_tie_point_grids"/>
+          </IfSequence>
+          <ProcedureCall id="_1pfa"
+                         procedure="check.reprojection.checked.reproject_tie_point_grids_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1pZJ" name="add_delta_lat_lon_bands">
+          <comment>@teststep Check-in checkbox 'Add delta lat/lon bands'.</comment>
+          <ProcedureCall id="_1pfb"
+                         procedure="check.reprojection.checked.add_delta_lat_lon_bands"/>
+          <IfSequence id="_1pff"
+                      test="&#34;$(add_delta_lat_lon_bands)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1pfg"
+                           procedure="do_click.reprojection.add_delta_lat_lon_bands"/>
+          </IfSequence>
+          <ProcedureCall id="_1pfc"
+                         procedure="check.reprojection.checked.add_delta_lat_lon_bands_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+      </Package>
+    </Package>
+    <Package id="_1pMk" name="deselect">
+      <Package id="_1pNW" name="collocation">
+        <Procedure id="_1pNl" name="save_as">
+          <comment>@teststep Check-out checkbox 'Save as'</comment>
+          <ProcedureCall id="_1pNm"
+                         procedure="check.collocation.checked.save_as"/>
+          <IfSequence id="_1pNn" test="&#34;$(save_as)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1pNo"
+                           procedure="do_click.collocation.save_as"/>
+          </IfSequence>
+          <ProcedureCall id="_1pNp"
+                         procedure="check.collocation.checked.save_as_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1pNv" name="open_in_snap">
+          <comment>@teststep Check-out checkbox 'Open in SNAP'</comment>
+          <ProcedureCall id="_1pNw"
+                         procedure="check.collocation.checked.open_in_snap"/>
+          <IfSequence id="_1pNx"
+                      test="&#34;$(open_in_snap)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1pNy"
+                           procedure="do_click.collocation.open_in_snap"/>
+          </IfSequence>
+          <ProcedureCall id="_1pNz"
+                         procedure="check.collocation.checked.open_in_snap_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1pON" name="rename_master_components">
+          <comment>@teststep Check-out checkbox 'Rename master components'</comment>
+          <ProcedureCall id="_1pOO"
+                         procedure="check.collocation.checked.rename_master_components"/>
+          <IfSequence id="_1pOP"
+                      test="&#34;$(rename_master_components)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1pOQ"
+                           procedure="do_click.collocation.rename_master_components"/>
+          </IfSequence>
+          <ProcedureCall id="_1pOR"
+                         procedure="check.collocation.checked.rename_master_components_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1pOS" name="rename_slave_components">
+          <comment>@teststep Check-out checkbox 'Rename slave components'</comment>
+          <ProcedureCall id="_1pOT"
+                         procedure="check.collocation.checked.rename_slave_components"/>
+          <IfSequence id="_1pOU"
+                      test="&#34;$(rename_slave_components)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1pOV"
+                           procedure="do_click.collocation.rename_slave_components"/>
+          </IfSequence>
+          <ProcedureCall id="_1pOW"
+                         procedure="check.collocation.checked.rename_slave_components_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+      </Package>
+      <Package id="_1pQf" name="spectral_unmixing">
+        <Procedure id="_1pQo" name="save_as">
+          <comment>@teststep Check-out checkbox 'Save as'</comment>
+          <ProcedureCall id="_1pQp"
+                         procedure="check.spectral_unmixing.checked.save_as"/>
+          <IfSequence id="_1pQq" test="&#34;$(save_as)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1pQr"
+                           procedure="do_click.spectral_unmixing.save_as"/>
+          </IfSequence>
+          <ProcedureCall id="_1pQs"
+                         procedure="check.spectral_unmixing.checked.save_as_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1pQt" name="open_in_snap">
+          <comment>@teststep Check-out checkbox 'Open in SNAP'</comment>
+          <ProcedureCall id="_1pQu"
+                         procedure="check.spectral_unmixing.checked.open_in_snap"/>
+          <IfSequence id="_1pQv"
+                      test="&#34;$(open_in_snap)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1pQw"
+                           procedure="do_click.spectral_unmixing.open_in_snap"/>
+          </IfSequence>
+          <ProcedureCall id="_1pQx"
+                         procedure="check.spectral_unmixing.checked.open_in_snap_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1pR2" name="compute_error_bands">
+          <comment>@teststep Check-out checkbox 'Compute error bands'</comment>
+          <ProcedureCall id="_1pR3"
+                         procedure="check.spectral_unmixing.checked.compute_error_bands"/>
+          <IfSequence id="_1pR4"
+                      test="&#34;$(compute_error_bands)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1pR5"
+                           procedure="do_click.spectral_unmixing.compute_error_bands"/>
+          </IfSequence>
+          <ProcedureCall id="_1pR6"
+                         procedure="check.spectral_unmixing.checked.compute_error_bands_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+      </Package>
+      <Package id="_1pS2" name="ndvi_processor">
+        <Procedure id="_1pWK" name="save_as">
+          <comment>@teststep Check-out checkbox 'Save as'</comment>
+          <ProcedureCall id="_1pWL"
+                         procedure="check.ndvi_processor.checked.save_as"/>
+          <IfSequence id="_1pWM" test="&#34;$(save_as)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1pWN"
+                           procedure="do_click.ndvi_processor.save_as"/>
+          </IfSequence>
+          <ProcedureCall id="_1pWO"
+                         procedure="check.ndvi_processor.checked.save_as_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1pWP" name="open_in_snap">
+          <comment>@teststep Check-out checkbox 'Open in SNAP'</comment>
+          <ProcedureCall id="_1pWQ"
+                         procedure="check.ndvi_processor.checked.open_in_snap"/>
+          <IfSequence id="_1pWR"
+                      test="&#34;$(open_in_snap)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1pWS"
+                           procedure="do_click.ndvi_processor.open_in_snap"/>
+          </IfSequence>
+          <ProcedureCall id="_1pWT"
+                         procedure="check.ndvi_processor.checked.open_in_snap_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+      </Package>
+      <Package id="_1pX0" name="reprojection">
+        <Procedure id="_1pXU" name="save_as">
+          <comment>@teststep Check-out checkbox 'Save as'</comment>
+          <ProcedureCall id="_1pXV"
+                         procedure="check.reprojection.checked.save_as"/>
+          <IfSequence id="_1pXW" test="&#34;$(save_as)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1pXX"
+                           procedure="do_click.reprojection.save_as"/>
+          </IfSequence>
+          <ProcedureCall id="_1pXY"
+                         procedure="check.reprojection.checked.save_as_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1pXZ" name="open_in_snap">
+          <comment>@teststep Check-out checkbox 'Open in SNAP'</comment>
+          <ProcedureCall id="_1pXa"
+                         procedure="check.reprojection.checked.open_in_snap"/>
+          <IfSequence id="_1pXb"
+                      test="&#34;$(open_in_snap)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1pXc"
+                           procedure="do_click.reprojection.open_in_snap"/>
+          </IfSequence>
+          <ProcedureCall id="_1pXd"
+                         procedure="check.reprojection.checked.open_in_snap_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1pfh" name="preserve_resolution">
+          <comment>@teststep Check-out checkbox  'Preserve resolution'.</comment>
+          <ProcedureCall id="_1pfi"
+                         procedure="check.reprojection.checked.preserve_resolution"/>
+          <IfSequence id="_1pfj"
+                      test="&#34;$(preserve_resolution)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1pfk"
+                           procedure="do_click.reprojection.preserve_resolution"/>
+          </IfSequence>
+          <ProcedureCall id="_1pfl"
+                         procedure="check.reprojection.checked.preserve_resolution_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1pfm" name="reproject_tie_point_grids">
+          <comment>@teststep Check-out checkbox 'Reproject tie-point grids'.</comment>
+          <ProcedureCall id="_1pfn"
+                         procedure="check.reprojection.checked.reproject_tie_point_grids"/>
+          <IfSequence id="_1pfo"
+                      test="&#34;$(reproject_tie_point_grids)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1pfp"
+                           procedure="do_click.reprojection.reproject_tie_point_grids"/>
+          </IfSequence>
+          <ProcedureCall id="_1pfq"
+                         procedure="check.reprojection.checked.reproject_tie_point_grids_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1pfr" name="add_delta_lat_lon_bands">
+          <comment>@teststep Check-out checkbox 'Add delta lat/lon bands'.</comment>
+          <ProcedureCall id="_1pfs"
+                         procedure="check.reprojection.checked.add_delta_lat_lon_bands"/>
+          <IfSequence id="_1pft"
+                      test="&#34;$(add_delta_lat_lon_bands)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1pfu"
+                           procedure="do_click.reprojection.add_delta_lat_lon_bands"/>
+          </IfSequence>
+          <ProcedureCall id="_1pfv"
+                         procedure="check.reprojection.checked.add_delta_lat_lon_bands_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+      </Package>
+    </Package>
+    <Package id="_1pNS" name="utility">
+      <Package id="_1pX1" name="reprojection">
+        <Procedure id="_1pXM" name="output_format_reproj">
+          <variable name="output_format_name"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogReprojection.formatName"
+                          event="MOUSE_MPRC" id="_1pXP" modifiers="16" x="62"
+                          y="10"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogReprojection.listInvokerName_output_format_name"
+                          event="MOUSE_MPRC" id="_1pXQ" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1pfE" name="projection">
+          <variable name="projection"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogReprojection.operationWrapper"
+                          event="MOUSE_MPRC" id="_1pfF" modifiers="16" x="94"
+                          y="4"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogReprojection.listInvokerName:_operationWrapper.projection"
+                          event="MOUSE_MPRC" id="_1pfG" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1pfI" name="datum">
+          <variable name="geodetic_datum"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogReprojection.datum"
+                          event="MOUSE_MPRC" id="_1peZ" modifiers="16" x="92"
+                          y="15"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogReprojection.listInvokerName:_datum.geodetic_datum"
+                          event="MOUSE_MPRC" id="_1pea" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1pfL" name="resampling">
+          <variable name="resampling_method"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogReprojection.resamplingName"
+                          event="MOUSE_MPRC" id="_1pbT" modifiers="16" x="76"
+                          y="14"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogReprojection.listInvokerName_resamplingName"
+                          event="MOUSE_MPRC" id="_1pbU" modifiers="16"/>
+        </Procedure>
+      </Package>
+      <Package id="_1pWw" name="ndvi">
+        <Procedure id="_1pS3" name="output_format_ndvi_processor">
+          <variable name="output_format_name"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogNDVI.formatName" event="MOUSE_MPRC"
+                          id="_1pUV" modifiers="16" x="59" y="12"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogNDVI.listInvokerName_formatName"
+                          event="MOUSE_MPRC" id="_1pUW" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1pWI" name="red_source_band_ndvi_processor">
+          <variable name="red_source_band"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogNDVI.redSourceBand"
+                          event="MOUSE_MPRC" id="_1pWz" modifiers="16" x="52"
+                          y="15"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogNDVI.listInvokerName_redSourceBand"
+                          event="MOUSE_MPRC" id="_1pW+" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1pWX" name="nir_source_band_ndvi_processor">
+          <variable name="nir_source_band"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogNDVI.nirSourceBand"
+                          event="MOUSE_MPRC" id="_1pVO" modifiers="16" x="31"
+                          y="11"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogNDVI.listInvokerName_nirSourceBand"
+                          event="MOUSE_MPRC" id="_1pVP" modifiers="16"/>
+        </Procedure>
+      </Package>
+      <Package id="_1pWx" name="collocation">
+        <Procedure id="_1pNT" name="output_format_collocation">
+          <variable name="output_format_name"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogCollocation2.formatName"
+                          event="MOUSE_MPRC" id="_1pNU" modifiers="16" x="87"
+                          y="14"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogCollocation.listInvokerName_output_format_name"
+                          event="MOUSE_MPRC" id="_1pNV" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1pOg" name="resampling_type_collocation">
+          <variable name="resampling_type"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogCollocation2.resamplingType"
+                          event="MOUSE_MPRC" id="_1p8l" modifiers="16" x="34"
+                          y="9"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogCollocation.listInvokerName_resamplingType"
+                          event="MOUSE_MPRC" id="_1p8m" modifiers="16"/>
+        </Procedure>
+      </Package>
+      <Package id="_1pWy" name="spectral_unmixing">
+        <Procedure id="_1pPN" name="output_format_spectral_unmixing">
+          <variable name="output_format_name"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogSpectral_Unmixing.formatName"
+                          event="MOUSE_MPRC" id="_1pQd" modifiers="16" x="53"
+                          y="11"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogSpectral_Unmixing.listInvokerName_formatName"
+                          event="MOUSE_MPRC" id="_1pQe" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1pR7" name="unmixing_model_name_spectral_unmixing">
+          <variable name="unmixing_model_name"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogSpectral_Unmixing.unmixingModelName"
+                          event="MOUSE_MPRC" id="_1pRm" modifiers="16" x="40"
+                          y="12"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogSpectral_Unmixing.listInvokerName_unmixingModelName"
+                          event="MOUSE_MPRC" id="_1pRn" modifiers="16"/>
+        </Procedure>
+      </Package>
+    </Package>
+  </PackageRoot>
+  <ExtraSequence id="_4">
+    <ProcedureCall id="_1pMK" procedure="collocation.select_output_format">
+      <variable name="output_format">BEAM-DIMAP</variable>
+    </ProcedureCall>
+    <IfSequence id="_1op7" test="${qftest:windows}">
+      <ElseifSequence id="_1op8" name="MAC?"
+                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+      <ElseSequence id="_1op9"/>
+    </IfSequence>
+  </ExtraSequence>
+  <WindowList id="_5"/>
+</RootStep>

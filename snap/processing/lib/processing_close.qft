@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.3">
+  <include>qfs.qft</include>
+  <include>processing_main.qft</include>
+  <dependency>processing_main.qft</dependency>
+  <dependency>processing_do_click.qft</dependency>
+  <PackageRoot id="_3">
+    <Package id="_1lB5" name="close_processing_tool">
+      <Procedure id="_1pLf" name="collocation">
+        <TryStep id="_1pE8">
+          <ProcedureCall id="_1pE7"
+                         procedure="wait.appear.processing_tools.collocation"/>
+          <ProcedureCall id="_1pE6"
+                         procedure="do_click.collocation.button_close"/>
+          <CatchSequence exception="TestException" id="_1pE9" maxerror="0"/>
+        </TryStep>
+      </Procedure>
+      <Procedure id="_1pLg" name="spectral_unmixing">
+        <TryStep id="_1pLh">
+          <ProcedureCall id="_1pLi"
+                         procedure="wait.appear.processing_tools.spectral_unmixing"/>
+          <ProcedureCall id="_1pLj"
+                         procedure="do_click.spectral_unmixing.button_close"/>
+          <CatchSequence exception="TestException" id="_1pLk" maxerror="0"/>
+        </TryStep>
+      </Procedure>
+      <Procedure id="_1pLl" name="ndvi_processor">
+        <TryStep id="_1pLm">
+          <ProcedureCall id="_1pLn"
+                         procedure="wait.appear.processing_tools.ndvi_processor"/>
+          <ProcedureCall id="_1pLo"
+                         procedure="do_click.ndvi_processor.button_close"/>
+          <CatchSequence exception="TestException" id="_1pLp" maxerror="0"/>
+        </TryStep>
+      </Procedure>
+      <Procedure id="_1pLq" name="reprojection">
+        <TryStep id="_1pLr">
+          <ProcedureCall id="_1pLv"
+                         procedure="check.reprojection.reprojection_tool_opened"/>
+          <ProcedureCall id="_1pLt"
+                         procedure="do_click.reprojection.button_close"/>
+          <CatchSequence exception="TestException" id="_1pLu" maxerror="0"/>
+        </TryStep>
+      </Procedure>
+    </Package>
+  </PackageRoot>
+  <ExtraSequence id="_4">
+    <IfSequence id="_1op7" test="${qftest:windows}">
+      <ElseifSequence id="_1op8" name="MAC?"
+                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+      <ElseSequence id="_1op9"/>
+    </IfSequence>
+  </ExtraSequence>
+  <WindowList id="_5"/>
+</RootStep>

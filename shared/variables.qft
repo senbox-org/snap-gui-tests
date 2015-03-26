@@ -81,7 +81,7 @@
         </ServerScriptStep>
       </BasicSequence>
     </Procedure>
-    <Procedure id="_1orn" name="data_source_directory">
+    <Procedure id="_1orn" name="source_data_directory">
       <variable name="data_type"/>
       <ProcedureCall id="_1oro" procedure="path"/>
       <IfSequence id="_1orp" test="${qftest:windows}">
@@ -241,7 +241,7 @@
     <Procedure id="_1lBO" name="source_data_with_absolute_path">
       <comment>source_data_with_absolute_path</comment>
       <ProcedureCall id="_1o+c" procedure="path"/>
-      <ProcedureCall id="_1o+k" procedure="data_source_directory">
+      <ProcedureCall id="_1o+k" procedure="source_data_directory">
         <variable name="data_type">$(dataInDir)</variable>
       </ProcedureCall>
       <ServerScriptStep id="_1o+d" name="find_SMOS_in_file_name">
@@ -287,6 +287,11 @@ rc.setGlobal("smos", var1[:3])
       <ServerScriptStep id="_1o-A" name="print">
         <code>print "parameters_file_dir = $(param_file_dir)"</code>
       </ServerScriptStep>
+    </Procedure>
+    <Procedure id="_1o-B" name="resampling_types">
+      <LoadPropertiesStep id="_1o-C"
+                          propertyfile="properties/resampling_types.properties"
+                          resourcename="resampling"/>
     </Procedure>
     <Procedure id="_1oO9" name="system_and_commando">
       <comment>@teststep set system and commando</comment>
@@ -476,6 +481,10 @@ rc.setGlobal("wv", vl)                       </code>
         <ExcelDataBinder excelfile="tables/input_data/dimap.xls" id="_1oH3"
                          name="dimap" sheetname="listing"/>
       </Procedure>
+      <Procedure id="_1oI4" name="envi_reader">
+        <ExcelDataBinder excelfile="tables/input_data/envi_reader.xls"
+                         id="_1oI5" name="envi_reader" sheetname="listing"/>
+      </Procedure>
       <Procedure id="_1k-H" name="envisat_multispectral">
         <ExcelDataBinder excelfile="tables/input_data/envisat_multispectral.xls"
                          id="_1k-I" name="envisat" sheetname="listing"/>
@@ -533,13 +542,13 @@ rc.setGlobal("wv", vl)                       </code>
                          id="_1oHY" name="noaa_avhrr_3_L1b"
                          sheetname="listing"/>
       </Procedure>
+      <Procedure id="_1o-D" name="output_formats">
+        <ExcelDataBinder excelfile="tables/output_formats.xlsx" id="_1pTv"
+                         name="write_formats" sheetname="format"/>
+      </Procedure>
       <Procedure id="_1oHZ" name="prism">
         <ExcelDataBinder excelfile="tables/input_data/prism.xls" id="_1oHa"
                          name="prism" sheetname="listing"/>
-      </Procedure>
-      <Procedure id="_1oI4" name="s">
-        <ExcelDataBinder excelfile="tables/input_data/atsr.xls" id="_1oI5"
-                         name="s" sheetname="listing"/>
       </Procedure>
       <Procedure id="_1oHl" name="seaDAS_L1">
         <ExcelDataBinder excelfile="tables/input_data/seaDAS_L1.xls"
