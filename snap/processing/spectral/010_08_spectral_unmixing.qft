@@ -836,37 +836,46 @@
     <Procedure id="_1pSJ" name="add_endmembers">
       <variable name="endmembers_file"/>
       <ProcedureCall id="_1o-8" procedure="path"/>
-      <IfSequence id="_1pVu" test="${qftest:windows}">
-        <SetGlobalStep id="_1o-9" varname="endmembers_file_dir">
-          <default>${path:input_data_directory}applications\\processing\\endmembers\\</default>
-        </SetGlobalStep>
-        <ElseifSequence id="_1pVv" name="MAC?"
-                        test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-          <SetGlobalStep id="_1pVx" varname="endmembers_file_dir">
-            <default>${path:input_data_directory}applications/processing/endmembers/</default>
-          </SetGlobalStep>
-        </ElseifSequence>
-        <ElseSequence id="_1pVw">
-          <SetGlobalStep id="_1pVy" varname="endmembers_file_dir">
-            <default>${path:input_data_directory}applications/processing/endmembers/</default>
-          </SetGlobalStep>
-        </ElseSequence>
-      </IfSequence>
-      <SetGlobalStep id="_1pVz" varname="endmembers_file_with_path">
-        <default>$(endmembers_file_dir)$(endmembers_file)</default>
-      </SetGlobalStep>
       <ProcedureCall id="_1pYD"
                      procedure="do_click.spectral_unmixing.endmembers.add_button"/>
       <ComponentWaiter client="$(client)" component="dialogAdd_Endmembers"
                        id="_1pSL"/>
-      <TextInputStep clear="true" client="$(client)"
-                     component="dialogAdd_Endmembers.textFile_name:"
-                     id="_1pSN">
-        <text>$(endmembers_file_with_path)</text>
-      </TextInputStep>
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogAdd_Endmembers.buttonOpen"
-                      event="MOUSE_MPRC" id="_1pSP" modifiers="16"/>
+      <IfSequence id="_1pbY" test="${qftest:windows}">
+        <SetGlobalStep id="_1pbg" varname="endmembers_file_dir">
+          <default>${path:input_data_directory}applications\\processing\\endmembers\\</default>
+        </SetGlobalStep>
+        <TextInputStep clear="true" client="$(client)"
+                       component="dialogAdd_Endmembers.textFile_name:"
+                       id="_1pSN">
+          <text>$(endmembers_file_dir)$(endmembers_file)</text>
+        </TextInputStep>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogAdd_Endmembers.buttonOpen"
+                        event="MOUSE_MPRC" id="_1pSP" modifiers="16"/>
+        <ElseifSequence id="_1pba" name="MAC?"
+                        test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+          <SetGlobalStep id="_1pbi" varname="endmembers_file_dir">
+            <default>${path:input_data_directory}applications/processing/endmembers/</default>
+          </SetGlobalStep>
+          <TextInputStep clear="true" client="$(client)"
+                         component="textSelection:6" id="_1pbj">
+            <text>$(endmembers_file_dir)$(endmembers_file)</text>
+          </TextInputStep>
+          <MouseEventStep clicks="1" client="$(client)" component="buttonOK3"
+                          event="MOUSE_MPRC" id="_1pbk" modifiers="16"/>
+        </ElseifSequence>
+        <ElseSequence id="_1pbc">
+          <SetGlobalStep id="_1pbh" varname="endmembers_file_dir">
+            <default>${path:input_data_directory}applications/processing/endmembers/</default>
+          </SetGlobalStep>
+          <TextInputStep clear="true" client="$(client)"
+                         component="textSelection:6" id="_1pbe">
+            <text>$(endmembers_file_dir)$(endmembers_file)</text>
+          </TextInputStep>
+          <MouseEventStep clicks="1" client="$(client)" component="buttonOK3"
+                          event="MOUSE_MPRC" id="_1pbf" modifiers="16"/>
+        </ElseSequence>
+      </IfSequence>
     </Procedure>
     <Procedure id="_1pP2" name="check_sample_endmembers">
       <CheckItemsStep checktype="items" client="$(client)"

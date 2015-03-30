@@ -3878,14 +3878,40 @@
       </Package>
       <Package id="_1pFd" name="select_source_product_dialog">
         <Procedure id="_1pFe" name="button_cancel">
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="dialogSelect_Source_Product.buttonCancel"
-                          event="MOUSE_MPRC" id="_1pFf" modifiers="16"/>
+          <IfSequence id="_1pPB" test="${qftest:windows}">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogSelect_Source_Product.buttonCancel"
+                            event="MOUSE_MPRC" id="_1pFf" modifiers="16"/>
+            <ElseifSequence id="_1pPC" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="buttonCancel4" event="MOUSE_MPRC"
+                              id="_1pPc" modifiers="16"/>
+            </ElseifSequence>
+            <ElseSequence id="_1pPD">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="buttonCancel4" event="MOUSE_MPRC"
+                              id="_1pPb" modifiers="16"/>
+            </ElseSequence>
+          </IfSequence>
         </Procedure>
         <Procedure id="_1pFg" name="button_select">
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="dialogSelect_Source_Product.buttonSelect"
-                          event="MOUSE_MPRC" id="_1pFh" modifiers="16"/>
+          <IfSequence id="_1pP5" test="${qftest:windows}">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogSelect_Source_Product.buttonSelect"
+                            event="MOUSE_MPRC" id="_1pP8" modifiers="16"/>
+            <ElseifSequence id="_1pP6" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="buttonSelect" event="MOUSE_MPRC"
+                              id="_1pPA" modifiers="16"/>
+            </ElseifSequence>
+            <ElseSequence id="_1pP7">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="buttonSelect" event="MOUSE_MPRC"
+                              id="_1pP9" modifiers="16"/>
+            </ElseSequence>
+          </IfSequence>
         </Procedure>
       </Package>
       <Package id="_1l3Y" name="product_modified_dialog">
@@ -4460,13 +4486,21 @@
               </IfSequence>
             </ElseSequence>
           </IfSequence>
-          <MouseEventStep clicks="2" client="$(client)"
-                          component="NbMainWindow.Product_Explorer.tree&amp;$(nid)"
-                          event="MOUSE_MPRC" id="_1oTi" modifiers="16"/>
           <IfSequence id="_1omG" test="${qftest:windows}">
+            <MouseEventStep clicks="2" client="$(client)"
+                            component="NbMainWindow.Product_Explorer.tree&amp;$(nid)"
+                            event="MOUSE_MPRC" id="_1pPd" modifiers="16"/>
             <ElseifSequence id="_1omH" name="MAC?"
-                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-            <ElseSequence id="_1omI"/>
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <MouseEventStep clicks="2" client="$(client)"
+                              component="Product_Explorer.tree&amp;$(nid)"
+                              event="MOUSE_MPRC" id="_1pPf" modifiers="16"/>
+            </ElseifSequence>
+            <ElseSequence id="_1omI">
+              <MouseEventStep clicks="2" client="$(client)"
+                              component="Product_Explorer.tree&amp;$(nid)"
+                              event="MOUSE_MPRC" id="_1pPe" modifiers="16"/>
+            </ElseSequence>
           </IfSequence>
         </Procedure>
         <Procedure disabled="true" id="_1mQM" name="layer_checkbox">

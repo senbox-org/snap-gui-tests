@@ -901,9 +901,22 @@
           </TryStep>
         </Procedure>
         <Procedure id="_9Kn" name="not_opened">
-          <CheckItemsStep client="$(client)"
-                          component="NbMainWindow.Product_Explorer.tree"
-                          id="_9Kp" resvarname="not_opened"/>
+          <IfSequence id="_1o+w" test="${qftest:windows}">
+            <CheckItemsStep client="$(client)"
+                            component="NbMainWindow.Product_Explorer.tree"
+                            id="_9Kp" resvarname="not_opened"/>
+            <ElseifSequence id="_1o+x" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <CheckItemsStep client="$(client)"
+                              component="Product_Explorer.tree" id="_1o++"
+                              resvarname="not_opened"/>
+            </ElseifSequence>
+            <ElseSequence id="_1o+y">
+              <CheckItemsStep client="$(client)"
+                              component="Product_Explorer.tree" id="_1o+z"
+                              resvarname="not_opened"/>
+            </ElseSequence>
+          </IfSequence>
         </Procedure>
         <Procedure id="_1lCP" name="tree_number_elements">
           <variable name="number_elements"/>

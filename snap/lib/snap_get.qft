@@ -20,9 +20,22 @@
         <SetGlobalStep id="_1l3K" varname="nn0">
           <default>Bands</default>
         </SetGlobalStep>
-        <FetchTextStep client="$(client)"
-                       component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(nd)"
-                       id="_1l3A" varname="nn"/>
+        <IfSequence id="_1oz0" test="${qftest:windows}">
+          <FetchTextStep client="$(client)"
+                         component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(nd)"
+                         id="_1l3A" varname="nn"/>
+          <ElseifSequence id="_1oz1" name="MAC?"
+                          test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+            <FetchTextStep client="$(client)"
+                           component="Product_Explorer.tree&amp;/$(prod_id)/$(nd)"
+                           id="_1oz4" varname="nn"/>
+          </ElseifSequence>
+          <ElseSequence id="_1oz2">
+            <FetchTextStep client="$(client)"
+                           component="Product_Explorer.tree&amp;/$(prod_id)/$(nd)"
+                           id="_1oz3" varname="nn"/>
+          </ElseSequence>
+        </IfSequence>
         <WhileSequence id="_1l3B"
                        test="&#34;$(nn)&#34;&lt;&gt;&#34;$(nn0)&#34;">
           <ServerScriptStep disabled="true" id="_1l3O" name="print">
@@ -36,9 +49,22 @@
 rc.setGlobal("nd", v)                       </code>
           </ServerScriptStep>
           <TryStep id="_1l3C">
-            <FetchTextStep client="$(client)"
-                           component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(nd)"
-                           id="_1l3U" varname="nn"/>
+            <IfSequence id="_1oz5" test="${qftest:windows}">
+              <FetchTextStep client="$(client)"
+                             component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(nd)"
+                             id="_1ozB" varname="nn"/>
+              <ElseifSequence id="_1oz7" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <FetchTextStep client="$(client)"
+                               component="Product_Explorer.tree&amp;/$(prod_id)/$(nd)"
+                               id="_1l3U" varname="nn"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oz9">
+                <FetchTextStep client="$(client)"
+                               component="Product_Explorer.tree&amp;/$(prod_id)/$(nd)"
+                               id="_1ozC" varname="nn"/>
+              </ElseSequence>
+            </IfSequence>
             <ServerScriptStep disabled="true" id="_1oaT" name="print">
               <code>print "nn = $(nn)"  </code>
             </ServerScriptStep>

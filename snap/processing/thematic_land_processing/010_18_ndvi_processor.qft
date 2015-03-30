@@ -3,6 +3,7 @@
 <RootStep id="_0" name="root" version="4.0.3">
   <include>qfs.qft</include>
   <include>../../lib/snap_main.qft</include>
+  <include>../lib/processing_main.qft</include>
   <variable name="output_folder">ndvi</variable>
   <TestSet id="_2" name="10_18_ndvi_processor"
            reportname="10-18 NDVI Processor">
@@ -757,6 +758,14 @@
               <code>print "output_file = $(output_file)"</code>
             </ServerScriptStep>
             <TestStep id="_1pUk" name="processing">
+              <TryStep id="_1pft" name="click_OK_in_dialog_SNAP_SNAP_Error">
+                <ProcedureCall id="_1pfu"
+                               procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
+                <ProcedureCall id="_1pfv"
+                               procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
+                <CatchSequence exception="TestException" id="_1pfw"
+                               maxerror="0"/>
+              </TryStep>
               <ProcedureCall id="_1pUl"
                              procedure="set.ndvi_processor.target_product_name">
                 <variable name="target_product_name">$(output_file)</variable>

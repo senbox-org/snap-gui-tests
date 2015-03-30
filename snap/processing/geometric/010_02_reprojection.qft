@@ -144,15 +144,15 @@
                          procedure="check.reprojection.text.resampling_method">
             <variable name="val">Nearest</variable>
           </ProcedureCall>
-          <ProcedureCall id="_1pgT"
+          <ProcedureCall disabled="true" id="_1pgT"
                          procedure="check.reprojection.text.scene_with">
             <variable name="scene_with">0</variable>
           </ProcedureCall>
-          <ProcedureCall id="_1pgU"
+          <ProcedureCall disabled="true" id="_1pgU"
                          procedure="check.reprojection.text.scene_height">
             <variable name="scene_height">0</variable>
           </ProcedureCall>
-          <ProcedureCall id="_1pgV"
+          <ProcedureCall disabled="true" id="_1pgV"
                          procedure="check.reprojection.text.output_crs">
             <variable name="output_crs">No source product selected.</variable>
           </ProcedureCall>
@@ -419,6 +419,14 @@
               <code>print "output_file = $(output_file)"</code>
             </ServerScriptStep>
             <TestStep id="_1pUk" name="processing">
+              <TryStep id="_1pir" name="click_OK_in_dialog_SNAP_SNAP_Error">
+                <ProcedureCall id="_1pfu"
+                               procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
+                <ProcedureCall id="_1pis"
+                               procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
+                <CatchSequence exception="TestException" id="_1pfw"
+                               maxerror="0"/>
+              </TryStep>
               <ProcedureCall id="_1phP" procedure="select_io_tab"/>
               <ProcedureCall id="_1pUl"
                              procedure="set.reprojection.target_product_name">

@@ -490,26 +490,78 @@
       </Package>
       <Package id="_1pOn" name="load_parameters_dialog">
         <Procedure id="_1pOo" name="button_load">
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="dialogLoad_Parameters.buttonLoad"
-                          event="MOUSE_MPRC" id="_1pOp" modifiers="16"/>
+          <IfSequence id="_1pfq" test="${qftest:windows}">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogLoad_Parameters.buttonLoad"
+                            event="MOUSE_MPRC" id="_1pOp" modifiers="16"/>
+            <ElseifSequence id="_1pfr" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="buttonLoad" event="MOUSE_MPRC"
+                              id="_1pfx" modifiers="16"/>
+            </ElseifSequence>
+            <ElseSequence id="_1pfs">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="buttonLoad" event="MOUSE_MPRC"
+                              id="_1pfw" modifiers="16"/>
+            </ElseSequence>
+          </IfSequence>
         </Procedure>
         <Procedure id="_1pOq" name="button_cancel">
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="dialogLoad_Parameters.buttonCancel"
-                          event="MOUSE_MPRC" id="_1pOr" modifiers="16"/>
+          <IfSequence id="_1pft" test="${qftest:windows}">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogLoad_Parameters.buttonCancel"
+                            event="MOUSE_MPRC" id="_1pOr" modifiers="16"/>
+            <ElseifSequence id="_1pfu" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="buttonCancel6" event="MOUSE_MPRC"
+                              id="_1pfz" modifiers="16"/>
+            </ElseifSequence>
+            <ElseSequence id="_1pfv">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="buttonCancel6" event="MOUSE_MPRC"
+                              id="_1pfy" modifiers="16"/>
+            </ElseSequence>
+          </IfSequence>
         </Procedure>
       </Package>
       <Package id="_1pOd" name="store_parameters_dialog">
         <Procedure id="_1pOg" name="button_save">
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="dialogSave_Parameters.buttonSave"
-                          event="MOUSE_MPRC" id="_1pOh" modifiers="16"/>
+          <IfSequence id="_1pfj" test="${qftest:windows}">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogSave_Parameters.buttonSave"
+                            event="MOUSE_MPRC" id="_1pOh" modifiers="16"/>
+            <ElseifSequence id="_1pfk" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="buttonSave" event="MOUSE_MPRC"
+                              id="_1pfn" modifiers="16"/>
+            </ElseifSequence>
+            <ElseSequence id="_1pfl">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="buttonSave" event="MOUSE_MPRC"
+                              id="_1pfm" modifiers="16"/>
+            </ElseSequence>
+          </IfSequence>
         </Procedure>
         <Procedure id="_1pMa" name="button_cancel">
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="dialogSave_Parameters.buttonCancel"
-                          event="MOUSE_MPRC" id="_1pOf" modifiers="16"/>
+          <IfSequence id="_1pfg" test="${qftest:windows}">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogSave_Parameters.buttonCancel"
+                            event="MOUSE_MPRC" id="_1pOf" modifiers="16"/>
+            <ElseifSequence id="_1pfh" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="buttonCancel5" event="MOUSE_MPRC"
+                              id="_1pfp" modifiers="16"/>
+            </ElseifSequence>
+            <ElseSequence id="_1pfi">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="buttonCancel5" event="MOUSE_MPRC"
+                              id="_1pfo" modifiers="16"/>
+            </ElseSequence>
+          </IfSequence>
         </Procedure>
       </Package>
     </Package>

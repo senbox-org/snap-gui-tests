@@ -177,7 +177,7 @@
     <Procedure id="_1pON" name="click_ok_in_product_created_dialog">
       <TryStep id="_1pOQ">
         <ComponentWaiter client="$(client)" component="dialogReprojection2"
-                         id="_1pdG"/>
+                         id="_1pdG" timeout="1500"/>
         <MouseEventStep clicks="1" client="$(client)"
                         component="dialogReprojection2.buttonOK"
                         event="MOUSE_MPRC" id="_1pdH" modifiers="16"/>
@@ -187,6 +187,8 @@
     <Procedure id="_1phE" name="run_reprojection">
       <ProcedureCall id="_1pgi"
                      procedure="do_click.reprojection.button_apply"/>
+      <ProcedureCall id="_1piR"
+                     procedure="wait.disappear.writing_target_product"/>
       <TestStep id="_1piQ" name="handle_errors">
         <TryStep id="_1pgj">
           <ProcedureCall id="_1pgk"
