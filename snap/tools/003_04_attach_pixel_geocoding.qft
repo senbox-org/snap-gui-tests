@@ -37,20 +37,59 @@
             <SetGlobalStep id="_1opW" varname="bandName">
               <default>radiance_1</default>
             </SetGlobalStep>
+            <TryStep id="_1p1I"
+                     name="click_button_OK_in_pixel_geocoding_has_been_attached_dialog">
+              <ProcedureCall id="_1p1J"
+                             procedure="wait.appear.tools.dialogSNAP_Attach_Pixel_Geo-Coding"/>
+              <ProcedureCall id="_1p1K"
+                             procedure="do_click.tools.pixel_geocoding.attach.do_you_really_want_to_continue_dialog.cancel_button"/>
+              <CatchSequence exception="TestException" id="_1p1L"
+                             maxerror="0"/>
+            </TryStep>
             <ProcedureCall id="_1opT"
                            procedure="utility.open_image_view_check_it"/>
+            <TestStep id="_1p1P" name="check_menu">
+              <ProcedureCall id="_1p1O" procedure="do_click.menu.tools"/>
+              <ProcedureCall id="_1p1M"
+                             procedure="check.menu.tools.menuItemAttachPixelGeoCoding_enabled_status">
+                <variable name="enabled_status">false</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1p1N"
+                             procedure="check.menu.tools.menuItemDetachPixelGeoCoding_enabled_enabled_status">
+                <variable name="enabled_status">true</variable>
+              </ProcedureCall>
+            </TestStep>
           </TestStep>
           <ProcedureCall id="_1opX" procedure="pixel_geo_coding.detach">
             <variable name="prod_id">0</variable>
           </ProcedureCall>
+          <SetGlobalStep id="_1p1V" varname="view_Id1">
+            <default>1</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1p1U" varname="bandName">
+            <default>radiance_2</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1p1W"
+                         procedure="utility.open_image_view_check_it"/>
+          <TestStep id="_1p1Q" name="check_menu">
+            <ProcedureCall id="_1p1R" procedure="do_click.menu.tools"/>
+            <ProcedureCall id="_1p1S"
+                           procedure="check.menu.tools.menuItemAttachPixelGeoCoding_enabled_status">
+              <variable name="enabled_status">true</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1p1T"
+                           procedure="check.menu.tools.menuItemDetachPixelGeoCoding_enabled_enabled_status">
+              <variable name="enabled_status">false</variable>
+            </ProcedureCall>
+          </TestStep>
         </ElseSequence>
       </IfSequence>
       <ProcedureCall id="_1mk5" procedure="close.all_products"/>
     </TestCase>
     <TestCase id="_1oWc" name="13_help" reportname="13 Help">
-      <variable name="fileName">MER_RR__1_test.N1</variable>
+      <variable name="fileName">MER_FSG_1PNMAP20050726_232437_000000782039_00216_17805_0001.N1</variable>
       <TestStep id="_1oWd" name="open_product">
-        <ProcedureCall id="_1opY" procedure="open.product_in_snap">
+        <ProcedureCall id="_1p1X" procedure="open.product_in_snap">
           <variable name="prod_dir">mer_fsg_1p_n1</variable>
           <variable name="in_out">in</variable>
           <variable name="prod">$(fileName)</variable>

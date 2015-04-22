@@ -1028,7 +1028,8 @@
             <SetGlobalStep id="_1o+J" varname="f">
               <default>dimap</default>
             </SetGlobalStep>
-            <ProcedureCall id="_1o+K" procedure="output_format">
+            <ProcedureCall id="_1o+K"
+                           procedure="daten_format.output_format_for_gpt">
               <variable name="out_form">$(f)</variable>
             </ProcedureCall>
             <ProcedureCall id="_1o+L"
@@ -1042,7 +1043,8 @@
             <SetGlobalStep id="_1o+S" varname="f">
               <default>geotiff</default>
             </SetGlobalStep>
-            <ProcedureCall id="_1o+T" procedure="output_format">
+            <ProcedureCall id="_1o+T"
+                           procedure="daten_format.output_format_for_gpt">
               <variable name="out_form">$(f)</variable>
             </ProcedureCall>
             <ProcedureCall id="_1o+U"
@@ -1056,7 +1058,8 @@
             <SetGlobalStep id="_1o+Y" varname="f">
               <default>hdf5</default>
             </SetGlobalStep>
-            <ProcedureCall id="_1o+Z" procedure="output_format">
+            <ProcedureCall id="_1o+Z"
+                           procedure="daten_format.output_format_for_gpt">
               <variable name="out_form">$(f)</variable>
             </ProcedureCall>
             <ProcedureCall id="_1o+a"
@@ -1068,7 +1071,8 @@
             <SetGlobalStep id="_1o+c" varname="f">
               <default>netCDF_CF</default>
             </SetGlobalStep>
-            <ProcedureCall id="_1o+d" procedure="output_format">
+            <ProcedureCall id="_1o+d"
+                           procedure="daten_format.output_format_for_gpt">
               <variable name="out_form">$(f)</variable>
             </ProcedureCall>
             <ProcedureCall id="_1o+e"
@@ -1082,7 +1086,8 @@
             <SetGlobalStep id="_1o+m" varname="f">
               <default>netCDF4_CF</default>
             </SetGlobalStep>
-            <ProcedureCall id="_1o+n" procedure="output_format">
+            <ProcedureCall id="_1o+n"
+                           procedure="daten_format.output_format_for_gpt">
               <variable name="out_form">$(f)</variable>
             </ProcedureCall>
             <ProcedureCall id="_1o+o"
@@ -1096,7 +1101,8 @@
             <SetGlobalStep id="_1o+u" varname="f">
               <default>netCDF_beam</default>
             </SetGlobalStep>
-            <ProcedureCall id="_1o+v" procedure="output_format">
+            <ProcedureCall id="_1o+v"
+                           procedure="daten_format.output_format_for_gpt">
               <variable name="out_form">$(f)</variable>
             </ProcedureCall>
             <ProcedureCall id="_1o+w"
@@ -1110,7 +1116,8 @@
             <SetGlobalStep id="_1o+z" varname="f">
               <default>netCDF4_beam</default>
             </SetGlobalStep>
-            <ProcedureCall id="_1o++" procedure="output_format">
+            <ProcedureCall id="_1o++"
+                           procedure="daten_format.output_format_for_gpt">
               <variable name="out_form">$(f)</variable>
             </ProcedureCall>
             <ProcedureCall id="_1o+-"
@@ -1126,7 +1133,8 @@
               <SetGlobalStep id="_1oQR" varname="f">
                 <default>N1</default>
               </SetGlobalStep>
-              <ProcedureCall id="_1oQS" procedure="output_format">
+              <ProcedureCall id="_1oQS"
+                             procedure="daten_format.output_format_for_gpt">
                 <variable name="out_form">$(f)</variable>
               </ProcedureCall>
               <ProcedureCall id="_1oQT"
@@ -1143,12 +1151,14 @@
               <SetGlobalStep id="_1p0n" varname="f">
                 <default>$(other_formats)</default>
               </SetGlobalStep>
-              <ProcedureCall id="_1p0q" procedure="output_format">
+              <ProcedureCall id="_1p0q"
+                             procedure="daten_format.output_format_for_gpt">
                 <variable name="out_form">$(f)</variable>
               </ProcedureCall>
               <ElseSequence id="_1p0o">
                 <SetGlobalStep id="_1p0r" varname="f"/>
-                <ProcedureCall id="_1oQX" procedure="output_format">
+                <ProcedureCall id="_1oQX"
+                               procedure="daten_format.output_format_for_gpt">
                   <variable name="out_form">dimap</variable>
                 </ProcedureCall>
               </ElseSequence>
@@ -1259,7 +1269,8 @@
                     test="&#34;$(not_opened)&#34;==&#34;false&#34;">
           <ProcedureCall id="_1ocS" procedure="close.all_products"/>
         </IfSequence>
-        <ProcedureCall id="_1oUI" procedure="product_attributes">
+        <ProcedureCall id="_1oUI"
+                       procedure="product_meta_data.product_attributes">
           <variable name="prod_type">$(import_data)</variable>
         </ProcedureCall>
         <ProcedureCall id="_1oRE" procedure="open.product_in_snap">
@@ -1582,7 +1593,18 @@
                          procedure="wait.appear.tools.dialogSNAP_Attach_Pixel_Geo-Coding"/>
           <ProcedureCall id="_1ob6"
                          procedure="do_click.tools.pixel_geocoding.attach.do_you_really_want_to_continue_dialog.cancel_button"/>
-          <CatchSequence exception="TestException" id="_1obA" maxerror="0"/>
+          <CatchSequence exception="TestException" id="_1obA" maxerror="0">
+            <TryStep id="_1p1I"
+                     name="click_button_OK_in_pixel_geocoding_has_been_attached_dialog"
+                     predelay="5000">
+              <ProcedureCall id="_1p1J"
+                             procedure="wait.appear.tools.dialogSNAP_Attach_Pixel_Geo-Coding"/>
+              <ProcedureCall id="_1p1K"
+                             procedure="do_click.tools.pixel_geocoding.attach.do_you_really_want_to_continue_dialog.cancel_button"/>
+              <CatchSequence exception="TestException" id="_1p1L"
+                             maxerror="0"/>
+            </TryStep>
+          </CatchSequence>
         </TryStep>
       </Procedure>
       <Procedure id="_1oQg" name="detach">

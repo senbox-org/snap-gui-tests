@@ -9,9 +9,37 @@
   <dependency>snap_workflow.qft</dependency>
   <PackageRoot id="_3">
     <Package id="_1lB5" name="do_click">
+      <Package id="_1pYw" name="band_chooser">
+        <Procedure id="_1pYz" name="checkbox_band">
+          <variable name="band"/>
+          <comment>@teststep Click on checkbox 'band' in the 'Band Chooser' dialog.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogBand_Chooser.check_band"
+                          event="MOUSE_MPRC" id="_1pY+" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1pZH" name="select_all">
+          <comment>@teststep Click on checkbox 'Select All' in the 'Band Chooser' dialog.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogBand_Chooser.checkSelect_all"
+                          event="MOUSE_MPRC" id="_1pZI" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1pZO" name="select_none">
+          <comment>@teststep Click on checkbox 'Select None' in the 'Band Chooser' dialog.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogBand_Chooser.checkSelect_none"
+                          event="MOUSE_MPRC" id="_1pZQ" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1pZ6" name="button_OK">
+          <comment>@teststep Click 'OK' button in the 'Band Chooser' dialog.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogBand_Chooser.BandChooser.ok"
+                          event="MOUSE_MPRC" id="_1pZD" modifiers="16"/>
+        </Procedure>
+      </Package>
       <Package id="_1oQF" name="cancel">
         <Procedure id="_1oQG" name="creating_image">
           <variable name="band_name"/>
+          <comment>@teststep Click 'Cancel' button in 'Creating image' dialog</comment>
           <IfSequence id="_1opA" test="${qftest:windows}">
             <MouseEventStep clicks="1" client="$(client)"
                             component="dialogCreating_image_for_'test_cancel'.buttonCancel"
@@ -30,6 +58,7 @@
           </IfSequence>
         </Procedure>
         <Procedure id="_1pFi" name="writing_target_product">
+          <comment>@teststep Click 'Cancel' button in 'Writing Target Product' dialog</comment>
           <MouseEventStep clicks="1" client="$(client)"
                           component="dialogWriting_Target_Product.buttonCancel"
                           event="MOUSE_MPRC" id="_1pP3" modifiers="16"/>
@@ -73,11 +102,13 @@
       <Package id="_1pDZ" name="edit">
         <Package id="_1pDa" name="dialog_confirm_object_deletion">
           <Procedure id="_1pDd" name="button_No">
+            <comment>@teststep Click 'No' button in 'Confirm Object Deletion' dialog.</comment>
             <MouseEventStep clicks="1" client="$(client)"
                             component="buttonNo2" event="MOUSE_MPRC"
                             id="_1pDe" modifiers="16"/>
           </Procedure>
           <Procedure id="_1pDb" name="button_Yes">
+            <comment>@teststep Click 'Yes' button in 'Confirm Object Deletion' dialog.</comment>
             <MouseEventStep clicks="1" client="$(client)"
                             component="buttonYes2" event="MOUSE_MPRC"
                             id="_1ozJ" modifiers="16"/>
@@ -103,7 +134,7 @@
                           event="MOUSE_MPRC" id="_1oej" modifiers="16"/>
         </Procedure>
         <Procedure id="_1oXJ" name="button_Cancel_SNAP_SNAP_Error">
-          <comment>@teststep Click button 'No' in 'SNAP - Error' dialog.</comment>
+          <comment>@teststep Click button 'Cancel' in 'SNAP-SNAP - Error' dialog.</comment>
           <IfSequence id="_1on0" test="${qftest:windows}">
             <ElseifSequence id="_1on1" name="MAC?"
                             test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -114,6 +145,7 @@
                           event="MOUSE_MPRC" id="_1oXK" modifiers="16"/>
         </Procedure>
         <Procedure id="_1oa4" name="button_Cancel_error_SNAP_Open_Product">
+          <comment>@teststep Click button 'Cancel' in 'SNAP - Open Product' error dialog.</comment>
           <IfSequence id="_1omz" test="${qftest:windows}">
             <ElseifSequence id="_1om+" name="MAC?"
                             test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -157,6 +189,7 @@
           </TryStep>
         </Procedure>
         <Procedure id="_1pDt" name="button_OK_dialog_Band_Maths_error">
+          <comment>@teststep Click button 'OK' in 'Band Maths' error dialog.</comment>
           <IfSequence id="_1pDv" test="${qftest:windows}">
             <MouseEventStep clicks="1" client="$(client)"
                             component="dialogBand_Maths.buttonOK"
@@ -197,7 +230,7 @@
                           event="MOUSE_MPRC" id="_1oeh" modifiers="16"/>
         </Procedure>
         <Procedure id="_1oZ-" name="button_OK_SNAP_SNAP_Error">
-          <comment>@teststep Click button 'No' in 'SNAP - Error' dialog.</comment>
+          <comment>@teststep Click button 'No' in 'SNAP-SNAP - Error' dialog.</comment>
           <IfSequence id="_1on3" test="${qftest:windows}">
             <ElseifSequence id="_1on4" name="MAC?"
                             test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -208,6 +241,7 @@
                           event="MOUSE_MPRC" id="_1oa3" modifiers="16"/>
         </Procedure>
         <Procedure id="_1oaQ" name="button_OK_error_SNAP_Open_Product">
+          <comment>@teststep Click button 'OK' in 'SNAP - Open Product' error dialog.</comment>
           <IfSequence id="_1omw" test="${qftest:windows}">
             <ElseifSequence id="_1omx" name="MAC?"
                             test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -338,100 +372,147 @@
       </Package>
       <Package id="_1pCP" name="import_product_dialog">
         <Procedure id="_1pCQ" name="cancel">
-          <comment>@teststep Click 'Cancel' button</comment>
-          <IfSequence id="_1pCR" test="${qftest:windows}">
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="dialogOpen_Product.buttonAbbrechen"
-                            event="MOUSE_MPRC" id="_1pCS" modifiers="16"/>
-            <ElseifSequence id="_1pCT" name="MAC?"
-                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="buttonCancel" event="MOUSE_MPRC"
-                              id="_1pCg" modifiers="16"/>
-            </ElseifSequence>
-            <ElseSequence id="_1pCV">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="buttonCancel" event="MOUSE_MPRC"
-                              id="_1pCf" modifiers="16"/>
-            </ElseSequence>
-          </IfSequence>
+          <ProcedureCall id="_1pZG"
+                         procedure="do_click.open_product_dialog.cancel"/>
         </Procedure>
         <Procedure id="_1pCX" name="open">
-          <comment>@teststep Click 'Open' button</comment>
-          <IfSequence id="_1pCY" test="${qftest:windows}">
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="dialogOpen_Product.buttonÖffnen"
-                            event="MOUSE_MPRC" id="_1pCZ" modifiers="16"/>
-            <ElseifSequence id="_1pCa" name="MAC?"
-                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="buttonOK" event="MOUSE_MPRC"
-                              id="_1pCe" modifiers="16"/>
-            </ElseifSequence>
-            <ElseSequence id="_1pCc">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="buttonOK" event="MOUSE_MPRC"
-                              id="_1pCh" modifiers="16"/>
-            </ElseSequence>
-          </IfSequence>
+          <ProcedureCall id="_1pZF"
+                         procedure="do_click.open_product_dialog.open"/>
         </Procedure>
       </Package>
       <Package id="_1l3o" name="main_toolbar">
-        <Package disabled="true" id="_1lOH" name="analysis">
+        <Package id="_1lOH" name="analysis">
           <Procedure id="_1lVH" name="correlative_plot">
             <comment>@teststep Click 'Correlative plot' icon in menubar</comment>
             <IfSequence id="_1oiQ" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.buttonTipCorrelative_Plot"
+                              event="MOUSE_MPRC" id="_1pQf" modifiers="16"/>
               <ElseifSequence id="_1oiR" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oiS"/>
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.buttonTipCorrelative_Plot"
+                                event="MOUSE_MPRC" id="_1pQt" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oiS">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.buttonTipCorrelative_Plot"
+                                event="MOUSE_MPRC" id="_1pQu" modifiers="16"/>
+              </ElseSequence>
             </IfSequence>
           </Procedure>
           <Procedure id="_1lUX" name="geo_coding_information">
             <comment>@teststep Click 'Geo-Coding Information' icon in menubar</comment>
             <IfSequence id="_1oiE" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.buttonTipGeo-Coding"
+                              event="MOUSE_MPRC" id="_1pQb" modifiers="16"/>
               <ElseifSequence id="_1oiF" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oiG"/>
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.buttonTipGeo-Coding"
+                                event="MOUSE_MPRC" id="_1pQ-" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oiG">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.buttonTipGeo-Coding"
+                                event="MOUSE_MPRC" id="_1pR0" modifiers="16"/>
+              </ElseSequence>
             </IfSequence>
           </Procedure>
           <Procedure id="_1lUl" name="histogram">
             <comment>@teststep Click 'Histogram' icon in menubar</comment>
             <IfSequence id="_1oiK" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.buttonTipHistogram"
+                              event="MOUSE_MPRC" id="_1pQc" modifiers="16"/>
               <ElseifSequence id="_1oiL" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oiM"/>
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.buttonTipHistogram"
+                                event="MOUSE_MPRC" id="_1pQx" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oiM">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.buttonTipHistogram"
+                                event="MOUSE_MPRC" id="_1pQy" modifiers="16"/>
+              </ElseSequence>
             </IfSequence>
           </Procedure>
           <Procedure id="_1lUJ" name="information">
             <comment>@teststep Click 'Information' icon in menubar</comment>
             <IfSequence id="_1oiB" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.buttonTipInformation"
+                              event="MOUSE_MPRC" id="_1pQd" modifiers="16"/>
               <ElseifSequence id="_1oiC" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oiD"/>
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.buttonTipInformation"
+                                event="MOUSE_MPRC" id="_1pR1" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oiD">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.buttonTipInformation"
+                                event="MOUSE_MPRC" id="_1pR2" modifiers="16"/>
+              </ElseSequence>
             </IfSequence>
           </Procedure>
           <Procedure id="_1lVN" name="profile_plot">
             <comment>@teststep Click 'Profile plot' icon in menubar</comment>
             <IfSequence id="_1oiT" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.buttonTipProfile_Plot"
+                              event="MOUSE_MPRC" id="_1pQq" modifiers="16"/>
               <ElseifSequence id="_1oiU" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oiV"/>
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.buttonTipProfile_Plot"
+                                event="MOUSE_MPRC" id="_1pQr" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oiV">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.buttonTipProfile_Plot"
+                                event="MOUSE_MPRC" id="_1pQs" modifiers="16"/>
+              </ElseSequence>
             </IfSequence>
           </Procedure>
           <Procedure id="_1lVB" name="scatter_plot">
             <comment>@teststep Click 'Scatter plot' icon in menubar</comment>
             <IfSequence id="_1oiN" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.buttonTipScatter_Plot"
+                              event="MOUSE_MPRC" id="_1pQa" modifiers="16"/>
               <ElseifSequence id="_1oiO" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oiP"/>
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.buttonTipScatter_Plot"
+                                event="MOUSE_MPRC" id="_1pQv" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oiP">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.buttonTipScatter_Plot"
+                                event="MOUSE_MPRC" id="_1pQw" modifiers="16"/>
+              </ElseSequence>
             </IfSequence>
           </Procedure>
           <Procedure id="_1lB2" name="statistics">
             <comment>@teststep Click 'Statistics' icon in menubar</comment>
             <IfSequence id="_1oiH" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.buttonTipStatistics"
+                              event="MOUSE_MPRC" id="_1pQg" modifiers="16"/>
               <ElseifSequence id="_1oiI" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oiJ"/>
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.buttonTipStatistics"
+                                event="MOUSE_MPRC" id="_1pQz" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oiJ">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.buttonTipStatistics"
+                                event="MOUSE_MPRC" id="_1pQ+" modifiers="16"/>
+              </ElseSequence>
             </IfSequence>
           </Procedure>
         </Package>
@@ -847,6 +928,25 @@
               </ElseSequence>
             </IfSequence>
           </Procedure>
+          <Procedure id="_1pRG" name="magic_wand">
+            <comment>@teststep Click 'Creates a ROI mask using a magic wand' icon in menubar</comment>
+            <IfSequence id="_1pRH" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.toggleTipCreates_a_ROI_mask_using_a_magic_wand"
+                              event="MOUSE_MPRC" id="_1pQY" modifiers="16"/>
+              <ElseifSequence id="_1pRJ" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.toggleTipCreates_a_ROI_mask_using_a_magic_wand"
+                                event="MOUSE_MPRC" id="_1pRN" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1pRL">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.toggleTipCreates_a_ROI_mask_using_a_magic_wand"
+                                event="MOUSE_MPRC" id="_1pRO" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
           <Procedure id="_1lZ2" name="panner">
             <comment>@teststep Click 'Panner' icon in menubar</comment>
             <IfSequence id="_1ojD" test="${qftest:windows}">
@@ -924,8 +1024,8 @@
             </IfSequence>
           </Procedure>
         </Package>
-        <Package disabled="true" id="_1lOI" name="views">
-          <Procedure id="_1lVn" name="colour_manipulation">
+        <Package id="_1lOI" name="views">
+          <Procedure disabled="true" id="_1lVn" name="colour_manipulation">
             <comment>@teststep Click 'Colour Manipulation' icon in menubar</comment>
             <IfSequence id="_1oiZ" test="${qftest:windows}">
               <ElseifSequence id="_1oia" name="MAC?"
@@ -936,28 +1036,61 @@
           <Procedure id="_1lXL" name="gcp_manager">
             <comment>@teststep Click 'GCP Manager' icon in menubar</comment>
             <IfSequence id="_1oiu" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.buttonTipGCP_Manager"
+                              event="MOUSE_MPRC" id="_1pQV" modifiers="16"/>
               <ElseifSequence id="_1oiv" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oiw"/>
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.buttonTipGCP_Manager"
+                                event="MOUSE_MPRC" id="_1pRC" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oiw">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.buttonTipGCP_Manager"
+                                event="MOUSE_MPRC" id="_1pRD" modifiers="16"/>
+              </ElseSequence>
             </IfSequence>
           </Procedure>
           <Procedure id="_1lWP" name="layer_manager">
             <comment>@teststep Click 'Layer Manager' icon in menubar</comment>
             <IfSequence id="_1oif" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.buttonTipLayer_Manager"
+                              event="MOUSE_MPRC" id="_1pQX" modifiers="16"/>
               <ElseifSequence id="_1oig" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oih"/>
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.buttonTipLayer_Manager"
+                                event="MOUSE_MPRC" id="_1pRE" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oih">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.buttonTipLayer_Manager"
+                                event="MOUSE_MPRC" id="_1pRF" modifiers="16"/>
+              </ElseSequence>
             </IfSequence>
           </Procedure>
           <Procedure id="_1lWj" name="mask_manager">
             <comment>@teststep Click 'Mask Manager' icon in menubar</comment>
             <IfSequence id="_1oii" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.buttonTipMask_Manager"
+                              event="MOUSE_MPRC" id="_1pQW" modifiers="16"/>
               <ElseifSequence id="_1oij" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oik"/>
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.buttonTipMask_Manager"
+                                event="MOUSE_MPRC" id="_1pRA" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oik">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.buttonTipMask_Manager"
+                                event="MOUSE_MPRC" id="_1pRB" modifiers="16"/>
+              </ElseSequence>
             </IfSequence>
           </Procedure>
-          <Procedure id="_1l8s" name="navigation">
+          <Procedure disabled="true" id="_1l8s" name="navigation">
             <comment>@teststep Click 'Navigation' icon in menubar</comment>
             <IfSequence id="_1oil" test="${qftest:windows}">
               <ElseifSequence id="_1oim" name="MAC?"
@@ -968,12 +1101,23 @@
           <Procedure id="_1lXf" name="pin_manager">
             <comment>@teststep Click 'PIN Manager' icon in menubar</comment>
             <IfSequence id="_1oix" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.buttonTipPin_Manager"
+                              event="MOUSE_MPRC" id="_1pQU" modifiers="16"/>
               <ElseifSequence id="_1oiy" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oiz"/>
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.buttonTipPin_Manager"
+                                event="MOUSE_MPRC" id="_1pR8" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oiz">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.buttonTipPin_Manager"
+                                event="MOUSE_MPRC" id="_1pR9" modifiers="16"/>
+              </ElseSequence>
             </IfSequence>
           </Procedure>
-          <Procedure id="_1l9V" name="pixel_info">
+          <Procedure disabled="true" id="_1l9V" name="pixel_info">
             <comment>@teststep Click 'Pixel Info' icon in menubar</comment>
             <IfSequence id="_1oio" test="${qftest:windows}">
               <ElseifSequence id="_1oip" name="MAC?"
@@ -981,7 +1125,7 @@
               <ElseSequence id="_1oiq"/>
             </IfSequence>
           </Procedure>
-          <Procedure id="_1lVT" name="product_browser">
+          <Procedure disabled="true" id="_1lVT" name="product_browser">
             <comment>@teststep Click 'Product Browser' icon in menubar</comment>
             <IfSequence id="_1oiW" test="${qftest:windows}">
               <ElseifSequence id="_1oiX" name="MAC?"
@@ -992,12 +1136,24 @@
           <Procedure id="_1lXz" name="spectrum">
             <comment>@teststep Click 'Spectrum' icon in menubar</comment>
             <IfSequence id="_1oi+" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.buttonTipSpectrum_View"
+                              event="MOUSE_MPRC" id="_1pR6" modifiers="16"/>
               <ElseifSequence id="_1oi-" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oj0"/>
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.buttonTipSpectrum_View"
+                                event="MOUSE_MPRC" id="_1pR7" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oj0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.buttonTipSpectrum_View"
+                                event="MOUSE_MPRC" id="_1pQT" modifiers="16"/>
+              </ElseSequence>
             </IfSequence>
           </Procedure>
-          <Procedure id="_1lW5" name="uncertainty_visualisation">
+          <Procedure disabled="true" id="_1lW5"
+                     name="uncertainty_visualisation">
             <comment>@teststep Click 'Uncertainty Visualisation' icon in menubar</comment>
             <IfSequence id="_1oic" test="${qftest:windows}">
               <ElseifSequence id="_1oid" name="MAC?"
@@ -1005,7 +1161,7 @@
               <ElseSequence id="_1oie"/>
             </IfSequence>
           </Procedure>
-          <Procedure id="_1lX1" name="vector_data_editor">
+          <Procedure disabled="true" id="_1lX1" name="vector_data_editor">
             <comment>@teststep Click 'Vector Data Editor' icon in menubar</comment>
             <IfSequence id="_1oir" test="${qftest:windows}">
               <ElseifSequence id="_1ois" name="MAC?"
@@ -1016,12 +1172,29 @@
           <Procedure id="_1lK1" name="worldmap">
             <comment>@teststep Click 'World Map' icon in menubar</comment>
             <IfSequence id="_1oj1" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.buttonTipWorld_Map"
+                              event="MOUSE_MPRC" id="_1pQS" modifiers="16"/>
               <ElseifSequence id="_1oj2" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oj3"/>
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.buttonTipWorld_Map"
+                                event="MOUSE_MPRC" id="_1pR3" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1oj3">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.buttonTipWorld_Map"
+                                event="MOUSE_MPRC" id="_1pR4" modifiers="16"/>
+              </ElseSequence>
             </IfSequence>
           </Procedure>
         </Package>
+        <Procedure id="_1pPg" name="graph_builder">
+          <comment>@teststep Click Button 'Graph Builder'</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.buttonTipGraphBuilder"
+                          event="MOUSE_MPRC" id="_1pQl" modifiers="16"/>
+        </Procedure>
         <Procedure id="_1mat" name="profile_the_application">
           <comment>@teststep Click Button 'Profile the Application'</comment>
           <IfSequence id="_1ohR" test="${qftest:windows}">
@@ -3288,23 +3461,125 @@
             </Procedure>
           </Package>
           <Package id="_1o-8" name="tool_windows">
+            <Procedure id="_1pUE" name="colour_manipulation">
+              <comment>@teststep Do click Menu Item 'Colour Manipulation'.</comment>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.menuItemColour_Manipulation"
+                              event="MOUSE_MPRC" id="_1pUF" modifiers="16"/>
+            </Procedure>
+            <Procedure id="_1pUW" name="uncertainty_visualisation">
+              <comment>@teststep Do click Menu Item 'Uncertainty Visualisation'.</comment>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.menuItemUncertainty_Visualisation"
+                              event="MOUSE_MPRC" id="_1pUY" modifiers="16"/>
+            </Procedure>
+            <Procedure id="_1pUo" name="layer_manager">
+              <comment>@teststep Do click Menu Item 'Layer Manager'.</comment>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.menuItemLayer_Manager"
+                              event="MOUSE_MPRC" id="_1pUr" modifiers="16"/>
+            </Procedure>
+            <Procedure id="_1pV4" name="mask_manager">
+              <comment>@teststep Do click Menu Item 'Mask Manager'.</comment>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.menuItemMask_Manager"
+                              event="MOUSE_MPRC" id="_1pV8" modifiers="16"/>
+            </Procedure>
+            <Procedure id="_1pVM" name="gcp_manager">
+              <comment>@teststep Do click Menu Item 'GCP Manager'.</comment>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.menuItemGCP_Manager"
+                              event="MOUSE_MPRC" id="_1pVN" modifiers="16"/>
+            </Procedure>
+            <Procedure id="_1pVa" name="pin_manager">
+              <comment>@teststep Do click Menu Item 'PIN  Manager'.</comment>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.menuItemPin_Manager"
+                              event="MOUSE_MPRC" id="_1pVc" modifiers="16"/>
+            </Procedure>
+            <Procedure id="_1pVo" name="scatter_plot">
+              <comment>@teststep Do click Menu Item 'Scatter Plot'.</comment>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.menuItemScatter_Plot"
+                              event="MOUSE_MPRC" id="_1pVr" modifiers="16"/>
+            </Procedure>
+            <Procedure id="_1pW0" name="geo_coding">
+              <comment>@teststep Do click Menu Item 'Geo-Coding'.</comment>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.menuItemGeo-Coding"
+                              event="MOUSE_MPRC" id="_1pW4" modifiers="16"/>
+            </Procedure>
+            <Procedure id="_1pWE" name="histogram">
+              <comment>@teststep Do click Menu Item 'Histogram'.</comment>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.menuItemHistogram"
+                              event="MOUSE_MPRC" id="_1pWJ" modifiers="16"/>
+            </Procedure>
+            <Procedure id="_1pWS" name="information">
+              <comment>@teststep Do click Menu Item 'Information'.</comment>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.menuItemInformation"
+                              event="MOUSE_MPRC" id="_1pWT" modifiers="16"/>
+            </Procedure>
+            <Procedure id="_1pWb" name="profile_plot">
+              <comment>@teststep Do click Menu Item 'Profile Plot'.</comment>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.menuItemProfile_Plot"
+                              event="MOUSE_MPRC" id="_1pWd" modifiers="16"/>
+            </Procedure>
+            <Procedure id="_1pWk" name="correlative_plot">
+              <comment>@teststep Do click Menu Item 'Correlative Plot'.</comment>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.menuItemCorrelative_Plot"
+                              event="MOUSE_MPRC" id="_1pWn" modifiers="16"/>
+            </Procedure>
+            <Procedure id="_1pWt" name="spectrum_view">
+              <comment>@teststep Do click Menu Item 'Spectrum View'.</comment>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.menuItemSpectrum_View"
+                              event="MOUSE_MPRC" id="_1pWx" modifiers="16"/>
+            </Procedure>
+            <Procedure id="_1pX0" name="statistics">
+              <comment>@teststep Do click Menu Item 'Statistics'.</comment>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.menuItemStatistics"
+                              event="MOUSE_MPRC" id="_1pX1" modifiers="16"/>
+            </Procedure>
+            <Procedure id="_1pX5" name="pixel_info">
+              <comment>@teststep Do click Menu Item 'Pixel Info'.</comment>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.menuItemPixel_Info2"
+                              event="MOUSE_MPRC" id="_1pX7" modifiers="16"/>
+            </Procedure>
+            <Procedure id="_1pXA" name="global_selection">
+              <comment>@teststep Do click Menu Item 'Global Selection'.</comment>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.menuItemGlobal_Selection"
+                              event="MOUSE_MPRC" id="_1pXD" modifiers="16"/>
+            </Procedure>
+            <Procedure id="_1pS0" name="world_map">
+              <comment>@teststep Do click Menu Item 'World Map'.</comment>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.menuItemWorld_Map"
+                              event="MOUSE_MPRC" id="_1pSU" modifiers="16"/>
+            </Procedure>
             <Procedure id="_1p2s" name="log_output">
               <comment>@teststep Do click Menu Item 'Log Output'</comment>
               <IfSequence id="_1p2t" test="${qftest:windows}">
                 <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.menuItemLog_Output"
-                                event="MOUSE_MPRC" id="_1p0h" modifiers="16"/>
+                                component="NbMainWindow.menuItemLog_Output2"
+                                event="MOUSE_MPRC" id="_1pSW" modifiers="16"/>
                 <ElseifSequence id="_1p2u" name="MAC?"
                                 test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                   <MouseEventStep clicks="1" client="$(client)"
-                                  component="NbMainWindow.menuItemLog_Output"
-                                  event="MOUSE_MPRC" id="_1p3M"
+                                  component="NbMainWindow.menuItemLog_Output2"
+                                  event="MOUSE_MPRC" id="_1pU6"
                                   modifiers="16"/>
                 </ElseifSequence>
                 <ElseSequence id="_1p2v">
                   <MouseEventStep clicks="1" client="$(client)"
-                                  component="NbMainWindow.menuItemLog_Output"
-                                  event="MOUSE_MPRC" id="_1p3N"
+                                  component="NbMainWindow.menuItemLog_Output2"
+                                  event="MOUSE_MPRC" id="_1pU7"
                                   modifiers="16"/>
                 </ElseSequence>
               </IfSequence>
@@ -3313,19 +3588,19 @@
               <comment>@teststep Do click Menu Item 'Navigation'</comment>
               <IfSequence id="_1p0V" test="${qftest:windows}">
                 <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.menuItemNavigation"
-                                event="MOUSE_MPRC" id="_1p0Z" modifiers="16"/>
+                                component="NbMainWindow.menuItemNavigation2"
+                                event="MOUSE_MPRC" id="_1pSQ" modifiers="16"/>
                 <ElseifSequence id="_1p0W" name="MAC?"
                                 test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                   <MouseEventStep clicks="1" client="$(client)"
-                                  component="NbMainWindow.menuItemNavigation"
-                                  event="MOUSE_MPRC" id="_1p3A"
+                                  component="NbMainWindow.menuItemNavigation2"
+                                  event="MOUSE_MPRC" id="_1pU4"
                                   modifiers="16"/>
                 </ElseifSequence>
                 <ElseSequence id="_1p0X">
                   <MouseEventStep clicks="1" client="$(client)"
-                                  component="NbMainWindow.menuItemNavigation"
-                                  event="MOUSE_MPRC" id="_1p3B"
+                                  component="NbMainWindow.menuItemNavigation2"
+                                  event="MOUSE_MPRC" id="_1pU5"
                                   modifiers="16"/>
                 </ElseSequence>
               </IfSequence>
@@ -3334,40 +3609,19 @@
               <comment>@teststep Do click Menu Item 'Product Explorer'</comment>
               <IfSequence id="_1p2V" test="${qftest:windows}">
                 <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.menuItemProduct_Explorer"
-                                event="MOUSE_MPRC" id="_1p0b" modifiers="16"/>
+                                component="NbMainWindow.menuItemProduct_Explorer2"
+                                event="MOUSE_MPRC" id="_1pSS" modifiers="16"/>
                 <ElseifSequence id="_1p2W" name="MAC?"
                                 test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                   <MouseEventStep clicks="1" client="$(client)"
-                                  component="NbMainWindow.menuItemProduct_Explorer"
-                                  event="MOUSE_MPRC" id="_1p3C"
+                                  component="NbMainWindow.menuItemProduct_Explorer2"
+                                  event="MOUSE_MPRC" id="_1pUC"
                                   modifiers="16"/>
                 </ElseifSequence>
                 <ElseSequence id="_1p2X">
                   <MouseEventStep clicks="1" client="$(client)"
-                                  component="NbMainWindow.menuItemProduct_Explorer"
-                                  event="MOUSE_MPRC" id="_1p3D"
-                                  modifiers="16"/>
-                </ElseSequence>
-              </IfSequence>
-            </Procedure>
-            <Procedure id="_1p2Y" name="properties">
-              <comment>@teststep Do click Menu Item 'Properties'</comment>
-              <IfSequence id="_1p2Z" test="${qftest:windows}">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.menuItemProperties3"
-                                event="MOUSE_MPRC" id="_1p0c" modifiers="16"/>
-                <ElseifSequence id="_1p2a" name="MAC?"
-                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                  <MouseEventStep clicks="1" client="$(client)"
-                                  component="NbMainWindow.menuItemProperties3"
-                                  event="MOUSE_MPRC" id="_1p3E"
-                                  modifiers="16"/>
-                </ElseifSequence>
-                <ElseSequence id="_1p2b">
-                  <MouseEventStep clicks="1" client="$(client)"
-                                  component="NbMainWindow.menuItemProperties3"
-                                  event="MOUSE_MPRC" id="_1p3F"
+                                  component="NbMainWindow.menuItemProduct_Explorer2"
+                                  event="MOUSE_MPRC" id="_1pUD"
                                   modifiers="16"/>
                 </ElseSequence>
               </IfSequence>
@@ -3376,109 +3630,142 @@
               <comment>@teststep Do click Menu Item 'Script Console'</comment>
               <IfSequence id="_1p0H" test="${qftest:windows}">
                 <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.menuItemScript_Console"
-                                event="MOUSE_MPRC" id="_1p0K" modifiers="16"/>
+                                component="NbMainWindow.menuItemScript_Console2"
+                                event="MOUSE_MPRC" id="_1pSA" modifiers="16"/>
                 <ElseifSequence id="_1p0I" name="MAC?"
                                 test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                   <MouseEventStep clicks="1" client="$(client)"
-                                  component="NbMainWindow.menuItemScript_Console"
-                                  event="MOUSE_MPRC" id="_1p38"
+                                  component="NbMainWindow.menuItemScript_Console2"
+                                  event="MOUSE_MPRC" id="_1pUA"
                                   modifiers="16"/>
                 </ElseifSequence>
                 <ElseSequence id="_1p0J">
                   <MouseEventStep clicks="1" client="$(client)"
-                                  component="NbMainWindow.menuItemScript_Console"
-                                  event="MOUSE_MPRC" id="_1p39"
+                                  component="NbMainWindow.menuItemScript_Console2"
+                                  event="MOUSE_MPRC" id="_1pUB"
                                   modifiers="16"/>
                 </ElseSequence>
               </IfSequence>
             </Procedure>
-            <Procedure id="_1p2g" name="time_series_graph">
-              <comment>@teststep Do click Menu Item 'Time_Series_Graph'</comment>
-              <IfSequence id="_1p2h" test="${qftest:windows}">
+            <Procedure id="_1p2Y" name="properties">
+              <comment>@teststep Do click Menu Item 'Properties'</comment>
+              <IfSequence id="_1p2Z" test="${qftest:windows}">
                 <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.menuItemTime_Series_Graph"
-                                event="MOUSE_MPRC" id="_1p0e" modifiers="16"/>
-                <ElseifSequence id="_1p2i" name="MAC?"
+                                component="NbMainWindow.menuItemProperties4"
+                                event="MOUSE_MPRC" id="_1pSV" modifiers="16"/>
+                <ElseifSequence id="_1p2a" name="MAC?"
                                 test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItemProperties4"
+                                  event="MOUSE_MPRC" id="_1pU8"
+                                  modifiers="16"/>
+                </ElseifSequence>
+                <ElseSequence id="_1p2b">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItemProperties4"
+                                  event="MOUSE_MPRC" id="_1pU9"
+                                  modifiers="16"/>
+                </ElseSequence>
+              </IfSequence>
+            </Procedure>
+            <Procedure id="_1pSZ" name="time_series">
+              <comment>@teststep Do click Menu Item 'Time Series'.</comment>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.Time_Series"
+                              event="MOUSE_MPRC" id="_1pS4" modifiers="16"/>
+            </Procedure>
+            <Package id="_1pSY" name="time_series">
+              <Procedure id="_1p2g" name="time_series_graph">
+                <comment>@teststep Do click Menu Item 'Time_Series_Graph'</comment>
+                <IfSequence id="_1p2h" test="${qftest:windows}">
                   <MouseEventStep clicks="1" client="$(client)"
                                   component="NbMainWindow.menuItemTime_Series_Graph"
-                                  event="MOUSE_MPRC" id="_1p3I"
+                                  event="MOUSE_MPRC" id="_1pS7"
                                   modifiers="16"/>
-                </ElseifSequence>
-                <ElseSequence id="_1p2j">
-                  <MouseEventStep clicks="1" client="$(client)"
-                                  component="NbMainWindow.menuItemTime_Series_Graph"
-                                  event="MOUSE_MPRC" id="_1p3J"
-                                  modifiers="16"/>
-                </ElseSequence>
-              </IfSequence>
-            </Procedure>
-            <Procedure id="_1p2c" name="time_series_manager">
-              <comment>@teststep Do click Menu Item 'Time Series Manager'</comment>
-              <IfSequence id="_1p2d" test="${qftest:windows}">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.menuItemTime_Series_Manager"
-                                event="MOUSE_MPRC" id="_1p0d" modifiers="16"/>
-                <ElseifSequence id="_1p2e" name="MAC?"
-                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                  <MouseEventStep clicks="1" client="$(client)"
-                                  component="NbMainWindow.menuItemTime_Series_Manager"
-                                  event="MOUSE_MPRC" id="_1p3G"
-                                  modifiers="16"/>
-                </ElseifSequence>
-                <ElseSequence id="_1p2f">
+                  <ElseifSequence id="_1p2i" name="MAC?"
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="NbMainWindow.menuItemTime_Series_Graph"
+                                    event="MOUSE_MPRC" id="_1p3I"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1p2j">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="NbMainWindow.menuItemTime_Series_Graph"
+                                    event="MOUSE_MPRC" id="_1p3J"
+                                    modifiers="16"/>
+                  </ElseSequence>
+                </IfSequence>
+              </Procedure>
+              <Procedure id="_1p2c" name="time_series_manager">
+                <comment>@teststep Do click Menu Item 'Time Series Manager'</comment>
+                <IfSequence id="_1p2d" test="${qftest:windows}">
                   <MouseEventStep clicks="1" client="$(client)"
                                   component="NbMainWindow.menuItemTime_Series_Manager"
-                                  event="MOUSE_MPRC" id="_1p3H"
+                                  event="MOUSE_MPRC" id="_1pS6"
                                   modifiers="16"/>
-                </ElseSequence>
-              </IfSequence>
-            </Procedure>
-            <Procedure id="_1p2o" name="time_series_matrix">
-              <comment>@teststep Do click Menu Item 'Time Series Matrix'</comment>
-              <IfSequence id="_1p2p" test="${qftest:windows}">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.menuItemTime_Series_Matrix"
-                                event="MOUSE_MPRC" id="_1p0g" modifiers="16"/>
-                <ElseifSequence id="_1p2q" name="MAC?"
-                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <ElseifSequence id="_1p2e" name="MAC?"
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="NbMainWindow.menuItemTime_Series_Manager"
+                                    event="MOUSE_MPRC" id="_1p3G"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1p2f">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="NbMainWindow.menuItemTime_Series_Manager"
+                                    event="MOUSE_MPRC" id="_1p3H"
+                                    modifiers="16"/>
+                  </ElseSequence>
+                </IfSequence>
+              </Procedure>
+              <Procedure id="_1p2o" name="time_series_matrix">
+                <comment>@teststep Do click Menu Item 'Time Series Matrix'</comment>
+                <IfSequence id="_1p2p" test="${qftest:windows}">
                   <MouseEventStep clicks="1" client="$(client)"
                                   component="NbMainWindow.menuItemTime_Series_Matrix"
-                                  event="MOUSE_MPRC" id="_1p3O"
+                                  event="MOUSE_MPRC" id="_1pS9"
                                   modifiers="16"/>
-                </ElseifSequence>
-                <ElseSequence id="_1p2r">
-                  <MouseEventStep clicks="1" client="$(client)"
-                                  component="NbMainWindow.menuItemTime_Series_Matrix"
-                                  event="MOUSE_MPRC" id="_1p3P"
-                                  modifiers="16"/>
-                </ElseSequence>
-              </IfSequence>
-            </Procedure>
-            <Procedure id="_1p2k" name="time_series_player">
-              <comment>@teststep Do click Menu Item 'Time Series Player'</comment>
-              <IfSequence id="_1p2l" test="${qftest:windows}">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.menuItemTime_Series_Player"
-                                event="MOUSE_MPRC" id="_1p0f" modifiers="16"/>
-                <ElseifSequence id="_1p2m" name="MAC?"
-                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                  <MouseEventStep clicks="1" client="$(client)"
-                                  component="NbMainWindow.menuItemTime_Series_Player"
-                                  event="MOUSE_MPRC" id="_1p3K"
-                                  modifiers="16"/>
-                </ElseifSequence>
-                <ElseSequence id="_1p2n">
+                  <ElseifSequence id="_1p2q" name="MAC?"
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="NbMainWindow.menuItemTime_Series_Matrix"
+                                    event="MOUSE_MPRC" id="_1p3O"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1p2r">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="NbMainWindow.menuItemTime_Series_Matrix"
+                                    event="MOUSE_MPRC" id="_1p3P"
+                                    modifiers="16"/>
+                  </ElseSequence>
+                </IfSequence>
+              </Procedure>
+              <Procedure id="_1p2k" name="time_series_player">
+                <comment>@teststep Do click Menu Item 'Time Series Player'</comment>
+                <IfSequence id="_1p2l" test="${qftest:windows}">
                   <MouseEventStep clicks="1" client="$(client)"
                                   component="NbMainWindow.menuItemTime_Series_Player"
-                                  event="MOUSE_MPRC" id="_1p3L"
+                                  event="MOUSE_MPRC" id="_1pS8"
                                   modifiers="16"/>
-                </ElseSequence>
-              </IfSequence>
-            </Procedure>
+                  <ElseifSequence id="_1p2m" name="MAC?"
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="NbMainWindow.menuItemTime_Series_Player"
+                                    event="MOUSE_MPRC" id="_1p3K"
+                                    modifiers="16"/>
+                  </ElseifSequence>
+                  <ElseSequence id="_1p2n">
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="NbMainWindow.menuItemTime_Series_Player"
+                                    event="MOUSE_MPRC" id="_1p3L"
+                                    modifiers="16"/>
+                  </ElseSequence>
+                </IfSequence>
+              </Procedure>
+            </Package>
           </Package>
-          <Procedure id="_1o+B" name="close_All_Documents">
+          <Procedure id="_1o+B" name="close_all_documents">
             <comment>@teststep Do click Menu Item 'Close All Documents'</comment>
             <IfSequence id="_1o+K" test="${qftest:windows}">
               <MouseEventStep clicks="1" client="$(client)"
@@ -3497,7 +3784,7 @@
               </ElseSequence>
             </IfSequence>
           </Procedure>
-          <Procedure id="_1o+N" name="close_Other_Documents">
+          <Procedure id="_1o+N" name="close_other_documents">
             <comment>@teststep Do click Menu Item 'Close Other Documents'</comment>
             <IfSequence id="_1o+W" test="${qftest:windows}">
               <MouseEventStep clicks="1" client="$(client)"
@@ -3535,25 +3822,195 @@
               </ElseSequence>
             </IfSequence>
           </Procedure>
-          <Procedure id="_1o-c" name="configure_window">
-            <comment>@teststep Do click Menu Windows - Menu Item 'Configuere  Windows'</comment>
+          <Procedure id="_1o-c" name="reset_windows">
+            <comment>@teststep Do click Menu Item 'Reset Windows'</comment>
             <IfSequence id="_1o-d" test="${qftest:windows}">
               <MouseEventStep clicks="1" client="$(client)"
-                              component="NbMainWindow.ConfigureWindow"
-                              event="MOUSE_MPRC" id="_1o-g" modifiers="16"/>
+                              component="NbMainWindow.menuItemReset_Windows2"
+                              event="MOUSE_MPRC" id="_1pXF" modifiers="16"/>
               <ElseifSequence id="_1o-e" name="MAC?"
                               test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.ConfigureWindow"
-                                event="MOUSE_MPRC" id="_1o-p" modifiers="16"/>
+                                component="NbMainWindow.menuItemReset_Windows2"
+                                event="MOUSE_MPRC" id="_1pXG" modifiers="16"/>
               </ElseifSequence>
               <ElseSequence id="_1o-f">
                 <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.ConfigureWindow"
-                                event="MOUSE_MPRC" id="_1o-q" modifiers="16"/>
+                                component="NbMainWindow.menuItemReset_Windows2"
+                                event="MOUSE_MPRC" id="_1pXH" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
+          <Package id="_1pXI" name="configure_window">
+            <Procedure id="_1pYA" name="clone_document">
+              <comment>@teststep Do click Menu Item 'Clone Document'.</comment>
+              <IfSequence id="_1pYB" test="${qftest:windows}">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.menuItemClone_Document"
+                                event="MOUSE_MPRC" id="_1pYv" modifiers="16"/>
+                <ElseifSequence id="_1pYC" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItemClone_Document"
+                                  event="MOUSE_MPRC" id="_1pYu"
+                                  modifiers="16"/>
+                </ElseifSequence>
+                <ElseSequence id="_1pYD">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItemClone_Document"
+                                  event="MOUSE_MPRC" id="_1pXj"
+                                  modifiers="16"/>
+                </ElseSequence>
+              </IfSequence>
+            </Procedure>
+            <Procedure id="_1pYE" name="dock_group">
+              <comment>@teststep Do click Menu Item 'Dock Group'.</comment>
+              <IfSequence id="_1pYF" test="${qftest:windows}">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.menuItemDock_Group"
+                                event="MOUSE_MPRC" id="_1pYt" modifiers="16"/>
+                <ElseifSequence id="_1pYG" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItemDock_Group"
+                                  event="MOUSE_MPRC" id="_1pYs"
+                                  modifiers="16"/>
+                </ElseifSequence>
+                <ElseSequence id="_1pYH">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItemDock_Group"
+                                  event="MOUSE_MPRC" id="_1pXi"
+                                  modifiers="16"/>
+                </ElseSequence>
+              </IfSequence>
+            </Procedure>
+            <Procedure id="_1pYI" name="dock">
+              <comment>@teststep Do click Menu Item 'Dock'.</comment>
+              <IfSequence id="_1pYJ" test="${qftest:windows}">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.menuItemDock"
+                                event="MOUSE_MPRC" id="_1pYr" modifiers="16"/>
+                <ElseifSequence id="_1pYK" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItemDock"
+                                  event="MOUSE_MPRC" id="_1pYq"
+                                  modifiers="16"/>
+                </ElseifSequence>
+                <ElseSequence id="_1pYL">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItemDock"
+                                  event="MOUSE_MPRC" id="_1pXh"
+                                  modifiers="16"/>
+                </ElseSequence>
+              </IfSequence>
+            </Procedure>
+            <Procedure id="_1pYM" name="minimize_group">
+              <comment>@teststep Do click Menu Item 'Minimize Group'.</comment>
+              <IfSequence id="_1pYN" test="${qftest:windows}">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.menuItemMinimize_Group"
+                                event="MOUSE_MPRC" id="_1pXg" modifiers="16"/>
+                <ElseifSequence id="_1pYO" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItemMinimize_Group"
+                                  event="MOUSE_MPRC" id="_1pYo"
+                                  modifiers="16"/>
+                </ElseifSequence>
+                <ElseSequence id="_1pYP">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItemMinimize_Group"
+                                  event="MOUSE_MPRC" id="_1pYp"
+                                  modifiers="16"/>
+                </ElseSequence>
+              </IfSequence>
+            </Procedure>
+            <Procedure id="_1pYQ" name="minimize">
+              <comment>@teststep Do click Menu Item 'Minimize'.</comment>
+              <IfSequence id="_1pYR" test="${qftest:windows}">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.menuItemMinimize"
+                                event="MOUSE_MPRC" id="_1pXf" modifiers="16"/>
+                <ElseifSequence id="_1pYS" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItemMinimize"
+                                  event="MOUSE_MPRC" id="_1pYm"
+                                  modifiers="16"/>
+                </ElseifSequence>
+                <ElseSequence id="_1pYT">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItemMinimize"
+                                  event="MOUSE_MPRC" id="_1pYn"
+                                  modifiers="16"/>
+                </ElseSequence>
+              </IfSequence>
+            </Procedure>
+            <Procedure id="_1pYU" name="float_group">
+              <comment>@teststep Do click Menu Item 'Float Group'.</comment>
+              <IfSequence id="_1pYV" test="${qftest:windows}">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.menuItemFloat_Group"
+                                event="MOUSE_MPRC" id="_1pXe" modifiers="16"/>
+                <ElseifSequence id="_1pYW" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItemFloat_Group"
+                                  event="MOUSE_MPRC" id="_1pYk"
+                                  modifiers="16"/>
+                </ElseifSequence>
+                <ElseSequence id="_1pYX">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItemFloat_Group"
+                                  event="MOUSE_MPRC" id="_1pYl"
+                                  modifiers="16"/>
+                </ElseSequence>
+              </IfSequence>
+            </Procedure>
+            <Procedure id="_1pYY" name="float">
+              <comment>@teststep Do click Menu Item 'Float'.</comment>
+              <IfSequence id="_1pYZ" test="${qftest:windows}">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.menuItemFloat"
+                                event="MOUSE_MPRC" id="_1pXd" modifiers="16"/>
+                <ElseifSequence id="_1pYa" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItemFloat"
+                                  event="MOUSE_MPRC" id="_1pYi"
+                                  modifiers="16"/>
+                </ElseifSequence>
+                <ElseSequence id="_1pYb">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItemFloat"
+                                  event="MOUSE_MPRC" id="_1pYj"
+                                  modifiers="16"/>
+                </ElseSequence>
+              </IfSequence>
+            </Procedure>
+            <Procedure id="_1pYc" name="maximize">
+              <comment>@teststep Do click Menu Item 'Maximize'.</comment>
+              <IfSequence id="_1pYd" test="${qftest:windows}">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.checkItemMaximize"
+                                event="MOUSE_MPRC" id="_1pXc" modifiers="16"/>
+                <ElseifSequence id="_1pYe" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.checkItemMaximize"
+                                  event="MOUSE_MPRC" id="_1pYg"
+                                  modifiers="16"/>
+                </ElseifSequence>
+                <ElseSequence id="_1pYf">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.checkItemMaximize"
+                                  event="MOUSE_MPRC" id="_1pYh"
+                                  modifiers="16"/>
+                </ElseSequence>
+              </IfSequence>
+            </Procedure>
+          </Package>
           <Procedure id="_1ozd" name="configure_window">
             <comment>@teststep Do click Menu Item 'Configure Window'</comment>
             <IfSequence id="_1ozm" test="${qftest:windows}">
@@ -3623,11 +4080,11 @@
             </IfSequence>
           </Procedure>
           <Procedure id="_1o-r" name="tool_windows">
-            <comment>@teststep Do click Menu Windows - Menu Item 'Tool Windows'</comment>
+            <comment>@teststep Do click Menu Item 'Tool Windows'</comment>
             <IfSequence id="_1o-s" test="${qftest:windows}">
               <MouseEventStep clicks="1" client="$(client)"
                               component="NbMainWindow.Tool_Windows"
-                              event="MOUSE_MPRC" id="_1o-v" modifiers="16"/>
+                              event="MOUSE_MPRC" id="_1pSX" modifiers="16"/>
               <ElseifSequence id="_1o-t" name="MAC?"
                               test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <MouseEventStep clicks="1" client="$(client)"
@@ -3638,25 +4095,6 @@
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="NbMainWindow.Tool_Windows"
                                 event="MOUSE_MPRC" id="_1p0F" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1ozF" name="tool_windows">
-            <comment>@teststep Do click Menu Item 'Tool Windows'</comment>
-            <IfSequence id="_1ozO" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="NbMainWindow.Tool_Windows"
-                              event="MOUSE_MPRC" id="_1ozG" modifiers="16"/>
-              <ElseifSequence id="_1ozP" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.Tool_Windows"
-                                event="MOUSE_MPRC" id="_1o+l" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1ozQ">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.Tool_Windows"
-                                event="MOUSE_MPRC" id="_1o+m" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -3808,7 +4246,7 @@
       </Package>
       <Package id="_1l3x" name="open_product_dialog">
         <Procedure id="_1l3y" name="cancel">
-          <comment>@teststep Click 'Cancel' button</comment>
+          <comment>@teststep Click 'Cancel' button in 'Open Product'dialog.</comment>
           <IfSequence id="_1ok3" test="${qftest:windows}">
             <MouseEventStep clicks="1" client="$(client)"
                             component="dialogOpen_Product.buttonAbbrechen"
@@ -3827,7 +4265,7 @@
           </IfSequence>
         </Procedure>
         <Procedure id="_1l40" name="open">
-          <comment>@teststep Click 'Open' button</comment>
+          <comment>@teststep Click 'Open' button in 'Open Product'dialog.</comment>
           <IfSequence id="_1ok6" test="${qftest:windows}">
             <MouseEventStep clicks="1" client="$(client)"
                             component="dialogOpen_Product.buttonÖffnen"
@@ -3848,17 +4286,20 @@
       </Package>
       <Package id="_1pFO" name="open_dialog">
         <Procedure id="_1pFP" name="button_cancel">
+          <comment>@teststep Click 'Cancel' button in 'Cancel' dialog.</comment>
           <MouseEventStep clicks="1" client="$(client)"
                           component="dialogOpen.buttonCancel"
                           event="MOUSE_MPRC" id="_1pFQ" modifiers="16"/>
         </Procedure>
         <Procedure id="_1pFR" name="button_open">
+          <comment>@teststep Click 'Cancel' button in 'Open' dialog.</comment>
           <MouseEventStep clicks="1" client="$(client)"
                           component="dialogOpen.buttonOpen" event="MOUSE_MPRC"
                           id="_1pFT" modifiers="16"/>
         </Procedure>
         <Procedure id="_1pFU" name="folder">
           <variable name="data_dir"/>
+          <comment>@teststep Click on 'Folder' in 'Open'dialog.</comment>
           <MouseEventStep clicks="1" client="$(client)"
                           component="dialogOpen.treeRecent.data_dir"
                           event="MOUSE_MPRC" id="_1p5y" modifiers="16"/>
@@ -3866,11 +4307,13 @@
       </Package>
       <Package id="_1pFW" name="select_products_dialog">
         <Procedure id="_1pFX" name="button_cancel">
+          <comment>@teststep Click 'Cancel' button in 'Select Product(s)' dialog.</comment>
           <MouseEventStep clicks="1" client="$(client)"
                           component="dialogSelect_Product(s).buttonCancel"
                           event="MOUSE_MPRC" id="_1pFY" modifiers="16"/>
         </Procedure>
         <Procedure id="_1pFZ" name="button_open_product">
+          <comment>@teststep Click 'Open Product' button in 'Select Product(s)' dialog.</comment>
           <MouseEventStep clicks="1" client="$(client)"
                           component="dialogSelect_Product(s).buttonOpen_Product"
                           event="MOUSE_MPRC" id="_1pFa" modifiers="16"/>
@@ -3878,6 +4321,7 @@
       </Package>
       <Package id="_1pFd" name="select_source_product_dialog">
         <Procedure id="_1pFe" name="button_cancel">
+          <comment>@teststep Click 'Cancel' button in 'Select Source Product' dialog.</comment>
           <IfSequence id="_1pPB" test="${qftest:windows}">
             <MouseEventStep clicks="1" client="$(client)"
                             component="dialogSelect_Source_Product.buttonCancel"
@@ -3896,6 +4340,7 @@
           </IfSequence>
         </Procedure>
         <Procedure id="_1pFg" name="button_select">
+          <comment>@teststep Click 'Select' button in 'Select Source Product' dialog.</comment>
           <IfSequence id="_1pP5" test="${qftest:windows}">
             <MouseEventStep clicks="1" client="$(client)"
                             component="dialogSelect_Source_Product.buttonSelect"
@@ -3964,7 +4409,7 @@
                               event="MOUSE_MPRC" id="_1mkP" modifiers="16"/>
             </Procedure>
             <Procedure id="_1oWx" name="button_clear">
-              <comment>@teststep Click 'Clear' button.</comment>
+              <comment>@teststep Click 'Clear' button in the 'Band Maths Expression' Editor.</comment>
               <IfSequence id="_1ok-" test="${qftest:windows}">
                 <ElseifSequence id="_1ol0" name="MAC?"
                                 test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -3975,7 +4420,7 @@
                               event="MOUSE_MPRC" id="_1oWz" modifiers="16"/>
             </Procedure>
             <Procedure id="_1oWN" name="button_div">
-              <comment>@teststep Click 'Div' button.</comment>
+              <comment>@teststep Click 'Div' button in the 'Band Maths Expression' Editor.</comment>
               <IfSequence id="_1okj" test="${qftest:windows}">
                 <ElseifSequence id="_1okk" name="MAC?"
                                 test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -3997,7 +4442,7 @@
                               event="MOUSE_MPRC" id="_1mkl" modifiers="16"/>
             </Procedure>
             <Procedure id="_1oUe" name="button_historyDown">
-              <comment>@teststep Click 'History Down' button.</comment>
+              <comment>@teststep Click 'History Down' button in the 'Band Maths Expression' Editor.</comment>
               <IfSequence id="_1ol8" test="${qftest:windows}">
                 <ElseifSequence id="_1ol9" name="MAC?"
                                 test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -4008,7 +4453,7 @@
                               event="MOUSE_MPRC" id="_1oV1" modifiers="16"/>
             </Procedure>
             <Procedure id="_1oX7" name="button_historyUp">
-              <comment>@teststep Click 'History Up' button.</comment>
+              <comment>@teststep Click 'History Up' button in the 'Band Maths Expression' Editor.</comment>
               <IfSequence id="_1ol5" test="${qftest:windows}">
                 <ElseifSequence id="_1ol6" name="MAC?"
                                 test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -4019,7 +4464,7 @@
                               event="MOUSE_MPRC" id="_1oXB" modifiers="16"/>
             </Procedure>
             <Procedure id="_1oWB" name="button_minus">
-              <comment>@teststep Click 'Minus' button.</comment>
+              <comment>@teststep Click 'Minus' button in the 'Band Maths Expression' Editor.</comment>
               <IfSequence id="_1okd" test="${qftest:windows}">
                 <ElseifSequence id="_1oke" name="MAC?"
                                 test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -4030,7 +4475,7 @@
                               event="MOUSE_MPRC" id="_1oWD" modifiers="16"/>
             </Procedure>
             <Procedure id="_1oWH" name="button_mul">
-              <comment>@teststep Click 'Mul' button.</comment>
+              <comment>@teststep Click 'Mul' button in the 'Band Maths Expression' Editor.</comment>
               <IfSequence id="_1okg" test="${qftest:windows}">
                 <ElseifSequence id="_1okh" name="MAC?"
                                 test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -4052,7 +4497,7 @@
                               event="MOUSE_MPRC" id="_1mkn" modifiers="16"/>
             </Procedure>
             <Procedure id="_1oWT" name="button_paren">
-              <comment>@teststep Click 'Paren' button.</comment>
+              <comment>@teststep Click 'Paren' button in the 'Band Maths Expression' Editor.</comment>
               <IfSequence id="_1okm" test="${qftest:windows}">
                 <ElseifSequence id="_1okn" name="MAC?"
                                 test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -4063,7 +4508,7 @@
                               event="MOUSE_MPRC" id="_1oWY" modifiers="16"/>
             </Procedure>
             <Procedure id="_1oW5" name="button_plus">
-              <comment>@teststep Click 'Plus' button.</comment>
+              <comment>@teststep Click 'Plus' button in the 'Band Maths Expression' Editor.</comment>
               <IfSequence id="_1oka" test="${qftest:windows}">
                 <ElseifSequence id="_1okb" name="MAC?"
                                 test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -4074,7 +4519,7 @@
                               event="MOUSE_MPRC" id="_1oW6" modifiers="16"/>
             </Procedure>
             <Procedure id="_1oWr" name="button_selectAll">
-              <comment>@teststep Click 'select All' button.</comment>
+              <comment>@teststep Click 'select All' button in the 'Band Maths Expression' Editor.</comment>
               <IfSequence id="_1oky" test="${qftest:windows}">
                 <ElseifSequence id="_1okz" name="MAC?"
                                 test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -4085,7 +4530,7 @@
                               event="MOUSE_MPRC" id="_1oWs" modifiers="16"/>
             </Procedure>
             <Procedure id="_1oX1" name="button_undo">
-              <comment>@teststep Click 'Undo' button.</comment>
+              <comment>@teststep Click 'Undo' button in the 'Band Maths Expression' Editor.</comment>
               <IfSequence id="_1ol2" test="${qftest:windows}">
                 <ElseifSequence id="_1ol3" name="MAC?"
                                 test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -4096,7 +4541,7 @@
                               event="MOUSE_MPRC" id="_1oX4" modifiers="16"/>
             </Procedure>
             <Procedure id="_1oWj" name="constants_box">
-              <comment>@teststep Click 'Constants...' box.</comment>
+              <comment>@teststep Click 'Constants...' box in the 'Band Maths Expression' Editor.</comment>
               <IfSequence id="_1okp" test="${qftest:windows}">
                 <ElseifSequence id="_1okq" name="MAC?"
                                 test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -4107,7 +4552,7 @@
                               event="MOUSE_MPRC" id="_1oWk" modifiers="16"/>
             </Procedure>
             <Procedure id="_1oWn" name="functions_box">
-              <comment>@teststep Click 'Functions...' box.</comment>
+              <comment>@teststep Click 'Functions...' box in the 'Band Maths Expression' Editor.</comment>
               <IfSequence id="_1okv" test="${qftest:windows}">
                 <ElseifSequence id="_1okw" name="MAC?"
                                 test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -4118,7 +4563,7 @@
                               event="MOUSE_MPRC" id="_1oWc" modifiers="16"/>
             </Procedure>
             <Procedure id="_1oWZ" name="operators_box">
-              <comment>@teststep Click 'Operators...' box.</comment>
+              <comment>@teststep Click 'Operators...' box in the 'Band Maths Expression' Editor.</comment>
               <IfSequence id="_1oks" test="${qftest:windows}">
                 <ElseifSequence id="_1okt" name="MAC?"
                                 test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -4206,7 +4651,7 @@
             </IfSequence>
           </Procedure>
           <Procedure id="_1oPx" name="noDataValueUsed_selected">
-            <comment>@teststep Click on checkbox 'Replace NaN and infinity results'.</comment>
+            <comment>@teststep Click on checkbox 'Replace NaN and infinity results' in the Band Maths dialog.</comment>
             <IfSequence id="_1okC" test="${qftest:windows}">
               <MouseEventStep clicks="1" client="$(client)"
                               component="BandMathsDialog.noDataValueUsed"
@@ -4225,7 +4670,7 @@
             </IfSequence>
           </Procedure>
           <Procedure id="_1oPr" name="saveExpressionOnly">
-            <comment>@teststep Click on checkbox 'Virtual (save expression only)' .</comment>
+            <comment>@teststep Click on checkbox 'Virtual (save expression only)' in the Band Maths dialog.</comment>
             <IfSequence id="_1ok9" test="${qftest:windows}">
               <MouseEventStep clicks="1" client="$(client)"
                               component="BandMathsDialog.saveExpressionOnly"
@@ -4329,6 +4774,7 @@
           <Package id="_1ocJ" name="attach">
             <Package id="_1oeV" name="do_you_really_want_to_continue_dialog">
               <Procedure id="_1oeW" name="cancel_button">
+                <comment>@teststep Click 'Cancel' button in the 'SNAP - Attach Pixel Geo-Coding' dialog.</comment>
                 <IfSequence id="_1olf" test="${qftest:windows}">
                   <ElseifSequence id="_1olg" name="MAC?"
                                   test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -4339,6 +4785,7 @@
                                 event="MOUSE_MPRC" id="_1obA" modifiers="16"/>
               </Procedure>
               <Procedure id="_1oeS" name="no_button">
+                <comment>@teststep Click 'No' button in the 'SNAP - Attach Pixel Geo-Coding' dialog.</comment>
                 <IfSequence id="_1olZ" test="${qftest:windows}">
                   <ElseifSequence id="_1ola" name="MAC?"
                                   test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -4349,6 +4796,7 @@
                                 event="MOUSE_MPRC" id="_1oeU" modifiers="16"/>
               </Procedure>
               <Procedure id="_1oeX" name="ok_button">
+                <comment>@teststep Click 'OK' button in the 'SNAP - Attach Pixel Geo-Coding' dialog.</comment>
                 <IfSequence id="_1olc" test="${qftest:windows}">
                   <ElseifSequence id="_1old" name="MAC?"
                                   test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -4359,6 +4807,7 @@
                                 event="MOUSE_MPRC" id="_1oeY" modifiers="16"/>
               </Procedure>
               <Procedure id="_1oeR" name="yes_button">
+                <comment>@teststep Click 'Yes' button in the 'SNAP - Attach Pixel Geo-Coding' dialog.</comment>
                 <IfSequence id="_1olW" test="${qftest:windows}">
                   <ElseifSequence id="_1olX" name="MAC?"
                                   test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -4370,6 +4819,7 @@
               </Procedure>
             </Package>
             <Procedure id="_1oe6" name="cancel_button">
+              <comment>@teststep Click 'Cancel' button in the 'Attach Pixel Geo-Coding' dialog.</comment>
               <IfSequence id="_1olo" test="${qftest:windows}">
                 <ElseifSequence id="_1olp" name="MAC?"
                                 test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -4380,6 +4830,7 @@
                               event="MOUSE_MPRC" id="_1oav" modifiers="16"/>
             </Procedure>
             <Procedure id="_1odJ" name="help_button">
+              <comment>@teststep Click 'Help' button in the 'Attach Pixel Geo-Coding' dialog.</comment>
               <IfSequence id="_1olr" test="${qftest:windows}">
                 <ElseifSequence id="_1ols" name="MAC?"
                                 test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -4390,6 +4841,7 @@
                               event="MOUSE_MPRC" id="_1oaw" modifiers="16"/>
             </Procedure>
             <Procedure id="_1oe1" name="ok_button">
+              <comment>@teststep Click 'OK' button in the 'Attach Pixel Geo-Coding' dialog.</comment>
               <IfSequence id="_1oll" test="${qftest:windows}">
                 <ElseifSequence id="_1olm" name="MAC?"
                                 test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -4401,6 +4853,7 @@
             </Procedure>
             <Procedure id="_1oda" name="valid_mask_button">
               <variable name="val"/>
+              <comment>@teststep Click 'Valid Mask' button in the 'Attach Pixel Geo-Coding' dialog.</comment>
               <IfSequence id="_1oli" test="${qftest:windows}">
                 <ElseifSequence id="_1olj" name="MAC?"
                                 test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -4413,6 +4866,7 @@
           </Package>
           <Package id="_1oea" name="detach">
             <Procedure id="_1oec" name="cancel_button">
+              <comment>@teststep Click 'Cancel' button in the 'SNAP - Detach Pixel Geo-Coding' dialog.</comment>
               <IfSequence id="_1olx" test="${qftest:windows}">
                 <ElseifSequence id="_1oly" name="MAC?"
                                 test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -4423,6 +4877,7 @@
                               event="MOUSE_MPRC" id="_1obG" modifiers="16"/>
             </Procedure>
             <Procedure id="_1oee" name="ok_button">
+              <comment>@teststep Click 'OK' button in the 'SNAP - Detach Pixel Geo-Coding' dialog.</comment>
               <IfSequence id="_1olu" test="${qftest:windows}">
                 <ElseifSequence id="_1olv" name="MAC?"
                                 test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -4554,7 +5009,7 @@
           </IfSequence>
         </Procedure>
       </Package>
-      <Package id="_1pD+" name="view">
+      <Package id="_1pD+" name="image_view">
         <Procedure id="_1pD-" name="start_point_drag_to_end_point">
           <variable name="view_name"/>
           <variable name="start_x"/>
@@ -4614,6 +5069,7 @@
       </Package>
       <Package id="_1mQG" name="warning_dialog">
         <Procedure id="_1oPz" name="button_cancel">
+          <comment>@teststep Click 'Cancel' button in the 'SNAP - Warning' dialog.</comment>
           <MouseEventStep clicks="1" client="$(client)"
                           component="dialogSNAP_-_Warning.buttonCancel"
                           event="MOUSE_MPRC" id="_1oQ2" modifiers="16"/>
@@ -4624,6 +5080,7 @@
           </IfSequence>
         </Procedure>
         <Procedure id="_1mQH" name="button_ok">
+          <comment>@teststep Click 'OK' button in the 'SNAP - Warning' dialog.</comment>
           <MouseEventStep clicks="1" client="$(client)"
                           component="dialogSNAP_-_Warning.buttonOK"
                           event="MOUSE_MPRC" id="_1mJU" modifiers="16"/>

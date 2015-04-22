@@ -3,21 +3,15 @@
 <RootStep id="_0" name="root" version="4.0.3">
   <include>qfs.qft</include>
   <include>../lib/snap_main.qft</include>
-  <TestSet id="_1" name="01_03_uncertainty_visualisation"
+  <TestSet disabled="true" id="_1" name="01_03_uncertainty_visualisation"
            reportname="01 03 Uncertainty visualisation">
     <variable name="max">66.9</variable>
     <variable name="min">0.0</variable>
     <variable name="unit">kg.m-2</variable>
     <comment>
 </comment>
-    <Dependency id="_1l4X" name="start_application">
-      <SetupSequence id="_1l4Y" name="start_s3tbx">
-        <ProcedureCall id="_1l4Z" procedure="start.snap.application"/>
-      </SetupSequence>
-      <CleanupSequence id="_1l4a" name="exit_s3tbx">
-        <ProcedureCall id="_1l4b" procedure="stop.exit_s3tbx"/>
-      </CleanupSequence>
-    </Dependency>
+    <DependencyReference id="_1lWz"
+                         reference="dependencies.start_application"/>
     <TestCase id="_2" name="check_components">
       <ProcedureCall id="_1l5f" procedure="product_meta_data.S3A_OL_2"/>
       <ProcedureCall id="_1l5p" procedure="preparation.application_for_test"/>

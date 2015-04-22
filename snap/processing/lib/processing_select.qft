@@ -505,6 +505,170 @@
           </ProcedureCall>
         </Procedure>
       </Package>
+      <Package id="_1pfw" name="mosaicing">
+        <Procedure id="_1pfx" name="tab">
+          <variable name="tab"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogMosaicing.tabbed.tab"
+                          event="MOUSE_MPRC" id="_1pVo" modifiers="16"/>
+        </Procedure>
+        <Package id="_1phq" name="io_parameters">
+          <Procedure id="_1pfz" name="output_format">
+            <variable name="output_format"/>
+            <comment>@teststep Select output format</comment>
+            <TryStep id="_1pf+">
+              <ProcedureCall id="_1piH"
+                             procedure="utility.mosaicing.output_format_mosaic">
+                <variable name="output_format_name">$(output_format)</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1pg0"
+                             maxerror="0">
+                <TryStep id="_1pg1">
+                  <ProcedureCall id="_1piI"
+                                 procedure="utility.mosaicing.output_format_mosaic">
+                    <variable name="output_format_name">$(output_format)</variable>
+                  </ProcedureCall>
+                  <CatchSequence exception="TestException" id="_1pg3"
+                                 maxerror="0">
+                    <ProcedureCall id="_1pg4" procedure="run-log.logError">
+                      <variable name="message">$(output_format) can not be selected</variable>
+                      <variable name="withScreenshots">true</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
+          <Procedure id="_1pg5" name="save_as">
+            <comment>@teststep Check-in checkbox 'Save as'</comment>
+            <ProcedureCall id="_1pg6"
+                           procedure="check.mosaicing.checked.io_parameters.save_as"/>
+            <IfSequence id="_1pg7"
+                        test="&#34;$(save_as)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1pht"
+                             procedure="check.mosaicing.enabled.io_parameters.save_as"/>
+              <IfSequence id="_1phu"
+                          test="&#34;$(save_as_enabled)&#34;==&#34;true&#34;">
+                <ProcedureCall id="_1pg8"
+                               procedure="do_click.mosaicing.io_parameters.save_as"/>
+                <ElseSequence id="_1phv">
+                  <ProcedureCall id="_1phw" procedure="run-log.logError">
+                    <variable name="message">Save As Checkbox is disabled</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </ElseSequence>
+              </IfSequence>
+            </IfSequence>
+            <ProcedureCall id="_1piW"
+                           procedure="check.mosaicing.checked.io_parameters.save_as_selected_status">
+              <variable name="selected">true</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1pgA" name="open_in_snap">
+            <comment>@teststep Check-in checkbox 'Open in SNAP'</comment>
+            <ProcedureCall id="_1piT"
+                           procedure="check.mosaicing.checked.io_parameters.open_in_snap"/>
+            <IfSequence id="_1pgC"
+                        test="&#34;$(open_in_snap)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1phx"
+                             procedure="check.mosaicing.enabled.io_parameters.open_in_snap"/>
+              <IfSequence id="_1phy"
+                          test="&#34;$(open_in_snap_en)&#34;==&#34;true&#34;">
+                <ProcedureCall id="_1piU"
+                               procedure="do_click.mosaicing.io_parameters.open_in_snap"/>
+                <ElseSequence id="_1ph+">
+                  <ProcedureCall id="_1piJ"
+                                 procedure="daten_format.beam_dimap"/>
+                  <ProcedureCall id="_1pi0"
+                                 procedure="select.mosaicing.io_parameters.output_format">
+                    <variable name="output_format">$(beam_dimap)</variable>
+                  </ProcedureCall>
+                  <ProcedureCall id="_1piV"
+                                 procedure="do_click.mosaicing.io_parameters.open_in_snap"/>
+                </ElseSequence>
+              </IfSequence>
+            </IfSequence>
+            <ProcedureCall id="_1piX"
+                           procedure="check.mosaicing.checked.io_parameters.open_in_snap_selected_status">
+              <variable name="selected">true</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1piK" name="update_target_product">
+            <comment>@teststep Check-in checkbox 'Update target product'</comment>
+            <ProcedureCall id="_1piL"
+                           procedure="check.mosaicing.checked.io_parameters.update_target_product"/>
+            <IfSequence id="_1piM"
+                        test="&#34;$(update_target_product)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1piP"
+                             procedure="do_click.mosaicing.io_parameters.update_target_product"/>
+            </IfSequence>
+            <ProcedureCall id="_1piY"
+                           procedure="check.mosaicing.checked.io_parameters.update_target_product_selected_status">
+              <variable name="selected">true</variable>
+            </ProcedureCall>
+          </Procedure>
+        </Package>
+        <Package id="_1phr" name="map_definition">
+          <Procedure disabled="true" id="_1pgF" name="projection">
+            <variable name="projection"/>
+            <comment>@teststep Select projection</comment>
+            <TryStep id="_1pgG">
+              <ProcedureCall id="_1pgH"
+                             procedure="utility.reprojection.projection">
+                <variable name="projection">$(projection)</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1pgI"
+                             maxerror="0">
+                <TryStep id="_1pgJ">
+                  <ProcedureCall id="_1pgK"
+                                 procedure="utility.reprojection.projection">
+                    <variable name="projection">$(projection)</variable>
+                  </ProcedureCall>
+                  <CatchSequence exception="TestException" id="_1pgL"
+                                 maxerror="0">
+                    <ProcedureCall id="_1pgM" procedure="run-log.logError">
+                      <variable name="message">$(projection) can not be selected</variable>
+                      <variable name="withScreenshots">true</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
+          <Procedure disabled="true" id="_1pgN" name="geodetic_datum">
+            <variable name="geodetic_datum"/>
+            <comment>@teststep Select geodetic datum</comment>
+            <ProcedureCall id="_1pgO"
+                           procedure="check.reprojection.enabled.geodetic_datum"/>
+            <IfSequence id="_1pgP"
+                        test="&#34;$(geodetic_datum)&#34;==&#34;true&#34;">
+              <TryStep id="_1pgQ">
+                <ProcedureCall id="_1pgR"
+                               procedure="utility.reprojection.datum">
+                  <variable name="geodetic_datum">$(geodetic_datum)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1pgS"
+                               maxerror="0">
+                  <TryStep id="_1pgT">
+                    <ProcedureCall id="_1pgU"
+                                   procedure="utility.reprojection.datum">
+                      <variable name="geodetic_datum">$(geodetic_datum)</variable>
+                    </ProcedureCall>
+                    <CatchSequence exception="TestException" id="_1pgV"
+                                   maxerror="0">
+                      <ProcedureCall id="_1pgW" procedure="run-log.logError">
+                        <variable name="message">$(geodetic_datum) can not be selected</variable>
+                        <variable name="withScreenshots">true</variable>
+                      </ProcedureCall>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+            </IfSequence>
+          </Procedure>
+        </Package>
+        <Package id="_1phs" name="variables_conditions"/>
+      </Package>
     </Package>
     <Package id="_1pMk" name="deselect">
       <Package id="_1pNW" name="collocation">
@@ -707,8 +871,124 @@
           </ProcedureCall>
         </Procedure>
       </Package>
+      <Package id="_1piZ" name="mosaicing">
+        <Package id="_1pic" name="io_parameters">
+          <Procedure id="_1pil" name="save_as">
+            <comment>@teststep Check-in checkbox 'Save as'</comment>
+            <ProcedureCall id="_1pim"
+                           procedure="check.mosaicing.checked.io_parameters.save_as"/>
+            <IfSequence id="_1pin"
+                        test="&#34;$(save_as)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1pio"
+                             procedure="check.mosaicing.enabled.io_parameters.save_as"/>
+              <IfSequence id="_1pip"
+                          test="&#34;$(save_as_enabled)&#34;==&#34;true&#34;">
+                <ProcedureCall id="_1piq"
+                               procedure="do_click.mosaicing.io_parameters.save_as"/>
+                <ElseSequence id="_1pir">
+                  <ProcedureCall id="_1pis" procedure="run-log.logError">
+                    <variable name="message">Save As Checkbox is disabled</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </ElseSequence>
+              </IfSequence>
+            </IfSequence>
+            <ProcedureCall id="_1pit"
+                           procedure="check.mosaicing.checked.io_parameters.save_as_selected_status">
+              <variable name="selected">false</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1piu" name="open_in_snap">
+            <comment>@teststep Check-in checkbox 'Open in SNAP'</comment>
+            <ProcedureCall id="_1piv"
+                           procedure="check.mosaicing.checked.io_parameters.open_in_snap"/>
+            <IfSequence id="_1piw"
+                        test="&#34;$(open_in_snap)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1pix"
+                             procedure="check.mosaicing.enabled.io_parameters.open_in_snap"/>
+              <IfSequence id="_1piy"
+                          test="&#34;$(open_in_snap_en)&#34;==&#34;true&#34;">
+                <ProcedureCall id="_1piz"
+                               procedure="do_click.mosaicing.io_parameters.open_in_snap"/>
+                <ElseSequence id="_1pi+">
+                  <ProcedureCall id="_1pi-"
+                                 procedure="daten_format.beam_dimap"/>
+                  <ProcedureCall id="_1pj0"
+                                 procedure="select.mosaicing.io_parameters.output_format">
+                    <variable name="output_format">$(beam_dimap)</variable>
+                  </ProcedureCall>
+                  <ProcedureCall id="_1pj1"
+                                 procedure="do_click.mosaicing.io_parameters.open_in_snap"/>
+                </ElseSequence>
+              </IfSequence>
+            </IfSequence>
+            <ProcedureCall id="_1pj2"
+                           procedure="check.mosaicing.checked.io_parameters.open_in_snap_selected_status">
+              <variable name="selected">false</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1pj3" name="update_target_product">
+            <comment>@teststep Check-in checkbox 'Update target product'</comment>
+            <ProcedureCall id="_1pj4"
+                           procedure="check.mosaicing.checked.io_parameters.update_target_product"/>
+            <IfSequence id="_1pj5"
+                        test="&#34;$(update_target_product)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1pj6"
+                             procedure="do_click.mosaicing.io_parameters.update_target_product"/>
+            </IfSequence>
+            <ProcedureCall id="_1pj7"
+                           procedure="check.mosaicing.checked.io_parameters.update_target_product_selected_status">
+              <variable name="selected">false</variable>
+            </ProcedureCall>
+          </Procedure>
+        </Package>
+        <Package id="_1pj8" name="map_definition"/>
+        <Package id="_1pj9" name="variables_conditions"/>
+      </Package>
     </Package>
     <Package id="_1pNS" name="utility">
+      <Package id="_1pi3" name="mosaicing">
+        <Procedure id="_1pi4" name="output_format_mosaic">
+          <variable name="output_format_name"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogMosaicing.formatName"
+                          event="MOUSE_MPRC" id="_1piG" modifiers="16" x="25"
+                          y="11"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogMosaicing.listInvokerName:_formatName.output_format_name"
+                          event="MOUSE_MPRC" id="_1pW5" modifiers="16"/>
+        </Procedure>
+        <Procedure disabled="true" id="_1pi7" name="projection">
+          <variable name="projection"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogReprojection.operationWrapper"
+                          event="MOUSE_MPRC" id="_1pi8" modifiers="16" x="94"
+                          y="4"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogReprojection.listInvokerName:_operationWrapper.projection"
+                          event="MOUSE_MPRC" id="_1pi9" modifiers="16"/>
+        </Procedure>
+        <Procedure disabled="true" id="_1piA" name="datum">
+          <variable name="geodetic_datum"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogReprojection.datum"
+                          event="MOUSE_MPRC" id="_1piB" modifiers="16" x="92"
+                          y="15"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogReprojection.listInvokerName:_datum.geodetic_datum"
+                          event="MOUSE_MPRC" id="_1piC" modifiers="16"/>
+        </Procedure>
+        <Procedure disabled="true" id="_1piD" name="resampling">
+          <variable name="resampling_method"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogReprojection.resamplingName"
+                          event="MOUSE_MPRC" id="_1piE" modifiers="16" x="76"
+                          y="14"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogReprojection.listInvokerName_resamplingName"
+                          event="MOUSE_MPRC" id="_1piF" modifiers="16"/>
+        </Procedure>
+      </Package>
       <Package id="_1pX1" name="reprojection">
         <Procedure id="_1pXM" name="output_format_reproj">
           <variable name="output_format_name"/>

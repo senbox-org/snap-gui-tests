@@ -115,7 +115,7 @@
         <ProcedureCall id="_1phc"
                        procedure="select_projection_parameters_tab"/>
         <ProcedureCall id="_1phd"
-                       procedure="default_parameters.geodetic_datum_default"/>
+                       procedure="set.default_parameters.geodetic_datum_default"/>
         <ProcedureCall id="_1phe"
                        procedure="select.reprojection.geodetic_datum">
           <variable name="geodetic_datum">$(geodetic_datum_default)</variable>
@@ -129,7 +129,7 @@
         <ProcedureCall id="_1phg"
                        procedure="test_sequence.preparation_reproj_parameters"/>
         <ProcedureCall id="_1phX"
-                       procedure="default_parameters.geo_lat_lon_projection"/>
+                       procedure="set.default_parameters.geo_lat_lon_projection"/>
         <ProcedureCall id="_1pgg" procedure="select.reprojection.projection">
           <variable name="projection">$(geo_lat_lon_projection)</variable>
         </ProcedureCall>
@@ -138,7 +138,7 @@
         <ProcedureCall id="_1pho"
                        procedure="test_sequence.preparation_reproj_parameters"/>
         <ProcedureCall id="_1phY"
-                       procedure="default_parameters.utm_automatic"/>
+                       procedure="set.default_parameters.utm_automatic"/>
         <ProcedureCall id="_1phK" procedure="select.reprojection.projection">
           <variable name="projection">$(utm_automatic)</variable>
         </ProcedureCall>
@@ -251,28 +251,6 @@
         <code>print "$(source_product)"</code>
       </ServerScriptStep>
     </Procedure>
-    <Package id="_1phR" name="default_parameters">
-      <Procedure id="_1phP" name="geodetic_datum_default">
-        <SetGlobalStep id="_1phQ" varname="geodetic_datum_default">
-          <default>World Geodetic System 1984</default>
-        </SetGlobalStep>
-      </Procedure>
-      <Procedure id="_1phT" name="geo_lat_lon_projection">
-        <SetGlobalStep id="_1phU" varname="geo_lat_lon_projection">
-          <default>Geographic Lat/Lon (WGS 84)</default>
-        </SetGlobalStep>
-      </Procedure>
-      <Procedure id="_1phV" name="utm_automatic">
-        <SetGlobalStep id="_1phW" varname="utm_automatic">
-          <default>UTM / WGS 84 (Automatic)</default>
-        </SetGlobalStep>
-      </Procedure>
-      <Procedure disabled="true" id="_1phq" name="output_folder">
-        <SetGlobalStep id="_1phr" varname="output_folder">
-          <default>reprojection</default>
-        </SetGlobalStep>
-      </Procedure>
-    </Package>
   </PackageRoot>
   <ExtraSequence id="_4">
     <ServerScriptStep id="_1l5A" name="print">

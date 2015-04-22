@@ -7,6 +7,49 @@
   <dependency>snap_main.qft</dependency>
   <PackageRoot id="_3">
     <Package id="_1l8s" name="check">
+      <Package id="_1pYw" name="band_chooser">
+        <Procedure id="_1pYz" name="checkbox_band_selected">
+          <variable name="band"/>
+          <comment>@teststep Test 'band' in the 'Band Chooser' dialog checked.</comment>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="dialogBand_Chooser.check_band"
+                            id="_1pWx" resvarname="checkbox_band_selected"/>
+        </Procedure>
+        <Procedure id="_1pZH" name="select_all_selected">
+          <comment>@teststep Test 'Select All' in the 'Band Chooser' dialog checked.</comment>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="dialogBand_Chooser.checkSelect_all"
+                            id="_1pW+" resvarname="select_all_selected"/>
+        </Procedure>
+        <Procedure id="_1pZO" name="select_none_selected">
+          <comment>@teststep Test 'Select None' in the 'Band Chooser' dialog checked.</comment>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="dialogBand_Chooser.checkSelect_none"
+                            id="_1pW-" resvarname="select_none_selected"/>
+        </Procedure>
+        <Procedure id="_1pZR" name="checkbox_band_selected_status">
+          <variable name="band"/>
+          <variable name="sel_status"/>
+          <comment>@teststep  Check selection of the checkbox 'band' in the 'Band Chooser' dialog.</comment>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="dialogBand_Chooser.check_band"
+                            id="_1pZS" state="$(sel_status)"/>
+        </Procedure>
+        <Procedure id="_1pZT" name="select_all_selected_status">
+          <variable name="sel_status"/>
+          <comment>@teststep  Check selection of the checkbox 'Select All' in the 'Band Chooser' dialog.</comment>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="dialogBand_Chooser.checkSelect_all"
+                            id="_1pZU" state="$(sel_status)"/>
+        </Procedure>
+        <Procedure id="_1pZV" name="select_none_selected_status">
+          <variable name="sel_status"/>
+          <comment>@teststep  Check selection of the checkbox 'Select None' in the 'Band Chooser' dialog.</comment>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="dialogBand_Chooser.checkSelect_none"
+                            id="_1pZW" state="$(sel_status)"/>
+        </Procedure>
+      </Package>
       <Package disabled="true" id="_1l2F" name="files_of_type">
         <Procedure id="_1l2C" name="asar">
           <ProcedureCall id="_1l2G" procedure="import.resize_import_dialog"/>

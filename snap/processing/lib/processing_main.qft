@@ -21,6 +21,7 @@
   <dependency>processing_set.qft</dependency>
   <dependency>reprojection_workflow.qft</dependency>
   <dependency>../geometric/010_01_collocation.qft</dependency>
+  <dependency>../geometric/010_04_mosaic.qft</dependency>
   <dependency>../spectral/010_08_spectral_unmixing.qft</dependency>
   <dependency>../thematic_land_processing/010_18_ndvi_processor.qft</dependency>
   <PackageRoot id="_3">
@@ -48,6 +49,31 @@
     </Dependency>
     <Package id="_1pLf" name="collocation"/>
     <Package id="_1pMZ" name="utility">
+      <Procedure id="_1pjc" name="open_all_products_in_folder">
+        <variable name="file"/>
+        <ProcedureCall id="_1pjd"
+                       procedure="wait.appear.dialog.select_source_product"/>
+        <ProcedureCall id="_1pje"
+                       procedure="set.select_source_product_dialog.file_name">
+          <variable name="file_name">$(file)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pjh"
+                       procedure="do_click.select_products_dialog.button_open_product"/>
+        <KeyEventStep client="$(client)"
+                      component="dialogMosaic_-_Open_Source_Product(s).listFile_name:"
+                      event="KEY_PRESSED" id="_1pWZ" keychar="65535"
+                      keycode="17" modifiers="2"/>
+        <KeyEventStep client="$(client)"
+                      component="dialogMosaic_-_Open_Source_Product(s).listFile_name:"
+                      event="KEY_PTR" id="_1pWa" keychar="1" keycode="65"
+                      modifiers="2"/>
+        <KeyEventStep client="$(client)"
+                      component="dialogMosaic_-_Open_Source_Product(s).listFile_name:"
+                      event="KEY_RELEASED" id="_1pji" keychar="65535"
+                      keycode="17" modifiers="0"/>
+        <ProcedureCall id="_1pjj"
+                       procedure="do_click.select_products_dialog.button_open_product"/>
+      </Procedure>
       <Procedure id="_1pMa" name="store_parameters_dialog">
         <variable name="file_name"/>
         <ProcedureCall id="_1pOd"

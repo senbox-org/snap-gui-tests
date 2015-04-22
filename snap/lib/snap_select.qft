@@ -10,6 +10,52 @@
   <dependency>snap_workflow.qft</dependency>
   <PackageRoot id="_3">
     <Package id="_1lB5" name="select">
+      <Package id="_1pYw" name="band_chooser">
+        <Procedure id="_1pYz" name="checkbox_band">
+          <variable name="band"/>
+          <comment>@teststep Click on checkbox 'band' in the 'Band Chooser' dialog.</comment>
+          <SetGlobalStep disabled="true" id="_1pZi" varname="band">
+            <default>algal_1</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1pZW"
+                         procedure="do_click.band_chooser.checkbox_band">
+            <variable name="band">$(band)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pZZ"
+                         procedure="check.band_chooser.checkbox_band_selected_status">
+            <variable name="sel_status">true</variable>
+            <variable name="band">$(band)</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1pZH" name="select_all">
+          <comment>@teststep Click on checkbox 'Select All' in the 'Band Chooser' dialog.</comment>
+          <ProcedureCall id="_1pZR"
+                         procedure="check.band_chooser.select_all_selected"/>
+          <IfSequence id="_1pZg"
+                      test="&#34;$(select_all_selected)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1pZX"
+                           procedure="do_click.band_chooser.select_all"/>
+          </IfSequence>
+          <ProcedureCall id="_1pZT"
+                         procedure="check.band_chooser.select_all_selected_status">
+            <variable name="sel_status">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1pZO" name="select_none">
+          <comment>@teststep Click on checkbox 'Select None' in the 'Band Chooser' dialog.</comment>
+          <ProcedureCall id="_1pZd"
+                         procedure="check.band_chooser.select_none_selected"/>
+          <IfSequence id="_1pZh"
+                      test="&#34;$(select_none_selected)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1pZb"
+                           procedure="do_click.band_chooser.select_none"/>
+          </IfSequence>
+          <ProcedureCall id="_1pZf"
+                         procedure="check.band_chooser.select_none_selected_status">
+            <variable name="sel_status">true</variable>
+          </ProcedureCall>
+        </Procedure>
+      </Package>
       <Package id="_1l05" name="product_tree">
         <Procedure id="_1l06" name="band" postdelay="500">
           <variable name="prod_id"/>
@@ -231,7 +277,7 @@
           <ProcedureCall id="_1pDy"
                          procedure="do_click.main_toolbar.tools.selectTool"/>
           <ProcedureCall id="_1pDz"
-                         procedure="do_click.view.start_point_drag_to_end_point">
+                         procedure="do_click.image_view.start_point_drag_to_end_point">
             <variable name="view_name">$(view_name)</variable>
             <variable name="start_x">$(x0)</variable>
             <variable name="start_y">$(y0)</variable>

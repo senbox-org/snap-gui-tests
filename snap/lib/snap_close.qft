@@ -11,27 +11,40 @@
     <Package id="_1lB5" name="close">
       <Package id="_1mcI" name="tools">
         <Procedure id="_1mcN" name="dialogTemplate_Manager">
+          <comment>@teststep Close 'Template Manager' dialog.</comment>
           <MouseEventStep clicks="1" client="$(client)"
                           component="dialogTemplate_Manager.buttonClose"
                           event="MOUSE_MPRC" id="_1mOq" modifiers="16"/>
         </Procedure>
         <Procedure id="_1mcR" name="dialogPlugins">
+          <comment>@teststep Close 'Plugins' dialog.</comment>
           <MouseEventStep clicks="1" client="$(client)"
                           component="dialogPlugins.buttonClose"
                           event="MOUSE_MPRC" id="_1mOu" modifiers="16"/>
         </Procedure>
         <Procedure id="_1mcJ" name="dialogOptions_cancel">
+          <comment>@teststep Close 'Options' dialog.</comment>
           <MouseEventStep clicks="1" client="$(client)"
                           component="dialogOptions.buttonCancel"
                           event="MOUSE_MPRC" id="_1mOy" modifiers="16"/>
         </Procedure>
       </Package>
+      <Procedure id="_1pWu" name="band_chooser">
+        <comment>@teststep Close 'Band Chooser' dialog.</comment>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogBand_Chooser.BandChooser.cancel"
+                        event="MOUSE_MPRC" id="_1pX0" modifiers="16"/>
+      </Procedure>
       <Procedure id="_1k-X" name="all_products">
+        <comment>@teststep Close all products.</comment>
         <ProcedureCall id="_1l3B" procedure="check.product.not_opened"/>
         <IfSequence id="_1kk7"
                     test="&#34;$(not_opened)&#34;==&#34;false&#34;">
           <TestStep id="_1mci" name="close_all_products">
             <comment>@teststep Close all products</comment>
+            <ProcedureCall id="_1oab" procedure="select.product_tree.product">
+              <variable name="prod_id">0</variable>
+            </ProcedureCall>
             <TryStep id="_1l01" name="select_menu_close_session">
               <ProcedureCall id="_1k-y" procedure="do_click.menu.file"/>
               <ProcedureCall id="_1l00"
@@ -59,6 +72,46 @@
               <CatchSequence exception="TestException" id="_1mch"
                              maxerror="0"/>
             </TryStep>
+            <ProcedureCall id="_1oaL" procedure="check.product.not_opened"/>
+            <IfSequence id="_1oaM"
+                        test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+              <TestStep id="_1oaN" name="close_all_products">
+                <comment>@teststep Close all products</comment>
+                <ProcedureCall id="_1oac"
+                               procedure="select.product_tree.product">
+                  <variable name="prod_id">0</variable>
+                </ProcedureCall>
+                <TryStep id="_1oaO" name="select_menu_close_session">
+                  <ProcedureCall id="_1oaP" procedure="do_click.menu.file"/>
+                  <ProcedureCall id="_1oaQ"
+                                 procedure="do_click.menu.file.close_all_products"/>
+                  <CatchSequence exception="TestException" id="_1oaR"
+                                 maxerror="0">
+                    <ServerScriptStep id="_1oaS" name="error">
+                      <code>rc.logError("Close All Products can not be selected")</code>
+                    </ServerScriptStep>
+                  </CatchSequence>
+                </TryStep>
+                <TryStep id="_1oaT"
+                         name="click_No_in_product_modified_dialog">
+                  <ProcedureCall id="_1oaU"
+                                 procedure="wait.appear.dialog.product_modified"/>
+                  <ProcedureCall id="_1oaV"
+                                 procedure="do_click.product_modified_dialog.button_No"/>
+                  <CatchSequence exception="TestException" id="_1oaW"
+                                 maxerror="0"/>
+                </TryStep>
+                <TryStep id="_1oaX"
+                         name="click_No_in_product_modified_dialog">
+                  <ProcedureCall id="_1oaY"
+                                 procedure="wait.appear.dialog.product_modified"/>
+                  <ProcedureCall id="_1oaZ"
+                                 procedure="do_click.product_modified_dialog.button_No"/>
+                  <CatchSequence exception="TestException" id="_1oaa"
+                                 maxerror="0"/>
+                </TryStep>
+              </TestStep>
+            </IfSequence>
           </TestStep>
         </IfSequence>
       </Procedure>
@@ -87,17 +140,20 @@
         </IfSequence>
       </Procedure>
       <Procedure id="_1mQI" name="dialogCustomize_Toolbars">
+        <comment>@teststep Close Customize Toolbars.</comment>
         <MouseEventStep clicks="1" client="$(client)"
                         component="dialogCustomize_Toolbars.buttonClose"
                         event="MOUSE_MPRC" id="_1mNQ" modifiers="16"/>
       </Procedure>
       <Procedure id="_1lB6" name="dialog">
+        <comment>@teststep Close dialog.</comment>
         <ProcedureCall id="_1lJi"
                        procedure="qfs.swing.cleanup.closeAllDialogs">
           <variable name="maxDialogs">10</variable>
         </ProcedureCall>
       </Procedure>
       <Procedure id="_1oaJ" name="help">
+        <comment>@teststep Close Help.</comment>
         <WindowEventStep client="$(client)" component="frameHelp"
                          event="WINDOW_CLOSING" id="_1oaK"/>
       </Procedure>

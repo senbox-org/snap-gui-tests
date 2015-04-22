@@ -129,115 +129,6 @@
         </ElseSequence>
       </IfSequence>
     </Procedure>
-    <Procedure id="_1owO" name="output_format">
-      <variable name="out_form"/>
-      <IfSequence id="_1owP"
-                  test="&#34;$(out_form)&#34;==&#34;netCDF_CF&#34; or &#34;$(out_form)&#34;==&#34;netCDF4_CF&#34;">
-        <SetGlobalStep id="_1owQ" varname="output_netcdf_cf">
-          <default>true</default>
-        </SetGlobalStep>
-        <ElseSequence id="_1owR">
-          <SetGlobalStep id="_1owS" varname="output_netcdf_cf">
-            <default>false</default>
-          </SetGlobalStep>
-        </ElseSequence>
-      </IfSequence>
-      <LoadPropertiesStep id="_1owT"
-                          propertyfile="properties/output_format.properties"
-                          resourcename="format"/>
-      <TryStep id="_1owU">
-        <SetGlobalStep id="_1owV" varname="of">
-          <default>${format:$(out_form)_of}</default>
-        </SetGlobalStep>
-        <SetGlobalStep id="_1owW" varname="fr">
-          <default>${format:$(out_form)_fr}</default>
-        </SetGlobalStep>
-        <SetGlobalStep id="_1o+q" varname="supported_format">
-          <default>true</default>
-        </SetGlobalStep>
-        <CatchSequence exception="TestException" id="_1owX" maxerror="0">
-          <SetGlobalStep id="_1owY" varname="output_netcdf_cf">
-            <default>false</default>
-          </SetGlobalStep>
-          <SetGlobalStep id="_1owZ" varname="supported_format">
-            <default>false</default>
-          </SetGlobalStep>
-          <SetGlobalStep id="_1owa" varname="of"/>
-          <SetGlobalStep id="_1owb" varname="fr">
-            <default>dim</default>
-          </SetGlobalStep>
-          <ProcedureCall id="_1o+o" procedure="qfs.run-log.logError">
-            <variable name="message">$(out_form) format is not supported</variable>
-            <variable name="withScreenshots">false</variable>
-          </ProcedureCall>
-        </CatchSequence>
-      </TryStep>
-      <ServerScriptStep disabled="true" id="_1oxE" name="print">
-        <code>print "of = $(of)"</code>
-      </ServerScriptStep>
-      <ServerScriptStep disabled="true" id="_1oxF" name="print">
-        <code>print "fr = $(fr)"</code>
-      </ServerScriptStep>
-    </Procedure>
-    <Procedure id="_1oxG" name="product_attributes">
-      <variable name="prod_type"/>
-      <IfSequence id="_1oxH" test="&#34;$(prod_type)&#34;==&#34;&#34;">
-        <SetGlobalStep id="_1oxI" varname="product_group"/>
-        <SetGlobalStep id="_1oxJ" varname="reader">
-          <default>All Files</default>
-        </SetGlobalStep>
-        <SetGlobalStep id="_1oxK" varname="menu_item"/>
-        <ElseSequence id="_1oxL">
-          <TryStep id="_1oxM">
-            <IfSequence id="_1o-2" test="${qftest:windows}">
-              <LoadPropertiesStep id="_1oxN"
-                                  propertyfile="properties/product_attributes.properties"
-                                  resourcename="attribut"/>
-              <ElseifSequence id="_1o-3" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <LoadPropertiesStep id="_1o-5"
-                                    propertyfile="properties/product_attributes_lin.properties"
-                                    resourcename="attribut"/>
-              </ElseifSequence>
-              <ElseSequence id="_1o-4">
-                <LoadPropertiesStep id="_1o-6"
-                                    propertyfile="properties/product_attributes_lin.properties"
-                                    resourcename="attribut"/>
-              </ElseSequence>
-            </IfSequence>
-            <SetGlobalStep id="_1oxO" varname="product_group">
-              <default>${attribut:$(prod_type)_product_group}</default>
-            </SetGlobalStep>
-            <SetGlobalStep id="_1oxP" varname="reader">
-              <default>${attribut:$(prod_type)_reader}</default>
-            </SetGlobalStep>
-            <SetGlobalStep id="_1oxQ" varname="menu_item">
-              <default>${attribut:$(prod_type)_menu_item}</default>
-            </SetGlobalStep>
-            <CatchSequence exception="TestException" id="_1oxR" maxerror="0">
-              <SetGlobalStep id="_1oxS" varname="product_group"/>
-              <SetGlobalStep id="_1oxT" varname="reader">
-                <default>All Files</default>
-              </SetGlobalStep>
-              <SetGlobalStep id="_1oxU" varname="menu_item"/>
-              <ProcedureCall id="_1o+n" procedure="qfs.run-log.logError">
-                <variable name="message">It was no no property or resource called $(prod_type)</variable>
-                <variable name="withScreenshots">false</variable>
-              </ProcedureCall>
-            </CatchSequence>
-          </TryStep>
-        </ElseSequence>
-      </IfSequence>
-      <ServerScriptStep disabled="true" id="_1o+0" name="print">
-        <code>print "product_group = $(product_group)"</code>
-      </ServerScriptStep>
-      <ServerScriptStep disabled="true" id="_1o+1" name="print">
-        <code>print "reader = $(reader)"</code>
-      </ServerScriptStep>
-      <ServerScriptStep disabled="true" id="_1o+2" name="print">
-        <code>print "menu_item = $(menu_item)"</code>
-      </ServerScriptStep>
-    </Procedure>
     <Procedure id="_1lBO" name="source_data_with_absolute_path">
       <comment>source_data_with_absolute_path</comment>
       <ProcedureCall id="_1o+c" procedure="path"/>
@@ -355,6 +246,66 @@ rc.setGlobal("wv", vl)                       </code>
       </SetGlobalStep>
     </Procedure>
     <Package id="_1lBM" name="product_meta_data">
+      <Procedure id="_1oxG" name="product_attributes">
+        <variable name="prod_type"/>
+        <IfSequence id="_1oxH" test="&#34;$(prod_type)&#34;==&#34;&#34;">
+          <SetGlobalStep id="_1oxI" varname="product_group"/>
+          <SetGlobalStep id="_1oxJ" varname="reader">
+            <default>All Files</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1oxK" varname="menu_item"/>
+          <ElseSequence id="_1oxL">
+            <TryStep id="_1oxM">
+              <IfSequence id="_1o-2" test="${qftest:windows}">
+                <LoadPropertiesStep id="_1oxN"
+                                    propertyfile="properties/product_attributes.properties"
+                                    resourcename="attribut"/>
+                <ElseifSequence id="_1o-3" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <LoadPropertiesStep id="_1o-5"
+                                      propertyfile="properties/product_attributes_lin.properties"
+                                      resourcename="attribut"/>
+                </ElseifSequence>
+                <ElseSequence id="_1o-4">
+                  <LoadPropertiesStep id="_1o-6"
+                                      propertyfile="properties/product_attributes_lin.properties"
+                                      resourcename="attribut"/>
+                </ElseSequence>
+              </IfSequence>
+              <SetGlobalStep id="_1oxO" varname="product_group">
+                <default>${attribut:$(prod_type)_product_group}</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oxP" varname="reader">
+                <default>${attribut:$(prod_type)_reader}</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1oxQ" varname="menu_item">
+                <default>${attribut:$(prod_type)_menu_item}</default>
+              </SetGlobalStep>
+              <CatchSequence exception="TestException" id="_1oxR"
+                             maxerror="0">
+                <SetGlobalStep id="_1oxS" varname="product_group"/>
+                <SetGlobalStep id="_1oxT" varname="reader">
+                  <default>All Files</default>
+                </SetGlobalStep>
+                <SetGlobalStep id="_1oxU" varname="menu_item"/>
+                <ProcedureCall id="_1o+n" procedure="qfs.run-log.logError">
+                  <variable name="message">It was no no property or resource called $(prod_type)</variable>
+                  <variable name="withScreenshots">false</variable>
+                </ProcedureCall>
+              </CatchSequence>
+            </TryStep>
+          </ElseSequence>
+        </IfSequence>
+        <ServerScriptStep disabled="true" id="_1o+0" name="print">
+          <code>print "product_group = $(product_group)"</code>
+        </ServerScriptStep>
+        <ServerScriptStep disabled="true" id="_1o+1" name="print">
+          <code>print "reader = $(reader)"</code>
+        </ServerScriptStep>
+        <ServerScriptStep disabled="true" id="_1o+2" name="print">
+          <code>print "menu_item = $(menu_item)"</code>
+        </ServerScriptStep>
+      </Procedure>
       <Procedure id="_1oZN" name="SeaDAS_szcs_L2">
         <SetGlobalStep id="_1oZO" varname="dataInDir">
           <default>seadas_octs_l2</default>
@@ -396,6 +347,26 @@ rc.setGlobal("wv", vl)                       </code>
           <comment>
 </comment>
         </SetGlobalStep>
+      </Procedure>
+      <Procedure id="_1pTw" name="MER_RR__1P">
+        <SetGlobalStep id="_1pTx" varname="dataInDir">
+          <default>mer_rr__1p_n1</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1pTy" varname="fileName">
+          <default>MER_RR__1_test.N1</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1pTz" varname="bandName">
+          <default>radiance_1</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1pT+" varname="err_band">
+          <default>radiance_2</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1pU0" varname="view_Id1">
+          <default>0</default>
+          <comment>
+</comment>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1pT-" varname="group_id1"/>
       </Procedure>
       <Procedure id="_1o+G" name="S3A_OL_2">
         <SetGlobalStep id="_1o+H" varname="dataInDir">
@@ -586,6 +557,63 @@ rc.setGlobal("wv", vl)                       </code>
       <Procedure id="_1oHf" name="viirs">
         <ExcelDataBinder excelfile="tables/input_data/viirs.xls" id="_1oHg"
                          name="viirs" sheetname="listing"/>
+      </Procedure>
+    </Package>
+    <Package id="_1pU3" name="daten_format">
+      <Procedure id="_1owO" name="output_format_for_gpt">
+        <variable name="out_form"/>
+        <IfSequence id="_1owP"
+                    test="&#34;$(out_form)&#34;==&#34;netCDF_CF&#34; or &#34;$(out_form)&#34;==&#34;netCDF4_CF&#34;">
+          <SetGlobalStep id="_1owQ" varname="output_netcdf_cf">
+            <default>true</default>
+          </SetGlobalStep>
+          <ElseSequence id="_1owR">
+            <SetGlobalStep id="_1owS" varname="output_netcdf_cf">
+              <default>false</default>
+            </SetGlobalStep>
+          </ElseSequence>
+        </IfSequence>
+        <LoadPropertiesStep id="_1owT"
+                            propertyfile="properties/output_format.properties"
+                            resourcename="format"/>
+        <TryStep id="_1owU">
+          <SetGlobalStep id="_1owV" varname="of">
+            <default>${format:$(out_form)_of}</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1owW" varname="fr">
+            <default>${format:$(out_form)_fr}</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1o+q" varname="supported_format">
+            <default>true</default>
+          </SetGlobalStep>
+          <CatchSequence exception="TestException" id="_1owX" maxerror="0">
+            <SetGlobalStep id="_1owY" varname="output_netcdf_cf">
+              <default>false</default>
+            </SetGlobalStep>
+            <SetGlobalStep id="_1owZ" varname="supported_format">
+              <default>false</default>
+            </SetGlobalStep>
+            <SetGlobalStep id="_1owa" varname="of"/>
+            <SetGlobalStep id="_1owb" varname="fr">
+              <default>dim</default>
+            </SetGlobalStep>
+            <ProcedureCall id="_1o+o" procedure="qfs.run-log.logError">
+              <variable name="message">$(out_form) format is not supported</variable>
+              <variable name="withScreenshots">false</variable>
+            </ProcedureCall>
+          </CatchSequence>
+        </TryStep>
+        <ServerScriptStep disabled="true" id="_1oxE" name="print">
+          <code>print "of = $(of)"</code>
+        </ServerScriptStep>
+        <ServerScriptStep disabled="true" id="_1oxF" name="print">
+          <code>print "fr = $(fr)"</code>
+        </ServerScriptStep>
+      </Procedure>
+      <Procedure id="_1pU1" name="beam_dimap">
+        <SetGlobalStep id="_1pU2" varname="beam_dimap">
+          <default>BEAM-DIMAP</default>
+        </SetGlobalStep>
       </Procedure>
     </Package>
   </PackageRoot>

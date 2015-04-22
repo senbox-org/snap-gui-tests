@@ -10,6 +10,10 @@
   <PackageRoot id="_3">
     <Package id="_1lB5" name="check">
       <Package id="_1pFi" name="collocation">
+        <Procedure id="_1pci" name="collocation_tool_opened">
+          <ComponentWaiter client="$(client)" component="dialogCollocation2"
+                           id="_1pcj" timeout="10"/>
+        </Procedure>
         <Package id="_1pMd" name="enabled">
           <Procedure id="_1pMZ" name="menu_file">
             <comment>@teststep Check menu 'File' is enabled.</comment>
@@ -215,6 +219,11 @@
         </Package>
       </Package>
       <Package id="_1pPU" name="spectral_unmixing">
+        <Procedure id="_1pck" name="spectral_unmixing_tool_opened">
+          <ComponentWaiter client="$(client)"
+                           component="dialogSpectral_Unmixing" id="_1pcl"
+                           timeout="10"/>
+        </Procedure>
         <Procedure id="_1pRl" name="no_spectral_source_bands">
           <CheckItemsStep checktype="items" client="$(client)"
                           component="dialogSpectral_Unmixing.sourceBandNames"
@@ -414,6 +423,10 @@
         </Package>
       </Package>
       <Package id="_1pS1" name="ndvi_processor">
+        <Procedure id="_1pcm" name="ndvi_processor_opened">
+          <ComponentWaiter client="$(client)" component="dialogNDVI"
+                           id="_1pU5"/>
+        </Procedure>
         <Package id="_1pV3" name="enabled">
           <Procedure id="_1pV4" name="menu_file">
             <comment>@teststep Check menu 'File' is enabled.</comment>
@@ -976,6 +989,432 @@
               <text>$(output_crs)</text>
             </CheckStringStep>
           </Procedure>
+        </Package>
+      </Package>
+      <Package id="_1pao" name="mosaicing">
+        <Procedure id="_1pap" name="mosaicing_tool_opened">
+          <ComponentWaiter client="$(client)" component="dialogMosaicing"
+                           id="_1paq" timeout="10"/>
+        </Procedure>
+        <Package id="_1par" name="enabled">
+          <Package id="_1phq" name="io_parameters">
+            <Procedure id="_1pa+" name="button_add">
+              <comment>@teststep Check  'add' button enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogMosaicing.addButton"
+                                id="_1pfI"/>
+            </Procedure>
+            <Procedure id="_1pfU" name="button_remove">
+              <comment>@teststep Check  'remove' button enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogMosaicing.removeButton"
+                                id="_1pfJ"/>
+            </Procedure>
+            <Procedure id="_1pb0" name="button_directory">
+              <comment>@teststep Check  'directory' button enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogMosaicing.button..."
+                                id="_1pWF"/>
+            </Procedure>
+            <Procedure id="_1pb2" name="save_as">
+              <comment>@teststep Check 'Save as' checkbox is enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogMosaicing.saveToFileSelected"
+                                id="_1pWB" resvarname="save_as_enabled"/>
+            </Procedure>
+            <Procedure id="_1pb4" name="open_in_snap">
+              <comment>@teststep Check 'Open in SNAP' checkbox is enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogMosaicing.openInAppSelected"
+                                id="_1pb5" resvarname="open_in_snap_en"/>
+            </Procedure>
+            <Procedure id="_1pfX" name="update_target_product">
+              <comment>@teststep Check 'Update target product' checkbox is enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogMosaicing.updateMode"
+                                id="_1pfY"
+                                resvarname="update_target_product_en"/>
+            </Procedure>
+            <Procedure id="_1pb6" name="save_as_enabled_status">
+              <variable name="enabled"/>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogMosaicing.saveToFileSelected"
+                                id="_1pfW" state="$(enabled)"/>
+            </Procedure>
+            <Procedure id="_1pb8" name="open_in_snap_enabled_status">
+              <variable name="enabled"/>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogMosaicing.openInAppSelected"
+                                id="_1pb9" state="$(enabled)"/>
+            </Procedure>
+            <Procedure id="_1pfZ" name="update_target_product_enabled_status">
+              <variable name="enabled"/>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogMosaicing.updateMode"
+                                id="_1pfa" state="$(enabled)"/>
+            </Procedure>
+          </Package>
+          <Package id="_1phr" name="map_definition">
+            <Procedure id="_1pbA" name="radio_custom_CRS_enabled_status">
+              <variable name="enabled"/>
+              <comment>@teststep Check enabled status of the 'Custom CRS' radio button.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogMosaicing.radioCustom_CRS"
+                                id="_1pbB" state="$(enabled)"/>
+            </Procedure>
+            <Procedure id="_1pbC" name="geodetic_datum">
+              <comment>@teststep Check 'Geodetic datum' ComboBox is enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogMosaicing.datum" id="_1pbD"
+                                resvarname="geodetic_datum"/>
+            </Procedure>
+            <Procedure id="_1pbE" name="geodetic_datum_enabled_status">
+              <variable name="enabled"/>
+              <comment>@teststep Check enabled status of the 'Geodetic datum' ComboBox.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogMosaicing.datum" id="_1pbF"
+                                state="$(enabled)"/>
+            </Procedure>
+            <Procedure id="_1pbG" name="reprojection">
+              <comment>@teststep Check 'Reprojection' ComboBox is enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogMosaicing.operationWrapper"
+                                errorlevel="0" id="_1pbH"
+                                resvarname="reprojection"/>
+            </Procedure>
+            <Procedure id="_1pbI" name="reprojection_enabled_status">
+              <variable name="enabled"/>
+              <comment>@teststep Check enabled status of the 'Reprojection' ComboBox.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogMosaicing.operationWrapper"
+                                id="_1pbJ" state="$(enabled)"/>
+            </Procedure>
+            <Procedure id="_1pbK" name="button_projection_parameters">
+              <comment>@teststep Check 'Projection Parameters...' button is enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogMosaicing.buttonProjection_Parameters..."
+                                id="_1pbL"
+                                resvarname="button_projection_parameters"/>
+            </Procedure>
+            <Procedure id="_1pbM"
+                       name="button_projection_parameters_enabled_status">
+              <variable name="enabled"/>
+              <comment>@teststep Check enabled status of the 'Projection Parameters...' button.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogMosaicing.buttonProjection_Parameters..."
+                                id="_1pbN" state="$(enabled)"/>
+            </Procedure>
+            <Procedure id="_1pbO" name="radio_predefined_CRS_enabled_status">
+              <variable name="enabled"/>
+              <comment>@teststep Check enabled status of the 'Predefined CRS' radio button.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogMosaicing.radioPredefined_CRS"
+                                id="_1pbP" state="$(enabled)"/>
+            </Procedure>
+            <Procedure id="_1pbQ" name="predefined_CRS">
+              <comment>@teststep Check 'Predefined CRS' TextField is enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogMosaicing.panelMap_Projection_Definition.text"
+                                id="_1pbR" resvarname="predefined_CRS"/>
+            </Procedure>
+            <Procedure id="_1pbS" name="predefined_CRS_enabled_status">
+              <variable name="enabled"/>
+              <comment>@teststep Check enabled status of the 'Predefined CRS' TextField.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogMosaicing.panelMap_Projection_Definition.text"
+                                id="_1pbT" state="$(enabled)"/>
+            </Procedure>
+            <Procedure id="_1pbU" name="button_select">
+              <comment>@teststep Check 'Select' button is enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogMosaicing.buttonSelect..."
+                                id="_1pbV" resvarname="button_select"/>
+            </Procedure>
+            <Procedure id="_1pbW" name="button_select_enabled_status">
+              <variable name="enabled"/>
+              <comment>@teststep Check enabled status of the 'Select' button.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogMosaicing.buttonSelect..."
+                                id="_1pbX" state="$(enabled)"/>
+            </Procedure>
+            <Procedure id="_1pgw" name="orthorectify_checkbox">
+              <comment>@teststep Check 'Orthorectify' checkbox is enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogMosaicing.orthorectify"
+                                id="_1pgx"
+                                resvarname="orthorectify_checkbox"/>
+            </Procedure>
+            <Procedure id="_1pgr" name="orthorectify_checkbox_enabled_status">
+              <variable name="enabled"/>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogMosaicing.orthorectify"
+                                id="_1pgv" state="$(enabled)"/>
+            </Procedure>
+            <Procedure id="_1pgy" name="elevation_model">
+              <comment>@teststep Check 'Elevation Model' ComboBox is enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogMosaicing.elevationModelName"
+                                id="_1pgz" resvarname="elevation_model"/>
+            </Procedure>
+            <Procedure id="_1pgs" name="elevation_model_enabled_status">
+              <variable name="enabled"/>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogMosaicing.elevationModelName"
+                                id="_1pgb" state="$(enabled)"/>
+            </Procedure>
+            <Procedure id="_1pj4" name="display_source_products">
+              <comment>@teststep Check 'Display source products' checkbox is enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogMosaicing.showSourceProducts"
+                                id="_1pj5"
+                                resvarname="display_source_products"/>
+            </Procedure>
+            <Procedure id="_1pik"
+                       name="display_source_products_enabled_status">
+              <variable name="enabled"/>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogMosaicing.showSourceProducts"
+                                id="_1pj2" state="$(enabled)"/>
+            </Procedure>
+          </Package>
+          <Procedure id="_1pas" name="menu_file">
+            <comment>@teststep Check menu 'File' is enabled.</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogMosaicing.menuFile"
+                              id="_1pat"/>
+          </Procedure>
+          <Procedure id="_1pau" name="menu_help">
+            <comment>@teststep Check menu 'Help' is enabled.</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogMosaicing.menuHelp"
+                              id="_1pav"/>
+          </Procedure>
+          <Procedure id="_1paw" name="button_close">
+            <comment>@teststep Check  'Close' button enabled.</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogMosaicing.MosaicDialog.close"
+                              id="_1pax"/>
+          </Procedure>
+          <Procedure id="_1pay" name="button_apply">
+            <comment>@teststep Check  'Apply' button enabled.</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogMosaicing.MosaicDialog.apply"
+                              id="_1paz"/>
+          </Procedure>
+        </Package>
+        <Package id="_1pbu" name="checked">
+          <Package id="_1pht" name="io_parameters">
+            <Procedure id="_1pbv" name="save_as">
+              <comment>@teststep Check 'Save as' checkbox is selected.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialogMosaicing.saveToFileSelected"
+                                id="_1pbw" resvarname="save_as"/>
+            </Procedure>
+            <Procedure id="_1pbx" name="open_in_snap">
+              <comment>@teststep Check 'Open in SNAP' checkbox is selected.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialogMosaicing.openInAppSelected"
+                                id="_1pby" resvarname="open_in_snap"/>
+            </Procedure>
+            <Procedure id="_1pfb" name="update_target_product">
+              <comment>@teststep Check 'Update target product' checkbox is selected.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialogMosaicing.updateMode"
+                                id="_1pfc"
+                                resvarname="update_target_product"/>
+            </Procedure>
+            <Procedure id="_1pbz" name="save_as_selected_status">
+              <variable name="selected"/>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialogMosaicing.saveToFileSelected"
+                                id="_1pb+" state="$(selected)"/>
+            </Procedure>
+            <Procedure id="_1pb-" name="open_in_snap_selected_status">
+              <variable name="selected"/>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialogMosaicing.openInAppSelected"
+                                id="_1pc0" state="$(selected)"/>
+            </Procedure>
+            <Procedure id="_1pfd"
+                       name="update_target_product_selected_status">
+              <variable name="selected"/>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialogMosaicing.updateMode"
+                                id="_1pfe" state="$(selected)"/>
+            </Procedure>
+          </Package>
+          <Package id="_1phu" name="map_definition">
+            <Procedure id="_1pc1" name="radio_custom_CRS">
+              <variable name="selected"/>
+              <comment>@teststep Check selection of the 'Custom CRS' radio button.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialogMosaicing.radioCustom_CRS"
+                                id="_1pc2" state="$(selected)"/>
+            </Procedure>
+            <Procedure id="_1pc3" name="radio_predefined_CRS">
+              <variable name="selected"/>
+              <comment>@teststep Check selection of the 'Predefined CRS' radio button.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialogMosaicing.radioPredefined_CRS"
+                                id="_1pc4" state="$(selected)"/>
+            </Procedure>
+            <Procedure id="_1pg+" name="orthorectify">
+              <comment>@teststep Check 'Orthorectify' checkbox is selected.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialogMosaicing.orthorectify"
+                                id="_1pg-"
+                                resvarname="orthorectify_checkbox"/>
+            </Procedure>
+            <Procedure id="_1ph0" name="orthorectify_selected_status">
+              <variable name="selected"/>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialogMosaicing.orthorectify"
+                                id="_1ph1" state="$(selected)"/>
+            </Procedure>
+            <Procedure id="_1pjA" name="display_source_products">
+              <comment>@teststep Check 'Display source products' checkbox is selected.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialogMosaicing.showSourceProducts"
+                                id="_1pjB"
+                                resvarname="display_source_products"/>
+            </Procedure>
+            <Procedure id="_1pj7"
+                       name="display_source_products_selected_status">
+              <variable name="selected"/>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialogMosaicing.showSourceProducts"
+                                id="_1pj9" state="$(selected)"/>
+            </Procedure>
+          </Package>
+        </Package>
+        <Package id="_1pcJ" name="text">
+          <Package id="_1phw" name="io_parameters">
+            <Procedure id="_1pcK" name="source_products_empty">
+              <comment>@teststep Check source products listing is empty.</comment>
+              <CheckItemsStep checktype="items" client="$(client)"
+                              component="dialogMosaicing.Source_products2"
+                              id="_1pfH"/>
+            </Procedure>
+            <Procedure id="_1pcM" name="target_product_name">
+              <variable name="val"/>
+              <comment>@teststep Check target product name.</comment>
+              <CheckStringStep client="$(client)"
+                               component="dialogMosaicing.productName"
+                               id="_1pcN">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1pcO" name="output_format_name">
+              <variable name="val"/>
+              <comment>@teststep Check selected outpur format.</comment>
+              <CheckStringStep checktype="value" client="$(client)"
+                               component="dialogMosaicing.formatName"
+                               id="_1pcP">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+          </Package>
+          <Package id="_1phx" name="map_definition">
+            <Procedure id="_1pcQ" name="geodetic_datum">
+              <variable name="val"/>
+              <comment>@teststep Check selected geodetic datum.</comment>
+              <CheckStringStep checktype="value" client="$(client)"
+                               component="dialogMosaicing.datum" id="_1pcR">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1pcS" name="selected_reprojection">
+              <variable name="val"/>
+              <comment>@teststep Check selected reprojection.</comment>
+              <CheckStringStep checktype="value" client="$(client)"
+                               component="dialogMosaicing.operationWrapper"
+                               id="_1pcT">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1pcU" name="predefined_CRS">
+              <variable name="val"/>
+              <comment>@teststep Check Predefined CRS TextField.</comment>
+              <CheckStringStep client="$(client)"
+                               component="dialogMosaicing.panelMap_Projection_Definition.text"
+                               id="_1pcV">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1ph2" name="selected_elevation_model">
+              <variable name="val"/>
+              <comment>@teststep Check selected elevation model</comment>
+              <CheckStringStep checktype="value" client="$(client)"
+                               component="dialogMosaicing.elevationModelName"
+                               id="_1pgc">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1ph3" name="west">
+              <variable name="val"/>
+              <comment>@teststep Check Mosaic Bound West.</comment>
+              <CheckStringStep client="$(client)"
+                               component="dialogMosaicing.westBound"
+                               id="_1ph6">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1phE" name="north">
+              <variable name="val"/>
+              <comment>@teststep Check Mosaic Bound North.</comment>
+              <CheckStringStep client="$(client)"
+                               component="dialogMosaicing.northBound"
+                               id="_1phG">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1phL" name="east">
+              <variable name="val"/>
+              <comment>@teststep Check Mosaic Bound East.</comment>
+              <CheckStringStep client="$(client)"
+                               component="dialogMosaicing.eastBound"
+                               id="_1phO">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1phS" name="south">
+              <variable name="val"/>
+              <comment>@teststep Check Mosaic Bound South.</comment>
+              <CheckStringStep client="$(client)"
+                               component="dialogMosaicing.southBound"
+                               id="_1phW">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1phn" name="pixel_size_X">
+              <variable name="val"/>
+              <comment>@teststep Check pixel size X.</comment>
+              <CheckStringStep client="$(client)"
+                               component="dialogMosaicing.pixelSizeX"
+                               id="_1pho">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1phZ" name="pixel_size_Y">
+              <variable name="val"/>
+              <comment>@teststep Check pixel size Y.</comment>
+              <CheckStringStep client="$(client)"
+                               component="dialogMosaicing.pixelSizeY"
+                               id="_1phf">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+          </Package>
+          <Package id="_1phy" name="variables_conditions">
+            <Procedure id="_1phz" name="combine">
+              <variable name="val"></variable>
+              <comment>@teststep Check selected combine operator.</comment>
+              <CheckStringStep checktype="value" client="$(client)"
+                               component="dialogMosaicing.combine" id="_1piE">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+          </Package>
         </Package>
       </Package>
     </Package>

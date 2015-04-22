@@ -172,6 +172,82 @@
           </TextInputStep>
         </Procedure>
       </Package>
+      <Package id="_1phu" name="mosaicing">
+        <Package id="_1pi4" name="io_parameters">
+          <Procedure id="_1pi1" name="target_product_name">
+            <variable name="target_product_name"/>
+            <comment>@teststep Insert target product name.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogMosaicing.productName" id="_1pi2">
+              <text>$(target_product_name)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1phx" name="target_directory">
+            <variable name="dir"/>
+            <comment>@teststep Insert target directory.</comment>
+            <ProcedureCall id="_1phy"
+                           procedure="select.mosaicing.io_parameters.save_as"/>
+            <ProcedureCall id="_1phz" procedure="output_data_directory">
+              <variable name="output_dir">$(dir)</variable>
+            </ProcedureCall>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogMosaicing.productDir" id="_1ph+">
+              <text>$(output_data_directory)</text>
+            </TextInputStep>
+          </Procedure>
+        </Package>
+        <Package id="_1pi5" name="map_definition">
+          <Procedure id="_1pi7" name="west">
+            <variable name="val"/>
+            <comment>@teststep Insert mosaic bound West.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogMosaicing.westBound" id="_1pi8">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1piE" name="north">
+            <variable name="val"/>
+            <comment>@teststep Insert mosaic bound North.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogMosaicing.northBound" id="_1piG">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1piL" name="east">
+            <variable name="val"/>
+            <comment>@teststep Insert mosaic bound East.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogMosaicing.eastBound" id="_1piO">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1piS" name="south">
+            <variable name="val"/>
+            <comment>@teststep Insert mosaic bound South.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogMosaicing.southBound" id="_1piW">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1piZ" name="pixel_size_X">
+            <variable name="val"/>
+            <comment>@teststep Insert mosaic pixel size X.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogMosaicing.pixelSizeX" id="_1pie">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1pi3" name="pixel_size_Y">
+            <variable name="val"/>
+            <comment>@teststep Insert mosaic pixel size Y.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogMosaicing.pixelSizeY" id="_1pgj">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+        </Package>
+        <Package id="_1pi6" name="variables_conditions"/>
+      </Package>
       <Package id="_1pOd" name="store_parameters_dialog">
         <Procedure id="_1pMa" name="parameters_file_name">
           <variable name="file_name"/>
@@ -247,6 +323,33 @@
           </ElseSequence>
         </IfSequence>
       </Procedure>
+      <Package id="_1phR" name="default_parameters">
+        <Procedure id="_1phP" name="geodetic_datum_default">
+          <SetGlobalStep id="_1phQ" varname="geodetic_datum_default">
+            <default>World Geodetic System 1984</default>
+          </SetGlobalStep>
+        </Procedure>
+        <Procedure id="_1phT" name="geo_lat_lon_projection">
+          <SetGlobalStep id="_1phU" varname="geo_lat_lon_projection">
+            <default>Geographic Lat/Lon (WGS 84)</default>
+          </SetGlobalStep>
+        </Procedure>
+        <Procedure id="_1phV" name="utm_automatic">
+          <SetGlobalStep id="_1phW" varname="utm_automatic">
+            <default>UTM / WGS 84 (Automatic)</default>
+          </SetGlobalStep>
+        </Procedure>
+        <Procedure id="_1phs" name="elevation_model">
+          <SetGlobalStep id="_1pht" varname="elevation_model">
+            <default>GETASSE30</default>
+          </SetGlobalStep>
+        </Procedure>
+        <Procedure disabled="true" id="_1phq" name="output_folder">
+          <SetGlobalStep id="_1phr" varname="output_folder">
+            <default>reprojection</default>
+          </SetGlobalStep>
+        </Procedure>
+      </Package>
     </Package>
   </PackageRoot>
   <ExtraSequence id="_4">
