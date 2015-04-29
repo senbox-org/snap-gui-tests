@@ -1,17 +1,137 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.3">
+<RootStep id="_0" name="root" version="4.0.4">
   <include>qfs.qft</include>
   <include>processing_main.qft</include>
   <dependency>processing_main.qft</dependency>
   <dependency>processing_do_click.qft</dependency>
   <PackageRoot id="_3">
     <Package id="_1pMj" name="select">
+      <Package id="_1pl8" name="binning">
+        <Procedure id="_1p+i" name="tab">
+          <variable name="tab"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogBinning.tabbed.tab"
+                          event="MOUSE_MPRC" id="_1p+k" modifiers="16"/>
+        </Procedure>
+        <Package id="_1pl9" name="io_parameters"/>
+        <Package id="_1plM" name="filter">
+          <Procedure id="_1pzG" name="time_filter_method">
+            <variable name="time_filter_method"/>
+            <comment>@teststep Select time filter method.</comment>
+            <TryStep id="_1p-m">
+              <ProcedureCall id="_1p-l"
+                             procedure="utility.binning.time_filter_method">
+                <variable name="time_filter_method">$(time_filter_method)</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1p-o"
+                             maxerror="0">
+                <TryStep id="_1p-p">
+                  <ProcedureCall id="_1p-t"
+                                 procedure="utility.binning.time_filter_method">
+                    <variable name="time_filter_method">$(time_filter_method)</variable>
+                  </ProcedureCall>
+                  <CatchSequence exception="TestException" id="_1p-r"
+                                 maxerror="0">
+                    <ProcedureCall id="_1p-s" procedure="run-log.logError">
+                      <variable name="message">$(time_filter_method) can not be selected</variable>
+                      <variable name="withScreenshots">true</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
+        </Package>
+        <Package id="_1plw" name="configuration">
+          <Package id="_1pzn" name="source_bands"/>
+          <Package id="_1pzo" name="intermediate_source_bands"/>
+        </Package>
+      </Package>
+      <Package id="_1q5G" name="edit_aggregator">
+        <Procedure id="_1q5n" name="output_sums">
+          <comment>@teststep Check-in checkbox 'output sums'</comment>
+          <ProcedureCall id="_1q5r"
+                         procedure="check.edit_aggregator.checked.output_sums"/>
+          <IfSequence id="_1q5u"
+                      test="&#34;$(output_sums)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1q5p"
+                           procedure="do_click.edit_aggregator.output_sums"/>
+          </IfSequence>
+          <ProcedureCall id="_1q5t"
+                         procedure="check.edit_aggregator.checked.output_sums_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1q5H" name="output_counts">
+          <comment>@teststep Check-in checkbox 'output counts'</comment>
+          <ProcedureCall id="_1q5j"
+                         procedure="check.edit_aggregator.checked.output_counts"/>
+          <IfSequence id="_1q5v"
+                      test="&#34;$(output_counts)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1q5h"
+                           procedure="do_click.edit_aggregator.output_counts"/>
+          </IfSequence>
+          <ProcedureCall id="_1q5l"
+                         procedure="check.edit_aggregator.checked.output_counts_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1q65" name="aggregator">
+          <variable name="aggregator"/>
+          <comment>@teststep Select aggregator.</comment>
+          <TryStep id="_1q6B">
+            <ProcedureCall id="_1q6A" procedure="utility.binning.aggregator">
+              <variable name="aggregator">$(aggregator)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1q6C" maxerror="0">
+              <TryStep id="_1q6D">
+                <ProcedureCall id="_1q6E"
+                               procedure="utility.binning.aggregator">
+                  <variable name="aggregator">$(aggregator)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1q6F"
+                               maxerror="0">
+                  <ProcedureCall id="_1q6G" procedure="run-log.logError">
+                    <variable name="message">$(aggregator) can not be selected</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1q6I" name="source_band">
+          <variable name="band"/>
+          <comment>@teststep Select source band</comment>
+          <TryStep id="_1q6O">
+            <ProcedureCall id="_1q6N"
+                           procedure="utility.binning.source_band_in_edit_aggregator">
+              <variable name="band">$(band)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1q6P" maxerror="0">
+              <TryStep id="_1q6Q">
+                <ProcedureCall id="_1q6R"
+                               procedure="utility.binning.source_band_in_edit_aggregator">
+                  <variable name="band">$(band)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1q6S"
+                               maxerror="0">
+                  <ProcedureCall id="_1q6T" procedure="run-log.logError">
+                    <variable name="message">$(band) can not be selected</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+      </Package>
       <Package id="_1pMl" name="collocation">
         <Procedure id="_1pMm" name="resampling_type">
           <variable name="resampling_type"/>
           <comment>@teststep Select resampling type</comment>
-          <ProcedureCall id="_1pOk" procedure="resampling_types"/>
+          <ProcedureCall id="_1pOk" procedure="variables.resampling_types"/>
           <SetGlobalStep id="_1pOl" varname="restype">
             <default>${resampling:$(resampling_type)}</default>
           </SetGlobalStep>
@@ -609,19 +729,33 @@
           </Procedure>
         </Package>
         <Package id="_1phr" name="map_definition">
-          <Procedure disabled="true" id="_1pgF" name="projection">
+          <Procedure id="_1pjA" name="display_source_products">
+            <comment>@teststep Check-in checkbox 'Open in SNAP'</comment>
+            <ProcedureCall id="_1pjB"
+                           procedure="check.mosaicing.checked.map_definition.display_source_products"/>
+            <IfSequence id="_1pjC"
+                        test="&#34;$(display_source_products)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1pjF"
+                             procedure="do_click.mosaicing.map_definition.display_source_products_checkbox"/>
+            </IfSequence>
+            <ProcedureCall id="_1pjK"
+                           procedure="check.mosaicing.checked.map_definition.display_source_products_selected_status">
+              <variable name="selected">true</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1pgF" name="projection">
             <variable name="projection"/>
             <comment>@teststep Select projection</comment>
             <TryStep id="_1pgG">
               <ProcedureCall id="_1pgH"
-                             procedure="utility.reprojection.projection">
+                             procedure="utility.mosaicing.projection">
                 <variable name="projection">$(projection)</variable>
               </ProcedureCall>
               <CatchSequence exception="TestException" id="_1pgI"
                              maxerror="0">
                 <TryStep id="_1pgJ">
-                  <ProcedureCall id="_1pgK"
-                                 procedure="utility.reprojection.projection">
+                  <ProcedureCall id="_1pjQ"
+                                 procedure="utility.mosaicing.projection">
                     <variable name="projection">$(projection)</variable>
                   </ProcedureCall>
                   <CatchSequence exception="TestException" id="_1pgL"
@@ -635,23 +769,22 @@
               </CatchSequence>
             </TryStep>
           </Procedure>
-          <Procedure disabled="true" id="_1pgN" name="geodetic_datum">
+          <Procedure id="_1pgN" name="geodetic_datum">
             <variable name="geodetic_datum"/>
             <comment>@teststep Select geodetic datum</comment>
             <ProcedureCall id="_1pgO"
-                           procedure="check.reprojection.enabled.geodetic_datum"/>
+                           procedure="check.mosaicing.enabled.map_definition.geodetic_datum"/>
             <IfSequence id="_1pgP"
-                        test="&#34;$(geodetic_datum)&#34;==&#34;true&#34;">
+                        test="&#34;$(geodetic_datum_enabled)&#34;==&#34;true&#34;">
               <TryStep id="_1pgQ">
-                <ProcedureCall id="_1pgR"
-                               procedure="utility.reprojection.datum">
+                <ProcedureCall id="_1pgR" procedure="utility.mosaicing.datum">
                   <variable name="geodetic_datum">$(geodetic_datum)</variable>
                 </ProcedureCall>
                 <CatchSequence exception="TestException" id="_1pgS"
                                maxerror="0">
                   <TryStep id="_1pgT">
-                    <ProcedureCall id="_1pgU"
-                                   procedure="utility.reprojection.datum">
+                    <ProcedureCall id="_1pjR"
+                                   procedure="utility.mosaicing.datum">
                       <variable name="geodetic_datum">$(geodetic_datum)</variable>
                     </ProcedureCall>
                     <CatchSequence exception="TestException" id="_1pgV"
@@ -942,11 +1075,88 @@
             </ProcedureCall>
           </Procedure>
         </Package>
-        <Package id="_1pj8" name="map_definition"/>
+        <Package id="_1pj8" name="map_definition">
+          <Procedure id="_1pjL" name="display_source_products">
+            <comment>@teststep Check-in checkbox 'Open in SNAP'</comment>
+            <ProcedureCall id="_1pjM"
+                           procedure="check.mosaicing.checked.map_definition.display_source_products"/>
+            <IfSequence id="_1pjN"
+                        test="&#34;$(display_source_products)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1pjO"
+                             procedure="do_click.mosaicing.map_definition.display_source_products_checkbox"/>
+            </IfSequence>
+            <ProcedureCall id="_1pjP"
+                           procedure="check.mosaicing.checked.map_definition.display_source_products_selected_status">
+              <variable name="selected">false</variable>
+            </ProcedureCall>
+          </Procedure>
+        </Package>
         <Package id="_1pj9" name="variables_conditions"/>
+      </Package>
+      <Package id="_1q5w" name="edit_aggregator">
+        <Procedure id="_1q5x" name="output_sums">
+          <ProcedureCall id="_1q5y"
+                         procedure="check.edit_aggregator.checked.output_sums"/>
+          <IfSequence id="_1q5z"
+                      test="&#34;$(output_sums)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1q5+"
+                           procedure="do_click.edit_aggregator.output_sums"/>
+          </IfSequence>
+          <ProcedureCall id="_1q5-"
+                         procedure="check.edit_aggregator.checked.output_sums_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1q60" name="output_counts">
+          <ProcedureCall id="_1q61"
+                         procedure="check.edit_aggregator.checked.output_counts"/>
+          <IfSequence id="_1q62"
+                      test="&#34;$(output_counts)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1q63"
+                           procedure="do_click.edit_aggregator.output_counts"/>
+          </IfSequence>
+          <ProcedureCall id="_1q64"
+                         procedure="check.edit_aggregator.checked.output_counts_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
       </Package>
     </Package>
     <Package id="_1pNS" name="utility">
+      <Package id="_1p+t" name="binning">
+        <Procedure id="_1p+y" name="time_filter_method">
+          <variable name="time_filter_method"/>
+          <comment>@teststep Select time filter method.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogBinning.timeFilterMethod"
+                          event="MOUSE_MPRC" id="_1p+z" modifiers="16" x="68"
+                          y="14"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogBinning.listInvokerName:_timeFilterMethod.time_filter_method"
+                          event="MOUSE_MPRC" id="_1p++" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1q66" name="aggregator">
+          <variable name="aggregator"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogEdit_Aggregator.comboSource_band_name:"
+                          event="MOUSE_MPRC" id="_1q6H" modifiers="16" x="199"
+                          y="5"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogEdit_Aggregator.listInvokerClass:_ComboBox.aggregator"
+                          event="MOUSE_MPRC" id="_1q69" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1q6K" name="source_band_in_edit_aggregator">
+          <variable name="band"/>
+          <comment>@teststep Select source band</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogEdit_Aggregator.varName"
+                          event="MOUSE_MPRC" id="_1q6L" modifiers="16" x="53"
+                          y="11"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogEdit_Aggregator.listInvokerName:_varName.band"
+                          event="MOUSE_MPRC" id="_1q6M" modifiers="16"/>
+        </Procedure>
+      </Package>
       <Package id="_1pi3" name="mosaicing">
         <Procedure id="_1pi4" name="output_format_mosaic">
           <variable name="output_format_name"/>
@@ -958,35 +1168,25 @@
                           component="dialogMosaicing.listInvokerName:_formatName.output_format_name"
                           event="MOUSE_MPRC" id="_1pW5" modifiers="16"/>
         </Procedure>
-        <Procedure disabled="true" id="_1pi7" name="projection">
+        <Procedure id="_1pi7" name="projection">
           <variable name="projection"/>
           <MouseEventStep clicks="1" client="$(client)"
-                          component="dialogReprojection.operationWrapper"
-                          event="MOUSE_MPRC" id="_1pi8" modifiers="16" x="94"
-                          y="4"/>
+                          component="dialogMosaicing.operationWrapper"
+                          event="MOUSE_MPRC" id="_1phm" modifiers="16" x="119"
+                          y="10"/>
           <MouseEventStep clicks="1" client="$(client)"
-                          component="dialogReprojection.listInvokerName:_operationWrapper.projection"
-                          event="MOUSE_MPRC" id="_1pi9" modifiers="16"/>
+                          component="dialogMosaicing.listInvokerName:_operationWrapper.projection"
+                          event="MOUSE_MPRC" id="_1phn" modifiers="16"/>
         </Procedure>
-        <Procedure disabled="true" id="_1piA" name="datum">
+        <Procedure id="_1piA" name="datum">
           <variable name="geodetic_datum"/>
+          <comment>World_Geodetic_System_1972</comment>
           <MouseEventStep clicks="1" client="$(client)"
-                          component="dialogReprojection.datum"
-                          event="MOUSE_MPRC" id="_1piB" modifiers="16" x="92"
-                          y="15"/>
+                          component="dialogMosaicing.datum" event="MOUSE_MPRC"
+                          id="_1pjS" modifiers="16" x="324" y="14"/>
           <MouseEventStep clicks="1" client="$(client)"
-                          component="dialogReprojection.listInvokerName:_datum.geodetic_datum"
-                          event="MOUSE_MPRC" id="_1piC" modifiers="16"/>
-        </Procedure>
-        <Procedure disabled="true" id="_1piD" name="resampling">
-          <variable name="resampling_method"/>
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="dialogReprojection.resamplingName"
-                          event="MOUSE_MPRC" id="_1piE" modifiers="16" x="76"
-                          y="14"/>
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="dialogReprojection.listInvokerName_resamplingName"
-                          event="MOUSE_MPRC" id="_1piF" modifiers="16"/>
+                          component="dialogMosaicing.listInvokerName:_datum.geodetic_datum"
+                          event="MOUSE_MPRC" id="_1pjT" modifiers="16"/>
         </Procedure>
       </Package>
       <Package id="_1pX1" name="reprojection">

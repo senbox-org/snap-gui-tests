@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.3">
+<RootStep id="_0" name="root" version="4.0.4">
   <include>qfs.qft</include>
   <include>gpt.qft</include>
   <include>variables.qft</include>
@@ -39,7 +39,7 @@ else: rc.logError("$(fileName) has been written!")</code>
     <Package id="_1o++" name="cleanup">
       <Procedure id="_1o-F" name="output_data_folder">
         <variable name="directory"/>
-        <ProcedureCall id="_1o-p" procedure="system_and_commando"/>
+        <ProcedureCall id="_1o-p" procedure="variables.system_and_commando"/>
         <TestStep id="_1o-y" name="remove_output_folder">
           <SetGlobalStep id="_1o-q" local="true" varname="del_out_client">
             <default>del_out</default>
@@ -73,8 +73,8 @@ else: rc.logError("$(fileName) has been written!")</code>
       <Procedure id="_1o-J" name="temp_dir">
         <variable name="client"/>
         <comment>s3tbx</comment>
-        <ProcedureCall id="_1oO8" procedure="path"/>
-        <ProcedureCall id="_1oOJ" procedure="system_and_commando"/>
+        <ProcedureCall id="_1oO8" procedure="path.main_path"/>
+        <ProcedureCall id="_1oOJ" procedure="variables.system_and_commando"/>
         <TestStep id="_1o-K" name="delete">
           <IfSequence id="_1p1J" test="&#34;$(client)&#34;==&#34;s3tbx&#34;">
             <TestStep id="_1p1u" name="s3tbx_cache_folder">
@@ -288,6 +288,12 @@ else: rc.logError("$(fileName) has been written!")</code>
     </Package>
     <Package id="_1o+s" name="run-log">
       <Package id="_1o+t" name="error_message">
+        <Procedure id="_1p2O" name="expression_editor_does_not_appear">
+          <ProcedureCall id="_1pEU" procedure="run-log.logError">
+            <variable name="message">Expession Editor does not apper</variable>
+            <variable name="withScreenshots">true</variable>
+          </ProcedureCall>
+        </Procedure>
         <Procedure id="_1oHy" name="dialog_Import_Product_does_not_appear">
           <ServerScriptStep id="_1lJB" name="error">
             <code>rc.logError("'ESA S-3 Toolbox - Import Product' dialog does not appear.")</code>
@@ -337,7 +343,7 @@ else: rc.logError("$(fileName) has been written!")</code>
           <variable name="dontcompactify">false</variable>
           <variable name="report">true</variable>
         </ProcedureCall>
-        <ProcedureCall id="_1oGq" procedure="path"/>
+        <ProcedureCall id="_1oGq" procedure="path.main_path"/>
         <IfSequence id="_AM8" test="${qftest:windows}">
           <SetGlobalStep id="_1oGs" local="true" varname="image_path">
             <default>${path:screenshot_path2}</default>
@@ -522,7 +528,7 @@ In this case we catch the exeption in this node and perform a hard close.
     </Package>
   </PackageRoot>
   <ExtraSequence id="_4">
-    <ProcedureCall id="_1p10" procedure="path"/>
+    <ProcedureCall id="_1p10" procedure="path.main_path"/>
     <Procedure id="_1p1D" name="listingDirectory">
       <variable name="directory">${path:temp_snap}snap-core</variable>
       <ServerScriptStep id="_1p1H">

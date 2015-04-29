@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.3">
+<RootStep id="_0" name="root" version="4.0.4">
   <include>qfs.qft</include>
   <include>s3tbx_check.qft</include>
   <include>s3tbx_close.qft</include>
@@ -123,7 +123,7 @@
     <Package id="_1kwL" name="start">
       <Package id="_1kwM" name="s3tbx">
         <Procedure id="_1oGf" name="client_s3tbx">
-          <ProcedureCall id="_1oP6" procedure="path"/>
+          <ProcedureCall id="_1oP6" procedure="path.main_path"/>
           <IfSequence id="_1ork" test="${qftest:windows}">
             <SUTClientStarter client="$(client)"
                               directory="${path:s3tbx_working_directory}"
@@ -142,7 +142,7 @@
 </comment>
           <ProcedureCall id="_1oOb" procedure="cleanup.global_variables"/>
           <ProcedureCall id="_1kwS" procedure="set.variable.client_senbox"/>
-          <ProcedureCall id="_1oOd" procedure="path"/>
+          <ProcedureCall id="_1oOd" procedure="path.main_path"/>
           <ProcedureCall id="_1oOf" procedure="cleanup.temp_dir">
             <variable name="client">s3tbx</variable>
           </ProcedureCall>

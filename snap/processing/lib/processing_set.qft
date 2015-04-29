@@ -1,37 +1,226 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.3">
+<RootStep id="_0" name="root" version="4.0.4">
   <include>qfs.qft</include>
   <include>processing_main.qft</include>
   <dependency>processing_main.qft</dependency>
   <dependency>processing_do_click.qft</dependency>
   <PackageRoot id="_3">
     <Package id="_1pOj" name="set">
+      <Package id="_1pwl" name="binning">
+        <Package id="_1pyh" name="configuration">
+          <Procedure id="_1p-Z" name="rows">
+            <variable name="val"/>
+            <comment>@teststep Insert Rows (90N -90S) operator.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogBinning.numRows" id="_1p-b">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1p-e" name="spatial_resolution">
+            <variable name="val"/>
+            <comment>@teststep Insert spatial resolution (km/px).</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogBinning.panelConfiguration.textSpatial_resolution_(km/px):"
+                           id="_1p-h">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1pyi" name="super_sampling">
+            <variable name="val"/>
+            <comment>@teststep Insert Check super-sampling.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogBinning.superSampling" id="_1p-T">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1p-U" name="valid_pixel_expression">
+            <variable name="val"/>
+            <comment>@teststep Insert valid pixel expression.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogBinning.maskExpr" id="_1p-V">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+        </Package>
+        <Package id="_1pyM" name="filter">
+          <Procedure id="_1q0l" name="east">
+            <variable name="val"/>
+            <comment>@teststep Insert East.</comment>
+            <ProcedureCall id="_1q1c"
+                           procedure="check.binning.enabled.filter.east"/>
+            <IfSequence id="_1q1u"
+                        test="&#34;$(east_enabled)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1q20"
+                             procedure="do_click.binning.filter.radio_specify_region"/>
+            </IfSequence>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogBinning.eastBound" id="_1q1S">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1q0-" name="min_data_hour">
+            <variable name="val"/>
+            <comment>@teststep Insert min data hour.</comment>
+            <ProcedureCall id="_1q1k"
+                           procedure="check.binning.enabled.filter.min_data_hour"/>
+            <IfSequence id="_1q1y"
+                        test="&#34;$(min_data_hour_enabled)&#34;==&#34;false&#34;">
+              <TestStep id="_1q26" name="select_time_filter_method">
+                <ProcedureCall id="_1q27"
+                               procedure="set.binning.filter.time_filter_method_name"/>
+                <ProcedureCall id="_1q28"
+                               procedure="select.binning.filter.time_filter_method">
+                  <variable name="time_filter_method">$(spatiotemporal_data_day)</variable>
+                </ProcedureCall>
+              </TestStep>
+            </IfSequence>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogBinning.minDataHour" id="_1q1X">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1q0j" name="north">
+            <variable name="val"/>
+            <comment>@teststep Insert North.</comment>
+            <ProcedureCall id="_1q1b"
+                           procedure="check.binning.enabled.filter.north"/>
+            <IfSequence id="_1q1t"
+                        test="&#34;$(north_enabled)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1q1-"
+                             procedure="do_click.binning.filter.radio_specify_region"/>
+            </IfSequence>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogBinning.northBound" id="_1q1R">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1q0z" name="period_duration">
+            <variable name="val"/>
+            <comment>@teststep Insert period duration.</comment>
+            <ProcedureCall id="_1q1j"
+                           procedure="check.binning.enabled.filter.period_duration"/>
+            <IfSequence id="_1q1x"
+                        test="&#34;$(period_duration_enabled)&#34;==&#34;false&#34;">
+              <TestStep id="_1q23" name="select_time_filter_method">
+                <ProcedureCall id="_1q24"
+                               procedure="set.binning.filter.time_filter_method_name"/>
+                <ProcedureCall id="_1q25"
+                               procedure="select.binning.filter.time_filter_method">
+                  <variable name="time_filter_method">$(time_range)</variable>
+                </ProcedureCall>
+              </TestStep>
+            </IfSequence>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogBinning.periodDuration"
+                           id="_1q1W">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1q0n" name="south">
+            <variable name="val"/>
+            <comment>@teststep Insert South.</comment>
+            <ProcedureCall id="_1q1d"
+                           procedure="check.binning.enabled.filter.south"/>
+            <IfSequence id="_1q1v"
+                        test="&#34;$(south_enabled)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1q21"
+                             procedure="do_click.binning.filter.radio_specify_region"/>
+            </IfSequence>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogBinning.southBound" id="_1q1T">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1q0x" name="start_date">
+            <variable name="val"/>
+            <comment>@teststep Insert start date.</comment>
+            <ProcedureCall id="_1q1i"
+                           procedure="check.binning.enabled.filter.start_date"/>
+            <IfSequence id="_1q1w"
+                        test="&#34;$(start_date_enabled)&#34;==&#34;false&#34;">
+              <TestStep id="_1p-R" name="select_time_filter_method">
+                <ProcedureCall id="_1q22"
+                               procedure="set.binning.filter.time_filter_method_name"/>
+                <ProcedureCall id="_1p-P"
+                               procedure="select.binning.filter.time_filter_method">
+                  <variable name="time_filter_method">$(time_range)</variable>
+                </ProcedureCall>
+              </TestStep>
+            </IfSequence>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogBinning.startDateTime" id="_1q1V">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1p+t" name="time_filter_method_name">
+            <SetGlobalStep id="_1p-0" varname="time_range">
+              <default>TIME_RANGE</default>
+            </SetGlobalStep>
+            <SetGlobalStep id="_1p-1" varname="spatiotemporal_data_day">
+              <default>SPATIOTEMPORAL_DATA_DAY</default>
+            </SetGlobalStep>
+            <SetGlobalStep id="_1p-2" varname="none">
+              <default>NONE</default>
+            </SetGlobalStep>
+          </Procedure>
+          <Procedure id="_1q0h" name="west">
+            <variable name="val"/>
+            <comment>@teststep Insert West.</comment>
+            <ProcedureCall id="_1q1a"
+                           procedure="check.binning.enabled.filter.west"/>
+            <IfSequence id="_1q1s"
+                        test="&#34;$(west_enabled)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1q1+"
+                             procedure="do_click.binning.filter.radio_specify_region"/>
+            </IfSequence>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogBinning.westBound" id="_1q18">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1q0d" name="wkt">
+            <variable name="val"/>
+            <comment>@teststep Insert WKT.</comment>
+            <ProcedureCall id="_1q1Y"
+                           procedure="check.binning.enabled.filter.enter_Wkt"/>
+            <IfSequence id="_1q1r"
+                        test="&#34;$(enter_Wkt_enabled)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1q1z"
+                             procedure="do_click.binning.filter.radio_enter_WKT"/>
+            </IfSequence>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogBinning.manualWkt" id="_1q1P">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+        </Package>
+        <Package id="_1pyF" name="io_parameters">
+          <Procedure id="_1q1J" name="target_directory">
+            <variable name="dir"/>
+            <comment>@teststep Insert target directory.</comment>
+            <ProcedureCall id="_1q1L" procedure="path.output_data_directory">
+              <variable name="output_dir">$(dir)</variable>
+            </ProcedureCall>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogBinning.productDir" id="_1q1M">
+              <text>$(output_data_directory)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1q1N" name="target_product_name">
+            <variable name="target_product_name"/>
+            <comment>@teststep Insert target product name.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogBinning.productName" id="_1q1O">
+              <text>$(target_product_name)</text>
+            </TextInputStep>
+          </Procedure>
+        </Package>
+      </Package>
       <Package id="_1lB5" name="collocation">
-        <Procedure id="_1pNw" name="target_product_name">
-          <variable name="target_product_name"/>
-          <comment>@teststep Insert target product name.</comment>
-          <TextInputStep clear="true" client="$(client)"
-                         component="dialogCollocation2.productName"
-                         id="_1pNx">
-            <text>$(target_product_name)</text>
-          </TextInputStep>
-        </Procedure>
-        <Procedure id="_1pN-" name="target_directory">
-          <variable name="dir"/>
-          <comment>@teststep Insert target directory.</comment>
-          <ProcedureCall id="_1pOk" procedure="select.collocation.save_as"/>
-          <ProcedureCall id="_1pOD" procedure="output_data_directory">
-            <variable name="output_dir">$(dir)</variable>
-          </ProcedureCall>
-          <TextInputStep clear="true" client="$(client)"
-                         component="dialogCollocation2.productDir" id="_1pO1">
-            <text>$(output_data_directory)</text>
-          </TextInputStep>
-        </Procedure>
         <Procedure id="_1pO4" name="master_pattern">
           <variable name="val"/>
-          <comment>@teststep Insert master pattern</comment>
+          <comment>@teststep Insert master pattern.</comment>
           <ProcedureCall id="_1pO9"
                          procedure="select.collocation.rename_master_components"/>
           <TextInputStep clear="true" client="$(client)"
@@ -51,235 +240,70 @@
             <text>$(val)</text>
           </TextInputStep>
         </Procedure>
-      </Package>
-      <Package id="_1pOp" name="spectral_unmixing">
-        <Procedure id="_1pOq" name="target_product_name">
-          <variable name="target_product_name"/>
-          <comment>@teststep Insert target product name.</comment>
-          <TextInputStep clear="true" client="$(client)"
-                         component="dialogSpectral_Unmixing.productName"
-                         id="_1pOr">
-            <text>$(target_product_name)</text>
-          </TextInputStep>
-        </Procedure>
-        <Procedure id="_1pOs" name="target_directory">
+        <Procedure id="_1pN-" name="target_directory">
           <variable name="dir"/>
           <comment>@teststep Insert target directory.</comment>
-          <ProcedureCall id="_1pOt"
-                         procedure="select.spectral_unmixing.save_as"/>
-          <ProcedureCall id="_1pOu" procedure="output_data_directory">
+          <ProcedureCall id="_1pOk" procedure="select.collocation.save_as"/>
+          <ProcedureCall id="_1pOD" procedure="path.output_data_directory">
             <variable name="output_dir">$(dir)</variable>
           </ProcedureCall>
           <TextInputStep clear="true" client="$(client)"
-                         component="dialogSpectral_Unmixing.productDir"
-                         id="_1pOv">
+                         component="dialogCollocation2.productDir" id="_1pO1">
             <text>$(output_data_directory)</text>
           </TextInputStep>
         </Procedure>
-        <Procedure id="_1pRv" name="abundance_band_name_suffix">
-          <variable name="val"/>
-          <TextInputStep clear="true" client="$(client)"
-                         component="dialogSpectral_Unmixing.abundanceBandNameSuffix"
-                         id="_1pRw">
-            <text>$(val)</text>
-          </TextInputStep>
-        </Procedure>
-        <Procedure id="_1pRz" name="error_band_name_suffix">
-          <variable name="val"/>
-          <TextInputStep clear="true" client="$(client)"
-                         component="dialogSpectral_Unmixing.errorBandNameSuffix"
-                         id="_1pR-">
-            <text>$(val)</text>
-          </TextInputStep>
-        </Procedure>
-        <Procedure id="_1pQl" name="minimal_bandwidth">
-          <variable name="val"/>
-          <TextInputStep clear="true" client="$(client)"
-                         component="dialogSpectral_Unmixing.minBandwidth"
-                         id="_1pRu">
-            <text>$(val)</text>
-          </TextInputStep>
-        </Procedure>
-      </Package>
-      <Package id="_1pS1" name="ndvi_processor">
-        <Procedure id="_1pWg" name="target_product_name">
+        <Procedure id="_1pNw" name="target_product_name">
           <variable name="target_product_name"/>
           <comment>@teststep Insert target product name.</comment>
           <TextInputStep clear="true" client="$(client)"
-                         component="dialogNDVI.productName" id="_1pUP">
+                         component="dialogCollocation2.productName"
+                         id="_1pNx">
             <text>$(target_product_name)</text>
           </TextInputStep>
         </Procedure>
-        <Procedure id="_1pWi" name="target_directory">
-          <variable name="dir"/>
-          <comment>@teststep Insert target directory.</comment>
-          <ProcedureCall id="_1pWj"
-                         procedure="select.ndvi_processor.save_as"/>
-          <ProcedureCall id="_1pWk" procedure="output_data_directory">
-            <variable name="output_dir">$(dir)</variable>
-          </ProcedureCall>
-          <TextInputStep clear="true" client="$(client)"
-                         component="dialogNDVI.productDir" id="_1pUe">
-            <text>$(output_data_directory)</text>
-          </TextInputStep>
+      </Package>
+      <Package id="_1phR" name="default_parameters">
+        <Procedure id="_1phs" name="elevation_model">
+          <SetGlobalStep id="_1pht" varname="elevation_model">
+            <default>GETASSE30</default>
+          </SetGlobalStep>
         </Procedure>
-        <Procedure id="_1pWm" name="red_factor">
-          <variable name="val"/>
-          <comment>@teststep Insert red factor.</comment>
-          <TextInputStep clear="true" client="$(client)"
-                         component="dialogNDVI.redFactor" id="_1pUu">
-            <text>$(val)</text>
-          </TextInputStep>
+        <Procedure id="_1phT" name="geo_lat_lon_projection">
+          <SetGlobalStep id="_1phU" varname="geo_lat_lon_projection">
+            <default>Geographic Lat/Lon (WGS 84)</default>
+          </SetGlobalStep>
         </Procedure>
-        <Procedure id="_1pWn" name="nir_factor">
-          <variable name="val"/>
-          <comment>@teststep Insert NIR factor.</comment>
-          <TextInputStep clear="true" client="$(client)"
-                         component="dialogNDVI.nirFactor" id="_1pUz">
-            <text>$(val)</text>
-          </TextInputStep>
+        <Procedure id="_1phP" name="geodetic_datum_default">
+          <SetGlobalStep id="_1phQ" varname="geodetic_datum_default">
+            <default>World Geodetic System 1984</default>
+          </SetGlobalStep>
+        </Procedure>
+        <Procedure disabled="true" id="_1phq" name="output_folder">
+          <SetGlobalStep id="_1phr" varname="output_folder">
+            <default>reprojection</default>
+          </SetGlobalStep>
+        </Procedure>
+        <Procedure id="_1phV" name="utm_automatic">
+          <SetGlobalStep id="_1phW" varname="utm_automatic">
+            <default>UTM / WGS 84 (Automatic)</default>
+          </SetGlobalStep>
         </Procedure>
       </Package>
-      <Package id="_1pW-" name="reprojection">
-        <Procedure id="_1pX0" name="target_product_name">
-          <variable name="target_product_name"/>
-          <comment>@teststep Insert target product name.</comment>
-          <TextInputStep clear="true" client="$(client)"
-                         component="dialogReprojection.productName"
-                         id="_1pX1">
-            <text>$(target_product_name)</text>
-          </TextInputStep>
-        </Procedure>
-        <Procedure id="_1pX2" name="target_directory">
-          <variable name="dir"/>
-          <comment>@teststep Insert target directory.</comment>
-          <ProcedureCall id="_1pX6" procedure="select.reprojection.save_as"/>
-          <ProcedureCall id="_1pX4" procedure="output_data_directory">
-            <variable name="output_dir">$(dir)</variable>
-          </ProcedureCall>
-          <TextInputStep clear="true" client="$(client)"
-                         component="dialogReprojection.productDir" id="_1pX5">
-            <text>$(output_data_directory)</text>
-          </TextInputStep>
-        </Procedure>
-        <Procedure id="_1paj" name="no_data_value">
+      <Package id="_1q2j" name="file_selection_pattern">
+        <Procedure id="_1q3R" name="file_selection_pattern">
           <variable name="val"/>
-          <comment>@teststep Insert  no-data value.</comment>
+          <comment>@teststep Insert 'File Selection pattern'.</comment>
           <TextInputStep clear="true" client="$(client)"
-                         component="dialogReprojection.noDataValue"
-                         id="_1pXg">
+                         component="dialogFile_Selection_Pattern.textPattern:"
+                         id="_1q3T">
             <text>$(val)</text>
           </TextInputStep>
-        </Procedure>
-      </Package>
-      <Package id="_1phu" name="mosaicing">
-        <Package id="_1pi4" name="io_parameters">
-          <Procedure id="_1pi1" name="target_product_name">
-            <variable name="target_product_name"/>
-            <comment>@teststep Insert target product name.</comment>
-            <TextInputStep clear="true" client="$(client)"
-                           component="dialogMosaicing.productName" id="_1pi2">
-              <text>$(target_product_name)</text>
-            </TextInputStep>
-          </Procedure>
-          <Procedure id="_1phx" name="target_directory">
-            <variable name="dir"/>
-            <comment>@teststep Insert target directory.</comment>
-            <ProcedureCall id="_1phy"
-                           procedure="select.mosaicing.io_parameters.save_as"/>
-            <ProcedureCall id="_1phz" procedure="output_data_directory">
-              <variable name="output_dir">$(dir)</variable>
-            </ProcedureCall>
-            <TextInputStep clear="true" client="$(client)"
-                           component="dialogMosaicing.productDir" id="_1ph+">
-              <text>$(output_data_directory)</text>
-            </TextInputStep>
-          </Procedure>
-        </Package>
-        <Package id="_1pi5" name="map_definition">
-          <Procedure id="_1pi7" name="west">
-            <variable name="val"/>
-            <comment>@teststep Insert mosaic bound West.</comment>
-            <TextInputStep clear="true" client="$(client)"
-                           component="dialogMosaicing.westBound" id="_1pi8">
-              <text>$(val)</text>
-            </TextInputStep>
-          </Procedure>
-          <Procedure id="_1piE" name="north">
-            <variable name="val"/>
-            <comment>@teststep Insert mosaic bound North.</comment>
-            <TextInputStep clear="true" client="$(client)"
-                           component="dialogMosaicing.northBound" id="_1piG">
-              <text>$(val)</text>
-            </TextInputStep>
-          </Procedure>
-          <Procedure id="_1piL" name="east">
-            <variable name="val"/>
-            <comment>@teststep Insert mosaic bound East.</comment>
-            <TextInputStep clear="true" client="$(client)"
-                           component="dialogMosaicing.eastBound" id="_1piO">
-              <text>$(val)</text>
-            </TextInputStep>
-          </Procedure>
-          <Procedure id="_1piS" name="south">
-            <variable name="val"/>
-            <comment>@teststep Insert mosaic bound South.</comment>
-            <TextInputStep clear="true" client="$(client)"
-                           component="dialogMosaicing.southBound" id="_1piW">
-              <text>$(val)</text>
-            </TextInputStep>
-          </Procedure>
-          <Procedure id="_1piZ" name="pixel_size_X">
-            <variable name="val"/>
-            <comment>@teststep Insert mosaic pixel size X.</comment>
-            <TextInputStep clear="true" client="$(client)"
-                           component="dialogMosaicing.pixelSizeX" id="_1pie">
-              <text>$(val)</text>
-            </TextInputStep>
-          </Procedure>
-          <Procedure id="_1pi3" name="pixel_size_Y">
-            <variable name="val"/>
-            <comment>@teststep Insert mosaic pixel size Y.</comment>
-            <TextInputStep clear="true" client="$(client)"
-                           component="dialogMosaicing.pixelSizeY" id="_1pgj">
-              <text>$(val)</text>
-            </TextInputStep>
-          </Procedure>
-        </Package>
-        <Package id="_1pi6" name="variables_conditions"/>
-      </Package>
-      <Package id="_1pOd" name="store_parameters_dialog">
-        <Procedure id="_1pMa" name="parameters_file_name">
-          <variable name="file_name"/>
-          <ProcedureCall id="_1pOi" procedure="output_data_directory">
-            <variable name="output_dir">parameters</variable>
-          </ProcedureCall>
-          <IfSequence id="_1pak" test="${qftest:windows}">
-            <TextInputStep clear="true" client="$(client)"
-                           component="dialogSave_Parameters.textFile_name:"
-                           id="_1pOc">
-              <text>$(output_data_directory)$(file_name)</text>
-            </TextInputStep>
-            <ElseifSequence id="_1pal" name="MAC?"
-                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-              <TextInputStep clear="true" client="$(client)"
-                             component="textSelection:4" id="_1pao">
-                <text>$(output_data_directory)$(file_name)</text>
-              </TextInputStep>
-            </ElseifSequence>
-            <ElseSequence id="_1pam">
-              <TextInputStep clear="true" client="$(client)"
-                             component="textSelection:4" id="_1pan">
-                <text>$(output_data_directory)$(file_name)</text>
-              </TextInputStep>
-            </ElseSequence>
-          </IfSequence>
         </Procedure>
       </Package>
       <Package id="_1pOl" name="load_parameters_dialog">
         <Procedure id="_1pOm" name="parameters_file_name">
           <variable name="file_name"/>
-          <ProcedureCall id="_1pOn" procedure="output_data_directory">
+          <ProcedureCall id="_1pOn" procedure="path.output_data_directory">
             <variable name="output_dir">parameters</variable>
           </ProcedureCall>
           <IfSequence id="_1pap" test="${qftest:windows}">
@@ -304,8 +328,304 @@
           </IfSequence>
         </Procedure>
       </Package>
+      <Package id="_1phu" name="mosaicing">
+        <Package id="_1pi4" name="io_parameters">
+          <Procedure id="_1phx" name="target_directory">
+            <variable name="dir"/>
+            <comment>@teststep Insert target directory.</comment>
+            <ProcedureCall id="_1phy"
+                           procedure="select.mosaicing.io_parameters.save_as"/>
+            <ProcedureCall id="_1phz" procedure="path.output_data_directory">
+              <variable name="output_dir">$(dir)</variable>
+            </ProcedureCall>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogMosaicing.productDir" id="_1ph+">
+              <text>$(output_data_directory)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1pi1" name="target_product_name">
+            <variable name="target_product_name"/>
+            <comment>@teststep Insert target product name.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogMosaicing.productName" id="_1pi2">
+              <text>$(target_product_name)</text>
+            </TextInputStep>
+          </Procedure>
+        </Package>
+        <Package id="_1pi5" name="map_definition">
+          <Procedure id="_1piL" name="east">
+            <variable name="val"/>
+            <comment>@teststep Insert mosaic bound East.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogMosaicing.eastBound" id="_1piO">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1piE" name="north">
+            <variable name="val"/>
+            <comment>@teststep Insert mosaic bound North.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogMosaicing.northBound" id="_1piG">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1piZ" name="pixel_size_X">
+            <variable name="val"/>
+            <comment>@teststep Insert mosaic pixel size X.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogMosaicing.pixelSizeX" id="_1pie">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1pi3" name="pixel_size_Y">
+            <variable name="val"/>
+            <comment>@teststep Insert mosaic pixel size Y.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogMosaicing.pixelSizeY" id="_1pgj">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1piS" name="south">
+            <variable name="val"/>
+            <comment>@teststep Insert mosaic bound South.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogMosaicing.southBound" id="_1piW">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1pi7" name="west">
+            <variable name="val"/>
+            <comment>@teststep Insert mosaic bound West.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogMosaicing.westBound" id="_1pi8">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+        </Package>
+        <Package id="_1pi6" name="variables_conditions"/>
+      </Package>
+      <Package id="_1pS1" name="ndvi_processor">
+        <Procedure id="_1pWn" name="nir_factor">
+          <variable name="val"/>
+          <comment>@teststep Insert NIR factor.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogNDVI.nirFactor" id="_1pUz">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1pWm" name="red_factor">
+          <variable name="val"/>
+          <comment>@teststep Insert red factor.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogNDVI.redFactor" id="_1pUu">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1pWi" name="target_directory">
+          <variable name="dir"/>
+          <comment>@teststep Insert target directory.</comment>
+          <ProcedureCall id="_1pWj"
+                         procedure="select.ndvi_processor.save_as"/>
+          <ProcedureCall id="_1pWk" procedure="path.output_data_directory">
+            <variable name="output_dir">$(dir)</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogNDVI.productDir" id="_1pUe">
+            <text>$(output_data_directory)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1pWg" name="target_product_name">
+          <variable name="target_product_name"/>
+          <comment>@teststep Insert target product name.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogNDVI.productName" id="_1pUP">
+            <text>$(target_product_name)</text>
+          </TextInputStep>
+        </Procedure>
+      </Package>
+      <Package id="_1pjn" name="projection_parameters_dialog">
+        <Procedure id="_1pnW" name="central_meridian">
+          <variable name="projection"/>
+          <variable name="val"/>
+          <comment>@teststep Insert central meridian in the 'Projection Parameters' dialog.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialog_Projection_Parameters.central_meridian"
+                         id="_1pnX">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1pqT" name="false_easting">
+          <variable name="projection"/>
+          <variable name="val"/>
+          <comment>@teststep Insert false easting in the 'Projection Parameters' dialog.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialog_Projection_Parameters.false_easting"
+                         id="_1ppj">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1prS" name="false_northing">
+          <variable name="projection"/>
+          <variable name="val"/>
+          <comment>@teststep Insert false northing in the 'Projection Parameters' dialog.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialog_Projection_Parameters.false_northing"
+                         id="_1ppo">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1poV" name="latitude_of_origin">
+          <variable name="projection"/>
+          <variable name="val"/>
+          <comment>@teststep Insert latitude of origin in the 'Projection Parameters' dialog.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialog_Projection_Parameters.latitude_of_origin"
+                         id="_1poa">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1ppU" name="scale_factor">
+          <variable name="projection"/>
+          <variable name="val"/>
+          <comment>@teststep Insert scale factor in the 'Projection Parameters' dialog.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialog_Projection_Parameters.scale_factor"
+                         id="_1ppe">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1psR" name="semi_major">
+          <variable name="projection"/>
+          <variable name="val"/>
+          <comment>@teststep Insert semi major in the 'Projection Parameters' dialog.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialog_Projection_Parameters.semi_major"
+                         id="_1pp-">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1ptQ" name="semi_minor">
+          <variable name="projection"/>
+          <variable name="val"/>
+          <comment>@teststep Insert semi minor in the 'Projection Parameters' dialog.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialog_Projection_Parameters.semi_minor"
+                         id="_1pqK">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+      </Package>
+      <Package id="_1pW-" name="reprojection">
+        <Procedure id="_1paj" name="no_data_value">
+          <variable name="val"/>
+          <comment>@teststep Insert  no-data value.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogReprojection.noDataValue"
+                         id="_1pXg">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1pX2" name="target_directory">
+          <variable name="dir"/>
+          <comment>@teststep Insert target directory.</comment>
+          <ProcedureCall id="_1pX6" procedure="select.reprojection.save_as"/>
+          <ProcedureCall id="_1pX4" procedure="path.output_data_directory">
+            <variable name="output_dir">$(dir)</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogReprojection.productDir" id="_1pX5">
+            <text>$(output_data_directory)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1pX0" name="target_product_name">
+          <variable name="target_product_name"/>
+          <comment>@teststep Insert target product name.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogReprojection.productName"
+                         id="_1pX1">
+            <text>$(target_product_name)</text>
+          </TextInputStep>
+        </Procedure>
+      </Package>
+      <Package id="_1pOp" name="spectral_unmixing">
+        <Procedure id="_1pRv" name="abundance_band_name_suffix">
+          <variable name="val"/>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogSpectral_Unmixing.abundanceBandNameSuffix"
+                         id="_1pRw">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1pRz" name="error_band_name_suffix">
+          <variable name="val"/>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogSpectral_Unmixing.errorBandNameSuffix"
+                         id="_1pR-">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1pQl" name="minimal_bandwidth">
+          <variable name="val"/>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogSpectral_Unmixing.minBandwidth"
+                         id="_1pRu">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1pOs" name="target_directory">
+          <variable name="dir"/>
+          <comment>@teststep Insert target directory.</comment>
+          <ProcedureCall id="_1pOt"
+                         procedure="select.spectral_unmixing.save_as"/>
+          <ProcedureCall id="_1pOu" procedure="path.output_data_directory">
+            <variable name="output_dir">$(dir)</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogSpectral_Unmixing.productDir"
+                         id="_1pOv">
+            <text>$(output_data_directory)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1pOq" name="target_product_name">
+          <variable name="target_product_name"/>
+          <comment>@teststep Insert target product name.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogSpectral_Unmixing.productName"
+                         id="_1pOr">
+            <text>$(target_product_name)</text>
+          </TextInputStep>
+        </Procedure>
+      </Package>
+      <Package id="_1pOd" name="store_parameters_dialog">
+        <Procedure id="_1pMa" name="parameters_file_name">
+          <variable name="file_name"/>
+          <ProcedureCall id="_1pOi" procedure="path.output_data_directory">
+            <variable name="output_dir">parameters</variable>
+          </ProcedureCall>
+          <IfSequence id="_1pak" test="${qftest:windows}">
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogSave_Parameters.textFile_name:"
+                           id="_1pOc">
+              <text>$(output_data_directory)$(file_name)</text>
+            </TextInputStep>
+            <ElseifSequence id="_1pal" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <TextInputStep clear="true" client="$(client)"
+                             component="textSelection:4" id="_1pao">
+                <text>$(output_data_directory)$(file_name)</text>
+              </TextInputStep>
+            </ElseifSequence>
+            <ElseSequence id="_1pam">
+              <TextInputStep clear="true" client="$(client)"
+                             component="textSelection:4" id="_1pan">
+                <text>$(output_data_directory)$(file_name)</text>
+              </TextInputStep>
+            </ElseSequence>
+          </IfSequence>
+        </Procedure>
+      </Package>
       <Procedure id="_1pQc" name="target_product_with_path">
-        <ProcedureCall id="_1oO-" procedure="path"/>
+        <ProcedureCall id="_1oO-" procedure="path.main_path"/>
         <IfSequence id="_1pQi" test="${qftest:windows}">
           <SetGlobalStep id="_1pQY" varname="target_product">
             <default>${path:data_directory}out\\$(output_folder)\\$(output_file)</default>
@@ -323,33 +643,6 @@
           </ElseSequence>
         </IfSequence>
       </Procedure>
-      <Package id="_1phR" name="default_parameters">
-        <Procedure id="_1phP" name="geodetic_datum_default">
-          <SetGlobalStep id="_1phQ" varname="geodetic_datum_default">
-            <default>World Geodetic System 1984</default>
-          </SetGlobalStep>
-        </Procedure>
-        <Procedure id="_1phT" name="geo_lat_lon_projection">
-          <SetGlobalStep id="_1phU" varname="geo_lat_lon_projection">
-            <default>Geographic Lat/Lon (WGS 84)</default>
-          </SetGlobalStep>
-        </Procedure>
-        <Procedure id="_1phV" name="utm_automatic">
-          <SetGlobalStep id="_1phW" varname="utm_automatic">
-            <default>UTM / WGS 84 (Automatic)</default>
-          </SetGlobalStep>
-        </Procedure>
-        <Procedure id="_1phs" name="elevation_model">
-          <SetGlobalStep id="_1pht" varname="elevation_model">
-            <default>GETASSE30</default>
-          </SetGlobalStep>
-        </Procedure>
-        <Procedure disabled="true" id="_1phq" name="output_folder">
-          <SetGlobalStep id="_1phr" varname="output_folder">
-            <default>reprojection</default>
-          </SetGlobalStep>
-        </Procedure>
-      </Package>
     </Package>
   </PackageRoot>
   <ExtraSequence id="_4">

@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.3">
+<RootStep id="_0" name="root" version="4.0.4">
   <include>qfs.qft</include>
   <include>processing_main.qft</include>
   <dependency>processing_main.qft</dependency>
   <dependency>processing_do_click.qft</dependency>
   <PackageRoot id="_3">
     <Package id="_1lB5" name="close_processing_tool">
+      <Procedure id="_1pwo" name="binning">
+        <TryStep id="_1pwp">
+          <ProcedureCall id="_1pwn"
+                         procedure="check.binning.binning_tool_opened"/>
+          <ProcedureCall id="_1pwr"
+                         procedure="do_click.binning.button_close"/>
+          <CatchSequence exception="TestException" id="_1pws" maxerror="0"/>
+        </TryStep>
+      </Procedure>
       <Procedure id="_1pLf" name="collocation">
         <TryStep id="_1pE8">
           <ProcedureCall id="_1pLw"
@@ -41,6 +50,15 @@
           <ProcedureCall id="_1pLt"
                          procedure="do_click.reprojection.button_close"/>
           <CatchSequence exception="TestException" id="_1pLu" maxerror="0"/>
+        </TryStep>
+      </Procedure>
+      <Procedure id="_1pM3" name="reprojection">
+        <TryStep id="_1pM4">
+          <ProcedureCall id="_1pM5"
+                         procedure="check.reprojection.reprojection_tool_opened"/>
+          <ProcedureCall id="_1pM6"
+                         procedure="do_click.reprojection.button_close"/>
+          <CatchSequence exception="TestException" id="_1pM7" maxerror="0"/>
         </TryStep>
       </Procedure>
       <Procedure id="_1pLg" name="spectral_unmixing">

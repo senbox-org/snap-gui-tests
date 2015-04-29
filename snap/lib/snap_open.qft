@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.3">
+<RootStep id="_0" name="root" version="4.0.4">
   <include>qfs.qft</include>
   <include>snap_components.qft</include>
   <include>snap_main.qft</include>
@@ -42,7 +42,7 @@
             </CatchSequence>
           </TryStep>
         </Procedure>
-        <Procedure id="_1pjB" name="mosaicing">
+        <Procedure id="_1pjB" name="mosaicing" postdelay="5000">
           <comment>@teststep Open Mosaicing tool.</comment>
           <TryStep id="_1pjC">
             <ProcedureCall id="_1pjD" procedure="do_click.menu.processing"/>
@@ -67,6 +67,34 @@
                                maxerror="0">
                   <ProcedureCall id="_1pjP" procedure="run-log.logError">
                     <variable name="message">Mosaicing Tool is not appear</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1pjc" name="binning" postdelay="5000">
+          <comment>@teststep Open Mosaicing tool.</comment>
+          <TryStep id="_1pjd">
+            <ProcedureCall id="_1pje" procedure="do_click.menu.processing"/>
+            <ProcedureCall id="_1pjf"
+                           procedure="do_click.menu.processing.level_3_binning"/>
+            <ProcedureCall id="_1pjt"
+                           procedure="check.binning.binning_tool_opened"/>
+            <CatchSequence exception="TestException" id="_1pji" maxerror="0">
+              <TryStep id="_1pjj">
+                <ProcedureCall id="_1pjk" procedure="do_click.menubar"/>
+                <ProcedureCall id="_1pjr"
+                               procedure="do_click.menu.processing"/>
+                <ProcedureCall id="_1pjs"
+                               procedure="do_click.menu.processing.level_3_binning"/>
+                <ProcedureCall id="_1pju"
+                               procedure="check.binning.binning_tool_opened"/>
+                <CatchSequence exception="TestException" id="_1pjp"
+                               maxerror="0">
+                  <ProcedureCall id="_1pjq" procedure="run-log.logError">
+                    <variable name="message">L3-Binning Tool is not appear</variable>
                     <variable name="withScreenshots">true</variable>
                   </ProcedureCall>
                 </CatchSequence>
@@ -485,13 +513,13 @@
         <variable name="prod"/>
         <variable name="product_type"/>
         <comment>@teststep Open data product in SNAP.</comment>
-        <ProcedureCall id="_1l3w" procedure="path"/>
+        <ProcedureCall id="_1l3w" procedure="path.main_path"/>
         <IfSequence id="_1oSd" test="&#34;$(in_out)&#34;==&#34;out&#34;">
           <SetGlobalStep id="_1oSf" varname="data_source_directory">
             <default>${path:output_data_directory}</default>
           </SetGlobalStep>
           <ElseSequence id="_1oSg">
-            <ProcedureCall id="_1oSj" procedure="source_data_directory">
+            <ProcedureCall id="_1oSj" procedure="path.source_data_directory">
               <variable name="data_type">$(prod_dir)</variable>
             </ProcedureCall>
           </ElseSequence>

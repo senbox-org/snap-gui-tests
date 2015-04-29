@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.3">
+<RootStep id="_0" name="root" version="4.0.4">
   <include>qfs.qft</include>
   <include>snap_do_click.qft</include>
   <include>snap_check.qft</include>
@@ -178,23 +178,6 @@
         <Procedure id="_1oGf" name="client_snap">
           <comment>@teststep Start SNAP.
 </comment>
-          <BasicSequence disabled="true" id="_1oIn" name="start_try_bkp">
-            <TryStep id="_1oIO">
-              <ClientWaiter client="$(client)" id="_1oIL" timeout="0"/>
-              <CatchSequence exception="TestException" id="_1oIP"
-                             maxerror="0">
-                <ShellClientStarter client="$(client)"
-                                    command="$(working_directory)\snap\bin\snap64.exe --userdir $(working_directory)\userdir"
-                                    directory="$(working_directory)\snap\bin"
-                                    id="_1oIB"/>
-              </CatchSequence>
-            </TryStep>
-            <IfSequence disabled="true" id="_1oJE" test="${qftest:windows}">
-              <ElseifSequence id="_1oJF" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1oJG"/>
-            </IfSequence>
-          </BasicSequence>
           <BasicSequence id="_1oJA" name="start_try">
             <TryStep id="_1oIQ">
               <ClientWaiter client="$(client)" id="_1oIM" timeout="0"/>
@@ -205,26 +188,22 @@
                 </ProcedureCall>
                 <IfSequence id="_1oOB" test="${qftest:windows}">
                   <SetGlobalStep id="_1oOA" varname="start">
-                    <default>"${path:snap_bin_directory}\snap_start.bat"</default>
+                    <default>${path:snap_working_directory}\\bin\\snap64.exe</default>
                   </SetGlobalStep>
-                  <ShellClientStarter client="$(client)" command="$(start)"
-                                      directory="${path:snap_bin_directory}"
-                                      id="_1oID" postdelay="5000"/>
                   <ElseSequence id="_1oOD">
                     <SetGlobalStep id="_1oOE" varname="start">
-                      <default>"${path:snap_bin_directory}/snap_start.sh"</default>
+                      <default>${path:snap_working_directory}/bin/snap</default>
                     </SetGlobalStep>
-                    <SUTClientStarter client="$(client)"
-                                      directory="${path:snap_working_directory}"
-                                      executable="${path:snap_bin_directory}/snap"
-                                      id="_1oeY">
-                      <comment>snap_working_directory</comment>
-                    </SUTClientStarter>
                   </ElseSequence>
                 </IfSequence>
+                <SUTClientStarter client="$(client)"
+                                  directory="${path:snap_working_directory}"
+                                  executable="$(start)" id="_1p0V"/>
+                <ClientWaiter client="$(client)" id="_1p0W"/>
               </CatchSequence>
             </TryStep>
-            <RepeatSequence count="60" id="_1oMf" name="try_start" var="i">
+            <RepeatSequence count="60" disabled="true" id="_1oMf"
+                            name="try_start" var="i">
               <TryStep id="_1oIb">
                 <ProcedureCall id="_1oJf" predelay="5000"
                                procedure="wait.appear.snap_window"/>
@@ -261,11 +240,77 @@
               </TryStep>
             </RepeatSequence>
           </BasicSequence>
+          <BasicSequence disabled="true" id="_1p03" name="start_try">
+            <TryStep id="_1p04">
+              <ClientWaiter client="$(client)" id="_1p05" timeout="0"/>
+              <CatchSequence exception="TestException" id="_1p06"
+                             maxerror="0">
+                <ProcedureCall id="_1p07" procedure="utils.terminate_process">
+                  <variable name="client_name">$(client)</variable>
+                </ProcedureCall>
+                <IfSequence id="_1p08" test="${qftest:windows}">
+                  <SetGlobalStep id="_1p09" varname="start">
+                    <default>"${path:snap_bin_directory}\snap_start.bat"</default>
+                  </SetGlobalStep>
+                  <ShellClientStarter client="$(client)" command="$(start)"
+                                      directory="${path:snap_bin_directory}"
+                                      id="_1p0A" postdelay="5000"/>
+                  <ElseSequence id="_1p0B">
+                    <SetGlobalStep id="_1p0C" varname="start">
+                      <default>"${path:snap_bin_directory}/snap_start.sh"</default>
+                    </SetGlobalStep>
+                    <SUTClientStarter client="$(client)"
+                                      directory="${path:snap_working_directory}"
+                                      executable="${path:snap_bin_directory}/snap"
+                                      id="_1p0D">
+                      <comment>snap_working_directory</comment>
+                    </SUTClientStarter>
+                  </ElseSequence>
+                </IfSequence>
+              </CatchSequence>
+            </TryStep>
+            <RepeatSequence count="60" id="_1p0E" name="try_start" var="i">
+              <TryStep id="_1p0F">
+                <ProcedureCall id="_1p0G" predelay="5000"
+                               procedure="wait.appear.snap_window"/>
+                <ServerScriptStep id="_1p0H" name="print">
+                  <code>print "****try start number $(i)****"  </code>
+                </ServerScriptStep>
+                <BreakStep id="_1p0I"/>
+                <CatchSequence exception="TestException" id="_1p0J"
+                               maxerror="0">
+                  <ProcedureCall id="_1p0K"
+                                 procedure="utils.terminate_process">
+                    <variable name="client_name">$(client)</variable>
+                  </ProcedureCall>
+                  <IfSequence id="_1p0L" test="${qftest:windows}">
+                    <SetGlobalStep id="_1p0M" varname="start">
+                      <default>"${path:snap_bin_directory}\snap_start.bat"</default>
+                    </SetGlobalStep>
+                    <ShellClientStarter client="$(client)" command="$(start)"
+                                        directory="${path:snap_bin_directory}"
+                                        id="_1p0N" postdelay="5000"/>
+                    <ElseSequence id="_1p0O">
+                      <SetGlobalStep id="_1p0P" varname="start">
+                        <default>"${path:snap_bin_directory}/snap_start.sh"</default>
+                      </SetGlobalStep>
+                      <SUTClientStarter client="$(client)"
+                                        directory="${path:snap_working_directory}"
+                                        executable="${path:snap_bin_directory}/snap"
+                                        id="_1p0Q">
+                        <comment>snap_working_directory</comment>
+                      </SUTClientStarter>
+                    </ElseSequence>
+                  </IfSequence>
+                </CatchSequence>
+              </TryStep>
+            </RepeatSequence>
+          </BasicSequence>
         </Procedure>
         <Procedure id="_1kwN" name="application">
           <ProcedureCall id="_1kyB" procedure="cleanup.global_variables"/>
           <ProcedureCall id="_1kwS" procedure="set.variable.client_snap"/>
-          <ProcedureCall id="_1kwT" procedure="path"/>
+          <ProcedureCall id="_1kwT" procedure="path.main_path"/>
           <ProcedureCall id="_1kx8" procedure="cleanup.temp_dir">
             <variable name="client">snap</variable>
           </ProcedureCall>
@@ -377,6 +422,17 @@
     </Package>
   </PackageRoot>
   <ExtraSequence id="_4">
+    <SetupSequence id="_1p0R"
+                   name="Java Anwendung starten als Skript oder ausführbares Programm">
+      <SetGlobalStep id="_1p0S" varname="client">
+        <default>snap</default>
+      </SetGlobalStep>
+      <SUTClientStarter client="$(client)"
+                        directory="B:\Users\olga\Projects\Testing\SUT\snaptop-u-testing\snap"
+                        executable="B:\Users\olga\Projects\Testing\SUT\snaptop-u-testing\snap\bin\snap64.exe"
+                        id="_1p0T"/>
+      <ClientWaiter client="$(client)" id="_1p0U"/>
+    </SetupSequence>
     <IfSequence id="_1op7" test="${qftest:windows}">
       <ElseifSequence id="_1op8" name="MAC?"
                       test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -642,94 +698,5 @@ rc.setGlobal("layer_id", lidn1)                       </code>
       <ElseSequence id="_58I"/>
     </IfSequence>
   </ExtraSequence>
-  <WindowList id="_5">
-    <WindowStep class="Dialog"
-                feature="ESA S-3 Toolbox - Import SMOS-EEF Product"
-                height="438"
-                id="dialogESA_S-3_Toolbox_-_Import_SMOS-EEF_Product"
-                modal="true" uid="_1p" width="656" x="152" y="181">
-      <extrafeature name="qfs:class" negate="false" regexp="false" state="0">javax.swing.JDialog</extrafeature>
-      <extrafeature name="qfs:genericclass" negate="false" regexp="false"
-                    state="0">Window</extrafeature>
-      <extrafeature name="qfs:systemclass" negate="false" regexp="false"
-                    state="0">javax.swing.JDialog</extrafeature>
-      <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Window:Dialog</extrafeature>
-      <ComponentStep class="FileChooser" classcount="1" classindex="0"
-                     height="400"
-                     id="dialogESA_S-3_Toolbox_-_Import_SMOS-EEF_Product.fileChooser"
-                     uid="_1q" width="640" x="8" y="30">
-        <extrafeature name="qfs:class" negate="false" regexp="false"
-                      state="0">org.esa.beam.visat.actions.ProductImportAction$$ProductFileChooser</extrafeature>
-        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
-                      state="0">FileChooser</extrafeature>
-        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
-                      state="0">javax.swing.JFileChooser</extrafeature>
-        <ComponentStep class="TextField" classcount="1" classindex="0"
-                       feature="Label: File name:" height="20"
-                       id="dialogESA_S-3_Toolbox_-_Import_SMOS-EEF_Product.textFile_name:"
-                       uid="_1r" width="304" x="181" y="342">
-          <extrafeature name="qfs:class" negate="false" regexp="false"
-                        state="0">javax.swing.JTextField</extrafeature>
-          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
-                        state="0">TextField</extrafeature>
-          <extrafeature name="qfs:label" negate="false" regexp="false"
-                        state="1">File name:</extrafeature>
-          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
-                        state="0">javax.swing.JTextField</extrafeature>
-        </ComponentStep>
-        <ComponentStep class="Button" classcount="12" classindex="10"
-                       feature="Import Product" height="23"
-                       id="dialogESA_S-3_Toolbox_-_Import_SMOS-EEF_Product.buttonImport_Product"
-                       uid="_1s" width="115" x="515" y="340">
-          <extrafeature name="qfs:class" negate="false" regexp="false"
-                        state="0">javax.swing.JButton</extrafeature>
-          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
-                        state="0">Button</extrafeature>
-          <extrafeature name="qfs:label" negate="false" regexp="false"
-                        state="1">Import Product</extrafeature>
-          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
-                        state="0">javax.swing.JButton</extrafeature>
-        </ComponentStep>
-        <ComponentStep class="Button" classcount="12" classindex="4"
-                       feature="Subset..." height="23"
-                       id="dialogESA_S-3_Toolbox_-_Import_SMOS-EEF_Product.buttonSubset..."
-                       uid="_1t" width="77" x="546" y="36">
-          <extrafeature name="qfs:class" negate="false" regexp="false"
-                        state="0">javax.swing.JButton</extrafeature>
-          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
-                        state="0">Button</extrafeature>
-          <extrafeature name="qfs:label" negate="false" regexp="false"
-                        state="1">Subset...</extrafeature>
-          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
-                        state="0">javax.swing.JButton</extrafeature>
-        </ComponentStep>
-        <ComponentStep class="ComboBox" classcount="2" classindex="1"
-                       feature="Label: Files of type:" height="20"
-                       id="dialogESA_S-3_Toolbox_-_Import_SMOS-EEF_Product.comboFiles_of_type:"
-                       uid="_1u" width="304" x="181" y="370">
-          <extrafeature name="qfs:class" negate="false" regexp="false"
-                        state="0">javax.swing.JComboBox</extrafeature>
-          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
-                        state="0">ComboBox</extrafeature>
-          <extrafeature name="qfs:label" negate="false" regexp="false"
-                        state="1">Files of type:</extrafeature>
-          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
-                        state="0">javax.swing.JComboBox</extrafeature>
-        </ComponentStep>
-        <ComponentStep class="Button" classcount="12" classindex="11"
-                       feature="Cancel" height="23"
-                       id="dialogESA_S-3_Toolbox_-_Import_SMOS-EEF_Product.buttonCancel"
-                       uid="_1v" width="115" x="515" y="367">
-          <extrafeature name="qfs:class" negate="false" regexp="false"
-                        state="0">javax.swing.JButton</extrafeature>
-          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
-                        state="0">Button</extrafeature>
-          <extrafeature name="qfs:label" negate="false" regexp="false"
-                        state="1">Cancel</extrafeature>
-          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
-                        state="0">javax.swing.JButton</extrafeature>
-        </ComponentStep>
-      </ComponentStep>
-    </WindowStep>
-  </WindowList>
+  <WindowList id="_5"/>
 </RootStep>

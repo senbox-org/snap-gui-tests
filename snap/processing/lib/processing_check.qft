@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.3">
+<RootStep id="_0" name="root" version="4.0.4">
   <include>qfs.qft</include>
   <include>../../lib/snap_components.qft</include>
   <include>../../lib/snap_main.qft</include>
@@ -206,7 +206,7 @@
           <Procedure id="_1pN6" name="resampling_type">
             <variable name="val"/>
             <comment>@teststep Check selected resampling type.</comment>
-            <ProcedureCall id="_1pPS" procedure="resampling_types"/>
+            <ProcedureCall id="_1pPS" procedure="variables.resampling_types"/>
             <SetGlobalStep id="_1pPT" varname="restype">
               <default>${resampling:$(val)}</default>
             </SetGlobalStep>
@@ -425,7 +425,7 @@
       <Package id="_1pS1" name="ndvi_processor">
         <Procedure id="_1pcm" name="ndvi_processor_opened">
           <ComponentWaiter client="$(client)" component="dialogNDVI"
-                           id="_1pU5"/>
+                           id="_1pU5" timeout="10"/>
         </Procedure>
         <Package id="_1pV3" name="enabled">
           <Procedure id="_1pV4" name="menu_file">
@@ -570,6 +570,14 @@
             </CheckStringStep>
           </Procedure>
         </Package>
+      </Package>
+      <Package id="_1q2j" name="file_selection_pattern">
+        <Procedure id="_1q2t" name="file_selection_pattern_appears">
+          <comment>@teststep Check 'File Selection pattern' dialog appears.</comment>
+          <ComponentWaiter client="$(client)"
+                           component="dialogFile_Selection_Pattern" id="_1q2u"
+                           timeout="100"/>
+        </Procedure>
       </Package>
       <Package id="_1pW-" name="reprojection">
         <Procedure id="_1pU6" name="reprojection_tool_opened">
@@ -991,6 +999,84 @@
           </Procedure>
         </Package>
       </Package>
+      <Package id="_1pjn" name="projection_parameters_dialog">
+        <Procedure id="_1pl6" name="projection_parameters_dialog_opened">
+          <variable name="projection"/>
+          <ComponentWaiter client="$(client)"
+                           component="dialog_Projection_Parameters" id="_1pk0"
+                           timeout="10"/>
+        </Procedure>
+        <Procedure id="_1pnW" name="central_meridian">
+          <variable name="projection"/>
+          <variable name="val"/>
+          <comment>@teststep Insert central meridian in the 'Projection Parameters' dialog.</comment>
+          <CheckStringStep client="$(client)"
+                           component="dialog_Projection_Parameters.central_meridian"
+                           id="_1pjN">
+            <text>$(val)</text>
+          </CheckStringStep>
+        </Procedure>
+        <Procedure id="_1poV" name="latitude_of_origin">
+          <variable name="projection"/>
+          <variable name="val"/>
+          <comment>@teststep Insert latitude of origin in the 'Projection Parameters' dialog.</comment>
+          <CheckStringStep client="$(client)"
+                           component="dialog_Projection_Parameters.latitude_of_origin"
+                           id="_1pjO">
+            <text>$(val)</text>
+          </CheckStringStep>
+        </Procedure>
+        <Procedure id="_1ppU" name="scale_factor">
+          <variable name="projection"/>
+          <variable name="val"/>
+          <comment>@teststep Insert scale factor in the 'Projection Parameters' dialog.</comment>
+          <CheckStringStep client="$(client)"
+                           component="dialog_Projection_Parameters.scale_factor"
+                           id="_1pjP">
+            <text>$(val)</text>
+          </CheckStringStep>
+        </Procedure>
+        <Procedure id="_1pqT" name="false_easting">
+          <variable name="projection"/>
+          <variable name="val"/>
+          <comment>@teststep Insert false easting in the 'Projection Parameters' dialog.</comment>
+          <CheckStringStep client="$(client)"
+                           component="dialog_Projection_Parameters.false_easting"
+                           id="_1pjQ">
+            <text>$(val)</text>
+          </CheckStringStep>
+        </Procedure>
+        <Procedure id="_1prS" name="false_northing">
+          <variable name="projection"/>
+          <variable name="val"/>
+          <comment>@teststep Insert false northing in the 'Projection Parameters' dialog.</comment>
+          <CheckStringStep client="$(client)"
+                           component="dialog_Projection_Parameters.false_northing"
+                           id="_1pjR">
+            <text>$(val)</text>
+          </CheckStringStep>
+        </Procedure>
+        <Procedure id="_1psR" name="semi_major">
+          <variable name="projection"/>
+          <variable name="val"/>
+          <comment>@teststep Insert semi major in the 'Projection Parameters' dialog.</comment>
+          <CheckStringStep client="$(client)"
+                           component="dialog_Projection_Parameters.semi_major"
+                           id="_1pjL">
+            <text>$(val)</text>
+          </CheckStringStep>
+        </Procedure>
+        <Procedure id="_1ptQ" name="semi_minor">
+          <variable name="projection"/>
+          <variable name="val"/>
+          <comment>@teststep Insert semi minor in the 'Projection Parameters' dialog.</comment>
+          <CheckStringStep client="$(client)"
+                           component="dialog_Projection_Parameters.semi_minor"
+                           id="_1pjM">
+            <text>$(val)</text>
+          </CheckStringStep>
+        </Procedure>
+      </Package>
       <Package id="_1pao" name="mosaicing">
         <Procedure id="_1pap" name="mosaicing_tool_opened">
           <ComponentWaiter client="$(client)" component="dialogMosaicing"
@@ -1066,7 +1152,7 @@
               <comment>@teststep Check 'Geodetic datum' ComboBox is enabled.</comment>
               <CheckBooleanStep checktype="enabled" client="$(client)"
                                 component="dialogMosaicing.datum" id="_1pbD"
-                                resvarname="geodetic_datum"/>
+                                resvarname="geodetic_datum_enabled"/>
             </Procedure>
             <Procedure id="_1pbE" name="geodetic_datum_enabled_status">
               <variable name="enabled"/>
@@ -1290,7 +1376,7 @@
         <Package id="_1pcJ" name="text">
           <Package id="_1phw" name="io_parameters">
             <Procedure id="_1pcK" name="source_products_empty">
-              <comment>@teststep Check source products listing is empty.</comment>
+              <comment>@teststep Check source products list is empty.</comment>
               <CheckItemsStep checktype="items" client="$(client)"
                               component="dialogMosaicing.Source_products2"
                               id="_1pfH"/>
@@ -1407,7 +1493,7 @@
           </Package>
           <Package id="_1phy" name="variables_conditions">
             <Procedure id="_1phz" name="combine">
-              <variable name="val"></variable>
+              <variable name="val"/>
               <comment>@teststep Check selected combine operator.</comment>
               <CheckStringStep checktype="value" client="$(client)"
                                component="dialogMosaicing.combine" id="_1piE">
@@ -1415,6 +1501,570 @@
               </CheckStringStep>
             </Procedure>
           </Package>
+        </Package>
+      </Package>
+      <Package id="_1pwl" name="binning">
+        <Procedure id="_1pwm" name="binning_tool_opened">
+          <ComponentWaiter client="$(client)" component="dialogBinning"
+                           id="_1pwk" timeout="10"/>
+        </Procedure>
+        <Package id="_1pwo" name="enabled">
+          <Package id="_1pwp" name="io_parameters">
+            <Procedure id="_1plA" name="button_plus">
+              <comment>@teststep Click 'Plus' button.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBinning.sourceProductPaths.1.buttonPlus24"
+                                id="_1p-n"/>
+            </Procedure>
+            <Procedure id="_1plC" name="button_directory">
+              <comment>@teststep Click 'Directory' button.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBinning.button..."
+                                id="_1pyt"/>
+            </Procedure>
+            <Procedure id="_1plE" name="button_minus">
+              <comment>@teststep Click 'Minus' button.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBinning.sourceProductPaths.1.buttonMinus24"
+                                id="_1p-o"/>
+            </Procedure>
+          </Package>
+          <Package id="_1px6" name="filter">
+            <Procedure id="_1q0b" name="enter_Wkt">
+              <comment>@teststep Check 'Enter Wkt' TextField is enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBinning.manualWkt" id="_1q0c"
+                                resvarname="enter_Wkt_enabled"/>
+            </Procedure>
+            <Procedure id="_1q0Y" name="enter_Wkt_enabled_status">
+              <variable name="enabled"/>
+              <comment>@teststep Check enabled status of the 'Enter Wkt' TextField.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBinning.manualWkt" id="_1q0a"
+                                state="$(enabled)"/>
+            </Procedure>
+            <Procedure id="_1q07" name="west">
+              <comment>@teststep Check 'West' TextField is enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBinning.westBound" id="_1q08"
+                                resvarname="west_enabled"/>
+            </Procedure>
+            <Procedure id="_1q09" name="north">
+              <comment>@teststep Check 'North' TextField is enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBinning.northBound"
+                                id="_1q0A" resvarname="north_enabled"/>
+            </Procedure>
+            <Procedure id="_1q0B" name="east">
+              <comment>@teststep Check 'East' TextField is enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBinning.eastBound" id="_1q0C"
+                                resvarname="east_enabled"/>
+            </Procedure>
+            <Procedure id="_1q0D" name="south">
+              <comment>@teststep Check 'South' TextField is enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBinning.southBound"
+                                id="_1q0E" resvarname="south_enabled"/>
+            </Procedure>
+            <Procedure id="_1p-x" name="west_enabled_status">
+              <variable name="enabled"/>
+              <comment>@teststep Check enabled status of the 'West' TextField.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBinning.westBound" id="_1pz2"
+                                state="$(enabled)"/>
+            </Procedure>
+            <Procedure id="_1p-z" name="north_enabled_status">
+              <variable name="enabled"/>
+              <comment>@teststep Check enabled status of the 'North' TextField.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBinning.northBound"
+                                id="_1pmK" state="$(enabled)"/>
+            </Procedure>
+            <Procedure id="_1p--" name="east_enabled_status">
+              <variable name="enabled"/>
+              <comment>@teststep Check enabled status of the 'East' TextField.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBinning.eastBound" id="_1pmM"
+                                state="$(enabled)"/>
+            </Procedure>
+            <Procedure id="_1q01" name="south_enabled_status">
+              <variable name="enabled"/>
+              <comment>@teststep Check enabled status of the 'South' TextField.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBinning.southBound"
+                                id="_1pmO" state="$(enabled)"/>
+            </Procedure>
+            <Procedure id="_1q0K" name="start_date">
+              <comment>@teststep Check 'Start date' TextField is enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBinning.startDateTime"
+                                id="_1q0L" resvarname="start_date_enabled"/>
+            </Procedure>
+            <Procedure id="_1q0O" name="period_duration">
+              <comment>@teststep Check 'period duration' TextField is enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBinning.periodDuration"
+                                id="_1q0Q"
+                                resvarname="period_duration_enabled"/>
+            </Procedure>
+            <Procedure id="_1q0F" name="min_data_hour">
+              <comment>@teststep Check 'min data hour' TextField is enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBinning.minDataHour"
+                                id="_1q0I"
+                                resvarname="min_data_hour_enabled"/>
+            </Procedure>
+            <Procedure id="_1q0S" name="start_date_enabled_status">
+              <variable name="enabled"/>
+              <comment>@teststep Check enabled status of the 'Start date' TextField.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBinning.startDateTime"
+                                id="_1pz6" state="$(enabled)"/>
+            </Procedure>
+            <Procedure id="_1q0U" name="period_duration_enabled_status">
+              <variable name="enabled"/>
+              <comment>@teststep Check enabled status of the  'period duration' TextField.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBinning.periodDuration"
+                                id="_1pz8" state="$(enabled)"/>
+            </Procedure>
+            <Procedure id="_1q0W" name="min_data_hour_enabled_status">
+              <variable name="enabled"/>
+              <comment>@teststep Check enabled status of the 'min data hour' TextField.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBinning.minDataHour"
+                                id="_1pz9" state="$(enabled)"/>
+            </Procedure>
+          </Package>
+          <Package id="_1p+d" name="configuration">
+            <Package id="_1pzn" name="source_bands">
+              <Procedure id="_1p+6" name="show_hide_selection_column">
+                <comment>@teststep Check 'Show/hide_selection_column' button is enabled.</comment>
+                <CheckBooleanStep checktype="enabled" client="$(client)"
+                                  component="dialogBinning.buttonTipShow/hide_selection_column"
+                                  id="_1p+r" resvarname="show_hide_enabled"/>
+              </Procedure>
+              <Procedure id="_1pzp" name="move_down">
+                <comment>@teststep Check 'Move Down' button is enabled.</comment>
+                <CheckBooleanStep checktype="enabled" client="$(client)"
+                                  component="dialogBinning.panelConfiguration.buttonMoveDown16"
+                                  id="_1p+I" resvarname="move_down_enabled"/>
+              </Procedure>
+              <Procedure id="_1pzr" name="move_up">
+                <comment>@teststep Check 'Move Up' button is enabled.</comment>
+                <CheckBooleanStep checktype="enabled" client="$(client)"
+                                  component="dialogBinning.panelConfiguration.buttonMoveUp16"
+                                  id="_1p+H" resvarname="move_up_enabled"/>
+              </Procedure>
+              <Procedure id="_1pzt" name="plus_button">
+                <comment>@teststep Check 'Plus' button is enabled.</comment>
+                <CheckBooleanStep checktype="enabled" client="$(client)"
+                                  component="dialogBinning.panelConfiguration.buttonPlus16"
+                                  id="_1p+K"
+                                  resvarname="plus_button_enabled"/>
+              </Procedure>
+              <Procedure id="_1pzv" name="minus_button">
+                <comment>@teststep Check 'Minus' button is enabled.</comment>
+                <CheckBooleanStep checktype="enabled" client="$(client)"
+                                  component="dialogBinning.panelConfiguration.buttonMinus16"
+                                  id="_1p+G"
+                                  resvarname="minus_button_enabled"/>
+              </Procedure>
+              <Procedure id="_1p+t"
+                         name="show_hide_selection_column_enabled_status">
+                <variable name="enabled"/>
+                <CheckBooleanStep checktype="enabled" client="$(client)"
+                                  component="dialogBinning.buttonTipShow/hide_selection_column"
+                                  id="_1p+u" state="$(enabled)"/>
+              </Procedure>
+              <Procedure id="_1p+v" name="move_down_enabled_status">
+                <variable name="enabled"/>
+                <CheckBooleanStep checktype="enabled" client="$(client)"
+                                  component="dialogBinning.panelConfiguration.buttonMoveDown16"
+                                  id="_1p+w" state="$(enabled)"/>
+              </Procedure>
+              <Procedure id="_1p+x" name="move_up_enabled_status">
+                <variable name="enabled"/>
+                <CheckBooleanStep checktype="enabled" client="$(client)"
+                                  component="dialogBinning.panelConfiguration.buttonMoveUp16"
+                                  id="_1p+y" state="$(enabled)"/>
+              </Procedure>
+              <Procedure id="_1p+z" name="plus_button_enabled_status">
+                <variable name="enabled"/>
+                <CheckBooleanStep checktype="enabled" client="$(client)"
+                                  component="dialogBinning.panelConfiguration.buttonPlus16"
+                                  id="_1p++" state="$(enabled)"/>
+              </Procedure>
+              <Procedure id="_1p+-" name="minus_button_enabled_status">
+                <variable name="enabled"/>
+                <CheckBooleanStep checktype="enabled" client="$(client)"
+                                  component="dialogBinning.panelConfiguration.buttonMinus16"
+                                  id="_1p-0" state="$(enabled)"/>
+              </Procedure>
+            </Package>
+            <Package id="_1pzo" name="intermediate_source_bands">
+              <Procedure id="_1p-1" name="show_hide_selection_column">
+                <comment>@teststep Check 'Show/hide_selection_column' button is enabled.</comment>
+                <CheckBooleanStep checktype="enabled" client="$(client)"
+                                  component="dialogBinning.buttonTipShow/hide_selection_column2"
+                                  id="_1p-2" resvarname="show_hide_enabled"/>
+              </Procedure>
+              <Procedure id="_1p-3" name="move_down">
+                <comment>@teststep Check 'Move Down' button is enabled.</comment>
+                <CheckBooleanStep checktype="enabled" client="$(client)"
+                                  component="dialogBinning.panelConfiguration.buttonMoveDown162"
+                                  id="_1p-4" resvarname="move_down_enabled"/>
+              </Procedure>
+              <Procedure id="_1p-5" name="move_up">
+                <comment>@teststep Check 'Move Up' button is enabled.</comment>
+                <CheckBooleanStep checktype="enabled" client="$(client)"
+                                  component="dialogBinning.panelConfiguration.buttonMoveUp162"
+                                  id="_1p-6" resvarname="move_up_enabled"/>
+              </Procedure>
+              <Procedure id="_1p-7" name="plus_button">
+                <comment>@teststep Check 'Plus' button is enabled.</comment>
+                <CheckBooleanStep checktype="enabled" client="$(client)"
+                                  component="dialogBinning.panelConfiguration.buttonPlus162"
+                                  id="_1p-8"
+                                  resvarname="plus_button_enabled"/>
+              </Procedure>
+              <Procedure id="_1p-9" name="minus_button">
+                <comment>@teststep Check 'Minus' button is enabled.</comment>
+                <CheckBooleanStep checktype="enabled" client="$(client)"
+                                  component="dialogBinning.panelConfiguration.buttonMinus162"
+                                  id="_1p-A"
+                                  resvarname="minus_button_enabled"/>
+              </Procedure>
+              <Procedure id="_1p-B"
+                         name="show_hide_selection_column_enabled_status">
+                <variable name="enabled"/>
+                <CheckBooleanStep checktype="enabled" client="$(client)"
+                                  component="dialogBinning.buttonTipShow/hide_selection_column2"
+                                  id="_1p-C" state="$(enabled)"/>
+              </Procedure>
+              <Procedure id="_1p-D" name="move_down_enabled_status">
+                <variable name="enabled"/>
+                <CheckBooleanStep checktype="enabled" client="$(client)"
+                                  component="dialogBinning.panelConfiguration.buttonMoveDown162"
+                                  id="_1p-E" state="$(enabled)"/>
+              </Procedure>
+              <Procedure id="_1p-F" name="move_up_enabled_status">
+                <variable name="enabled"/>
+                <CheckBooleanStep checktype="enabled" client="$(client)"
+                                  component="dialogBinning.panelConfiguration.buttonMoveUp162"
+                                  id="_1p-G" state="$(enabled)"/>
+              </Procedure>
+              <Procedure id="_1p-H" name="plus_button_enabled_status">
+                <variable name="enabled"/>
+                <CheckBooleanStep checktype="enabled" client="$(client)"
+                                  component="dialogBinning.panelConfiguration.buttonPlus162"
+                                  id="_1p-I" state="$(enabled)"/>
+              </Procedure>
+              <Procedure id="_1p-J" name="minus_button_enabled_status">
+                <variable name="enabled"/>
+                <CheckBooleanStep checktype="enabled" client="$(client)"
+                                  component="dialogBinning.panelConfiguration.buttonMinus162"
+                                  id="_1p-K" state="$(enabled)"/>
+              </Procedure>
+            </Package>
+            <Procedure id="_1p-L" name="valid_pixel_expression_button">
+              <comment>@teststep Check 'Valid pixel expression' button is enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBinning.button...2"
+                                id="_1p-M"
+                                resvarname="valid_pixel_expression_enabled"/>
+            </Procedure>
+            <Procedure id="_1plz"
+                       name="valid_pixel_expression_button_enabled_status">
+              <variable name="enabled"/>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBinning.button...2"
+                                id="_1p+P" state="$(enabled)"/>
+            </Procedure>
+            <Procedure id="_1pl-" name="default_button">
+              <comment>@teststep Check 'default' button is enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBinning.buttonDefault"
+                                id="_1p+S"
+                                resvarname="default_button_enabled"/>
+            </Procedure>
+            <Procedure id="_1p-N" name="default_button_enabled_status">
+              <variable name="enabled"/>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBinning.buttonDefault"
+                                id="_1p-P" state="$(enabled)"/>
+            </Procedure>
+          </Package>
+          <Procedure id="_1pxh" name="menu_file">
+            <comment>@teststep Check menu 'File' is enabled.</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogBinning.menuFile" id="_1pxi"/>
+          </Procedure>
+          <Procedure id="_1pxj" name="menu_help">
+            <comment>@teststep Check menu 'Help' is enabled.</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogBinning.menuHelp" id="_1pxk"/>
+          </Procedure>
+          <Procedure id="_1pxl" name="button_close">
+            <comment>@teststep Check  'Close' button enabled.</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogBinning.BinningDialog.close"
+                              id="_1pxm"/>
+          </Procedure>
+          <Procedure id="_1pxn" name="button_apply">
+            <comment>@teststep Check  'Apply' button enabled.</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogBinning.BinningDialog.apply"
+                              id="_1pxo"/>
+          </Procedure>
+          <Procedure id="_1p-j" name="button_help">
+            <comment>@teststep Check  'Help' button enabled.</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogBinning.BinningDialog.help"
+                              id="_1p+W"/>
+          </Procedure>
+        </Package>
+        <Package id="_1pxp" name="checked">
+          <Package id="_1pxq" name="io_parameters"/>
+          <Package id="_1py1" name="filter">
+            <Procedure id="_1p-p"
+                       name="radio_vompute_region_according_to_input_products">
+              <variable name="selected"/>
+              <comment>@teststep Check selection of the 'Compute the geographical region according to extents of input products' radio button.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialogBinning.compute" id="_1p-t"
+                                state="$(selected)"/>
+            </Procedure>
+            <Procedure id="_1pzG" name="radio_whole_globe">
+              <variable name="selected"/>
+              <comment>@teststep Check selection of the  'Use the whole globe as region' radio button.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialogBinning.global" id="_1p-u"
+                                state="$(selected)"/>
+            </Procedure>
+            <Procedure id="_1pzQ" name="radio_enter_WKT">
+              <variable name="selected"/>
+              <comment>@teststep Check selection of the  'Enter WKT:' radio button.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialogBinning.manualWktKey"
+                                id="_1p-v" state="$(selected)"/>
+            </Procedure>
+            <Procedure id="_1p-r" name="radio_specify_region">
+              <variable name="selected"/>
+              <comment>@teststep Check selection of the  'Specify region:' radio button.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialogBinning.bounds" id="_1p-w"
+                                state="$(selected)"/>
+            </Procedure>
+          </Package>
+          <Package id="_1p+a" name="configuration"/>
+        </Package>
+        <Package id="_1pyE" name="text">
+          <Package id="_1pyF" name="io_parameters">
+            <Procedure id="_1pyG" name="source_products_empty">
+              <comment>@teststep Check source products list is empty.</comment>
+              <CheckItemsStep checktype="items" client="$(client)"
+                              component="dialogBinning.sourceProductPaths.list"
+                              id="_1pyq"/>
+            </Procedure>
+            <Procedure id="_1pyI" name="target_product_name">
+              <variable name="val"/>
+              <comment>@teststep Check target product name.</comment>
+              <CheckStringStep client="$(client)"
+                               component="dialogBinning.productName"
+                               id="_1pyJ">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+          </Package>
+          <Package id="_1pyM" name="filter">
+            <Procedure id="_1q0d" name="wkt">
+              <variable name="val"/>
+              <comment>@teststep Check WKT.</comment>
+              <CheckStringStep client="$(client)"
+                               component="dialogBinning.manualWkt" id="_1q17">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1q0h" name="west">
+              <variable name="val"/>
+              <comment>@teststep Check West.</comment>
+              <CheckStringStep client="$(client)"
+                               component="dialogBinning.westBound" id="_1q18">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1q0j" name="north">
+              <variable name="val"/>
+              <comment>@teststep Check North.</comment>
+              <CheckStringStep client="$(client)"
+                               component="dialogBinning.northBound"
+                               id="_1q19">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1q0l" name="east">
+              <variable name="val"/>
+              <comment>@teststep Check East.</comment>
+              <CheckStringStep client="$(client)"
+                               component="dialogBinning.eastBound" id="_1q1A">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1q0n" name="south">
+              <variable name="val"/>
+              <comment>@teststep Check South.</comment>
+              <CheckStringStep client="$(client)"
+                               component="dialogBinning.southBound"
+                               id="_1q1B">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1q1D" name="time_filter_method">
+              <variable name="val"/>
+              <comment>@teststep Check time filter method.</comment>
+              <CheckStringStep checktype="value" client="$(client)"
+                               component="dialogBinning.timeFilterMethod"
+                               id="_1q1E">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1q0x" name="start_date">
+              <variable name="val"/>
+              <comment>@teststep Check Start date.</comment>
+              <CheckStringStep client="$(client)"
+                               component="dialogBinning.startDateTime"
+                               id="_1q1G">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1q0z" name="period_duration">
+              <variable name="val"/>
+              <comment>@teststep Check period duration.</comment>
+              <CheckStringStep client="$(client)"
+                               component="dialogBinning.periodDuration"
+                               id="_1q1H">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1q0-" name="min_data_hour">
+              <variable name="val"/>
+              <comment>@teststep Check min data hour.</comment>
+              <CheckStringStep client="$(client)"
+                               component="dialogBinning.minDataHour"
+                               id="_1q1I">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+          </Package>
+          <Package id="_1pyh" name="configuration">
+            <Procedure id="_1p-U" name="valid_pixel_expression">
+              <variable name="val"/>
+              <comment>@teststep Check valid pixel expression.</comment>
+              <CheckStringStep client="$(client)"
+                               component="dialogBinning.maskExpr" id="_1p-V">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1p-Z" name="rows">
+              <variable name="val"/>
+              <comment>@teststep Check Rows (90N -90S) operator.</comment>
+              <CheckStringStep client="$(client)"
+                               component="dialogBinning.numRows" id="_1p-b">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1p-e" name="spatial_resolution">
+              <variable name="val"/>
+              <comment>@teststep Check spatial resolution (km/px).</comment>
+              <CheckStringStep client="$(client)"
+                               component="dialogBinning.panelConfiguration.textSpatial_resolution_(km/px):"
+                               id="_1p-h">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1pyi" name="super_sampling">
+              <variable name="val"/>
+              <comment>@teststep Check super-sampling.</comment>
+              <CheckStringStep client="$(client)"
+                               component="dialogBinning.superSampling"
+                               id="_1p-T">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+          </Package>
+        </Package>
+      </Package>
+      <Package id="_1q5G" name="edit_aggregator">
+        <Procedure id="_1q6U" name="edit_aggregator_opened">
+          <ComponentWaiter client="$(client)"
+                           component="dialogEdit_Aggregator" id="_1q6V"
+                           timeout="10"/>
+        </Procedure>
+        <Package id="_1q5j" name="checked">
+          <Procedure id="_1q6W" name="output_counts">
+            <comment>@teststep Check 'output Counts' checkbox is selected.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogEdit_Aggregator.outputCounts"
+                              id="_1q6X" resvarname="output_counts"/>
+          </Procedure>
+          <Procedure id="_1q6Z" name="output_sums">
+            <comment>@teststep Check 'output Sums' checkbox is selected.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogEdit_Aggregator.outputSums"
+                              id="_1q6b" resvarname="output_sums"/>
+          </Procedure>
+          <Procedure id="_1q6c" name="output_counts_selected_status">
+            <variable name="selected"/>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogEdit_Aggregator.outputCounts"
+                              id="_1q6d" resvarname="output_counts"/>
+          </Procedure>
+          <Procedure id="_1q6e" name="output_sums_selected_status">
+            <variable name="selected"/>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogEdit_Aggregator.outputSums"
+                              id="_1q6f" resvarname="output_sums"/>
+          </Procedure>
+        </Package>
+        <Package id="_1q6g" name="text">
+          <Procedure id="_1q6i" name="aggregator">
+            <variable name="val"/>
+            <comment>@teststep Check aggregator name.</comment>
+            <CheckStringStep checktype="value" client="$(client)"
+                             component="dialogEdit_Aggregator.comboSource_band_name:"
+                             id="_1q6j">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1q6n" name="source_band_name">
+            <variable name="val"/>
+            <comment>@teststep Check source band name.</comment>
+            <CheckStringStep checktype="value" client="$(client)"
+                             component="dialogEdit_Aggregator.varName"
+                             id="_1q6p">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1q6s" name="target_band_name_prefix">
+            <variable name="val"/>
+            <comment>@teststep Check target band name prefix</comment>
+            <CheckStringStep client="$(client)"
+                             component="dialogEdit_Aggregator.targetName"
+                             id="_1q6v">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1q6x" name="weight_coefficient">
+            <variable name="val"/>
+            <comment>@teststep Check weight coefficient</comment>
+            <CheckStringStep client="$(client)"
+                             component="dialogEdit_Aggregator.weightCoeff"
+                             id="_1q6-">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
         </Package>
       </Package>
     </Package>

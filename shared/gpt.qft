@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.3">
+<RootStep id="_0" name="root" version="4.0.4">
   <include>qfs.qft</include>
   <include>variables.qft</include>
   <include>shared_lib.qft</include>
@@ -13,15 +13,17 @@
       <Procedure id="_1oOx" name="run_operator_check_output_file">
         <variable name="application"/>
         <TestStep id="_1oOy" name="set_variables">
-          <ProcedureCall id="_1oOz" procedure="variable_increase_on_1">
+          <ProcedureCall id="_1oOz"
+                         procedure="variables.variable_increase_on_1">
             <variable name="var_int">$(sleep_time)</variable>
           </ProcedureCall>
           <ProcedureCall id="_1oQu" procedure="utils.gpt_calling"/>
-          <ProcedureCall id="_1oO-" procedure="path"/>
+          <ProcedureCall id="_1oO-" procedure="path.main_path"/>
           <TestStep id="_1oP0" name="set_iput">
             <IfSequence id="_1o-L"
                         test="&#34;$(dataInDir)&#34;&lt;&gt;&#34;&#34;">
-              <ProcedureCall id="_1o-M" procedure="source_data_directory">
+              <ProcedureCall id="_1o-M"
+                             procedure="path.source_data_directory">
                 <variable name="data_type">$(dataInDir)</variable>
               </ProcedureCall>
               <SetGlobalStep id="_1o-N" local="true" varname="i1">
@@ -33,7 +35,8 @@
             </IfSequence>
             <IfSequence id="_1o-O"
                         test="&#34;$(dataInDir2)&#34;&lt;&gt;&#34;&#34;">
-              <ProcedureCall id="_1o-P" procedure="source_data_directory">
+              <ProcedureCall id="_1o-P"
+                             procedure="path.source_data_directory">
                 <variable name="data_type">$(dataInDir2)</variable>
               </ProcedureCall>
               <SetGlobalStep id="_1o-Q" local="true" varname="i2">
@@ -45,7 +48,8 @@
             </IfSequence>
             <IfSequence id="_1o-R"
                         test="&#34;$(dataInDir3)&#34;&lt;&gt;&#34;&#34;">
-              <ProcedureCall id="_1o-S" procedure="source_data_directory">
+              <ProcedureCall id="_1o-S"
+                             procedure="path.source_data_directory">
                 <variable name="data_type">$(dataInDir3)</variable>
               </ProcedureCall>
               <SetGlobalStep id="_1o-T" local="true" varname="i3">
@@ -64,12 +68,12 @@
           </TestStep>
           <TestStep id="_1oPG"
                     name="set_graph_file_or_operator_and_parameters_file">
-            <ProcedureCall id="_1oPH" procedure="output_data_directory">
+            <ProcedureCall id="_1oPH" procedure="path.output_data_directory">
               <variable name="output_dir">$(data_out_dir)</variable>
             </ProcedureCall>
             <IfSequence id="_1oPJ"
                         test="&#34;$(parameters_file)&#34;&lt;&gt;&#34;&#34;">
-              <ProcedureCall id="_1p0t" procedure="param_file_dir"/>
+              <ProcedureCall id="_1p0t" procedure="path.param_file_dir"/>
               <SetGlobalStep id="_1p0u" varname="new_param">
                 <default>$(gpf_op) -p $(param_file_dir)$(parameters_file) $(param)</default>
               </SetGlobalStep>
@@ -86,7 +90,7 @@
               </IfSequence>
               <ElseifSequence id="_1oPM"
                               test="&#34;$(xml_file)&#34;&lt;&gt;&#34;&#34;">
-                <ProcedureCall id="_1p0s" procedure="graph_file_dir">
+                <ProcedureCall id="_1p0s" procedure="path.graph_file_dir">
                   <variable name="xml_dir">$(xml_file_dir)</variable>
                 </ProcedureCall>
                 <SetGlobalStep id="_1o+a" varname="new_param">
@@ -237,7 +241,7 @@
         <SetGlobalStep id="_1oND" varname="client_nr">
           <default>0</default>
         </SetGlobalStep>
-        <ProcedureCall id="_1oOT" procedure="output_data_directory">
+        <ProcedureCall id="_1oOT" procedure="path.output_data_directory">
           <variable name="output_dir">$(out_dir)</variable>
         </ProcedureCall>
         <ProcedureCall id="_1o-q" procedure="cleanup.output_data_folder">

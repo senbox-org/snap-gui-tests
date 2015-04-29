@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.3">
+<RootStep id="_0" name="root" version="4.0.4">
   <include>qfs.qft</include>
   <include>s3tbx_components.qft</include>
   <include>s3tbx_main.qft</include>
@@ -41,13 +41,14 @@
           <ProcedureCall id="_1l4c"
                          procedure="do_click.open_product_dialog.open"/>
           <ElseSequence id="_1o+I">
-            <ProcedureCall id="_1ont" procedure="path"/>
+            <ProcedureCall id="_1ont" procedure="path.main_path"/>
             <IfSequence id="_1onu" test="&#34;$(in_out)&#34;==&#34;out&#34;">
               <SetGlobalStep id="_1onv" varname="data_source_directory">
                 <default>${path:output_data_directory}$(prod_dir)${path:slash}</default>
               </SetGlobalStep>
               <ElseSequence id="_1onw">
-                <ProcedureCall id="_1onx" procedure="source_data_directory">
+                <ProcedureCall id="_1onx"
+                               procedure="path.source_data_directory">
                   <variable name="data_type">$(prod_dir)</variable>
                 </ProcedureCall>
               </ElseSequence>

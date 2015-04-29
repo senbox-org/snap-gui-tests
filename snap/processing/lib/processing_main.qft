@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.3">
+<RootStep id="_0" name="root" version="4.0.4">
   <include>qfs.qft</include>
   <include>../../lib/snap_components.qft</include>
   <include>../../lib/snap_main.qft</include>
@@ -20,6 +20,7 @@
   <dependency>processing_get.qft</dependency>
   <dependency>processing_set.qft</dependency>
   <dependency>reprojection_workflow.qft</dependency>
+  <dependency>../010_30_binning.qft</dependency>
   <dependency>../geometric/010_01_collocation.qft</dependency>
   <dependency>../geometric/010_04_mosaic.qft</dependency>
   <dependency>../spectral/010_08_spectral_unmixing.qft</dependency>
@@ -49,9 +50,29 @@
     </Dependency>
     <Package id="_1pLf" name="collocation"/>
     <Package id="_1pMZ" name="utility">
+      <Procedure id="_1q55"
+                 name="set_pattern_click_OK_file_selection_pattern_dialog">
+        <variable name="pattern"/>
+        <TryStep id="_1q5B">
+          <ProcedureCall id="_1q5A"
+                         procedure="check.file_selection_pattern.file_selection_pattern_appears"/>
+          <ProcedureCall id="_1q59"
+                         procedure="set.file_selection_pattern.file_selection_pattern">
+            <variable name="val">$(pattern)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1q58"
+                         procedure="do_click.file_selection_pattern.button_ok"/>
+          <CatchSequence exception="TestException" id="_1q5C" maxerror="0">
+            <ProcedureCall id="_1q5D" procedure="run-log.logError">
+              <variable name="message">'File Selection Pattern' dialog does not appear</variable>
+              <variable name="withScreenshots">true</variable>
+            </ProcedureCall>
+          </CatchSequence>
+        </TryStep>
+      </Procedure>
       <Procedure id="_1pjc" name="open_all_products_in_folder">
         <variable name="file"/>
-        <ProcedureCall id="_1pjd"
+        <ProcedureCall id="_1pjd" postdelay="1000"
                        procedure="wait.appear.dialog.select_source_product"/>
         <ProcedureCall id="_1pje"
                        procedure="set.select_source_product_dialog.file_name">

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.3">
+<RootStep id="_0" name="root" version="4.0.4">
   <include>qfs.qft</include>
   <include>../../lib/snap_main.qft</include>
   <variable name="output_folder">mosaic</variable>
@@ -218,763 +218,784 @@
         </ProcedureCall>
       </TestStep>
     </TestCase>
-    <TestSet id="_1pMP" name="02_processing">
-      <TestCase id="_1pMR" name="01_meris_europe">
-        <variable name="output_file">test01</variable>
-        <ProcedureCall id="_1piT" procedure="open.processing.mosaicing"/>
-        <TestStep id="_1pOr" name="processing">
-          <TestStep id="_1pig" name="io_parameters">
-            <ProcedureCall id="_1pls" procedure="select_io_tab"/>
-            <ProcedureCall id="_1piV"
-                           procedure="io_parameters.add_all_products">
-              <variable name="prod_dir">mer_for_mosaic2</variable>
-              <variable name="prod_name">MER_RR__2*.N1</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1pMa"
-                           procedure="set.mosaicing.io_parameters.target_product_name">
-              <variable name="target_product_name">$(output_file)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1pid" procedure="daten_format.beam_dimap"/>
-            <ProcedureCall id="_1pie"
-                           procedure="select.mosaicing.io_parameters.output_format">
-              <variable name="output_format">$(beam_dimap)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1pif"
-                           procedure="set.mosaicing.io_parameters.target_directory">
-              <variable name="dir">$(output_folder)</variable>
-            </ProcedureCall>
-          </TestStep>
-          <TestStep id="_1pih" name="map_definition">
-            <ProcedureCall id="_1plw" procedure="select_map_definition_tab"/>
-            <ProcedureCall id="_1pii"
-                           procedure="set.mosaicing.map_definition.west">
-              <variable name="val">-20.0</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1pij"
-                           procedure="set.mosaicing.map_definition.north">
-              <variable name="val">65.0</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1pik"
-                           procedure="set.mosaicing.map_definition.east">
-              <variable name="val">20.0</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1pil"
-                           procedure="set.mosaicing.map_definition.south">
-              <variable name="val">30.0</variable>
-            </ProcedureCall>
-          </TestStep>
-          <TestStep id="_1piq" name="variables_conditions">
-            <ProcedureCall id="_1plx"
-                           procedure="select_variables_conditions_tab"/>
-            <ProcedureCall id="_1pit"
-                           procedure="do_click.mosaicing.variables_conditions.band_filter"/>
-            <ProcedureCall id="_1piu"
-                           procedure="select.band_chooser.select_all"/>
-            <ProcedureCall id="_1piv"
-                           procedure="do_click.band_chooser.button_OK"/>
-            <ProcedureCall id="_1pjt"
-                           procedure="variables_conditions.all_meris_l2_variables"/>
-          </TestStep>
-          <ProcedureCall id="_1pMd"
-                         procedure="do_click.mosaicing.button_apply"/>
-          <ProcedureCall id="_1piw"
-                         procedure="wait.disappear.writing_target_product"/>
-          <ProcedureCall id="_1pOm"
-                         procedure="click_ok_in_product_created_dialog"/>
+    <TestCase id="_1pMR" name="01_meris_europe">
+      <ProcedureCall id="_1piT" procedure="open.processing.mosaicing"/>
+      <TestStep id="_1pvr" name="set_processing_variables">
+        <SetGlobalStep id="_1pvs" varname="output_file">
+          <default>test01</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1pvv" varname="source_prod">
+          <default>mer_for_mosaic2</default>
+        </SetGlobalStep>
+      </TestStep>
+      <TestStep id="_1pvw" name="prepare_mosaicing_tool">
+        <TestStep id="_1pvx" name="io_parameters">
+          <ProcedureCall id="_1pvy"
+                         procedure="io_parameters.prepare_io_tab_for_test"/>
         </TestStep>
-        <TestStep id="_1pOo" name="check_mosaic_product">
-          <SetGlobalStep id="_1opU" varname="group_id1"/>
-          <SetGlobalStep id="_1opV" varname="view_Id1">
-            <default>8</default>
-          </SetGlobalStep>
-          <SetGlobalStep id="_1opW" varname="bandName">
-            <default>algal_1</default>
-          </SetGlobalStep>
-          <ProcedureCall id="_1opT"
-                         procedure="utility.open_image_view_check_it"/>
-          <SetGlobalStep id="_1pOT" varname="view_Id1">
-            <default>9</default>
-          </SetGlobalStep>
-          <SetGlobalStep id="_1pOU" varname="bandName">
-            <default>algal_1_count</default>
-          </SetGlobalStep>
-          <ProcedureCall id="_1pOS"
-                         procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+        <TestStep id="_1pvz" name="map_definition">
+          <ProcedureCall id="_1pv+" procedure="select_map_definition_tab"/>
+          <ProcedureCall id="_1pv-"
+                         procedure="set.mosaicing.map_definition.west">
+            <variable name="val">-20.0</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pw0"
+                         procedure="set.mosaicing.map_definition.north">
+            <variable name="val">65.0</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pw1"
+                         procedure="set.mosaicing.map_definition.east">
+            <variable name="val">20.0</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pw2"
+                         procedure="set.mosaicing.map_definition.south">
+            <variable name="val">30.0</variable>
+          </ProcedureCall>
         </TestStep>
-        <ProcedureCall id="_1pOV"
-                       procedure="close_processing_tool.mosaicing"/>
-      </TestCase>
-      <TestCase id="_1piy" name="02_meris_europe_algal">
-        <variable name="output_file">test02</variable>
-        <variable name="band1">algal_1</variable>
-        <variable name="band2">algal_2</variable>
-        <ProcedureCall id="_1piz" procedure="open.processing.mosaicing"/>
-        <TestStep id="_1pi+" name="processing">
-          <TestStep id="_1pi-" name="io_parameters">
-            <ProcedureCall id="_1plt" procedure="select_io_tab"/>
-            <ProcedureCall id="_1pj2"
-                           procedure="io_parameters.add_all_products">
-              <variable name="prod_dir">mer_for_mosaic2</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1pj3"
-                           procedure="set.mosaicing.io_parameters.target_product_name">
-              <variable name="target_product_name">$(output_file)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1pj4" procedure="daten_format.beam_dimap"/>
-            <ProcedureCall id="_1pj5"
-                           procedure="select.mosaicing.io_parameters.output_format">
-              <variable name="output_format">$(beam_dimap)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1pj6"
-                           procedure="set.mosaicing.io_parameters.target_directory">
-              <variable name="dir">$(output_folder)</variable>
-            </ProcedureCall>
-          </TestStep>
-          <TestStep id="_1pj7" name="map_definition">
-            <ProcedureCall id="_1plu" procedure="select_map_definition_tab"/>
-            <ProcedureCall id="_1pjA"
-                           procedure="set.mosaicing.map_definition.west">
-              <variable name="val">-20.0</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1pjB"
-                           procedure="set.mosaicing.map_definition.north">
-              <variable name="val">65.0</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1pjC"
-                           procedure="set.mosaicing.map_definition.east">
-              <variable name="val">20.0</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1pjD"
-                           procedure="set.mosaicing.map_definition.south">
-              <variable name="val">30.0</variable>
-            </ProcedureCall>
-          </TestStep>
-          <TestStep id="_1pjE" name="variables_conditions">
-            <ProcedureCall id="_1plv"
-                           procedure="select_variables_conditions_tab"/>
-            <ProcedureCall id="_1pjH"
-                           procedure="do_click.mosaicing.variables_conditions.band_filter"/>
-            <TryStep id="_1pjY" name="find_.band_chooser_select_None">
-              <ProcedureCall id="_1pjX"
-                             procedure="select.band_chooser.select_none"/>
-              <ProcedureCall id="_1pkP"
-                             procedure="select.band_chooser.checkbox_band">
-                <variable name="band">$(band1)</variable>
-              </ProcedureCall>
-              <ProcedureCall id="_1pkQ"
-                             procedure="select.band_chooser.checkbox_band">
-                <variable name="band">$(band2)</variable>
-              </ProcedureCall>
-              <ProcedureCall id="_1pkR"
-                             procedure="do_click.band_chooser.button_OK"/>
-              <CatchSequence exception="TestException" id="_1pjZ"
-                             maxerror="0">
-                <ProcedureCall id="_1ply" procedure="select_io_tab"/>
-                <ProcedureCall id="_1pjl"
-                               procedure="io_parameters.select_all_products"/>
-                <ProcedureCall id="_1pjm"
-                               procedure="do_click.mosaicing.io_parameters.button_remove"/>
-                <ProcedureCall id="_1pjn"
-                               procedure="io_parameters.add_all_products">
-                  <variable name="prod_dir">mer_for_mosaic2</variable>
+        <TestStep id="_1pw3" name="variables_conditions">
+          <ProcedureCall id="_1pw4"
+                         procedure="select_variables_conditions_tab"/>
+          <ProcedureCall id="_1pw5"
+                         procedure="do_click.mosaicing.variables_conditions.band_filter"/>
+          <ProcedureCall id="_1pw6"
+                         procedure="select.band_chooser.select_all"/>
+          <ProcedureCall id="_1pw7"
+                         procedure="do_click.band_chooser.button_OK"/>
+          <ProcedureCall id="_1pw8"
+                         procedure="variables_conditions.check_all_meris_l2_variables"/>
+        </TestStep>
+      </TestStep>
+      <TestStep id="_1pOr" name="processing">
+        <ProcedureCall id="_1pMd"
+                       procedure="do_click.mosaicing.button_apply"/>
+        <ProcedureCall id="_1piw"
+                       procedure="wait.disappear.writing_target_product"/>
+        <ProcedureCall id="_1pOm"
+                       procedure="click_ok_in_product_created_dialog"/>
+      </TestStep>
+      <TestStep id="_1pOo" name="check_mosaic_product">
+        <SetGlobalStep id="_1opU" varname="group_id1"/>
+        <SetGlobalStep id="_1opV" varname="view_Id1">
+          <default>8</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1opW" varname="bandName">
+          <default>algal_1</default>
+        </SetGlobalStep>
+        <ProcedureCall id="_1opT"
+                       procedure="utility.open_image_view_check_it"/>
+        <SetGlobalStep id="_1pOT" varname="view_Id1">
+          <default>9</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1pOU" varname="bandName">
+          <default>algal_1_count</default>
+        </SetGlobalStep>
+        <ProcedureCall id="_1pOS"
+                       procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+      </TestStep>
+      <ProcedureCall id="_1pOV" procedure="close_processing_tool.mosaicing"/>
+    </TestCase>
+    <TestCase id="_1piy" name="02_meris_europe_algal">
+      <ProcedureCall id="_1piz" procedure="open.processing.mosaicing"/>
+      <TestStep id="_1pv3" name="set_processing_variables">
+        <SetGlobalStep id="_1pv4" varname="output_file">
+          <default>test02</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1pv5" varname="band1">
+          <default>algal_1</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1pv6" varname="band2">
+          <default>algal_2</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1pv7" varname="source_prod">
+          <default>mer_for_mosaic2</default>
+        </SetGlobalStep>
+      </TestStep>
+      <TestStep id="_1pvS" name="prepare_mosaicing_tool">
+        <TestStep id="_1pvT" name="io_parameters">
+          <ProcedureCall id="_1pvU"
+                         procedure="io_parameters.prepare_io_tab_for_test"/>
+        </TestStep>
+        <TestStep id="_1pvV" name="map_definition">
+          <ProcedureCall id="_1pvW" procedure="select_map_definition_tab"/>
+          <ProcedureCall id="_1pvX"
+                         procedure="set.mosaicing.map_definition.west">
+            <variable name="val">-20.0</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pvY"
+                         procedure="set.mosaicing.map_definition.north">
+            <variable name="val">65.0</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pvZ"
+                         procedure="set.mosaicing.map_definition.east">
+            <variable name="val">20.0</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pva"
+                         procedure="set.mosaicing.map_definition.south">
+            <variable name="val">30.0</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pvb" name="variables_conditions">
+          <ProcedureCall id="_1pvc"
+                         procedure="select_variables_conditions_tab"/>
+          <ProcedureCall id="_1pvd"
+                         procedure="do_click.mosaicing.variables_conditions.band_filter"/>
+          <ProcedureCall id="_1pve"
+                         procedure="variables_conditions.add_2_variables"/>
+          <ProcedureCall id="_1pvf"
+                         procedure="variables_conditions.check_algal_1_and_2_variables"/>
+        </TestStep>
+      </TestStep>
+      <TestStep id="_1pi+" name="processing">
+        <ProcedureCall id="_1pjK"
+                       procedure="do_click.mosaicing.button_apply"/>
+        <ProcedureCall id="_1pjL"
+                       procedure="wait.disappear.writing_target_product"/>
+        <ProcedureCall id="_1pjM"
+                       procedure="click_ok_in_product_created_dialog"/>
+      </TestStep>
+      <TestStep id="_1pjN" name="check_mosaic_product">
+        <SetGlobalStep id="_1pjO" varname="group_id1"/>
+        <SetGlobalStep id="_1pjP" varname="view_Id1">
+          <default>0</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1pjQ" varname="bandName">
+          <default>algal_1</default>
+        </SetGlobalStep>
+        <ProcedureCall id="_1pjR"
+                       procedure="utility.open_image_view_check_it"/>
+        <SetGlobalStep id="_1pjS" varname="view_Id1">
+          <default>2</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1pjT" varname="bandName">
+          <default>algal_2</default>
+        </SetGlobalStep>
+        <ProcedureCall id="_1pjU"
+                       procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+      </TestStep>
+      <ProcedureCall id="_1pjV" procedure="close_processing_tool.mosaicing"/>
+    </TestCase>
+    <TestCase id="_40q" name="03_store_load_display_parameters">
+      <variable name="ofn">mosaic_save_parameters.xml</variable>
+      <ProcedureCall id="_1pkS" procedure="open.processing.mosaicing"/>
+      <TestStep id="_1pnp" name="set_processing_variables">
+        <SetGlobalStep id="_1pnq" varname="west">
+          <default>-15.0</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1pnr" varname="north">
+          <default>55.0</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1pns" varname="east">
+          <default>15.0</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1pnt" varname="south">
+          <default>25.0</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1pnv" varname="proj">
+          <default>Transverse Mercator</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1pnw" varname="geo_dat">
+          <default>Deutsches Hauptdreiecksnetz</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1pnu" varname="central_meridian">
+          <default>10.0</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1pnx" varname="latitude_of_origin">
+          <default>40.0</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1pny" varname="scale_factor">
+          <default>0.5</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1pnz" varname="false_easting">
+          <default>0.3</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1pn+" varname="false_northing">
+          <default>0.4</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1pn-" varname="semi_major">
+          <default>6377397.155</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1po0" varname="semi_minor">
+          <default>6356078.962818189</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1po1" varname="band1">
+          <default>radiance_5</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1po2" varname="band2">
+          <default>radiance_7</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1po3" varname="cond_expr">
+          <default>l1_flags.LAND_OCEAN</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1pvE" varname="source_prod">
+          <default>mer_for_mosaic1</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1pvB" varname="output_file">
+          <default>mosaic_save_parameters</default>
+        </SetGlobalStep>
+      </TestStep>
+      <TestStep id="_1pOt" name="change_parameters">
+        <TestStep id="_1pkU" name="io_parameters">
+          <ProcedureCall id="_1pvj"
+                         procedure="io_parameters.prepare_io_tab_for_test"/>
+        </TestStep>
+        <TestStep id="_1pkc" name="map_definition">
+          <ProcedureCall id="_1pl-" procedure="select_map_definition_tab"/>
+          <ProcedureCall id="_1pkf"
+                         procedure="set.mosaicing.map_definition.west">
+            <variable name="val">$(west)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pkg"
+                         procedure="set.mosaicing.map_definition.north">
+            <variable name="val">$(north)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pkh"
+                         procedure="set.mosaicing.map_definition.east">
+            <variable name="val">$(east)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pki"
+                         procedure="set.mosaicing.map_definition.south">
+            <variable name="val">$(south)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pmY"
+                         procedure="select.mosaicing.map_definition.display_source_products"/>
+          <ProcedureCall id="_1pmZ"
+                         procedure="select.mosaicing.map_definition.projection">
+            <variable name="projection">$(proj)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pma"
+                         procedure="select.mosaicing.map_definition.geodetic_datum">
+            <variable name="geodetic_datum">$(geo_dat)</variable>
+          </ProcedureCall>
+          <TestStep id="_1pne" name="projection_parameters">
+            <ProcedureCall id="_1pnn"
+                           procedure="check.mosaicing.enabled.map_definition.button_projection_parameters"/>
+            <IfSequence id="_1pno"
+                        test="&#34;$(button_projection_parameters)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1pnm"
+                             procedure="do_click.mosaicing.map_definition.button_projection_parameters"/>
+              <TryStep id="_1poj">
+                <ProcedureCall id="_1poi"
+                               procedure="check.projection_parameters_dialog.projection_parameters_dialog_opened">
+                  <variable name="projection"/>
                 </ProcedureCall>
-                <ProcedureCall id="_1pjo" procedure="select.mosaicing.tab">
-                  <variable name="tab">$(variables_conditions)</variable>
+                <ProcedureCall id="_1pnf"
+                               procedure="set.projection_parameters_dialog.central_meridian">
+                  <variable name="projection">$(proj)</variable>
+                  <variable name="val">$(central_meridian)</variable>
                 </ProcedureCall>
-                <ProcedureCall id="_1pjp"
-                               procedure="do_click.mosaicing.variables_conditions.band_filter"/>
-                <ProcedureCall id="_1pjq"
-                               procedure="select.band_chooser.select_none"/>
-                <ProcedureCall id="_1pjI"
-                               procedure="select.band_chooser.checkbox_band">
-                  <variable name="band">$(band1)</variable>
+                <ProcedureCall id="_1png"
+                               procedure="set.projection_parameters_dialog.latitude_of_origin">
+                  <variable name="projection">$(proj)</variable>
+                  <variable name="val">$(latitude_of_origin)</variable>
                 </ProcedureCall>
-                <ProcedureCall id="_1pjW"
-                               procedure="select.band_chooser.checkbox_band">
-                  <variable name="band">$(band2)</variable>
+                <ProcedureCall id="_1pnh"
+                               procedure="set.projection_parameters_dialog.scale_factor">
+                  <variable name="projection">$(proj)</variable>
+                  <variable name="val">$(scale_factor)</variable>
                 </ProcedureCall>
-                <ProcedureCall id="_1pjJ"
-                               procedure="do_click.band_chooser.button_OK"/>
-                <ProcedureCall id="_1pjr" procedure="run-log.logError">
-                  <variable name="message">Band Chooser could not be opened. It was necessary to remove and open again source products</variable>
-                  <variable name="withScreenshots">false</variable>
+                <ProcedureCall id="_1pni"
+                               procedure="set.projection_parameters_dialog.false_easting">
+                  <variable name="projection">$(proj)</variable>
+                  <variable name="val">$(false_easting)</variable>
                 </ProcedureCall>
-              </CatchSequence>
-            </TryStep>
-            <ProcedureCall id="_1pjx"
-                           procedure="variables_conditions.get_variable_0"/>
-            <IfSequence id="_1pjy"
-                        test="&#34;$(variable_0)&#34;&lt;&gt;&#34;$(band1)&#34;">
-              <ProcedureCall id="_1pk4"
-                             procedure="variables_conditions.select_all_variables"/>
-              <ProcedureCall id="_1pk5"
-                             procedure="do_click.mosaicing.variables_conditions.remove_variable"/>
-              <ProcedureCall id="_1pk6"
-                             procedure="do_click.mosaicing.variables_conditions.band_filter"/>
-              <TryStep id="_1pk7" name="find_.band_chooser_select_None">
-                <ProcedureCall id="_1pk8"
-                               procedure="select.band_chooser.select_none"/>
-                <ProcedureCall id="_1pkM"
-                               procedure="select.band_chooser.checkbox_band">
-                  <variable name="band">$(band1)</variable>
+                <ProcedureCall id="_1pnj"
+                               procedure="set.projection_parameters_dialog.false_northing">
+                  <variable name="projection">$(proj)</variable>
+                  <variable name="val">$(false_northing)</variable>
                 </ProcedureCall>
-                <ProcedureCall id="_1pkN"
-                               procedure="select.band_chooser.checkbox_band">
-                  <variable name="band">$(band2)</variable>
+                <ProcedureCall id="_1pnk"
+                               procedure="set.projection_parameters_dialog.semi_major">
+                  <variable name="projection">$(proj)</variable>
+                  <variable name="val">$(semi_major)</variable>
                 </ProcedureCall>
-                <ProcedureCall id="_1pkO"
-                               procedure="do_click.band_chooser.button_OK"/>
-                <CatchSequence exception="TestException" id="_1pk9"
+                <ProcedureCall id="_1pnl"
+                               procedure="set.projection_parameters_dialog.semi_minor">
+                  <variable name="projection">$(proj)</variable>
+                  <variable name="val">$(semi_minor)</variable>
+                </ProcedureCall>
+                <ProcedureCall id="_1poh"
+                               procedure="do_click.projection_parameters_dialog.button_OK">
+                  <variable name="projection">$(projection)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1pok"
                                maxerror="0">
-                  <ProcedureCall id="_1pkA" procedure="tabs_name"/>
-                  <ProcedureCall id="_1pkB" procedure="select.mosaicing.tab">
-                    <variable name="tab">$(io_param)</variable>
-                  </ProcedureCall>
-                  <ProcedureCall id="_1pkC"
-                                 procedure="io_parameters.select_all_products"/>
-                  <ProcedureCall id="_1pkD"
-                                 procedure="do_click.mosaicing.io_parameters.button_remove"/>
-                  <ProcedureCall id="_1pkE"
-                                 procedure="io_parameters.add_all_products">
-                    <variable name="prod_dir">mer_for_mosaic2</variable>
-                  </ProcedureCall>
-                  <ProcedureCall id="_1pkF" procedure="select.mosaicing.tab">
-                    <variable name="tab">$(variables_conditions)</variable>
-                  </ProcedureCall>
-                  <ProcedureCall id="_1pkG"
-                                 procedure="do_click.mosaicing.variables_conditions.band_filter"/>
-                  <ProcedureCall id="_1pkH"
-                                 procedure="select.band_chooser.select_none"/>
-                  <ProcedureCall id="_1pkI"
-                                 procedure="select.band_chooser.checkbox_band">
-                    <variable name="band">$(band1)</variable>
-                  </ProcedureCall>
-                  <ProcedureCall id="_1pkJ"
-                                 procedure="select.band_chooser.checkbox_band">
-                    <variable name="band">$(band2)</variable>
-                  </ProcedureCall>
-                  <ProcedureCall id="_1pkK"
-                                 procedure="do_click.band_chooser.button_OK"/>
-                  <ProcedureCall id="_1pkL" procedure="run-log.logError">
-                    <variable name="message">Band Chooser could not be opened. It was necessary to remove and open again source products</variable>
-                    <variable name="withScreenshots">false</variable>
+                  <ProcedureCall id="_1pol" procedure="run-log.logError">
+                    <variable name="message">'Projection Parameters' dialog did not appear.</variable>
+                    <variable name="withScreenshots">true</variable>
                   </ProcedureCall>
                 </CatchSequence>
               </TryStep>
+              <ElseSequence id="_1poG">
+                <ProcedureCall id="_1poH" procedure="run-log.logError">
+                  <variable name="message">Button 'Projection Parameters...' is disabled.</variable>
+                  <variable name="withScreenshots">true</variable>
+                </ProcedureCall>
+              </ElseSequence>
             </IfSequence>
-            <ProcedureCall id="_1pjw"
-                           procedure="variables_conditions.algal_1_and_2_variables"/>
           </TestStep>
-          <ProcedureCall id="_1pjK"
-                         procedure="do_click.mosaicing.button_apply"/>
-          <ProcedureCall id="_1pjL"
-                         procedure="wait.disappear.writing_target_product"/>
-          <ProcedureCall id="_1pjM"
-                         procedure="click_ok_in_product_created_dialog"/>
         </TestStep>
-        <TestStep id="_1pjN" name="check_mosaic_product">
-          <SetGlobalStep id="_1pjO" varname="group_id1"/>
-          <SetGlobalStep id="_1pjP" varname="view_Id1">
-            <default>0</default>
-          </SetGlobalStep>
-          <SetGlobalStep id="_1pjQ" varname="bandName">
-            <default>algal_1</default>
-          </SetGlobalStep>
-          <ProcedureCall id="_1pjR"
-                         procedure="utility.open_image_view_check_it"/>
-          <SetGlobalStep id="_1pjS" varname="view_Id1">
-            <default>2</default>
-          </SetGlobalStep>
-          <SetGlobalStep id="_1pjT" varname="bandName">
-            <default>algal_2</default>
-          </SetGlobalStep>
-          <ProcedureCall id="_1pjU"
-                         procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+        <TestStep id="_1pkj" name="variables_conditions">
+          <ProcedureCall id="_1pm0"
+                         procedure="select_variables_conditions_tab"/>
+          <ProcedureCall id="_1pkm"
+                         procedure="do_click.mosaicing.variables_conditions.band_filter"/>
+          <ProcedureCall id="_1pv9"
+                         procedure="variables_conditions.add_2_variables"/>
+          <ProcedureCall id="_1pos"
+                         procedure="variables_conditions.check_radiance_5_and_7_variables"/>
+          <ProcedureCall id="_1pwS"
+                         procedure="variables_conditions.add_one_condition"/>
         </TestStep>
-        <ProcedureCall id="_1pjV"
-                       procedure="close_processing_tool.mosaicing"/>
-      </TestCase>
-      <TestCase id="_40q" name="03_store_load_display_parameters">
-        <variable name="ofn">mosaic_save_parameters.xml</variable>
-        <variable name="source_dir">mer_for_mosaic1</variable>
-        <variable name="output_file">mosaic_save_parameters.dim</variable>
-        <ProcedureCall id="_1pkS" procedure="open.processing.mosaicing"/>
-        <TestStep id="_1pOt" name="change_parameters">
-          <TestStep id="_1pkU" name="io_parameters">
-            <ProcedureCall id="_1pkV" procedure="tabs_name"/>
-            <ProcedureCall id="_1pkW" procedure="select.mosaicing.tab">
-              <variable name="tab">$(io_param)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1pkX"
-                           procedure="io_parameters.add_all_products">
-              <variable name="prod_dir">$(source_dir)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1pkY"
-                           procedure="set.mosaicing.io_parameters.target_product_name">
-              <variable name="target_product_name">$(output_file)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1pkZ" procedure="daten_format.beam_dimap"/>
-            <ProcedureCall id="_1pka"
-                           procedure="select.mosaicing.io_parameters.output_format">
-              <variable name="output_format">$(beam_dimap)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1pkb"
-                           procedure="set.mosaicing.io_parameters.target_directory">
-              <variable name="dir">$(output_folder)</variable>
-            </ProcedureCall>
-          </TestStep>
-          <TestStep id="_1pkc" name="map_definition">
-            <ProcedureCall id="_1pkd" procedure="tabs_name"/>
-            <ProcedureCall id="_1pke" procedure="select.mosaicing.tab">
-              <variable name="tab">$(map_definition)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1pkf"
-                           procedure="set.mosaicing.map_definition.west">
-              <variable name="val">-20.0</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1pkg"
-                           procedure="set.mosaicing.map_definition.north">
-              <variable name="val">65.0</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1pkh"
-                           procedure="set.mosaicing.map_definition.east">
-              <variable name="val">20.0</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1pki"
-                           procedure="set.mosaicing.map_definition.south">
-              <variable name="val">30.0</variable>
-            </ProcedureCall>
-          </TestStep>
-          <TestStep id="_1pkj" name="variables_conditions">
-            <ProcedureCall id="_1pkk" procedure="tabs_name"/>
-            <ProcedureCall id="_1pkl" procedure="select.mosaicing.tab">
-              <variable name="tab">$(variables_conditions)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1pkm"
-                           procedure="do_click.mosaicing.variables_conditions.band_filter"/>
-            <TryStep id="_1pkn" name="find_.band_chooser_select_None">
-              <ProcedureCall id="_1pko"
-                             procedure="select.band_chooser.select_none"/>
-              <ProcedureCall id="_1pkp"
-                             procedure="select.band_chooser.checkbox_band">
-                <variable name="band">$(band1)</variable>
-              </ProcedureCall>
-              <ProcedureCall id="_1pkq"
-                             procedure="select.band_chooser.checkbox_band">
-                <variable name="band">$(band2)</variable>
-              </ProcedureCall>
-              <ProcedureCall id="_1pkr"
-                             procedure="do_click.band_chooser.button_OK"/>
-              <CatchSequence exception="TestException" id="_1pks"
-                             maxerror="0">
-                <ProcedureCall id="_1pkt" procedure="tabs_name"/>
-                <ProcedureCall id="_1pku" procedure="select.mosaicing.tab">
-                  <variable name="tab">$(io_param)</variable>
+      </TestStep>
+      <ProcedureCall id="_1pPE" procedure="store_parameters"/>
+      <TestStep id="_1pPg" name="change_parameters">
+        <TestStep id="_1pp8" name="map_definition">
+          <ProcedureCall id="_1pp9" procedure="select_map_definition_tab"/>
+          <ProcedureCall id="_1ppA"
+                         procedure="set.mosaicing.map_definition.west">
+            <variable name="val">-180.0</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ppB"
+                         procedure="set.mosaicing.map_definition.north">
+            <variable name="val">70.0</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ppC"
+                         procedure="set.mosaicing.map_definition.east">
+            <variable name="val">180.0</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ppD"
+                         procedure="set.mosaicing.map_definition.south">
+            <variable name="val">0.0</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ppE"
+                         procedure="deselect.mosaicing.map_definition.display_source_products"/>
+          <ProcedureCall id="_1pqK"
+                         procedure="set.default_parameters.geodetic_datum_default"/>
+          <ProcedureCall id="_1ppG"
+                         procedure="select.mosaicing.map_definition.geodetic_datum">
+            <variable name="geodetic_datum">$(geodetic_datum_default)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pqL"
+                         procedure="set.default_parameters.geo_lat_lon_projection"/>
+          <ProcedureCall id="_1ppF"
+                         procedure="select.mosaicing.map_definition.projection">
+            <variable name="projection">$(geo_lat_lon_projection)</variable>
+          </ProcedureCall>
+          <TestStep disabled="true" id="_1ppH" name="projection_parameters">
+            <ProcedureCall id="_1ppI"
+                           procedure="check.mosaicing.enabled.map_definition.button_projection_parameters"/>
+            <IfSequence id="_1ppJ"
+                        test="&#34;$(button_projection_parameters)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1ppK"
+                             procedure="do_click.mosaicing.map_definition.button_projection_parameters"/>
+              <TryStep id="_1ppL">
+                <ProcedureCall id="_1ppM"
+                               procedure="check.projection_parameters_dialog.projection_parameters_dialog_opened">
+                  <variable name="projection"/>
                 </ProcedureCall>
-                <ProcedureCall id="_1pkv"
-                               procedure="io_parameters.select_all_products"/>
-                <ProcedureCall id="_1pkw"
-                               procedure="do_click.mosaicing.io_parameters.button_remove"/>
-                <ProcedureCall id="_1pkx"
-                               procedure="io_parameters.add_all_products">
-                  <variable name="prod_dir">mer_for_mosaic2</variable>
+                <ProcedureCall id="_1ppN"
+                               procedure="set.projection_parameters_dialog.central_meridian">
+                  <variable name="projection">$(proj)</variable>
+                  <variable name="val">$(central_meridian)</variable>
                 </ProcedureCall>
-                <ProcedureCall id="_1pky" procedure="select.mosaicing.tab">
-                  <variable name="tab">$(variables_conditions)</variable>
+                <ProcedureCall id="_1ppO"
+                               procedure="set.projection_parameters_dialog.latitude_of_origin">
+                  <variable name="projection">$(proj)</variable>
+                  <variable name="val">$(latitude_of_origin)</variable>
                 </ProcedureCall>
-                <ProcedureCall id="_1pkz"
-                               procedure="do_click.mosaicing.variables_conditions.band_filter"/>
-                <ProcedureCall id="_1pk+"
-                               procedure="select.band_chooser.select_none"/>
-                <ProcedureCall id="_1pk-"
-                               procedure="select.band_chooser.checkbox_band">
-                  <variable name="band">$(band1)</variable>
+                <ProcedureCall id="_1ppP"
+                               procedure="set.projection_parameters_dialog.scale_factor">
+                  <variable name="projection">$(proj)</variable>
+                  <variable name="val">$(scale_factor)</variable>
                 </ProcedureCall>
-                <ProcedureCall id="_1pl0"
-                               procedure="select.band_chooser.checkbox_band">
-                  <variable name="band">$(band2)</variable>
+                <ProcedureCall id="_1ppQ"
+                               procedure="set.projection_parameters_dialog.false_easting">
+                  <variable name="projection">$(proj)</variable>
+                  <variable name="val">$(false_easting)</variable>
                 </ProcedureCall>
-                <ProcedureCall id="_1pl1"
-                               procedure="do_click.band_chooser.button_OK"/>
-                <ProcedureCall id="_1pl2" procedure="run-log.logError">
-                  <variable name="message">Band Chooser could not be opened. It was necessary to remove and open again source products</variable>
-                  <variable name="withScreenshots">false</variable>
+                <ProcedureCall id="_1ppR"
+                               procedure="set.projection_parameters_dialog.false_northing">
+                  <variable name="projection">$(proj)</variable>
+                  <variable name="val">$(false_northing)</variable>
                 </ProcedureCall>
-              </CatchSequence>
-            </TryStep>
-            <ProcedureCall id="_1pl3"
-                           procedure="variables_conditions.get_variable_0"/>
-            <IfSequence id="_1pl4"
-                        test="&#34;$(variable_0)&#34;&lt;&gt;&#34;$(band1)&#34;">
-              <ProcedureCall id="_1pl5"
-                             procedure="variables_conditions.select_all_variables"/>
-              <ProcedureCall id="_1pl6"
-                             procedure="do_click.mosaicing.variables_conditions.remove_variable"/>
-              <ProcedureCall id="_1pl7"
-                             procedure="do_click.mosaicing.variables_conditions.band_filter"/>
-              <TryStep id="_1pl8" name="find_.band_chooser_select_None">
-                <ProcedureCall id="_1pl9"
-                               procedure="select.band_chooser.select_none"/>
-                <ProcedureCall id="_1plA"
-                               procedure="select.band_chooser.checkbox_band">
-                  <variable name="band">$(band1)</variable>
+                <ProcedureCall id="_1ppS"
+                               procedure="set.projection_parameters_dialog.semi_major">
+                  <variable name="projection">$(proj)</variable>
+                  <variable name="val">$(semi_major)</variable>
                 </ProcedureCall>
-                <ProcedureCall id="_1plB"
-                               procedure="select.band_chooser.checkbox_band">
-                  <variable name="band">$(band2)</variable>
+                <ProcedureCall id="_1ppT"
+                               procedure="set.projection_parameters_dialog.semi_minor">
+                  <variable name="projection">$(proj)</variable>
+                  <variable name="val">$(semi_minor)</variable>
                 </ProcedureCall>
-                <ProcedureCall id="_1plC"
-                               procedure="do_click.band_chooser.button_OK"/>
-                <CatchSequence exception="TestException" id="_1plD"
+                <ProcedureCall id="_1ppU"
+                               procedure="do_click.projection_parameters_dialog.button_OK">
+                  <variable name="projection">$(projection)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1ppV"
                                maxerror="0">
-                  <ProcedureCall id="_1plE" procedure="tabs_name"/>
-                  <ProcedureCall id="_1plF" procedure="select.mosaicing.tab">
-                    <variable name="tab">$(io_param)</variable>
-                  </ProcedureCall>
-                  <ProcedureCall id="_1plG"
-                                 procedure="io_parameters.select_all_products"/>
-                  <ProcedureCall id="_1plH"
-                                 procedure="do_click.mosaicing.io_parameters.button_remove"/>
-                  <ProcedureCall id="_1plI"
-                                 procedure="io_parameters.add_all_products">
-                    <variable name="prod_dir">mer_for_mosaic2</variable>
-                  </ProcedureCall>
-                  <ProcedureCall id="_1plJ" procedure="select.mosaicing.tab">
-                    <variable name="tab">$(variables_conditions)</variable>
-                  </ProcedureCall>
-                  <ProcedureCall id="_1plK"
-                                 procedure="do_click.mosaicing.variables_conditions.band_filter"/>
-                  <ProcedureCall id="_1plL"
-                                 procedure="select.band_chooser.select_none"/>
-                  <ProcedureCall id="_1plM"
-                                 procedure="select.band_chooser.checkbox_band">
-                    <variable name="band">$(band1)</variable>
-                  </ProcedureCall>
-                  <ProcedureCall id="_1plN"
-                                 procedure="select.band_chooser.checkbox_band">
-                    <variable name="band">$(band2)</variable>
-                  </ProcedureCall>
-                  <ProcedureCall id="_1plO"
-                                 procedure="do_click.band_chooser.button_OK"/>
-                  <ProcedureCall id="_1plP" procedure="run-log.logError">
-                    <variable name="message">Band Chooser could not be opened. It was necessary to remove and open again source products</variable>
-                    <variable name="withScreenshots">false</variable>
+                  <ProcedureCall id="_1ppW" procedure="run-log.logError">
+                    <variable name="message">'Projection Parameters' dialog did not appear.</variable>
+                    <variable name="withScreenshots">true</variable>
                   </ProcedureCall>
                 </CatchSequence>
               </TryStep>
+              <ElseSequence id="_1ppX">
+                <ProcedureCall id="_1ppY" procedure="run-log.logError">
+                  <variable name="message">Button 'Projection Parameters...' is disabled.</variable>
+                  <variable name="withScreenshots">true</variable>
+                </ProcedureCall>
+              </ElseSequence>
             </IfSequence>
-            <ProcedureCall id="_1plQ"
-                           procedure="variables_conditions.algal_1_and_2_variables"/>
           </TestStep>
         </TestStep>
-        <TestStep id="_1plU" name="check_mosaic_product">
-          <SetGlobalStep id="_1plV" varname="group_id1"/>
-          <SetGlobalStep id="_1plW" varname="view_Id1">
-            <default>0</default>
-          </SetGlobalStep>
-          <SetGlobalStep id="_1plX" varname="bandName">
-            <default>algal_1</default>
-          </SetGlobalStep>
-          <ProcedureCall id="_1plY"
-                         procedure="utility.open_image_view_check_it"/>
-          <SetGlobalStep id="_1plZ" varname="view_Id1">
-            <default>2</default>
-          </SetGlobalStep>
-          <SetGlobalStep id="_1pla" varname="bandName">
-            <default>algal_2</default>
-          </SetGlobalStep>
-          <ProcedureCall id="_1plb"
-                         procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+        <TestStep id="_1ppZ" name="variables_conditions">
+          <ProcedureCall id="_1ppa"
+                         procedure="select_variables_conditions_tab"/>
+          <ProcedureCall id="_1pqM"
+                         procedure="variables_conditions.select_all_variables"/>
+          <ProcedureCall id="_1pqN"
+                         procedure="do_click.mosaicing.variables_conditions.remove_variable"/>
+          <ProcedureCall id="_1pqW"
+                         procedure="variables_conditions.select_all_conditions"/>
+          <ProcedureCall id="_1pqX"
+                         procedure="do_click.mosaicing.variables_conditions.remove_condition"/>
         </TestStep>
-        <ProcedureCall id="_1plc"
-                       procedure="close_processing_tool.mosaicing"/>
-        <ProcedureCall id="_1pPE" procedure="store_parameters"/>
-        <TestStep id="_1pPg" name="change_parameters">
-          <ProcedureCall id="_1pPh"
-                         procedure="set.collocation.target_directory">
-            <variable name="dir">$(output_folder)</variable>
-          </ProcedureCall>
-          <ProcedureCall id="_1pPi"
-                         procedure="select.collocation.resampling_type">
-            <variable name="resampling_type">bilinear</variable>
-          </ProcedureCall>
-          <ProcedureCall id="_1pPj"
-                         procedure="set.collocation.master_pattern">
-            <variable name="val">x</variable>
-          </ProcedureCall>
-          <ProcedureCall id="_1pPk" procedure="set.collocation.slave_pattern">
-            <variable name="val">y</variable>
-          </ProcedureCall>
+        <TestStep id="_1poz" name="io_parameters">
+          <ProcedureCall id="_1po+" procedure="select_io_tab"/>
+          <TryStep id="_1po-" name="remove_all_source_products">
+            <ProcedureCall id="_1pp0"
+                           procedure="io_parameters.select_all_products"/>
+            <ProcedureCall id="_1pp1"
+                           procedure="do_click.mosaicing.io_parameters.button_remove"/>
+            <CatchSequence exception="TestException" id="_1pp2" maxerror="0"/>
+          </TryStep>
         </TestStep>
-        <ProcedureCall id="_1pPl" procedure="load_parameters"/>
-        <TestStep id="_1pPm" name="check_parameters">
-          <ProcedureCall id="_1pPn"
-                         procedure="check.collocation.text.resampling_type">
-            <variable name="val">bisinc</variable>
+      </TestStep>
+      <ProcedureCall id="_1pPl" procedure="load_parameters"/>
+      <TestStep id="_1pPm" name="check_parameters">
+        <TestStep id="_1poK" name="map_definition">
+          <ProcedureCall id="_1poL" procedure="select_map_definition_tab"/>
+          <ProcedureCall id="_1poM"
+                         procedure="check.mosaicing.text.map_definition.west">
+            <variable name="val">$(west)</variable>
           </ProcedureCall>
-          <ProcedureCall id="_1pQ2"
-                         procedure="check.collocation.text.master_pattern">
-            <variable name="val">master</variable>
+          <ProcedureCall id="_1poN"
+                         procedure="check.mosaicing.text.map_definition.north">
+            <variable name="val">$(north)</variable>
           </ProcedureCall>
-          <ProcedureCall id="_1pQ3"
-                         procedure="check.collocation.text.slave_pattern">
-            <variable name="val">slave</variable>
+          <ProcedureCall id="_1poO"
+                         procedure="check.mosaicing.text.map_definition.east">
+            <variable name="val">$(east)</variable>
           </ProcedureCall>
-        </TestStep>
-        <TestStep id="_1pV8" name="display_parameters">
-          <ProcedureCall id="_1pP-" procedure="display_parameters"/>
-          <ComponentWaiter client="$(client)"
-                           component="dialogCollocate_Parameters" id="_1pOz"/>
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="dialogCollocate_Parameters.ModalDialog.ok"
-                          event="MOUSE_MPRC" id="_1pO+" modifiers="16"/>
-        </TestStep>
-        <ProcedureCall id="_1pV7"
-                       procedure="close_processing_tool.collocation"/>
-      </TestCase>
-      <TestCase id="_1pQ4" name="04_cancel_processing">
-        <variable name="output_file">test_04_cancel.dim</variable>
-        <variable name="master_data">MER_FSG_1PNUPA20090704_041155_000004532080_00262_38392_7000_pix.nc</variable>
-        <variable name="slave_data">MER_FSG_1PNUPA20090704_041155_000004532080_00262_38392_7000.dim</variable>
-        <variable name="master_dir">collocated_pixelgeocoding</variable>
-        <variable name="slave_dir">collocated_pixelgeocoding</variable>
-        <ProcedureCall id="_1pQ5" procedure="open.processing.collocation"/>
-        <TestStep id="_1pQ6" name="cancel_processing">
-          <ProcedureCall id="_1pRu" procedure="fill_dialog"/>
-          <ProcedureCall id="_1pQX"
-                         procedure="select.collocation.output_format">
-            <variable name="output_format">BEAM-DIMAP</variable>
+          <ProcedureCall id="_1poP"
+                         procedure="check.mosaicing.text.map_definition.south">
+            <variable name="val">$(south)</variable>
           </ProcedureCall>
-          <ProcedureCall id="_1pQB"
-                         procedure="select.collocation.resampling_type">
-            <variable name="resampling_type">cubic</variable>
+          <ProcedureCall id="_1poR"
+                         procedure="check.mosaicing.text.map_definition.selected_reprojection">
+            <variable name="val">$(proj)</variable>
           </ProcedureCall>
-          <ProcedureCall id="_1pQC"
-                         procedure="do_click.collocation.button_apply"/>
-          <ProcedureCall id="_1pQU"
-                         procedure="cancel_writing_target_product"/>
-        </TestStep>
-        <TestStep id="_1pQE" name="check">
-          <ProcedureCall id="_1l3B" procedure="check.product.not_opened"/>
-          <IfSequence id="_1kk7"
-                      test="&#34;$(not_opened)&#34;==&#34;false&#34;">
-            <ProcedureCall id="_1pQV" procedure="run-log.logError">
-              <variable name="message">$(output_file) is opened in SNAP</variable>
-              <variable name="withScreenshots">true</variable>
-            </ProcedureCall>
-          </IfSequence>
-          <ProcedureCall id="_1pVQ" procedure="set.target_product_with_path"/>
-          <ProcedureCall id="_1pQW"
-                         procedure="check_external_file.file_was_not_processed_else_shoot_error">
-            <variable name="fileName">$(target_product)</variable>
+          <ProcedureCall id="_1poS"
+                         procedure="check.mosaicing.text.map_definition.geodetic_datum">
+            <variable name="val">$(geo_dat)</variable>
           </ProcedureCall>
-        </TestStep>
-        <ProcedureCall id="_1pQM"
-                       procedure="close_processing_tool.collocation"/>
-      </TestCase>
-      <TestCase id="_1pRE" name="05_collocate_pixel_geocoded_products"
-                reportname="05 Collocate pixel geo-coded products, open in VISAT">
-        <variable name="master_data">MER_FSG_1PNUPA20090704_041155_000004532080_00262_38392_7000_pix.nc</variable>
-        <variable name="slave_data">MER_FSG_1PNUPA20090704_041155_000004532080_00262_38392_7000.dim</variable>
-        <variable name="master_dir">collocated_pixelgeocoding</variable>
-        <variable name="slave_dir">collocated_pixelgeocoding</variable>
-        <variable name="output_file">test_collocated_pixel_geocoding.dim</variable>
-        <ProcedureCall id="_1pRF" procedure="open.processing.collocation"/>
-        <TestStep id="_1pRG" name="processing">
-          <ProcedureCall id="_1pRt" procedure="fill_dialog"/>
-          <ProcedureCall id="_1pRZ"
-                         procedure="select.collocation.output_format">
-            <variable name="output_format">BEAM-DIMAP</variable>
-          </ProcedureCall>
-          <ProcedureCall id="_1pRL"
-                         procedure="select.collocation.resampling_type">
-            <variable name="resampling_type">nearest</variable>
-          </ProcedureCall>
-          <ProcedureCall id="_1pRM"
-                         procedure="do_click.collocation.button_apply"/>
-          <ProcedureCall id="_1pRa"
-                         procedure="wait.appear.dialog.writing_target_product"/>
-          <ProcedureCall id="_1pRd"
-                         procedure="wait.disappear.writing_target_product"/>
-          <ProcedureCall id="_1pRb"
-                         procedure="click_ok_in_product_created_dialog"/>
-        </TestStep>
-        <TestStep id="_1pRO" name="check_target_product">
-          <TestStep id="_1pRi" name="open_image_view">
-            <SetGlobalStep id="_1pRP" varname="group_id1"/>
-            <SetGlobalStep id="_1pRQ" varname="view_Id1">
-              <default>0</default>
-            </SetGlobalStep>
-            <SetGlobalStep id="_1pRR" varname="bandName">
-              <default>radiance_1_M</default>
-            </SetGlobalStep>
-            <ProcedureCall id="_1pRS"
-                           procedure="utility.open_image_view_check_it"/>
-          </TestStep>
-          <TestStep id="_1pRh" name="menu_attach_detach_pixel_geocoding">
-            <ProcedureCall id="_1pRg" procedure="do_click.menu.tools"/>
-            <ProcedureCall id="_1pRe"
-                           procedure="check.menu.tools.menuItemAttachPixelGeoCoding_enabled_status">
-              <variable name="enabled_status">false</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1pRf"
-                           procedure="check.menu.tools.menuItemDetachPixelGeoCoding_enabled_enabled_status">
-              <variable name="enabled_status">true</variable>
-            </ProcedureCall>
-          </TestStep>
-          <TestStep id="_1pRj"
-                    name="open_image_view_check_masks_layers_close_product">
-            <SetGlobalStep id="_1pRT" varname="view_Id1">
-              <default>20</default>
-            </SetGlobalStep>
-            <SetGlobalStep id="_1pRU" varname="bandName">
-              <default>radiance_1_S</default>
-            </SetGlobalStep>
-            <ProcedureCall id="_1pRV"
-                           procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
-          </TestStep>
-        </TestStep>
-        <ProcedureCall id="_1pRW"
-                       procedure="close_processing_tool.collocation"/>
-      </TestCase>
-      <TestSet id="_1pT+" name="06_processing_in_different_formats">
-        <variable name="master_data">MER_RR__2PNMAP20070729_022435_000000792060_00175_28285_0001.N1</variable>
-        <variable name="slave_data">ATS_TOA_1PNMAP20070729_022413_000000482060_00174_28284_0001.N1</variable>
-        <variable name="master_dir">collocated_small</variable>
-        <variable name="slave_dir">collocated_small</variable>
-        <SetupSequence id="_1pUV" name="prepare_for_the_testing">
-          <ProcedureCall id="_1pUX" procedure="open.processing.collocation"/>
-          <ProcedureCall id="_1pUY" procedure="fill_dialog"/>
-          <ProcedureCall id="_1pUZ"
-                         procedure="select.collocation.resampling_type">
-            <variable name="resampling_type">nearest</variable>
-          </ProcedureCall>
-        </SetupSequence>
-        <TestSet id="_1pUb" name="06_processing_in_different_formats">
-          <DataDriver id="_1pUc"
-                      loopreportname="Collocation, write the target product as $(output_format)"
-                      name="collocation">
-            <ProcedureCall id="_1pUd" procedure="tables.output_formats"/>
-          </DataDriver>
-          <TestCase id="_1pUj" name="processing_in_different_formats"
-                    reportname="Processing in different formats and check output product">
-            <ServerScriptStep disabled="true" id="_1pV5" name="print">
-              <code>print "output_format = $(output_format)"</code>
-            </ServerScriptStep>
-            <ServerScriptStep disabled="true" id="_1pV6" name="print">
-              <code>print "output_file = $(output_file)"</code>
-            </ServerScriptStep>
-            <TestStep id="_1pUk" name="processing">
-              <ProcedureCall id="_1pUl"
-                             procedure="set.collocation.target_product_name">
-                <variable name="target_product_name">$(output_file)</variable>
-              </ProcedureCall>
-              <ProcedureCall id="_1pUm"
-                             procedure="select.collocation.output_format">
-                <variable name="output_format">$(output_format)</variable>
-              </ProcedureCall>
-              <ProcedureCall id="_1pUn"
-                             procedure="do_click.collocation.button_apply"/>
-              <ProcedureCall id="_1pUo"
-                             procedure="wait.disappear.writing_target_product"/>
-              <TryStep id="_1pQT" name="click_OK_in_dialog_SNAP_SNAP_Error">
-                <ProcedureCall id="_1pQQ"
-                               procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
-                <ProcedureCall id="_1pQP"
-                               procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
-                <CatchSequence exception="TestException" id="_1pU+"
-                               maxerror="0"/>
+          <TestStep id="_1po5" name="projection_parameters">
+            <ProcedureCall id="_1po6"
+                           procedure="check.mosaicing.enabled.map_definition.button_projection_parameters"/>
+            <IfSequence id="_1po7"
+                        test="&#34;$(button_projection_parameters)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1po8"
+                             procedure="do_click.mosaicing.map_definition.button_projection_parameters"/>
+              <TryStep id="_1pon">
+                <ProcedureCall id="_1pom"
+                               procedure="check.projection_parameters_dialog.projection_parameters_dialog_opened">
+                  <variable name="projection"/>
+                </ProcedureCall>
+                <ProcedureCall id="_1po9"
+                               procedure="check.projection_parameters_dialog.central_meridian">
+                  <variable name="projection">$(proj)</variable>
+                  <variable name="val">$(central_meridian)</variable>
+                </ProcedureCall>
+                <ProcedureCall id="_1poA"
+                               procedure="check.projection_parameters_dialog.latitude_of_origin">
+                  <variable name="projection">$(proj)</variable>
+                  <variable name="val">$(latitude_of_origin)</variable>
+                </ProcedureCall>
+                <ProcedureCall id="_1poB"
+                               procedure="check.projection_parameters_dialog.scale_factor">
+                  <variable name="projection">$(proj)</variable>
+                  <variable name="val">$(scale_factor)</variable>
+                </ProcedureCall>
+                <ProcedureCall id="_1poC"
+                               procedure="check.projection_parameters_dialog.false_easting">
+                  <variable name="projection">$(proj)</variable>
+                  <variable name="val">$(false_easting)</variable>
+                </ProcedureCall>
+                <ProcedureCall id="_1poD"
+                               procedure="check.projection_parameters_dialog.false_northing">
+                  <variable name="projection">$(proj)</variable>
+                  <variable name="val">$(false_northing)</variable>
+                </ProcedureCall>
+                <ProcedureCall id="_1poE"
+                               procedure="check.projection_parameters_dialog.semi_major">
+                  <variable name="projection">$(proj)</variable>
+                  <variable name="val">$(semi_major)</variable>
+                </ProcedureCall>
+                <ProcedureCall id="_1poF"
+                               procedure="check.projection_parameters_dialog.semi_minor">
+                  <variable name="projection">$(proj)</variable>
+                  <variable name="val">$(semi_minor)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1poo"
+                               maxerror="0">
+                  <ProcedureCall id="_1pop" procedure="run-log.logError">
+                    <variable name="message">'Projection Parameters' dialog did not appear.</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </CatchSequence>
               </TryStep>
-              <ProcedureCall id="_1pUp"
-                             procedure="click_ok_in_product_created_dialog"/>
-            </TestStep>
-            <TestStep id="_1pUq" name="check_target_product">
-              <ProcedureCall id="_1pVR"
-                             procedure="set.target_product_with_path"/>
-              <ProcedureCall id="_1pV0"
-                             procedure="check_external_file.file_exists_setGlobal">
-                <variable name="fileName">$(target_product)</variable>
-              </ProcedureCall>
-              <IfSequence id="_1pV1"
-                          test="&#34;$(fileExists)&#34;==&#34;True&#34;">
-                <ProcedureCall id="_1pVA"
-                               procedure="check.product.not_opened"/>
-                <IfSequence id="_1pVB"
-                            test="&#34;$(not_opened)&#34;==&#34;false&#34;">
-                  <TestStep id="_1pUr" name="open_image_view">
-                    <SetGlobalStep id="_1pUs" varname="group_id1"/>
-                    <SetGlobalStep id="_1pV9" varname="bandName"/>
-                    <SetGlobalStep id="_1pUt" varname="view_Id1">
-                      <default>0</default>
-                    </SetGlobalStep>
-                    <ProcedureCall id="_1pUu"
-                                   procedure="utility.open_image_view_check_it"/>
-                  </TestStep>
-                  <TestStep id="_1pUv"
-                            name="open_image_view_check_masks_layers_close_product">
-                    <SetGlobalStep id="_1pUw" varname="view_Id1">
-                      <default>20</default>
-                    </SetGlobalStep>
-                    <ProcedureCall id="_1pUx"
-                                   procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
-                  </TestStep>
-                  <ElseSequence id="_1pVC">
-                    <ProcedureCall id="_1pVD" procedure="run-log.logError">
-                      <variable name="message">$(target_product) is not opened.</variable>
-                      <variable name="withScreenshots">false</variable>
-                    </ProcedureCall>
-                  </ElseSequence>
-                </IfSequence>
-                <ElseSequence id="_1pV2">
-                  <ProcedureCall id="_1pV3" procedure="run-log.logError">
-                    <variable name="message">$(target_product) is not written.</variable>
+              <ElseSequence id="_1poI">
+                <ProcedureCall id="_1poJ" procedure="run-log.logError">
+                  <variable name="message">Button 'Projection Parameters...' is disabled.</variable>
+                  <variable name="withScreenshots">true</variable>
+                </ProcedureCall>
+              </ElseSequence>
+            </IfSequence>
+          </TestStep>
+        </TestStep>
+        <TestStep id="_1prA" name="variables_conditions">
+          <ProcedureCall id="_1prB"
+                         procedure="select_variables_conditions_tab"/>
+          <ProcedureCall id="_1prs"
+                         procedure="variables_conditions.check_radiance_5_and_7_variables"/>
+          <ProcedureCall id="_1ps7"
+                         procedure="variables_conditions.check_condition_name">
+            <variable name="cond_nr">0</variable>
+            <variable name="val">condition_0</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ps8"
+                         procedure="variables_conditions.check_condition_expression">
+            <variable name="cond_nr">0</variable>
+            <variable name="val">$(cond_expr)</variable>
+          </ProcedureCall>
+        </TestStep>
+      </TestStep>
+      <TestStep id="_1pV8" name="display_parameters">
+        <ProcedureCall id="_1pP-" procedure="display_parameters"/>
+        <ComponentWaiter client="$(client)"
+                         component="dialogMosaic_Parameters" id="_1psB"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogMosaic_Parameters.ModalDialog.ok"
+                        event="MOUSE_MPRC" id="_1psC" modifiers="16"/>
+      </TestStep>
+      <ProcedureCall id="_1psD" procedure="close_processing_tool.mosaicing"/>
+    </TestCase>
+    <TestSet id="_1pT+" name="04_processing_in_different_formats">
+      <SetupSequence id="_1pUV" name="prepare_for_the_testing">
+        <ProcedureCall id="_1psG" procedure="open.processing.mosaicing"/>
+        <TestStep id="_1psQ" name="set_processing_variables">
+          <SetGlobalStep id="_1pse" varname="band1">
+            <default>radiance_5</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1psf" varname="band2">
+            <default>radiance_7</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1pwU" varname="cond_expr">
+            <default>l1_flags.LAND_OCEAN</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1pvF" varname="source_prod">
+            <default>mer_for_mosaic1</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1pwC" varname="output_file">
+            <default>test</default>
+          </SetGlobalStep>
+        </TestStep>
+        <TestStep id="_1psi" name="change_parameters">
+          <TestStep id="_1psj" name="io_parameters">
+            <ProcedureCall id="_1pvk"
+                           procedure="io_parameters.prepare_io_tab_for_test"/>
+          </TestStep>
+          <TestStep id="_1psu" name="map_definition">
+            <ProcedureCall id="_1psv" procedure="select_map_definition_tab"/>
+            <ProcedureCall id="_1psw"
+                           procedure="set.mosaicing.map_definition.west">
+              <variable name="val">-20.0</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1psx"
+                           procedure="set.mosaicing.map_definition.north">
+              <variable name="val">55.0</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1psy"
+                           procedure="set.mosaicing.map_definition.east">
+              <variable name="val">20.0</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1psz"
+                           procedure="set.mosaicing.map_definition.south">
+              <variable name="val">20.0</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1ps+"
+                           procedure="select.mosaicing.map_definition.display_source_products"/>
+          </TestStep>
+          <TestStep id="_1ptJ" name="variables_conditions">
+            <ProcedureCall id="_1ptK"
+                           procedure="select_variables_conditions_tab"/>
+            <ProcedureCall id="_1pvl"
+                           procedure="variables_conditions.add_2_variables"/>
+            <ProcedureCall id="_1pt-"
+                           procedure="variables_conditions.check_radiance_5_and_7_variables"/>
+            <ProcedureCall id="_1pwT"
+                           procedure="variables_conditions.add_one_condition"/>
+          </TestStep>
+        </TestStep>
+      </SetupSequence>
+      <TestSet id="_1pUb" name="processing_in_different_formats">
+        <DataDriver id="_1pUc"
+                    loopreportname="Mosaicing, write the target product as $(output_format)"
+                    name="mosaicing">
+          <ProcedureCall id="_1pUd" procedure="tables.output_formats"/>
+        </DataDriver>
+        <TestCase id="_1pUj" name="processing_in_different_formats"
+                  reportname="Processing in different formats and check output product">
+          <ServerScriptStep id="_1pV5" name="print">
+            <code>print "output_format = $(output_format)"</code>
+          </ServerScriptStep>
+          <ServerScriptStep id="_1pV6" name="print">
+            <code>print "output_file = $(output_file)"</code>
+          </ServerScriptStep>
+          <TestStep id="_1pUk" name="processing">
+            <ProcedureCall id="_1pwD" procedure="check.product.not_opened"/>
+            <IfSequence id="_1pwE"
+                        test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1l33" procedure="close.all_products"/>
+            </IfSequence>
+            <ProcedureCall id="_1pvn" procedure="select_io_tab"/>
+            <ProcedureCall id="_1pvo"
+                           procedure="set.mosaicing.io_parameters.target_product_name">
+              <variable name="target_product_name">$(output_file)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1pvp"
+                           procedure="select.mosaicing.io_parameters.output_format">
+              <variable name="output_format">$(output_format)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1pUn"
+                           procedure="do_click.mosaicing.button_apply"/>
+            <ProcedureCall id="_1pUo"
+                           procedure="wait.disappear.writing_target_product"/>
+            <TryStep id="_1pQT" name="click_OK_in_dialog_SNAP_SNAP_Error">
+              <ProcedureCall id="_1pQQ"
+                             procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
+              <ProcedureCall id="_1pQP"
+                             procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
+              <CatchSequence exception="TestException" id="_1pU+"
+                             maxerror="0"/>
+            </TryStep>
+            <ProcedureCall id="_1pUp"
+                           procedure="click_ok_in_product_created_dialog"/>
+          </TestStep>
+          <TestStep id="_1pUq" name="check_target_product">
+            <ProcedureCall id="_1pVR"
+                           procedure="set.target_product_with_path"/>
+            <ProcedureCall id="_1pV0"
+                           procedure="check_external_file.file_exists_setGlobal">
+              <variable name="fileName">$(target_product)</variable>
+            </ProcedureCall>
+            <IfSequence id="_1pV1"
+                        test="&#34;$(fileExists)&#34;==&#34;True&#34;">
+              <ProcedureCall id="_1pVA" procedure="check.product.not_opened"/>
+              <IfSequence id="_1pVB"
+                          test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+                <TestStep id="_1pUr" name="open_image_view">
+                  <SetGlobalStep id="_1pUs" varname="group_id1"/>
+                  <SetGlobalStep id="_1pV9" varname="bandName"/>
+                  <SetGlobalStep id="_1pUt" varname="view_Id1">
+                    <default>0</default>
+                  </SetGlobalStep>
+                  <ProcedureCall id="_1pUx"
+                                 procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+                </TestStep>
+                <ElseSequence id="_1pVC">
+                  <ProcedureCall id="_1pVD" procedure="run-log.logError">
+                    <variable name="message">$(target_product) is not opened.</variable>
                     <variable name="withScreenshots">false</variable>
                   </ProcedureCall>
                 </ElseSequence>
               </IfSequence>
-            </TestStep>
-          </TestCase>
-        </TestSet>
-        <CleanupSequence id="_1pUa" name="close_collocation_tool">
-          <ProcedureCall id="_1pUP"
-                         procedure="close_processing_tool.collocation"/>
-        </CleanupSequence>
+              <ElseSequence id="_1pV2">
+                <ProcedureCall id="_1pV3" procedure="run-log.logError">
+                  <variable name="message">$(target_product) is not written.</variable>
+                  <variable name="withScreenshots">false</variable>
+                </ProcedureCall>
+              </ElseSequence>
+            </IfSequence>
+          </TestStep>
+        </TestCase>
       </TestSet>
+      <CleanupSequence id="_1pUa" name="close_collocation_tool">
+        <ProcedureCall id="_1psO"
+                       procedure="close_processing_tool.mosaicing"/>
+      </CleanupSequence>
     </TestSet>
+    <TestSet disabled="true" id="_1pMP" name="02_processing"/>
     <TestCase id="_1pFr" name="03_help">
-      <ProcedureCall id="_1pVE" procedure="open.processing.collocation"/>
+      <ProcedureCall id="_1psH" procedure="open.processing.mosaicing"/>
       <TestStep id="_1pVG" name="check_help">
-        <ProcedureCall id="_1pVH" procedure="do_click.collocation.menu.help"/>
-        <ProcedureCall id="_1pVI"
-                       procedure="do_click.collocation.menu.help_menu_item"/>
+        <ProcedureCall id="_1psI" procedure="do_click.mosaicing.menu.help"/>
+        <ProcedureCall id="_1psJ"
+                       procedure="do_click.mosaicing.menu.help_menu_item"/>
         <ProcedureCall id="_1pVL" procedure="check.help_appears"/>
         <ProcedureCall id="_1pVM" procedure="close.help"/>
       </TestStep>
       <TestStep id="_1pVN" name="check_help_about">
-        <ProcedureCall id="_1pVO" procedure="do_click.collocation.menu.help"/>
-        <ProcedureCall id="_1pVP"
-                       procedure="do_click.collocation.menu.about"/>
-        <ComponentWaiter client="$(client)" component="dialogAbout_Collocate2"
-                         id="_1pLo"/>
+        <ProcedureCall id="_1psK" procedure="do_click.mosaicing.menu.help"/>
+        <ProcedureCall id="_1psL" procedure="do_click.mosaicing.menu.about"/>
+        <ComponentWaiter client="$(client)" component="dialogAbout_Mosaic"
+                         id="_1piP"/>
         <MouseEventStep clicks="1" client="$(client)"
-                        component="dialogAbout_Collocate2.ModalDialog.ok"
-                        event="MOUSE_MPRC" id="_1pLp" modifiers="16"/>
+                        component="dialogAbout_Mosaic.ModalDialog.ok"
+                        event="MOUSE_MPRC" id="_1piQ" modifiers="16"/>
       </TestStep>
-      <ProcedureCall id="_1pVF"
-                     procedure="close_processing_tool.collocation"/>
+      <ProcedureCall id="_1psP" procedure="close_processing_tool.mosaicing"/>
     </TestCase>
   </TestSet>
   <PackageRoot id="_4">
     <Package id="_1pjd" name="io_parameters">
-      <Procedure id="_1pMT" name="add_all_products">
+      <Procedure id="_1pvG" name="prepare_io_tab_for_test">
+        <ProcedureCall id="_1pvH" postdelay="12000"
+                       procedure="select_io_tab"/>
+        <TryStep disabled="true" id="_1pvI" name="remove_all_source_products"
+                 postdelay="5000">
+          <ProcedureCall id="_1pvJ"
+                         procedure="io_parameters.select_all_products"/>
+          <ProcedureCall id="_1pvK"
+                         procedure="do_click.mosaicing.io_parameters.button_remove"/>
+          <CatchSequence exception="TestException" id="_1pvL" maxerror="0"/>
+        </TryStep>
+        <ProcedureCall id="_1pvM" procedure="io_parameters.add_all_products">
+          <variable name="prod_dir">$(source_prod)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pvN"
+                       procedure="set.mosaicing.io_parameters.target_product_name">
+          <variable name="target_product_name">$(output_file)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pvO" procedure="daten_format.beam_dimap"/>
+        <ProcedureCall id="_1pvP"
+                       procedure="select.mosaicing.io_parameters.output_format">
+          <variable name="output_format">$(beam_dimap)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pwV"
+                       procedure="select.mosaicing.io_parameters.open_in_snap"/>
+        <ProcedureCall id="_1pvQ"
+                       procedure="set.mosaicing.io_parameters.target_directory">
+          <variable name="dir">$(output_folder)</variable>
+        </ProcedureCall>
+      </Procedure>
+      <Procedure id="_1pMT" name="add_all_products" predelay="5000">
         <variable name="prod_dir"/>
-        <ProcedureCall id="_1oSj" procedure="source_data_directory">
+        <ProcedureCall id="_1oSj" procedure="path.source_data_directory">
           <variable name="data_type">$(prod_dir)</variable>
         </ProcedureCall>
-        <ProcedureCall id="_1piW" procedure="tabs_name"/>
-        <ProcedureCall id="_1piX" procedure="select.mosaicing.tab">
-          <variable name="tab">$(io_param)</variable>
-        </ProcedureCall>
+        <ProcedureCall id="_1pm1" procedure="select_io_tab"/>
         <ProcedureCall id="_1piY"
                        procedure="do_click.mosaicing.io_parameters.button_add"/>
         <ProcedureCall id="_1pic"
@@ -982,7 +1003,9 @@
           <variable name="file">$(data_source_directory)*</variable>
         </ProcedureCall>
       </Procedure>
-      <Procedure id="_1pjc" name="select_all_products">
+      <Procedure id="_1pjc" name="select_all_products" postdelay="1000"
+                 predelay="1000">
+        <comment>@teststep Select all products.</comment>
         <MouseEventStep clicks="1" client="$(client)"
                         component="dialogMosaicing.Source_products2"
                         event="MOUSE_MPRC" id="_1pjk" modifiers="16"/>
@@ -1002,7 +1025,164 @@
     </Package>
     <Package id="_1pje" name="map_definition"/>
     <Package id="_1pjf" name="variables_conditions">
-      <Procedure id="_1pju" name="all_meris_l2_variables">
+      <Procedure id="_1puE" name="add_2_variables">
+        <comment>@teststep Add 2 variables.</comment>
+        <TryStep id="_1puF" name="find_band_chooser_select_None">
+          <ProcedureCall id="_1puG"
+                         procedure="select.band_chooser.select_none"/>
+          <ProcedureCall id="_1puH"
+                         procedure="select.band_chooser.checkbox_band">
+            <variable name="band">$(band1)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1puI"
+                         procedure="select.band_chooser.checkbox_band">
+            <variable name="band">$(band2)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1puJ"
+                         procedure="do_click.band_chooser.button_OK"/>
+          <CatchSequence exception="TestException" id="_1puK" maxerror="0"
+                         name="remove and re-open all source products">
+            <ProcedureCall id="_1puL" procedure="select_io_tab"/>
+            <ProcedureCall id="_1puM"
+                           procedure="io_parameters.select_all_products"/>
+            <ProcedureCall id="_1puN"
+                           procedure="do_click.mosaicing.io_parameters.button_remove"/>
+            <ProcedureCall id="_1puO"
+                           procedure="io_parameters.add_all_products">
+              <variable name="prod_dir">$(source_prod)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1puP"
+                           procedure="select_variables_conditions_tab"/>
+            <ProcedureCall id="_1puQ"
+                           procedure="do_click.mosaicing.variables_conditions.band_filter"/>
+            <TryStep id="_1puR" name="find_band_chooser_select_bands">
+              <ProcedureCall id="_1puS"
+                             procedure="select.band_chooser.select_none"/>
+              <ProcedureCall id="_1puT"
+                             procedure="select.band_chooser.checkbox_band">
+                <variable name="band">$(band1)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1puU"
+                             procedure="select.band_chooser.checkbox_band">
+                <variable name="band">$(band2)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1puV"
+                             procedure="do_click.band_chooser.button_OK"/>
+              <ProcedureCall id="_1puW" procedure="run-log.logError">
+                <variable name="message">Band Chooser could not be opened. It was necessary to remove all variables.</variable>
+                <variable name="withScreenshots">false</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1puX" maxerror="0"
+                             name="remove all variables and select bands">
+                <ProcedureCall id="_1puY"
+                               procedure="variables_conditions.select_all_variables"/>
+                <ProcedureCall id="_1puZ"
+                               procedure="do_click.mosaicing.variables_conditions.remove_variable"/>
+                <ProcedureCall id="_1pua"
+                               procedure="do_click.mosaicing.variables_conditions.band_filter"/>
+                <TryStep id="_1pub" name="find_.band_chooser_select_None">
+                  <ProcedureCall id="_1puc"
+                                 procedure="select.band_chooser.select_none"/>
+                  <ProcedureCall id="_1pud"
+                                 procedure="select.band_chooser.checkbox_band">
+                    <variable name="band">$(band1)</variable>
+                  </ProcedureCall>
+                  <ProcedureCall id="_1pue"
+                                 procedure="select.band_chooser.checkbox_band">
+                    <variable name="band">$(band2)</variable>
+                  </ProcedureCall>
+                  <ProcedureCall id="_1puf"
+                                 procedure="do_click.band_chooser.button_OK"/>
+                  <CatchSequence exception="TestException" id="_1pug"
+                                 maxerror="0">
+                    <ProcedureCall id="_1puh" procedure="run-log.logError">
+                      <variable name="message">Band Chooser could not be opened.</variable>
+                      <variable name="withScreenshots">false</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </CatchSequence>
+        </TryStep>
+        <ProcedureCall id="_1pui"
+                       procedure="variables_conditions.get_variable_0"/>
+        <IfSequence id="_1puj"
+                    test="&#34;$(variable_0)&#34;&lt;&gt;&#34;$(band1)&#34;">
+          <ProcedureCall id="_1puk"
+                         procedure="variables_conditions.select_all_variables"/>
+          <ProcedureCall id="_1pul"
+                         procedure="do_click.mosaicing.variables_conditions.remove_variable"/>
+          <ProcedureCall id="_1pum"
+                         procedure="do_click.mosaicing.variables_conditions.band_filter"/>
+          <TryStep id="_1pun" name="find_.band_chooser_select_None">
+            <ProcedureCall id="_1puo"
+                           procedure="select.band_chooser.select_none"/>
+            <ProcedureCall id="_1pup"
+                           procedure="select.band_chooser.checkbox_band">
+              <variable name="band">$(band1)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1puq"
+                           procedure="select.band_chooser.checkbox_band">
+              <variable name="band">$(band2)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1pur"
+                           procedure="do_click.band_chooser.button_OK"/>
+            <CatchSequence exception="TestException" id="_1pus" maxerror="0">
+              <ProcedureCall id="_1put" procedure="select_io_tab"/>
+              <ProcedureCall id="_1puu"
+                             procedure="io_parameters.select_all_products"/>
+              <ProcedureCall id="_1puv"
+                             procedure="do_click.mosaicing.io_parameters.button_remove"/>
+              <ProcedureCall id="_1puw"
+                             procedure="io_parameters.add_all_products">
+                <variable name="prod_dir">mer_for_mosaic2</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1pux"
+                             procedure="select_variables_conditions_tab"/>
+              <ProcedureCall id="_1puy"
+                             procedure="do_click.mosaicing.variables_conditions.band_filter"/>
+              <ProcedureCall id="_1puz"
+                             procedure="select.band_chooser.select_none"/>
+              <ProcedureCall id="_1pu+"
+                             procedure="select.band_chooser.checkbox_band">
+                <variable name="band">$(band1)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1pu-"
+                             procedure="select.band_chooser.checkbox_band">
+                <variable name="band">$(band2)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1pv0"
+                             procedure="do_click.band_chooser.button_OK"/>
+              <ProcedureCall id="_1pv1" procedure="run-log.logError">
+                <variable name="message">Band Chooser could not be opened. It was necessary to remove and open again source products</variable>
+                <variable name="withScreenshots">false</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+        </IfSequence>
+      </Procedure>
+      <Procedure id="_1pwN" name="add_one_condition">
+        <TryStep id="_1pwW" name="remove_all_conditions">
+          <ProcedureCall id="_1pwf"
+                         procedure="variables_conditions.select_all_conditions"/>
+          <ProcedureCall id="_1pwY"
+                         procedure="do_click.mosaicing.variables_conditions.remove_condition"/>
+          <CatchSequence exception="TestException" id="_1pwZ" maxerror="0"/>
+        </TryStep>
+        <ProcedureCall id="_1pwO"
+                       procedure="do_click.mosaicing.variables_conditions.new_condition"/>
+        <ProcedureCall id="_1pwP"
+                       procedure="do_click.mosaicing.variables_conditions.button_add_condition_expression_0"/>
+        <ProcedureCall id="_1pwQ"
+                       procedure="set.tools.expression_Editor.experession">
+          <variable name="exp">$(cond_expr)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pwR"
+                       procedure="do_click.tools.expression_Editor.button_ok"/>
+      </Procedure>
+      <Procedure id="_1pju" name="check_all_meris_l2_variables">
+        <comment>@teststep Check variables.</comment>
         <CheckItemsStep checktype="column" client="$(client)"
                         component="dialogMosaicing.Variables3.Name"
                         id="_1pjv">
@@ -1041,13 +1221,43 @@
           <item>yellow_subs</item>
         </CheckItemsStep>
       </Procedure>
-      <Procedure id="_1pjs" name="algal_1_and_2_variables">
+      <Procedure id="_1pjs" name="check_algal_1_and_2_variables">
+        <comment>@teststep Check variables.</comment>
         <CheckItemsStep checktype="column" client="$(client)"
                         component="dialogMosaicing.Variables3.Name"
                         id="_1phN">
           <item>algal_1</item>
           <item>algal_2</item>
         </CheckItemsStep>
+      </Procedure>
+      <Procedure id="_1poq" name="check_radiance_5_and_7_variables">
+        <comment>@teststep Check variables.</comment>
+        <CheckItemsStep checktype="column" client="$(client)"
+                        component="dialogMosaicing.Variables3.Name"
+                        id="_1por">
+          <item>radiance_5</item>
+          <item>radiance_7</item>
+        </CheckItemsStep>
+      </Procedure>
+      <Procedure id="_1ps0" name="check_condition_name">
+        <variable name="cond_nr"/>
+        <variable name="val"/>
+        <comment>@teststep Check condition name.</comment>
+        <CheckStringStep checktype="item" client="$(client)"
+                         component="dialogMosaicing.Conditions4.Name&amp;$(cond_nr)"
+                         id="_1ps3">
+          <text>$(val)</text>
+        </CheckStringStep>
+      </Procedure>
+      <Procedure id="_1prx" name="check_condition_expression">
+        <variable name="cond_nr"/>
+        <variable name="val"/>
+        <comment>@teststep Check condition expression.</comment>
+        <CheckStringStep checktype="item" client="$(client)"
+                         component="dialogMosaicing.Conditions4.Expression&amp;$(cond_nr)"
+                         id="_1pr-">
+          <text>$(val)</text>
+        </CheckStringStep>
       </Procedure>
       <Procedure id="_1phP" name="get_variable_0">
         <FetchTextStep client="$(client)"
@@ -1075,6 +1285,29 @@
         <KeyEventStep client="$(client)"
                       component="dialogMosaicing.Variables3"
                       event="KEY_RELEASED" id="_1phb" keychar="65535"
+                      keycode="17" modifiers="0"/>
+      </Procedure>
+      <Procedure id="_1pqT" name="select_condition">
+        <variable name="cond_nr"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogMosaicing.Conditions4.Expression&amp;$(cond_nr)"
+                        event="MOUSE_MPRC" id="_1pjo" modifiers="16"/>
+      </Procedure>
+      <Procedure id="_1pqO" name="select_all_conditions">
+        <ProcedureCall id="_1pqV"
+                       procedure="variables_conditions.select_condition">
+          <variable name="cond_nr">0</variable>
+        </ProcedureCall>
+        <KeyEventStep client="$(client)"
+                      component="dialogMosaicing.Variables3"
+                      event="KEY_PRESSED" id="_1pqQ" keychar="65535"
+                      keycode="17" modifiers="2"/>
+        <KeyEventStep client="$(client)"
+                      component="dialogMosaicing.Variables3" event="KEY_PTR"
+                      id="_1pqR" keychar="1" keycode="65" modifiers="2"/>
+        <KeyEventStep client="$(client)"
+                      component="dialogMosaicing.Variables3"
+                      event="KEY_RELEASED" id="_1pqS" keychar="65535"
                       keycode="17" modifiers="0"/>
       </Procedure>
     </Package>
@@ -1107,38 +1340,19 @@
         <variable name="tab">$(variables_conditions)</variable>
       </ProcedureCall>
     </Procedure>
-    <Procedure disabled="true" id="_1pRk" name="fill_dialog">
-      <ProcedureCall id="_1pRl" procedure="io_parameters.add_all_products">
-        <variable name="prod_dir">$(master_dir)</variable>
-        <variable name="prod_name">$(master_data)</variable>
-      </ProcedureCall>
-      <ProcedureCall id="_1pRm" procedure="select_slave_product">
-        <variable name="prod_dir">$(slave_dir)</variable>
-        <variable name="prod_name">$(slave_data)</variable>
-      </ProcedureCall>
-      <ProcedureCall id="_1pRn"
-                     procedure="set.collocation.target_product_name">
-        <variable name="target_product_name">$(output_file)</variable>
-      </ProcedureCall>
-      <ProcedureCall id="_1pRo" procedure="select.collocation.save_as"/>
-      <ProcedureCall id="_1pRp" procedure="select.collocation.open_in_snap"/>
-      <ProcedureCall id="_1pRq" procedure="set.collocation.target_directory">
-        <variable name="dir">$(output_folder)</variable>
-      </ProcedureCall>
-    </Procedure>
-    <Procedure disabled="true" id="_1pPv" name="display_parameters">
+    <Procedure id="_1pPv" name="display_parameters">
       <TryStep id="_1pPw" name="select_menu_display_parameters">
-        <ProcedureCall id="_1pPx" procedure="do_click.collocation.menu.file"/>
-        <ProcedureCall id="_1pPy"
-                       procedure="do_click.collocation.menu.display_parameters"/>
+        <ProcedureCall id="_1ps9" procedure="do_click.mosaicing.menu.file"/>
+        <ProcedureCall id="_1psA"
+                       procedure="do_click.mosaicing.menu.display_parameters"/>
         <CatchSequence exception="TestException" id="_1pPz" maxerror="0"/>
       </TryStep>
     </Procedure>
-    <Procedure disabled="true" id="_1pP9" name="load_parameters">
+    <Procedure id="_1pP9" name="load_parameters">
       <TryStep id="_1pPA" name="select_menu_load_parameters">
-        <ProcedureCall id="_1pPB" procedure="do_click.collocation.menu.file"/>
-        <ProcedureCall id="_1pPC"
-                       procedure="do_click.collocation.menu.load_parameters"/>
+        <ProcedureCall id="_1pqY" procedure="do_click.mosaicing.menu.file"/>
+        <ProcedureCall id="_1pqZ"
+                       procedure="do_click.mosaicing.menu.load_parameters"/>
         <CatchSequence exception="TestException" id="_1pPD" maxerror="0"/>
       </TryStep>
       <ProcedureCall id="_1pPM" procedure="utility.load_parameters_dialog">
@@ -1156,24 +1370,11 @@
         <CatchSequence exception="TestException" id="_1pOR" maxerror="0"/>
       </TryStep>
     </Procedure>
-    <Procedure disabled="true" id="_1pMU" name="select_slave_product">
-      <variable name="prod_dir"/>
-      <variable name="prod_name"/>
-      <ProcedureCall id="_1pMX" procedure="source_data_directory">
-        <variable name="data_type">$(prod_dir)</variable>
-      </ProcedureCall>
-      <ProcedureCall id="_1pMV"
-                     procedure="do_click.collocation.button_source_slave_product"/>
-      <ProcedureCall id="_1pMW"
-                     procedure="utility.handle_select_product_dialog">
-        <variable name="file">$(data_source_directory)$(prod_name)</variable>
-      </ProcedureCall>
-    </Procedure>
-    <Procedure disabled="true" id="_1pPF" name="store_parameters">
+    <Procedure id="_1pPF" name="store_parameters">
       <TryStep id="_1pPG" name="select_menu_store_parameters">
-        <ProcedureCall id="_1pPH" procedure="do_click.collocation.menu.file"/>
+        <ProcedureCall id="_1pPH" procedure="do_click.mosaicing.menu.file"/>
         <ProcedureCall id="_1pPI"
-                       procedure="do_click.collocation.menu.save_parameters"/>
+                       procedure="do_click.mosaicing.menu.save_parameters"/>
         <CatchSequence exception="TestException" id="_1pPJ" maxerror="0"/>
       </TryStep>
       <ProcedureCall id="_1pPK" procedure="utility.store_parameters_dialog">
@@ -1185,38 +1386,415 @@
     <Package id="_1phq" name="io_parameters"/>
     <Package id="_1phr" name="map_definition"/>
     <Package id="_1phs" name="variables_conditions"/>
-    <BasicSequence id="_1piG" name="menu">
-      <CheckStringStep client="$(client)"
-                       component="dialogMosaicing.menuItemLoad_Parameters..."
-                       id="_1piH">
-        <text>Load Parameters...</text>
-      </CheckStringStep>
-      <CheckStringStep client="$(client)"
-                       component="dialogMosaicing.menuItemSave_Parameters..."
-                       id="_1piI">
-        <text>Save Parameters...</text>
-      </CheckStringStep>
-      <CheckStringStep client="$(client)"
-                       component="dialogMosaicing.menuItemDisplay_Parameters..."
-                       id="_1piJ">
-        <text>Display Parameters...</text>
-      </CheckStringStep>
-      <MouseEventStep clicks="0" client="$(client)"
-                      component="dialogMosaicing.menuHelp" event="MOUSE_MOVED"
-                      id="_1piK" modifiers="0"/>
+    <BasicSequence id="_1pv8" name="x">
+      <TryStep id="_1pjY" name="find_band_chooser_select_None">
+        <ProcedureCall id="_1pjX"
+                       procedure="select.band_chooser.select_none"/>
+        <ProcedureCall id="_1pkP"
+                       procedure="select.band_chooser.checkbox_band">
+          <variable name="band">$(band1)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pkQ"
+                       procedure="select.band_chooser.checkbox_band">
+          <variable name="band">$(band2)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pkR"
+                       procedure="do_click.band_chooser.button_OK"/>
+        <CatchSequence exception="TestException" id="_1pjZ" maxerror="0"
+                       name="remove and re-open all source products">
+          <ProcedureCall id="_1ply" procedure="select_io_tab"/>
+          <ProcedureCall id="_1pjl"
+                         procedure="io_parameters.select_all_products"/>
+          <ProcedureCall id="_1pjm"
+                         procedure="do_click.mosaicing.io_parameters.button_remove"/>
+          <ProcedureCall id="_1pjn"
+                         procedure="io_parameters.add_all_products">
+            <variable name="prod_dir">mer_for_mosaic2</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1plz"
+                         procedure="select_variables_conditions_tab"/>
+          <ProcedureCall id="_1pjp"
+                         procedure="do_click.mosaicing.variables_conditions.band_filter"/>
+          <TryStep id="_1pm2" name="find_band_chooser_select_bands">
+            <ProcedureCall id="_1pm4"
+                           procedure="select.band_chooser.select_none"/>
+            <ProcedureCall id="_1pjI"
+                           procedure="select.band_chooser.checkbox_band">
+              <variable name="band">$(band1)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1pjW"
+                           procedure="select.band_chooser.checkbox_band">
+              <variable name="band">$(band2)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1pjJ"
+                           procedure="do_click.band_chooser.button_OK"/>
+            <ProcedureCall id="_1pjr" procedure="run-log.logError">
+              <variable name="message">Band Chooser could not be opened. It was necessary to remove all variables.</variable>
+              <variable name="withScreenshots">false</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1pm3" maxerror="0"
+                           name="remove all variables and select bands">
+              <ProcedureCall id="_1pm5"
+                             procedure="variables_conditions.select_all_variables"/>
+              <ProcedureCall id="_1pm6"
+                             procedure="do_click.mosaicing.variables_conditions.remove_variable"/>
+              <ProcedureCall id="_1pm7"
+                             procedure="do_click.mosaicing.variables_conditions.band_filter"/>
+              <TryStep id="_1pm8" name="find_.band_chooser_select_None">
+                <ProcedureCall id="_1pm9"
+                               procedure="select.band_chooser.select_none"/>
+                <ProcedureCall id="_1pmA"
+                               procedure="select.band_chooser.checkbox_band">
+                  <variable name="band">$(band1)</variable>
+                </ProcedureCall>
+                <ProcedureCall id="_1pmB"
+                               procedure="select.band_chooser.checkbox_band">
+                  <variable name="band">$(band2)</variable>
+                </ProcedureCall>
+                <ProcedureCall id="_1pmC"
+                               procedure="do_click.band_chooser.button_OK"/>
+                <CatchSequence exception="TestException" id="_1pmD"
+                               maxerror="0">
+                  <ProcedureCall id="_1pmP" procedure="run-log.logError">
+                    <variable name="message">Band Chooser could not be opened.</variable>
+                    <variable name="withScreenshots">false</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </CatchSequence>
+      </TryStep>
+      <ProcedureCall id="_1pmQ"
+                     procedure="variables_conditions.get_variable_0"/>
+      <IfSequence id="_1pjy"
+                  test="&#34;$(variable_0)&#34;&lt;&gt;&#34;$(band1)&#34;">
+        <ProcedureCall id="_1pk4"
+                       procedure="variables_conditions.select_all_variables"/>
+        <ProcedureCall id="_1pk5"
+                       procedure="do_click.mosaicing.variables_conditions.remove_variable"/>
+        <ProcedureCall id="_1pk6"
+                       procedure="do_click.mosaicing.variables_conditions.band_filter"/>
+        <TryStep id="_1pk7" name="find_.band_chooser_select_None">
+          <ProcedureCall id="_1pk8"
+                         procedure="select.band_chooser.select_none"/>
+          <ProcedureCall id="_1pkM"
+                         procedure="select.band_chooser.checkbox_band">
+            <variable name="band">$(band1)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pkN"
+                         procedure="select.band_chooser.checkbox_band">
+            <variable name="band">$(band2)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pkO"
+                         procedure="do_click.band_chooser.button_OK"/>
+          <CatchSequence exception="TestException" id="_1pk9" maxerror="0">
+            <ProcedureCall id="_1pu4" procedure="select_io_tab"/>
+            <ProcedureCall id="_1pkC"
+                           procedure="io_parameters.select_all_products"/>
+            <ProcedureCall id="_1pkD"
+                           procedure="do_click.mosaicing.io_parameters.button_remove"/>
+            <ProcedureCall id="_1pkE"
+                           procedure="io_parameters.add_all_products">
+              <variable name="prod_dir">mer_for_mosaic2</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1pu5"
+                           procedure="select_variables_conditions_tab"/>
+            <ProcedureCall id="_1pkG"
+                           procedure="do_click.mosaicing.variables_conditions.band_filter"/>
+            <ProcedureCall id="_1pkH"
+                           procedure="select.band_chooser.select_none"/>
+            <ProcedureCall id="_1pkI"
+                           procedure="select.band_chooser.checkbox_band">
+              <variable name="band">$(band1)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1pkJ"
+                           procedure="select.band_chooser.checkbox_band">
+              <variable name="band">$(band2)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1pkK"
+                           procedure="do_click.band_chooser.button_OK"/>
+            <ProcedureCall id="_1pkL" procedure="run-log.logError">
+              <variable name="message">Band Chooser could not be opened. It was necessary to remove and open again source products</variable>
+              <variable name="withScreenshots">false</variable>
+            </ProcedureCall>
+          </CatchSequence>
+        </TryStep>
+      </IfSequence>
+    </BasicSequence>
+    <BasicSequence id="_1pmc" name="Projection_Parameters">
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogMosaicing.buttonProjection_Parameters..."
+                      event="MOUSE_MPRC" id="_1pmd" modifiers="16"/>
       <ComponentWaiter client="$(client)"
-                       component="dialogLoading_help_sets..." id="_1piL"/>
-      <ComponentWaiter client="$(client)" component="frameHelp" id="_1piM"/>
-      <WindowEventStep client="$(client)" component="frameHelp"
-                       event="WINDOW_CLOSING" id="_1piN"/>
+                       component="dialog_Projection_Parameters" id="_1pk0"/>
       <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogMosaicing.menuHelp" event="MOUSE_MPRC"
-                      id="_1piO" modifiers="16"/>
-      <ComponentWaiter client="$(client)" component="dialogAbout_Mosaic"
-                       id="_1piP"/>
+                      component="dialog_Projection_Parameters.central_meridian"
+                      event="MOUSE_MPRC" id="_1pk1" modifiers="16" x="76"
+                      y="11"/>
+      <MouseEventStep clicks="2" client="$(client)"
+                      component="dialog_Projection_Parameters.central_meridian"
+                      event="MOUSE_MPRC" id="_1pk2" modifiers="16" x="76"
+                      y="11"/>
+      <TextInputStep clear="true" client="$(client)"
+                     component="dialog_Projection_Parameters.central_meridian"
+                     id="_1pme">
+        <text>40.0</text>
+      </TextInputStep>
       <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogAbout_Mosaic.ModalDialog.ok"
-                      event="MOUSE_MPRC" id="_1piQ" modifiers="16"/>
+                      component="dialog_Projection_Parameters.latitude_of_origin"
+                      event="MOUSE_MPRC" id="_1pmf" modifiers="16" x="70"
+                      y="9"/>
+      <MouseEventStep clicks="2" client="$(client)"
+                      component="dialog_Projection_Parameters.latitude_of_origin"
+                      event="MOUSE_PRESSED" id="_1pmg" modifiers="16" x="70"
+                      y="9"/>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="dialog_Projection_Parameters"
+                      event="MOUSE_DRAGGED" id="_1pmh" modifiers="16" x="256"
+                      y="124"/>
+      <MouseEventStep clicks="2" client="$(client)"
+                      component="dialog_Projection_Parameters"
+                      event="MOUSE_RELEASED" id="_1pmi" modifiers="16" x="256"
+                      y="124"/>
+      <TextInputStep clear="true" client="$(client)"
+                     component="dialog_Projection_Parameters.latitude_of_origin"
+                     id="_1pmj">
+        <text>0.0</text>
+      </TextInputStep>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="dialog_Projection_Parameters.scale_factor"
+                      event="MOUSE_MOVED" id="_1pmk" modifiers="0" x="73"
+                      y="5"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialog_Projection_Parameters.scale_factor"
+                      event="MOUSE_PRESSED" id="_1pml" modifiers="16" x="73"
+                      y="5"/>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="dialog_Projection_Parameters"
+                      event="MOUSE_DRAGGED" id="_1pmm" modifiers="16" x="251"
+                      y="145"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialog_Projection_Parameters"
+                      event="MOUSE_RELEASED" id="_1pmn" modifiers="16" x="251"
+                      y="145"/>
+      <TextInputStep clear="true" client="$(client)"
+                     component="dialog_Projection_Parameters.scale_factor"
+                     id="_1pmo">
+        <text>1.1</text>
+      </TextInputStep>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="dialog_Projection_Parameters.false_easting"
+                      event="MOUSE_MOVED" id="_1pmp" modifiers="0" x="58"
+                      y="6"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialog_Projection_Parameters.false_easting"
+                      event="MOUSE_PRESSED" id="_1pmq" modifiers="16" x="58"
+                      y="6"/>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="dialog_Projection_Parameters.labelM"
+                      event="MOUSE_DRAGGED" id="_1pmr" modifiers="16" x="4"
+                      y="4"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialog_Projection_Parameters.labelM"
+                      event="MOUSE_RELEASED" id="_1pms" modifiers="16" x="4"
+                      y="4"/>
+      <TextInputStep clear="true" client="$(client)"
+                     component="dialog_Projection_Parameters.false_easting"
+                     id="_1pmt">
+        <text>0.0</text>
+      </TextInputStep>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="dialog_Projection_Parameters.false_northing"
+                      event="MOUSE_MOVED" id="_1pmu" modifiers="0" x="81"
+                      y="17"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialog_Projection_Parameters.false_northing"
+                      event="MOUSE_PRESSED" id="_1pmv" modifiers="16" x="81"
+                      y="17"/>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="dialog_Projection_Parameters"
+                      event="MOUSE_DRAGGED" id="_1pmw" modifiers="16" x="276"
+                      y="197"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialog_Projection_Parameters"
+                      event="MOUSE_RELEASED" id="_1pmx" modifiers="16" x="276"
+                      y="197"/>
+      <TextInputStep clear="true" client="$(client)"
+                     component="dialog_Projection_Parameters.false_northing"
+                     id="_1pmy">
+        <text>0.0</text>
+      </TextInputStep>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="dialog_Projection_Parameters.semi_major"
+                      event="MOUSE_MOVED" id="_1pmz" modifiers="0" x="40"
+                      y="10"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialog_Projection_Parameters.semi_major"
+                      event="MOUSE_PRESSED" id="_1pm+" modifiers="16" x="40"
+                      y="10"/>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="dialog_Projection_Parameters.semi_major"
+                      event="MOUSE_DRAGGED" id="_1pm-" modifiers="16" x="46"
+                      y="10"/>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="dialog_Projection_Parameters.panel"
+                      event="MOUSE_DRAGGED" id="_1pn0" modifiers="16" x="220"
+                      y="20"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialog_Projection_Parameters.panel"
+                      event="MOUSE_RELEASED" id="_1pn1" modifiers="16" x="220"
+                      y="20"/>
+      <KeyEventStep client="$(client)"
+                    component="dialog_Projection_Parameters.semi_major"
+                    event="KEY_PRESSED" id="_1pkT" keychar="65535"
+                    keycode="17" modifiers="2"/>
+      <KeyEventStep client="$(client)"
+                    component="dialog_Projection_Parameters.semi_major"
+                    event="KEY_PTR" id="_1pn2" keychar="3" keycode="67"
+                    modifiers="2"/>
+      <KeyEventStep client="$(client)"
+                    component="dialog_Projection_Parameters.semi_major"
+                    event="KEY_RELEASED" id="_1pkV" keychar="65535"
+                    keycode="17" modifiers="0"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialog_Projection_Parameters.semi_major"
+                      event="MOUSE_MPRC" id="_1pkW" modifiers="16" x="28"
+                      y="10"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialog_Projection_Parameters.semi_major"
+                      event="MOUSE_PRESSED" id="_1pn3" modifiers="16" x="28"
+                      y="10"/>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="dialog_Projection_Parameters.labelM2"
+                      event="MOUSE_DRAGGED" id="_1pn4" modifiers="16" x="4"
+                      y="13"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialog_Projection_Parameters.labelM2"
+                      event="MOUSE_RELEASED" id="_1pn5" modifiers="16" x="4"
+                      y="13"/>
+      <TextInputStep clear="true" client="$(client)"
+                     component="dialog_Projection_Parameters.semi_major"
+                     id="_1pn6">
+        <text>33555</text>
+      </TextInputStep>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="dialog_Projection_Parameters.semi_major"
+                      event="MOUSE_MOVED" id="_1pn7" modifiers="0" x="77"
+                      y="11"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialog_Projection_Parameters.semi_major"
+                      event="MOUSE_PRESSED" id="_1pn8" modifiers="16" x="77"
+                      y="11"/>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="dialog_Projection_Parameters"
+                      event="MOUSE_DRAGGED" id="_1pkd" modifiers="16" x="259"
+                      y="49"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialog_Projection_Parameters"
+                      event="MOUSE_RELEASED" id="_1pke" modifiers="16" x="259"
+                      y="49"/>
+      <KeyEventStep client="$(client)"
+                    component="dialog_Projection_Parameters.semi_major"
+                    event="KEY_PRESSED" id="_1pn9" keychar="65535"
+                    keycode="17" modifiers="2"/>
+      <KeyEventStep client="$(client)"
+                    component="dialog_Projection_Parameters.semi_major"
+                    event="KEY_PTR" id="_1pnA" keychar="22" keycode="86"
+                    modifiers="2"/>
+      <KeyEventStep client="$(client)"
+                    component="dialog_Projection_Parameters.semi_major"
+                    event="KEY_RELEASED" id="_1pnB" keychar="65535"
+                    keycode="17" modifiers="0"/>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="dialog_Projection_Parameters.semi_minor"
+                      event="MOUSE_MOVED" id="_1pnC" modifiers="0" x="2"
+                      y="10"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialog_Projection_Parameters.semi_minor"
+                      event="MOUSE_PRESSED" id="_1pnD" modifiers="16" x="2"
+                      y="10"/>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="dialog_Projection_Parameters"
+                      event="MOUSE_DRAGGED" id="_1pkk" modifiers="16" x="263"
+                      y="76"/>
+      <KeyEventStep client="$(client)"
+                    component="dialog_Projection_Parameters.semi_minor"
+                    event="KEY_PRESSED" id="_1pkl" keychar="65535"
+                    keycode="17" modifiers="18"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialog_Projection_Parameters"
+                      event="MOUSE_RELEASED" id="_1pnE" modifiers="18" x="263"
+                      y="76"/>
+      <KeyEventStep client="$(client)"
+                    component="dialog_Projection_Parameters.semi_minor"
+                    event="KEY_PTR" id="_1pnF" keychar="3" keycode="67"
+                    modifiers="2"/>
+      <KeyEventStep client="$(client)"
+                    component="dialog_Projection_Parameters.semi_minor"
+                    event="KEY_RELEASED" id="_1pnG" keychar="65535"
+                    keycode="17" modifiers="0"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialog_Projection_Parameters.semi_minor"
+                      event="MOUSE_MPRC" id="_1pnH" modifiers="16" x="75"
+                      y="16"/>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="dialog_Projection_Parameters.semi_minor"
+                      event="MOUSE_MOVED" id="_1pnI" modifiers="0" x="1"
+                      y="10"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialog_Projection_Parameters.semi_minor"
+                      event="MOUSE_PRESSED" id="_1pnJ" modifiers="16" x="1"
+                      y="10"/>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="dialog_Projection_Parameters"
+                      event="MOUSE_DRAGGED" id="_1pnK" modifiers="16" x="308"
+                      y="88"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialog_Projection_Parameters"
+                      event="MOUSE_RELEASED" id="_1pnL" modifiers="16" x="308"
+                      y="88"/>
+      <KeyEventStep client="$(client)"
+                    component="dialog_Projection_Parameters.semi_minor"
+                    event="KEY_PTR" id="_1pnM" keychar="127" keycode="127"
+                    modifiers="0"/>
+      <TextInputStep clear="true" client="$(client)"
+                     component="dialog_Projection_Parameters.semi_minor"
+                     id="_1pnN">
+        <text>7800</text>
+      </TextInputStep>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="dialog_Projection_Parameters.semi_minor"
+                      event="MOUSE_MOVED" id="_1pnO" modifiers="0" x="57"
+                      y="13"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialog_Projection_Parameters.semi_minor"
+                      event="MOUSE_PRESSED" id="_1pnP" modifiers="16" x="57"
+                      y="13"/>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="dialog_Projection_Parameters"
+                      event="MOUSE_DRAGGED" id="_1pnQ" modifiers="16" x="258"
+                      y="77"/>
+      <KeyEventStep client="$(client)"
+                    component="dialog_Projection_Parameters.semi_minor"
+                    event="KEY_PRESSED" id="_1pnR" keychar="65535"
+                    keycode="17" modifiers="18"/>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="dialog_Projection_Parameters"
+                      event="MOUSE_DRAGGED" id="_1pnS" modifiers="18" x="257"
+                      y="76"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialog_Projection_Parameters"
+                      event="MOUSE_RELEASED" id="_1pnT" modifiers="18" x="257"
+                      y="76"/>
+      <KeyEventStep client="$(client)"
+                    component="dialog_Projection_Parameters.semi_minor"
+                    event="KEY_PTR" id="_1pnU" keychar="22" keycode="86"
+                    modifiers="2"/>
+      <KeyEventStep client="$(client)"
+                    component="dialog_Projection_Parameters.semi_minor"
+                    event="KEY_RELEASED" id="_1pnV" keychar="65535"
+                    keycode="17" modifiers="0"/>
     </BasicSequence>
     <BasicSequence id="_1pfK" name="mosaic">
       <MouseEventStep clicks="1" client="$(client)"
@@ -1429,7 +2007,22 @@
                       component="dialogMosaicing.MosaicDialog.close"
                       event="MOUSE_MPRC" id="_1pWN" modifiers="16"/>
     </BasicSequence>
-    <BasicSequence id="_1pgO" name="proceccing">
+    <BasicSequence id="_1pgO" name="map_definition">
+      <BasicSequence id="_1phl" name="Aufnahme 22.04.15 15:17">
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogMosaicing.operationWrapper"
+                        event="MOUSE_MPRC" id="_1phm" modifiers="16" x="119"
+                        y="10"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogMosaicing.listInvokerName:_operationWrapper.projection"
+                        event="MOUSE_MPRC" id="_1phn" modifiers="16"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogMosaicing.datum" event="MOUSE_MPRC"
+                        id="_1pho" modifiers="16" x="90" y="7"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogMosaicing.listInvokerName:_datum.geodetic_datum"
+                        event="MOUSE_MPRC" id="_1php" modifiers="16"/>
+      </BasicSequence>
       <CheckBooleanStep checktype="checked" client="$(client)"
                         component="dialogMosaicing.radioCustom_CRS"
                         id="_1pgP"/>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.3">
+<RootStep id="_0" name="root" version="4.0.4">
   <include>qfs.qft</include>
   <include>../lib/snap_components.qft</include>
   <include>../lib/snap_main.qft</include>
@@ -107,12 +107,13 @@
       <Package id="_1pFu" name="new_time_series">
         <Procedure id="_1pG7" name="add_directory">
           <variable name="dir"/>
+          <comment>@teststep Specify source products by scanning for products of the selected directory.</comment>
           <ProcedureCall id="_1pGD"
                          procedure="do_click.new_time_series.button_plus24"/>
           <ProcedureCall id="_1pGE"
                          procedure="do_click.new_time_series.menuItem_add_directory"/>
           <ProcedureCall id="_1pGF" procedure="wait.appear.dialog.open"/>
-          <ProcedureCall id="_1pGZ" procedure="path"/>
+          <ProcedureCall id="_1pGZ" procedure="path.main_path"/>
           <TryStep id="_1pGa">
             <SetGlobalStep id="_1pGb" varname="data_source_directory">
               <default>${path:timeseries_dir}$(dir)</default>
@@ -137,6 +138,7 @@
                          procedure="do_click.open_dialog.button_open"/>
         </Procedure>
         <Procedure id="_1pG9" name="add_directory_recursive">
+          <comment>@teststep Specify source products by scanning for products of the selected directory together with its sub-directories.</comment>
           <ProcedureCall id="_1pGH"
                          procedure="do_click.new_time_series.button_plus24"/>
           <ProcedureCall id="_1pGI"
@@ -149,6 +151,7 @@
                          procedure="do_click.open_dialog.button_open"/>
         </Procedure>
         <Procedure id="_1pGB" name="add_products">
+          <comment>@teststep  Choose single source products.</comment>
           <ProcedureCall id="_1pGK"
                          procedure="do_click.new_time_series.button_plus24"/>
           <ProcedureCall id="_1pGL"
@@ -160,6 +163,7 @@
         </Procedure>
         <Procedure id="_1pGi" name="select_crs_file">
           <variable name="crs_file"/>
+          <comment>@teststep  Select CRS file.</comment>
           <ProcedureCall id="_1opd"
                          procedure="do_click.new_time_series.button_use_crs_of"/>
           <ProcedureCall id="_1pHQ"
@@ -169,6 +173,7 @@
         </Procedure>
         <Procedure id="_1pGo" name="select_variable">
           <variable name="variable_name"/>
+          <comment>@teststep  Select variable.</comment>
           <ProcedureCall id="_1pHJ"
                          procedure="check.new_time_series.variable_selected">
             <variable name="variable_name">sst_nadir</variable>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.3">
+<RootStep id="_0" name="root" version="4.0.4">
   <include>qfs.qft</include>
   <include>../../lib/snap_main.qft</include>
   <include>../../lib/snap_components.qft</include>
@@ -819,106 +819,131 @@
         <item>Zanderij</item>
       </CheckItemsStep>
     </BasicSequence>
-    <BasicSequence id="_1ph5" name="Aufnahme 22.04.15 09:39">
-      <CheckStringStep client="$(client)"
-                       component="dialogMosaicing2.buttonOK" id="_1ph6">
-        <text>OK</text>
-      </CheckStringStep>
-    </BasicSequence>
-    <BasicSequence id="_1phA" name="Aufnahme 22.04.15 09:59">
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogMosaicing.Source_products2.E:__testdata__in__sensors_platforms__MERIS__for_mosaic2__MER_RR__2PNPDE20120115_003836_000026103110_00347_51654_0149.N1"
-                      event="MOUSE_MPRC" id="_1phE" modifiers="16"/>
-      <KeyEventStep client="$(client)"
-                    component="dialogMosaicing.Source_products2"
-                    event="KEY_PRESSED" id="_1phF" keychar="65535"
-                    keycode="17" modifiers="2"/>
-      <KeyEventStep client="$(client)"
-                    component="dialogMosaicing.Source_products2"
-                    event="KEY_PTR" id="_1phG" keychar="1" keycode="65"
-                    modifiers="2"/>
-      <KeyEventStep client="$(client)"
-                    component="dialogMosaicing.Source_products2"
-                    event="KEY_RELEASED" id="_1phH" keychar="65535"
-                    keycode="17" modifiers="0"/>
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogMosaicing.Source_products2.E:__testdata__in__sensors_platforms__MERIS__for_mosaic2__MER_RR__2PNPDE20120115_042603_000009883110_00349_51656_0239.N1"
-                      event="MOUSE_MPRC" id="_1phI" modifiers="16"/>
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogMosaicing.tabbed.Map_Projection_Definition"
-                      event="MOUSE_MPRC" id="_1phJ" modifiers="16"/>
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogMosaicing.tabbed.I/O_Parameters"
-                      event="MOUSE_MPRC" id="_1phK" modifiers="16"/>
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogMosaicing.productName"
-                      event="MOUSE_MPRC" id="_1phL" modifiers="16" x="95"
-                      y="9"/>
-    </BasicSequence>
-    <BasicSequence id="_1phM" name="Aufnahme 22.04.15 10:12">
-      <CheckItemsStep checktype="column" client="$(client)"
-                      component="dialogMosaicing.Variables3.Name" id="_1phN">
-        <item>aero_alpha</item>
-        <item>aero_opt_thick_443</item>
-        <item>aero_opt_thick_550</item>
-        <item>aero_opt_thick_865</item>
-        <item>algal_1</item>
-        <item>algal_2</item>
-        <item>boa_veg</item>
-        <item>cloud_albedo</item>
-        <item>cloud_opt_thick</item>
-        <item>cloud_top_press</item>
-        <item>cloud_type</item>
-        <item>l2_flags</item>
-        <item>photosyn_rad</item>
-        <item>rect_refl_nir</item>
-        <item>rect_refl_red</item>
-        <item>reflec_1</item>
-        <item>reflec_2</item>
-        <item>reflec_3</item>
-        <item>reflec_4</item>
-        <item>reflec_5</item>
-        <item>reflec_6</item>
-        <item>reflec_7</item>
-        <item>reflec_8</item>
-        <item>reflec_9</item>
-        <item>reflec_10</item>
-        <item>reflec_12</item>
-        <item>reflec_13</item>
-        <item>reflec_14</item>
-        <item>surf_press</item>
-        <item>toa_veg</item>
-        <item>total_susp</item>
-        <item>water_vapour</item>
-        <item>yellow_subs</item>
-      </CheckItemsStep>
-    </BasicSequence>
-    <BasicSequence id="_1phU" name="Aufnahme 22.04.15 10:24">
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogMosaicing.Variables3.Name&amp;0"
-                      event="MOUSE_MPRC" id="_1phV" modifiers="16"/>
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogMosaicing.Variables3.Name&amp;0"
-                      event="MOUSE_MPRC" id="_1phW" modifiers="16"/>
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogMosaicing.Variables3.Name&amp;1"
-                      event="MOUSE_MPRC" id="_1phX" modifiers="16"/>
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogMosaicing.Variables3.Name&amp;0"
-                      event="MOUSE_MPRC" id="_1phY" modifiers="16"/>
-      <KeyEventStep client="$(client)" component="dialogMosaicing.Variables3"
-                    event="KEY_PRESSED" id="_1phZ" keychar="65535"
-                    keycode="17" modifiers="2"/>
-      <KeyEventStep client="$(client)" component="dialogMosaicing.Variables3"
-                    event="KEY_PTR" id="_1pha" keychar="1" keycode="65"
-                    modifiers="2"/>
-      <KeyEventStep client="$(client)" component="dialogMosaicing.Variables3"
-                    event="KEY_RELEASED" id="_1phb" keychar="65535"
-                    keycode="17" modifiers="0"/>
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogMosaicing.Variables3.Name&amp;5"
-                      event="MOUSE_MPRC" id="_1phc" modifiers="16"/>
-    </BasicSequence>
+    <Package id="_1ppL" name="edit_aggregator">
+      <Procedure id="_1poo" name="dialogEdit_Aggregator">
+        <CheckStringStep checktype="value" client="$(client)"
+                         component="dialogEdit_Aggregator.comboSource_band_name:"
+                         id="_1pop">
+          <text>AVG</text>
+        </CheckStringStep>
+        <CheckStringStep checktype="value" client="$(client)"
+                         component="dialogEdit_Aggregator.varName"
+                         id="_1poq"/>
+        <CheckStringStep checktype="value" client="$(client)"
+                         component="dialogEdit_Aggregator.comboSource_band_name:"
+                         id="_1por">
+          <text>AVG</text>
+        </CheckStringStep>
+        <CheckStringStep checktype="value" client="$(client)"
+                         component="dialogEdit_Aggregator.varName"
+                         id="_1pos"/>
+        <CheckStringStep client="$(client)"
+                         component="dialogEdit_Aggregator.targetName"
+                         id="_1pot"/>
+        <CheckStringStep client="$(client)"
+                         component="dialogEdit_Aggregator.weightCoeff"
+                         id="_1pou">
+          <text>0.0</text>
+        </CheckStringStep>
+        <CheckBooleanStep checktype="checked" client="$(client)"
+                          component="dialogEdit_Aggregator.outputCounts"
+                          id="_1pov" state="false"/>
+        <CheckBooleanStep checktype="checked" client="$(client)"
+                          component="dialogEdit_Aggregator.outputSums"
+                          id="_1pow" state="false"/>
+        <CheckBooleanStep checktype="enabled" client="$(client)"
+                          component="dialogEdit_Aggregator.AggregatorItemDialog.ok"
+                          id="_1pox"/>
+        <CheckBooleanStep checktype="enabled" client="$(client)"
+                          component="dialogEdit_Aggregator.AggregatorItemDialog.cancel"
+                          id="_1poy"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogEdit_Aggregator.button"
+                        event="MOUSE_MPRC" id="_1poz" modifiers="16"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogEdit_Aggregator.listInvokerClass:_ComboBox.aggregator"
+                        event="MOUSE_MPRC" id="_1po+" modifiers="16"/>
+        <ComponentEventStep client="$(client)"
+                            component="dialogEdit_Aggregator"
+                            event="COMPONENT_RESIZED" id="_1po-" param1="387"
+                            param2="159"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogEdit_Aggregator.button"
+                        event="MOUSE_MPRC" id="_1pp0" modifiers="16"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogEdit_Aggregator.listInvokerClass:_ComboBox.ON_MAX_SET"
+                        event="MOUSE_MPRC" id="_1pp1" modifiers="16"/>
+        <ComponentEventStep client="$(client)"
+                            component="dialogEdit_Aggregator"
+                            event="COMPONENT_RESIZED" id="_1pp2" param1="387"
+                            param2="292"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogEdit_Aggregator.button2"
+                        event="MOUSE_MPRC" id="_1pp3" modifiers="16"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogEdit_Aggregator.listInvokerClass:_ComboBox.PERCENTILE"
+                        event="MOUSE_MPRC" id="_1pp4" modifiers="16"/>
+        <ComponentEventStep client="$(client)"
+                            component="dialogEdit_Aggregator"
+                            event="COMPONENT_RESIZED" id="_1pp5" param1="387"
+                            param2="184"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogEdit_Aggregator.button"
+                        event="MOUSE_MPRC" id="_1pp6" modifiers="16"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogEdit_Aggregator.listInvokerClass:_ComboBox.AVG"
+                        event="MOUSE_MPRC" id="_1pp7" modifiers="16"/>
+        <ComponentEventStep client="$(client)"
+                            component="dialogEdit_Aggregator"
+                            event="COMPONENT_RESIZED" id="_1pp8" param1="387"
+                            param2="236"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogEdit_Aggregator.buttonTipThe_source_band_used_for_aggregation."
+                        event="MOUSE_MPRC" id="_1pp9" modifiers="16"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogEdit_Aggregator.listInvokerName:_varName.band"
+                        event="MOUSE_MPRC" id="_1ppA" modifiers="16"/>
+        <MouseEventStep clicks="0" client="$(client)"
+                        component="dialogEdit_Aggregator.targetName"
+                        event="MOUSE_MOVED" id="_1ppB" modifiers="0" x="52"
+                        y="7"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogEdit_Aggregator.targetName"
+                        event="MOUSE_PRESSED" id="_1ppC" modifiers="16" x="52"
+                        y="7"/>
+        <MouseEventStep clicks="0" client="$(client)"
+                        component="dialogEdit_Aggregator.targetName"
+                        event="MOUSE_DRAGGED" id="_1ppD" modifiers="16" x="54"
+                        y="0"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogEdit_Aggregator.targetName"
+                        event="MOUSE_RELEASED" id="_1ppE" modifiers="16"
+                        x="54" y="0"/>
+        <TextInputStep clear="true" client="$(client)"
+                       component="dialogEdit_Aggregator.targetName"
+                       id="_1ppF">
+          <text>test</text>
+        </TextInputStep>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogEdit_Aggregator.weightCoeff"
+                        event="MOUSE_MPRC" id="_1ppG" modifiers="16" x="41"
+                        y="8"/>
+        <TextInputStep clear="true" client="$(client)"
+                       component="dialogEdit_Aggregator.weightCoeff"
+                       id="_1ppH">
+          <text>0.5</text>
+        </TextInputStep>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogEdit_Aggregator.outputCounts"
+                        event="MOUSE_MPRC" id="_1ppI" modifiers="16"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogEdit_Aggregator.outputSums"
+                        event="MOUSE_MPRC" id="_1ppJ" modifiers="16"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogEdit_Aggregator.AggregatorItemDialog.cancel"
+                        event="MOUSE_MPRC" id="_1ppK" modifiers="16"/>
+      </Procedure>
+    </Package>
   </ExtraSequence>
   <WindowList id="_5">
     <WindowStep class="Dialog" feature="Collocation" height="502"
@@ -5146,6 +5171,43 @@
                   <primary>Expression</primary>
                 </SubItemStep>
               </ComponentStep>
+              <ComponentStep class="Table" classcount="1" classindex="0"
+                             id="dialogMosaicing.Conditions4"
+                             name="Conditions" uid="_1pja">
+                <extrafeature name="qfs:class" negate="false" regexp="false"
+                              state="0">javax.swing.JTable</extrafeature>
+                <extrafeature name="qfs:genericclass" negate="false"
+                              regexp="false" state="0">Table</extrafeature>
+                <extrafeature name="qfs:label" negate="false" regexp="false"
+                              state="1">Specifies valid pixels considered in the target product.</extrafeature>
+                <extrafeature name="qfs:systemclass" negate="false"
+                              regexp="false" state="0">javax.swing.JTable</extrafeature>
+                <SubItemStep id="dialogMosaicing.Conditions4.Expression"
+                             uid="_1pjb">
+                  <primary>Expression</primary>
+                </SubItemStep>
+                <ComponentStep class="Button" classcount="1" classindex="0"
+                               feature="..." height="15"
+                               id="dialogMosaicing.button...2" uid="_1pjc"
+                               width="25" x="446" y="0">
+                  <extrafeature name="qfs:class" negate="false" regexp="false"
+                                state="0">javax.swing.JButton</extrafeature>
+                  <extrafeature name="qfs:genericclass" negate="false"
+                                regexp="false" state="0">Button</extrafeature>
+                  <extrafeature name="qfs:label" negate="false" regexp="false"
+                                state="1">...</extrafeature>
+                  <extrafeature name="qfs:systemclass" negate="false"
+                                regexp="false" state="0">javax.swing.JButton</extrafeature>
+                </ComponentStep>
+                <SubItemStep id="dialogMosaicing.Conditions4.Output"
+                             uid="_1pjl">
+                  <primary>Output</primary>
+                </SubItemStep>
+                <SubItemStep id="dialogMosaicing.Conditions4.Name"
+                             uid="_1pk2">
+                  <primary>Name</primary>
+                </SubItemStep>
+              </ComponentStep>
             </ComponentStep>
             <ComponentStep class="ComboBox" classcount="1" classindex="0"
                            height="20" id="dialogMosaicing.combine"
@@ -5344,6 +5406,93 @@
           </ComponentStep>
         </ComponentStep>
       </ComponentStep>
+      <ComponentStep class="Popup" feature="InvokerName: operationWrapper"
+                     height="130"
+                     id="dialogMosaicing.popupInvokerName:_operationWrapper"
+                     uid="_1phd" width="407" x="136" y="186">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.plaf.basic.BasicComboPopup</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Popup</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.plaf.basic.BasicComboPopup</extrafeature>
+        <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Popup:ComboBoxPopup</extrafeature>
+        <ComponentStep class="Panel" classcount="2" classindex="0"
+                       height="128"
+                       id="dialogMosaicing.popupInvokerName:_operationWrapper.scroll"
+                       uid="_1phe" width="405" x="1" y="1">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JScrollPane</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">Panel</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JScrollPane</extrafeature>
+          <extrafeature name="qfs:type" negate="false" regexp="false"
+                        state="0">Panel:ScrollPanel</extrafeature>
+          <ComponentStep class="List" classcount="1" classindex="0"
+                         feature="InvokerName: operationWrapper"
+                         id="dialogMosaicing.listInvokerName:_operationWrapper"
+                         uid="_1phf">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JList</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">List</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">Projection:</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JList</extrafeature>
+            <extrafeature name="qfs:type" negate="false" regexp="false"
+                          state="0">List:ComboBoxList</extrafeature>
+            <SubItemStep id="dialogMosaicing.listInvokerName:_operationWrapper.projection"
+                         uid="_1phg">
+              <primary>$(projection)</primary>
+            </SubItemStep>
+          </ComponentStep>
+        </ComponentStep>
+      </ComponentStep>
+      <ComponentStep class="Popup" feature="InvokerName: datum" height="130"
+                     id="dialogMosaicing.popupInvokerName:_datum" uid="_1phh"
+                     width="407" x="136" y="162">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.plaf.basic.BasicComboPopup</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Popup</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.plaf.basic.BasicComboPopup</extrafeature>
+        <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Popup:ComboBoxPopup</extrafeature>
+        <ComponentStep class="Panel" classcount="2" classindex="0"
+                       height="128"
+                       id="dialogMosaicing.popupInvokerName:_datum.scroll"
+                       uid="_1phi" width="405" x="1" y="1">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JScrollPane</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">Panel</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JScrollPane</extrafeature>
+          <extrafeature name="qfs:type" negate="false" regexp="false"
+                        state="0">Panel:ScrollPanel</extrafeature>
+          <ComponentStep class="List" classcount="1" classindex="0"
+                         feature="InvokerName: datum"
+                         id="dialogMosaicing.listInvokerName:_datum"
+                         uid="_1phj">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JList</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">List</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">Geodetic datum:</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JList</extrafeature>
+            <extrafeature name="qfs:type" negate="false" regexp="false"
+                          state="0">List:ComboBoxList</extrafeature>
+            <SubItemStep id="dialogMosaicing.listInvokerName:_datum.geodetic_datum"
+                         uid="_1phq">
+              <primary>$(geodetic_datum)</primary>
+            </SubItemStep>
+          </ComponentStep>
+        </ComponentStep>
+      </ComponentStep>
     </WindowStep>
     <WindowStep class="Dialog" feature="About Mosaic" height="264"
                 id="dialogAbout_Mosaic" modal="true" uid="_1pfS" width="421"
@@ -5379,6 +5528,1693 @@
       <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Window:Dialog</extrafeature>
       <ComponentStep class="Button" classcount="1" classindex="0" feature="OK"
                      height="25" id="dialogMosaicing2.buttonOK" uid="_1ph4"
+                     width="75" x="133" y="162">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.plaf.basic.BasicOptionPaneUI$$ButtonFactory$$ConstrainedButton</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Button</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">OK</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.plaf.basic.BasicOptionPaneUI$$ButtonFactory$$ConstrainedButton</extrafeature>
+      </ComponentStep>
+    </WindowStep>
+    <WindowStep class="Dialog" feature="$(projection) - Parameters"
+                height="273" id="dialog_Projection_Parameters" modal="true"
+                uid="_1phu" width="258" x="831" y="403">
+      <extrafeature name="qfs:class" negate="false" regexp="false" state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                    state="0">Dialog</extrafeature>
+      <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                    state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Window:Dialog</extrafeature>
+      <ComponentStep class="TextField" classcount="7" classindex="2"
+                     height="22"
+                     id="dialog_Projection_Parameters.central_meridian"
+                     name="central_meridian" uid="_1phv" width="125" x="105"
+                     y="89">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JTextField</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">TextField</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">Central meridian:</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JTextField</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="TextField" classcount="7" classindex="3"
+                     height="22"
+                     id="dialog_Projection_Parameters.latitude_of_origin"
+                     name="latitude_of_origin" uid="_1phw" width="125" x="105"
+                     y="114">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JTextField</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">TextField</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">Latitude of origin:</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JTextField</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="TextField" classcount="7" classindex="4"
+                     height="22"
+                     id="dialog_Projection_Parameters.scale_factor"
+                     name="scale_factor" uid="_1phx" width="125" x="105"
+                     y="139">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JTextField</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">TextField</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">Scale factor:</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JTextField</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="TextField" classcount="7" classindex="5"
+                     height="22"
+                     id="dialog_Projection_Parameters.false_easting"
+                     name="false_easting" uid="_1phy" width="125" x="105"
+                     y="164">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JTextField</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">TextField</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">False easting:</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JTextField</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="Label" classcount="14" classindex="11" feature="m"
+                     height="14" id="dialog_Projection_Parameters.labelM"
+                     uid="_1phz" width="8" x="233" y="164">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JLabel</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Label</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">m</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JLabel</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="TextField" classcount="7" classindex="6"
+                     height="22"
+                     id="dialog_Projection_Parameters.false_northing"
+                     name="false_northing" uid="_1ph+" width="125" x="105"
+                     y="189">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JTextField</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">TextField</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">False northing:</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JTextField</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="TextField" classcount="7" classindex="0"
+                     height="22" id="dialog_Projection_Parameters.semi_major"
+                     name="semi_major" uid="_1ph-" width="125" x="105" y="39">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JTextField</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">TextField</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">Semi major:</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JTextField</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="Panel" classcount="7" classindex="5" height="191"
+                     id="dialog_Projection_Parameters.panel" uid="_1pi0"
+                     width="230" x="14" y="36">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JPanel</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Panel</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JPanel</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="Label" classcount="14" classindex="1" feature="m"
+                     height="14" id="dialog_Projection_Parameters.labelM2"
+                     uid="_1pi1" width="8" x="233" y="39">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JLabel</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Label</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">m</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JLabel</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="TextField" classcount="7" classindex="1"
+                     height="22" id="dialog_Projection_Parameters.semi_minor"
+                     name="semi_minor" uid="_1pi2" width="125" x="105" y="64">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JTextField</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">TextField</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">Semi minor:</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JTextField</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="Button" classcount="2" classindex="0" feature="OK"
+                     height="23"
+                     id="dialog_Projection_Parameters.ModalDialog.ok"
+                     name="ModalDialog.ok" uid="_1pi3" width="47" x="128"
+                     y="236">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Button</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">OK</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="Button" classcount="2" classindex="1"
+                     feature="Cancel" height="23"
+                     id="dialog_Projection_Parameters.cancel"
+                     name="ModalDialog.cancel" uid="_1pi4" width="65" x="179"
+                     y="236">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Button</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">Cancel</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+      </ComponentStep>
+    </WindowStep>
+    <WindowStep class="Dialog" height="350" id="dialog4" modal="true"
+                uid="_1pjd" width="619" x="533" y="304">
+      <extrafeature name="qfs:class" negate="false" regexp="false" state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                    state="0">Dialog</extrafeature>
+      <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                    state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Window:Dialog</extrafeature>
+      <ComponentStep class="Panel" classcount="18" classindex="13"
+                     height="162" id="dialog4.scroll" uid="_1pje" width="139"
+                     x="14" y="50">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JScrollPane</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Panel</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JScrollPane</extrafeature>
+        <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Panel:ScrollPanel</extrafeature>
+        <ComponentStep class="List" classcount="1" classindex="0"
+                       id="dialog4.listData_sources:" uid="_1pjf">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JList</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">List</extrafeature>
+          <extrafeature name="qfs:label" negate="false" regexp="false"
+                        state="1">Data sources:</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JList</extrafeature>
+          <SubItemStep id="dialog4.listData_sources:.l1_flags.LAND_OCEAN"
+                       uid="_1pjg">
+            <primary>l1_flags.LAND_OCEAN</primary>
+          </SubItemStep>
+        </ComponentStep>
+      </ComponentStep>
+      <ComponentStep class="Panel" classcount="18" classindex="7" height="217"
+                     id="dialog4.scroll2" uid="_1pjh" width="286" x="319"
+                     y="50">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JScrollPane</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Panel</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JScrollPane</extrafeature>
+        <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Panel:ScrollPanel</extrafeature>
+        <ComponentStep class="TextArea" classcount="1" classindex="0"
+                       id="dialog4.codeArea" name="codeArea" uid="_1pji">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JTextArea</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">TextArea</extrafeature>
+          <extrafeature name="qfs:label" negate="false" regexp="false"
+                        state="1">Expression:</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JTextArea</extrafeature>
+        </ComponentStep>
+      </ComponentStep>
+      <ComponentStep class="Panel" classcount="18" classindex="3" height="312"
+                     id="dialog4.panel" uid="_1pjj" width="603" x="8" y="30">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JPanel</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Panel</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JPanel</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="Button" classcount="23" classindex="0"
+                     feature="OK" height="23"
+                     id="dialog4.ExpressionPaneDialog.ok"
+                     name="ExpressionPaneDialog.ok" uid="_1pjk" width="47"
+                     x="432" y="313">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Button</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">OK</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+      </ComponentStep>
+    </WindowStep>
+    <WindowStep class="Dialog" feature="Mosaic Parameters" height="442"
+                id="dialogMosaic_Parameters" modal="true" uid="_1pk9"
+                width="388" x="712" y="283">
+      <extrafeature name="qfs:class" negate="false" regexp="false" state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                    state="0">Dialog</extrafeature>
+      <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                    state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Window:Dialog</extrafeature>
+      <ComponentStep class="Panel" classcount="7" classindex="5" height="360"
+                     id="dialogMosaic_Parameters.scroll" uid="_1pkA"
+                     width="360" x="14" y="36">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JScrollPane</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Panel</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JScrollPane</extrafeature>
+        <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Panel:ScrollPanel</extrafeature>
+        <ComponentStep class="ScrollBar" classcount="2" classindex="0"
+                       feature="Vertical"
+                       id="dialogMosaic_Parameters.scrollbarVertical"
+                       uid="_1pkB" x="0" y="0">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JScrollPane$$ScrollBar</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">ScrollBar</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JScrollPane$$ScrollBar</extrafeature>
+        </ComponentStep>
+      </ComponentStep>
+      <ComponentStep class="Panel" classcount="7" classindex="3" height="404"
+                     id="dialogMosaic_Parameters.panel" uid="_1pkC"
+                     width="372" x="8" y="30">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JPanel</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Panel</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JPanel</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="Button" classcount="5" classindex="0" feature="OK"
+                     height="23" id="dialogMosaic_Parameters.ModalDialog.ok"
+                     name="ModalDialog.ok" uid="_1pkD" width="47" x="327"
+                     y="405">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Button</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">OK</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+      </ComponentStep>
+    </WindowStep>
+    <WindowStep class="Dialog" feature="Binning" height="727"
+                id="dialogBinning" uid="_1pkV" width="447" x="619" y="115">
+      <extrafeature name="qfs:class" negate="false" regexp="false" state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                    state="0">Dialog</extrafeature>
+      <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                    state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Window:Dialog</extrafeature>
+      <ComponentStep class="TabPanel" classcount="1" classindex="0"
+                     height="622" id="dialogBinning.tabbed" uid="_1pkW"
+                     width="419" x="14" y="59">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">org.esa.snap.binning.operator.ui.BinningForm</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">TabPanel</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JTabbedPane</extrafeature>
+        <SubItemStep id="dialogBinning.tabbed.tab" uid="_1pkX">
+          <primary>$(tab)</primary>
+        </SubItemStep>
+        <SubItemStep id="dialogBinning.tabbed.Configuration" uid="_1pkY">
+          <primary>Configuration</primary>
+        </SubItemStep>
+        <SubItemStep id="dialogBinning.tabbed.I/O_Parameters" uid="_1pkZ">
+          <primary>I/O Parameters</primary>
+        </SubItemStep>
+        <ComponentStep class="Panel" classcount="38" classindex="0"
+                       feature="Tab: I/O Parameters" height="594"
+                       id="dialogBinning.panelI/O_Parameters" uid="_1pka"
+                       width="414" x="2" y="25">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">org.esa.snap.binning.operator.ui.BinningIOPanel</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">Panel</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JPanel</extrafeature>
+          <extrafeature name="qfs:type" negate="false" regexp="false"
+                        state="0">Panel:TabPanelContent</extrafeature>
+          <ComponentStep class="Panel" classcount="8" classindex="4"
+                         height="453" id="dialogBinning.sourceProductPaths.1"
+                         name="sourceProductPaths.1" uid="_1pkb" width="27"
+                         x="378" y="19">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JPanel</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">Panel</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JPanel</extrafeature>
+            <ComponentStep class="Button" classcount="2" classindex="0"
+                           height="27"
+                           id="dialogBinning.sourceProductPaths.1.buttonPlus24"
+                           uid="_1pkc" width="27" x="0" y="0">
+              <extrafeature name="imagehash" negate="false" regexp="false"
+                            state="1">-711522910</extrafeature>
+              <extrafeature name="qfs:class" negate="false" regexp="false"
+                            state="0">com.jidesoft.swing.JideButton</extrafeature>
+              <extrafeature name="qfs:genericclass" negate="false"
+                            regexp="false" state="0">Button</extrafeature>
+              <extrafeature name="qfs:label" negate="false" regexp="false"
+                            state="1">Plus24</extrafeature>
+              <extrafeature name="qfs:systemclass" negate="false"
+                            regexp="false" state="0">javax.swing.JButton</extrafeature>
+            </ComponentStep>
+            <ComponentStep class="Button" classcount="2" classindex="1"
+                           height="27"
+                           id="dialogBinning.sourceProductPaths.1.buttonMinus24"
+                           uid="_1pkr" width="27" x="0" y="27">
+              <extrafeature name="imagehash" negate="false" regexp="false"
+                            state="1">-265009774</extrafeature>
+              <extrafeature name="qfs:class" negate="false" regexp="false"
+                            state="0">com.jidesoft.swing.JideButton</extrafeature>
+              <extrafeature name="qfs:genericclass" negate="false"
+                            regexp="false" state="0">Button</extrafeature>
+              <extrafeature name="qfs:label" negate="false" regexp="false"
+                            state="1">Minus24</extrafeature>
+              <extrafeature name="qfs:systemclass" negate="false"
+                            regexp="false" state="0">javax.swing.JButton</extrafeature>
+            </ComponentStep>
+          </ComponentStep>
+          <ComponentStep class="Panel" classcount="8" classindex="1"
+                         height="453" id="dialogBinning.sourceProductPaths"
+                         name="sourceProductPaths" uid="_1pki" width="369"
+                         x="9" y="19">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JPanel</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">Panel</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JPanel</extrafeature>
+            <ComponentStep class="Panel" classcount="2" classindex="0"
+                           height="453"
+                           id="dialogBinning.sourceProductPaths.scroll"
+                           uid="_1pkj" width="369" x="0" y="0">
+              <extrafeature name="qfs:class" negate="false" regexp="false"
+                            state="0">javax.swing.JScrollPane</extrafeature>
+              <extrafeature name="qfs:genericclass" negate="false"
+                            regexp="false" state="0">Panel</extrafeature>
+              <extrafeature name="qfs:systemclass" negate="false"
+                            regexp="false" state="0">javax.swing.JScrollPane</extrafeature>
+              <extrafeature name="qfs:type" negate="false" regexp="false"
+                            state="0">Panel:ScrollPanel</extrafeature>
+              <ComponentStep class="List" classcount="1" classindex="0"
+                             id="dialogBinning.sourceProductPaths.list"
+                             uid="_1pkk">
+                <extrafeature name="qfs:class" negate="false" regexp="false"
+                              state="0">javax.swing.JList</extrafeature>
+                <extrafeature name="qfs:genericclass" negate="false"
+                              regexp="false" state="0">List</extrafeature>
+                <extrafeature name="qfs:systemclass" negate="false"
+                              regexp="false" state="0">javax.swing.JList</extrafeature>
+                <SubItemStep id="dialogBinning.sourceProductPaths.list.product"
+                             uid="_1pnx">
+                  <primary/>
+                </SubItemStep>
+              </ComponentStep>
+            </ComponentStep>
+          </ComponentStep>
+          <ComponentStep class="TextField" classcount="2" classindex="0"
+                         height="20" id="dialogBinning.productName"
+                         name="productName" uid="_1pkl" width="390" x="12"
+                         y="518">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JTextField</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">TextField</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">Name:</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JTextField</extrafeature>
+          </ComponentStep>
+          <ComponentStep class="TextField" classcount="2" classindex="1"
+                         height="20" id="dialogBinning.productDir"
+                         name="productDir" uid="_1pkm" width="361" x="12"
+                         y="561">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JTextField</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">TextField</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">Directory:</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JTextField</extrafeature>
+          </ComponentStep>
+          <ComponentStep class="Button" classcount="7" classindex="6"
+                         feature="..." height="20"
+                         id="dialogBinning.button..." uid="_1pkn" width="26"
+                         x="376" y="561">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JButton</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">Button</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">...</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JButton</extrafeature>
+          </ComponentStep>
+        </ComponentStep>
+        <ComponentStep class="Panel" classcount="38" classindex="9"
+                       feature="Tab: Filter" height="594"
+                       id="dialogBinning.panelFilter" uid="_1pks" width="414"
+                       x="2" y="25">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">org.esa.snap.binning.operator.ui.BinningFilterPanel</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">Panel</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JPanel</extrafeature>
+          <extrafeature name="qfs:type" negate="false" regexp="false"
+                        state="0">Panel:TabPanelContent</extrafeature>
+          <ComponentStep class="RadioButton" classcount="4" classindex="0"
+                         feature="Compute the geographical region according to extents of input products"
+                         height="23" id="dialogBinning.compute" name="compute"
+                         uid="_1pkt" width="406" x="4" y="24">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JRadioButton</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">RadioButton</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">Compute the geographical region according to extents of input products</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JRadioButton</extrafeature>
+          </ComponentStep>
+          <ComponentStep class="RadioButton" classcount="4" classindex="1"
+                         feature="Use the whole globe as region" height="23"
+                         id="dialogBinning.global" name="global" uid="_1pku"
+                         width="406" x="4" y="50">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JRadioButton</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">RadioButton</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">Use the whole globe as region</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JRadioButton</extrafeature>
+          </ComponentStep>
+          <ComponentStep class="RadioButton" classcount="4" classindex="2"
+                         feature="Enter WKT:" height="23"
+                         id="dialogBinning.manualWktKey" name="manualWktKey"
+                         uid="_1pkv" width="406" x="4" y="76">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JRadioButton</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">RadioButton</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">Enter WKT:</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JRadioButton</extrafeature>
+          </ComponentStep>
+          <ComponentStep class="Panel" classcount="14" classindex="3"
+                         height="48" id="dialogBinning.panelFilter.scroll"
+                         uid="_1pkw" width="406" x="4" y="102">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JScrollPane</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">Panel</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JScrollPane</extrafeature>
+            <extrafeature name="qfs:type" negate="false" regexp="false"
+                          state="0">Panel:ScrollPanel</extrafeature>
+            <ComponentStep class="TextArea" classcount="1" classindex="0"
+                           id="dialogBinning.manualWkt" name="manualWkt"
+                           uid="_1pkx">
+              <extrafeature name="qfs:class" negate="false" regexp="false"
+                            state="0">com.jidesoft.swing.AutoResizingTextArea</extrafeature>
+              <extrafeature name="qfs:genericclass" negate="false"
+                            regexp="false" state="0">TextArea</extrafeature>
+              <extrafeature name="qfs:label" negate="false" regexp="false"
+                            state="1">Spatial Filter / Region</extrafeature>
+              <extrafeature name="qfs:systemclass" negate="false"
+                            regexp="false" state="0">javax.swing.JTextArea</extrafeature>
+            </ComponentStep>
+          </ComponentStep>
+          <ComponentStep class="RadioButton" classcount="4" classindex="3"
+                         feature="Specify region:" height="23"
+                         id="dialogBinning.bounds" name="bounds" uid="_1pky"
+                         width="406" x="4" y="153">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JRadioButton</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">RadioButton</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">Specify region:</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JRadioButton</extrafeature>
+          </ComponentStep>
+          <ComponentStep class="TextField" classcount="7" classindex="1"
+                         height="20" id="dialogBinning.westBound"
+                         name="westBound" uid="_1pkz" width="60" x="77"
+                         y="199">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JFormattedTextField</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">TextField</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">West:</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JFormattedTextField</extrafeature>
+          </ComponentStep>
+          <ComponentStep class="TextField" classcount="7" classindex="0"
+                         height="20" id="dialogBinning.northBound"
+                         name="northBound" uid="_1pk+" width="60" x="192"
+                         y="179">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JFormattedTextField</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">TextField</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">North:</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JFormattedTextField</extrafeature>
+          </ComponentStep>
+          <ComponentStep class="TextField" classcount="7" classindex="2"
+                         height="20" id="dialogBinning.eastBound"
+                         name="eastBound" uid="_1pk-" width="60" x="300"
+                         y="199">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JFormattedTextField</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">TextField</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">East:</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JFormattedTextField</extrafeature>
+          </ComponentStep>
+          <ComponentStep class="TextField" classcount="7" classindex="3"
+                         height="20" id="dialogBinning.southBound"
+                         name="southBound" uid="_1pl0" width="60" x="192"
+                         y="219">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JFormattedTextField</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">TextField</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">South:</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JFormattedTextField</extrafeature>
+          </ComponentStep>
+          <ComponentStep class="ComboBox" classcount="1" classindex="0"
+                         height="20" id="dialogBinning.timeFilterMethod"
+                         name="timeFilterMethod" uid="_1pl1" width="286"
+                         x="114" y="478">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JComboBox</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">ComboBox</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">ignore pixel observation time, use all source pixels</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JComboBox</extrafeature>
+          </ComponentStep>
+          <ComponentStep class="TextField" classcount="7" classindex="4"
+                         height="20" id="dialogBinning.startDateTime"
+                         name="startDateTime" uid="_1plA" width="157" x="114"
+                         y="503">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JTextField</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">TextField</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">Start date:</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JTextField</extrafeature>
+          </ComponentStep>
+          <ComponentStep class="TextField" classcount="7" classindex="5"
+                         height="20" id="dialogBinning.periodDuration"
+                         name="periodDuration" uid="_1plB" width="157" x="114"
+                         y="528">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JTextField</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">TextField</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">Period duration:</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JTextField</extrafeature>
+          </ComponentStep>
+          <ComponentStep class="TextField" classcount="7" classindex="6"
+                         height="20" id="dialogBinning.minDataHour"
+                         name="minDataHour" uid="_1plC" width="286" x="114"
+                         y="553">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JTextField</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">TextField</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">Min data hour:</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JTextField</extrafeature>
+          </ComponentStep>
+        </ComponentStep>
+        <ComponentStep class="Panel" classcount="38" classindex="24"
+                       feature="Tab: Configuration" height="594"
+                       id="dialogBinning.panelConfiguration" uid="_1plD"
+                       width="414" x="2" y="25">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">org.esa.snap.binning.operator.ui.BinningConfigurationPanel</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">Panel</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JPanel</extrafeature>
+          <extrafeature name="qfs:type" negate="false" regexp="false"
+                        state="0">Panel:TabPanelContent</extrafeature>
+          <ComponentStep class="ToolBar" classcount="2" classindex="0"
+                         height="25"
+                         id="dialogBinning.panelConfiguration.toolbar"
+                         uid="_1plE" width="406" x="4" y="4">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">com.bc.ceres.swing.ListControlBar</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">ToolBar</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JToolBar</extrafeature>
+            <ComponentStep class="Button" classcount="5" classindex="0"
+                           feature="ToolTip: Show/hide selection column"
+                           height="19"
+                           id="dialogBinning.buttonTipShow/hide_selection_column"
+                           uid="_1plF" width="19" x="1" y="3">
+              <extrafeature name="imagehash" negate="false" regexp="false"
+                            state="1">1325843636</extrafeature>
+              <extrafeature name="qfs:class" negate="false" regexp="false"
+                            state="0">com.jidesoft.swing.JideToggleButton</extrafeature>
+              <extrafeature name="qfs:genericclass" negate="false"
+                            regexp="false" state="0">Button</extrafeature>
+              <extrafeature name="qfs:label" negate="false" regexp="false"
+                            state="1">ShowSelection16</extrafeature>
+              <extrafeature name="qfs:systemclass" negate="false"
+                            regexp="false" state="0">javax.swing.JButton</extrafeature>
+            </ComponentStep>
+            <ComponentStep class="Button" classcount="5" classindex="1"
+                           height="23"
+                           id="dialogBinning.panelConfiguration.buttonPlus16"
+                           uid="_1plG" width="23" x="20" y="1">
+              <extrafeature name="imagehash" negate="false" regexp="false"
+                            state="1">28657247</extrafeature>
+              <extrafeature name="qfs:class" negate="false" regexp="false"
+                            state="0">javax.swing.JButton</extrafeature>
+              <extrafeature name="qfs:genericclass" negate="false"
+                            regexp="false" state="0">Button</extrafeature>
+              <extrafeature name="qfs:label" negate="false" regexp="false"
+                            state="1">Plus16</extrafeature>
+              <extrafeature name="qfs:systemclass" negate="false"
+                            regexp="false" state="0">javax.swing.JButton</extrafeature>
+            </ComponentStep>
+            <ComponentStep class="Button" classcount="5" classindex="2"
+                           height="23"
+                           id="dialogBinning.panelConfiguration.buttonMinus16"
+                           uid="_1plJ" width="23" x="43" y="1">
+              <extrafeature name="imagehash" negate="false" regexp="false"
+                            state="1">-550815312</extrafeature>
+              <extrafeature name="qfs:class" negate="false" regexp="false"
+                            state="0">javax.swing.JButton</extrafeature>
+              <extrafeature name="qfs:genericclass" negate="false"
+                            regexp="false" state="0">Button</extrafeature>
+              <extrafeature name="qfs:label" negate="false" regexp="false"
+                            state="1">Minus16</extrafeature>
+              <extrafeature name="qfs:systemclass" negate="false"
+                            regexp="false" state="0">javax.swing.JButton</extrafeature>
+            </ComponentStep>
+            <ComponentStep class="Button" classcount="5" classindex="3"
+                           height="23"
+                           id="dialogBinning.panelConfiguration.buttonMoveUp16"
+                           uid="_1plK" width="23" x="66" y="1">
+              <extrafeature name="imagehash" negate="false" regexp="false"
+                            state="1">-305413262</extrafeature>
+              <extrafeature name="qfs:class" negate="false" regexp="false"
+                            state="0">javax.swing.JButton</extrafeature>
+              <extrafeature name="qfs:genericclass" negate="false"
+                            regexp="false" state="0">Button</extrafeature>
+              <extrafeature name="qfs:label" negate="false" regexp="false"
+                            state="1">MoveUp16</extrafeature>
+              <extrafeature name="qfs:systemclass" negate="false"
+                            regexp="false" state="0">javax.swing.JButton</extrafeature>
+            </ComponentStep>
+            <ComponentStep class="Button" classcount="5" classindex="4"
+                           height="23"
+                           id="dialogBinning.panelConfiguration.buttonMoveDown16"
+                           uid="_1plL" width="23" x="89" y="1">
+              <extrafeature name="imagehash" negate="false" regexp="false"
+                            state="1">453603431</extrafeature>
+              <extrafeature name="qfs:class" negate="false" regexp="false"
+                            state="0">javax.swing.JButton</extrafeature>
+              <extrafeature name="qfs:genericclass" negate="false"
+                            regexp="false" state="0">Button</extrafeature>
+              <extrafeature name="qfs:label" negate="false" regexp="false"
+                            state="1">MoveDown16</extrafeature>
+              <extrafeature name="qfs:systemclass" negate="false"
+                            regexp="false" state="0">javax.swing.JButton</extrafeature>
+            </ComponentStep>
+          </ComponentStep>
+          <ComponentStep class="ToolBar" classcount="2" classindex="1"
+                         height="25"
+                         id="dialogBinning.panelConfiguration.toolbar2"
+                         uid="_1plM" width="402" x="6" y="307">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">com.bc.ceres.swing.ListControlBar</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">ToolBar</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JToolBar</extrafeature>
+            <ComponentStep class="Button" classcount="5" classindex="0"
+                           feature="ToolTip: Show/hide selection column"
+                           height="19"
+                           id="dialogBinning.buttonTipShow/hide_selection_column2"
+                           uid="_1plN" width="19" x="1" y="3">
+              <extrafeature name="imagehash" negate="false" regexp="false"
+                            state="1">1325843636</extrafeature>
+              <extrafeature name="qfs:class" negate="false" regexp="false"
+                            state="0">com.jidesoft.swing.JideToggleButton</extrafeature>
+              <extrafeature name="qfs:genericclass" negate="false"
+                            regexp="false" state="0">Button</extrafeature>
+              <extrafeature name="qfs:label" negate="false" regexp="false"
+                            state="1">ShowSelection16</extrafeature>
+              <extrafeature name="qfs:systemclass" negate="false"
+                            regexp="false" state="0">javax.swing.JButton</extrafeature>
+            </ComponentStep>
+            <ComponentStep class="Button" classcount="5" classindex="1"
+                           height="23"
+                           id="dialogBinning.panelConfiguration.buttonPlus162"
+                           uid="_1plO" width="23" x="20" y="1">
+              <extrafeature name="imagehash" negate="false" regexp="false"
+                            state="1">28657247</extrafeature>
+              <extrafeature name="qfs:class" negate="false" regexp="false"
+                            state="0">javax.swing.JButton</extrafeature>
+              <extrafeature name="qfs:genericclass" negate="false"
+                            regexp="false" state="0">Button</extrafeature>
+              <extrafeature name="qfs:label" negate="false" regexp="false"
+                            state="1">Plus16</extrafeature>
+              <extrafeature name="qfs:systemclass" negate="false"
+                            regexp="false" state="0">javax.swing.JButton</extrafeature>
+            </ComponentStep>
+            <ComponentStep class="Button" classcount="5" classindex="2"
+                           height="23"
+                           id="dialogBinning.panelConfiguration.buttonMinus162"
+                           uid="_1plR" width="23" x="43" y="1">
+              <extrafeature name="imagehash" negate="false" regexp="false"
+                            state="1">-550815312</extrafeature>
+              <extrafeature name="qfs:class" negate="false" regexp="false"
+                            state="0">javax.swing.JButton</extrafeature>
+              <extrafeature name="qfs:genericclass" negate="false"
+                            regexp="false" state="0">Button</extrafeature>
+              <extrafeature name="qfs:label" negate="false" regexp="false"
+                            state="1">Minus16</extrafeature>
+              <extrafeature name="qfs:systemclass" negate="false"
+                            regexp="false" state="0">javax.swing.JButton</extrafeature>
+            </ComponentStep>
+            <ComponentStep class="Button" classcount="5" classindex="3"
+                           height="23"
+                           id="dialogBinning.panelConfiguration.buttonMoveUp162"
+                           uid="_1plS" width="23" x="66" y="1">
+              <extrafeature name="imagehash" negate="false" regexp="false"
+                            state="1">-305413262</extrafeature>
+              <extrafeature name="qfs:class" negate="false" regexp="false"
+                            state="0">javax.swing.JButton</extrafeature>
+              <extrafeature name="qfs:genericclass" negate="false"
+                            regexp="false" state="0">Button</extrafeature>
+              <extrafeature name="qfs:label" negate="false" regexp="false"
+                            state="1">MoveUp16</extrafeature>
+              <extrafeature name="qfs:systemclass" negate="false"
+                            regexp="false" state="0">javax.swing.JButton</extrafeature>
+            </ComponentStep>
+            <ComponentStep class="Button" classcount="5" classindex="4"
+                           height="23"
+                           id="dialogBinning.panelConfiguration.buttonMoveDown162"
+                           uid="_1plT" width="23" x="89" y="1">
+              <extrafeature name="imagehash" negate="false" regexp="false"
+                            state="1">453603431</extrafeature>
+              <extrafeature name="qfs:class" negate="false" regexp="false"
+                            state="0">javax.swing.JButton</extrafeature>
+              <extrafeature name="qfs:genericclass" negate="false"
+                            regexp="false" state="0">Button</extrafeature>
+              <extrafeature name="qfs:label" negate="false" regexp="false"
+                            state="1">MoveDown16</extrafeature>
+              <extrafeature name="qfs:systemclass" negate="false"
+                            regexp="false" state="0">javax.swing.JButton</extrafeature>
+            </ComponentStep>
+          </ComponentStep>
+          <ComponentStep class="TextField" classcount="4" classindex="0"
+                         height="20" id="dialogBinning.maskExpr"
+                         name="maskExpr" uid="_1plU" width="181" x="146"
+                         y="488">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JTextField</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">TextField</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">Valid pixel expression:</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JTextField</extrafeature>
+          </ComponentStep>
+          <ComponentStep class="Button" classcount="20" classindex="18"
+                         feature="..." height="23"
+                         id="dialogBinning.button...2" uid="_1plV" width="67"
+                         x="337" y="488">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JButton</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">Button</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">...</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JButton</extrafeature>
+          </ComponentStep>
+          <ComponentStep class="TextField" classcount="4" classindex="1"
+                         height="20" id="dialogBinning.numRows" name="numRows"
+                         uid="_1plW" width="258" x="146" y="516">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">org.esa.snap.binning.operator.ui.BinningConfigurationPanel$$IntegerTextField</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">TextField</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">#Rows (90N - 90S):</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JTextField</extrafeature>
+          </ComponentStep>
+          <ComponentStep class="TextField" classcount="4" classindex="2"
+                         height="20"
+                         id="dialogBinning.panelConfiguration.textSpatial_resolution_(km/px):"
+                         uid="_1plX" width="181" x="146" y="541">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">org.esa.snap.binning.operator.ui.BinningConfigurationPanel$$DoubleTextField</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">TextField</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">Spatial resolution (km/px):</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JTextField</extrafeature>
+          </ComponentStep>
+          <ComponentStep class="Button" classcount="20" classindex="19"
+                         feature="default" height="23"
+                         id="dialogBinning.buttonDefault" uid="_1plY"
+                         width="67" x="337" y="541">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JButton</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">Button</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">default</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JButton</extrafeature>
+          </ComponentStep>
+          <ComponentStep class="TextField" classcount="4" classindex="3"
+                         height="20" id="dialogBinning.superSampling"
+                         name="superSampling" uid="_1plZ" width="258" x="146"
+                         y="569">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">org.esa.snap.binning.operator.ui.BinningConfigurationPanel$$IntegerTextField</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">TextField</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">Super-sampling:</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JTextField</extrafeature>
+          </ComponentStep>
+        </ComponentStep>
+      </ComponentStep>
+      <ComponentStep class="Popup" feature="InvokerClass: Button" height="92"
+                     id="dialogBinning.popupInvokerClass:_Button" uid="_1pkd"
+                     width="211">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JPopupMenu</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Popup</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JPopupMenu</extrafeature>
+        <ComponentStep class="MenuItem" classcount="4" classindex="0"
+                       feature="Add product(s)..." height="22"
+                       id="dialogBinning.menuItemAdd_product(s)..."
+                       uid="_1pke" width="207" x="2" y="2">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JMenuItem</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">MenuItem</extrafeature>
+          <extrafeature name="qfs:label" negate="false" regexp="false"
+                        state="1">Add product(s)...</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JMenuItem</extrafeature>
+        </ComponentStep>
+        <ComponentStep class="MenuItem" classcount="4" classindex="1"
+                       feature="Add product file(s)..." height="22"
+                       id="dialogBinning.menuItemAdd_product_file(s)..."
+                       uid="_1pkf" width="207" x="2" y="24">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JMenuItem</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">MenuItem</extrafeature>
+          <extrafeature name="qfs:label" negate="false" regexp="false"
+                        state="1">Add product file(s)...</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JMenuItem</extrafeature>
+        </ComponentStep>
+        <ComponentStep class="MenuItem" classcount="4" classindex="2"
+                       feature="Add directory(s)..." height="22"
+                       id="dialogBinning.menuItemAdd_directory(s)..."
+                       uid="_1pkg" width="207" x="2" y="46">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JMenuItem</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">MenuItem</extrafeature>
+          <extrafeature name="qfs:label" negate="false" regexp="false"
+                        state="1">Add directory(s)...</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JMenuItem</extrafeature>
+        </ComponentStep>
+        <ComponentStep class="MenuItem" classcount="4" classindex="3"
+                       feature="Add directory recursively..." height="22"
+                       id="dialogBinning.menuItemAdd_directory_recursively..."
+                       uid="_1pkh" width="207" x="2" y="68">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JMenuItem</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">MenuItem</extrafeature>
+          <extrafeature name="qfs:label" negate="false" regexp="false"
+                        state="1">Add directory recursively...</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JMenuItem</extrafeature>
+        </ComponentStep>
+      </ComponentStep>
+      <ComponentStep class="Button" classcount="35" classindex="0"
+                     feature="Run" height="23"
+                     id="dialogBinning.BinningDialog.apply"
+                     name="BinningDialog.apply" uid="_1pko" width="51" x="262"
+                     y="690">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Button</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">Run</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="Button" classcount="35" classindex="1"
+                     feature="Close" height="23"
+                     id="dialogBinning.BinningDialog.close"
+                     name="BinningDialog.close" uid="_1pkp" width="59" x="317"
+                     y="690">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Button</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">Close</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="Button" classcount="35" classindex="2"
+                     feature="Help" height="23"
+                     id="dialogBinning.BinningDialog.help"
+                     name="BinningDialog.help" uid="_1pkq" width="53" x="380"
+                     y="690">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Button</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">Help</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="Popup" feature="InvokerName: timeFilterMethod"
+                     height="50"
+                     id="dialogBinning.popupInvokerName:_timeFilterMethod"
+                     uid="_1pl2" width="286" x="130" y="582">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.plaf.basic.BasicComboPopup</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Popup</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.plaf.basic.BasicComboPopup</extrafeature>
+        <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Popup:ComboBoxPopup</extrafeature>
+        <ComponentStep class="Panel" classcount="2" classindex="0" height="48"
+                       id="dialogBinning.popupInvokerName:_timeFilterMethod.scroll"
+                       uid="_1pl3" width="284" x="1" y="1">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JScrollPane</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">Panel</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JScrollPane</extrafeature>
+          <extrafeature name="qfs:type" negate="false" regexp="false"
+                        state="0">Panel:ScrollPanel</extrafeature>
+          <ComponentStep class="List" classcount="1" classindex="0"
+                         feature="InvokerName: timeFilterMethod"
+                         id="dialogBinning.listInvokerName:_timeFilterMethod"
+                         uid="_1pl4">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JList</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">List</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="0">ignore pixel observation time, use all source pixels</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JList</extrafeature>
+            <extrafeature name="qfs:type" negate="false" regexp="false"
+                          state="0">List:ComboBoxList</extrafeature>
+            <SubItemStep id="dialogBinning.listInvokerName:_timeFilterMethod.time_filter_method"
+                         uid="_1pl5">
+              <primary>$(time_filter_method)</primary>
+            </SubItemStep>
+          </ComponentStep>
+        </ComponentStep>
+      </ComponentStep>
+      <ComponentStep class="MenuBar" classcount="1" classindex="0" height="23"
+                     id="dialogBinning.menubar" uid="_1pla" width="431" x="8"
+                     y="30">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JMenuBar</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">MenuBar</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JMenuBar</extrafeature>
+        <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Menu:MenuBar</extrafeature>
+        <ComponentStep class="MenuItem" classcount="7" classindex="0"
+                       feature="File" height="21" id="dialogBinning.menuFile"
+                       uid="_1plb" width="33" x="2" y="1">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JMenu</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">MenuItem</extrafeature>
+          <extrafeature name="qfs:label" negate="false" regexp="false"
+                        state="1">File</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JMenu</extrafeature>
+          <ComponentStep class="MenuItem" classcount="3" classindex="0"
+                         feature="Load Parameters..." height="22"
+                         id="dialogBinning.menuItemLoad_Parameters..."
+                         uid="_1plc" width="175">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JMenuItem</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">MenuItem</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">Load Parameters...</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JMenuItem</extrafeature>
+          </ComponentStep>
+          <ComponentStep class="MenuItem" classcount="3" classindex="1"
+                         feature="Save Parameters..." height="22"
+                         id="dialogBinning.menuItemSave_Parameters..."
+                         uid="_1pld" width="175">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JMenuItem</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">MenuItem</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">Save Parameters...</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JMenuItem</extrafeature>
+          </ComponentStep>
+          <ComponentStep class="MenuItem" classcount="3" classindex="2"
+                         feature="Display Parameters..." height="22"
+                         id="dialogBinning.menuItemDisplay_Parameters..."
+                         uid="_1ple" width="175">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JMenuItem</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">MenuItem</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">Display Parameters...</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JMenuItem</extrafeature>
+          </ComponentStep>
+        </ComponentStep>
+        <ComponentStep class="MenuItem" classcount="7" classindex="4"
+                       feature="Help" height="21" id="dialogBinning.menuHelp"
+                       uid="_1plh" width="39" x="35" y="1">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JMenu</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">MenuItem</extrafeature>
+          <extrafeature name="qfs:label" negate="false" regexp="false"
+                        state="1">Help</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JMenu</extrafeature>
+          <ComponentStep class="MenuItem" classcount="2" classindex="0"
+                         feature="Help" height="22"
+                         id="dialogBinning.menuItemHelp" uid="_1pli"
+                         width="109">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JMenuItem</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">MenuItem</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">Help</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JMenuItem</extrafeature>
+          </ComponentStep>
+          <ComponentStep class="MenuItem" classcount="2" classindex="1"
+                         feature="About..." height="22"
+                         id="dialogBinning.menuItemAbout..." uid="_1plj"
+                         width="109">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JMenuItem</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">MenuItem</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">About...</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JMenuItem</extrafeature>
+          </ComponentStep>
+        </ComponentStep>
+      </ComponentStep>
+    </WindowStep>
+    <WindowStep class="Dialog" height="118" id="dialog6" modal="true"
+                uid="_1plH" width="373" x="655" y="298">
+      <extrafeature name="qfs:class" negate="false" regexp="false" state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                    state="0">Dialog</extrafeature>
+      <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                    state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Window:Dialog</extrafeature>
+      <ComponentStep class="Button" classcount="1" classindex="0" feature="OK"
+                     height="25" id="dialog6.buttonOK" uid="_1plI" width="75"
+                     x="149" y="77">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.plaf.basic.BasicOptionPaneUI$$ButtonFactory$$ConstrainedButton</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Button</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">OK</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.plaf.basic.BasicOptionPaneUI$$ButtonFactory$$ConstrainedButton</extrafeature>
+      </ComponentStep>
+    </WindowStep>
+    <WindowStep class="Dialog" feature="Message" height="118"
+                id="dialogMessage" modal="true" uid="_1plP" width="305"
+                x="689" y="546">
+      <extrafeature name="qfs:class" negate="false" regexp="false" state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                    state="0">Dialog</extrafeature>
+      <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                    state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Window:Dialog</extrafeature>
+      <ComponentStep class="Button" classcount="1" classindex="0" feature="OK"
+                     height="25" id="dialogMessage.buttonOK" uid="_1plQ"
+                     width="75" x="115" y="77">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.plaf.basic.BasicOptionPaneUI$$ButtonFactory$$ConstrainedButton</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Button</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">OK</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.plaf.basic.BasicOptionPaneUI$$ButtonFactory$$ConstrainedButton</extrafeature>
+      </ComponentStep>
+    </WindowStep>
+    <WindowStep class="Dialog" feature="Binning Parameters" height="442"
+                id="dialogBinning_Parameters" modal="true" uid="_1plf"
+                width="388" x="649" y="258">
+      <extrafeature name="qfs:class" negate="false" regexp="false" state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                    state="0">Dialog</extrafeature>
+      <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                    state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Window:Dialog</extrafeature>
+      <ComponentStep class="Button" classcount="5" classindex="0" feature="OK"
+                     height="23" id="dialogBinning_Parameters.ModalDialog.ok"
+                     name="ModalDialog.ok" uid="_1plg" width="47" x="327"
+                     y="405">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Button</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">OK</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+      </ComponentStep>
+    </WindowStep>
+    <WindowStep class="Dialog" feature="About Binning" height="264"
+                id="dialogAbout_Binning" modal="true" uid="_1plk" width="559"
+                x="563" y="347">
+      <extrafeature name="qfs:class" negate="false" regexp="false" state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                    state="0">Dialog</extrafeature>
+      <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                    state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Window:Dialog</extrafeature>
+      <ComponentStep class="Button" classcount="1" classindex="0" feature="OK"
+                     height="23" id="dialogAbout_Binning.ModalDialog.ok"
+                     name="ModalDialog.ok" uid="_1pll" width="47" x="498"
+                     y="227">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Button</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">OK</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+      </ComponentStep>
+    </WindowStep>
+    <WindowStep class="Dialog" feature="Open" height="458" id="dialogOpen2"
+                modal="true" uid="_1pnf" width="357" x="696" y="254">
+      <extrafeature name="qfs:class" negate="false" regexp="false" state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                    state="0">Dialog</extrafeature>
+      <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                    state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Window:Dialog</extrafeature>
+      <ComponentStep class="FileChooser" classcount="1" classindex="0"
+                     height="420" id="dialogOpen2.fileChooser" uid="_1png"
+                     width="341" x="8" y="30">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">com.jidesoft.swing.FolderChooser</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">FileChooser</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JFileChooser</extrafeature>
+        <ComponentStep class="Panel" classcount="7" classindex="4"
+                       height="342" id="dialogOpen2.scroll" uid="_1pnh"
+                       width="329" x="6" y="43">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JScrollPane</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">Panel</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JScrollPane</extrafeature>
+          <extrafeature name="qfs:type" negate="false" regexp="false"
+                        state="0">Panel:ScrollPanel</extrafeature>
+          <ComponentStep class="Tree" classcount="1" classindex="0"
+                         id="dialogOpen2.treeRecent:" uid="_1pni">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">com.jidesoft.plaf.basic.BasicFileSystemTree</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">Tree</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">Recent:</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JTree</extrafeature>
+            <SubItemStep id="dialogOpen2.treeRecent:./Desktop/Computer/data_(B:)"
+                         uid="_1pnj">
+              <primary>/Desktop/Computer/data (B:)</primary>
+            </SubItemStep>
+            <SubItemStep id="dialogOpen2.treeRecent:./Desktop/Computer/root_(C:)"
+                         uid="_1pnk">
+              <primary>/Desktop/Computer/root (C:)</primary>
+            </SubItemStep>
+            <SubItemStep id="dialogOpen2.treeRecent:./Desktop/Computer/big4_(E:)"
+                         uid="_1pnl">
+              <primary>/Desktop/Computer/big4 (E:)</primary>
+            </SubItemStep>
+            <SubItemStep id="dialogOpen2.treeRecent:./Desktop/Computer/big4_(E:)/testdata"
+                         uid="_1pnm">
+              <primary>/Desktop/Computer/big4 (E:)/testdata</primary>
+            </SubItemStep>
+            <SubItemStep id="dialogOpen2.treeRecent:./Desktop/Computer/big4_(E:)/testdata/in"
+                         uid="_1pnn">
+              <primary>/Desktop/Computer/big4 (E:)/testdata/in</primary>
+            </SubItemStep>
+            <SubItemStep id="dialogOpen2.treeRecent:./Desktop/Computer/big4_(E:)/testdata/in/sensors_platforms"
+                         uid="_1pno">
+              <primary>/Desktop/Computer/big4 (E:)/testdata/in/sensors_platforms</primary>
+            </SubItemStep>
+            <SubItemStep id="dialogOpen2.treeRecent:./Desktop/Computer/big4_(E:)/testdata/in/sensors_platforms/MERIS"
+                         uid="_1pnp">
+              <primary>/Desktop/Computer/big4 (E:)/testdata/in/sensors_platforms/MERIS</primary>
+            </SubItemStep>
+            <SubItemStep id="dialogOpen2.treeRecent:./Desktop/Computer/big4_(E:)/testdata/in/sensors_platforms/MERIS/for_binning"
+                         uid="_1pnq">
+              <primary>/Desktop/Computer/big4 (E:)/testdata/in/sensors_platforms/MERIS/for_binning</primary>
+            </SubItemStep>
+          </ComponentStep>
+        </ComponentStep>
+      </ComponentStep>
+    </WindowStep>
+    <WindowStep class="Dialog" feature="File Selection Pattern" height="124"
+                id="dialogFile_Selection_Pattern" modal="true" uid="_1pnr"
+                width="296" x="727" y="421">
+      <extrafeature name="qfs:class" negate="false" regexp="false" state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                    state="0">Dialog</extrafeature>
+      <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                    state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Window:Dialog</extrafeature>
+      <ComponentStep class="TextField" classcount="1" classindex="0"
+                     height="20"
+                     id="dialogFile_Selection_Pattern.textPattern:"
+                     uid="_1pns" width="220" x="62" y="58">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JTextField</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">TextField</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">Pattern:</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JTextField</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="Button" classcount="3" classindex="1"
+                     feature="Cancel" height="23"
+                     id="dialogFile_Selection_Pattern.FileSelectionPatternDialog.cancel"
+                     name="FileSelectionPatternDialog.cancel" uid="_1pnt"
+                     width="65" x="160" y="87">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Button</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">Cancel</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="Button" classcount="3" classindex="0" feature="OK"
+                     height="23"
+                     id="dialogFile_Selection_Pattern.FileSelectionPatternDialog.ok"
+                     name="FileSelectionPatternDialog.ok" uid="_1pnu"
+                     width="47" x="109" y="87">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Button</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">OK</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="Button" classcount="3" classindex="2"
+                     feature="Help" height="23"
+                     id="dialogFile_Selection_Pattern.FileSelectionPatternDialog.help"
+                     name="FileSelectionPatternDialog.help" uid="_1pnv"
+                     width="53" x="229" y="87">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Button</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">Help</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="Button" classcount="1" classindex="0" feature="OK"
+                     height="25" id="dialogFile_Selection_Pattern.buttonOK"
+                     uid="_1pnw" width="75" x="96" y="79">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.plaf.basic.BasicOptionPaneUI$$ButtonFactory$$ConstrainedButton</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Button</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">OK</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.plaf.basic.BasicOptionPaneUI$$ButtonFactory$$ConstrainedButton</extrafeature>
+      </ComponentStep>
+    </WindowStep>
+    <WindowStep class="Dialog" feature="Edit Aggregator" height="236"
+                id="dialogEdit_Aggregator" modal="true" uid="_1poP"
+                width="387" x="649" y="360">
+      <extrafeature name="qfs:class" negate="false" regexp="false" state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                    state="0">Dialog</extrafeature>
+      <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                    state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Window:Dialog</extrafeature>
+      <ComponentStep class="ComboBox" classcount="2" classindex="0"
+                     height="20"
+                     id="dialogEdit_Aggregator.comboSource_band_name:"
+                     uid="_1poQ" width="369" x="9" y="31">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JComboBox</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">ComboBox</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">Source band name:</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JComboBox</extrafeature>
+        <ComponentStep class="Button" classcount="1" classindex="0"
+                       id="dialogEdit_Aggregator.button" uid="_1poY">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">com.sun.java.swing.plaf.windows.WindowsComboBoxUI$$XPComboBoxButton</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">Button</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JButton</extrafeature>
+          <extrafeature name="qfs:type" negate="false" regexp="false"
+                        state="0">Button:ComboBoxButton</extrafeature>
+        </ComponentStep>
+      </ComponentStep>
+      <ComponentStep class="ComboBox" classcount="2" classindex="1"
+                     height="20" id="dialogEdit_Aggregator.varName"
+                     name="varName" uid="_1poR" width="188" x="187" y="59">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JComboBox</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">ComboBox</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">The source band used for aggregation.</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JComboBox</extrafeature>
+        <ComponentStep class="Button" classcount="1" classindex="0"
+                       feature="ToolTip: The source band used for aggregation."
+                       id="dialogEdit_Aggregator.buttonTipThe_source_band_used_for_aggregation."
+                       uid="_1poj">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">com.sun.java.swing.plaf.windows.WindowsComboBoxUI$$XPComboBoxButton</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">Button</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JButton</extrafeature>
+          <extrafeature name="qfs:type" negate="false" regexp="false"
+                        state="0">Button:ComboBoxButton</extrafeature>
+        </ComponentStep>
+      </ComponentStep>
+      <ComponentStep class="TextField" classcount="2" classindex="0"
+                     height="20" id="dialogEdit_Aggregator.targetName"
+                     name="targetName" uid="_1poS" width="188" x="187" y="82">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JTextField</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">TextField</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">Target band name prefix (optional):</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JTextField</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="TextField" classcount="2" classindex="1"
+                     height="22" id="dialogEdit_Aggregator.weightCoeff"
+                     name="weightCoeff" uid="_1poT" width="188" x="187"
+                     y="105">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JTextField</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">TextField</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">Weight coefficient:</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JTextField</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="CheckBox" classcount="2" classindex="0"
+                     feature="Output counts" height="23"
+                     id="dialogEdit_Aggregator.outputCounts"
+                     name="outputCounts" uid="_1poU" width="363" x="12"
+                     y="130">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JCheckBox</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">CheckBox</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">Output counts</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JCheckBox</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="CheckBox" classcount="2" classindex="1"
+                     feature="Output sums" height="23"
+                     id="dialogEdit_Aggregator.outputSums" name="outputSums"
+                     uid="_1poV" width="363" x="12" y="156">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JCheckBox</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">CheckBox</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">Output sums</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JCheckBox</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="Button" classcount="4" classindex="0" feature="OK"
+                     height="23"
+                     id="dialogEdit_Aggregator.AggregatorItemDialog.ok"
+                     name="AggregatorItemDialog.ok" uid="_1poW" width="47"
+                     x="262" y="204">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Button</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">OK</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="Button" classcount="4" classindex="1"
+                     feature="Cancel" height="23"
+                     id="dialogEdit_Aggregator.AggregatorItemDialog.cancel"
+                     name="AggregatorItemDialog.cancel" uid="_1poX" width="65"
+                     x="313" y="204">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Button</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">Cancel</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="Popup" feature="InvokerClass: ComboBox"
+                     height="66"
+                     id="dialogEdit_Aggregator.popupInvokerClass:_ComboBox"
+                     uid="_1poZ" width="369" x="9" y="51">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.plaf.basic.BasicComboPopup</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Popup</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.plaf.basic.BasicComboPopup</extrafeature>
+        <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Popup:ComboBoxPopup</extrafeature>
+        <ComponentStep class="Panel" classcount="2" classindex="0" height="64"
+                       id="dialogEdit_Aggregator.popupInvokerClass:_ComboBox.scroll"
+                       uid="_1poa" width="367" x="1" y="1">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JScrollPane</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">Panel</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JScrollPane</extrafeature>
+          <extrafeature name="qfs:type" negate="false" regexp="false"
+                        state="0">Panel:ScrollPanel</extrafeature>
+          <ComponentStep class="List" classcount="1" classindex="0"
+                         feature="InvokerClass: ComboBox"
+                         id="dialogEdit_Aggregator.listInvokerClass:_ComboBox"
+                         uid="_1pob">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JList</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">List</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="0">Source band name:</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JList</extrafeature>
+            <extrafeature name="qfs:type" negate="false" regexp="false"
+                          state="0">List:ComboBoxList</extrafeature>
+            <SubItemStep id="dialogEdit_Aggregator.listInvokerClass:_ComboBox.aggregator"
+                         uid="_1poc">
+              <primary>$(aggregator)</primary>
+            </SubItemStep>
+            <SubItemStep id="dialogEdit_Aggregator.listInvokerClass:_ComboBox.ON_MAX_SET"
+                         uid="_1pod">
+              <primary>ON_MAX_SET</primary>
+            </SubItemStep>
+            <SubItemStep id="dialogEdit_Aggregator.listInvokerClass:_ComboBox.AVG"
+                         uid="_1poi">
+              <primary>AVG</primary>
+            </SubItemStep>
+            <SubItemStep id="dialogEdit_Aggregator.listInvokerClass:_ComboBox.PERCENTILE"
+                         uid="_1poh">
+              <primary>PERCENTILE</primary>
+            </SubItemStep>
+          </ComponentStep>
+        </ComponentStep>
+      </ComponentStep>
+      <ComponentStep class="ComboBox" classcount="2" classindex="0"
+                     height="20"
+                     id="dialogEdit_Aggregator.comboMaximum_band_name:"
+                     uid="_1poe" width="369" x="9" y="31">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JComboBox</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">ComboBox</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">Maximum band name:</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JComboBox</extrafeature>
+        <ComponentStep class="Button" classcount="1" classindex="0"
+                       id="dialogEdit_Aggregator.button2" uid="_1pof">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">com.sun.java.swing.plaf.windows.WindowsComboBoxUI$$XPComboBoxButton</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">Button</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JButton</extrafeature>
+          <extrafeature name="qfs:type" negate="false" regexp="false"
+                        state="0">Button:ComboBoxButton</extrafeature>
+        </ComponentStep>
+      </ComponentStep>
+      <ComponentStep class="Popup" feature="InvokerName: varName" height="130"
+                     id="dialogEdit_Aggregator.popupInvokerName:_varName"
+                     uid="_1pok" width="188" x="187" y="79">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.plaf.basic.BasicComboPopup</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Popup</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.plaf.basic.BasicComboPopup</extrafeature>
+        <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Popup:ComboBoxPopup</extrafeature>
+        <ComponentStep class="Panel" classcount="2" classindex="0"
+                       height="128"
+                       id="dialogEdit_Aggregator.popupInvokerName:_varName.scroll"
+                       uid="_1pol" width="186" x="1" y="1">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JScrollPane</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">Panel</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JScrollPane</extrafeature>
+          <extrafeature name="qfs:type" negate="false" regexp="false"
+                        state="0">Panel:ScrollPanel</extrafeature>
+          <ComponentStep class="List" classcount="1" classindex="0"
+                         feature="InvokerName: varName"
+                         id="dialogEdit_Aggregator.listInvokerName:_varName"
+                         uid="_1pom">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JList</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">List</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">The source band used for aggregation.</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JList</extrafeature>
+            <extrafeature name="qfs:type" negate="false" regexp="false"
+                          state="0">List:ComboBoxList</extrafeature>
+            <SubItemStep id="dialogEdit_Aggregator.listInvokerName:_varName.band"
+                         uid="_1pon">
+              <primary>$(band)</primary>
+            </SubItemStep>
+          </ComponentStep>
+        </ComponentStep>
+      </ComponentStep>
+    </WindowStep>
+    <WindowStep class="Dialog" feature="Binning" height="202"
+                id="dialogBinning2" modal="true" uid="_1ppR" width="342"
+                x="679" y="340">
+      <extrafeature name="qfs:class" negate="false" regexp="false" state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                    state="0">Dialog</extrafeature>
+      <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                    state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Window:Dialog</extrafeature>
+      <ComponentStep class="Button" classcount="1" classindex="0" feature="OK"
+                     height="25" id="dialogBinning2.buttonOK" uid="_1ppS"
                      width="75" x="133" y="162">
         <extrafeature name="qfs:class" negate="false" regexp="false"
                       state="0">javax.swing.plaf.basic.BasicOptionPaneUI$$ButtonFactory$$ConstrainedButton</extrafeature>

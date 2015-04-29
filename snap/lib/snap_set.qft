@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.3">
+<RootStep id="_0" name="root" version="4.0.4">
   <include>qfs.qft</include>
   <include>snap_components.qft</include>
   <include>snap_main.qft</include>
@@ -12,7 +12,7 @@
       <Package disabled="true" id="_1lBQ" name="import_dialog">
         <Procedure id="_1lBO" name="file_name">
           <ProcedureCall id="_1orz"
-                         procedure="source_data_with_absolute_path"/>
+                         procedure="path.source_data_with_absolute_path"/>
           <IfSequence id="_1or+" test="${qftest:windows}">
             <TextInputStep clear="true" client="$(client)"
                            component="textSelection:" id="_1ofd">
@@ -240,12 +240,32 @@
         <Package id="_1oU9" name="expression_Editor">
           <Procedure id="_1oWH" name="experession">
             <variable name="exp"/>
-            <comment>@teststep Insert expression.</comment>
-            <TextInputStep client="$(client)"
-                           component="dialogBand_Maths_Expression_Editor.codeArea"
-                           id="_1oV2">
-              <text>$(exp)</text>
-            </TextInputStep>
+            <comment>@teststep Insert expression in the 'Expression' Editor..</comment>
+            <TryStep id="_1pEP">
+              <ProcedureCall id="_1pEO"
+                             procedure="check.opened.band_maths_expression_editor"/>
+              <TextInputStep clear="true" client="$(client)"
+                             component="dialogBand_Maths_Expression_Editor.codeArea"
+                             id="_1oV2">
+                <text>$(exp)</text>
+              </TextInputStep>
+              <CatchSequence exception="TestException" id="_1pEQ"
+                             maxerror="0">
+                <TryStep id="_1pER">
+                  <ProcedureCall id="_1pEN"
+                                 procedure="check.opened.expression_editor"/>
+                  <TextInputStep clear="true" client="$(client)"
+                                 component="dialog5.codeArea" id="_1pET">
+                    <text>$(exp)</text>
+                  </TextInputStep>
+                  <CatchSequence exception="TestException" id="_1pES"
+                                 maxerror="0">
+                    <ProcedureCall id="_1pEV"
+                                   procedure="run-log.error_message.expression_editor_does_not_appear"/>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
           </Procedure>
         </Package>
       </Package>
@@ -339,7 +359,7 @@
     </IfSequence>
     <Procedure id="_1oZV" name="data_subdirectory">
       <variable name="data_type"/>
-      <ProcedureCall id="_1ohc" procedure="path"/>
+      <ProcedureCall id="_1ohc" procedure="path.main_path"/>
       <IfSequence id="_1ohd" test="${qftest:windows}">
         <LoadPropertiesStep id="_1ohe"
                             propertyfile="../properties/subdir_win.properties"
