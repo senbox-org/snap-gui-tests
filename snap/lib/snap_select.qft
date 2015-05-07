@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.3">
+<RootStep id="_0" name="root" version="4.0.4">
   <include>qfs.qft</include>
   <include>snap_check.qft</include>
   <include>snap_components.qft</include>
@@ -63,7 +63,7 @@
           <variable name="view_id"/>
           <variable name="band"/>
           <comment>@teststep Select band</comment>
-          <ProcedureCall id="_1oRr" procedure="get.bands_node_id">
+          <ProcedureCall id="_1oRr" procedure="get.tree.bands_node_id">
             <variable name="prod_id">$(prod_id)</variable>
           </ProcedureCall>
           <IfSequence id="_1oTc"
@@ -88,7 +88,8 @@
             <ElseSequence id="_1oTd">
               <IfSequence id="_1oUN"
                           test="&#34;$(band)&#34;&lt;&gt;&#34;&#34;">
-                <ProcedureCall id="_1oUM" procedure="get.get_index_of_node">
+                <ProcedureCall id="_1oUM"
+                               procedure="get.tree.get_index_of_node">
                   <variable name="node">$(band)</variable>
                   <variable name="nodeSeparator">@</variable>
                   <variable name="linear">false</variable>
@@ -127,7 +128,7 @@
           <variable name="node_id"/>
           <variable name="node_name"/>
           <comment>@teststep Select band</comment>
-          <ProcedureCall id="_1pD-" procedure="get.vector_data_node_id">
+          <ProcedureCall id="_1pD-" procedure="get.tree.vector_data_node_id">
             <variable name="prod_id">$(prod_id)</variable>
           </ProcedureCall>
           <IfSequence id="_1pE0"
@@ -159,7 +160,7 @@
           <variable name="group_id"/>
           <variable name="metadata_id"/>
           <comment>@teststep Select band</comment>
-          <ProcedureCall id="_1oTi" procedure="get.metadata_node_id">
+          <ProcedureCall id="_1oTi" procedure="get.tree.metadata_node_id">
             <variable name="prod_id">$(prod_id)</variable>
           </ProcedureCall>
           <IfSequence id="_1oTj"
@@ -210,7 +211,13 @@
         <Package id="_1oOq" name="bandMaths">
           <Procedure id="_1oQI" name="target_product">
             <variable name="target_product">[1]_MER_RR__1PNMAP20070729_022435_000000792060_00175_28285_0001.N1</variable>
-            <IfSequence id="_1pDh" test="${qftest:windows}">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="productName" event="MOUSE_MPRC"
+                            id="_1paZ" modifiers="16" x="342" y="13"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="listInvokerName:_productName@$(target_product)"
+                            event="MOUSE_MPRC" id="_1paa" modifiers="16"/>
+            <IfSequence disabled="true" id="_1pDh" test="${qftest:windows}">
               <MouseEventStep clicks="1" client="$(client)"
                               component="BandMathsDialog.productName"
                               event="MOUSE_MPRC" id="_1mlL" modifiers="16"
@@ -731,125 +738,363 @@
           </Package>
         </Package>
       </Package>
-      <Package disabled="true" id="_1l8t" name="statistics_dialog">
-        <Procedure id="_1lBv" name="use_ROI_mask">
-          <comment>@teststep Select 'Use ROI mask(s)</comment>
-          <ProcedureCall id="_1lCP"
-                         procedure="check.statistics_dialog.use_ROI_mask_selected"/>
-          <IfSequence id="_1lCR"
-                      test="&#34;$(use_ROI_mask_selected)&#34;==&#34;false&#34;">
-            <ProcedureCall id="_1lCS"
-                           procedure="do_click.statistics_dialog.checkUse_ROI_mask"/>
-          </IfSequence>
-          <ProcedureCall id="_1lCQ"
-                         procedure="check.statistics_dialog.use_ROI_mask_selected_status">
-            <variable name="roi_selected">true</variable>
-          </ProcedureCall>
-        </Procedure>
-        <Procedure id="_1l9q" name="mask">
-          <variable name="mask"/>
-          <comment>@teststep Select $(mask) mask</comment>
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="Dialog.StatisticsToolView.Control.listFilter_masks_here.mask"
-                          event="MOUSE_MPRC" id="_1lD3" modifiers="16"/>
-        </Procedure>
-        <Procedure id="_1lBx" name="select_all">
-          <comment>@teststep Select all</comment>
-          <ProcedureCall id="_1lCX"
-                         procedure="check.statistics_dialog.checkSelect_all_selected"/>
-          <IfSequence id="_1lCY"
-                      test="&#34;$(checkSelect_all_selected)&#34;==&#34;false&#34;">
-            <ProcedureCall id="_1lCZ"
-                           procedure="do_click.statistics_dialog.checkSelect_all"/>
-          </IfSequence>
-          <ProcedureCall id="_1lCa"
-                         procedure="check.statistics_dialog.checkSelect_all_selected_status">
-            <variable name="select_all">true</variable>
-          </ProcedureCall>
-        </Procedure>
-        <Procedure id="_1lCL" name="select_none">
-          <comment>@teststep Select none</comment>
-          <ProcedureCall id="_1lCb"
-                         procedure="check.statistics_dialog.checkSelect_none_selected"/>
-          <IfSequence id="_1lCc"
-                      test="&#34;$(checkSelect_none_selected)&#34;==&#34;false&#34;">
-            <ProcedureCall id="_1lCd"
-                           procedure="do_click.statistics_dialog.checkSelect_none"/>
-          </IfSequence>
-          <ProcedureCall id="_1lCe"
-                         procedure="check.statistics_dialog.checkSelect_none_selected_status">
-            <variable name="select_none">true</variable>
-          </ProcedureCall>
-        </Procedure>
-        <Procedure id="_1lCN" name="useAutoAccuracy">
-          <comment>@teststep Select 'Auto accuracy'</comment>
-          <ProcedureCall id="_1lCf"
-                         procedure="check.statistics_dialog.useAutoAccuracy_selected"/>
-          <IfSequence id="_1lCg"
-                      test="&#34;$(useAutoAccuracy_selected)&#34;==&#34;false&#34;">
-            <ProcedureCall id="_1lCh"
-                           procedure="do_click.statistics_dialog.useAutoAccuracy"/>
-          </IfSequence>
-          <ProcedureCall id="_1lCi"
-                         procedure="check.statistics_dialog.useAutoAccuracy_selected_status">
-            <variable name="autoAccuracy">true</variable>
-          </ProcedureCall>
-        </Procedure>
-        <Package id="_1lCj" name="deselect">
-          <Procedure id="_1lCk" name="use_ROI_mask">
+      <Package id="_1pZj" name="analysis">
+        <Package id="_1pab" name="histogram_dialog">
+          <Procedure id="_1pac" name="use_ROI_mask">
             <comment>@teststep Select 'Use ROI mask(s)</comment>
-            <ProcedureCall id="_1lCl"
-                           procedure="check.statistics_dialog.use_ROI_mask_selected"/>
-            <IfSequence id="_1lCm"
-                        test="&#34;$(use_ROI_mask_selected)&#34;==&#34;true&#34;">
-              <ProcedureCall id="_1lCn"
-                             procedure="do_click.statistics_dialog.checkUse_ROI_mask"/>
+            <ProcedureCall id="_1pad"
+                           procedure="check.analysis.histogram_dialog.checked.use_ROI_mask"/>
+            <IfSequence id="_1pae"
+                        test="&#34;$(use_ROI_mask)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1paf"
+                             procedure="do_click.analysis.histogram.use_ROI_mask"/>
             </IfSequence>
-            <ProcedureCall id="_1lCo"
-                           procedure="check.statistics_dialog.use_ROI_mask_selected_status">
-              <variable name="roi_selected">false</variable>
+            <ProcedureCall id="_1pag"
+                           procedure="check.analysis.histogram_dialog.checked.use_ROI_mask_selected_status">
+              <variable name="selected">true</variable>
             </ProcedureCall>
           </Procedure>
-          <Procedure id="_1lCq" name="select_all">
+          <Procedure id="_1pah" name="mask">
+            <variable name="mask"/>
+            <comment>@teststep Select $(mask) mask</comment>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="NbMainWindow.roiMask"
+                            event="MOUSE_MPRC" id="_1paQ" modifiers="16"
+                            x="53" y="15"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="NbMainWindow.listInvokerName:_roiMask.mask"
+                            event="MOUSE_MPRC" id="_1paR" modifiers="16"/>
+          </Procedure>
+        </Package>
+        <Package id="_1l8t" name="statistics_dialog">
+          <Procedure id="_1lBv" name="use_ROI_mask">
+            <comment>@teststep Select 'Use ROI mask(s)</comment>
+            <ProcedureCall id="_1lCP"
+                           procedure="check.analysis.statistics_dialog.checked.use_ROI_mask"/>
+            <IfSequence id="_1lCR"
+                        test="&#34;$(use_ROI_mask)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1pZn"
+                             procedure="do_click.analysis.statistics.use_ROI_mask"/>
+            </IfSequence>
+            <ProcedureCall id="_1lCQ"
+                           procedure="check.analysis.statistics_dialog.checked.use_ROI_mask_selected_status">
+              <variable name="selected">true</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1l9q" name="mask">
+            <variable name="mask"/>
+            <comment>@teststep Select $(mask) mask</comment>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="NbMainWindow.Content_displayer.listFilter:2.mask"
+                            event="MOUSE_MPRC" id="_1lD3" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1lBx" name="select_all">
             <comment>@teststep Select all</comment>
-            <ProcedureCall id="_1lCr"
-                           procedure="check.statistics_dialog.checkSelect_all_selected"/>
-            <IfSequence id="_1lCs"
-                        test="&#34;$(checkSelect_all_selected)&#34;==&#34;true&#34;">
-              <ProcedureCall id="_1lCt"
-                             procedure="do_click.statistics_dialog.checkSelect_all"/>
+            <ProcedureCall id="_1lCX"
+                           procedure="check.analysis.statistics_dialog.checked.select_all"/>
+            <IfSequence id="_1lCY"
+                        test="&#34;$(select_all)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1pZm"
+                             procedure="do_click.analysis.statistics.select_all"/>
             </IfSequence>
-            <ProcedureCall id="_1lCu"
-                           procedure="check.statistics_dialog.checkSelect_all_selected_status">
-              <variable name="select_all">false</variable>
+            <ProcedureCall id="_1lCa"
+                           procedure="check.analysis.statistics_dialog.checked.select_all_selected_status">
+              <variable name="selected">true</variable>
             </ProcedureCall>
           </Procedure>
-          <Procedure id="_1lCv" name="select_none">
+          <Procedure id="_1lCL" name="select_none">
             <comment>@teststep Select none</comment>
-            <ProcedureCall id="_1lCw"
-                           procedure="check.statistics_dialog.checkSelect_none_selected"/>
-            <IfSequence id="_1lCx"
-                        test="&#34;$(checkSelect_none_selected)&#34;==&#34;true&#34;">
-              <ProcedureCall id="_1lCy"
-                             procedure="do_click.statistics_dialog.checkSelect_none"/>
+            <ProcedureCall id="_1lCb"
+                           procedure="check.analysis.statistics_dialog.checked.select_none"/>
+            <IfSequence id="_1lCc"
+                        test="&#34;$(select_none)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1pZo"
+                             procedure="do_click.analysis.statistics.select_none"/>
             </IfSequence>
-            <ProcedureCall id="_1lCz"
-                           procedure="check.statistics_dialog.checkSelect_none_selected_status">
-              <variable name="select_none">false</variable>
+            <ProcedureCall id="_1lCe"
+                           procedure="check.analysis.statistics_dialog.checked.select_none_selected_status">
+              <variable name="selected">true</variable>
             </ProcedureCall>
           </Procedure>
-          <Procedure id="_1lC+" name="useAutoAccuracy">
+          <Procedure id="_1lCN" name="useAutoAccuracy">
             <comment>@teststep Select 'Auto accuracy'</comment>
-            <ProcedureCall id="_1lC-"
-                           procedure="check.statistics_dialog.useAutoAccuracy_selected"/>
-            <IfSequence id="_1lD0"
-                        test="&#34;$(useAutoAccuracy_selected)&#34;==&#34;true&#34;">
-              <ProcedureCall id="_1lD1"
-                             procedure="do_click.statistics_dialog.useAutoAccuracy"/>
+            <ProcedureCall id="_1lCf"
+                           procedure="check.analysis.statistics_dialog.checked.auto_accuracy"/>
+            <IfSequence id="_1lCg"
+                        test="&#34;$(auto_accuracy)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1pZr"
+                             procedure="do_click.analysis.statistics.auto_accuracy"/>
             </IfSequence>
-            <ProcedureCall id="_1lD2"
-                           procedure="check.statistics_dialog.useAutoAccuracy_selected_status">
-              <variable name="autoAccuracy">false</variable>
+            <ProcedureCall id="_1lCi"
+                           procedure="check.analysis.statistics_dialog.checked.auto_accuracy_selected_status">
+              <variable name="selected">true</variable>
+            </ProcedureCall>
+          </Procedure>
+        </Package>
+        <Package id="_1pbK" name="correlative_plot">
+          <Procedure id="_1pbM" name="use_ROI_mask">
+            <comment>@teststep Select 'Use ROI mask(s)</comment>
+            <ProcedureCall id="_1pbN"
+                           procedure="check.analysis.correlative_plot.checked.use_ROI_mask"/>
+            <IfSequence id="_1pbO"
+                        test="&#34;$(use_ROI_mask)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1pbP"
+                             procedure="do_click.analysis.correlative_plot.use_ROI_mask"/>
+            </IfSequence>
+            <ProcedureCall id="_1pbQ"
+                           procedure="check.analysis.correlative_plot.checked.use_ROI_mask_selected_status">
+              <variable name="selected">true</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1pbR" name="mask">
+            <variable name="mask"/>
+            <comment>@teststep Select $(mask) mask</comment>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="NbMainWindow.roiMask"
+                            event="MOUSE_MPRC" id="_1pgV" modifiers="16"
+                            x="68" y="11"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="NbMainWindow.listInvokerName:_roiMask2_correlative_plot.mask"
+                            event="MOUSE_MPRC" id="_1pgW" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1pg+" name="point_data_source">
+            <variable name="data_source"/>
+            <comment>@teststep Select $(data_source) mask</comment>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="NbMainWindow.pointDataSource"
+                            event="MOUSE_MPRC" id="_1pg-" modifiers="16"
+                            x="52" y="8"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="NbMainWindow.listInvokerName:_pointDataSource.data_source"
+                            event="MOUSE_MPRC" id="_1ph0" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1ph1" name="data_field">
+            <variable name="data_field"/>
+            <comment>@teststep Select $(data_field) mask</comment>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="NbMainWindow.dataField"
+                            event="MOUSE_MPRC" id="_1pgL" modifiers="16"
+                            x="44" y="8"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="NbMainWindow.listInvokerName:_dataField.data_field"
+                            event="MOUSE_MPRC" id="_1pgM" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1ph4" name="auto_min_max_x">
+            <comment>@teststep Select 'auto min/max' x.</comment>
+            <ProcedureCall id="_1ph5"
+                           procedure="check.analysis.correlative_plot.checked.auto_min_max_x"/>
+            <IfSequence id="_1ph6"
+                        test="&#34;$(auto_min_max_x)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1ph7"
+                             procedure="do_click.analysis.correlative_plot.x_auto_min_max"/>
+            </IfSequence>
+            <ProcedureCall id="_1ph8"
+                           procedure="check.analysis.correlative_plot.checked.auto_min_max_x_selected_status">
+              <variable name="selected">true</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1ph9" name="auto_min_max_y">
+            <comment>@teststep Select 'auto min/max' y.</comment>
+            <ProcedureCall id="_1phA"
+                           procedure="check.analysis.correlative_plot.checked.auto_min_max_y"/>
+            <IfSequence id="_1phB"
+                        test="&#34;$(auto_min_max_y)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1phC"
+                             procedure="do_click.analysis.correlative_plot.y_auto_min_max"/>
+            </IfSequence>
+            <ProcedureCall id="_1phD"
+                           procedure="check.analysis.correlative_plot.checked.auto_min_max_y_selected_status">
+              <variable name="selected">true</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1phE" name="log_scaled_x">
+            <comment>@teststep Select 'Log10 scaled x'.</comment>
+            <ProcedureCall id="_1phF"
+                           procedure="check.analysis.correlative_plot.checked.x_axis_log_scaled"/>
+            <IfSequence id="_1phG"
+                        test="&#34;$(x_axis_log_scaled)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1phH"
+                             procedure="do_click.analysis.correlative_plot.x_axis_log_scaled"/>
+            </IfSequence>
+            <ProcedureCall id="_1phI"
+                           procedure="check.analysis.correlative_plot.checked.x_axis_log_scaled_selected_status">
+              <variable name="selected">true</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1phJ" name="log_scaled_y">
+            <comment>@teststep Select 'Log10 scaled y'.</comment>
+            <ProcedureCall id="_1phK"
+                           procedure="check.analysis.correlative_plot.checked.y_axis_log_scaled"/>
+            <IfSequence id="_1phL"
+                        test="&#34;$(y_axis_log_scaled)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1phM"
+                             procedure="do_click.analysis.correlative_plot.y_axis_log_scaled"/>
+            </IfSequence>
+            <ProcedureCall id="_1phN"
+                           procedure="check.analysis.correlative_plot.checked.y_axis_log_scaled_selected_status">
+              <variable name="selected">true</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1phO" name="show_tolerance_range">
+            <comment>@teststep Select 'Show tolerance range'.</comment>
+            <ProcedureCall id="_1phP"
+                           procedure="check.analysis.correlative_plot.checked.show_tolerance_range"/>
+            <IfSequence id="_1phQ"
+                        test="&#34;$(show_tolerance_range)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1phR"
+                             procedure="do_click.analysis.correlative_plot.show_tolerance_range"/>
+            </IfSequence>
+            <ProcedureCall id="_1phS"
+                           procedure="check.analysis.correlative_plot.checked.show_tolerance_range_selected_status">
+              <variable name="selected">true</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1phT" name="show_regression_line">
+            <comment>@teststep Select 'Show regression line'.</comment>
+            <ProcedureCall id="_1phU"
+                           procedure="check.analysis.correlative_plot.checked.show_regression_line"/>
+            <IfSequence id="_1phV"
+                        test="&#34;$(show_regression_line)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1phW"
+                             procedure="do_click.analysis.correlative_plot.show_regression_line"/>
+            </IfSequence>
+            <ProcedureCall id="_1phX"
+                           procedure="check.analysis.correlative_plot.checked.show_regression_line_selected_status">
+              <variable name="selected">true</variable>
+            </ProcedureCall>
+          </Procedure>
+        </Package>
+        <Package id="_1pbJ" name="profile_plot"/>
+        <Package id="_1pbL" name="scatter_plot">
+          <Procedure id="_1px7" name="use_ROI_mask">
+            <comment>@teststep Select 'Use ROI mask(s)'.</comment>
+            <ProcedureCall id="_1pxx"
+                           procedure="check.analysis.scatter_plot.enabled.use_ROI_mask"/>
+            <IfSequence id="_1pxy"
+                        test="&#34;$(use_ROI_mask_enabled)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1px8"
+                             procedure="check.analysis.scatter_plot.checked.use_ROI_mask"/>
+              <IfSequence id="_1px9"
+                          test="&#34;$(use_ROI_mask)&#34;==&#34;false&#34;">
+                <ProcedureCall id="_1pxA"
+                               procedure="do_click.analysis.scatter_plot.use_ROI_mask"/>
+              </IfSequence>
+              <ProcedureCall id="_1pxB"
+                             procedure="check.analysis.scatter_plot.checked.use_ROI_mask_selected_status">
+                <variable name="selected">true</variable>
+              </ProcedureCall>
+              <ElseSequence id="_1pxz">
+                <ProcedureCall id="_1px+" procedure="run-log.logError">
+                  <variable name="message">'Use ROI mask(s)' checkbox is disabled</variable>
+                  <variable name="withScreenshots">true</variable>
+                </ProcedureCall>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1pxC" name="mask">
+            <variable name="mask"/>
+            <comment>@teststep Select $(mask) mask</comment>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="NbMainWindow.roiMask"
+                            event="MOUSE_MPRC" id="_1pxD" modifiers="16"
+                            x="68" y="11"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="NbMainWindow.listInvokerName:_roiMask3.scatter_plot.mask"
+                            event="MOUSE_MPRC" id="_1puh" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1pxF" name="x_product">
+            <variable name="x_product"/>
+            <comment>@teststep Select x product.</comment>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="NbMainWindow.xProduct"
+                            event="MOUSE_MPRC" id="_1pul" modifiers="16"
+                            x="101" y="11"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="NbMainWindow.listInvokerName:_xProduct.scatter_plot"
+                            event="MOUSE_MPRC" id="_1pum" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1pxV" name="y_product">
+            <variable name="y_product"/>
+            <comment>@teststep Select y product.</comment>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="NbMainWindow.yProduct"
+                            event="MOUSE_MPRC" id="_1pur" modifiers="16"
+                            x="82" y="12"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="NbMainWindow.listInvokerName:_yProduct.scatter_plot"
+                            event="MOUSE_MPRC" id="_1pus" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1pxY" name="x_band">
+            <variable name="x_band"/>
+            <comment>@teststep Select x band.</comment>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="NbMainWindow.xBand" event="MOUSE_MPRC"
+                            id="_1pun" modifiers="16" x="47" y="11"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="NbMainWindow.listInvokerName:_xBand.scatter_plot"
+                            event="MOUSE_MPRC" id="_1puo" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1pxe" name="y_band">
+            <variable name="y_band"/>
+            <comment>@teststep Select y band.</comment>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="NbMainWindow.yBand" event="MOUSE_MPRC"
+                            id="_1put" modifiers="16" x="72" y="11"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="NbMainWindow.listInvokerName:_yBand.scatter_plot"
+                            event="MOUSE_MPRC" id="_1puu" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1pxI" name="invert_plot_colors">
+            <comment>@teststep Select invert plot colors</comment>
+            <ProcedureCall id="_1pxh"
+                           procedure="check.analysis.scatter_plot.enabled.invert_plot_colors"/>
+            <IfSequence id="_1pxu"
+                        test="&#34;$(invert_plot_colors_enabled)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1pxt"
+                             procedure="check.analysis.scatter_plot.checked.invert_plot_colors"/>
+              <IfSequence id="_1pxi"
+                          test="&#34;$(invert_plot_colors)&#34;==&#34;false&#34;">
+                <ProcedureCall id="_1pxj"
+                               procedure="do_click.analysis.scatter_plot.invert_plot_colors"/>
+              </IfSequence>
+              <ProcedureCall id="_1pxk"
+                             procedure="check.analysis.scatter_plot.checked.invert_plot_colors_selected_status">
+                <variable name="selected">true</variable>
+              </ProcedureCall>
+              <ElseSequence id="_1pxv">
+                <ProcedureCall id="_1pxw" procedure="run-log.logError">
+                  <variable name="message">'Invert plot colors' checkbox is disabled</variable>
+                  <variable name="withScreenshots">true</variable>
+                </ProcedureCall>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1pxL" name="auto_min_max_x">
+            <comment>@teststep Select 'auto min/max' x.</comment>
+            <ProcedureCall id="_1pxp"
+                           procedure="check.analysis.scatter_plot.checked.auto_min_max_x"/>
+            <IfSequence id="_1pxq"
+                        test="&#34;$(auto_min_max_x)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1pxr"
+                             procedure="do_click.analysis.scatter_plot.x_auto_min_max"/>
+            </IfSequence>
+            <ProcedureCall id="_1pxs"
+                           procedure="check.analysis.scatter_plot.checked.auto_min_max_x_selected_status">
+              <variable name="selected">true</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1pxQ" name="auto_min_max_y">
+            <comment>@teststep Select 'auto min/max' y.</comment>
+            <ProcedureCall id="_1pxl"
+                           procedure="check.analysis.scatter_plot.checked.auto_min_max_y"/>
+            <IfSequence id="_1pxm"
+                        test="&#34;$(auto_min_max_y)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1pxn"
+                             procedure="do_click.analysis.scatter_plot.y_auto_min_max"/>
+            </IfSequence>
+            <ProcedureCall id="_1pxo"
+                           procedure="check.analysis.scatter_plot.checked.auto_min_max_y_selected_status">
+              <variable name="selected">true</variable>
             </ProcedureCall>
           </Procedure>
         </Package>
@@ -911,10 +1156,267 @@ None</comment>
       </Package>
     </Package>
     <Package id="_1oQ5" name="deselect">
+      <Package id="_1pZs" name="analysis">
+        <Package id="_1pay" name="histogram_dialog">
+          <Procedure id="_1paz" name="use_ROI_mask">
+            <comment>@teststep Deselect 'Use ROI mask(s)</comment>
+            <ProcedureCall id="_1pa+"
+                           procedure="check.analysis.histogram_dialog.checked.use_ROI_mask"/>
+            <IfSequence id="_1pa-"
+                        test="&#34;$(use_ROI_mask)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1pb0"
+                             procedure="do_click.analysis.histogram.use_ROI_mask"/>
+            </IfSequence>
+            <ProcedureCall id="_1pb1"
+                           procedure="check.analysis.histogram_dialog.checked.use_ROI_mask_selected_status">
+              <variable name="selected">false</variable>
+            </ProcedureCall>
+          </Procedure>
+        </Package>
+        <Package id="_1pZt" name="statistics_dialog">
+          <Procedure id="_1lCk" name="use_ROI_mask">
+            <comment>@teststep Deselect 'Use ROI mask(s)</comment>
+            <ProcedureCall id="_1lCl"
+                           procedure="check.analysis.statistics_dialog.checked.use_ROI_mask"/>
+            <IfSequence id="_1lCm"
+                        test="&#34;$(use_ROI_mask)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1pZk"
+                             procedure="do_click.analysis.statistics.use_ROI_mask"/>
+            </IfSequence>
+            <ProcedureCall id="_1lCo"
+                           procedure="check.analysis.statistics_dialog.checked.use_ROI_mask_selected_status">
+              <variable name="selected">false</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1lCq" name="select_all">
+            <comment>@teststep Deselect 'Select all'.</comment>
+            <ProcedureCall id="_1lCr"
+                           procedure="check.analysis.statistics_dialog.checked.select_all"/>
+            <IfSequence id="_1lCs"
+                        test="&#34;$(select_all)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1pZl"
+                             procedure="do_click.analysis.statistics.select_all"/>
+            </IfSequence>
+            <ProcedureCall id="_1lCu"
+                           procedure="check.analysis.statistics_dialog.checked.select_all_selected_status">
+              <variable name="selected">false</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1lCv" name="select_none">
+            <comment>@teststep Deselect 'Select none'.</comment>
+            <ProcedureCall id="_1lCw"
+                           procedure="check.analysis.statistics_dialog.checked.select_none"/>
+            <IfSequence id="_1lCx"
+                        test="&#34;$(select_none)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1pZp"
+                             procedure="do_click.analysis.statistics.select_none"/>
+            </IfSequence>
+            <ProcedureCall id="_1lCz"
+                           procedure="check.analysis.statistics_dialog.checked.select_none_selected_status">
+              <variable name="selected">false</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1lC+" name="useAutoAccuracy">
+            <comment>@teststep Deselect 'Auto accuracy'</comment>
+            <ProcedureCall id="_1lC-"
+                           procedure="check.analysis.statistics_dialog.checked.auto_accuracy"/>
+            <IfSequence id="_1lD0"
+                        test="&#34;$(auto_accuracy)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1pZq"
+                             procedure="do_click.analysis.statistics.auto_accuracy"/>
+            </IfSequence>
+            <ProcedureCall id="_1lD2"
+                           procedure="check.analysis.statistics_dialog.checked.auto_accuracy_selected_status">
+              <variable name="selected">false</variable>
+            </ProcedureCall>
+          </Procedure>
+        </Package>
+        <Package id="_1phY" name="correlative_plot">
+          <Procedure id="_1phZ" name="use_ROI_mask">
+            <comment>@teststep Select 'Use ROI mask(s)</comment>
+            <ProcedureCall id="_1pha"
+                           procedure="check.analysis.correlative_plot.checked.use_ROI_mask"/>
+            <IfSequence id="_1phb"
+                        test="&#34;$(use_ROI_mask)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1phc"
+                             procedure="do_click.analysis.correlative_plot.use_ROI_mask"/>
+            </IfSequence>
+            <ProcedureCall id="_1phd"
+                           procedure="check.analysis.correlative_plot.checked.use_ROI_mask_selected_status">
+              <variable name="selected">false</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1phn" name="auto_min_max_x">
+            <comment>@teststep Select 'auto min/max' x.</comment>
+            <ProcedureCall id="_1pho"
+                           procedure="check.analysis.correlative_plot.checked.auto_min_max_x"/>
+            <IfSequence id="_1php"
+                        test="&#34;$(auto_min_max_x)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1phq"
+                             procedure="do_click.analysis.correlative_plot.x_auto_min_max"/>
+            </IfSequence>
+            <ProcedureCall id="_1phr"
+                           procedure="check.analysis.correlative_plot.checked.auto_min_max_x_selected_status">
+              <variable name="selected">false</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1phs" name="auto_min_max_y">
+            <comment>@teststep Select 'auto min/max' y.</comment>
+            <ProcedureCall id="_1pht"
+                           procedure="check.analysis.correlative_plot.checked.auto_min_max_y"/>
+            <IfSequence id="_1phu"
+                        test="&#34;$(auto_min_max_y)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1phv"
+                             procedure="do_click.analysis.correlative_plot.y_auto_min_max"/>
+            </IfSequence>
+            <ProcedureCall id="_1phw"
+                           procedure="check.analysis.correlative_plot.checked.auto_min_max_y_selected_status">
+              <variable name="selected">false</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1phx" name="log_scaled_x">
+            <comment>@teststep Select 'Log10 scaled x'.</comment>
+            <ProcedureCall id="_1phy"
+                           procedure="check.analysis.correlative_plot.checked.x_axis_log_scaled"/>
+            <IfSequence id="_1phz"
+                        test="&#34;$(x_axis_log_scaled)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1ph+"
+                             procedure="do_click.analysis.correlative_plot.x_axis_log_scaled"/>
+            </IfSequence>
+            <ProcedureCall id="_1ph-"
+                           procedure="check.analysis.correlative_plot.checked.x_axis_log_scaled_selected_status">
+              <variable name="selected">false</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1pi0" name="log_scaled_y">
+            <comment>@teststep Select 'Log10 scaled y'.</comment>
+            <ProcedureCall id="_1pi1"
+                           procedure="check.analysis.correlative_plot.checked.y_axis_log_scaled"/>
+            <IfSequence id="_1pi2"
+                        test="&#34;$(y_axis_log_scaled)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1pi3"
+                             procedure="do_click.analysis.correlative_plot.y_axis_log_scaled"/>
+            </IfSequence>
+            <ProcedureCall id="_1pi4"
+                           procedure="check.analysis.correlative_plot.checked.y_axis_log_scaled_selected_status">
+              <variable name="selected">false</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1pi5" name="show_tolerance_range">
+            <comment>@teststep Select 'Show tolerance range'.</comment>
+            <ProcedureCall id="_1pi6"
+                           procedure="check.analysis.correlative_plot.checked.show_tolerance_range"/>
+            <IfSequence id="_1pi7"
+                        test="&#34;$(show_tolerance_range)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1pi8"
+                             procedure="do_click.analysis.correlative_plot.show_tolerance_range"/>
+            </IfSequence>
+            <ProcedureCall id="_1pi9"
+                           procedure="check.analysis.correlative_plot.checked.show_tolerance_range_selected_status">
+              <variable name="selected">false</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1piA" name="show_regression_line">
+            <comment>@teststep Select 'Show regression line'.</comment>
+            <ProcedureCall id="_1piB"
+                           procedure="check.analysis.correlative_plot.checked.show_regression_line"/>
+            <IfSequence id="_1piC"
+                        test="&#34;$(show_regression_line)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1piD"
+                             procedure="do_click.analysis.correlative_plot.show_regression_line"/>
+            </IfSequence>
+            <ProcedureCall id="_1piE"
+                           procedure="check.analysis.correlative_plot.checked.show_regression_line_selected_status">
+              <variable name="selected">false</variable>
+            </ProcedureCall>
+          </Procedure>
+        </Package>
+        <Package id="_1piF" name="profile_plot"/>
+        <Package id="_1px-" name="scatter_plot">
+          <Procedure id="_1py0" name="use_ROI_mask">
+            <comment>@teststep Select 'Use ROI mask(s)'.</comment>
+            <ProcedureCall id="_1py1"
+                           procedure="check.analysis.scatter_plot.enabled.use_ROI_mask"/>
+            <IfSequence id="_1py2"
+                        test="&#34;$(use_ROI_mask_enabled)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1py3"
+                             procedure="check.analysis.scatter_plot.checked.use_ROI_mask"/>
+              <IfSequence id="_1py4"
+                          test="&#34;$(use_ROI_mask)&#34;==&#34;true&#34;">
+                <ProcedureCall id="_1py5"
+                               procedure="do_click.analysis.scatter_plot.use_ROI_mask"/>
+              </IfSequence>
+              <ProcedureCall id="_1py6"
+                             procedure="check.analysis.scatter_plot.checked.use_ROI_mask_selected_status">
+                <variable name="selected">false</variable>
+              </ProcedureCall>
+              <ElseSequence id="_1py7">
+                <ProcedureCall id="_1py8" procedure="run-log.logError">
+                  <variable name="message">'Use ROI mask(s)' checkbox is disabled</variable>
+                  <variable name="withScreenshots">true</variable>
+                </ProcedureCall>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1pyO" name="invert_plot_colors">
+            <comment>@teststep Select invert plot colors</comment>
+            <ProcedureCall id="_1pyP"
+                           procedure="check.analysis.scatter_plot.enabled.invert_plot_colors"/>
+            <IfSequence id="_1pyQ"
+                        test="&#34;$(invert_plot_colors_enabled)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1pyR"
+                             procedure="check.analysis.scatter_plot.checked.invert_plot_colors"/>
+              <IfSequence id="_1pyS"
+                          test="&#34;$(invert_plot_colors)&#34;==&#34;true&#34;">
+                <ProcedureCall id="_1pyT"
+                               procedure="do_click.analysis.scatter_plot.invert_plot_colors"/>
+              </IfSequence>
+              <ProcedureCall id="_1pyU"
+                             procedure="check.analysis.scatter_plot.checked.invert_plot_colors_selected_status">
+                <variable name="selected">false</variable>
+              </ProcedureCall>
+              <ElseSequence id="_1pyV">
+                <ProcedureCall id="_1pyW" procedure="run-log.logError">
+                  <variable name="message">'Invert plot colors' checkbox is disabled</variable>
+                  <variable name="withScreenshots">true</variable>
+                </ProcedureCall>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1pyX" name="auto_min_max_x">
+            <comment>@teststep Select 'auto min/max' x.</comment>
+            <ProcedureCall id="_1pyY"
+                           procedure="check.analysis.scatter_plot.checked.auto_min_max_x"/>
+            <IfSequence id="_1pyZ"
+                        test="&#34;$(auto_min_max_x)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1pya"
+                             procedure="do_click.analysis.scatter_plot.x_auto_min_max"/>
+            </IfSequence>
+            <ProcedureCall id="_1pyb"
+                           procedure="check.analysis.scatter_plot.checked.auto_min_max_x_selected_status">
+              <variable name="selected">false</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1pyc" name="auto_min_max_y">
+            <comment>@teststep Select 'auto min/max' y.</comment>
+            <ProcedureCall id="_1pyd"
+                           procedure="check.analysis.scatter_plot.checked.auto_min_max_y"/>
+            <IfSequence id="_1pye"
+                        test="&#34;$(auto_min_max_y)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1pyf"
+                             procedure="do_click.analysis.scatter_plot.y_auto_min_max"/>
+            </IfSequence>
+            <ProcedureCall id="_1pyg"
+                           procedure="check.analysis.scatter_plot.checked.auto_min_max_y_selected_status">
+              <variable name="selected">false</variable>
+            </ProcedureCall>
+          </Procedure>
+        </Package>
+      </Package>
       <Package id="_1oQ6" name="tools">
         <Package id="_1oQ7" name="bandMaths">
           <Procedure id="_1oQ8" name="saveExpressionOnly">
-            <comment>@teststep Check-in checkbox 'Virtual (save expression only)' .</comment>
+            <comment>@teststep Deselect 'Virtual (save expression only)' .</comment>
             <ProcedureCall id="_1oQ9"
                            procedure="check.tools.bandMaths.saveExpressionOnly_selected"/>
             <IfSequence id="_1oQA"
@@ -928,7 +1430,7 @@ None</comment>
             </ProcedureCall>
           </Procedure>
           <Procedure id="_1oQD" name="noDataValueUsed_selected">
-            <comment>@teststep Check-in checkbox 'Replace NaN and infinity results'.</comment>
+            <comment>@teststep Deselect 'Replace NaN and infinity results'.</comment>
             <ProcedureCall id="_1oQE"
                            procedure="check.tools.bandMaths.noDataValueUsed_selected"/>
             <IfSequence id="_1oQF"

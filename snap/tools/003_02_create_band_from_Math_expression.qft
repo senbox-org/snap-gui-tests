@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.3">
+<RootStep id="_0" name="root" version="4.0.4">
   <include>qfs.qft</include>
   <include>../lib/snap_main.qft</include>
   <reference>../010_Data_Processors/02_ImageAnalysis/010_Data_Processors_02_ImageAnalysis_03_K_Means_Cluster.qft</reference>
@@ -88,7 +88,14 @@
                              procedure="check.tools.bandMaths.noDataValueUsed_selected_status">
                 <variable name="sel_status">true</variable>
               </ProcedureCall>
-              <IfSequence id="_1op7" test="${qftest:windows}">
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="BandMathsDialog.ok" id="_1opR"/>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="BandMathsDialog.cancel"
+                                id="_1opS"/>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="BandMathsDialog.help" id="_1opT"/>
+              <IfSequence disabled="true" id="_1op7" test="${qftest:windows}">
                 <CheckBooleanStep checktype="enabled" client="$(client)"
                                   component="BandMathsDialog.BandMathsDialog.ok"
                                   id="_1mjq"/>
@@ -298,113 +305,56 @@
                        procedure="do_click.tools.bandMaths.button_ok"/>
         <ProcedureCall id="_1oUS" procedure="check_new_band"/>
       </TestStep>
-      <TestStep disabled="true" id="_8wu" name="reproject_geo_lat_long">
-        <variable name="ofn">$(prod)_geo_lat_long</variable>
-        <ProcedureCall id="_99R"
-                       procedure="help.prepare_ReprojectionDialog_use_product_opened_in_visat">
-          <variable name="saveAs_selected">false</variable>
-          <variable name="input_file">[1] $(prod)</variable>
-          <variable name="saveAs_selected_example">true if save / false if open in VISAT only</variable>
-          <variable name="input_file_example">[1] MER_RR__1_test.N1</variable>
+      <TestStep id="_8wu" name="reproject_geo_lat_long">
+        <variable name="ofn">test</variable>
+        <ProcedureCall id="_1phv" procedure="open.processing.reprojection"/>
+        <ProcedureCall id="_1pgy" procedure="select_io_tab"/>
+        <ProcedureCall id="_1pbb"
+                       procedure="set.reprojection.target_product_name">
+          <variable name="target_product_name">test</variable>
         </ProcedureCall>
-        <ProcedureCall id="_8Cc" procedure="set.set_target_product_name">
-          <variable name="value">$(ofn)</variable>
-        </ProcedureCall>
-        <ProcedureCall id="_8Ce" postdelay="200"
-                       procedure="select.select_transfotmation">
-          <variable name="trans_name">Geographic Lat/Lon (WGS 84)</variable>
-        </ProcedureCall>
-        <ProcedureCall id="_99S" procedure="doClick.click_Apply_button"/>
-        <ProcedureCall id="_DkH"
-                       procedure="help.band_maths_wait_reprojection_open_image_view">
-          <variable name="targetProduct">$(ofn)</variable>
-          <variable name="prId">2</variable>
-          <variable name="bandName">$(newBand)</variable>
-        </ProcedureCall>
-        <ProcedureCall id="_9BG" procedure="doClick.click_Close"/>
-        <ProcedureCall id="_9BD" procedure="opens.openImageView">
-          <variable name="prodBand">[2] $(ofn)/Bands/$(newBand2)</variable>
-        </ProcedureCall>
-        <ProcedureCall id="_9BF"
-                       procedure="checkImageViewIsOpened.checkImageView">
-          <variable name="product_id">2</variable>
-          <variable name="image_view_title">$(newBand2)</variable>
-        </ProcedureCall>
-        <ProcedureCall id="_DkI"
-                       procedure="checks.band_properties.select_band_check_properties">
-          <variable name="band">$(newBand)</variable>
-          <variable name="validExp"/>
-          <variable name="no_data">NaN</variable>
-          <variable name="band_id">$(band_id_1)</variable>
-          <variable name="band_group_id"/>
-          <variable name="pr_id">1</variable>
-        </ProcedureCall>
-        <ProcedureCall id="_DkJ"
-                       procedure="checks.band_properties.select_band_check_properties">
-          <variable name="band">$(newBand2)</variable>
-          <variable name="validExp"/>
-          <variable name="no_data">NaN</variable>
-          <variable name="band_id">$(band_id_2)</variable>
-          <variable name="band_group_id"/>
-          <variable name="pr_id">1</variable>
-        </ProcedureCall>
+        <ProcedureCall id="_1pbc" procedure="deselect.reprojection.save_as"/>
+        <ProcedureCall id="_1phG"
+                       procedure="test_sequence.preparation_geo_lat_long"/>
+        <ProcedureCall id="_1phF" procedure="run_reprojection"/>
+        <ProcedureCall id="_1piH"
+                       procedure="close_processing_tool.reprojection"/>
       </TestStep>
-      <TestStep disabled="true" id="_9BK" name="reproject_utm_automatic">
-        <variable name="ofn">$(prod)_utm</variable>
-        <ProcedureCall id="_9BL"
-                       procedure="help.prepare_ReprojectionDialog_use_product_opened_in_visat">
-          <variable name="saveAs_selected">false</variable>
-          <variable name="input_file">[1] $(prod)</variable>
-          <variable name="saveAs_selected_example">true if save / false if open in VISAT only</variable>
-          <variable name="input_file_example">[1] MER_RR__1_test.N1</variable>
+      <TestStep id="_1pOo" name="check_reprojected_product">
+        <SetGlobalStep id="_1opU" varname="group_id1"/>
+        <SetGlobalStep id="_1opV" varname="view_Id1">
+          <default>33</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1opW" varname="bandName">
+          <default>test_reproj_vb</default>
+        </SetGlobalStep>
+        <ProcedureCall id="_1oUT"
+                       procedure="do_click.tree.doubleclick_product_node">
+          <variable name="prod_id">1</variable>
+          <variable name="group_id">$(group_id1)</variable>
+          <variable name="view_id">$(view_Id1)</variable>
+          <variable name="band">$(bandName)</variable>
         </ProcedureCall>
-        <ProcedureCall id="_9BV" procedure="set.set_target_product_name">
-          <variable name="value">$(ofn)</variable>
+        <ProcedureCall id="_1lFe"
+                       procedure="wait.disappear.creating_image_progress monitor">
+          <variable name="bandName">$(bandName)</variable>
         </ProcedureCall>
-        <ProcedureCall id="_9Bx"
-                       procedure="check_band.band_uncluded_in_product_tree">
-          <variable name="prId">1</variable>
-          <variable name="band">$(newBand2)</variable>
-          <variable name="product">/0/3/22</variable>
-          <variable name="example_product">/0/1/7 (/product node/Bands node/band node)</variable>
+        <SetGlobalStep id="_1pOT" varname="view_Id1">
+          <default>34</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1pOU" varname="bandName">
+          <default>test_reproj</default>
+        </SetGlobalStep>
+        <ProcedureCall id="_1piK"
+                       procedure="do_click.tree.doubleclick_product_node">
+          <variable name="prod_id">1</variable>
+          <variable name="group_id">$(group_id1)</variable>
+          <variable name="view_id">$(view_Id1)</variable>
+          <variable name="band">$(bandName)</variable>
         </ProcedureCall>
-        <ProcedureCall id="_9BN" postdelay="200"
-                       procedure="select.select_transfotmation">
-          <variable name="trans_name">UTM / WGS 84 (Automatic)</variable>
-        </ProcedureCall>
-        <ProcedureCall id="_9BO" procedure="doClick.click_Apply_button"/>
-        <ProcedureCall id="_DkM"
-                       procedure="help.band_maths_wait_reprojection_open_image_view">
-          <variable name="targetProduct">$(ofn)</variable>
-          <variable name="prId">3</variable>
-          <variable name="bandName">$(newBand)</variable>
-        </ProcedureCall>
-        <ProcedureCall id="_9BQ" procedure="doClick.click_Close"/>
-        <ProcedureCall id="_9BR" procedure="opens.openImageView">
-          <variable name="prodBand">[3] $(ofn)/Bands/$(newBand2)</variable>
-        </ProcedureCall>
-        <ProcedureCall id="_9BS"
-                       procedure="checkImageViewIsOpened.checkImageView">
-          <variable name="product_id">3</variable>
-          <variable name="image_view_title">$(newBand2)</variable>
-        </ProcedureCall>
-        <ProcedureCall id="_DkK"
-                       procedure="checks.band_properties.select_band_check_properties">
-          <variable name="band">$(newBand)</variable>
-          <variable name="validExp"/>
-          <variable name="no_data">NaN</variable>
-          <variable name="band_id">$(band_id_1)</variable>
-          <variable name="band_group_id"/>
-          <variable name="pr_id">2</variable>
-        </ProcedureCall>
-        <ProcedureCall id="_DkL"
-                       procedure="checks.band_properties.select_band_check_properties">
-          <variable name="band">$(newBand2)</variable>
-          <variable name="validExp"/>
-          <variable name="no_data">NaN</variable>
-          <variable name="band_id">$(band_id_2)</variable>
-          <variable name="band_group_id"/>
-          <variable name="pr_id">2</variable>
+        <ProcedureCall id="_1piL"
+                       procedure="wait.disappear.creating_image_progress monitor">
+          <variable name="bandName">$(bandName)</variable>
         </ProcedureCall>
       </TestStep>
       <TestStep id="_DkF" name="close_session">
@@ -1146,8 +1096,7 @@ Not fully resolved. The coloring of the images are still slightly different on e
         <variable name="view_id">0</variable>
         <variable name="band">$(newBand)</variable>
       </ProcedureCall>
-      <ProcedureCall disabled="true" id="_1oUM"
-                     procedure="get.get_index_of_node">
+      <ProcedureCall id="_1oUM" procedure="get.tree.get_index_of_node">
         <variable name="node">$(newBand)</variable>
         <variable name="nodeSeparator">@</variable>
         <variable name="linear">false</variable>
@@ -1187,6 +1136,20 @@ Not fully resolved. The coloring of the images are still slightly different on e
     </Procedure>
   </PackageRoot>
   <ExtraSequence id="_5">
+    <ProcedureCall id="_1pXH" procedure="get.tree.get_index_of_node">
+      <variable name="node">x</variable>
+      <variable name="nodeSeparator">@</variable>
+      <variable name="linear">false</variable>
+    </ProcedureCall>
+    <ServerScriptStep id="_1pXI" name="print">
+      <code>print "$(new_band_id)"</code>
+    </ServerScriptStep>
+    <IfSequence id="_1pXJ" test="&#34;$(new_band_id)&#34;==&#34;&#34;">
+      <ProcedureCall id="_1pXK" procedure="run-log.logError">
+        <variable name="message">$(newBand) is not found</variable>
+        <variable name="withScreenshots">true</variable>
+      </ProcedureCall>
+    </IfSequence>
     <TestCase disabled="true" id="_7ww"
               name="02_virtual_data_Landsat_k_mean_claster_analysis"
               reportname="02 Virtual data problem with Band Arithmetic Landsat k-mean claster analysis">

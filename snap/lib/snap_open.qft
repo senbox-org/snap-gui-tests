@@ -472,19 +472,88 @@
                          procedure="do_click.menu.window.tool_windows.world_map"/>
         </Procedure>
       </Package>
-      <Procedure disabled="true" id="_1l8W" name="statistics_dialog">
-        <TryStep id="_1lBA">
-          <ProcedureCall id="_1lB5"
-                         procedure="do_click.main_toolbar.analysis.statistics"/>
-          <ProcedureCall id="_1lB9" procedure="wait.appear.dialog.dialog"/>
-          <CatchSequence exception="TestException" id="_1lBB" maxerror="0">
-            <ProcedureCall id="_1lBC" procedure="run-log.logError">
-              <variable name="message">Statistics dialog does not appear</variable>
-              <variable name="withScreenshots">true</variable>
-            </ProcedureCall>
-          </CatchSequence>
-        </TryStep>
-      </Procedure>
+      <Package id="_1pj-" name="analysis">
+        <Procedure id="_1l8W" name="statistics_dialog">
+          <comment>@teststep Open 'Band Statistics' dialog</comment>
+          <TryStep id="_1lBA">
+            <ProcedureCall id="_1lB5"
+                           procedure="do_click.main_toolbar.analysis.statistics"/>
+            <ProcedureCall disabled="true" id="_1lB9"
+                           procedure="wait.appear.dialog.dialog"/>
+            <CatchSequence exception="TestException" id="_1lBB" maxerror="0">
+              <ProcedureCall disabled="true" id="_1lBC"
+                             procedure="run-log.logError">
+                <variable name="message">Statistics dialog does not appear</variable>
+                <variable name="withScreenshots">true</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1pjv" name="histogram_dialog">
+          <comment>@teststep Open Histogram dialog</comment>
+          <TryStep id="_1pjw">
+            <ProcedureCall id="_1pjx"
+                           procedure="do_click.main_toolbar.analysis.histogram"/>
+            <ProcedureCall disabled="true" id="_1pjy"
+                           procedure="wait.appear.dialog.dialog"/>
+            <CatchSequence exception="TestException" id="_1pjz" maxerror="0">
+              <ProcedureCall disabled="true" id="_1pj+"
+                             procedure="run-log.logError">
+                <variable name="message">Statistics dialog does not appear</variable>
+                <variable name="withScreenshots">true</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1pk0" name="correlative_plot_dialog">
+          <comment>@teststep Open  'Correlative plot' dialog</comment>
+          <TryStep id="_1pk1">
+            <ProcedureCall id="_1pk2"
+                           procedure="do_click.main_toolbar.analysis.correlative_plot"/>
+            <ProcedureCall disabled="true" id="_1pk3"
+                           procedure="wait.appear.dialog.dialog"/>
+            <CatchSequence exception="TestException" id="_1pk4" maxerror="0">
+              <ProcedureCall disabled="true" id="_1pk5"
+                             procedure="run-log.logError">
+                <variable name="message">Statistics dialog does not appear</variable>
+                <variable name="withScreenshots">true</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1pk6" name="profile_plot_dialog">
+          <comment>@teststep Open  'Profile plot' dialog</comment>
+          <TryStep id="_1pk7">
+            <ProcedureCall id="_1pk8"
+                           procedure="do_click.main_toolbar.analysis.profile_plot"/>
+            <ProcedureCall disabled="true" id="_1pk9"
+                           procedure="wait.appear.dialog.dialog"/>
+            <CatchSequence exception="TestException" id="_1pkA" maxerror="0">
+              <ProcedureCall disabled="true" id="_1pkB"
+                             procedure="run-log.logError">
+                <variable name="message">Statistics dialog does not appear</variable>
+                <variable name="withScreenshots">true</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1pkC" name="scatter_plot_dialog">
+          <comment>@teststep Open 'Scatter plot' dialog</comment>
+          <TryStep id="_1pkD">
+            <ProcedureCall id="_1pkE"
+                           procedure="do_click.main_toolbar.analysis.scatter_plot"/>
+            <ProcedureCall disabled="true" id="_1pkF"
+                           procedure="wait.appear.dialog.dialog"/>
+            <CatchSequence exception="TestException" id="_1pkG" maxerror="0">
+              <ProcedureCall disabled="true" id="_1pkH"
+                             procedure="run-log.logError">
+                <variable name="message">Statistics dialog does not appear</variable>
+                <variable name="withScreenshots">true</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+      </Package>
       <Procedure disabled="true" id="_1oSR" name="image_view">
         <comment>@teststep Open image view</comment>
         <TryStep disabled="true" id="_1oSS">
@@ -609,7 +678,7 @@
               </TextInputStep>
             </ElseSequence>
           </IfSequence>
-          <ProcedureCall id="_1oRv"
+          <ProcedureCall id="_1oRv" postdelay="2000"
                          procedure="do_click.open_product_dialog.open"/>
         </IfSequence>
         <BasicSequence id="_1oSE" name="find_error_dialog_click_ok">
@@ -647,14 +716,17 @@
             </TryStep>
             <ProcedureCall id="_1oSA"
                            procedure="do_click.error_dialog.button_OK_error_SNAP_Open_Product"/>
-            <ServerScriptStep id="_1oMr" name="error">
-              <code>rc.logError("'$(error_text)'.")</code>
-            </ServerScriptStep>
+            <IfSequence id="_1pkI"
+                        test="&#34;$(error_text)&#34;&lt;&gt;&#34;Open Product&#34;">
+              <ServerScriptStep id="_1oMr" name="error">
+                <code>rc.logError("'$(error_text)'.")</code>
+              </ServerScriptStep>
+            </IfSequence>
             <CatchSequence exception="TestException" id="_1oSC" maxerror="0"/>
           </TryStep>
           <TryStep id="_1omy" name="find_error_dialog_click_ok">
-            <ProcedureCall id="_1omz"
-                           procedure="wait.appear.error.dialog_SNAP-Error"/>
+            <ComponentWaiter client="$(client)" component="dialogSNAP_-_Error"
+                             id="_1mmw" timeout="10"/>
             <TryStep id="_1onO">
               <ProcedureCall id="_1om+" procedure="run-log.make_screensot">
                 <variable name="iw_name">error_dialog_open_product</variable>

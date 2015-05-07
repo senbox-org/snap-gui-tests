@@ -1508,6 +1508,46 @@
           <ComponentWaiter client="$(client)" component="dialogBinning"
                            id="_1pwk" timeout="10"/>
         </Procedure>
+        <Procedure id="_1q9A" name="intermediate_source_band_dialog_opened">
+          <ComponentWaiter client="$(client)"
+                           component="dialogIntermediate_Source_Band"
+                           id="_1q97" timeout="10"/>
+        </Procedure>
+        <Package id="_1q93" name="intermediate_source_band_dialog">
+          <Procedure id="_1q9C" name="name">
+            <variable name="val"/>
+            <comment>@teststep Check name.</comment>
+            <CheckStringStep client="$(client)"
+                             component="dialogIntermediate_Source_Band.name"
+                             id="_1q9D">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1q95" name="source_band_expression">
+            <variable name="val"/>
+            <comment>@teststep Check name.</comment>
+            <CheckStringStep client="$(client)"
+                             component="dialogIntermediate_Source_Band.expr"
+                             id="_1q98">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+        </Package>
+        <Package id="_1q70" name="visible">
+          <Procedure id="_1q5s" name="checkbox_aggregator">
+            <comment>@teststep Check 'Aggregator' checkbox is visible.</comment>
+            <CheckBooleanStep checktype="visible" client="$(client)"
+                              component="dialogBinning.panelConfiguration.checkAggregator"
+                              id="_1ppz"
+                              resvarname="checkbox_aggregator_visible"/>
+          </Procedure>
+          <Procedure id="_1q8p" name="checkbox_name">
+            <comment>@teststep Check 'Name' checkbox is visible.</comment>
+            <CheckBooleanStep checktype="visible" client="$(client)"
+                              component="dialogBinning.panelConfiguration.checkName"
+                              id="_1q8r" resvarname="checkbox_name_visible"/>
+          </Procedure>
+        </Package>
         <Package id="_1pwo" name="enabled">
           <Package id="_1pwp" name="io_parameters">
             <Procedure id="_1plA" name="button_plus">
@@ -1639,6 +1679,13 @@
           </Package>
           <Package id="_1p+d" name="configuration">
             <Package id="_1pzn" name="source_bands">
+              <Procedure id="_1q7B" name="checkbox_aggregator">
+                <comment>@teststep Check 'Aggregator' checkbox is enabled.</comment>
+                <CheckBooleanStep checktype="enabled" client="$(client)"
+                                  component="dialogBinning.panelConfiguration.checkAggregator2"
+                                  id="_1q7D"
+                                  resvarname="checkbox_aggregator_enabled"/>
+              </Procedure>
               <Procedure id="_1p+6" name="show_hide_selection_column">
                 <comment>@teststep Check 'Show/hide_selection_column' button is enabled.</comment>
                 <CheckBooleanStep checktype="enabled" client="$(client)"
@@ -1767,6 +1814,13 @@
                                   component="dialogBinning.panelConfiguration.buttonMinus162"
                                   id="_1p-K" state="$(enabled)"/>
               </Procedure>
+              <Procedure id="_1q7F" name="checkbox_name">
+                <comment>@teststep Check 'Name' checkbox is enabled.</comment>
+                <CheckBooleanStep checktype="enabled" client="$(client)"
+                                  component="dialogBinning.panelConfiguration.checkName"
+                                  id="_1q8n"
+                                  resvarname="checkbox_name_enabled"/>
+              </Procedure>
             </Package>
             <Procedure id="_1p-L" name="valid_pixel_expression_button">
               <comment>@teststep Check 'Valid pixel expression' button is enabled.</comment>
@@ -1858,7 +1912,32 @@
                                 state="$(selected)"/>
             </Procedure>
           </Package>
-          <Package id="_1p+a" name="configuration"/>
+          <Package id="_1p+a" name="configuration">
+            <Procedure id="_1q79" name="checkbox_aggregator">
+              <comment>@teststep Check 'Aggregator' checkbox is selected.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialogBinning.panelConfiguration.checkAggregator"
+                                id="_1q7A" resvarname="checkbox_aggregator"/>
+            </Procedure>
+            <Procedure id="_1q71" name="checkbox_aggregator_selected_status">
+              <variable name="selected"/>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialogBinning.panelConfiguration.checkAggregator"
+                                id="_1q75" state="$(selected)"/>
+            </Procedure>
+            <Procedure id="_1q8w" name="checkbox_name">
+              <comment>@teststep Check 'Name' checkbox is selected.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialogBinning.panelConfiguration.checkName"
+                                id="_1q8x" resvarname="checkbox_name"/>
+            </Procedure>
+            <Procedure id="_1q91" name="checkbox_name_selected_status">
+              <variable name="selected"/>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialogBinning.panelConfiguration.checkName"
+                                id="_1q92" state="$(selected)"/>
+            </Procedure>
+          </Package>
         </Package>
         <Package id="_1pyE" name="text">
           <Package id="_1pyF" name="io_parameters">

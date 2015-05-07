@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.4">
+  <include>qfs.qft</include>
+  <include>snap_components.qft</include>
+  <include>snap_main.qft</include>
+  <dependency>snap_check.qft</dependency>
+  <dependency>snap_main.qft</dependency>
+  <dependency>snap_workflow.qft</dependency>
+  <PackageRoot id="_3">
+    <Package id="_1k-S" name="import">
+      <Procedure id="_1lWC" name="raster_data">
+        <variable name="import_data"/>
+        <ProcedureCall id="_1ocP" procedure="check.product.not_opened"/>
+        <IfSequence id="_1ocQ"
+                    test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+          <ProcedureCall id="_1ocS" procedure="close.all_products"/>
+        </IfSequence>
+        <ProcedureCall id="_1oUI"
+                       procedure="product_meta_data.product_attributes">
+          <variable name="prod_type">$(import_data)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1oRE" procedure="open.product_in_snap">
+          <variable name="prod_dir">$(dataInDir)</variable>
+          <variable name="in_out">in</variable>
+          <variable name="prod">$(fileName)</variable>
+          <variable name="product_type">$(import_data)</variable>
+          <comment>
+</comment>
+        </ProcedureCall>
+        <BasicSequence disabled="true" id="_1oUH"
+                       name="if_import_is_working_again">
+          <IfSequence id="_1oaH"
+                      test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+            <ProcedureCall id="_1oaj" procedure="open.product_in_snap">
+              <variable name="prod_dir">$(dataInDir)</variable>
+              <variable name="prod">$(fileName)</variable>
+              <variable name="product_type">$(import_data)</variable>
+              <comment> 	 
+</comment>
+            </ProcedureCall>
+            <ElseSequence id="_1oak">
+              <IfSequence id="_1oaI"
+                          test="&#34;$(menu_item)&#34;&lt;&gt;&#34;&#34;">
+                <TryStep id="_1oaJ" name="open_import_dialog">
+                  <comment>@teststep Open 'Import Product' dialog</comment>
+                  <IfSequence id="_1oaK"
+                              test="&#34;$(product_group)&#34;==&#34;&#34;">
+                    <ProcedureCall id="_1oaL"
+                                   procedure="utility.raster_data.other_import">
+                      <variable name="menu_item">$(menu_item)</variable>
+                    </ProcedureCall>
+                    <ElseifSequence id="_1oaM"
+                                    test="&#34;$(product_group)&#34;==&#34;multispectral&#34;">
+                      <ProcedureCall id="_1oaN"
+                                     procedure="utility.raster_data.import_multispectral">
+                        <variable name="menu_item">$(menu_item)</variable>
+                      </ProcedureCall>
+                    </ElseifSequence>
+                    <ElseifSequence id="_1oaO"
+                                    test="&#34;$(product_group)&#34;==&#34;generic&#34;">
+                      <ProcedureCall id="_1oaP"
+                                     procedure="utility.raster_data.import_generic">
+                        <variable name="menu_item">$(menu_item)</variable>
+                      </ProcedureCall>
+                    </ElseifSequence>
+                    <ElseifSequence id="_1oaQ"
+                                    test="&#34;$(product_group)&#34;==&#34;sar&#34;">
+                      <ProcedureCall id="_1oaR"
+                                     procedure="utility.raster_data.import_sar">
+                        <variable name="menu_item">$(menu_item)</variable>
+                      </ProcedureCall>
+                    </ElseifSequence>
+                  </IfSequence>
+                  <ProcedureCall id="_1oaS"
+                                 procedure="wait.appear.dialog.import_product"/>
+                  <ProcedureCall id="_1oaT"
+                                 procedure="utility.import.fill_dialog"/>
+                  <CatchSequence exception="TestException" id="_1oaU"
+                                 maxerror="0">
+                    <TryStep id="_1oaV">
+                      <IfSequence id="_1oaW"
+                                  test="&#34;$(product_group)&#34;==&#34;&#34;">
+                        <ProcedureCall id="_1oaX"
+                                       procedure="utility.raster_data.other_import">
+                          <variable name="menu_item">$(menu_item)</variable>
+                        </ProcedureCall>
+                        <ElseifSequence id="_1oaY"
+                                        test="&#34;$(product_group)&#34;==&#34;multispectral&#34;">
+                          <ProcedureCall id="_1oaZ"
+                                         procedure="utility.raster_data.import_multispectral">
+                            <variable name="menu_item">$(menu_item)</variable>
+                          </ProcedureCall>
+                        </ElseifSequence>
+                        <ElseifSequence id="_1oaa"
+                                        test="&#34;$(product_group)&#34;==&#34;generic&#34;">
+                          <ProcedureCall id="_1oab"
+                                         procedure="utility.raster_data.import_generic">
+                            <variable name="menu_item">$(menu_item)</variable>
+                          </ProcedureCall>
+                        </ElseifSequence>
+                        <ElseifSequence id="_1oac"
+                                        test="&#34;$(product_group)&#34;==&#34;sar&#34;">
+                          <ProcedureCall id="_1oad"
+                                         procedure="utility.raster_data.import_sar">
+                            <variable name="menu_item">$(menu_item)</variable>
+                          </ProcedureCall>
+                        </ElseifSequence>
+                      </IfSequence>
+                      <ProcedureCall id="_1oae"
+                                     procedure="wait.appear.dialog.import_product"/>
+                      <ProcedureCall id="_1oaf"
+                                     procedure="utility.import.fill_dialog"/>
+                      <CatchSequence exception="TestException" id="_1oag"
+                                     maxerror="0">
+                        <ProcedureCall id="_1oah"
+                                       procedure="run-log.error_message.dialog_Import_Product_does_not_appear"/>
+                      </CatchSequence>
+                    </TryStep>
+                  </CatchSequence>
+                </TryStep>
+                <ElseSequence id="_1oal">
+                  <ProcedureCall id="_1oam" procedure="open.product_in_snap">
+                    <variable name="prod_dir">$(dataInDir)</variable>
+                    <variable name="in_out">in</variable>
+                    <variable name="prod">$(fileName)</variable>
+                    <variable name="product_type">$(import_data)</variable>
+                    <comment>
+</comment>
+                  </ProcedureCall>
+                </ElseSequence>
+              </IfSequence>
+            </ElseSequence>
+          </IfSequence>
+        </BasicSequence>
+        <ProcedureCall id="_1po3" procedure="check.product.not_opened"/>
+        <IfSequence id="_1po4" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
+          <ProcedureCall id="_1po6" procedure="wait.product_is_opened"/>
+        </IfSequence>
+        <ProcedureCall id="_1oap" procedure="check.product.not_opened"/>
+        <IfSequence id="_1oaq" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
+          <ProcedureCall id="_1oao" procedure="run-log.logError">
+            <variable name="message">$(fileName) did not appear</variable>
+            <variable name="withScreenshots">true</variable>
+          </ProcedureCall>
+        </IfSequence>
+      </Procedure>
+      <Package id="_1pkI" name="vector_data">
+        <Package id="_1pkJ" name="import_CSV_data_dialog">
+          <Procedure id="_1p2C" name="vector_data_csv">
+            <ProcedureCall id="_1p2D" procedure="check.product.not_opened"/>
+            <IfSequence id="_1p2E"
+                        test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1p2r"
+                             procedure="select.product_tree.product">
+                <variable name="prod_id">0</variable>
+              </ProcedureCall>
+              <TryStep id="_1p2s" name="open_import_csv_file_dialog">
+                <ProcedureCall id="_1p3X"
+                               procedure="utility.vector_data.csv"/>
+                <CatchSequence exception="TestException" id="_1oQU"
+                               maxerror="0">
+                  <TryStep id="_1oQW">
+                    <ProcedureCall id="_1p3Y"
+                                   procedure="utility.vector_data.csv"/>
+                    <CatchSequence exception="TestException" id="_1oQZ"
+                                   maxerror="0"/>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <TryStep id="_1pnm" name="fiil_in_import_CSV_file_click_ok">
+                <ProcedureCall id="_1pnl"
+                               procedure="check.opened.import_CSV_file_window"/>
+                <SetGlobalStep id="_1p44" varname="csv_file_with_path">
+                  <default>${path:csv_file_dir}$(csv_file).txt</default>
+                </SetGlobalStep>
+                <TextInputStep clear="true" client="$(client)"
+                               component="dialogImport_CSV_file.textFile_name:"
+                               id="_1pfW">
+                  <text>$(csv_file_with_path)</text>
+                </TextInputStep>
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="dialogImport_CSV_file.buttonOpen"
+                                event="MOUSE_MPRC" id="_1pfX" modifiers="16"/>
+                <CatchSequence exception="TestException" id="_1pnn"
+                               maxerror="0">
+                  <ProcedureCall id="_1pno"
+                                 procedure="run-log.error_message.dialog_does_not_appear">
+                    <variable name="dialog">Open</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+              <TryStep id="_1pkk" name="import_CSV_data_dialog">
+                <ProcedureCall id="_1po7"
+                               procedure="check.opened.import_CSV_data_dialog"/>
+                <ProcedureCall id="_1po8"
+                               procedure="do_click.import_CSV_data_dialog.radio_custom_CRS"/>
+                <ProcedureCall id="_1po9"
+                               procedure="set.default_parameters.geo_lat_lon_projection"/>
+                <ProcedureCall id="_1poA"
+                               procedure="check.import_CSV_data_dialog.text.projection">
+                  <variable name="val">$(geo_lat_lon_projection)</variable>
+                </ProcedureCall>
+                <ProcedureCall id="_1poB"
+                               procedure="do_click.import_CSV_data_dialog.button_ok"/>
+                <CatchSequence exception="TestException" id="_1pkl"
+                               maxerror="0">
+                  <ProcedureCall id="_1oQb"
+                                 procedure="run-log.error_message.dialog_does_not_appear">
+                    <variable name="dialog">Import CSV data</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+              <TryStep id="_1pnj" name="point_data_interpretation_dialog">
+                <ProcedureCall id="_1pni"
+                               procedure="check.opened.point_data_interpretation_dialog"/>
+                <ProcedureCall id="_1pnh"
+                               procedure="do_click.point_data_interpretation_dialog.button_ok"/>
+                <CatchSequence exception="TestException" id="_1pnk"
+                               maxerror="0">
+                  <ProcedureCall id="_1pnp"
+                                 procedure="run-log.error_message.dialog_does_not_appear">
+                    <variable name="dialog">Point data interpretation</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+              <TryStep id="_1pns" name="shoot_error_if_csv_file_not_imported">
+                <SetGlobalStep id="_1po0" varname="import_csv_error">
+                  <default>false</default>
+                </SetGlobalStep>
+                <ProcedureCall id="_1pnq"
+                               procedure="check.opened.dialog_SNAP_Import_CSV_file"/>
+                <ProcedureCall id="_1pnv" procedure="run-log.make_screensot">
+                  <variable name="iw_name">import_CSV_data</variable>
+                  <variable name="iw_name_example">error_dialog</variable>
+                </ProcedureCall>
+                <ProcedureCall id="_1pnr"
+                               procedure="do_click.error_dialog.dialog_SNAP_Import_CSV_file.button_ok"/>
+                <SetGlobalStep id="_1po1" varname="import_csv_error">
+                  <default>true</default>
+                </SetGlobalStep>
+                <ProcedureCall id="_1pnu"
+                               procedure="run-log.error_message.error_dialog_appears">
+                  <variable name="dialog">Import CSV data error</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1pnt"
+                               maxerror="0">
+                  <SetGlobalStep id="_1po2" varname="import_csv_error">
+                    <default>false</default>
+                  </SetGlobalStep>
+                </CatchSequence>
+              </TryStep>
+            </IfSequence>
+          </Procedure>
+        </Package>
+      </Package>
+    </Package>
+    <Package id="_1oRH" name="utility"/>
+  </PackageRoot>
+  <ExtraSequence id="_4">
+    <Procedure id="_1pl2" name="import_csv">
+      <comment>@teststep Click 'OK' button in the 'SNAP - Import CSV file' error dialog.</comment>
+      <ComponentWaiter client="$(client)"
+                       component="dialogSNAP_-_Import_CSV_file" id="_1pna"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogSNAP_-_Import_CSV_file.buttonCancel"
+                       id="_1pnb">
+        <text>Cancel</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSNAP_-_Import_CSV_file.buttonOK"
+                      event="MOUSE_MPRC" id="_1pnc" modifiers="16"/>
+    </Procedure>
+    <Procedure id="_1pko" name="import_csv">
+      <variable name="val"/>
+      <comment>@teststep Click 'Use Predefined CRS' button in the 'Point Data Interpretation' dialog.</comment>
+      <BasicSequence id="_1pkt" name="Aufnahme 04.05.15 09:22">
+        <CheckBooleanStep checktype="checked" client="$(client)"
+                          component="dialogPoint_Data_Interpretation.radioLeave_imported_data_unchanged"
+                          id="_1pku"/>
+        <CheckBooleanStep checktype="checked" client="$(client)"
+                          component="dialogPoint_Data_Interpretation.radioInterpret_each_point_as_vertex_of_a_single_line_or_polygon_(This_will_remove_all_attributes_from_points)"
+                          id="_1pkv" state="false"/>
+        <CheckBooleanStep checktype="checked" client="$(client)"
+                          component="dialogPoint_Data_Interpretation.radioInterpret_each_point_as_track_point"
+                          id="_1pkw" state="false"/>
+        <CheckStringStep client="$(client)"
+                         component="dialogPoint_Data_Interpretation.TypeDialog.ok"
+                         id="_1pkx">
+          <text>OK</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="dialogPoint_Data_Interpretation.TypeDialog.cancel"
+                         id="_1pky">
+          <text>Cancel</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="dialogPoint_Data_Interpretation.TypeDialog.help"
+                         id="_1pkz">
+          <text>Help</text>
+        </CheckStringStep>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogPoint_Data_Interpretation.TypeDialog.ok"
+                        event="MOUSE_MPRC" id="_1pk+" modifiers="16"/>
+        <ComponentWaiter client="$(client)"
+                         component="dialogSNAP_-_Import_CSV_file" id="_1pk-"/>
+        <CheckStringStep client="$(client)"
+                         component="dialogSNAP_-_Import_CSV_file.buttonCancel"
+                         id="_1pl0">
+          <text>Cancel</text>
+        </CheckStringStep>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSNAP_-_Import_CSV_file.buttonOK"
+                        event="MOUSE_MPRC" id="_1pl1" modifiers="16"/>
+      </BasicSequence>
+    </Procedure>
+  </ExtraSequence>
+  <WindowList id="_5"/>
+</RootStep>

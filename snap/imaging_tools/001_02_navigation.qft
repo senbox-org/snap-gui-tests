@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.3">
+<RootStep id="_0" name="root" version="4.0.4">
   <include>qfs.qft</include>
   <include>../lib/snap_main.qft</include>
   <TestSet id="_1" name="01_02_navigation" reportname="01 02 Navigation">
     <DependencyReference id="_1lWz"
                          reference="dependencies.start_application"/>
     <TestCase id="_1obu" name="zooming">
-      <variable name="def_zoom_factor">1.1 : 1</variable>
       <ProcedureCall id="_1obv" procedure="product_meta_data.MER_RR__1P"/>
       <ProcedureCall id="_1obw" procedure="preparation.application_for_test"/>
       <ProcedureCall disabled="true" id="_1obx"
@@ -28,6 +27,7 @@
                        procedure="check.tools.imaging.navigation.syncViews_button_enabled"/>
         <ProcedureCall id="_1oc3"
                        procedure="check.tools.imaging.navigation.syncCursor_button_enabled"/>
+        <ProcedureCall id="_1pVU" procedure="set_default_zoom_factor"/>
         <ProcedureCall id="_1oc4"
                        procedure="check.tools.imaging.navigation.zoom_factor">
           <variable name="val">$(def_zoom_factor)</variable>
@@ -67,27 +67,24 @@
       <BasicSequence id="_1ocD" name="zooming">
         <comment>@teststep Zoom In</comment>
         <MouseEventStep clicks="0" client="$(client)"
-                        component="NbMainWindow.radiance_1.panel"
+                        component="NbMainWindow.[1]_radiance_12.panel"
                         event="MOUSE_MOVED" id="_1pVH" modifiers="0" x="384"
                         y="348"/>
         <MouseEventStep clicks="1" client="$(client)"
-                        component="NbMainWindow.radiance_1.panel"
+                        component="NbMainWindow.[1]_radiance_12.panel"
                         event="MOUSE_PRESSED" id="_1pVI" modifiers="16"
                         x="384" y="348"/>
         <MouseEventStep clicks="0" client="$(client)"
-                        component="NbMainWindow.radiance_1.panel"
+                        component="NbMainWindow.[1]_radiance_12.panel"
                         event="MOUSE_DRAGGED" id="_1pVJ" modifiers="16"
                         x="434" y="378"/>
         <MouseEventStep clicks="1" client="$(client)"
-                        component="NbMainWindow.radiance_1.panel"
+                        component="NbMainWindow.[1]_radiance_12.panel"
                         event="MOUSE_RELEASED" id="_1pVK" modifiers="16"
                         x="434" y="378"/>
       </BasicSequence>
       <TestStep id="_1pVL" name="check_components">
-        <ProcedureCall id="_1pVM"
-                       procedure="check.tools.imaging.navigation.zoom_factor">
-          <variable name="val">366.07 : 1</variable>
-        </ProcedureCall>
+        <ProcedureCall id="_1pVV" procedure="get.navigation.zoom_factor"/>
         <ProcedureCall id="_1pVN"
                        procedure="check.tools.imaging.navigation.rotation">
           <variable name="val">0°</variable>
@@ -405,7 +402,14 @@
       <ProcedureCall id="_1l4T" procedure="close.all_products"/>
     </TestCase>
   </TestSet>
-  <PackageRoot id="_3"/>
+  <PackageRoot id="_3">
+    <Procedure id="_1pVR" name="set_default_zoom_factor">
+      <ProcedureCall id="_1pVS" procedure="get.navigation.zoom_factor"/>
+      <SetGlobalStep id="_1pVT" varname="def_zoom_factor">
+        <default>$(zoom_factor)</default>
+      </SetGlobalStep>
+    </Procedure>
+  </PackageRoot>
   <ExtraSequence id="_4"/>
   <WindowList id="_5"/>
 </RootStep>

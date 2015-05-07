@@ -216,8 +216,29 @@
         </Procedure>
       </Package>
       <Package id="_1pZX" name="opened">
-        <Procedure id="_1pZY" name="expression_editor">
-          <ComponentWaiter client="$(client)" component="dialog5" id="_1pZZ"
+        <Procedure id="_1po+" name="point_data_interpretation_dialog">
+          <ComponentWaiter client="$(client)"
+                           component="dialogPoint_Data_Interpretation"
+                           id="_1pp0" timeout="1000"/>
+        </Procedure>
+        <Procedure id="_1pp3" name="import_CSV_data_dialog">
+          <ComponentWaiter client="$(client)"
+                           component="dialogImport_CSV_Data" id="_1pp5"
+                           timeout="10"/>
+        </Procedure>
+        <Procedure id="_1pZY" name="import_CSV_file_window">
+          <ComponentWaiter client="$(client)"
+                           component="dialogImport_CSV_file" id="_1pZZ"
+                           timeout="10"/>
+        </Procedure>
+        <Procedure id="_1pl2" name="dialog_SNAP_Import_CSV_file">
+          <comment>@teststep Click 'OK' button in the 'SNAP - Import CSV file' error dialog.</comment>
+          <ComponentWaiter client="$(client)"
+                           component="dialogSNAP_-_Import_CSV_file" id="_1pna"
+                           timeout="10"/>
+        </Procedure>
+        <Procedure id="_1pn3" name="expression_editor">
+          <ComponentWaiter client="$(client)" component="dialog5" id="_1pn4"
                            timeout="10"/>
         </Procedure>
         <Procedure id="_1mmx" name="band_maths_expression_editor">
@@ -233,8 +254,7 @@
             <comment>@teststep Check product name.</comment>
             <IfSequence id="_1o+6" test="${qftest:windows}">
               <CheckStringStep checktype="value" client="$(client)"
-                               component="BandMathsDialog.productName"
-                               id="_1oP5">
+                               component="productName" id="_1oP5">
                 <text>$(val)</text>
               </CheckStringStep>
               <ElseifSequence id="_1o+7" name="MAC?"
@@ -282,7 +302,11 @@
             <IfSequence id="_1o+C" test="${qftest:windows}">
               <CheckStringStep client="$(client)"
                                component="BandMathsDialog.bandDescription"
-                               id="_1oPN">
+                               disabled="true" id="_1oPN">
+                <text>$(val)</text>
+              </CheckStringStep>
+              <CheckStringStep client="$(client)" component="bandDescription"
+                               id="_1pZy">
                 <text>$(val)</text>
               </CheckStringStep>
               <ElseifSequence id="_1o+D" name="MAC?"
@@ -306,7 +330,11 @@
             <IfSequence id="_1o+F" test="${qftest:windows}">
               <CheckStringStep client="$(client)"
                                component="BandMathsDialog.bandUnit"
-                               id="_1oPW">
+                               disabled="true" id="_1oPW">
+                <text>$(val)</text>
+              </CheckStringStep>
+              <CheckStringStep client="$(client)" component="bandUnit"
+                               id="_1pZz">
                 <text>$(val)</text>
               </CheckStringStep>
               <ElseifSequence id="_1o+G" name="MAC?"
@@ -330,7 +358,11 @@
             <IfSequence id="_1o+I" test="${qftest:windows}">
               <CheckStringStep client="$(client)"
                                component="BandMathsDialog.bandWavelength"
-                               id="_1oPf">
+                               disabled="true" id="_1oPf">
+                <text>$(val)</text>
+              </CheckStringStep>
+              <CheckStringStep client="$(client)" component="bandWavelength"
+                               id="_1pZ+">
                 <text>$(val)</text>
               </CheckStringStep>
               <ElseifSequence id="_1o+J" name="MAC?"
@@ -352,9 +384,13 @@
             <variable name="val"/>
             <comment>@teststep Check noData value</comment>
             <IfSequence id="_1o+L" test="${qftest:windows}">
+              <CheckStringStep client="$(client)" component="noDataValue"
+                               id="_1pZ-">
+                <text>$(val)</text>
+              </CheckStringStep>
               <CheckStringStep client="$(client)"
                                component="BandMathsDialog.noDataValue"
-                               id="_1oO-">
+                               disabled="true" id="_1oO-">
                 <text>$(val)</text>
               </CheckStringStep>
               <ElseifSequence id="_1o+M" name="MAC?"
@@ -378,7 +414,11 @@
             <IfSequence id="_1o+O" test="${qftest:windows}">
               <CheckStringStep client="$(client)"
                                component="BandMathsDialog.expression"
-                               id="_1oPj">
+                               disabled="true" id="_1oPj">
+                <text>$(val)</text>
+              </CheckStringStep>
+              <CheckStringStep client="$(client)" component="expression"
+                               id="_1pa0">
                 <text>$(val)</text>
               </CheckStringStep>
               <ElseifSequence id="_1o+P" name="MAC?"
@@ -401,7 +441,10 @@
             <IfSequence id="_1o+R" test="${qftest:windows}">
               <CheckBooleanStep checktype="checked" client="$(client)"
                                 component="BandMathsDialog.saveExpressionOnly"
-                                id="_1oPt"
+                                disabled="true" id="_1oPt"
+                                resvarname="saveExpressionOnly_selected"/>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="saveExpressionOnly" id="_1pa1"
                                 resvarname="saveExpressionOnly_selected"/>
               <ElseifSequence id="_1o+S" name="MAC?"
                               test="'${system:os.name}' .find('Mac OS X')&gt;=0">
@@ -422,7 +465,11 @@
             <IfSequence id="_1o+U" test="${qftest:windows}">
               <CheckBooleanStep checktype="checked" client="$(client)"
                                 component="BandMathsDialog.saveExpressionOnly"
-                                id="_1oPw" state="$(sel_status)"/>
+                                disabled="true" id="_1oPw"
+                                state="$(sel_status)"/>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="saveExpressionOnly" id="_1pa2"
+                                state="$(sel_status)"/>
               <ElseifSequence id="_1o+V" name="MAC?"
                               test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <CheckBooleanStep checktype="checked" client="$(client)"
@@ -441,7 +488,10 @@
             <IfSequence id="_1o+X" test="${qftest:windows}">
               <CheckBooleanStep checktype="checked" client="$(client)"
                                 component="BandMathsDialog.noDataValueUsed"
-                                id="_1oPy"
+                                disabled="true" id="_1oPy"
+                                resvarname="noDataValueUsed_selected"/>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="noDataValueUsed" id="_1pa3"
                                 resvarname="noDataValueUsed_selected"/>
               <ElseifSequence id="_1o+Y" name="MAC?"
                               test="'${system:os.name}' .find('Mac OS X')&gt;=0">
@@ -462,7 +512,11 @@
             <IfSequence id="_1o+a" test="${qftest:windows}">
               <CheckBooleanStep checktype="checked" client="$(client)"
                                 component="BandMathsDialog.noDataValueUsed"
-                                id="_1oPn" state="$(sel_status)"/>
+                                disabled="true" id="_1oPn"
+                                state="$(sel_status)"/>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="noDataValueUsed" id="_1pa4"
+                                state="$(sel_status)"/>
               <ElseifSequence id="_1o+b" name="MAC?"
                               test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <CheckBooleanStep checktype="checked" client="$(client)"
@@ -482,7 +536,11 @@
             <IfSequence id="_1o+d" test="${qftest:windows}">
               <CheckBooleanStep checktype="enabled" client="$(client)"
                                 component="BandMathsDialog.noDataValueUsed"
-                                id="_1oTh" state="$(enabled_status)"/>
+                                disabled="true" id="_1oTh"
+                                state="$(enabled_status)"/>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="noDataValueUsed" id="_1pa5"
+                                state="$(enabled_status)"/>
               <ElseifSequence id="_1o+e" name="MAC?"
                               test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <CheckBooleanStep checktype="enabled" client="$(client)"
@@ -759,7 +817,7 @@
             <SetGlobalStep id="_1oLj" varname="table">
               <default>Dialog.maskTable</default>
             </SetGlobalStep>
-            <ProcedureCall id="_1oLk" procedure="get.rowCount">
+            <ProcedureCall id="_1oLk" procedure="get.tree.rowCount">
               <variable name="id">$(table)</variable>
               <comment>@teststep Get number of masks.</comment>
             </ProcedureCall>
@@ -825,14 +883,15 @@
                            procedure="do_click.main_toolbar.views.layer_manager">
               <comment>@teststep Open Layer Manager</comment>
             </ProcedureCall>
-            <ProcedureCall id="_1oM2" procedure="get.layer_node_id">
+            <ProcedureCall id="_1oM2" procedure="get.tree.layer_node_id">
               <variable name="layer_name">Masks</variable>
               <comment>@teststep Find Masks in the layer manager</comment>
             </ProcedureCall>
             <ServerScriptStep disabled="true" id="_1oM3" name="print">
               <code>print "Layer Masks id = $(layer_node_id)"  </code>
             </ServerScriptStep>
-            <ProcedureCall id="_1oM4" procedure="do_click.tree.layer_node">
+            <ProcedureCall id="_1oM4"
+                           procedure="do_click.layer_manager.layer_node">
               <variable name="layer_node1">$(layer_node_id)</variable>
               <variable name="layer_node2"/>
               <comment>@teststep Open Masks node in the layer manager</comment>
@@ -842,7 +901,7 @@
               <RepeatSequence count="$(masks_number)" id="_1oM6"
                               name="check_masks" var="m">
                 <ProcedureCall id="_1oM7"
-                               procedure="do_click.tree.layer_checkbox">
+                               procedure="do_click.layer_manager.layer_checkbox">
                   <variable name="layer_node1">$(layer_node_id)</variable>
                   <variable name="layer_node2">$(m)</variable>
                 </ProcedureCall>
@@ -852,7 +911,7 @@
               <RepeatSequence count="$(masks_number)" id="_1oM9"
                               name="check_masks" var="m">
                 <ProcedureCall id="_1oMA"
-                               procedure="do_click.tree.layer_checkbox">
+                               procedure="do_click.layer_manager.layer_checkbox">
                   <variable name="layer_node1">$(layer_node_id)</variable>
                   <variable name="layer_node2">$(m)</variable>
                 </ProcedureCall>
@@ -1206,82 +1265,600 @@
           </Procedure>
         </Package>
       </Package>
-      <Package disabled="true" id="_1l8t" name="statistics_dialog">
-        <Procedure id="_1l9E" name="title">
-          <variable name="band"/>
-          <comment>@teststep Check statistics dialog title</comment>
-          <CheckStringStep client="$(client)"
-                           component="Dialog.labelStatistics_-_[1]_band"
-                           id="_1l9F">
-            <text>Statistics - [1] Oa05_radiance</text>
-          </CheckStringStep>
-        </Procedure>
-        <Procedure id="_1lBv" name="use_ROI_mask_selected">
-          <CheckBooleanStep checktype="checked" client="$(client)"
-                            component="Dialog.checkUse_ROI_mask(s):"
-                            id="_1lBw" resvarname="use_ROI_mask_selected"/>
-        </Procedure>
-        <Procedure id="_1l9X" name="use_ROI_mask_selected_status">
-          <variable name="roi_selected"/>
-          <comment>@teststep Check statistics dialog ROI Mask selection</comment>
-          <CheckBooleanStep checktype="checked" client="$(client)"
-                            component="Dialog.checkUse_ROI_mask(s):"
-                            id="_1l9a" state="$(roi_selected)"/>
-        </Procedure>
-        <Procedure id="_1l9q" name="selected_mask">
-          <variable name="mask"/>
-          <comment>@teststep Check statistics dialog selected mask</comment>
-          <CheckStringStep client="$(client)"
-                           component="Dialog.StatisticsToolView.Control.text"
-                           id="_1l9u">
-            <text>$(mask)</text>
-          </CheckStringStep>
-        </Procedure>
-        <Procedure id="_1lBx" name="checkSelect_all_selected">
-          <CheckBooleanStep checktype="checked" client="$(client)"
-                            component="Dialog.checkSelect_all" id="_1lBy"
-                            resvarname="checkSelect_all_selected"/>
-        </Procedure>
-        <Procedure id="_1lA7" name="checkSelect_all_selected_status">
-          <variable name="select_all"/>
-          <comment>@teststep Check statistics dialog 'Select All' selection</comment>
-          <CheckBooleanStep checktype="checked" client="$(client)"
-                            component="Dialog.checkSelect_all" id="_1lAK"
-                            state="$(select_all)"/>
-        </Procedure>
-        <Procedure id="_1lCL" name="checkSelect_none_selected">
-          <CheckBooleanStep checktype="checked" client="$(client)"
-                            component="Dialog.checkSelect_none" id="_1lCM"
-                            resvarname="checkSelect_none_selected"/>
-        </Procedure>
-        <Procedure id="_1lBz" name="checkSelect_none_selected_status">
-          <variable name="select_none"/>
-          <comment>@teststep Check statistics dialog 'Select None' selection</comment>
-          <CheckBooleanStep checktype="checked" client="$(client)"
-                            component="Dialog.checkSelect_none" id="_1lB+"
-                            state="$(select_none)"/>
-        </Procedure>
-        <Procedure id="_1lCN" name="useAutoAccuracy_selected">
-          <CheckBooleanStep checktype="checked" client="$(client)"
-                            component="Dialog.useAutoAccuracy" id="_1lCO"
-                            resvarname="useAutoAccuracy_selected"/>
-        </Procedure>
-        <Procedure id="_1lC3" name="useAutoAccuracy_selected_status">
-          <variable name="autoAccuracy"/>
-          <comment>@teststep Check statistics dialog 'Use Auto Accuracy' selection</comment>
-          <CheckBooleanStep checktype="checked" client="$(client)"
-                            component="Dialog.useAutoAccuracy" id="_1lC5"
-                            state="$(autoAccuracy)"/>
-        </Procedure>
-        <Procedure id="_1lC9" name="histogram_accuracy">
-          <variable name="val"/>
-          <comment>@teststep Check statistics dialog histogram accuracy</comment>
-          <CheckStringStep client="$(client)"
-                           component="Dialog.accuracy.textHistogram_accuracy:"
-                           id="_1lCC">
-            <text>$(val)</text>
-          </CheckStringStep>
-        </Procedure>
+      <Package id="_1pZc" name="analysis">
+        <Package id="_1pa6" name="histogram_dialog">
+          <Package id="_1pa7" name="enabled">
+            <Procedure id="_1pa8" name="use_ROI_mask">
+              <comment>@teststep Check 'Use ROI Mask(s)' checkbox in the Histogram dialog is enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="NbMainWindow.useRoiMask" id="_1pa9"
+                                resvarname="use_ROI_mask_enabled"/>
+            </Procedure>
+          </Package>
+          <Package id="_1paG" name="checked">
+            <Procedure id="_1paH" name="use_ROI_mask">
+              <comment>@teststep Check 'Use ROI Mask(s)' checkbox in the Histogram dialog is selected.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="NbMainWindow.useRoiMask" id="_1paI"
+                                resvarname="use_ROI_mask"/>
+            </Procedure>
+            <Procedure id="_1paJ" name="use_ROI_mask_selected_status">
+              <variable name="selected"/>
+              <comment>@teststep Check Histogram dialog ROI Mask selection</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="NbMainWindow.useRoiMask" id="_1paK"
+                                state="$(selected)"/>
+            </Procedure>
+          </Package>
+          <Package id="_1peg" name="text"/>
+        </Package>
+        <Package id="_1l8t" name="statistics_dialog">
+          <Package id="_1pZh" name="enabled">
+            <Procedure id="_1pZi" name="use_ROI_mask">
+              <comment>@teststep Check 'Use ROI Mask(s)' checkbox in the Statistics dialog is enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="NbMainWindow.checkUse_ROI_mask(s):2"
+                                id="_1pZj" resvarname="use_ROI_mask_enabled"/>
+            </Procedure>
+            <Procedure id="_1pZm" name="select_all">
+              <comment>@teststep Check 'Select all' checkbox in the Statistics dialog is selected.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="NbMainWindow.checkSelect_all2"
+                                id="_1pZn" resvarname="select_all_enabled"/>
+            </Procedure>
+            <Procedure id="_1pZq" name="select_none">
+              <comment>@teststep Check 'Select none' checkbox in the Statistics dialog is selected.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="NbMainWindow.checkSelect_none2"
+                                id="_1pZr" resvarname="select_none_enabled"/>
+            </Procedure>
+            <Procedure id="_1pZu" name="auto_accuracy">
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="NbMainWindow.useAutoAccuracy"
+                                id="_1pZv"
+                                resvarname="auto_accuracy_enabled"/>
+            </Procedure>
+          </Package>
+          <Package id="_1pZg" name="checked">
+            <Procedure id="_1lBv" name="use_ROI_mask">
+              <comment>@teststep Check 'Use ROI Mask(s)' checkbox in the Statistics dialog is selected.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="NbMainWindow.checkUse_ROI_mask(s):2"
+                                id="_1pYr" resvarname="use_ROI_mask"/>
+            </Procedure>
+            <Procedure id="_1l9X" name="use_ROI_mask_selected_status">
+              <variable name="selected"/>
+              <comment>@teststep Check statistics dialog ROI Mask selection</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="NbMainWindow.checkUse_ROI_mask(s):2"
+                                id="_1l9a" state="$(selected)"/>
+            </Procedure>
+            <Procedure id="_1lBx" name="select_all">
+              <comment>@teststep Check 'Select all' checkbox in the Statistics dialog is selected.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="NbMainWindow.checkSelect_all2"
+                                id="_1pZB" resvarname="select_all"/>
+            </Procedure>
+            <Procedure id="_1lA7" name="select_all_selected_status">
+              <variable name="selected"/>
+              <comment>@teststep Check statistics dialog 'Select All' selection</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="NbMainWindow.checkSelect_all2"
+                                id="_1lAK" state="$(selected)"/>
+            </Procedure>
+            <Procedure id="_1lCL" name="select_none">
+              <comment>@teststep Check 'Select none' checkbox in the Statistics dialog is selected.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="NbMainWindow.checkSelect_none2"
+                                id="_1pZD" resvarname="select_none"/>
+            </Procedure>
+            <Procedure id="_1lBz" name="select_none_selected_status">
+              <variable name="selected"/>
+              <comment>@teststep Check statistics dialog 'Select None' selection</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="NbMainWindow.checkSelect_none2"
+                                id="_1lB+" state="$(selected)"/>
+            </Procedure>
+            <Procedure id="_1lCN" name="auto_accuracy">
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="NbMainWindow.useAutoAccuracy"
+                                id="_1pZF" resvarname="auto_accuracy"/>
+            </Procedure>
+            <Procedure id="_1lC3" name="auto_accuracy_selected_status">
+              <variable name="selected"/>
+              <comment>@teststep Check statistics dialog 'Auto Accuracy' selection</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="NbMainWindow.useAutoAccuracy"
+                                id="_1lC5" state="$(selected)"/>
+            </Procedure>
+          </Package>
+          <Procedure id="_1pZa" name="statistic_result">
+            <variable name="statistic_txt"/>
+            <CheckStringStep client="$(client)"
+                             component="NbMainWindow.label_statistic_txt"
+                             id="_1pZb">
+              <text>$(statistic_txt)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1lC9" name="histogram_accuracy">
+            <variable name="val"/>
+            <comment>@teststep Check statistics dialog histogram accuracy</comment>
+            <CheckStringStep client="$(client)"
+                             component="NbMainWindow.accuracy.textHistogram_accuracy:"
+                             id="_1lCC">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+        </Package>
+        <Package id="_1pab" name="profile_plot"/>
+        <Package id="_1pac" name="correlative_plot">
+          <Package id="_1peX" name="enabled">
+            <Procedure id="_1peY" name="use_ROI_mask">
+              <comment>@teststep Check 'Use ROI Mask(s)' checkbox in the 'Correlative Plot' dialog is enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="NbMainWindow.useRoiMask" id="_1peZ"
+                                resvarname="use_ROI_mask_enabled"/>
+            </Procedure>
+            <Procedure id="_1pfY" name="tolerance_range">
+              <comment>@teststep Check 'Tolerance range' TextField in the 'Correlative Plot' dialog is enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="NbMainWindow.acceptableDeviationInterval"
+                                id="_1pfa"
+                                resvarname="tolerance_range_enabled"/>
+            </Procedure>
+          </Package>
+          <Package id="_1pea" name="checked">
+            <Procedure id="_1peb" name="use_ROI_mask">
+              <comment>@teststep Check 'Use ROI Mask(s)' checkbox in the 'Correlative Plot' dialog is selected.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="NbMainWindow.useRoiMask" id="_1pec"
+                                resvarname="use_ROI_mask"/>
+            </Procedure>
+            <Procedure id="_1ped" name="use_ROI_mask_selected_status">
+              <variable name="selected"/>
+              <comment>@teststep Check 'Correlative Plot' dialog ROI Mask selection.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="NbMainWindow.useRoiMask" id="_1pee"
+                                state="$(selected)"/>
+            </Procedure>
+            <Procedure id="_1pe-" name="auto_min_max_x">
+              <comment>@teststep Check 'auto min/max' checkbox X-axis in the 'Correlative Plot' dialog is selected.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="NbMainWindow.autoMinMax" id="_1pf0"
+                                resvarname="auto_min_max_x"/>
+            </Procedure>
+            <Procedure id="_1pf2" name="auto_min_max_x_selected_status">
+              <variable name="selected"/>
+              <comment>@teststep Check 'Correlative Plot' dialog  'auto min/max' X-axis selection.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="NbMainWindow.autoMinMax" id="_1pf3"
+                                state="$(selected)"/>
+            </Procedure>
+            <Procedure id="_1pf7" name="x_axis_log_scaled">
+              <comment>@teststep Check 'x axis Log10 scaled' checkbox in the 'Correlative Plot' dialog is selected.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="NbMainWindow.xAxisLogScaled"
+                                id="_1pfP" resvarname="x_axis_log_scaled"/>
+            </Procedure>
+            <Procedure id="_1pf8" name="x_axis_log_scaled_selected_status">
+              <variable name="selected"/>
+              <comment>@teststep Check 'Correlative Plot' dialog 'x axis Log10 scaled' selection.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="NbMainWindow.xAxisLogScaled"
+                                id="_1pfS" state="$(selected)"/>
+            </Procedure>
+            <Procedure id="_1pf9" name="auto_min_max_y">
+              <comment>@teststep Check 'auto min/max' checkbox Y-axis in the 'Correlative Plot' dialog is selected.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="NbMainWindow.autoMinMax2"
+                                id="_1pfQ" resvarname="auto_min_max_y"/>
+            </Procedure>
+            <Procedure id="_1pfA" name="auto_min_max_y_selected_status">
+              <variable name="selected"/>
+              <comment>@teststep Check 'Correlative Plot' dialog  'auto min/max' Y-axis selection.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="NbMainWindow.autoMinMax2"
+                                id="_1pfR" state="$(selected)"/>
+            </Procedure>
+            <Procedure id="_1pfT" name="y_axis_log_scaled">
+              <comment>@teststep Check 'y axis Log10 scaled' checkbox in the 'Correlative Plot' dialog is selected.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="NbMainWindow.yAxisLogScaled"
+                                id="_1pfU" resvarname="y_axis_log_scaled"/>
+            </Procedure>
+            <Procedure id="_1pfV" name="y_axis_log_scaled_selected_status">
+              <variable name="selected"/>
+              <comment>@teststep Check 'Correlative Plot' dialog 'y axis Log10 scaled' selection.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="NbMainWindow.yAxisLogScaled"
+                                id="_1pfW" state="$(selected)"/>
+            </Procedure>
+            <Procedure id="_1pfB" name="show_tolerance_range">
+              <comment>@teststep Check 'Show tolerance range' checkbox in the 'Correlative Plot' dialog is selected.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="NbMainWindow.showAcceptableDeviation"
+                                id="_1pfc" resvarname="show_tolerance_range"/>
+            </Procedure>
+            <Procedure id="_1pfC" name="show_tolerance_range_selected_status">
+              <variable name="selected"/>
+              <comment>@teststep Check 'Correlative Plot' dialog ROI Mask selection.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="NbMainWindow.showAcceptableDeviation"
+                                id="_1pfe" state="$(selected)"/>
+            </Procedure>
+            <Procedure id="_1pfD" name="show_regression_line">
+              <comment>@teststep Check 'Show regression line' checkbox in the 'Correlative Plot' dialog is selected.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="NbMainWindow.showRegressionLine"
+                                id="_1pfd" resvarname="show_regression_line"/>
+            </Procedure>
+            <Procedure id="_1pfE" name="show_regression_line_selected_status">
+              <variable name="selected"/>
+              <comment>@teststep Check 'Correlative Plot' dialog 'Show regression line' selection.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="NbMainWindow.showRegressionLine"
+                                id="_1pff" state="$(selected)"/>
+            </Procedure>
+          </Package>
+          <Package id="_1pef" name="text">
+            <Procedure id="_1pel" name="point_data_source">
+              <variable name="val"/>
+              <comment>@teststep Check 'Point data source' in the 'Correlative Plot' dialog.</comment>
+              <CheckStringStep client="$(client)"
+                               component="NbMainWindow.pointDataSource"
+                               id="_1pem">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1pgG" name="data_field">
+              <variable name="val"/>
+              <comment>@teststep Check 'Data field' in the 'Correlative Plot' dialog.</comment>
+              <CheckStringStep client="$(client)"
+                               component="NbMainWindow.dataField" id="_1pgH">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1pgz" name="box_size">
+              <variable name="val"/>
+              <comment>@teststep Check 'Box size' in the 'Correlative Plot' dialog.</comment>
+              <CheckStringStep client="$(client)"
+                               component="NbMainWindow.boxSize.textBox_size:"
+                               id="_1pg-">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1pep" name="x_axis_min">
+              <variable name="val"/>
+              <comment>@teststep Check X-Axis min in the 'Correlative Plot' dialog.</comment>
+              <CheckStringStep client="$(client)" component="NbMainWindow.min"
+                               id="_1per">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1pet" name="x_axis_max">
+              <variable name="val"/>
+              <comment>@teststep Check X-Axis max in the 'Correlative Plot' dialog.</comment>
+              <CheckStringStep client="$(client)" component="NbMainWindow.max"
+                               id="_1pew">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1pfJ" name="y_axis_min">
+              <variable name="val"/>
+              <comment>@teststep Check Y-Axis min in the 'Correlative Plot' dialog.</comment>
+              <CheckStringStep client="$(client)"
+                               component="NbMainWindow.min2" id="_1pfK">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1pfM" name="y_axis_max">
+              <variable name="val"/>
+              <comment>@teststep Check Y-Axis max in the 'Correlative Plot' dialog.</comment>
+              <CheckStringStep client="$(client)"
+                               component="NbMainWindow.max2" id="_1pfO">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1peh" name="tolerance_range">
+              <variable name="val"/>
+              <comment>@teststep Check 'Tolerance range' in the 'Correlative Plot' dialog.</comment>
+              <CheckStringStep client="$(client)"
+                               component="NbMainWindow.acceptableDeviationInterval"
+                               id="_1pfX">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+          </Package>
+        </Package>
+        <Package id="_1pe0" name="scatter_plot">
+          <Package id="_1ps6" name="enabled">
+            <Procedure id="_1puT" name="refresh_button">
+              <comment>@teststep Check 'Refresh' button in the 'Scatter Plot' dialog is enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="NbMainWindow.refreshButton"
+                                id="_1puU"
+                                resvarname="refresh_button_enabled"/>
+            </Procedure>
+            <Procedure id="_1ps7" name="use_ROI_mask">
+              <comment>@teststep Check 'Use ROI Mask(s)' checkbox in the 'Scatter Plot' dialog is enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="NbMainWindow.useRoiMask" id="_1ps8"
+                                resvarname="use_ROI_mask_enabled"/>
+            </Procedure>
+            <Procedure id="_1ptw" name="x_min">
+              <comment>@teststep Check X-Axis 'Min' textfield in the 'Scatter Plot' dialog is enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="NbMainWindow.min" id="_1piG"
+                                resvarname="x_min_enabled"/>
+              <IfSequence id="_1pty" test="${qftest:windows}">
+                <ElseifSequence id="_1ptz" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+                <ElseSequence id="_1pt+"/>
+              </IfSequence>
+            </Procedure>
+            <Procedure id="_1pu9" name="x_max">
+              <comment>@teststep Check X-Axis 'Max' textfield in the 'Scatter Plot' dialog is enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="NbMainWindow.max" id="_1piH"
+                                resvarname="x_max_enabled"/>
+              <IfSequence id="_1puB" test="${qftest:windows}">
+                <ElseifSequence id="_1puC" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+                <ElseSequence id="_1puD"/>
+              </IfSequence>
+            </Procedure>
+            <Procedure id="_1puE" name="y_min">
+              <comment>@teststep Check Y-Axis 'Min' textfield in the 'Scatter Plot' dialog is enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="NbMainWindow.min2" id="_1piI"
+                                resvarname="y_min_enabled"/>
+              <IfSequence id="_1puG" test="${qftest:windows}">
+                <ElseifSequence id="_1puH" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+                <ElseSequence id="_1puI"/>
+              </IfSequence>
+            </Procedure>
+            <Procedure id="_1puJ" name="y_max">
+              <comment>@teststep Check Y-Axis 'Max' textfield in the 'Scatter Plot' dialog is enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="NbMainWindow.max2" id="_1piJ"
+                                resvarname="y_mx_enabled"/>
+              <IfSequence id="_1puL" test="${qftest:windows}">
+                <ElseifSequence id="_1puM" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+                <ElseSequence id="_1puN"/>
+              </IfSequence>
+            </Procedure>
+            <Procedure id="_1pu4" name="invert_plot_colors">
+              <comment>@teststep Check 'Invert plot colors' checkbox in the 'Scatter Plot' dialog is enabled.</comment>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="NbMainWindow.checkInvert_plot_colors2"
+                                id="_1puV"
+                                resvarname="invert_plot_colors_enabled"/>
+              <IfSequence id="_1pu6" test="${qftest:windows}">
+                <ElseifSequence id="_1pu7" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+                <ElseSequence id="_1pu8"/>
+              </IfSequence>
+            </Procedure>
+          </Package>
+          <Package id="_1psB" name="checked">
+            <Procedure id="_1psC" name="use_ROI_mask">
+              <comment>@teststep Check 'Use ROI Mask(s)' checkbox in the 'Scatter Plot' dialog is selected.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="NbMainWindow.useRoiMask" id="_1psD"
+                                resvarname="use_ROI_mask"/>
+            </Procedure>
+            <Procedure id="_1psE" name="use_ROI_mask_selected_status">
+              <variable name="selected"/>
+              <comment>@teststep Check 'Scatter Plot' dialog ROI Mask selection.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="NbMainWindow.useRoiMask" id="_1psF"
+                                state="$(selected)"/>
+            </Procedure>
+            <Procedure id="_1psG" name="auto_min_max_x">
+              <comment>@teststep Check 'auto min/max' checkbox X-axis in the 'Scatter Plot' dialog is selected.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="NbMainWindow.autoMinMax" id="_1psH"
+                                resvarname="auto_min_max_x"/>
+            </Procedure>
+            <Procedure id="_1psI" name="auto_min_max_x_selected_status">
+              <variable name="selected"/>
+              <comment>@teststep Check 'Scatter Plot' dialog  'auto min/max' X-axis selection.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="NbMainWindow.autoMinMax" id="_1psJ"
+                                state="$(selected)"/>
+            </Procedure>
+            <Procedure id="_1psO" name="auto_min_max_y">
+              <comment>@teststep Check 'auto min/max' checkbox Y-axis in the 'Scatter Plot' dialog is selected.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="NbMainWindow.autoMinMax2"
+                                id="_1psP" resvarname="auto_min_max_y"/>
+            </Procedure>
+            <Procedure id="_1psQ" name="auto_min_max_y_selected_status">
+              <variable name="selected"/>
+              <comment>@teststep Check 'Scatter Plot' dialog  'auto min/max' Y-axis selection.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="NbMainWindow.autoMinMax2"
+                                id="_1psR" state="$(selected)"/>
+            </Procedure>
+            <Procedure id="_1puW" name="invert_plot_colors">
+              <comment>@teststep Check 'Invert plot colors' checkbox in the 'Scatter Plot' dialog is selected.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="NbMainWindow.checkInvert_plot_colors2"
+                                id="_1puX" resvarname="invert_plot_colors"/>
+              <IfSequence id="_1puY" test="${qftest:windows}">
+                <ElseifSequence id="_1puZ" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+                <ElseSequence id="_1pua"/>
+              </IfSequence>
+            </Procedure>
+            <Procedure id="_1pub" name="invert_plot_colors_selected_status">
+              <comment>@teststep Check 'Scatter Plot' dialog  'Invert plot colors' selection.</comment>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="NbMainWindow.checkInvert_plot_colors2"
+                                id="_1puc" state="$(selected)"/>
+              <IfSequence id="_1pud" test="${qftest:windows}">
+                <ElseifSequence id="_1pue" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+                <ElseSequence id="_1puf"/>
+              </IfSequence>
+            </Procedure>
+          </Package>
+          <Package id="_1pse" name="text">
+            <Procedure id="_1psl" name="x_axis_min">
+              <variable name="val"/>
+              <comment>@teststep Check X-Axis min in the 'Scatter Plot' dialog.</comment>
+              <CheckStringStep client="$(client)" component="NbMainWindow.min"
+                               id="_1psm">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1psn" name="x_axis_max">
+              <variable name="val"/>
+              <comment>@teststep Check X-Axis max in the 'Scatter Plot' dialog.</comment>
+              <CheckStringStep client="$(client)" component="NbMainWindow.min"
+                               id="_1pso">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1psp" name="y_axis_min">
+              <variable name="val"/>
+              <comment>@teststep Check Y-Axis min in the 'Scatter Plot' dialog.</comment>
+              <CheckStringStep client="$(client)"
+                               component="NbMainWindow.min2" id="_1psq">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1psr" name="y_axis_max">
+              <variable name="val"/>
+              <comment>@teststep Check Y-Axis max in the 'Scatter Plot' dialog.</comment>
+              <CheckStringStep client="$(client)"
+                               component="NbMainWindow.max2" id="_1pss">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1pwn" name="selected_roi_mask">
+              <variable name="val"/>
+              <comment>@teststep Check selected ROI mask in the 'Scatter Plot' dialog.</comment>
+              <CheckStringStep client="$(client)"
+                               component="NbMainWindow.roiMask" id="_1pwo">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1pwv" name="selected_x_product">
+              <variable name="val"/>
+              <comment>@teststep Check selected X Product in the 'Scatter Plot' dialog.</comment>
+              <CheckStringStep client="$(client)"
+                               component="NbMainWindow.xProduct" id="_1pww">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1pw-" name="selected_y_product">
+              <variable name="val"/>
+              <comment>@teststep Check selected Y Product in the 'Scatter Plot' dialog.</comment>
+              <CheckStringStep client="$(client)"
+                               component="NbMainWindow.yProduct" id="_1px0">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1px1" name="selected_x_band">
+              <variable name="val"/>
+              <comment>@teststep Check selected X band in the 'Scatter Plot' dialog.</comment>
+              <CheckStringStep client="$(client)"
+                               component="NbMainWindow.xBand" id="_1px2">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+            <Procedure id="_1px3" name="selected_y_band">
+              <variable name="val"/>
+              <comment>@teststep Check selected Y band in the 'Scatter Plot' dialog.</comment>
+              <CheckStringStep client="$(client)"
+                               component="NbMainWindow.yBand" id="_1px4">
+                <text>$(val)</text>
+              </CheckStringStep>
+            </Procedure>
+          </Package>
+        </Package>
+      </Package>
+      <Package id="_1pkJ" name="import_CSV_data_dialog">
+        <Package id="_1pkj" name="enabled">
+          <Procedure id="_1pkk" name="button_projection_parameters">
+            <comment>@teststep Check 'Projection_Parameters..' button in the 'Import CSV Data' dialog is enabled.</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogImport_CSV_Data.buttonProjection_Parameters..."
+                              id="_1pkl"
+                              resvarname="button_projection_parameters_enabled"/>
+          </Procedure>
+        </Package>
+        <Package id="_1pkm" name="checked">
+          <Procedure id="_1pks" name="radio_use_target_CRS">
+            <comment>@teststep Check 'Use target CRS' radiobutton in the 'Import CSV Data' dialog is selected.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogImport_CSV_Data.radioUse_target_CRS"
+                              id="_1pkt" resvarname="radio_use_target_CRS"/>
+          </Procedure>
+          <Procedure id="_1pkx" name="radio_custom_CRS">
+            <comment>@teststep Check 'Custom CRS' radiobutton in the 'Import CSV Data' dialog is selected.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogImport_CSV_Data.radioCustom_CRS"
+                              id="_1pkz" resvarname="radio_custom_CRS"/>
+          </Procedure>
+          <Procedure id="_1pl0" name="radio_predefined_CRS">
+            <comment>@teststep Check 'Use Predefined CRS' radiobutton in the 'Import CSV Data' dialog is selected.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogImport_CSV_Data.radioPredefined_CRS"
+                              id="_1pl4" resvarname="radio_predefined_CRS"/>
+          </Procedure>
+        </Package>
+        <Package id="_1pkr" name="text">
+          <Procedure id="_1pl5" name="datum">
+            <variable name="val"/>
+            <comment>@teststep Check 'Datum' in the 'Import CSV Data' dialog.</comment>
+            <CheckStringStep checktype="value" client="$(client)"
+                             component="dialogImport_CSV_Data.datum"
+                             id="_1pl6">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1plQ" name="projection">
+            <variable name="val"/>
+            <comment>@teststep Check 'Projection' in the 'Import CSV Data' dialog.</comment>
+            <CheckStringStep checktype="value" client="$(client)"
+                             component="dialogImport_CSV_Data.operationWrapper"
+                             id="_1plS">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+        </Package>
+      </Package>
+      <Package id="_1pnQ" name="point_data_interpretation_dialog">
+        <Package id="_1pos" name="checked">
+          <Procedure id="_1poc"
+                     name="radiobutton_interpret_each_point_as_track_point">
+            <comment>@teststep Check 'Interpret each point as track point' radiobutton in the 'Point Data Interpretation' dialog is selected.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogPoint_Data_Interpretation.radioInterpret_each_point_as_track_point"
+                              id="_1pkw"
+                              resvarname="radiobutton_interpret_each_point_as_track_point"/>
+          </Procedure>
+          <Procedure id="_1poj"
+                     name="radiobutton_iterpret_each_point_as_vertex_of_a_single_line_or_polygon">
+            <comment>@teststep Check 'Iterpret each point as vertex of a single line or polygon' radiobutton in the 'Point Data Interpretation' dialog is selected.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogPoint_Data_Interpretation.radioInterpret_each_point_as_vertex_of_a_single_line_or_polygon_(This_will_remove_all_attributes_from_points)"
+                              id="_1pkv"
+                              resvarname="radiobutton_iterpret_each_point_as_vertex_of_a_single_line_or_polygon"/>
+          </Procedure>
+          <Procedure id="_1poq"
+                     name="radiobutton_leave_imported_data_unchanged">
+            <comment>@teststep Check 'Leave imported data unchanged' radiobutton in the 'Point Data Interpretation' dialog is selected.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogPoint_Data_Interpretation.radioLeave_imported_data_unchanged"
+                              id="_1pku"
+                              resvarname="radiobutton_leave_imported_data_unchanged"/>
+          </Procedure>
+        </Package>
       </Package>
       <Package disabled="true" id="_7" name="uncertainty_visualisation">
         <Package id="_1l7r" name="text">

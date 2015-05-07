@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.4">
+  <include>qfs.qft</include>
+  <include>../../lib/snap_main.qft</include>
+  <TestSet id="_1" name="correlative_plot_envisat"
+           reportname="Correlative plot ENVISAT MERIS,AATSR">
+    <DependencyReference id="_1lWz"
+                         reference="dependencies.start_application"/>
+    <TestSet id="_79G" name="compute_correlative_plot"
+             reportname="Compute correlative plot">
+      <DataDriver id="_3y4"
+                  loopreportname="Open image view of $(dataInDir)/$(fileName) data product"
+                  name="dataTable">
+        <ProcedureCall id="_Bt4" procedure="tables.envisat_multispectral"/>
+      </DataDriver>
+      <TestCase condition="&#34;$(csv_file)&#34;&lt;&gt;&#34;&#34;" id="_9X-"
+                name="compute" reportname="Compute">
+        <ProcedureCall id="_C" procedure="import.raster_data">
+          <variable name="import_data">envisat</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1l5K"
+                       procedure="test_events.analysis.open_band_compute_correlative_plot_close_all"/>
+      </TestCase>
+    </TestSet>
+  </TestSet>
+  <PackageRoot id="_3"/>
+  <ExtraSequence id="_4">
+    <Package id="_1pbU" name="correlative_plot">
+      <Package id="_1pgG" name="enabled">
+        <Procedure id="_1pgH" name="use_ROI_mask">
+          <comment>@teststep Check 'Use ROI Mask(s)' checkbox in the 'Correlative Plot' dialog is enabled.</comment>
+          <CheckBooleanStep checktype="enabled" client="$(client)"
+                            component="NbMainWindow.useRoiMask" id="_1pgI"
+                            resvarname="use_ROI_mask_enabled"/>
+        </Procedure>
+        <Procedure id="_1pgJ" name="tolerance_range">
+          <variable name="val"/>
+          <comment>@teststep Check 'Tolerance range' TextField in the 'Correlative Plot' dialog is enabled.</comment>
+          <CheckBooleanStep checktype="enabled" client="$(client)"
+                            component="NbMainWindow.acceptableDeviationInterval"
+                            id="_1pgK" resvarname="tolerance_range_enabled"/>
+        </Procedure>
+      </Package>
+      <Package id="_1pgL" name="checked">
+        <Procedure id="_1pgM" name="use_ROI_mask">
+          <comment>@teststep Check 'Use ROI Mask(s)' checkbox in the 'Correlative Plot' dialog is selected.</comment>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="NbMainWindow.useRoiMask" id="_1pgN"
+                            resvarname="use_ROI_mask"/>
+        </Procedure>
+        <Procedure id="_1pgO" name="use_ROI_mask_selected_status">
+          <variable name="selected"/>
+          <comment>@teststep Check 'Correlative Plot' dialog ROI Mask selection.</comment>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="NbMainWindow.useRoiMask" id="_1pgP"
+                            state="$(selected)"/>
+        </Procedure>
+        <Procedure id="_1pgQ" name="auto_min_max_x">
+          <comment>@teststep Check 'auto min/max' checkbox X-axis in the 'Correlative Plot' dialog is selected.</comment>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="NbMainWindow.autoMinMax" id="_1pgR"
+                            resvarname="auto_min_max_x"/>
+        </Procedure>
+        <Procedure id="_1pgS" name="auto_min_max_x_selected_status">
+          <variable name="selected"/>
+          <comment>@teststep Check 'Correlative Plot' dialog  'auto min/max' X-axis selection.</comment>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="NbMainWindow.autoMinMax" id="_1pgT"
+                            state="$(selected)"/>
+        </Procedure>
+        <Procedure id="_1pgU" name="x_axis_log_scaled">
+          <comment>@teststep Check 'x axis Log10 scaled' checkbox in the 'Correlative Plot' dialog is selected.</comment>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="NbMainWindow.xAxisLogScaled" id="_1pgV"
+                            resvarname="x_axis_log_scaled"/>
+        </Procedure>
+        <Procedure id="_1pgW" name="x_axis_log_scaled_selected_status">
+          <variable name="selected"/>
+          <comment>@teststep Check 'Correlative Plot' dialog 'x axis Log10 scaled' selection.</comment>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="NbMainWindow.xAxisLogScaled" id="_1pgX"
+                            state="$(selected)"/>
+        </Procedure>
+        <Procedure id="_1pgY" name="auto_min_max_y">
+          <comment>@teststep Check 'auto min/max' checkbox Y-axis in the 'Correlative Plot' dialog is selected.</comment>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="NbMainWindow.autoMinMax2" id="_1pgZ"
+                            resvarname="auto_min_max_y"/>
+        </Procedure>
+        <Procedure id="_1pga" name="auto_min_max_x_selected_status">
+          <variable name="selected"/>
+          <comment>@teststep Check 'Correlative Plot' dialog  'auto min/max' Y-axis selection.</comment>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="NbMainWindow.autoMinMax2" id="_1pgb"
+                            state="$(selected)"/>
+        </Procedure>
+        <Procedure id="_1pgc" name="y_axis_log_scaled">
+          <comment>@teststep Check 'y axis Log10 scaled' checkbox in the 'Correlative Plot' dialog is selected.</comment>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="NbMainWindow.yAxisLogScaled" id="_1pgd"
+                            resvarname="y_axis_log_scaled"/>
+        </Procedure>
+        <Procedure id="_1pge" name="y_axis_log_scaled_selected_status">
+          <variable name="selected"/>
+          <comment>@teststep Check 'Correlative Plot' dialog 'y axis Log10 scaled' selection.</comment>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="NbMainWindow.yAxisLogScaled" id="_1pgf"
+                            state="$(selected)"/>
+        </Procedure>
+        <Procedure id="_1pgg" name="show_tolerance_range">
+          <comment>@teststep Check 'Show tolerance range' checkbox in the 'Correlative Plot' dialog is selected.</comment>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="NbMainWindow.showAcceptableDeviation"
+                            id="_1pgh" resvarname="show_tolerance_range"/>
+        </Procedure>
+        <Procedure id="_1pgi" name="show_tolerance_range_selected_status">
+          <variable name="selected"/>
+          <comment>@teststep Check 'Correlative Plot' dialog ROI Mask selection.</comment>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="NbMainWindow.showAcceptableDeviation"
+                            id="_1pgj" state="$(selected)"/>
+        </Procedure>
+        <Procedure id="_1pgk" name="show_regression_line">
+          <comment>@teststep Check 'Show regression line' checkbox in the 'Correlative Plot' dialog is selected.</comment>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="NbMainWindow.showRegressionLine"
+                            id="_1pgl" resvarname="show_regression_line"/>
+        </Procedure>
+        <Procedure id="_1pgm" name="show_regression_line_selected_status">
+          <variable name="selected"/>
+          <comment>@teststep Check 'Correlative Plot' dialog 'Show regression line' selection.</comment>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="NbMainWindow.showRegressionLine"
+                            id="_1pgn" state="$(selected)"/>
+        </Procedure>
+      </Package>
+      <Package id="_1pgo" name="text">
+        <Procedure id="_1pgp" name="point_data_source">
+          <variable name="val"/>
+          <comment>@teststep Check 'Point data source' in the 'Correlative Plot' dialog.</comment>
+          <CheckStringStep client="$(client)"
+                           component="NbMainWindow.Content_displayer.buttonPoint_data_source:"
+                           id="_1pgq">
+            <text>$(val)</text>
+          </CheckStringStep>
+        </Procedure>
+      </Package>
+      <Procedure id="_1pgr" name="s">
+        <BasicSequence id="_1pgs" name="corr_plot">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.boxSize.textBox_size:"
+                          event="MOUSE_PRESSED" id="_1pgt" modifiers="16"
+                          x="27" y="8"/>
+          <MouseEventStep clicks="0" client="$(client)"
+                          component="NbMainWindow.boxSize.textBox_size:"
+                          event="MOUSE_DRAGGED" id="_1pgu" modifiers="16"
+                          x="62" y="6"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.boxSize.textBox_size:"
+                          event="MOUSE_RELEASED" id="_1pgv" modifiers="16"
+                          x="62" y="6"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.boxSize.buttonBox_size:"
+                          event="MOUSE_MPRC" id="_1pgw" modifiers="16"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.boxSize.buttonBox_size:2"
+                          event="MOUSE_MPRC" id="_1pgx" modifiers="16"/>
+          <CheckStringStep client="$(client)"
+                           component="NbMainWindow.acceptableDeviationInterval"
+                           id="_1pgy">
+            <text>15.0</text>
+          </CheckStringStep>
+        </BasicSequence>
+      </Procedure>
+    </Package>
+  </ExtraSequence>
+  <WindowList id="_5"/>
+</RootStep>

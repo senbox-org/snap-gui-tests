@@ -123,11 +123,11 @@
                        procedure="check.mosaicing.checked.map_definition.orthorectify_selected_status">
           <variable name="selected">false</variable>
         </ProcedureCall>
-        <ProcedureCall id="_1phB"
+        <ProcedureCall disabled="true" id="_1phB"
                        procedure="set.default_parameters.elevation_model"/>
-        <ProcedureCall id="_1phC"
+        <ProcedureCall disabled="true" id="_1phC"
                        procedure="check.mosaicing.text.map_definition.selected_elevation_model">
-          <variable name="val">$(elevation_model)</variable>
+          <variable name="val">$(getasse30)</variable>
         </ProcedureCall>
         <ProcedureCall id="_1phD"
                        procedure="check.mosaicing.text.map_definition.west">
@@ -894,40 +894,8 @@
                            procedure="click_ok_in_product_created_dialog"/>
           </TestStep>
           <TestStep id="_1pUq" name="check_target_product">
-            <ProcedureCall id="_1pVR"
-                           procedure="set.target_product_with_path"/>
-            <ProcedureCall id="_1pV0"
-                           procedure="check_external_file.file_exists_setGlobal">
-              <variable name="fileName">$(target_product)</variable>
-            </ProcedureCall>
-            <IfSequence id="_1pV1"
-                        test="&#34;$(fileExists)&#34;==&#34;True&#34;">
-              <ProcedureCall id="_1pVA" procedure="check.product.not_opened"/>
-              <IfSequence id="_1pVB"
-                          test="&#34;$(not_opened)&#34;==&#34;false&#34;">
-                <TestStep id="_1pUr" name="open_image_view">
-                  <SetGlobalStep id="_1pUs" varname="group_id1"/>
-                  <SetGlobalStep id="_1pV9" varname="bandName"/>
-                  <SetGlobalStep id="_1pUt" varname="view_Id1">
-                    <default>0</default>
-                  </SetGlobalStep>
-                  <ProcedureCall id="_1pUx"
-                                 procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
-                </TestStep>
-                <ElseSequence id="_1pVC">
-                  <ProcedureCall id="_1pVD" procedure="run-log.logError">
-                    <variable name="message">$(target_product) is not opened.</variable>
-                    <variable name="withScreenshots">false</variable>
-                  </ProcedureCall>
-                </ElseSequence>
-              </IfSequence>
-              <ElseSequence id="_1pV2">
-                <ProcedureCall id="_1pV3" procedure="run-log.logError">
-                  <variable name="message">$(target_product) is not written.</variable>
-                  <variable name="withScreenshots">false</variable>
-                </ProcedureCall>
-              </ElseSequence>
-            </IfSequence>
+            <ProcedureCall id="_1pwg"
+                           procedure="test_events.check_target_product"/>
           </TestStep>
         </TestCase>
       </TestSet>
@@ -2190,7 +2158,7 @@
                        procedure="do_click_menubar_undo">
           <variable name="node_name">$(band)</variable>
         </ProcedureCall>
-        <ProcedureCall id="_1o+z" procedure="get.get_index_of_node">
+        <ProcedureCall id="_1o+z" procedure="get.tree.get_index_of_node">
           <variable name="node">$(band)</variable>
           <variable name="nodeSeparator">@</variable>
           <variable name="linear">false</variable>
@@ -2217,7 +2185,7 @@
                        procedure="do_click_menubar_undo">
           <variable name="node_name">$(band)</variable>
         </ProcedureCall>
-        <ProcedureCall id="_1o-Q" procedure="get.get_index_of_node">
+        <ProcedureCall id="_1o-Q" procedure="get.tree.get_index_of_node">
           <variable name="node">$(band)</variable>
           <variable name="nodeSeparator">@</variable>
           <variable name="linear">false</variable>

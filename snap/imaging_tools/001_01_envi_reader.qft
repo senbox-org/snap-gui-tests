@@ -7,18 +7,20 @@
            reportname="01-01 Imaging tools ENVI Data Products (*.hdr,*.zip)">
     <DependencyReference id="_1lWj"
                          reference="dependencies.start_application"/>
-    <DataDriver id="_3y4"
-                loopreportname="Open image view of $(dataInDir)/$(fileName) data product"
-                name="dataTable">
-      <ProcedureCall id="_Bt4" procedure="tables.envi_reader"/>
-    </DataDriver>
-    <TestCase id="_2" name="test" reportname="$(productName)">
-      <ProcedureCall id="_1lXK" procedure="import_data.raster_data">
-        <variable name="import_data">envi</variable>
-      </ProcedureCall>
-      <ProcedureCall id="_1lXM"
-                     procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
-    </TestCase>
+    <TestSet id="_D" name="open_product_open_image_view">
+      <DataDriver id="_3y4"
+                  loopreportname="Open image view of $(dataInDir)/$(fileName) data product"
+                  name="dataTable">
+        <ProcedureCall id="_Bt4" procedure="tables.envi_reader"/>
+      </DataDriver>
+      <TestCase id="_2" name="test" reportname="$(productName)">
+        <ProcedureCall id="_1lXK" procedure="import.raster_data">
+          <variable name="import_data">envi</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1lXM"
+                       procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+      </TestCase>
+    </TestSet>
   </TestSet>
   <PackageRoot id="_3"/>
   <ExtraSequence id="_4"/>

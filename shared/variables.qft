@@ -9,11 +9,14 @@
   <PackageRoot id="_3">
     <Package id="_1pU3" name="daten_format">
       <Procedure id="_1pU1" name="beam_dimap">
+        <ProcedureCall id="_1q5k" procedure="daten_format.output_format">
+          <variable name="out_form">dimap</variable>
+        </ProcedureCall>
         <SetGlobalStep id="_1pU2" varname="beam_dimap">
-          <default>BEAM-DIMAP</default>
+          <default>${format:dimap}</default>
         </SetGlobalStep>
       </Procedure>
-      <Procedure id="_1owO" name="output_format_for_gpt">
+      <Procedure id="_1owO" name="output_format">
         <variable name="out_form"/>
         <IfSequence id="_1owP"
                     test="&#34;$(out_form)&#34;==&#34;netCDF_CF&#34; or &#34;$(out_form)&#34;==&#34;netCDF4_CF&#34;">
@@ -36,6 +39,9 @@
           <SetGlobalStep id="_1owW" varname="fr">
             <default>${format:$(out_form)_fr}</default>
           </SetGlobalStep>
+          <SetGlobalStep id="_1q5h" varname="output_format">
+            <default>${format:$(out_form)}</default>
+          </SetGlobalStep>
           <SetGlobalStep id="_1o+q" varname="supported_format">
             <default>true</default>
           </SetGlobalStep>
@@ -50,6 +56,9 @@
             <SetGlobalStep id="_1owb" varname="fr">
               <default>dim</default>
             </SetGlobalStep>
+            <SetGlobalStep id="_1q5i" varname="output_format">
+              <default>${format:dimap}</default>
+            </SetGlobalStep>
             <ProcedureCall id="_1o+o" procedure="qfs.run-log.logError">
               <variable name="message">$(out_form) format is not supported</variable>
               <variable name="withScreenshots">false</variable>
@@ -61,6 +70,9 @@
         </ServerScriptStep>
         <ServerScriptStep disabled="true" id="_1oxF" name="print">
           <code>print "fr = $(fr)"</code>
+        </ServerScriptStep>
+        <ServerScriptStep disabled="true" id="_1q5j" name="print">
+          <code>print "output_format = $(output_format)"</code>
         </ServerScriptStep>
       </Procedure>
     </Package>
@@ -200,7 +212,7 @@
           </ServerScriptStep>
           <CatchSequence exception="TestException" id="_1ory" maxerror="0">
             <ProcedureCall id="_1o+p" procedure="qfs.run-log.logError">
-              <variable name="message">It was no no property or resource called $(data_type)</variable>
+              <variable name="message">It was no property or resource called $(data_type)</variable>
               <variable name="withScreenshots">false</variable>
             </ProcedureCall>
           </CatchSequence>
@@ -419,6 +431,14 @@ rc.setGlobal("smos", var1[:3])
           <code>print "menu_item = $(menu_item)"</code>
         </ServerScriptStep>
       </Procedure>
+      <Procedure id="_1q5f" name="for_open_image_view">
+        <SetGlobalStep id="_1pUs" varname="group_id1"/>
+        <SetGlobalStep id="_1pV9" varname="bandName"/>
+        <SetGlobalStep id="_1pUt" varname="view_Id1">
+          <default>0</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1piv" varname="mask1"/>
+      </Procedure>
     </Package>
     <Package id="_1o+m" name="tables">
       <Procedure id="_1o+r" name="aquarius">
@@ -525,6 +545,11 @@ rc.setGlobal("smos", var1[:3])
       <Procedure id="_1oHb" name="seaDAS_L3">
         <ExcelDataBinder excelfile="tables/input_data/seaDAS_L3.xls"
                          id="_1oHc" name="seaDAS_L3" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1q5d" name="seaDAS_multispectral_binned">
+        <ExcelDataBinder excelfile="tables/input_data/seaDAS_binned.xls"
+                         id="_1q5e" name="seaDAS_multispectral_binned"
+                         sheetname="listing"/>
       </Procedure>
       <Procedure id="_1oGu" name="sentinel3">
         <ExcelDataBinder excelfile="tables/input_data/sentinel_3.xls"

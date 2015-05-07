@@ -92,9 +92,9 @@
                        procedure="close_processing_tool.reprojection"/>
       </Procedure>
       <Procedure id="_1pdL" name="preparation_io">
-        <variable name="prod_dir">$(dataInDir)</variable>
-        <variable name="prod_name">$(fileName)</variable>
-        <variable name="output_file">$(output_file)</variable>
+        <variable name="prod_dir"/>
+        <variable name="prod_name"/>
+        <variable name="output_file"/>
         <ProcedureCall id="_1phv" procedure="open.processing.reprojection"/>
         <ProcedureCall id="_1pgy" procedure="select_io_tab"/>
         <ProcedureCall id="_1pg-" procedure="open_source_product">
@@ -105,6 +105,13 @@
                        procedure="set.reprojection.target_directory">
           <variable name="dir">$(output_folder)</variable>
         </ProcedureCall>
+        <ProcedureCall id="_1pj0" procedure="select.reprojection.save_as"/>
+        <ProcedureCall id="_1pj1"
+                       procedure="select.reprojection.output_format">
+          <variable name="output_format">BEAM-DIMAP</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pj2"
+                       procedure="select.reprojection.open_in_snap"/>
         <ProcedureCall id="_1pbb"
                        procedure="set.reprojection.target_product_name">
           <variable name="target_product_name">$(output_file)</variable>
@@ -194,6 +201,10 @@
         <TryStep id="_1pgj">
           <ProcedureCall id="_1pgk"
                          procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
+          <ProcedureCall id="_1pjo" procedure="run-log.make_screensot">
+            <variable name="iw_name">error_dialog_SNAP_SNAP_Error</variable>
+            <variable name="iw_name_example">error_dialog</variable>
+          </ProcedureCall>
           <ProcedureCall id="_1pgl"
                          procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
           <ProcedureCall disabled="true" id="_1oJI"
@@ -204,7 +215,7 @@
           </ProcedureCall>
           <ProcedureCall id="_1pgo"
                          procedure="run-log.error_message.error_dialog_appears">
-            <variable name="dialog">Error</variable>
+            <variable name="dialog">dialog_SNAP_SNAP_Error</variable>
           </ProcedureCall>
           <CatchSequence exception="TestException" id="_1pgn" maxerror="0"/>
         </TryStep>

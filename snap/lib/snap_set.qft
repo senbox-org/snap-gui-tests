@@ -9,6 +9,110 @@
   <dependency>snap_workflow.qft</dependency>
   <PackageRoot id="_3">
     <Package id="_1lB5" name="set">
+      <Package id="_1pZc" name="analysis">
+        <Package id="_1pa6" name="histogram_dialog"/>
+        <Package id="_1l8t" name="statistics_dialog"/>
+        <Package id="_1pab" name="profile_plot"/>
+        <Package id="_1pac" name="correlative_plot">
+          <Procedure id="_1pgz" name="box_size">
+            <variable name="val"/>
+            <comment>@teststep Insert 'Box size' in the 'Correlative Plot' dialog.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="NbMainWindow.boxSize.textBox_size:"
+                           id="_1pg-">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1pep" name="x_axis_min">
+            <variable name="val"/>
+            <comment>@teststep Insert min x in the 'Correlative Plot' dialog.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="NbMainWindow.min" id="_1per">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1pet" name="x_axis_max">
+            <variable name="val"/>
+            <comment>@teststep Insert max x in the 'Correlative Plot' dialog.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="NbMainWindow.max" id="_1pew">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1pfJ" name="y_axis_min">
+            <variable name="val"/>
+            <comment>@teststep Insert min y in the 'Correlative Plot' dialog.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="NbMainWindow.min2" id="_1pfK">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1pfM" name="y_axis_max">
+            <variable name="val"/>
+            <comment>@teststep Insert max y in the 'Correlative Plot' dialog.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="NbMainWindow.max2" id="_1pfO">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1peh" name="tolerance_range">
+            <variable name="val"/>
+            <comment>@teststep Insert 'Tolerance range' in the 'Correlative Plot' dialog.</comment>
+            <ProcedureCall id="_1ph4"
+                           procedure="select.analysis.correlative_plot.show_tolerance_range"/>
+            <ProcedureCall id="_1ph2"
+                           procedure="check.analysis.correlative_plot.enabled.tolerance_range"/>
+            <IfSequence id="_1ph6"
+                        test="&#34;$(tolerance_range_enabled)&#34;==&#34;true&#34;">
+              <TextInputStep clear="true" client="$(client)"
+                             component="NbMainWindow.acceptableDeviationInterval"
+                             id="_1pfX">
+                <text>$(val)</text>
+              </TextInputStep>
+              <ElseSequence id="_1ph8">
+                <ProcedureCall id="_1ph9" procedure="run-log.logError">
+                  <variable name="message">'Tolerance range' is disabled</variable>
+                  <variable name="withScreenshots">true</variable>
+                </ProcedureCall>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+        </Package>
+        <Package id="_1pad" name="scatter_plot">
+          <Procedure id="_1px5" name="x_axis_min">
+            <variable name="val"/>
+            <comment>@teststep Insert min x in the 'Correlative Plot' dialog.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="NbMainWindow.min" id="_1px6">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1px7" name="x_axis_max">
+            <variable name="val"/>
+            <comment>@teststep Insert max x in the 'Correlative Plot' dialog.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="NbMainWindow.max" id="_1px8">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1px9" name="y_axis_min">
+            <variable name="val"/>
+            <comment>@teststep Insert min y in the 'Correlative Plot' dialog.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="NbMainWindow.min2" id="_1pxA">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1pxB" name="y_axis_max">
+            <variable name="val"/>
+            <comment>@teststep Insert max y in the 'Correlative Plot' dialog.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="NbMainWindow.max2" id="_1pxC">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+        </Package>
+      </Package>
       <Package disabled="true" id="_1lBQ" name="import_dialog">
         <Procedure id="_1lBO" name="file_name">
           <ProcedureCall id="_1orz"
@@ -87,7 +191,14 @@
           <Procedure id="_1oPC" name="bandName">
             <variable name="val"/>
             <comment>@teststep Insert band name.</comment>
-            <IfSequence id="_1pDh" test="${qftest:windows}">
+            <TextInputStep clear="true" client="$(client)"
+                           component="bandName" id="_1pEW">
+              <text>$(val)</text>
+            </TextInputStep>
+            <KeyEventStep client="$(client)" component="productName"
+                          disabled="true" event="KEY_PTR" id="_1pEX"
+                          keychar="10" keycode="10" modifiers="0"/>
+            <IfSequence disabled="true" id="_1pDh" test="${qftest:windows}">
               <TextInputStep clear="true" client="$(client)"
                              component="BandMathsDialog.bandName" id="_1pDz">
                 <text>$(val)</text>
@@ -120,7 +231,11 @@
           <Procedure id="_1oPK" name="bandDescription">
             <variable name="val"/>
             <comment>@teststep Insert band description.</comment>
-            <IfSequence id="_1pDw" test="${qftest:windows}">
+            <TextInputStep clear="true" client="$(client)"
+                           component="bandDescription" id="_1pEY">
+              <text>$(val)</text>
+            </TextInputStep>
+            <IfSequence disabled="true" id="_1pDw" test="${qftest:windows}">
               <TextInputStep clear="true" client="$(client)"
                              component="BandMathsDialog.bandDescription"
                              id="_1oPN">
@@ -144,7 +259,11 @@
           <Procedure id="_1oPS" name="bandUnit">
             <variable name="val"/>
             <comment>@teststep Insert band unit.</comment>
-            <IfSequence id="_1pDt" test="${qftest:windows}">
+            <TextInputStep clear="true" client="$(client)"
+                           component="bandUnit" id="_1pEZ">
+              <text>$(val)</text>
+            </TextInputStep>
+            <IfSequence disabled="true" id="_1pDt" test="${qftest:windows}">
               <TextInputStep clear="true" client="$(client)"
                              component="BandMathsDialog.bandUnit" id="_1oPW">
                 <text>$(val)</text>
@@ -167,7 +286,11 @@
           <Procedure id="_1oPa" name="bandWavelength">
             <variable name="val"/>
             <comment>@teststep Insert band wavelength</comment>
-            <IfSequence id="_1pDq" test="${qftest:windows}">
+            <TextInputStep clear="true" client="$(client)"
+                           component="bandWavelength" id="_1pEa">
+              <text>$(val)</text>
+            </TextInputStep>
+            <IfSequence disabled="true" id="_1pDq" test="${qftest:windows}">
               <TextInputStep clear="true" client="$(client)"
                              component="BandMathsDialog.bandWavelength"
                              id="_1oPf">
@@ -191,7 +314,11 @@
           <Procedure id="_1oOs" name="noDataValue">
             <variable name="val"/>
             <comment>@teststep Insert noData value</comment>
-            <IfSequence id="_1pDn" test="${qftest:windows}">
+            <TextInputStep clear="true" client="$(client)"
+                           component="noDataValue" id="_1pEb">
+              <text>$(val)</text>
+            </TextInputStep>
+            <IfSequence disabled="true" id="_1pDn" test="${qftest:windows}">
               <TextInputStep clear="true" client="$(client)"
                              component="BandMathsDialog.noDataValue"
                              id="_1oO-">
@@ -215,7 +342,11 @@
           <Procedure id="_1oPi" name="expression">
             <variable name="val"/>
             <comment>@teststep Insert expression.</comment>
-            <IfSequence id="_1pDk" test="${qftest:windows}">
+            <TextInputStep clear="true" client="$(client)"
+                           component="expression" id="_1pEc">
+              <text>$(val)</text>
+            </TextInputStep>
+            <IfSequence disabled="true" id="_1pDk" test="${qftest:windows}">
               <TextInputStep clear="true" client="$(client)"
                              component="BandMathsDialog.expression"
                              id="_1oPj">
@@ -391,7 +522,7 @@
         <code>print "data_subdirectory = $(data_subdirectory)"</code>
       </ServerScriptStep>
     </Procedure>
-    <ProcedureCall id="_1oMg" procedure="daten_format.output_format_for_gpt">
+    <ProcedureCall id="_1oMg" procedure="daten_format.output_format">
       <variable name="out_form">test</variable>
     </ProcedureCall>
     <ServerScriptStep id="_1oh2" name="print">

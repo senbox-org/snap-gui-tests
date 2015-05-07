@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.3">
+<RootStep id="_0" name="root" version="4.0.4">
   <include>qfs.qft</include>
   <include>snap_components.qft</include>
   <include>snap_main.qft</include>
@@ -9,261 +9,359 @@
   <dependency>snap_workflow.qft</dependency>
   <PackageRoot id="_3">
     <Package id="_1lB5" name="get">
-      <Procedure id="_1l37" name="bands_node_id">
-        <variable name="prod_id"/>
-        <SetGlobalStep id="_1oRe" varname="bands_group">
-          <default>true</default>
-        </SetGlobalStep>
-        <SetGlobalStep id="_1l39" varname="nd">
-          <default>0</default>
-        </SetGlobalStep>
-        <SetGlobalStep id="_1l3K" varname="nn0">
-          <default>Bands</default>
-        </SetGlobalStep>
-        <IfSequence id="_1oz0" test="${qftest:windows}">
+      <Package id="_1oaU" name="navigation">
+        <Procedure id="_1ocE" name="zoom_factor">
+          <comment>@teststep Get zoom factor.</comment>
+          <FetchTextStep client="$(client)"
+                         component="NbMainWindow.Content_displayer.text2"
+                         id="_1ocG" varname="zoom_factor"/>
+        </Procedure>
+      </Package>
+      <Package id="_1pjq" name="tree">
+        <Procedure id="_1l37" name="bands_node_id">
+          <variable name="prod_id"/>
+          <SetGlobalStep id="_1oRe" varname="bands_group">
+            <default>true</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1l39" varname="nd">
+            <default>0</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1l3K" varname="nn0">
+            <default>Bands</default>
+          </SetGlobalStep>
+          <IfSequence id="_1oz0" test="${qftest:windows}">
+            <FetchTextStep client="$(client)"
+                           component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(nd)"
+                           id="_1l3A" varname="nn"/>
+            <ElseifSequence id="_1oz1" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <FetchTextStep client="$(client)"
+                             component="Product_Explorer.tree&amp;/$(prod_id)/$(nd)"
+                             id="_1oz4" varname="nn"/>
+            </ElseifSequence>
+            <ElseSequence id="_1oz2">
+              <FetchTextStep client="$(client)"
+                             component="Product_Explorer.tree&amp;/$(prod_id)/$(nd)"
+                             id="_1oz3" varname="nn"/>
+            </ElseSequence>
+          </IfSequence>
+          <WhileSequence id="_1l3B"
+                         test="&#34;$(nn)&#34;&lt;&gt;&#34;$(nn0)&#34;">
+            <ServerScriptStep disabled="true" id="_1l3O" name="print">
+              <code>print "Node = $(nn)"  </code>
+            </ServerScriptStep>
+            <ServerScriptStep disabled="true" id="_1oaV" name="print">
+              <code>print "Node Index = $(nd)"  </code>
+            </ServerScriptStep>
+            <ServerScriptStep id="_1l3S" name="set_variable_increase_on_1">
+              <code>v = $(nd)+ 1   
+rc.setGlobal("nd", v)                       </code>
+            </ServerScriptStep>
+            <TryStep id="_1l3C">
+              <IfSequence id="_1oz5" test="${qftest:windows}">
+                <FetchTextStep client="$(client)"
+                               component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(nd)"
+                               id="_1ozB" varname="nn"/>
+                <ElseifSequence id="_1oz7" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <FetchTextStep client="$(client)"
+                                 component="Product_Explorer.tree&amp;/$(prod_id)/$(nd)"
+                                 id="_1l3U" varname="nn"/>
+                </ElseifSequence>
+                <ElseSequence id="_1oz9">
+                  <FetchTextStep client="$(client)"
+                                 component="Product_Explorer.tree&amp;/$(prod_id)/$(nd)"
+                                 id="_1ozC" varname="nn"/>
+                </ElseSequence>
+              </IfSequence>
+              <ServerScriptStep disabled="true" id="_1oaT" name="print">
+                <code>print "nn = $(nn)"  </code>
+              </ServerScriptStep>
+              <CatchSequence exception="TestException" id="_1l3H"
+                             maxerror="0">
+                <SetGlobalStep id="_1l3V" varname="nd">
+                  <default>0</default>
+                </SetGlobalStep>
+                <SetGlobalStep id="_1oRd" varname="bands_group">
+                  <default>false</default>
+                </SetGlobalStep>
+                <ServerScriptStep disabled="true" id="_1l3L" name="error">
+                  <code>rc.logError("'Bands' node can not be found.")</code>
+                </ServerScriptStep>
+                <BreakStep id="_1l3J"/>
+              </CatchSequence>
+            </TryStep>
+            <ServerScriptStep disabled="true" id="_1oaW" name="print">
+              <code>print "Node = $(nn)"  </code>
+            </ServerScriptStep>
+            <ServerScriptStep disabled="true" id="_1oaX" name="print">
+              <code>print "Node Index = $(nd)"  </code>
+            </ServerScriptStep>
+          </WhileSequence>
+          <SetGlobalStep id="_1l3N" varname="bands_node_id">
+            <default>$(nd)</default>
+          </SetGlobalStep>
+          <ServerScriptStep disabled="true" id="_1l3Q" name="print">
+            <code>print "bands_node_id = $(bands_node_id)"  </code>
+          </ServerScriptStep>
+          <ServerScriptStep disabled="true" id="_1oaY" name="print">
+            <code>print "bands_group = $(bands_group)"  </code>
+          </ServerScriptStep>
+        </Procedure>
+        <Procedure id="_1oyf" name="vector_data_node_id">
+          <variable name="prod_id"/>
+          <SetGlobalStep id="_1oyg" varname="vector_data">
+            <default>true</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1oyh" varname="nd">
+            <default>0</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1oyi" varname="nn0">
+            <default>Vector Data</default>
+          </SetGlobalStep>
           <FetchTextStep client="$(client)"
                          component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(nd)"
-                         id="_1l3A" varname="nn"/>
-          <ElseifSequence id="_1oz1" name="MAC?"
-                          test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-            <FetchTextStep client="$(client)"
-                           component="Product_Explorer.tree&amp;/$(prod_id)/$(nd)"
-                           id="_1oz4" varname="nn"/>
-          </ElseifSequence>
-          <ElseSequence id="_1oz2">
-            <FetchTextStep client="$(client)"
-                           component="Product_Explorer.tree&amp;/$(prod_id)/$(nd)"
-                           id="_1oz3" varname="nn"/>
-          </ElseSequence>
-        </IfSequence>
-        <WhileSequence id="_1l3B"
-                       test="&#34;$(nn)&#34;&lt;&gt;&#34;$(nn0)&#34;">
-          <ServerScriptStep disabled="true" id="_1l3O" name="print">
-            <code>print "Node = $(nn)"  </code>
-          </ServerScriptStep>
-          <ServerScriptStep disabled="true" id="_1oaV" name="print">
-            <code>print "Node Index = $(nd)"  </code>
-          </ServerScriptStep>
-          <ServerScriptStep id="_1l3S" name="set_variable_increase_on_1">
-            <code>v = $(nd)+ 1   
+                         id="_1oyj" varname="nn"/>
+          <WhileSequence id="_1oyk"
+                         test="&#34;$(nn)&#34;&lt;&gt;&#34;$(nn0)&#34;">
+            <ServerScriptStep disabled="true" id="_1oyl" name="print">
+              <code>print "Node = $(nn)"  </code>
+            </ServerScriptStep>
+            <ServerScriptStep disabled="true" id="_1oym" name="print">
+              <code>print "Node Index = $(nd)"  </code>
+            </ServerScriptStep>
+            <ServerScriptStep id="_1oyn" name="set_variable_increase_on_1">
+              <code>v = $(nd)+ 1   
 rc.setGlobal("nd", v)                       </code>
-          </ServerScriptStep>
-          <TryStep id="_1l3C">
-            <IfSequence id="_1oz5" test="${qftest:windows}">
+            </ServerScriptStep>
+            <TryStep id="_1oyo">
               <FetchTextStep client="$(client)"
                              component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(nd)"
-                             id="_1ozB" varname="nn"/>
-              <ElseifSequence id="_1oz7" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <FetchTextStep client="$(client)"
-                               component="Product_Explorer.tree&amp;/$(prod_id)/$(nd)"
-                               id="_1l3U" varname="nn"/>
-              </ElseifSequence>
-              <ElseSequence id="_1oz9">
-                <FetchTextStep client="$(client)"
-                               component="Product_Explorer.tree&amp;/$(prod_id)/$(nd)"
-                               id="_1ozC" varname="nn"/>
-              </ElseSequence>
-            </IfSequence>
-            <ServerScriptStep disabled="true" id="_1oaT" name="print">
-              <code>print "nn = $(nn)"  </code>
-            </ServerScriptStep>
-            <CatchSequence exception="TestException" id="_1l3H" maxerror="0">
-              <SetGlobalStep id="_1l3V" varname="nd">
-                <default>0</default>
-              </SetGlobalStep>
-              <SetGlobalStep id="_1oRd" varname="bands_group">
-                <default>false</default>
-              </SetGlobalStep>
-              <ServerScriptStep disabled="true" id="_1l3L" name="error">
-                <code>rc.logError("'Bands' node can not be found.")</code>
+                             id="_1oyp" varname="nn"/>
+              <ServerScriptStep disabled="true" id="_1oyq" name="print">
+                <code>print "nn = $(nn)"  </code>
               </ServerScriptStep>
-              <BreakStep id="_1l3J"/>
-            </CatchSequence>
-          </TryStep>
-          <ServerScriptStep disabled="true" id="_1oaW" name="print">
-            <code>print "Node = $(nn)"  </code>
-          </ServerScriptStep>
-          <ServerScriptStep disabled="true" id="_1oaX" name="print">
-            <code>print "Node Index = $(nd)"  </code>
-          </ServerScriptStep>
-        </WhileSequence>
-        <SetGlobalStep id="_1l3N" varname="bands_node_id">
-          <default>$(nd)</default>
-        </SetGlobalStep>
-        <ServerScriptStep disabled="true" id="_1l3Q" name="print">
-          <code>print "bands_node_id = $(bands_node_id)"  </code>
-        </ServerScriptStep>
-        <ServerScriptStep disabled="true" id="_1oaY" name="print">
-          <code>print "bands_group = $(bands_group)"  </code>
-        </ServerScriptStep>
-      </Procedure>
-      <Procedure id="_1oyf" name="vector_data_node_id">
-        <variable name="prod_id"/>
-        <SetGlobalStep id="_1oyg" varname="vector_data">
-          <default>true</default>
-        </SetGlobalStep>
-        <SetGlobalStep id="_1oyh" varname="nd">
-          <default>0</default>
-        </SetGlobalStep>
-        <SetGlobalStep id="_1oyi" varname="nn0">
-          <default>Vector Data</default>
-        </SetGlobalStep>
-        <FetchTextStep client="$(client)"
-                       component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(nd)"
-                       id="_1oyj" varname="nn"/>
-        <WhileSequence id="_1oyk"
-                       test="&#34;$(nn)&#34;&lt;&gt;&#34;$(nn0)&#34;">
-          <ServerScriptStep disabled="true" id="_1oyl" name="print">
-            <code>print "Node = $(nn)"  </code>
-          </ServerScriptStep>
-          <ServerScriptStep disabled="true" id="_1oym" name="print">
-            <code>print "Node Index = $(nd)"  </code>
-          </ServerScriptStep>
-          <ServerScriptStep id="_1oyn" name="set_variable_increase_on_1">
-            <code>v = $(nd)+ 1   
-rc.setGlobal("nd", v)                       </code>
-          </ServerScriptStep>
-          <TryStep id="_1oyo">
-            <FetchTextStep client="$(client)"
-                           component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(nd)"
-                           id="_1oyp" varname="nn"/>
-            <ServerScriptStep disabled="true" id="_1oyq" name="print">
-              <code>print "nn = $(nn)"  </code>
+              <CatchSequence exception="TestException" id="_1oyr"
+                             maxerror="0">
+                <SetGlobalStep id="_1oys" varname="nd">
+                  <default>0</default>
+                </SetGlobalStep>
+                <SetGlobalStep id="_1oy-" varname="vector_data">
+                  <default>false</default>
+                </SetGlobalStep>
+                <ServerScriptStep disabled="true" id="_1oyu" name="error">
+                  <code>rc.logError("'Bands' node can not be found.")</code>
+                </ServerScriptStep>
+                <BreakStep id="_1oyv"/>
+              </CatchSequence>
+            </TryStep>
+            <ServerScriptStep disabled="true" id="_1oyw" name="print">
+              <code>print "Node = $(nn)"  </code>
             </ServerScriptStep>
-            <CatchSequence exception="TestException" id="_1oyr" maxerror="0">
-              <SetGlobalStep id="_1oys" varname="nd">
-                <default>0</default>
-              </SetGlobalStep>
-              <SetGlobalStep id="_1oy-" varname="vector_data">
-                <default>false</default>
-              </SetGlobalStep>
-              <ServerScriptStep disabled="true" id="_1oyu" name="error">
-                <code>rc.logError("'Bands' node can not be found.")</code>
-              </ServerScriptStep>
-              <BreakStep id="_1oyv"/>
-            </CatchSequence>
-          </TryStep>
-          <ServerScriptStep disabled="true" id="_1oyw" name="print">
-            <code>print "Node = $(nn)"  </code>
-          </ServerScriptStep>
-          <ServerScriptStep disabled="true" id="_1oyx" name="print">
-            <code>print "Node Index = $(nd)"  </code>
-          </ServerScriptStep>
-        </WhileSequence>
-        <SetGlobalStep id="_1oyy" varname="vector_data_node_id">
-          <default>$(nd)</default>
-        </SetGlobalStep>
-        <ServerScriptStep disabled="true" id="_1oyz" name="print">
-          <code>print "bands_node_id = $(vector_data_node_id)"  </code>
-        </ServerScriptStep>
-        <ServerScriptStep disabled="true" id="_1oy+" name="print">
-          <code>print "vector_data = $(vector_data)"  </code>
-        </ServerScriptStep>
-      </Procedure>
-      <Procedure id="_1jvQ" name="get_index_of_node">
-        <variable name="node"/>
-        <variable name="nodeSeparator">@</variable>
-        <variable name="linear">false</variable>
-        <comment>Return the current index of a given node.</comment>
-        <ServerScriptStep disabled="true" id="_1oRb" name="print">
-          <code>print "node = $(node)"</code>
-        </ServerScriptStep>
-        <SetGlobalStep id="_1mKN" local="true" varname="id">
-          <default>NbMainWindow.Product_Explorer.tree</default>
-        </SetGlobalStep>
-        <ProcedureCall disabled="true" id="_1oRc" procedure="tree.expand">
-          <variable name="tree_id">$(id)&amp;/0</variable>
-        </ProcedureCall>
-        <TryStep id="_1l8Q" name="override option">
-          <ClientScriptStep client="$(client)"
-                            engine="${default:guiengine:awt}" id="_1l8U"
-                            name="set legacy option">
-            <code>rc.setOption("LegacyFetchIndex", rc.getBool("linear"))</code>
-          </ClientScriptStep>
-          <FetchIndexStep client="$(client)"
-                          component="$(id)$(nodeSeparator)$(node)" id="_1mKM"
-                          local="true" varname="index"/>
-          <SetGlobalStep id="_1oTf" varname="new_band_id">
-            <default>$(index)</default>
+            <ServerScriptStep disabled="true" id="_1oyx" name="print">
+              <code>print "Node Index = $(nd)"  </code>
+            </ServerScriptStep>
+          </WhileSequence>
+          <SetGlobalStep id="_1oyy" varname="vector_data_node_id">
+            <default>$(nd)</default>
           </SetGlobalStep>
-          <ServerScriptStep disabled="true" id="_1l5A" name="print">
-            <code>print "$(new_band_id)"</code>
+          <ServerScriptStep disabled="true" id="_1oyz" name="print">
+            <code>print "bands_node_id = $(vector_data_node_id)"  </code>
           </ServerScriptStep>
-          <ReturnStep id="_1jvS" retval="$(index)"/>
-          <CatchSequence exception="TestException" id="_1mKO" maxerror="0">
-            <SetGlobalStep id="_1oRZ" varname="ifn">
-              <default>bands_node_id_$(node)</default>
-            </SetGlobalStep>
-            <ServerScriptStep disabled="true" id="_1oRa" name="print">
-              <code>print "$(ifn)"</code>
-            </ServerScriptStep>
-            <ProcedureCall id="_1oRY" procedure="run-log.make_screensot">
-              <variable name="iw_name">$(ifn)</variable>
-              <variable name="iw_name_example">error_dialog</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1oRX"
-                           procedure="run-log.error_message.node_does_not_exist">
-              <variable name="node_name">$(node)</variable>
-            </ProcedureCall>
-          </CatchSequence>
-          <FinallySequence id="_1l8S" name="reset option">
+          <ServerScriptStep disabled="true" id="_1oy+" name="print">
+            <code>print "vector_data = $(vector_data)"  </code>
+          </ServerScriptStep>
+        </Procedure>
+        <Procedure id="_1jvQ" name="get_index_of_node">
+          <variable name="node"/>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+          <comment>Return the current index of a given node.</comment>
+          <ServerScriptStep disabled="true" id="_1oRb" name="print">
+            <code>print "node = $(node)"</code>
+          </ServerScriptStep>
+          <SetGlobalStep id="_1mKN" local="true" varname="id">
+            <default>NbMainWindow.Product_Explorer.tree</default>
+          </SetGlobalStep>
+          <ProcedureCall disabled="true" id="_1oRc" procedure="tree.expand">
+            <variable name="tree_id">$(id)&amp;/0</variable>
+          </ProcedureCall>
+          <TryStep id="_1l8Q" name="override option">
             <ClientScriptStep client="$(client)"
-                              engine="${default:guiengine:awt}" id="_1l8T"
-                              name="Unset legacy option">
-              <code>rc.unsetOption("LegacyFetchIndex")</code>
+                              engine="${default:guiengine:awt}" id="_1l8U"
+                              name="set legacy option">
+              <code>rc.setOption("LegacyFetchIndex", rc.getBool("linear"))</code>
             </ClientScriptStep>
-          </FinallySequence>
-        </TryStep>
-      </Procedure>
-      <Procedure id="_1jvR" name="metadata_node_id">
-        <variable name="prod_id"/>
-        <SetGlobalStep id="_1oRf" varname="metadata_group">
-          <default>true</default>
-        </SetGlobalStep>
-        <SetGlobalStep id="_1mJt" varname="nd">
-          <default>0</default>
-        </SetGlobalStep>
-        <SetGlobalStep id="_1mJu" varname="nn0">
-          <default>Metadata</default>
-        </SetGlobalStep>
-        <FetchTextStep client="$(client)"
-                       component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(nd)"
-                       id="_1mJv" varname="nn"/>
-        <WhileSequence id="_1mJw"
-                       test="&#34;$(nn)&#34;&lt;&gt;&#34;$(nn0)&#34;">
-          <ServerScriptStep disabled="true" id="_1mJx" name="print">
-            <code>print "$(nn)"  </code>
-          </ServerScriptStep>
-          <ServerScriptStep id="_1mJy" name="set_variable_increase_on_1">
-            <code>v = $(nd)+ 1   
-rc.setGlobal("nd", v)                       </code>
-          </ServerScriptStep>
-          <TryStep id="_1mJz">
-            <FetchTextStep client="$(client)"
-                           component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(nd)"
-                           id="_1mJ+" varname="nn"/>
-            <CatchSequence exception="TestException" id="_1mJ-" maxerror="0">
-              <SetGlobalStep id="_1oRg" varname="metadata_group">
-                <default>false</default>
+            <FetchIndexStep client="$(client)"
+                            component="$(id)$(nodeSeparator)$(node)"
+                            id="_1mKM" local="true" varname="index"/>
+            <SetGlobalStep id="_1oTf" varname="new_band_id">
+              <default>$(index)</default>
+            </SetGlobalStep>
+            <ServerScriptStep disabled="true" id="_1l5A" name="print">
+              <code>print "$(new_band_id)"</code>
+            </ServerScriptStep>
+            <ReturnStep id="_1jvS" retval="$(index)"/>
+            <CatchSequence exception="TestException" id="_1mKO" maxerror="0">
+              <SetGlobalStep id="_1oRZ" varname="ifn">
+                <default>bands_node_id_$(node)</default>
               </SetGlobalStep>
-              <SetGlobalStep id="_1mK0" varname="nd">
-                <default>0</default>
-              </SetGlobalStep>
-              <ServerScriptStep disabled="true" id="_1mK1" name="error">
-                <code>rc.logError("'Metadata' node can not be found.")</code>
+              <ServerScriptStep disabled="true" id="_1oRa" name="print">
+                <code>print "$(ifn)"</code>
               </ServerScriptStep>
-              <BreakStep id="_1mK2"/>
+              <ProcedureCall id="_1oRY" procedure="run-log.make_screensot">
+                <variable name="iw_name">$(ifn)</variable>
+                <variable name="iw_name_example">error_dialog</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1oRX"
+                             procedure="run-log.error_message.node_does_not_exist">
+                <variable name="node_name">$(node)</variable>
+              </ProcedureCall>
             </CatchSequence>
+            <FinallySequence id="_1l8S" name="reset option">
+              <ClientScriptStep client="$(client)"
+                                engine="${default:guiengine:awt}" id="_1l8T"
+                                name="Unset legacy option">
+                <code>rc.unsetOption("LegacyFetchIndex")</code>
+              </ClientScriptStep>
+            </FinallySequence>
           </TryStep>
-        </WhileSequence>
-        <SetGlobalStep id="_1mK3" varname="metadata_node_id">
-          <default>$(nd)</default>
-        </SetGlobalStep>
-        <ServerScriptStep disabled="true" id="_1mK4" name="print">
-          <code>print "$(bands_node_number)"  </code>
-        </ServerScriptStep>
-      </Procedure>
+        </Procedure>
+        <Procedure id="_1jvR" name="metadata_node_id">
+          <variable name="prod_id"/>
+          <SetGlobalStep id="_1oRf" varname="metadata_group">
+            <default>true</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1mJt" varname="nd">
+            <default>0</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1mJu" varname="nn0">
+            <default>Metadata</default>
+          </SetGlobalStep>
+          <FetchTextStep client="$(client)"
+                         component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(nd)"
+                         id="_1mJv" varname="nn"/>
+          <WhileSequence id="_1mJw"
+                         test="&#34;$(nn)&#34;&lt;&gt;&#34;$(nn0)&#34;">
+            <ServerScriptStep disabled="true" id="_1mJx" name="print">
+              <code>print "$(nn)"  </code>
+            </ServerScriptStep>
+            <ServerScriptStep id="_1mJy" name="set_variable_increase_on_1">
+              <code>v = $(nd)+ 1   
+rc.setGlobal("nd", v)                       </code>
+            </ServerScriptStep>
+            <TryStep id="_1mJz">
+              <FetchTextStep client="$(client)"
+                             component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(nd)"
+                             id="_1mJ+" varname="nn"/>
+              <CatchSequence exception="TestException" id="_1mJ-"
+                             maxerror="0">
+                <SetGlobalStep id="_1oRg" varname="metadata_group">
+                  <default>false</default>
+                </SetGlobalStep>
+                <SetGlobalStep id="_1mK0" varname="nd">
+                  <default>0</default>
+                </SetGlobalStep>
+                <ServerScriptStep disabled="true" id="_1mK1" name="error">
+                  <code>rc.logError("'Metadata' node can not be found.")</code>
+                </ServerScriptStep>
+                <BreakStep id="_1mK2"/>
+              </CatchSequence>
+            </TryStep>
+          </WhileSequence>
+          <SetGlobalStep id="_1mK3" varname="metadata_node_id">
+            <default>$(nd)</default>
+          </SetGlobalStep>
+          <ServerScriptStep disabled="true" id="_1mK4" name="print">
+            <code>print "$(bands_node_number)"  </code>
+          </ServerScriptStep>
+        </Procedure>
+        <Procedure id="_1lB6" name="layer_node_id">
+          <variable name="layer_name"/>
+          <SetGlobalStep id="_9VG" varname="idn">
+            <default>0</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_Czp" varname="layer_node_found">
+            <default>true</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_DgA" varname="layer_node_id">
+            <default>0</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1pjm" varname="layer_node_id">
+            <default>$(idn)</default>
+          </SetGlobalStep>
+          <IfSequence id="_1pjK" test="${qftest:windows}">
+            <FetchTextStep client="$(client)"
+                           component="NbMainWindow.Content_displayer.treeTransparency:&amp;/$(idn)"
+                           id="_1pjL" varname="ln"/>
+            <ElseifSequence id="_1pjM" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+            <ElseSequence id="_1pjO"/>
+          </IfSequence>
+          <IfSequence id="_1pjp"
+                      test="&#34;$(ln)&#34;&lt;&gt;&#34;$(layer_name)&#34;">
+            <WhileSequence id="_1pjQ"
+                           test="&#34;$(ln)&#34;&lt;&gt;&#34;$(layer_name)&#34;">
+              <ServerScriptStep id="_1pjT" name="set_variable_increase_on_1">
+                <code>v = $(idn)+ 1   
+rc.setGlobal("idn", v)                       </code>
+              </ServerScriptStep>
+              <TryStep id="_1pjU">
+                <FetchTextStep client="$(client)"
+                               component="NbMainWindow.Content_displayer.treeTransparency:&amp;/$(idn)"
+                               id="_1pjj" varname="ln"/>
+                <SetGlobalStep id="_1pjl" varname="layer_node_id">
+                  <default>$(idn)</default>
+                </SetGlobalStep>
+                <ServerScriptStep disabled="true" id="_1pjk"
+                                  name="set_layer_id">
+                  <code>lidn1 = $(idn)
+rc.setGlobal("layer_node_id", lidn1)                       </code>
+                </ServerScriptStep>
+                <IfSequence id="_1pjV" test="${qftest:windows}">
+                  <ElseifSequence id="_1pjX" name="MAC?"
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+                  <ElseSequence id="_1pjZ"/>
+                </IfSequence>
+                <ServerScriptStep disabled="true" id="_1pjb" name="print">
+                  <code>print "layer name = $(ln)"  </code>
+                </ServerScriptStep>
+                <CatchSequence exception="TestException" id="_1pjc"
+                               maxerror="0">
+                  <SetGlobalStep id="_1pjd" varname="idn">
+                    <default>0</default>
+                  </SetGlobalStep>
+                  <SetGlobalStep id="_1pje" varname="layer_node_found">
+                    <default>false</default>
+                  </SetGlobalStep>
+                  <ServerScriptStep disabled="true" id="_1pjf" name="error">
+                    <code>rc.logError("'Layer' node can not be found.")</code>
+                  </ServerScriptStep>
+                  <BreakStep id="_1pjg"/>
+                </CatchSequence>
+              </TryStep>
+            </WhileSequence>
+            <ServerScriptStep disabled="true" id="_1pjh" name="print">
+              <code>print "Layer = $(ln)"  </code>
+            </ServerScriptStep>
+            <ServerScriptStep disabled="true" id="_1pji" name="print">
+              <code>print "Node Index = $(layer_node_id)"  </code>
+            </ServerScriptStep>
+          </IfSequence>
+        </Procedure>
+        <Procedure id="_3EP" name="rowCount">
+          <variable name="id">tableId</variable>
+          <comment>Return rowCount
+</comment>
+          <ClientScriptStep client="$(client)" id="_3EQ">
+            <code>table = rc.getComponent(rc.lookup("id"))
+
+rowCount = table.getRowCount()
+
+rc.setGlobal("rowCount", rowCount)</code>
+          </ClientScriptStep>
+        </Procedure>
+      </Package>
       <Procedure id="_1oaR" name="text_error_dialog_SNAP_Open_Product">
         <IfSequence id="_1oya" test="${qftest:windows}">
           <FetchTextStep client="$(client)"
@@ -286,7 +384,7 @@ rc.setGlobal("nd", v)                       </code>
                  name="additional_metadata_node_id">
         <variable name="prod_id"/>
         <variable name="metadata_name"/>
-        <ProcedureCall id="_1mKK" procedure="get.metadata_node_id">
+        <ProcedureCall id="_1mKK" procedure="get.tree.metadata_node_id">
           <variable name="prod_id">$(prod_id)</variable>
         </ProcedureCall>
         <SetGlobalStep id="_1mK6" varname="nd">
@@ -368,85 +466,10 @@ rc.setGlobal("fnr", v)                       </code>
           <code>print "$(file_nr_in_the_folder)"  </code>
         </ServerScriptStep>
       </Procedure>
-      <Procedure disabled="true" id="_1lB6" name="layer_node_id">
-        <variable name="layer_name"/>
-        <SetGlobalStep id="_9VG" varname="idn">
-          <default>0</default>
-        </SetGlobalStep>
-        <SetGlobalStep id="_9VH" varname="id_text">
-          <default>a</default>
-        </SetGlobalStep>
-        <SetGlobalStep id="_Czp" varname="layer_node_found">
-          <default>true</default>
-        </SetGlobalStep>
-        <SetGlobalStep id="_DgA" varname="layer_node_id">
-          <default>0</default>
-        </SetGlobalStep>
-        <TryStep id="_Dfu" name="find_layer">
-          <FetchTextStep client="$(client)"
-                         component="Dialog.LayerManagerToolView.Control.treeTransparency:&amp;/0"
-                         id="_1mJq" varname="id_text"/>
-          <CatchSequence exception="TestException" id="_Dfz" maxerror="0"/>
-        </TryStep>
-        <IfSequence id="_DtT"
-                    test="&#34;$(layer_name)&#34;==&#34;$(id_text)&#34;">
-          <SetGlobalStep id="_Dg0" varname="layer_node_found">
-            <default>true</default>
-          </SetGlobalStep>
-          <SetGlobalStep id="_Dg9" varname="layer_node_id">
-            <default>0</default>
-          </SetGlobalStep>
-          <ElseSequence id="_DtU">
-            <SetGlobalStep id="_Dr5" varname="layer_node_found">
-              <default>false</default>
-            </SetGlobalStep>
-          </ElseSequence>
-        </IfSequence>
-        <IfSequence id="_Df-"
-                    test="&#34;$(layer_node_found)&#34;==&#34;false&#34;">
-          <TryStep id="_CGQ">
-            <SetGlobalStep id="_Dg7" varname="layer_node_found">
-              <default>true</default>
-            </SetGlobalStep>
-            <WhileSequence id="_9VI"
-                           test="&#34;$(id_text)&#34;&lt;&gt;&#34;$(layer_name)&#34;">
-              <FetchTextStep client="$(client)"
-                             component="Dialog.LayerManagerToolView.Control.treeTransparency:&amp;/$(idn)"
-                             id="_1mJs" varname="id_text"/>
-              <ServerScriptStep id="_CGS" name="set_layer_id">
-                <code>lidn1 = $(idn)
-rc.setGlobal("layer_node_id", lidn1)                       </code>
-              </ServerScriptStep>
-              <ServerScriptStep id="_9VK" name="set_variable_increase_on_1">
-                <code>idn1 = $(idn)
-idn1 = idn1 + 1   
-rc.setGlobal("idn", idn1)                       </code>
-              </ServerScriptStep>
-            </WhileSequence>
-            <CatchSequence exception="TestException" id="_CGR" maxerror="0">
-              <SetGlobalStep id="_Czq" varname="layer_node_found">
-                <default>false</default>
-              </SetGlobalStep>
-            </CatchSequence>
-          </TryStep>
-        </IfSequence>
-      </Procedure>
       <Procedure disabled="true" id="_1l6p" name="more_less_options_label">
         <FetchTextStep client="$(client)"
                        component="mainFrameESA_S-3_Toolbox.labelMore_Options"
                        id="_1l6q" varname="options_label"/>
-      </Procedure>
-      <Procedure id="_3EP" name="rowCount">
-        <variable name="id">tableId</variable>
-        <comment>Return rowCount
-</comment>
-        <ClientScriptStep client="$(client)" id="_3EQ">
-          <code>table = rc.getComponent(rc.lookup("id"))
-
-rowCount = table.getRowCount()
-
-rc.setGlobal("rowCount", rowCount)</code>
-        </ClientScriptStep>
       </Procedure>
     </Package>
   </PackageRoot>

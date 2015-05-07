@@ -44,88 +44,167 @@
           </Procedure>
         </Package>
         <Package id="_1plw" name="configuration">
-          <Package id="_1pzn" name="source_bands"/>
-          <Package id="_1pzo" name="intermediate_source_bands"/>
+          <Package id="_1pzn" name="source_bands">
+            <Procedure id="_1q6U" name="all_aggregators">
+              <comment>@teststep Check-in checkbox 'Save as'</comment>
+              <ProcedureCall id="_1q6V"
+                             procedure="check.binning.visible.checkbox_aggregator"/>
+              <IfSequence id="_1q6e"
+                          test="&#34;$(checkbox_aggregator_visible)&#34;==&#34;false&#34;">
+                <ProcedureCall id="_1q6k"
+                               procedure="do_click.binning.configuration.source_bands.show_hide_selection_column"/>
+              </IfSequence>
+              <ProcedureCall id="_1q6d"
+                             procedure="check.binning.visible.checkbox_aggregator"/>
+              <IfSequence id="_1q6Z"
+                          test="&#34;$(checkbox_aggregator_visible)&#34;==&#34;true&#34;">
+                <ProcedureCall id="_1q6n"
+                               procedure="check.binning.enabled.configuration.source_bands.checkbox_aggregator"/>
+                <IfSequence id="_1q6m"
+                            test="&#34;$(checkbox_aggregator_enabled)&#34;==&#34;true&#34;">
+                  <ProcedureCall id="_1q6b"
+                                 procedure="check.binning.checked.configuration.checkbox_aggregator"/>
+                  <IfSequence id="_1q6W"
+                              test="&#34;$(checkbox_aggregator)&#34;==&#34;false&#34;">
+                    <ProcedureCall id="_1q6X"
+                                   procedure="do_click.binning.configuration.source_bands.checkbox_aggregator"/>
+                  </IfSequence>
+                  <ProcedureCall id="_1q6c"
+                                 procedure="check.binning.checked.configuration.checkbox_aggregator_selected_status">
+                    <variable name="selected">true</variable>
+                  </ProcedureCall>
+                </IfSequence>
+                <ElseSequence id="_1q6a">
+                  <ProcedureCall id="_1q6l" procedure="run-log.logError">
+                    <variable name="message">Aggregator checkbox is not visible</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </ElseSequence>
+              </IfSequence>
+            </Procedure>
+          </Package>
+          <Package id="_1pzo" name="intermediate_source_bands">
+            <Procedure id="_1q8w" name="all_intermediate_source_bands">
+              <comment>@teststep Check 'Name' checkbox is enabled.</comment>
+              <ProcedureCall id="_1q8-"
+                             procedure="check.binning.visible.checkbox_name"/>
+              <IfSequence id="_1q90"
+                          test="&#34;$(checkbox_name_visible)&#34;==&#34;false&#34;">
+                <ProcedureCall id="_1q91"
+                               procedure="do_click.binning.configuration.intermediate_source_bands.show_hide_selection_column"/>
+              </IfSequence>
+              <ProcedureCall id="_1q9C"
+                             procedure="check.binning.visible.checkbox_name"/>
+              <IfSequence id="_1q93"
+                          test="&#34;$(checkbox_name_visible)&#34;==&#34;true&#34;">
+                <ProcedureCall id="_1q94"
+                               procedure="check.binning.enabled.configuration.intermediate_source_bands.checkbox_name"/>
+                <IfSequence id="_1q95"
+                            test="&#34;$(checkbox_name_enabled)&#34;==&#34;true&#34;">
+                  <ProcedureCall id="_1q96"
+                                 procedure="check.binning.checked.configuration.checkbox_name"/>
+                  <IfSequence id="_1q97"
+                              test="&#34;$(checkbox_name)&#34;==&#34;false&#34;">
+                    <ProcedureCall id="_1q98"
+                                   procedure="do_click.binning.configuration.intermediate_source_bands.checkbox_name"/>
+                  </IfSequence>
+                  <ProcedureCall id="_1q9E"
+                                 procedure="check.binning.checked.configuration.checkbox_name_selected_status">
+                    <variable name="selected">true</variable>
+                  </ProcedureCall>
+                </IfSequence>
+                <ElseSequence id="_1q9A">
+                  <ProcedureCall id="_1q9B" procedure="run-log.logError">
+                    <variable name="message">'Intermediate source bands name' checkbox is not visible</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </ElseSequence>
+              </IfSequence>
+            </Procedure>
+          </Package>
         </Package>
-      </Package>
-      <Package id="_1q5G" name="edit_aggregator">
-        <Procedure id="_1q5n" name="output_sums">
-          <comment>@teststep Check-in checkbox 'output sums'</comment>
-          <ProcedureCall id="_1q5r"
-                         procedure="check.edit_aggregator.checked.output_sums"/>
-          <IfSequence id="_1q5u"
-                      test="&#34;$(output_sums)&#34;==&#34;false&#34;">
-            <ProcedureCall id="_1q5p"
-                           procedure="do_click.edit_aggregator.output_sums"/>
-          </IfSequence>
-          <ProcedureCall id="_1q5t"
-                         procedure="check.edit_aggregator.checked.output_sums_selected_status">
-            <variable name="selected">true</variable>
-          </ProcedureCall>
-        </Procedure>
-        <Procedure id="_1q5H" name="output_counts">
-          <comment>@teststep Check-in checkbox 'output counts'</comment>
-          <ProcedureCall id="_1q5j"
-                         procedure="check.edit_aggregator.checked.output_counts"/>
-          <IfSequence id="_1q5v"
-                      test="&#34;$(output_counts)&#34;==&#34;false&#34;">
-            <ProcedureCall id="_1q5h"
-                           procedure="do_click.edit_aggregator.output_counts"/>
-          </IfSequence>
-          <ProcedureCall id="_1q5l"
-                         procedure="check.edit_aggregator.checked.output_counts_selected_status">
-            <variable name="selected">true</variable>
-          </ProcedureCall>
-        </Procedure>
-        <Procedure id="_1q65" name="aggregator">
-          <variable name="aggregator"/>
-          <comment>@teststep Select aggregator.</comment>
-          <TryStep id="_1q6B">
-            <ProcedureCall id="_1q6A" procedure="utility.binning.aggregator">
-              <variable name="aggregator">$(aggregator)</variable>
+        <Package id="_1q5G" name="edit_aggregator">
+          <Procedure id="_1q5n" name="output_sums">
+            <comment>@teststep Check-in checkbox 'output sums'</comment>
+            <ProcedureCall id="_1q5r"
+                           procedure="check.edit_aggregator.checked.output_sums"/>
+            <IfSequence id="_1q5u"
+                        test="&#34;$(output_sums)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1q5p"
+                             procedure="do_click.binning.edit_aggregator.output_sums"/>
+            </IfSequence>
+            <ProcedureCall id="_1q5t"
+                           procedure="check.edit_aggregator.checked.output_sums_selected_status">
+              <variable name="selected">true</variable>
             </ProcedureCall>
-            <CatchSequence exception="TestException" id="_1q6C" maxerror="0">
-              <TryStep id="_1q6D">
-                <ProcedureCall id="_1q6E"
-                               procedure="utility.binning.aggregator">
-                  <variable name="aggregator">$(aggregator)</variable>
-                </ProcedureCall>
-                <CatchSequence exception="TestException" id="_1q6F"
-                               maxerror="0">
-                  <ProcedureCall id="_1q6G" procedure="run-log.logError">
-                    <variable name="message">$(aggregator) can not be selected</variable>
-                    <variable name="withScreenshots">true</variable>
-                  </ProcedureCall>
-                </CatchSequence>
-              </TryStep>
-            </CatchSequence>
-          </TryStep>
-        </Procedure>
-        <Procedure id="_1q6I" name="source_band">
-          <variable name="band"/>
-          <comment>@teststep Select source band</comment>
-          <TryStep id="_1q6O">
-            <ProcedureCall id="_1q6N"
-                           procedure="utility.binning.source_band_in_edit_aggregator">
-              <variable name="band">$(band)</variable>
+          </Procedure>
+          <Procedure id="_1q5H" name="output_counts">
+            <comment>@teststep Check-in checkbox 'output counts'</comment>
+            <ProcedureCall id="_1q5j"
+                           procedure="check.edit_aggregator.checked.output_counts"/>
+            <IfSequence id="_1q5v"
+                        test="&#34;$(output_counts)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1q5h"
+                             procedure="do_click.binning.edit_aggregator.output_counts"/>
+            </IfSequence>
+            <ProcedureCall id="_1q5l"
+                           procedure="check.edit_aggregator.checked.output_counts_selected_status">
+              <variable name="selected">true</variable>
             </ProcedureCall>
-            <CatchSequence exception="TestException" id="_1q6P" maxerror="0">
-              <TryStep id="_1q6Q">
-                <ProcedureCall id="_1q6R"
-                               procedure="utility.binning.source_band_in_edit_aggregator">
-                  <variable name="band">$(band)</variable>
-                </ProcedureCall>
-                <CatchSequence exception="TestException" id="_1q6S"
-                               maxerror="0">
-                  <ProcedureCall id="_1q6T" procedure="run-log.logError">
-                    <variable name="message">$(band) can not be selected</variable>
-                    <variable name="withScreenshots">true</variable>
+          </Procedure>
+          <Procedure id="_1q65" name="aggregator">
+            <variable name="aggregator"/>
+            <comment>@teststep Select aggregator.</comment>
+            <TryStep id="_1q6B">
+              <ProcedureCall id="_1q6A"
+                             procedure="utility.binning.aggregator">
+                <variable name="aggregator">$(aggregator)</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1q6C"
+                             maxerror="0">
+                <TryStep id="_1q6D">
+                  <ProcedureCall id="_1q6E"
+                                 procedure="utility.binning.aggregator">
+                    <variable name="aggregator">$(aggregator)</variable>
                   </ProcedureCall>
-                </CatchSequence>
-              </TryStep>
-            </CatchSequence>
-          </TryStep>
-        </Procedure>
+                  <CatchSequence exception="TestException" id="_1q6F"
+                                 maxerror="0">
+                    <ProcedureCall id="_1q6G" procedure="run-log.logError">
+                      <variable name="message">$(aggregator) can not be selected</variable>
+                      <variable name="withScreenshots">true</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
+          <Procedure id="_1q6I" name="source_band">
+            <variable name="band"/>
+            <comment>@teststep Select source band</comment>
+            <TryStep id="_1q6O">
+              <ProcedureCall id="_1q6N"
+                             procedure="utility.binning.source_band_in_edit_aggregator">
+                <variable name="band">$(band)</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1q6P"
+                             maxerror="0">
+                <TryStep id="_1q6Q">
+                  <ProcedureCall id="_1q6R"
+                                 procedure="utility.binning.source_band_in_edit_aggregator">
+                    <variable name="band">$(band)</variable>
+                  </ProcedureCall>
+                  <CatchSequence exception="TestException" id="_1q6S"
+                                 maxerror="0">
+                    <ProcedureCall id="_1q6T" procedure="run-log.logError">
+                      <variable name="message">$(band) can not be selected</variable>
+                      <variable name="withScreenshots">true</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
+        </Package>
       </Package>
       <Package id="_1pMl" name="collocation">
         <Procedure id="_1pMm" name="resampling_type">
@@ -799,6 +878,16 @@
               </TryStep>
             </IfSequence>
           </Procedure>
+          <Procedure id="_1q9F" name="elevation_model">
+            <variable name="elevation_model"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogMosaicing.elevationModelName"
+                            event="MOUSE_MPRC" id="_1prU" modifiers="16"
+                            x="143" y="9"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogMosaicing.listInvokerName:_elevationModelName.elevation_model"
+                            event="MOUSE_MPRC" id="_1prV" modifiers="16"/>
+          </Procedure>
         </Package>
         <Package id="_1phs" name="variables_conditions"/>
       </Package>
@@ -1100,7 +1189,7 @@
           <IfSequence id="_1q5z"
                       test="&#34;$(output_sums)&#34;==&#34;true&#34;">
             <ProcedureCall id="_1q5+"
-                           procedure="do_click.edit_aggregator.output_sums"/>
+                           procedure="do_click.binning.edit_aggregator.output_sums"/>
           </IfSequence>
           <ProcedureCall id="_1q5-"
                          procedure="check.edit_aggregator.checked.output_sums_selected_status">
@@ -1113,7 +1202,7 @@
           <IfSequence id="_1q62"
                       test="&#34;$(output_counts)&#34;==&#34;true&#34;">
             <ProcedureCall id="_1q63"
-                           procedure="do_click.edit_aggregator.output_counts"/>
+                           procedure="do_click.binning.edit_aggregator.output_counts"/>
           </IfSequence>
           <ProcedureCall id="_1q64"
                          procedure="check.edit_aggregator.checked.output_counts_selected_status">

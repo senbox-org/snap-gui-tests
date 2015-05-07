@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.3">
+<RootStep id="_0" name="root" version="4.0.4">
   <include>qfs.qft</include>
   <include>snap_select.qft</include>
   <include>snap_components.qft</include>
@@ -762,17 +762,18 @@
                            procedure="utility.open_image_view_check_it">
               <comment>@teststep Open image view and check it.</comment>
             </ProcedureCall>
-            <TestStep disabled="true" id="_1lXz" name="check_world_map">
+            <TestStep id="_1lXz" name="check_world_map">
               <comment>@teststep Check World Map.</comment>
               <ProcedureCall id="_1lHR"
                              procedure="do_click.main_toolbar.views.worldmap">
                 <comment>@teststep Open world map.</comment>
               </ProcedureCall>
-              <ProcedureCall id="_1lXt" procedure="close.dialog">
+              <ProcedureCall disabled="true" id="_1lXt"
+                             procedure="close.dialog">
                 <comment>@teststep Close World Map.</comment>
               </ProcedureCall>
             </TestStep>
-            <IfSequence disabled="true" id="_1lY7"
+            <IfSequence id="_1lY7"
                         test="&#34;$(mask1 )&#34;&lt;&gt;&#34;&#34;">
               <TestStep id="_1lXE" name="check_mask_manager">
                 <comment>@teststep Check Mask Managment.</comment>
@@ -780,10 +781,13 @@
                                procedure="do_click.main_toolbar.views.mask_manager">
                   <comment>@teststep Open Mask Manager</comment>
                 </ProcedureCall>
-                <SetGlobalStep id="_1lY1" varname="table">
+                <SetGlobalStep disabled="true" id="_1lY1" varname="table">
                   <default>Dialog.maskTable</default>
                 </SetGlobalStep>
-                <ProcedureCall id="_1lX-" procedure="get.rowCount">
+                <SetGlobalStep id="_1ppZ" varname="table">
+                  <default>NbMainWindow.maskTable</default>
+                </SetGlobalStep>
+                <ProcedureCall id="_1lX-" procedure="get.tree.rowCount">
                   <variable name="id">$(table)</variable>
                   <comment>@teststep Get number of masks.</comment>
                 </ProcedureCall>
@@ -797,8 +801,11 @@
                   <comment>@teststep Select and deselect all the mask after each other.</comment>
                   <RepeatSequence count="$(masks_number)" id="_1lXf"
                                   name="check_masks" var="m">
-                    <SetGlobalStep id="_1lYI" varname="table">
+                    <SetGlobalStep disabled="true" id="_1lYI" varname="table">
                       <default>Dialog.maskTable</default>
+                    </SetGlobalStep>
+                    <SetGlobalStep id="_1ppa" varname="table">
+                      <default>NbMainWindow.maskTable</default>
                     </SetGlobalStep>
                     <TryStep id="_1lYJ" name="select_visible">
                       <ProcedureCall id="_1lYK"
@@ -835,10 +842,11 @@
                     </ServerScriptStep>
                   </ElseSequence>
                 </IfSequence>
-                <ProcedureCall id="_1lXC" procedure="close.dialog">
+                <ProcedureCall disabled="true" id="_1lXC"
+                               procedure="close.dialog">
                   <comment>@teststep Close Mask Manager</comment>
                 </ProcedureCall>
-                <ProcedureCall id="_1lYR"
+                <ProcedureCall disabled="true" id="_1lYR"
                                procedure="do_click.run_the_Garbage_Collector">
                   <comment>@teststep Force a garbage collection.</comment>
                 </ProcedureCall>
@@ -849,15 +857,15 @@
                                procedure="do_click.main_toolbar.views.layer_manager">
                   <comment>@teststep Open Layer Manager</comment>
                 </ProcedureCall>
-                <ProcedureCall id="_1oH6" procedure="get.layer_node_id">
+                <ProcedureCall id="_1oH6" procedure="get.tree.layer_node_id">
                   <variable name="layer_name">Masks</variable>
                   <comment>@teststep Find Masks in the layer manager</comment>
                 </ProcedureCall>
                 <ServerScriptStep disabled="true" id="_1lYZ" name="print">
                   <code>print "Layer Masks id = $(layer_node_id)"  </code>
                 </ServerScriptStep>
-                <ProcedureCall id="_1oHH"
-                               procedure="do_click.tree.layer_node">
+                <ProcedureCall disabled="true" id="_1oHH"
+                               procedure="do_click.layer_manager.layer_node">
                   <variable name="layer_node1">$(layer_node_id)</variable>
                   <variable name="layer_node2"/>
                   <comment>@teststep Open Masks node in the layer manager</comment>
@@ -867,22 +875,22 @@
                   <RepeatSequence count="$(masks_number)" id="_1oHK"
                                   name="check_masks" var="m">
                     <ProcedureCall id="_1oHA"
-                                   procedure="do_click.tree.layer_checkbox">
+                                   procedure="do_click.layer_manager.layer_checkbox">
                       <variable name="layer_node1">$(layer_node_id)</variable>
                       <variable name="layer_node2">$(m)</variable>
                     </ProcedureCall>
                   </RepeatSequence>
-                  <ProcedureCall id="_1oHV"
+                  <ProcedureCall disabled="true" id="_1oHV"
                                  procedure="do_click.run_the_Garbage_Collector"/>
                   <RepeatSequence count="$(masks_number)" id="_1oHY"
                                   name="check_masks" var="m">
                     <ProcedureCall id="_1oHZ"
-                                   procedure="do_click.tree.layer_checkbox">
+                                   procedure="do_click.layer_manager.layer_checkbox">
                       <variable name="layer_node1">$(layer_node_id)</variable>
                       <variable name="layer_node2">$(m)</variable>
                     </ProcedureCall>
                   </RepeatSequence>
-                  <ProcedureCall id="_1oHa"
+                  <ProcedureCall disabled="true" id="_1oHa"
                                  procedure="do_click.run_the_Garbage_Collector">
                     <comment>@teststep Force a garbage collection.</comment>
                   </ProcedureCall>
@@ -892,7 +900,8 @@
                     </ServerScriptStep>
                   </ElseSequence>
                 </IfSequence>
-                <ProcedureCall id="_1lHU" procedure="close.dialog">
+                <ProcedureCall disabled="true" id="_1lHU"
+                               procedure="close.dialog">
                   <comment>@teststep Close Layer Manager</comment>
                 </ProcedureCall>
               </TestStep>
@@ -906,20 +915,67 @@
           </IfSequence>
         </Procedure>
       </Package>
-      <Procedure disabled="true" id="_1lHV"
-                 name="open_band_compute_statistics_close_all">
-        <ProcedureCall id="_1lHW"
-                       procedure="utility.open_image_view_check_it"/>
-        <ProcedureCall id="_1l4g" procedure="compute.band_statistics"/>
-        <ProcedureCall id="_1l4h" procedure="close.all_products"/>
-        <TryStep id="_1l4j" name="close_band_statistics_dialog">
-          <ProcedureCall id="_1l4i" procedure="close.dialog"/>
-          <CatchSequence exception="TestException" id="_1l4k" maxerror="0">
-            <ProcedureCall id="_1l4l" procedure="close.modal_dialogs"/>
-            <ProcedureCall id="_1l4m" procedure="close.dialog"/>
-          </CatchSequence>
-        </TryStep>
-      </Procedure>
+      <Package id="_1p1R" name="analysis">
+        <Procedure id="_1lHV" name="open_band_compute_statistics_close_all">
+          <ProcedureCall id="_1lHW"
+                         procedure="utility.open_image_view_check_it"/>
+          <ProcedureCall id="_1l4g" procedure="compute.band_statistics"/>
+          <ProcedureCall disabled="true" id="_1p1N"
+                         procedure="check.analysis.statistics_dialog.statistic_result">
+            <variable name="statistic_txt">$(bandName)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1p1O" procedure="close.all_products"/>
+          <TryStep disabled="true" id="_1l4j"
+                   name="close_band_statistics_dialog">
+            <ProcedureCall id="_1l4i" procedure="close.dialog"/>
+            <CatchSequence exception="TestException" id="_1l4k" maxerror="0">
+              <ProcedureCall id="_1l4l" procedure="close.modal_dialogs"/>
+              <ProcedureCall id="_1l4m" procedure="close.dialog"/>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1p1S" name="open_band_compute_histogram_close_all">
+          <ProcedureCall id="_1p1T"
+                         procedure="utility.open_image_view_check_it"/>
+          <ProcedureCall id="_1p1U" procedure="compute.band_histogram"/>
+          <ProcedureCall id="_1p1W" procedure="close.all_products"/>
+          <TryStep disabled="true" id="_1p1X" name="close_histogram_dialog">
+            <ProcedureCall id="_1p1Y" procedure="close.dialog"/>
+            <CatchSequence exception="TestException" id="_1p1Z" maxerror="0">
+              <ProcedureCall id="_1p1a" procedure="close.modal_dialogs"/>
+              <ProcedureCall id="_1p1b" procedure="close.dialog"/>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1p1s"
+                   name="open_band_compute_correlative_plot_close_all">
+          <ProcedureCall id="_1poe"
+                         procedure="compute.band_correlative_plot"/>
+          <ProcedureCall id="_1pof" procedure="close.all_products"/>
+          <TryStep disabled="true" id="_1p1x"
+                   name="close_correlative_plot_dialog">
+            <ProcedureCall id="_1p1y" procedure="close.dialog"/>
+            <CatchSequence exception="TestException" id="_1p1z" maxerror="0">
+              <ProcedureCall id="_1p1+" procedure="close.modal_dialogs"/>
+              <ProcedureCall id="_1p1-" procedure="close.dialog"/>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1pom" name="open_band_compute_scatter_plot_close_all">
+          <ProcedureCall id="_1ppJ"
+                         procedure="utility.open_image_view_check_it"/>
+          <ProcedureCall id="_1pon" procedure="compute.band_scatter_plot"/>
+          <ProcedureCall id="_1poo" procedure="close.all_products"/>
+          <TryStep disabled="true" id="_1pop"
+                   name="close_scatter_plot_dialog">
+            <ProcedureCall id="_1poq" procedure="close.dialog"/>
+            <CatchSequence exception="TestException" id="_1por" maxerror="0">
+              <ProcedureCall id="_1pos" procedure="close.modal_dialogs"/>
+              <ProcedureCall id="_1pot" procedure="close.dialog"/>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+      </Package>
       <Procedure id="_1oJB" name="open_data_in_snap_and_check">
         <variable name="file_name"/>
         <variable name="format"/>
@@ -997,6 +1053,49 @@
           </ElseSequence>
         </IfSequence>
       </Procedure>
+      <Procedure id="_1pbm" name="check_target_product">
+        <comment>@teststep Check target product.</comment>
+        <ProcedureCall id="_1pbn" procedure="set.target_product_with_path"/>
+        <ProcedureCall id="_1pbo"
+                       procedure="check_external_file.file_exists_setGlobal">
+          <variable name="fileName">$(target_product)</variable>
+        </ProcedureCall>
+        <IfSequence id="_1pbp" test="&#34;$(fileExists)&#34;==&#34;True&#34;">
+          <IfSequence id="_1pbq"
+                      test="&#34;$(output_format)&#34;&lt;&gt;&#34;HDF5&#34;">
+            <ProcedureCall id="_1pbr" procedure="check.product.not_opened"/>
+            <IfSequence id="_1pbs"
+                        test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+              <TestStep id="_1pbt" name="open_image_view">
+                <ProcedureCall id="_1pxv"
+                               procedure="product_meta_data.for_open_image_view"/>
+                <ProcedureCall id="_1pbx"
+                               procedure="utility.open_image_view_check_it"/>
+              </TestStep>
+              <TestStep id="_1pby"
+                        name="open_image_view_check_masks_layers_close_product">
+                <SetGlobalStep id="_1pbz" varname="view_Id1">
+                  <default>2</default>
+                </SetGlobalStep>
+                <ProcedureCall id="_1pb+"
+                               procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+              </TestStep>
+              <ElseSequence id="_1pb-">
+                <ProcedureCall id="_1pc0" procedure="run-log.logError">
+                  <variable name="message">$(target_product) is not opened.</variable>
+                  <variable name="withScreenshots">false</variable>
+                </ProcedureCall>
+              </ElseSequence>
+            </IfSequence>
+          </IfSequence>
+          <ElseSequence id="_1pc1">
+            <ProcedureCall id="_1pc2" procedure="run-log.logError">
+              <variable name="message">$(target_product) is not written.</variable>
+              <variable name="withScreenshots">false</variable>
+            </ProcedureCall>
+          </ElseSequence>
+        </IfSequence>
+      </Procedure>
     </Package>
     <Package id="_1ocT" name="gpt">
       <Procedure id="_1p0u" name="check_output_file_in_snap">
@@ -1028,8 +1127,7 @@
             <SetGlobalStep id="_1o+J" varname="f">
               <default>dimap</default>
             </SetGlobalStep>
-            <ProcedureCall id="_1o+K"
-                           procedure="daten_format.output_format_for_gpt">
+            <ProcedureCall id="_1o+K" procedure="daten_format.output_format">
               <variable name="out_form">$(f)</variable>
             </ProcedureCall>
             <ProcedureCall id="_1o+L"
@@ -1043,8 +1141,7 @@
             <SetGlobalStep id="_1o+S" varname="f">
               <default>geotiff</default>
             </SetGlobalStep>
-            <ProcedureCall id="_1o+T"
-                           procedure="daten_format.output_format_for_gpt">
+            <ProcedureCall id="_1o+T" procedure="daten_format.output_format">
               <variable name="out_form">$(f)</variable>
             </ProcedureCall>
             <ProcedureCall id="_1o+U"
@@ -1058,8 +1155,7 @@
             <SetGlobalStep id="_1o+Y" varname="f">
               <default>hdf5</default>
             </SetGlobalStep>
-            <ProcedureCall id="_1o+Z"
-                           procedure="daten_format.output_format_for_gpt">
+            <ProcedureCall id="_1o+Z" procedure="daten_format.output_format">
               <variable name="out_form">$(f)</variable>
             </ProcedureCall>
             <ProcedureCall id="_1o+a"
@@ -1071,8 +1167,7 @@
             <SetGlobalStep id="_1o+c" varname="f">
               <default>netCDF_CF</default>
             </SetGlobalStep>
-            <ProcedureCall id="_1o+d"
-                           procedure="daten_format.output_format_for_gpt">
+            <ProcedureCall id="_1o+d" procedure="daten_format.output_format">
               <variable name="out_form">$(f)</variable>
             </ProcedureCall>
             <ProcedureCall id="_1o+e"
@@ -1086,8 +1181,7 @@
             <SetGlobalStep id="_1o+m" varname="f">
               <default>netCDF4_CF</default>
             </SetGlobalStep>
-            <ProcedureCall id="_1o+n"
-                           procedure="daten_format.output_format_for_gpt">
+            <ProcedureCall id="_1o+n" procedure="daten_format.output_format">
               <variable name="out_form">$(f)</variable>
             </ProcedureCall>
             <ProcedureCall id="_1o+o"
@@ -1101,8 +1195,7 @@
             <SetGlobalStep id="_1o+u" varname="f">
               <default>netCDF_beam</default>
             </SetGlobalStep>
-            <ProcedureCall id="_1o+v"
-                           procedure="daten_format.output_format_for_gpt">
+            <ProcedureCall id="_1o+v" procedure="daten_format.output_format">
               <variable name="out_form">$(f)</variable>
             </ProcedureCall>
             <ProcedureCall id="_1o+w"
@@ -1116,8 +1209,7 @@
             <SetGlobalStep id="_1o+z" varname="f">
               <default>netCDF4_beam</default>
             </SetGlobalStep>
-            <ProcedureCall id="_1o++"
-                           procedure="daten_format.output_format_for_gpt">
+            <ProcedureCall id="_1o++" procedure="daten_format.output_format">
               <variable name="out_form">$(f)</variable>
             </ProcedureCall>
             <ProcedureCall id="_1o+-"
@@ -1134,7 +1226,7 @@
                 <default>N1</default>
               </SetGlobalStep>
               <ProcedureCall id="_1oQS"
-                             procedure="daten_format.output_format_for_gpt">
+                             procedure="daten_format.output_format">
                 <variable name="out_form">$(f)</variable>
               </ProcedureCall>
               <ProcedureCall id="_1oQT"
@@ -1152,13 +1244,13 @@
                 <default>$(other_formats)</default>
               </SetGlobalStep>
               <ProcedureCall id="_1p0q"
-                             procedure="daten_format.output_format_for_gpt">
+                             procedure="daten_format.output_format">
                 <variable name="out_form">$(f)</variable>
               </ProcedureCall>
               <ElseSequence id="_1p0o">
                 <SetGlobalStep id="_1p0r" varname="f"/>
                 <ProcedureCall id="_1oQX"
-                               procedure="daten_format.output_format_for_gpt">
+                               procedure="daten_format.output_format">
                   <variable name="out_form">dimap</variable>
                 </ProcedureCall>
               </ElseSequence>
@@ -1173,29 +1265,133 @@
         </IfSequence>
       </Procedure>
     </Package>
-    <Package disabled="true" id="_6" name="compute">
+    <Package id="_6" name="compute">
+      <Procedure id="_1p1c" name="band_histogram">
+        <ProcedureCall id="_1p1d" procedure="open.analysis.histogram_dialog"/>
+        <ProcedureCall id="_1p1o"
+                       procedure="deselect.analysis.histogram_dialog.use_ROI_mask"/>
+        <ProcedureCall id="_1p1f"
+                       procedure="do_click.analysis.histogram.refresh_button"/>
+        <ProcedureCall id="_1p1g"
+                       procedure="wait.disappear.computing_histogram_progress monitor"/>
+        <IfSequence id="_1p1h" test="&#34;$(mask1)&#34;&lt;&gt;&#34;&#34;">
+          <ProcedureCall id="_1p1q"
+                         procedure="select.analysis.histogram_dialog.use_ROI_mask"/>
+          <ProcedureCall id="_1p1j"
+                         procedure="select.analysis.histogram_dialog.mask">
+            <variable name="mask">$(mask1)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1p1m"
+                         procedure="do_click.analysis.histogram.refresh_button"/>
+          <ProcedureCall id="_1p1r"
+                         procedure="wait.disappear.computing_histogram_progress monitor"/>
+        </IfSequence>
+      </Procedure>
       <Procedure id="_7" name="band_statistics">
-        <ProcedureCall id="_1l5R" procedure="open.statistics_dialog"/>
+        <ProcedureCall id="_1l5R"
+                       procedure="open.analysis.statistics_dialog"/>
+        <ProcedureCall id="_1p1Q"
+                       procedure="deselect.analysis.statistics_dialog.use_ROI_mask"/>
         <ProcedureCall id="_1l8Z"
-                       procedure="do_click.statistics_dialog.refreshButton"/>
+                       procedure="do_click.analysis.statistics.refresh_button"/>
         <ProcedureCall id="_1l8e"
                        procedure="wait.disappear.computing_statistics_progress monitor"/>
         <IfSequence id="_1lEr" test="&#34;$(mask1)&#34;&lt;&gt;&#34;&#34;">
           <ProcedureCall id="_1lCf"
-                         procedure="select.statistics_dialog.use_ROI_mask"/>
-          <ProcedureCall id="_1lCg" procedure="select.statistics_dialog.mask">
+                         procedure="select.analysis.statistics_dialog.use_ROI_mask"/>
+          <ProcedureCall id="_1lCg"
+                         procedure="select.analysis.statistics_dialog.mask">
             <variable name="mask">$(mask1)</variable>
           </ProcedureCall>
           <IfSequence id="_1lEs" test="&#34;$(mask2)&#34;&lt;&gt;&#34;&#34;">
             <ProcedureCall id="_1lCh"
-                           procedure="select.statistics_dialog.mask">
+                           procedure="select.analysis.statistics_dialog.mask">
               <variable name="mask">$(mask2)</variable>
             </ProcedureCall>
           </IfSequence>
           <ProcedureCall id="_1lCi"
-                         procedure="do_click.statistics_dialog.refreshButton"/>
+                         procedure="do_click.analysis.statistics.refresh_button"/>
           <ProcedureCall id="_1lCj"
                          procedure="wait.disappear.computing_statistics_progress monitor"/>
+        </IfSequence>
+      </Procedure>
+      <Procedure id="_1p20" name="band_correlative_plot">
+        <ProcedureCall id="_1p3j"
+                       procedure="import.vector_data.import_CSV_data_dialog.vector_data_csv"/>
+        <IfSequence id="_1po6"
+                    test="&#34;$(import_csv_error)&#34;==&#34;false&#34;">
+          <ProcedureCall id="_1poD"
+                         procedure="select.product_tree.vector_node">
+            <variable name="prod_id">0</variable>
+            <variable name="node_id">0</variable>
+            <variable name="node_name">$(csv_file)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pn+" procedure="get.tree.get_index_of_node">
+            <variable name="prod_id">0</variable>
+            <variable name="node">$(csv_file)</variable>
+            <variable name="nodeSeparator">@</variable>
+            <variable name="linear">false</variable>
+          </ProcedureCall>
+          <IfSequence id="_1poG"
+                      test="&#34;$(new_band_id)&#34;&lt;&gt;&#34;&#34;">
+            <ProcedureCall id="_1poE"
+                           procedure="open.analysis.correlative_plot_dialog"/>
+            <ProcedureCall id="_1p1t"
+                           procedure="utility.open_image_view_check_it"/>
+            <ProcedureCall id="_1poM"
+                           procedure="select.analysis.correlative_plot.point_data_source">
+              <variable name="data_source">$(csv_file)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1poS"
+                           procedure="select.analysis.correlative_plot.data_field">
+              <variable name="data_field">$(data_field)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1p22"
+                           procedure="deselect.analysis.correlative_plot.use_ROI_mask"/>
+            <ProcedureCall id="_1poW"
+                           procedure="do_click.analysis.correlative_plot.switch_to_table_button"/>
+            <ProcedureCall id="_1poY"
+                           procedure="do_click.analysis.correlative_plot.switch_to_chart_button"/>
+            <IfSequence id="_1p25"
+                        test="&#34;$(mask1)&#34;&lt;&gt;&#34;&#34;">
+              <ProcedureCall id="_1pog"
+                             procedure="select.analysis.correlative_plot.use_ROI_mask"/>
+              <ProcedureCall id="_1p27"
+                             procedure="select.analysis.correlative_plot.mask">
+                <variable name="mask">$(mask1)</variable>
+              </ProcedureCall>
+            </IfSequence>
+          </IfSequence>
+        </IfSequence>
+      </Procedure>
+      <Procedure id="_1pou" name="band_scatter_plot">
+        <ProcedureCall id="_1ppA"
+                       procedure="open.analysis.scatter_plot_dialog"/>
+        <ProcedureCall id="_1ppB"
+                       procedure="deselect.analysis.scatter_plot.use_ROI_mask"/>
+        <ProcedureCall id="_1ppR"
+                       procedure="select.analysis.scatter_plot.x_band">
+          <variable name="x_band">$(bandName)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1ppU"
+                       procedure="select.analysis.scatter_plot.y_band">
+          <variable name="y_band">$(bandName2)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1ppL"
+                       procedure="do_click.analysis.scatter_plot.refresh_button"/>
+        <ProcedureCall disabled="true" id="_1ppV"
+                       procedure="select.analysis.scatter_plot.invert_plot_colors"/>
+        <IfSequence id="_1ppE" test="&#34;$(mask1)&#34;&lt;&gt;&#34;&#34;">
+          <ProcedureCall id="_1ppF"
+                         procedure="select.analysis.scatter_plot.use_ROI_mask"/>
+          <ProcedureCall id="_1ppG"
+                         procedure="select.analysis.scatter_plot.mask">
+            <variable name="mask">$(mask1)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ppW"
+                         procedure="do_click.analysis.scatter_plot.refresh_button"/>
+          <ProcedureCall id="_1ppX"
+                         procedure="wait.disappear.computing_scatter_plot_progress monitor"/>
         </IfSequence>
       </Procedure>
     </Package>
@@ -1261,140 +1457,6 @@
         </IfSequence>
       </Procedure>
     </Package>
-    <Package id="_1l2s" name="import_data">
-      <Procedure id="_1lWC" name="raster_data">
-        <variable name="import_data"/>
-        <ProcedureCall id="_1ocP" procedure="check.product.not_opened"/>
-        <IfSequence id="_1ocQ"
-                    test="&#34;$(not_opened)&#34;==&#34;false&#34;">
-          <ProcedureCall id="_1ocS" procedure="close.all_products"/>
-        </IfSequence>
-        <ProcedureCall id="_1oUI"
-                       procedure="product_meta_data.product_attributes">
-          <variable name="prod_type">$(import_data)</variable>
-        </ProcedureCall>
-        <ProcedureCall id="_1oRE" procedure="open.product_in_snap">
-          <variable name="prod_dir">$(dataInDir)</variable>
-          <variable name="in_out">in</variable>
-          <variable name="prod">$(fileName)</variable>
-          <variable name="product_type">$(import_data)</variable>
-          <comment>
-</comment>
-        </ProcedureCall>
-        <BasicSequence disabled="true" id="_1oUH"
-                       name="if_import_is_working_again">
-          <IfSequence id="_1oaH"
-                      test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-            <ProcedureCall id="_1oaj" procedure="open.product_in_snap">
-              <variable name="prod_dir">$(dataInDir)</variable>
-              <variable name="prod">$(fileName)</variable>
-              <variable name="product_type">$(import_data)</variable>
-              <comment> 	 
-</comment>
-            </ProcedureCall>
-            <ElseSequence id="_1oak">
-              <IfSequence id="_1oaI"
-                          test="&#34;$(menu_item)&#34;&lt;&gt;&#34;&#34;">
-                <TryStep id="_1oaJ" name="open_import_dialog">
-                  <comment>@teststep Open 'Import Product' dialog</comment>
-                  <IfSequence id="_1oaK"
-                              test="&#34;$(product_group)&#34;==&#34;&#34;">
-                    <ProcedureCall id="_1oaL"
-                                   procedure="utility.raster_data.other_import">
-                      <variable name="menu_item">$(menu_item)</variable>
-                    </ProcedureCall>
-                    <ElseifSequence id="_1oaM"
-                                    test="&#34;$(product_group)&#34;==&#34;multispectral&#34;">
-                      <ProcedureCall id="_1oaN"
-                                     procedure="utility.raster_data.import_multispectral">
-                        <variable name="menu_item">$(menu_item)</variable>
-                      </ProcedureCall>
-                    </ElseifSequence>
-                    <ElseifSequence id="_1oaO"
-                                    test="&#34;$(product_group)&#34;==&#34;generic&#34;">
-                      <ProcedureCall id="_1oaP"
-                                     procedure="utility.raster_data.import_generic">
-                        <variable name="menu_item">$(menu_item)</variable>
-                      </ProcedureCall>
-                    </ElseifSequence>
-                    <ElseifSequence id="_1oaQ"
-                                    test="&#34;$(product_group)&#34;==&#34;sar&#34;">
-                      <ProcedureCall id="_1oaR"
-                                     procedure="utility.raster_data.import_sar">
-                        <variable name="menu_item">$(menu_item)</variable>
-                      </ProcedureCall>
-                    </ElseifSequence>
-                  </IfSequence>
-                  <ProcedureCall id="_1oaS"
-                                 procedure="wait.appear.dialog.import_product"/>
-                  <ProcedureCall id="_1oaT"
-                                 procedure="utility.import.fill_dialog"/>
-                  <CatchSequence exception="TestException" id="_1oaU"
-                                 maxerror="0">
-                    <TryStep id="_1oaV">
-                      <IfSequence id="_1oaW"
-                                  test="&#34;$(product_group)&#34;==&#34;&#34;">
-                        <ProcedureCall id="_1oaX"
-                                       procedure="utility.raster_data.other_import">
-                          <variable name="menu_item">$(menu_item)</variable>
-                        </ProcedureCall>
-                        <ElseifSequence id="_1oaY"
-                                        test="&#34;$(product_group)&#34;==&#34;multispectral&#34;">
-                          <ProcedureCall id="_1oaZ"
-                                         procedure="utility.raster_data.import_multispectral">
-                            <variable name="menu_item">$(menu_item)</variable>
-                          </ProcedureCall>
-                        </ElseifSequence>
-                        <ElseifSequence id="_1oaa"
-                                        test="&#34;$(product_group)&#34;==&#34;generic&#34;">
-                          <ProcedureCall id="_1oab"
-                                         procedure="utility.raster_data.import_generic">
-                            <variable name="menu_item">$(menu_item)</variable>
-                          </ProcedureCall>
-                        </ElseifSequence>
-                        <ElseifSequence id="_1oac"
-                                        test="&#34;$(product_group)&#34;==&#34;sar&#34;">
-                          <ProcedureCall id="_1oad"
-                                         procedure="utility.raster_data.import_sar">
-                            <variable name="menu_item">$(menu_item)</variable>
-                          </ProcedureCall>
-                        </ElseifSequence>
-                      </IfSequence>
-                      <ProcedureCall id="_1oae"
-                                     procedure="wait.appear.dialog.import_product"/>
-                      <ProcedureCall id="_1oaf"
-                                     procedure="utility.import.fill_dialog"/>
-                      <CatchSequence exception="TestException" id="_1oag"
-                                     maxerror="0">
-                        <ProcedureCall id="_1oah"
-                                       procedure="run-log.error_message.dialog_Import_Product_does_not_appear"/>
-                      </CatchSequence>
-                    </TryStep>
-                  </CatchSequence>
-                </TryStep>
-                <ElseSequence id="_1oal">
-                  <ProcedureCall id="_1oam" procedure="open.product_in_snap">
-                    <variable name="prod_dir">$(dataInDir)</variable>
-                    <variable name="in_out">in</variable>
-                    <variable name="prod">$(fileName)</variable>
-                    <variable name="product_type">$(import_data)</variable>
-                    <comment>
-</comment>
-                  </ProcedureCall>
-                </ElseSequence>
-              </IfSequence>
-            </ElseSequence>
-          </IfSequence>
-        </BasicSequence>
-        <ProcedureCall id="_1oap" procedure="check.product.not_opened"/>
-        <IfSequence id="_1oaq" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
-          <ProcedureCall id="_1oao" procedure="run-log.logError">
-            <variable name="message">$(fileName) did not appear</variable>
-            <variable name="withScreenshots">true</variable>
-          </ProcedureCall>
-        </IfSequence>
-      </Procedure>
-    </Package>
     <Package id="_1l8Q" name="preparation">
       <Procedure id="_1l5e" name="application_for_test">
         <comment>@teststep Test preparation</comment>
@@ -1422,6 +1484,40 @@
       </Procedure>
     </Package>
     <Package id="_1l2b" name="utility">
+      <Package id="_1p2v" name="vector_data">
+        <Procedure id="_1p2w" name="csv">
+          <ProcedureCall id="_1p3D" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1p3G" procedure="do_click.menu.file.import"/>
+          <ProcedureCall id="_1p3H"
+                         procedure="do_click.menu.file.import.vector_data"/>
+          <ProcedureCall id="_1p3F"
+                         procedure="do_click.menu.file.import.vector_data.csv"/>
+        </Procedure>
+        <Procedure id="_1p3I" name="esri_shapefile">
+          <ProcedureCall id="_1p3J" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1p3K" procedure="do_click.menu.file.import"/>
+          <ProcedureCall id="_1p3L"
+                         procedure="do_click.menu.file.import.vector_data"/>
+          <ProcedureCall id="_1p3M"
+                         procedure="do_click.menu.file.import.vector_data.esri_shapefile"/>
+        </Procedure>
+        <Procedure id="_1p3N" name="mermaid_extraction_file">
+          <ProcedureCall id="_1p3O" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1p3P" procedure="do_click.menu.file.import"/>
+          <ProcedureCall id="_1p3Q"
+                         procedure="do_click.menu.file.import.vector_data"/>
+          <ProcedureCall id="_1p3R"
+                         procedure="do_click.menu.file.import.vector_data.mermaid_extraction_file"/>
+        </Procedure>
+        <Procedure id="_1p3S" name="seaDAS_6x_track">
+          <ProcedureCall id="_1p3T" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1p3U" procedure="do_click.menu.file.import"/>
+          <ProcedureCall id="_1p3V"
+                         procedure="do_click.menu.file.import.vector_data"/>
+          <ProcedureCall id="_1p3W"
+                         procedure="do_click.menu.file.import.vector_data.seaDAS_6x_track"/>
+        </Procedure>
+      </Package>
       <Package id="_1oZk" name="raster_data">
         <Procedure id="_1oZh" name="import_multispectral">
           <variable name="menu_item"/>
@@ -1847,6 +1943,11 @@
     </Package>
   </PackageRoot>
   <ExtraSequence id="_4">
+    <IfSequence id="_58D" test="${qftest:windows}">
+      <ElseifSequence id="_1l3m" name="MAC?"
+                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+      <ElseSequence id="_58I"/>
+    </IfSequence>
     <SetGlobalStep id="_1oZC" varname="product_group"/>
     <SetGlobalStep id="_1muD" varname="reader">
       <default>All Files</default>
@@ -1863,7 +1964,7 @@
     </SetGlobalStep>
     <Procedure disabled="true" id="_1oMc" name="open_metadata_check_it">
       <variable name="metadata_name"/>
-      <ProcedureCall id="_1oMo" procedure="get.metadata_node_id">
+      <ProcedureCall id="_1oMo" procedure="get.tree.metadata_node_id">
         <variable name="prod_id">0</variable>
       </ProcedureCall>
       <ProcedureCall id="_1oMf" procedure="get.additional_metadata_node_id">
@@ -2107,10 +2208,10 @@
       </IfSequence>
     </Procedure>
     <Procedure id="_1lDV" name="band_statistics">
-      <ProcedureCall id="_1lDW" procedure="import_data.raster_data">
+      <ProcedureCall id="_1lDW" procedure="import.raster_data">
         <variable name="import_data">sentinel3</variable>
       </ProcedureCall>
-      <ProcedureCall id="_1lDX" procedure="open.statistics_dialog"/>
+      <ProcedureCall id="_1lDX" procedure="open.analysis.statistics_dialog"/>
       <ProcedureCall id="_1lDY"
                      procedure="do_click.statistics_dialog.refreshButton"/>
       <ProcedureCall id="_1lDZ"
@@ -2216,11 +2317,13 @@
         </CheckItemsStep>
       </TestStep>
       <ProcedureCall id="_1lDz"
-                     procedure="select.statistics_dialog.use_ROI_mask"/>
-      <ProcedureCall id="_1lD+" procedure="select.statistics_dialog.mask">
+                     procedure="select.analysis.statistics_dialog.use_ROI_mask"/>
+      <ProcedureCall id="_1lD+"
+                     procedure="select.analysis.statistics_dialog.mask">
         <variable name="mask">$(mask1)</variable>
       </ProcedureCall>
-      <ProcedureCall id="_1lD-" procedure="select.statistics_dialog.mask">
+      <ProcedureCall id="_1lD-"
+                     procedure="select.analysis.statistics_dialog.mask">
         <variable name="mask">$(mask2)</variable>
       </ProcedureCall>
       <ProcedureCall id="_1lE0"

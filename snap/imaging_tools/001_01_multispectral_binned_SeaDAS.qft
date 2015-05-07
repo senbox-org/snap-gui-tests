@@ -3,19 +3,20 @@
 <RootStep id="_0" name="root" version="4.0.4">
   <include>qfs.qft</include>
   <include>../lib/snap_main.qft</include>
-  <TestSet id="_1" name="01_01_netCdf_cf_imaging_tools"
-           reportname="01-01 Imaging tools NetCDF-CF">
-    <DependencyReference id="_1lXI"
+  <TestSet id="_1" name="01_01_multispectral_binned_SeaDAS"
+           reportname="01-01 Imaging tools multispectral binned SeaDAS data">
+    <DependencyReference id="_1lWz"
                          reference="dependencies.start_application"/>
     <TestSet id="_D" name="open_product_open_image_view">
       <DataDriver id="_3y4"
                   loopreportname="Open image view of $(dataInDir)/$(fileName) data product"
                   name="dataTable">
-        <ProcedureCall id="_Bt4" procedure="tables.netCdf_cf"/>
+        <ProcedureCall id="_Bt4"
+                       procedure="tables.seaDAS_multispectral_binned"/>
       </DataDriver>
       <TestCase id="_2" name="test" reportname="$(productName)">
-        <ProcedureCall id="_1lEv" procedure="import.raster_data">
-          <variable name="import_data">netCdf_cf</variable>
+        <ProcedureCall id="_C" procedure="import.raster_data">
+          <variable name="import_data">seaDAS_binned</variable>
         </ProcedureCall>
         <ProcedureCall id="_1lEu"
                        procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
