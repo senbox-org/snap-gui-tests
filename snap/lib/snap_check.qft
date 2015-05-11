@@ -216,20 +216,10 @@
         </Procedure>
       </Package>
       <Package id="_1pZX" name="opened">
-        <Procedure id="_1po+" name="point_data_interpretation_dialog">
+        <Procedure id="_1mmx" name="band_maths_expression_editor">
           <ComponentWaiter client="$(client)"
-                           component="dialogPoint_Data_Interpretation"
-                           id="_1pp0" timeout="1000"/>
-        </Procedure>
-        <Procedure id="_1pp3" name="import_CSV_data_dialog">
-          <ComponentWaiter client="$(client)"
-                           component="dialogImport_CSV_Data" id="_1pp5"
-                           timeout="10"/>
-        </Procedure>
-        <Procedure id="_1pZY" name="import_CSV_file_window">
-          <ComponentWaiter client="$(client)"
-                           component="dialogImport_CSV_file" id="_1pZZ"
-                           timeout="10"/>
+                           component="dialogBand_Maths_Expression_Editor"
+                           id="_1mju" timeout="10"/>
         </Procedure>
         <Procedure id="_1pl2" name="dialog_SNAP_Import_CSV_file">
           <comment>@teststep Click 'OK' button in the 'SNAP - Import CSV file' error dialog.</comment>
@@ -241,10 +231,25 @@
           <ComponentWaiter client="$(client)" component="dialog5" id="_1pn4"
                            timeout="10"/>
         </Procedure>
-        <Procedure id="_1mmx" name="band_maths_expression_editor">
+        <Procedure id="_1pp3" name="import_CSV_data_dialog">
           <ComponentWaiter client="$(client)"
-                           component="dialogBand_Maths_Expression_Editor"
-                           id="_1mju" timeout="10"/>
+                           component="dialogImport_CSV_Data" id="_1pp5"
+                           timeout="10"/>
+        </Procedure>
+        <Procedure id="_1pZY" name="import_CSV_file_window">
+          <ComponentWaiter client="$(client)"
+                           component="dialogImport_CSV_file" id="_1pZZ"
+                           timeout="10"/>
+        </Procedure>
+        <Procedure id="_1px5" name="layer_manager">
+          <ComponentWaiter client="$(client)"
+                           component="NbMainWindow.Content_displayer.treeTransparency:2"
+                           id="_1ptJ" raise="false" timeout="10"/>
+        </Procedure>
+        <Procedure id="_1po+" name="point_data_interpretation_dialog">
+          <ComponentWaiter client="$(client)"
+                           component="dialogPoint_Data_Interpretation"
+                           id="_1pp0" timeout="1000"/>
         </Procedure>
       </Package>
       <Package id="_1oOp" name="tools">
@@ -1860,7 +1865,7 @@
           </Procedure>
         </Package>
       </Package>
-      <Package disabled="true" id="_7" name="uncertainty_visualisation">
+      <Package id="_7" name="uncertainty_visualisation">
         <Package id="_1l7r" name="text">
           <Procedure id="_1l7t" name="band_name">
             <variable name="err_band"/>
@@ -1869,8 +1874,8 @@
               <default>Name: $(err_band)</default>
             </SetGlobalStep>
             <CheckStringStep client="$(client)"
-                             component="mainFrameESA_S-3_Toolbox.labelName_err_band"
-                             id="_1l7v">
+                             component="NbMainWindow.labelName:_OGVI_err"
+                             id="_1ply">
               <text>$(name_text)</text>
             </CheckStringStep>
           </Procedure>
@@ -1881,8 +1886,8 @@
               <default>Max: $(max)</default>
             </SetGlobalStep>
             <CheckStringStep client="$(client)"
-                             component="mainFrameESA_S-3_Toolbox.label_Max"
-                             id="_1l8E">
+                             component="NbMainWindow.labelMax:_4.9E-324"
+                             id="_1pmp">
               <text>$(max_text)</text>
             </CheckStringStep>
           </Procedure>
@@ -1893,9 +1898,9 @@
               <default>Min: $(min)</default>
             </SetGlobalStep>
             <CheckStringStep client="$(client)"
-                             component="mainFrameESA_S-3_Toolbox.label_Min"
-                             id="_1l87">
-              <text>Min: 0.0</text>
+                             component="NbMainWindow.labelMin:_0.0"
+                             id="_1pmo">
+              <text>$(min_text)</text>
             </CheckStringStep>
           </Procedure>
           <Procedure id="_1l7s" name="rough_statistics">
@@ -1903,8 +1908,8 @@
             <ProcedureCall id="_1l8K"
                            procedure="set.variable.rough_statistics"/>
             <CheckStringStep client="$(client)"
-                             component="mainFrameESA_S-3_Toolbox.labelRough_statistics!"
-                             id="_1l59">
+                             component="NbMainWindow.labelRough_statistics!"
+                             id="_1pmq">
               <text>$(rough_statistics)</text>
             </CheckStringStep>
           </Procedure>
@@ -1915,23 +1920,28 @@
               <default>Unit: $(unit)</default>
             </SetGlobalStep>
             <CheckStringStep client="$(client)"
-                             component="mainFrameESA_S-3_Toolbox.labelUnit_unit"
-                             id="_1l80">
+                             component="NbMainWindow.labelUnit:_null"
+                             id="_1pmn">
               <text>$(unit_text)</text>
             </CheckStringStep>
           </Procedure>
         </Package>
-        <Procedure id="_1l6T" name="label_More_Options">
+        <Procedure disabled="true" id="_1l6T" name="label_More_Options">
           <variable name="txt"/>
           <variable name="txt_example">More Options ; Less Options</variable>
           <CheckStringStep client="$(client)"
-                           component="mainFrameESA_S-3_Toolbox.labelMore_Options"
-                           id="_1l6f">
-            <text>$(txt)</text>
+                           component="NbMainWindow.labelLess_Options"
+                           id="_1pmv">
+            <text>Less Options</text>
+          </CheckStringStep>
+          <CheckStringStep client="$(client)"
+                           component="NbMainWindow.labelMore_Options"
+                           id="_1pmx">
+            <text>More Options</text>
           </CheckStringStep>
         </Procedure>
       </Package>
-      <Package id="_1k-n" name="view">
+      <Package id="_1k-n" name="image_view">
         <Procedure disabled="true" id="_1k-o" name="title">
           <variable name="prod_nr"/>
           <variable name="band_name"/>

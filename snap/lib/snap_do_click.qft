@@ -2095,7 +2095,7 @@
             </ElseSequence>
           </IfSequence>
           <MouseEventStep clicks="1" client="$(client)"
-                          component="NbMainWindow.Content_displayer.treeTransparency:&amp;/$(layer_id)"
+                          component="NbMainWindow.Content_displayer.treeTransparency:2&amp;/$(layer_id)"
                           event="MOUSE_MPRC" id="_1pjM" modifiers="16"/>
         </Procedure>
         <Procedure id="_1mQM" name="layer_checkbox">
@@ -2122,7 +2122,7 @@
             </ElseSequence>
           </IfSequence>
           <MouseEventStep clicks="1" client="$(client)"
-                          component="NbMainWindow.Content_displayer.treeTransparency:&amp;/$(layer_id)"
+                          component="NbMainWindow.Content_displayer.treeTransparency:2&amp;/$(layer_id)"
                           event="MOUSE_MPRC" id="_1psM" modifiers="16"/>
           <IfSequence id="_1omJ" test="${qftest:windows}">
             <ElseifSequence id="_1omK" name="MAC?"
@@ -3600,6 +3600,117 @@
                 </ElseSequence>
               </IfSequence>
             </Procedure>
+            <Procedure id="_1pt5"
+                       name="meris_aatsr_smac_atmospheric_correction">
+              <comment>@teststep Do click Menu Item 'MERIS/(A)ATSR SMAC Atmospheric Correction'</comment>
+              <IfSequence id="_1pt6" test="${qftest:windows}">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.menuItemMERIS/(A)ATSR_SMAC_Atmospheric_Correction"
+                                event="MOUSE_MPRC" id="_1pt7" modifiers="16"/>
+                <ElseifSequence id="_1pt8" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItemMERIS/(A)ATSR_SMAC_Atmospheric_Correction"
+                                  event="MOUSE_MPRC" id="_1pt9"
+                                  modifiers="16"/>
+                </ElseifSequence>
+                <ElseSequence id="_1ptA">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItemMERIS/(A)ATSR_SMAC_Atmospheric_Correction"
+                                  event="MOUSE_MPRC" id="_1ptB"
+                                  modifiers="16"/>
+                </ElseSequence>
+              </IfSequence>
+            </Procedure>
+          </Package>
+          <Package id="_1psk" name="thematic_water_processing">
+            <Procedure id="_1psl" name="aatsr_sst_processor">
+              <comment>@teststep Do click Menu Item '(A)ATSR SST Processor'</comment>
+              <IfSequence id="_1psm" test="${qftest:windows}">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.menuItem(A)ATSR_SST_Processor"
+                                event="MOUSE_MPRC" id="_1pnj" modifiers="16"/>
+                <ElseifSequence id="_1pso" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItem(A)ATSR_SST_Processor"
+                                  event="MOUSE_MPRC" id="_1ptJ"
+                                  modifiers="16"/>
+                </ElseifSequence>
+                <ElseSequence id="_1psq">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItem(A)ATSR_SST_Processor"
+                                  event="MOUSE_MPRC" id="_1ptK"
+                                  modifiers="16"/>
+                </ElseSequence>
+              </IfSequence>
+            </Procedure>
+            <Procedure id="_1ptC" name="flh_mci_processor">
+              <comment>@teststep Do click Menu Item 'FLH/MCI Processor'</comment>
+              <IfSequence id="_1ptD" test="${qftest:windows}">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.menuItemFLH/MCI_Processor"
+                                event="MOUSE_MPRC" id="_1ptE" modifiers="16"/>
+                <ElseifSequence id="_1ptF" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItemFLH/MCI_Processor"
+                                  event="MOUSE_MPRC" id="_1ptG"
+                                  modifiers="16"/>
+                </ElseifSequence>
+                <ElseSequence id="_1ptH">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItemFLH/MCI_Processor"
+                                  event="MOUSE_MPRC" id="_1ptI"
+                                  modifiers="16"/>
+                </ElseSequence>
+              </IfSequence>
+            </Procedure>
+          </Package>
+          <Package id="_1pss" name="preprocessing">
+            <Procedure id="_1pst"
+                       name="meris_radiometric_correction_processor">
+              <comment>@teststep Do click Menu Item 'MERIS Radiometric Correction'.</comment>
+              <IfSequence id="_1psu" test="${qftest:windows}">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.menuItemMERIS_Radiometric_Correction"
+                                event="MOUSE_MPRC" id="_1psv" modifiers="16"/>
+                <ElseifSequence id="_1psw" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItemMERIS_Radiometric_Correction"
+                                  event="MOUSE_MPRC" id="_1psx"
+                                  modifiers="16"/>
+                </ElseifSequence>
+                <ElseSequence id="_1psy">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItemMERIS_Radiometric_Correction"
+                                  event="MOUSE_MPRC" id="_1psz"
+                                  modifiers="16"/>
+                </ElseSequence>
+              </IfSequence>
+            </Procedure>
+            <Procedure id="_1ps+" name="meris_cloud_probability_processor">
+              <comment>@teststep Do click Menu Item 'MERIS Cloud Probability Processor'</comment>
+              <IfSequence id="_1ps-" test="${qftest:windows}">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.menuItemMERIS_Cloud_Probability_Processor"
+                                event="MOUSE_MPRC" id="_1pt0" modifiers="16"/>
+                <ElseifSequence id="_1pt1" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItemMERIS_Cloud_Probability_Processor"
+                                  event="MOUSE_MPRC" id="_1pt2"
+                                  modifiers="16"/>
+                </ElseifSequence>
+                <ElseSequence id="_1pt3">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItemMERIS_Cloud_Probability_Processor"
+                                  event="MOUSE_MPRC" id="_1pt4"
+                                  modifiers="16"/>
+                </ElseSequence>
+              </IfSequence>
+            </Procedure>
           </Package>
           <Procedure id="_1p8n" name="geometric_operations">
             <comment>@teststep Do click Menu Item 'Geometric Operations'</comment>
@@ -3693,6 +3804,44 @@
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="NbMainWindow.Thematic_Land_Processing"
                                 event="MOUSE_MPRC" id="_1pAL" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1psd" name="thematic_water_processing">
+            <comment>@teststep Do click Menu Item 'Thematic Water Processing'</comment>
+            <IfSequence id="_1pse" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.Thematic_Water_Processing"
+                              event="MOUSE_MPRC" id="_1psf" modifiers="16"/>
+              <ElseifSequence id="_1psg" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.Thematic_Water_Processing"
+                                event="MOUSE_MPRC" id="_1psh" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1psi">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.Thematic_Water_Processing"
+                                event="MOUSE_MPRC" id="_1psj" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1psW" name="preprocessing">
+            <comment>@teststep Do click Menu Item 'Preprocessing'</comment>
+            <IfSequence id="_1psX" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.Preprocessing"
+                              event="MOUSE_MPRC" id="_1psY" modifiers="16"/>
+              <ElseifSequence id="_1psZ" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.Preprocessing"
+                                event="MOUSE_MPRC" id="_1psa" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1psb">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.Preprocessing"
+                                event="MOUSE_MPRC" id="_1psc" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>

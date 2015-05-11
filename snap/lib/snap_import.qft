@@ -168,7 +168,8 @@
                   </TryStep>
                 </CatchSequence>
               </TryStep>
-              <TryStep id="_1pnm" name="fiil_in_import_CSV_file_click_ok">
+              <TryStep id="_1pnm" name="fiil_in_import_CSV_file_click_ok"
+                       postdelay="1000">
                 <ProcedureCall id="_1pnl"
                                procedure="check.opened.import_CSV_file_window"/>
                 <SetGlobalStep id="_1p44" varname="csv_file_with_path">
@@ -190,7 +191,8 @@
                   </ProcedureCall>
                 </CatchSequence>
               </TryStep>
-              <TryStep id="_1pkk" name="import_CSV_data_dialog">
+              <TryStep id="_1pkk" name="import_CSV_data_dialog"
+                       postdelay="1000">
                 <ProcedureCall id="_1po7"
                                procedure="check.opened.import_CSV_data_dialog"/>
                 <ProcedureCall id="_1po8"
@@ -225,20 +227,17 @@
                 </CatchSequence>
               </TryStep>
               <TryStep id="_1pns" name="shoot_error_if_csv_file_not_imported">
-                <SetGlobalStep id="_1po0" varname="import_csv_error">
-                  <default>false</default>
-                </SetGlobalStep>
                 <ProcedureCall id="_1pnq"
                                procedure="check.opened.dialog_SNAP_Import_CSV_file"/>
+                <SetGlobalStep id="_1po1" varname="import_csv_error">
+                  <default>true</default>
+                </SetGlobalStep>
                 <ProcedureCall id="_1pnv" procedure="run-log.make_screensot">
                   <variable name="iw_name">import_CSV_data</variable>
                   <variable name="iw_name_example">error_dialog</variable>
                 </ProcedureCall>
                 <ProcedureCall id="_1pnr"
                                procedure="do_click.error_dialog.dialog_SNAP_Import_CSV_file.button_ok"/>
-                <SetGlobalStep id="_1po1" varname="import_csv_error">
-                  <default>true</default>
-                </SetGlobalStep>
                 <ProcedureCall id="_1pnu"
                                procedure="run-log.error_message.error_dialog_appears">
                   <variable name="dialog">Import CSV data error</variable>
@@ -249,6 +248,23 @@
                     <default>false</default>
                   </SetGlobalStep>
                 </CatchSequence>
+              </TryStep>
+              <TryStep id="_1ptN"
+                       name="check_all_modal_dialogs_are_closed_else">
+                <ProcedureCall id="_1ptO"
+                               procedure="check.opened.import_CSV_data_dialog"/>
+                <IfSequence id="_1ptY"
+                            test="&#34;$(import_csv_error)&#34;==&#34;false&#34;">
+                  <SetGlobalStep id="_1ptV" varname="import_csv_error">
+                    <default>true</default>
+                  </SetGlobalStep>
+                </IfSequence>
+                <ProcedureCall id="_1ptX"
+                               procedure="qfs.swing.cleanup.closeAllModalDialogs">
+                  <variable name="maxDialogs">5</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1ptT"
+                               maxerror="0"/>
               </TryStep>
             </IfSequence>
           </Procedure>

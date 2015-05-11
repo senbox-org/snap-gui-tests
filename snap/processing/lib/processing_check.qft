@@ -584,6 +584,11 @@
           <ComponentWaiter client="$(client)" component="dialogReprojection"
                            id="_1pVk" timeout="10"/>
         </Procedure>
+        <Procedure id="_1q9E" name="orthorectification_tool_opened">
+          <ComponentWaiter client="$(client)"
+                           component="dialogOrthorectification" id="_1q9F"
+                           timeout="10"/>
+        </Procedure>
         <Package id="_1pX0" name="enabled">
           <Procedure id="_1pX1" name="menu_file">
             <comment>@teststep Check menu 'File' is enabled.</comment>
@@ -2145,6 +2150,273 @@
             </CheckStringStep>
           </Procedure>
         </Package>
+      </Package>
+      <Package id="_1q9M" name="em_cluster_analysis">
+        <Procedure id="_1q9U" name="em_cluster_analysis_tool_opened">
+          <ComponentWaiter client="$(client)"
+                           component="dialogEM_Cluster_Analysis" id="_1ppf"
+                           timeout="10"/>
+        </Procedure>
+      </Package>
+      <Package id="_1q9N" name="k_means_cluster_analysis">
+        <Procedure id="_1q9W" name="k_means_cluster_analysis_tool_opened">
+          <ComponentWaiter client="$(client)"
+                           component="dialogK-Means_Cluster_Analysis"
+                           id="_1ppn" timeout="10"/>
+        </Procedure>
+      </Package>
+      <Package id="_1q9O" name="principle_component_analysis">
+        <Procedure id="_1q9Y" name="principle_component_analysis_tool_opened">
+          <ComponentWaiter client="$(client)"
+                           component="dialogPrincipal_Component_Analysis"
+                           id="_1ppu" timeout="10"/>
+        </Procedure>
+      </Package>
+      <Package id="_1q9P" name="meris_aatsr_smac_atmospheric_correction">
+        <Procedure id="_1q9a"
+                   name="meris_aatsr_smac_atmospheric_correction_tool_opened">
+          <ComponentWaiter client="$(client)"
+                           component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction"
+                           id="_1pqF" timeout="10"/>
+        </Procedure>
+      </Package>
+      <Package id="_1q9Q" name="aatsr_sst_processor">
+        <Procedure id="_1q9c" name="aatsr_sst_processor_tool_opened">
+          <ComponentWaiter client="$(client)"
+                           component="dialog(A)ATSR_SST_Processor" id="_1pqQ"
+                           timeout="10"/>
+        </Procedure>
+      </Package>
+      <Package id="_1q9R" name="flh_mci_processor">
+        <Procedure id="_1q9e" name="flh_mci_tool_opened">
+          <ComponentWaiter client="$(client)"
+                           component="dialogFLH/MCI_Processor" id="_1pqa"
+                           timeout="10"/>
+        </Procedure>
+        <Package id="_1qA0" name="enabled">
+          <Procedure id="_1qA1" name="menu_file">
+            <comment>@teststep Check menu 'File' is enabled.</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogFLH/MCI_Processor.menuFile"
+                              id="_1qA2"/>
+          </Procedure>
+          <Procedure id="_1qA3" name="menu_help">
+            <comment>@teststep Check menu 'Help' is enabled.</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogFLH/MCI_Processor.menuHelp"
+                              id="_1qA4"/>
+          </Procedure>
+          <Procedure id="_1qA5" name="button_close">
+            <comment>@teststep Check  'Close' button enabled.</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogFLH/MCI_Processor.DefaultSingleTargetProductDialog.close"
+                              id="_1qA6"/>
+          </Procedure>
+          <Procedure id="_1qA7" name="button_apply">
+            <comment>@teststep Check  'Apply' button enabled.</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogFLH/MCI_Processor.DefaultSingleTargetProductDialog.apply"
+                              id="_1qA8"/>
+          </Procedure>
+          <Procedure id="_1qA9" name="button_source_product">
+            <comment>@teststep Check  'source product' button enabled.</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogFLH/MCI_Processor.button..."
+                              id="_1qAA"/>
+          </Procedure>
+          <Procedure id="_1qAB" name="button_directory">
+            <comment>@teststep Check  'directory' button enabled.</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogFLH/MCI_Processor.button...2"
+                              id="_1qAC"/>
+          </Procedure>
+          <Procedure id="_1qAD" name="save_as">
+            <comment>@teststep Check 'Save as' checkbox is enabled.</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogFLH/MCI_Processor.saveToFileSelected"
+                              id="_1qAE" resvarname="save_as_en"/>
+          </Procedure>
+          <Procedure id="_1qAF" name="open_in_snap">
+            <comment>@teststep Check 'Open in SNAP' checkbox is enabled.</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogFLH/MCI_Processor.openInAppSelected"
+                              id="_1qAG" resvarname="open_in_snap_en"/>
+          </Procedure>
+          <Procedure id="_1qAH" name="save_as_enabled_status">
+            <variable name="enabled"/>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogFLH/MCI_Processor.saveToFileSelected"
+                              id="_1qAI" state="$(enabled)"/>
+          </Procedure>
+          <Procedure id="_1qAJ" name="open_in_snap_enabled_status">
+            <variable name="enabled"/>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogFLH/MCI_Processor.openInAppSelected"
+                              id="_1qAK" state="$(enabled)"/>
+          </Procedure>
+        </Package>
+        <Package id="_1qAL" name="checked">
+          <Procedure id="_1qAM" name="save_as">
+            <comment>@teststep Check 'Save as' checkbox is selected.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogFLH/MCI_Processor.saveToFileSelected"
+                              id="_1qAN" resvarname="save_as"/>
+          </Procedure>
+          <Procedure id="_1qAO" name="open_in_snap">
+            <comment>@teststep Check 'Open in SNAP' checkbox is selected.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogFLH/MCI_Processor.openInAppSelected"
+                              id="_1qAP" resvarname="open_in_snap"/>
+          </Procedure>
+          <Procedure id="_1qAQ" name="save_as_selected_status">
+            <variable name="selected"/>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogFLH/MCI_Processor.saveToFileSelected"
+                              id="_1qAR" state="$(selected)"/>
+          </Procedure>
+          <Procedure id="_1qAS" name="open_in_snap_selected_status">
+            <variable name="selected"/>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogFLH/MCI_Processor.openInAppSelected"
+                              id="_1qAT" state="$(selected)"/>
+          </Procedure>
+          <Procedure id="_1qBZ" name="generate_slope_band">
+            <comment>@teststep Check 'Generate slope band' checkbox is selected.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogFLH/MCI_Processor.slope"
+                              id="_1qBa" resvarname="generate_slope_band"/>
+          </Procedure>
+          <Procedure id="_1qBb" name="generate_slope_band_selected_status">
+            <variable name="selected"/>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogFLH/MCI_Processor.slope"
+                              id="_1qBc" state="$(selected)"/>
+          </Procedure>
+        </Package>
+        <Package id="_1qAU" name="text">
+          <Procedure id="_1qAV" name="source_product_name">
+            <variable name="val"/>
+            <comment>@teststep Check source product name.</comment>
+            <CheckStringStep checktype="value" client="$(client)"
+                             component="dialogFLH/MCI_Processor.panelI/O_Parameters.comboThe_source_product."
+                             id="_1qAW">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1qAX" name="target_product_name">
+            <variable name="val"/>
+            <comment>@teststep Check target product name.</comment>
+            <CheckStringStep client="$(client)"
+                             component="dialogFLH/MCI_Processor.productName"
+                             id="_1qAY">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1qAZ" name="output_format_name">
+            <variable name="val"/>
+            <comment>@teststep Check selected outpur format.</comment>
+            <CheckStringStep checktype="value" client="$(client)"
+                             component="dialogFLH/MCI_Processor.formatName"
+                             id="_1qAa">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1qB1" name="preset">
+            <variable name="val"/>
+            <comment>@teststep Check preset.</comment>
+            <CheckStringStep checktype="value" client="$(client)"
+                             component="dialogFLH/MCI_Processor.preset"
+                             id="_1psO">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1qB3" name="lower_baseline_band_name">
+            <variable name="val"/>
+            <comment>@teststep Check 'lower baseline band name'</comment>
+            <CheckStringStep checktype="value" client="$(client)"
+                             component="dialogFLH/MCI_Processor.lowerBaselineBandName"
+                             id="_1psP">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1qB5" name="upper_baseline_band_name">
+            <variable name="val"/>
+            <comment>@teststep Check 'upper baseline band name'.</comment>
+            <CheckStringStep checktype="value" client="$(client)"
+                             component="dialogFLH/MCI_Processor.upperBaselineBandName"
+                             id="_1psQ">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1qB7" name="signal_band_name">
+            <variable name="val"/>
+            <comment>@teststep Check 'signal band name'.</comment>
+            <CheckStringStep checktype="value" client="$(client)"
+                             component="dialogFLH/MCI_Processor.signalBandName"
+                             id="_1qAk">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1qBT" name="line_height_band_name">
+            <variable name="val"/>
+            <comment>@teststep Check 'line height band name'.</comment>
+            <CheckStringStep client="$(client)"
+                             component="dialogFLH/MCI_Processor.lineHeightBandName"
+                             id="_1psS">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1qBV" name="slope_band_name">
+            <variable name="val"/>
+            <comment>@teststep Check 'slope band name'.</comment>
+            <CheckStringStep client="$(client)"
+                             component="dialogFLH/MCI_Processor.slopeBandName"
+                             id="_1psT">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1qBX" name="mask_expression">
+            <variable name="val"/>
+            <comment>@teststep Check 'mask expression'.</comment>
+            <CheckStringStep client="$(client)"
+                             component="dialogFLH/MCI_Processor.maskExpression"
+                             id="_1psU">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1qB9" name="cloud_correction_factor">
+            <variable name="val"/>
+            <comment>@teststep Check 'cloud correction factor'</comment>
+            <CheckStringStep client="$(client)"
+                             component="dialogFLH/MCI_Processor.cloudCorrectionFactor"
+                             id="_1psV">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1qAp" name="invalid_flh_mci_value">
+            <variable name="val"/>
+            <comment>@teststep Check 'invalid Flh/Mci value'</comment>
+            <CheckStringStep client="$(client)"
+                             component="dialogFLH/MCI_Processor.invalidFlhMciValue"
+                             id="_1psW">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+        </Package>
+      </Package>
+      <Package id="_1q9S" name="meris_radiometric_correction">
+        <Procedure id="_1q9g" name="meris_radiometric_correction_tool_opened">
+          <ComponentWaiter client="$(client)"
+                           component="dialogMERIS_L1b_Radiometric_Correction"
+                           id="_1pp-" timeout="10"/>
+        </Procedure>
+      </Package>
+      <Package id="_1q9T" name="meris_cloud_probability">
+        <Procedure id="_1q9i" name="meris_cloud_probability_tool_opened">
+          <ComponentWaiter client="$(client)"
+                           component="dialogMERIS_Cloud_Probability_Processor"
+                           id="_1pq6" timeout="10"/>
+        </Procedure>
       </Package>
     </Package>
   </PackageRoot>

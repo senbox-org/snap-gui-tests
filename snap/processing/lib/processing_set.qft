@@ -681,6 +681,90 @@
           </IfSequence>
         </Procedure>
       </Package>
+      <Package id="_1q8x" name="flh_mci_processor">
+        <Procedure id="_1qBs" name="presets_list">
+          <SetGlobalStep id="_1qBt" varname="meris_l1b_mci">
+            <default>MERIS L1b MCI</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1qBu" varname="meris_l2_flh">
+            <default>MERIS L2 FLH</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1qBv" varname="meris_l2_mci">
+            <default>MERIS L2 MCI</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1qBw" varname="none">
+            <default>None</default>
+          </SetGlobalStep>
+        </Procedure>
+        <Procedure id="_1qBx" name="line_height_band_name">
+          <variable name="val"/>
+          <comment>@teststep Insert line height band name.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogFLH/MCI_Processor.lineHeightBandName"
+                         id="_1qBy">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1qC2" name="slope_band_name">
+          <variable name="val"/>
+          <comment>@teststep Insert slope band name.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogFLH/MCI_Processor.slopeBandName"
+                         id="_1qC4">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1qC9" name="mask_expression">
+          <variable name="val"/>
+          <comment>@teststep Insert mask expression.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogFLH/MCI_Processor.maskExpression"
+                         id="_1qCC">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1qCG" name="cloud_correction_factor">
+          <variable name="val"/>
+          <comment>@teststep Insert cloud correction factor.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogFLH/MCI_Processor.cloudCorrectionFactor"
+                         id="_1qCK">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1qCN" name="invalid_value">
+          <variable name="val"/>
+          <comment>@teststep Insert invalid value.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogFLH/MCI_Processor.invalidFlhMciValue"
+                         id="_1qCS">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1q90" name="target_directory">
+          <variable name="dir"/>
+          <comment>@teststep Insert target directory.</comment>
+          <ProcedureCall id="_1q91"
+                         procedure="select.flh_mci_processor.save_as"/>
+          <ProcedureCall id="_1q92" procedure="path.output_data_directory">
+            <variable name="output_dir">$(dir)</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogFLH/MCI_Processor.productDir"
+                         id="_1q93">
+            <text>$(output_data_directory)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1q94" name="target_product_name">
+          <variable name="target_product_name"/>
+          <comment>@teststep Insert target product name.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogFLH/MCI_Processor.productName"
+                         id="_1q95">
+            <text>$(target_product_name)</text>
+          </TextInputStep>
+        </Procedure>
+      </Package>
       <Procedure id="_1pQc" name="target_product_with_path">
         <ProcedureCall id="_1oO-" procedure="path.main_path"/>
         <IfSequence id="_1pQi" test="${qftest:windows}">

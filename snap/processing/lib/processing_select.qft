@@ -891,6 +891,151 @@
         </Package>
         <Package id="_1phs" name="variables_conditions"/>
       </Package>
+      <Package id="_1q9G" name="flh_mci_processor">
+        <Procedure id="_1q9H" name="tab">
+          <variable name="tab"/>
+          <variable name="example">I/O Parameters;Processing Parameters</variable>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogFLH/MCI_Processor.tabbed.tab"
+                          event="MOUSE_MPRC" id="_1q9r" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1q9J" name="output_format">
+          <variable name="output_format"/>
+          <comment>@teststep Select output format</comment>
+          <TryStep id="_1q9K">
+            <ProcedureCall id="_1qAX"
+                           procedure="utility.flh_mci.output_format_flh_mci_processor">
+              <variable name="output_format_name">$(output_format)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1q9M" maxerror="0">
+              <TryStep id="_1q9N">
+                <ProcedureCall id="_1qAY"
+                               procedure="utility.flh_mci.output_format_flh_mci_processor">
+                  <variable name="output_format_name">$(output_format)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1q9P"
+                               maxerror="0">
+                  <ProcedureCall id="_1q9Q" procedure="run-log.logError">
+                    <variable name="message">$(output_format) can not be selected</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1q9R" name="save_as">
+          <comment>@teststep Check-in checkbox 'Save as'</comment>
+          <ProcedureCall id="_1q9S"
+                         procedure="check.flh_mci_processor.checked.save_as"/>
+          <IfSequence id="_1q9T" test="&#34;$(save_as)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1q9U"
+                           procedure="do_click.flh_mci_processor.save_as"/>
+          </IfSequence>
+          <ProcedureCall id="_1q9V"
+                         procedure="check.flh_mci_processor.checked.save_as_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1q9W" name="open_in_snap">
+          <comment>@teststep Check-in checkbox 'Open in SNAP'</comment>
+          <ProcedureCall id="_1q9X"
+                         procedure="check.flh_mci_processor.checked.open_in_snap"/>
+          <IfSequence id="_1q9Y"
+                      test="&#34;$(open_in_snap)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qAZ"
+                           procedure="do_click.flh_mci_processor.open_in_snap"/>
+          </IfSequence>
+          <ProcedureCall id="_1q9a"
+                         procedure="check.flh_mci_processor.checked.open_in_snap_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qAa" name="generate_slope_band">
+          <comment>@teststep Check-in checkbox 'Generate slope band'</comment>
+          <ProcedureCall id="_1qAb"
+                         procedure="check.flh_mci_processor.checked.generate_slope_band"/>
+          <IfSequence id="_1qAc"
+                      test="&#34;$(generate_slope_band)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qAf"
+                           procedure="do_click.flh_mci_processor.generate_slope_band"/>
+          </IfSequence>
+          <ProcedureCall id="_1qAe"
+                         procedure="check.flh_mci_processor.checked.generate_slope_band_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qBs" name="preset">
+          <variable name="preset"/>
+          <TryStep id="_1qC7">
+            <ProcedureCall id="_1qCK" procedure="utility.flh_mci.preset">
+              <variable name="preset">$(preset)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1qC9" maxerror="0">
+              <TryStep id="_1qCA">
+                <ProcedureCall id="_1qCL" procedure="utility.flh_mci.preset">
+                  <variable name="preset">$(preset)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1qCC"
+                               maxerror="0">
+                  <ProcedureCall id="_1qCD" procedure="run-log.logError">
+                    <variable name="message">Preset $(preset) can not be selected</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure disabled="true" id="_1q9b" name="red_source_band">
+          <variable name="red_source_band"/>
+          <TryStep id="_1q9c">
+            <ProcedureCall id="_1q9d"
+                           procedure="utility.ndvi.red_source_band_ndvi_processor">
+              <variable name="red_source_band">$(red_source_band)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1q9e" maxerror="0">
+              <TryStep id="_1q9f">
+                <ProcedureCall id="_1q9g"
+                               procedure="utility.ndvi.red_source_band_ndvi_processor">
+                  <variable name="red_source_band">$(red_source_band)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1q9h"
+                               maxerror="0">
+                  <ProcedureCall id="_1q9i" procedure="run-log.logError">
+                    <variable name="message">$(red_source_band) can not be selected</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure disabled="true" id="_1q9j" name="nir_source_band">
+          <variable name="nir_source_band"/>
+          <TryStep id="_1q9k">
+            <ProcedureCall id="_1q9l"
+                           procedure="utility.ndvi.nir_source_band_ndvi_processor">
+              <variable name="nir_source_band">$(nir_source_band)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1q9m" maxerror="0">
+              <TryStep id="_1q9n">
+                <ProcedureCall id="_1q9o"
+                               procedure="utility.ndvi.nir_source_band_ndvi_processor">
+                  <variable name="nir_source_band">$(nir_source_band)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1q9p"
+                               maxerror="0">
+                  <ProcedureCall id="_1q9q" procedure="run-log.logError">
+                    <variable name="message">$(nir_source_band) can not be selected</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+      </Package>
     </Package>
     <Package id="_1pMk" name="deselect">
       <Package id="_1pNW" name="collocation">
@@ -1096,7 +1241,7 @@
       <Package id="_1piZ" name="mosaicing">
         <Package id="_1pic" name="io_parameters">
           <Procedure id="_1pil" name="save_as">
-            <comment>@teststep Check-in checkbox 'Save as'</comment>
+            <comment>@teststep Check-out checkbox 'Save as'</comment>
             <ProcedureCall id="_1pim"
                            procedure="check.mosaicing.checked.io_parameters.save_as"/>
             <IfSequence id="_1pin"
@@ -1121,7 +1266,7 @@
             </ProcedureCall>
           </Procedure>
           <Procedure id="_1piu" name="open_in_snap">
-            <comment>@teststep Check-in checkbox 'Open in SNAP'</comment>
+            <comment>@teststep Check-out checkbox 'Open in SNAP'</comment>
             <ProcedureCall id="_1piv"
                            procedure="check.mosaicing.checked.io_parameters.open_in_snap"/>
             <IfSequence id="_1piw"
@@ -1150,7 +1295,7 @@
             </ProcedureCall>
           </Procedure>
           <Procedure id="_1pj3" name="update_target_product">
-            <comment>@teststep Check-in checkbox 'Update target product'</comment>
+            <comment>@teststep Check-out checkbox 'Update target product'</comment>
             <ProcedureCall id="_1pj4"
                            procedure="check.mosaicing.checked.io_parameters.update_target_product"/>
             <IfSequence id="_1pj5"
@@ -1166,7 +1311,7 @@
         </Package>
         <Package id="_1pj8" name="map_definition">
           <Procedure id="_1pjL" name="display_source_products">
-            <comment>@teststep Check-in checkbox 'Open in SNAP'</comment>
+            <comment>@teststep Check-out checkbox 'Open in SNAP'</comment>
             <ProcedureCall id="_1pjM"
                            procedure="check.mosaicing.checked.map_definition.display_source_products"/>
             <IfSequence id="_1pjN"
@@ -1206,6 +1351,49 @@
           </IfSequence>
           <ProcedureCall id="_1q64"
                          procedure="check.edit_aggregator.checked.output_counts_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+      </Package>
+      <Package id="_1qAg" name="flh_mci_processor">
+        <Procedure id="_1qAr" name="save_as">
+          <comment>@teststep Check-out checkbox 'Save as'</comment>
+          <ProcedureCall id="_1qAs"
+                         procedure="check.flh_mci_processor.checked.save_as"/>
+          <IfSequence id="_1qAt" test="&#34;$(save_as)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1qAu"
+                           procedure="do_click.flh_mci_processor.save_as"/>
+          </IfSequence>
+          <ProcedureCall id="_1qAv"
+                         procedure="check.flh_mci_processor.checked.save_as_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qAw" name="open_in_snap">
+          <comment>@teststep Check-out checkbox 'Open in SNAP'</comment>
+          <ProcedureCall id="_1qAx"
+                         procedure="check.flh_mci_processor.checked.open_in_snap"/>
+          <IfSequence id="_1qAy"
+                      test="&#34;$(open_in_snap)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1qAz"
+                           procedure="do_click.flh_mci_processor.open_in_snap"/>
+          </IfSequence>
+          <ProcedureCall id="_1qA+"
+                         procedure="check.flh_mci_processor.checked.open_in_snap_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qA-" name="generate_slope_band">
+          <comment>@teststep Check-out checkbox 'Generate slope band'</comment>
+          <ProcedureCall id="_1qB0"
+                         procedure="check.flh_mci_processor.checked.generate_slope_band"/>
+          <IfSequence id="_1qB1"
+                      test="&#34;$(generate_slope_band)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1qB2"
+                           procedure="do_click.flh_mci_processor.generate_slope_band"/>
+          </IfSequence>
+          <ProcedureCall id="_1qB3"
+                         procedure="check.flh_mci_processor.checked.generate_slope_band_selected_status">
             <variable name="selected">false</variable>
           </ProcedureCall>
         </Procedure>
@@ -1393,6 +1581,28 @@
           <MouseEventStep clicks="1" client="$(client)"
                           component="dialogSpectral_Unmixing.listInvokerName_unmixingModelName"
                           event="MOUSE_MPRC" id="_1pRn" modifiers="16"/>
+        </Procedure>
+      </Package>
+      <Package id="_1qCH" name="flh_mci">
+        <Procedure id="_1qAU" name="output_format_flh_mci_processor">
+          <variable name="output_format_name"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogFLH/MCI_Processor.formatName"
+                          event="MOUSE_MPRC" id="_1qAS" modifiers="16" x="67"
+                          y="16"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogFLH/MCI_Processor.listInvokerName:_formatName.output_format_name"
+                          event="MOUSE_MPRC" id="_1qAT" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1qCE" name="preset">
+          <variable name="preset"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogFLH/MCI_Processor.preset"
+                          event="MOUSE_MPRC" id="_1qCI" modifiers="16" x="35"
+                          y="12"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogFLH/MCI_Processor.listInvokerName:_preset.preset"
+                          event="MOUSE_MPRC" id="_1qCJ" modifiers="16"/>
         </Procedure>
       </Package>
     </Package>

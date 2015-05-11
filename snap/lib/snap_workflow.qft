@@ -799,7 +799,17 @@
                 </SetGlobalStep>
                 <IfSequence id="_1lXe" test="$(masks_number)&gt;0">
                   <comment>@teststep Select and deselect all the mask after each other.</comment>
-                  <RepeatSequence count="$(masks_number)" id="_1lXf"
+                  <IfSequence id="_1pxz" test="$(masks_number)&gt;200">
+                    <SetGlobalStep id="_1px+" varname="number_of_repeats">
+                      <default>200</default>
+                    </SetGlobalStep>
+                    <ElseSequence id="_1px-">
+                      <SetGlobalStep id="_1py0" varname="number_of_repeats">
+                        <default>$(masks_number)</default>
+                      </SetGlobalStep>
+                    </ElseSequence>
+                  </IfSequence>
+                  <RepeatSequence count="$(number_of_repeats)" id="_1lXf"
                                   name="check_masks" var="m">
                     <SetGlobalStep disabled="true" id="_1lYI" varname="table">
                       <default>Dialog.maskTable</default>
@@ -857,49 +867,56 @@
                                procedure="do_click.main_toolbar.views.layer_manager">
                   <comment>@teststep Open Layer Manager</comment>
                 </ProcedureCall>
-                <ProcedureCall id="_1oH6" procedure="get.tree.layer_node_id">
-                  <variable name="layer_name">Masks</variable>
-                  <comment>@teststep Find Masks in the layer manager</comment>
-                </ProcedureCall>
-                <ServerScriptStep disabled="true" id="_1lYZ" name="print">
-                  <code>print "Layer Masks id = $(layer_node_id)"  </code>
-                </ServerScriptStep>
-                <ProcedureCall disabled="true" id="_1oHH"
-                               procedure="do_click.layer_manager.layer_node">
-                  <variable name="layer_node1">$(layer_node_id)</variable>
-                  <variable name="layer_node2"/>
-                  <comment>@teststep Open Masks node in the layer manager</comment>
-                </ProcedureCall>
-                <IfSequence id="_1oHJ" test="$(masks_number)&gt;0">
-                  <comment>@teststep Select and deselect all the layer after each other.</comment>
-                  <RepeatSequence count="$(masks_number)" id="_1oHK"
-                                  name="check_masks" var="m">
-                    <ProcedureCall id="_1oHA"
-                                   procedure="do_click.layer_manager.layer_checkbox">
-                      <variable name="layer_node1">$(layer_node_id)</variable>
-                      <variable name="layer_node2">$(m)</variable>
-                    </ProcedureCall>
-                  </RepeatSequence>
-                  <ProcedureCall disabled="true" id="_1oHV"
-                                 procedure="do_click.run_the_Garbage_Collector"/>
-                  <RepeatSequence count="$(masks_number)" id="_1oHY"
-                                  name="check_masks" var="m">
-                    <ProcedureCall id="_1oHZ"
-                                   procedure="do_click.layer_manager.layer_checkbox">
-                      <variable name="layer_node1">$(layer_node_id)</variable>
-                      <variable name="layer_node2">$(m)</variable>
-                    </ProcedureCall>
-                  </RepeatSequence>
-                  <ProcedureCall disabled="true" id="_1oHa"
-                                 procedure="do_click.run_the_Garbage_Collector">
-                    <comment>@teststep Force a garbage collection.</comment>
+                <TryStep id="_1pxw">
+                  <ProcedureCall id="_1pxy"
+                                 procedure="check.opened.layer_manager"/>
+                  <ProcedureCall id="_1oH6"
+                                 procedure="get.tree.layer_node_id">
+                    <variable name="layer_name">Masks</variable>
+                    <comment>@teststep Find Masks in the layer manager</comment>
                   </ProcedureCall>
-                  <ElseSequence id="_1oHW">
-                    <ServerScriptStep id="_1oHX" name="error">
-                      <code>rc.logError("Layer manager is empty.")</code>
-                    </ServerScriptStep>
-                  </ElseSequence>
-                </IfSequence>
+                  <ServerScriptStep disabled="true" id="_1lYZ" name="print">
+                    <code>print "Layer Masks id = $(layer_node_id)"  </code>
+                  </ServerScriptStep>
+                  <ProcedureCall disabled="true" id="_1oHH"
+                                 procedure="do_click.layer_manager.layer_node">
+                    <variable name="layer_node1">$(layer_node_id)</variable>
+                    <variable name="layer_node2"/>
+                    <comment>@teststep Open Masks node in the layer manager</comment>
+                  </ProcedureCall>
+                  <IfSequence id="_1oHJ" test="$(number_of_repeats)&gt;0">
+                    <comment>@teststep Select and deselect all the layer after each other.</comment>
+                    <RepeatSequence count="$(number_of_repeats)" id="_1oHK"
+                                    name="check_masks" var="m">
+                      <ProcedureCall id="_1oHA"
+                                     procedure="do_click.layer_manager.layer_checkbox">
+                        <variable name="layer_node1">$(layer_node_id)</variable>
+                        <variable name="layer_node2">$(m)</variable>
+                      </ProcedureCall>
+                    </RepeatSequence>
+                    <ProcedureCall disabled="true" id="_1oHV"
+                                   procedure="do_click.run_the_Garbage_Collector"/>
+                    <RepeatSequence count="$(masks_number)" disabled="true"
+                                    id="_1oHY" name="check_masks" var="m">
+                      <ProcedureCall id="_1oHZ"
+                                     procedure="do_click.layer_manager.layer_checkbox">
+                        <variable name="layer_node1">$(layer_node_id)</variable>
+                        <variable name="layer_node2">$(m)</variable>
+                      </ProcedureCall>
+                    </RepeatSequence>
+                    <ProcedureCall disabled="true" id="_1oHa"
+                                   procedure="do_click.run_the_Garbage_Collector">
+                      <comment>@teststep Force a garbage collection.</comment>
+                    </ProcedureCall>
+                    <ElseSequence id="_1oHW">
+                      <ServerScriptStep id="_1oHX" name="error">
+                        <code>rc.logError("Layer manager is empty.")</code>
+                      </ServerScriptStep>
+                    </ElseSequence>
+                  </IfSequence>
+                  <CatchSequence exception="TestException" id="_1pxx"
+                                 maxerror="0"/>
+                </TryStep>
                 <ProcedureCall disabled="true" id="_1lHU"
                                procedure="close.dialog">
                   <comment>@teststep Close Layer Manager</comment>
@@ -1362,6 +1379,12 @@
               </ProcedureCall>
             </IfSequence>
           </IfSequence>
+          <ElseSequence id="_1pyF">
+            <ProcedureCall id="_1pyG" procedure="run-log.logError">
+              <variable name="message">CSV file $(csv_file) is not imported</variable>
+              <variable name="withScreenshots">false</variable>
+            </ProcedureCall>
+          </ElseSequence>
         </IfSequence>
       </Procedure>
       <Procedure id="_1pou" name="band_scatter_plot">
@@ -1623,23 +1646,24 @@
                 <CatchSequence exception="TestException" id="_1p1A"
                                maxerror="0">
                   <TryStep id="_1oUQ" name="check_image_view">
-                    <ProcedureCall id="_1oQd" procedure="check.view.visible">
+                    <ProcedureCall id="_1oQd"
+                                   procedure="check.image_view.visible">
                       <variable name="visible">true</variable>
                     </ProcedureCall>
                     <ProcedureCall id="_1oUM"
-                                   procedure="check.view.button_maximize_window_visible">
+                                   procedure="check.image_view.button_maximize_window_visible">
                       <variable name="visible">true</variable>
                     </ProcedureCall>
                     <ProcedureCall id="_1oUN"
-                                   procedure="check.view.button_show_opened_documents_list_visible">
+                                   procedure="check.image_view.button_show_opened_documents_list_visible">
                       <variable name="visible">true</variable>
                     </ProcedureCall>
                     <ProcedureCall id="_1oUO"
-                                   procedure="check.view.button_scroll_documents_right_visible">
+                                   procedure="check.image_view.button_scroll_documents_right_visible">
                       <variable name="visible">true</variable>
                     </ProcedureCall>
                     <ProcedureCall id="_1oUP"
-                                   procedure="check.view.button_scroll_documents_left_visible">
+                                   procedure="check.image_view.button_scroll_documents_left_visible">
                       <variable name="visible">true</variable>
                     </ProcedureCall>
                     <CatchSequence exception="TestException" id="_1oUR"
@@ -1980,7 +2004,7 @@
         </ProcedureCall>
         <ProcedureCall id="_1oMi" procedure="open.metadata_view"/>
         <TryStep id="_1oMj" name="check_view_title">
-          <ProcedureCall id="_1oMk" procedure="check.view.title">
+          <ProcedureCall id="_1oMk" procedure="check.image_view.title">
             <variable name="prod_nr">1</variable>
             <variable name="band_name">$(mn1)</variable>
           </ProcedureCall>

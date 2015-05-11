@@ -301,7 +301,9 @@
             <variable name="x1">$(x1)</variable>
             <variable name="y1">$(y1)</variable>
           </ProcedureCall>
-          <ProcedureCall id="_1pjw" procedure="check_image_view_rectangle"/>
+          <ProcedureCall id="_1pjw" procedure="check_image_view_rectangle">
+            <variable name="view_name">$(band)</variable>
+          </ProcedureCall>
           <BasicSequence disabled="true" id="_1pEy" name="tmp">
             <CheckImageStep algorithm="algorithm=similarity;expected=0.85;find=anywhere(resultX,resultY) "
                             client="$(client)"
@@ -21296,7 +21298,9 @@ R2dVSOWNz4A//w0d2eKZ</binary>
         </TestStep>
         <TestStep id="_1p1M" name="undo">
           <ProcedureCall id="_1p1N" procedure="undo_strg_z"/>
-          <ProcedureCall id="_1pjv" procedure="check_image_view_rectangle"/>
+          <ProcedureCall id="_1pjv" procedure="check_image_view_rectangle">
+            <variable name="view_name">$(band)</variable>
+          </ProcedureCall>
         </TestStep>
       </IfSequence>
       <ProcedureCall id="_1p0l" procedure="close.all_products"/>
@@ -51399,6 +51403,7 @@ pZRSSimllFJKKaWUUkoppZRSSinl/9/y/wDYc+3w</binary>
       </CheckImageStep>
     </Procedure>
     <Procedure id="_1pjs" name="check_image_view_rectangle">
+      <variable name="view_name"/>
       <CheckImageStep algorithm="algorithm=similarity;expected=0.85;find=best(resultX,resultY) "
                       client="$(client)"
                       component="NbMainWindow.[1]_algal_22.panel" height="10"

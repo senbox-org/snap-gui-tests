@@ -95,28 +95,33 @@
         <variable name="prod_dir"/>
         <variable name="prod_name"/>
         <variable name="output_file"/>
-        <ProcedureCall id="_1phv" procedure="open.processing.reprojection"/>
+        <ProcedureCall id="_1phv"
+                       procedure="open.processing.geometric_operations.reprojection"/>
         <ProcedureCall id="_1pgy" procedure="select_io_tab"/>
         <ProcedureCall id="_1pg-" procedure="open_source_product">
           <variable name="prod_dir">$(prod_dir)</variable>
           <variable name="prod_name">$(prod_name)</variable>
         </ProcedureCall>
-        <ProcedureCall id="_1pgp"
-                       procedure="set.reprojection.target_directory">
-          <variable name="dir">$(output_folder)</variable>
-        </ProcedureCall>
-        <ProcedureCall id="_1pj0" procedure="select.reprojection.save_as"/>
-        <ProcedureCall id="_1pj1"
-                       procedure="select.reprojection.output_format">
-          <variable name="output_format">BEAM-DIMAP</variable>
-        </ProcedureCall>
-        <ProcedureCall id="_1pj2"
-                       procedure="select.reprojection.open_in_snap"/>
-        <ProcedureCall id="_1pbb"
-                       procedure="set.reprojection.target_product_name">
-          <variable name="target_product_name">$(output_file)</variable>
-        </ProcedureCall>
-        <ProcedureCall id="_1pbc" procedure="deselect.reprojection.save_as"/>
+        <IfSequence id="_1pk9"
+                    test="&#34;$(source_product_opened)&#34;==&#34;true&#34;">
+          <ProcedureCall id="_1pgp"
+                         procedure="set.reprojection.target_directory">
+            <variable name="dir">$(output_folder)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pj0" procedure="select.reprojection.save_as"/>
+          <ProcedureCall id="_1pj1"
+                         procedure="select.reprojection.output_format">
+            <variable name="output_format">BEAM-DIMAP</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pj2"
+                         procedure="select.reprojection.open_in_snap"/>
+          <ProcedureCall id="_1pbb"
+                         procedure="set.reprojection.target_product_name">
+            <variable name="target_product_name">$(output_file)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pbc"
+                         procedure="deselect.reprojection.save_as"/>
+        </IfSequence>
       </Procedure>
       <Procedure id="_1phb" name="preparation_reproj_parameters">
         <ProcedureCall id="_1phc"
@@ -166,6 +171,10 @@
       </ProcedureCall>
       <TryStep id="_1pXT">
         <ProcedureCall id="_1pXV" procedure="wait.appear.error.dialog_Error"/>
+        <ProcedureCall id="_1pjp" procedure="run-log.make_screensot">
+          <variable name="iw_name">error_dialog_select_source_product_reprojection</variable>
+          <variable name="iw_name_example">error_dialog</variable>
+        </ProcedureCall>
         <ProcedureCall id="_1pXS"
                        procedure="do_click.error_dialog.button_OK_Error"/>
         <SetGlobalStep id="_1phw" varname="source_product_opened">
@@ -181,6 +190,22 @@
           </SetGlobalStep>
         </CatchSequence>
       </TryStep>
+      <ProcedureCall id="_1pju" procedure="reprojection.source_product_name"/>
+      <IfSequence id="_1pjv"
+                  test="&#34;$(source_product_name)&#34;&lt;&gt;&#34;&#34;">
+        <SetGlobalStep id="_1pk2" varname="source_product_opened">
+          <default>true</default>
+        </SetGlobalStep>
+        <ElseSequence id="_1pk0">
+          <SetGlobalStep id="_1pk3" varname="source_product_opened">
+            <default>false</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1pk1" procedure="run-log.logError">
+            <variable name="message">$(prod_dir)/$(prod_name) cann't be opened</variable>
+            <variable name="withScreenshots">true</variable>
+          </ProcedureCall>
+        </ElseSequence>
+      </IfSequence>
     </Procedure>
     <Procedure id="_1pON" name="click_ok_in_product_created_dialog">
       <TryStep id="_1pOQ">
