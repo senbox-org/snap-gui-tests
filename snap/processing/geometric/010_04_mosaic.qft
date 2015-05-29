@@ -218,6 +218,8 @@
           <variable name="val">OR</variable>
         </ProcedureCall>
       </TestStep>
+      <ProcedureCall id="_1pw+"
+                     procedure="close_processing_tool.geometric_operations.mosaicing"/>
     </TestCase>
     <TestCase id="_1pMR" name="01_meris_europe">
       <ProcedureCall id="_1piT"
@@ -294,7 +296,8 @@
         <ProcedureCall id="_1pOS"
                        procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
       </TestStep>
-      <ProcedureCall id="_1pOV" procedure="close_processing_tool.mosaicing"/>
+      <ProcedureCall id="_1pOV"
+                     procedure="close_processing_tool.geometric_operations.mosaicing"/>
     </TestCase>
     <TestCase id="_1piy" name="02_meris_europe_algal">
       <ProcedureCall id="_1piz"
@@ -375,7 +378,8 @@
         <ProcedureCall id="_1pjU"
                        procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
       </TestStep>
-      <ProcedureCall id="_1pjV" procedure="close_processing_tool.mosaicing"/>
+      <ProcedureCall id="_1pjV"
+                     procedure="close_processing_tool.geometric_operations.mosaicing"/>
     </TestCase>
     <TestCase id="_40q" name="03_store_load_display_parameters">
       <variable name="ofn">mosaic_save_parameters.xml</variable>
@@ -793,7 +797,8 @@
                         component="dialogMosaic_Parameters.ModalDialog.ok"
                         event="MOUSE_MPRC" id="_1psC" modifiers="16"/>
       </TestStep>
-      <ProcedureCall id="_1psD" procedure="close_processing_tool.mosaicing"/>
+      <ProcedureCall id="_1psD"
+                     procedure="close_processing_tool.geometric_operations.mosaicing"/>
     </TestCase>
     <TestSet id="_1pT+" name="04_processing_in_different_formats">
       <SetupSequence id="_1pUV" name="prepare_for_the_testing">
@@ -906,7 +911,7 @@
       </TestSet>
       <CleanupSequence id="_1pUa" name="close_collocation_tool">
         <ProcedureCall id="_1psO"
-                       procedure="close_processing_tool.mosaicing"/>
+                       procedure="close_processing_tool.geometric_operations.mosaicing"/>
       </CleanupSequence>
     </TestSet>
     <TestSet disabled="true" id="_1pMP" name="02_processing"/>
@@ -929,14 +934,14 @@
                         component="dialogAbout_Mosaic.ModalDialog.ok"
                         event="MOUSE_MPRC" id="_1piQ" modifiers="16"/>
       </TestStep>
-      <ProcedureCall id="_1psP" procedure="close_processing_tool.mosaicing"/>
+      <ProcedureCall id="_1psP"
+                     procedure="close_processing_tool.geometric_operations.mosaicing"/>
     </TestCase>
   </TestSet>
   <PackageRoot id="_4">
     <Package id="_1pjd" name="io_parameters">
       <Procedure id="_1pvG" name="prepare_io_tab_for_test">
-        <ProcedureCall id="_1pvH" postdelay="12000"
-                       procedure="select_io_tab"/>
+        <ProcedureCall id="_1pvH" postdelay="2000" procedure="select_io_tab"/>
         <TryStep disabled="true" id="_1pvI" name="remove_all_source_products"
                  postdelay="5000">
           <ProcedureCall id="_1pvJ"
@@ -983,10 +988,18 @@
               </ProcedureCall>
               <CatchSequence exception="TestException" id="_1pwy"
                              maxerror="0">
-                <ProcedureCall id="_1pwz" procedure="run-log.logError">
-                  <variable name="message">the products in the $(data_source_directory)* cann't be opened</variable>
-                  <variable name="withScreenshots">true</variable>
-                </ProcedureCall>
+                <TryStep id="_1pw-" name="open_all_products_in_the_folder">
+                  <ProcedureCall id="_1px0" procedure="open_all_products">
+                    <variable name="file">$(data_source_directory)*</variable>
+                  </ProcedureCall>
+                  <CatchSequence exception="TestException" id="_1px1"
+                                 maxerror="0">
+                    <ProcedureCall id="_1px2" procedure="run-log.logError">
+                      <variable name="message">the products in the $(data_source_directory)* cann't be opened</variable>
+                      <variable name="withScreenshots">true</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
               </CatchSequence>
             </TryStep>
           </CatchSequence>
@@ -1384,7 +1397,7 @@
         <TextInputStep clear="true" client="$(client)"
                        component="dialogMosaic_-_Open_Source_Product(s).textFile_name:"
                        id="_1pEJ">
-          <text>$(file_name)</text>
+          <text>$(file)</text>
         </TextInputStep>
         <ElseifSequence id="_1pEH" name="MAC?"
                         test="'${system:os.name}' .find('Mac OS X')&gt;=0">

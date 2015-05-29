@@ -280,6 +280,16 @@
                          procedure="check.collocation.checked.open_in_snap"/>
           <IfSequence id="_1pN5"
                       test="&#34;$(open_in_snap)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qXT"
+                           procedure="check.collocation.enabled.open_in_snap"/>
+            <IfSequence id="_1qXU"
+                        test="&#34;$(open_in_snap_en)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1qXV" procedure="daten_format.beam_dimap"/>
+              <ProcedureCall id="_1qXW"
+                             procedure="select.collocation.output_format">
+                <variable name="output_format">$(beam_dimap)</variable>
+              </ProcedureCall>
+            </IfSequence>
             <ProcedureCall id="_1pN6"
                            procedure="do_click.collocation.open_in_snap"/>
           </IfSequence>
@@ -362,6 +372,16 @@
                          procedure="check.spectral_unmixing.checked.open_in_snap"/>
           <IfSequence id="_1pPA"
                       test="&#34;$(open_in_snap)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qXb"
+                           procedure="check.spectral_unmixing.enabled.open_in_snap"/>
+            <IfSequence id="_1qXc"
+                        test="&#34;$(open_in_snap_en)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1qXd" procedure="daten_format.beam_dimap"/>
+              <ProcedureCall id="_1qXe"
+                             procedure="select.spectral_unmixing.output_format">
+                <variable name="output_format">$(beam_dimap)</variable>
+              </ProcedureCall>
+            </IfSequence>
             <ProcedureCall id="_1pPB"
                            procedure="do_click.spectral_unmixing.open_in_snap"/>
           </IfSequence>
@@ -462,6 +482,16 @@
                          procedure="check.ndvi_processor.checked.open_in_snap"/>
           <IfSequence id="_1pWF"
                       test="&#34;$(open_in_snap)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qXj"
+                           procedure="check.ndvi_processor.enabled.open_in_snap"/>
+            <IfSequence id="_1qXk"
+                        test="&#34;$(open_in_snap_en)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1qXl" procedure="daten_format.beam_dimap"/>
+              <ProcedureCall id="_1qXm"
+                             procedure="select.ndvi_processor.output_format">
+                <variable name="output_format">$(beam_dimap)</variable>
+              </ProcedureCall>
+            </IfSequence>
             <ProcedureCall id="_1pWG"
                            procedure="do_click.ndvi_processor.open_in_snap"/>
           </IfSequence>
@@ -571,6 +601,16 @@
                          procedure="check.reprojection.checked.open_in_snap"/>
           <IfSequence id="_1pXJ"
                       test="&#34;$(open_in_snap)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qXr"
+                           procedure="check.reprojection.enabled.open_in_snap"/>
+            <IfSequence id="_1qXs"
+                        test="&#34;$(open_in_snap_en)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1qXt" procedure="daten_format.beam_dimap"/>
+              <ProcedureCall id="_1qXu"
+                             procedure="select.reprojection.output_format">
+                <variable name="output_format">$(beam_dimap)</variable>
+              </ProcedureCall>
+            </IfSequence>
             <ProcedureCall id="_1pXK"
                            procedure="do_click.reprojection.open_in_snap"/>
           </IfSequence>
@@ -943,6 +983,16 @@
                          procedure="check.flh_mci_processor.checked.open_in_snap"/>
           <IfSequence id="_1q9Y"
                       test="&#34;$(open_in_snap)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qY1"
+                           procedure="check.flh_mci_processor.enabled.open_in_snap"/>
+            <IfSequence id="_1qY2"
+                        test="&#34;$(open_in_snap_en)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1qY3" procedure="daten_format.beam_dimap"/>
+              <ProcedureCall id="_1qY4"
+                             procedure="select.flh_mci_processor.output_format">
+                <variable name="output_format">$(beam_dimap)</variable>
+              </ProcedureCall>
+            </IfSequence>
             <ProcedureCall id="_1qAZ"
                            procedure="do_click.flh_mci_processor.open_in_snap"/>
           </IfSequence>
@@ -987,23 +1037,33 @@
             </CatchSequence>
           </TryStep>
         </Procedure>
-        <Procedure disabled="true" id="_1q9b" name="red_source_band">
-          <variable name="red_source_band"/>
-          <TryStep id="_1q9c">
-            <ProcedureCall id="_1q9d"
-                           procedure="utility.ndvi.red_source_band_ndvi_processor">
-              <variable name="red_source_band">$(red_source_band)</variable>
+      </Package>
+      <Package id="_1qCM" name="meris_radiometric_correction">
+        <Procedure id="_1qCN" name="tab">
+          <variable name="tab"/>
+          <variable name="example">I/O Parameters;Processing Parameters</variable>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogMERIS_L1b_Radiometric_Correction2.tabbed.tab"
+                          event="MOUSE_MPRC" id="_1psM" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1qCP" name="output_format">
+          <variable name="output_format"/>
+          <comment>@teststep Select output format</comment>
+          <TryStep id="_1qCQ">
+            <ProcedureCall id="_1qDW"
+                           procedure="utility.meris_radiometric_correction.output_format_meris_radiometric_correction">
+              <variable name="output_format_name">$(output_format)</variable>
             </ProcedureCall>
-            <CatchSequence exception="TestException" id="_1q9e" maxerror="0">
-              <TryStep id="_1q9f">
-                <ProcedureCall id="_1q9g"
-                               procedure="utility.ndvi.red_source_band_ndvi_processor">
-                  <variable name="red_source_band">$(red_source_band)</variable>
+            <CatchSequence exception="TestException" id="_1qCS" maxerror="0">
+              <TryStep id="_1qCT">
+                <ProcedureCall id="_1qDX"
+                               procedure="utility.meris_radiometric_correction.output_format_meris_radiometric_correction">
+                  <variable name="output_format_name">$(output_format)</variable>
                 </ProcedureCall>
-                <CatchSequence exception="TestException" id="_1q9h"
+                <CatchSequence exception="TestException" id="_1qCV"
                                maxerror="0">
-                  <ProcedureCall id="_1q9i" procedure="run-log.logError">
-                    <variable name="message">$(red_source_band) can not be selected</variable>
+                  <ProcedureCall id="_1qCW" procedure="run-log.logError">
+                    <variable name="message">$(output_format) can not be selected</variable>
                     <variable name="withScreenshots">true</variable>
                   </ProcedureCall>
                 </CatchSequence>
@@ -1011,29 +1071,677 @@
             </CatchSequence>
           </TryStep>
         </Procedure>
-        <Procedure disabled="true" id="_1q9j" name="nir_source_band">
-          <variable name="nir_source_band"/>
-          <TryStep id="_1q9k">
-            <ProcedureCall id="_1q9l"
-                           procedure="utility.ndvi.nir_source_band_ndvi_processor">
-              <variable name="nir_source_band">$(nir_source_band)</variable>
+        <Procedure id="_1qCX" name="save_as">
+          <comment>@teststep Check-in checkbox 'Save as'</comment>
+          <ProcedureCall id="_1qCY"
+                         procedure="check.meris_radiometric_correction.checked.save_as"/>
+          <IfSequence id="_1qCZ" test="&#34;$(save_as)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qJc"
+                           procedure="do_click.meris_radiometric_correction.save_as"/>
+          </IfSequence>
+          <ProcedureCall id="_1qJ0"
+                         procedure="check.meris_radiometric_correction.checked.save_as_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qCc" name="open_in_snap">
+          <comment>@teststep Check-in checkbox 'Open in SNAP'</comment>
+          <ProcedureCall id="_1qJ1"
+                         procedure="check.meris_radiometric_correction.checked.open_in_snap"/>
+          <IfSequence id="_1qCe"
+                      test="&#34;$(open_in_snap)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qY5"
+                           procedure="check.meris_radiometric_correction.enabled.open_in_snap"/>
+            <IfSequence id="_1qY6"
+                        test="&#34;$(open_in_snap_en)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1qY7" procedure="daten_format.beam_dimap"/>
+              <ProcedureCall id="_1qY8"
+                             procedure="select.meris_radiometric_correction.output_format">
+                <variable name="output_format">$(beam_dimap)</variable>
+              </ProcedureCall>
+            </IfSequence>
+            <ProcedureCall id="_1qJb"
+                           procedure="do_click.meris_radiometric_correction.open_in_snap"/>
+          </IfSequence>
+          <ProcedureCall id="_1qJ2"
+                         procedure="check.meris_radiometric_correction.checked.open_in_snap_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qJP" name="reprocessing_version">
+          <variable name="reprocessing_version"/>
+          <comment>@teststep Select reprocessing version.</comment>
+          <TryStep id="_1qJQ">
+            <ProcedureCall id="_1qJZ"
+                           procedure="utility.meris_radiometric_correction.reprocessing_version">
+              <variable name="reprocessing_version">$(reprocessing_version)</variable>
             </ProcedureCall>
-            <CatchSequence exception="TestException" id="_1q9m" maxerror="0">
-              <TryStep id="_1q9n">
-                <ProcedureCall id="_1q9o"
-                               procedure="utility.ndvi.nir_source_band_ndvi_processor">
-                  <variable name="nir_source_band">$(nir_source_band)</variable>
+            <CatchSequence exception="TestException" id="_1qJS" maxerror="0">
+              <TryStep id="_1qJT">
+                <ProcedureCall id="_1qJa"
+                               procedure="utility.meris_radiometric_correction.reprocessing_version">
+                  <variable name="reprocessing_version">$(reprocessing_version)</variable>
                 </ProcedureCall>
-                <CatchSequence exception="TestException" id="_1q9p"
+                <CatchSequence exception="TestException" id="_1qJV"
                                maxerror="0">
-                  <ProcedureCall id="_1q9q" procedure="run-log.logError">
-                    <variable name="message">$(nir_source_band) can not be selected</variable>
+                  <ProcedureCall id="_1qJW" procedure="run-log.logError">
+                    <variable name="message">$(reprocessing_version) can not be selected</variable>
                     <variable name="withScreenshots">true</variable>
                   </ProcedureCall>
                 </CatchSequence>
               </TryStep>
             </CatchSequence>
           </TryStep>
+        </Procedure>
+        <Procedure id="_1qJ3" name="perform_calibration">
+          <comment>@teststep Check-in checkbox 'Perform calibration'.</comment>
+          <ProcedureCall id="_1qJ4"
+                         procedure="check.meris_radiometric_correction.checked.perform_calibration"/>
+          <IfSequence id="_1qJ5"
+                      test="&#34;$(perform_calibration)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qJd"
+                           procedure="do_click.meris_radiometric_correction.perform_calibration"/>
+          </IfSequence>
+          <ProcedureCall id="_1qJ7"
+                         procedure="check.meris_radiometric_correction.checked.perform_calibration_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qJ8" name="perform_smile_effect">
+          <comment>@teststep Check-in checkbox 'Perform smile-effect correction'.</comment>
+          <ProcedureCall id="_1qJ9"
+                         procedure="check.meris_radiometric_correction.checked.perform_smile_effect"/>
+          <IfSequence id="_1qJA"
+                      test="&#34;$(perform_smile_effect)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qJe"
+                           procedure="do_click.meris_radiometric_correction.perform_smile_effect"/>
+          </IfSequence>
+          <ProcedureCall id="_1qJC"
+                         procedure="check.meris_radiometric_correction.checked.perform_smile_effect_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qJD" name="perform_equalisation">
+          <comment>@teststep Check-in checkbox 'Perform equalisation'.</comment>
+          <ProcedureCall id="_1qJE"
+                         procedure="check.meris_radiometric_correction.checked.perform_equalisation"/>
+          <IfSequence id="_1qJF"
+                      test="&#34;$(perform_equalization)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qJf"
+                           procedure="do_click.meris_radiometric_correction.perform_equalization"/>
+          </IfSequence>
+          <ProcedureCall id="_1qJH"
+                         procedure="check.meris_radiometric_correction.checked.perform_equalisation_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qJI" name="perform_rad_to_refl">
+          <comment>@teststep Check-in checkbox 'Perform radiance to reflectance'</comment>
+          <ProcedureCall id="_1qJJ"
+                         procedure="check.meris_radiometric_correction.checked.perform_rad_to_refl"/>
+          <IfSequence id="_1qJK"
+                      test="&#34;$(perform_rad_to_refl)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qJg"
+                           procedure="do_click.meris_radiometric_correction.perform_rad_to_refl"/>
+          </IfSequence>
+          <ProcedureCall id="_1qJM"
+                         procedure="check.meris_radiometric_correction.checked.perform_rad_to_refl_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+      </Package>
+      <Package id="_1qLR" name="meris_cloud_probability">
+        <Procedure id="_1qMp" name="output_format">
+          <variable name="output_format"/>
+          <comment>@teststep Select output format</comment>
+          <TryStep id="_1qMq">
+            <ProcedureCall id="_1qPw"
+                           procedure="utility.meris_cloud_probability.output_format_meris_cloud_probability">
+              <variable name="output_format_name">$(output_format)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1qMs" maxerror="0">
+              <TryStep id="_1qMt">
+                <ProcedureCall id="_1qPx"
+                               procedure="utility.meris_cloud_probability.output_format_meris_cloud_probability">
+                  <variable name="output_format_name">$(output_format)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1qMv"
+                               maxerror="0">
+                  <ProcedureCall id="_1qMw" procedure="run-log.logError">
+                    <variable name="message">$(output_format) can not be selected</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1qMx" name="save_as">
+          <comment>@teststep Check-in checkbox 'Save as'</comment>
+          <ProcedureCall id="_1qMy"
+                         procedure="check.meris_cloud_probability.checked.save_as"/>
+          <IfSequence id="_1qMz" test="&#34;$(save_as)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qM+"
+                           procedure="do_click.meris_cloud_probability.save_as"/>
+          </IfSequence>
+          <ProcedureCall id="_1qM-"
+                         procedure="check.meris_cloud_probability.checked.save_as_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qN0" name="open_in_snap">
+          <comment>@teststep Check-in checkbox 'Open in SNAP'</comment>
+          <ProcedureCall id="_1qN1"
+                         procedure="check.meris_cloud_probability.checked.open_in_snap"/>
+          <IfSequence id="_1qN2"
+                      test="&#34;$(open_in_snap)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qYH"
+                           procedure="check.meris_cloud_probability.enabled.open_in_snap"/>
+            <IfSequence id="_1qYI"
+                        test="&#34;$(open_in_snap_en)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1qYJ" procedure="daten_format.beam_dimap"/>
+              <ProcedureCall id="_1qYK"
+                             procedure="select.meris_cloud_probability.output_format">
+                <variable name="output_format">$(beam_dimap)</variable>
+              </ProcedureCall>
+            </IfSequence>
+            <ProcedureCall id="_1qN3"
+                           procedure="do_click.meris_cloud_probability.open_in_snap"/>
+          </IfSequence>
+          <ProcedureCall id="_1qN4"
+                         procedure="check.meris_cloud_probability.checked.open_in_snap_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+      </Package>
+      <Package id="_1qN9" name="smac">
+        <Procedure id="_1qPz" name="tab">
+          <variable name="tab"/>
+          <variable name="example">I/O Parameters;Processing Parameters</variable>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.tabbed.tab"
+                          event="MOUSE_MPRC" id="_1pvk" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1qP-" name="output_format">
+          <variable name="output_format"/>
+          <comment>@teststep Select output format</comment>
+          <TryStep id="_1qQ0">
+            <ProcedureCall id="_1qQ1"
+                           procedure="utility.smac.output_format_smac">
+              <variable name="output_format_name">$(output_format)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1qQ2" maxerror="0">
+              <TryStep id="_1qQ3">
+                <ProcedureCall id="_1qRW"
+                               procedure="utility.smac.output_format_smac">
+                  <variable name="output_format_name">$(output_format)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1qQ5"
+                               maxerror="0">
+                  <ProcedureCall id="_1qQ6" procedure="run-log.logError">
+                    <variable name="message">$(output_format) can not be selected</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1qQ7" name="save_as">
+          <comment>@teststep Check-in checkbox 'Save as'</comment>
+          <ProcedureCall id="_1qQ8" procedure="check.smac.checked.save_as"/>
+          <IfSequence id="_1qQ9" test="&#34;$(save_as)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qQA" procedure="do_click.smac.save_as"/>
+          </IfSequence>
+          <ProcedureCall id="_1qQB"
+                         procedure="check.smac.checked.save_as_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qQC" name="open_in_snap">
+          <comment>@teststep Check-in checkbox 'Open in SNAP'</comment>
+          <ProcedureCall id="_1qQD"
+                         procedure="check.smac.checked.open_in_snap"/>
+          <IfSequence id="_1qQE"
+                      test="&#34;$(open_in_snap)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qSs"
+                           procedure="check.smac.enabled.open_in_snap"/>
+            <IfSequence id="_1qSt"
+                        test="&#34;$(open_in_snap_en)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1qSw" procedure="daten_format.beam_dimap"/>
+              <ProcedureCall id="_1qSx" procedure="select.smac.output_format">
+                <variable name="output_format">$(beam_dimap)</variable>
+              </ProcedureCall>
+            </IfSequence>
+            <ProcedureCall id="_1qQF" procedure="do_click.smac.open_in_snap"/>
+          </IfSequence>
+          <ProcedureCall id="_1qQG"
+                         procedure="check.smac.checked.open_in_snap_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qRX" name="use_meris_ecmwf">
+          <comment>@teststep Check-in checkbox 'Use MERIS ECMWF data'</comment>
+          <ProcedureCall id="_1qRY"
+                         procedure="check.smac.checked.use_meris_ecmwf"/>
+          <IfSequence id="_1qRZ"
+                      test="&#34;$(use_meris_ecmwf)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qRa"
+                           procedure="do_click.smac.use_meris_ecmwf"/>
+          </IfSequence>
+          <ProcedureCall id="_1qRb"
+                         procedure="check.smac.checked.use_meris_ecmwf_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qRc" name="aerosol_type">
+          <variable name="aerosol_type"/>
+          <comment>@teststep Selected aerosol type.</comment>
+          <TryStep id="_1qRj">
+            <ProcedureCall id="_1qRk" procedure="utility.smac.aerosol_type">
+              <variable name="aerosol_type">$(aerosol_type)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1qRl" maxerror="0">
+              <TryStep id="_1qRm">
+                <ProcedureCall id="_1qRq"
+                               procedure="utility.smac.aerosol_type">
+                  <variable name="aerosol_type">$(aerosol_type)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1qRo"
+                               maxerror="0">
+                  <ProcedureCall id="_1qRp" procedure="run-log.logError">
+                    <variable name="message">$(aerosol_type) can not be selected</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1qSN" name="all_bands">
+          <variable name="band"/>
+          <comment>@teststep Selected all bands.</comment>
+          <BasicSequence id="_1pwn" name="select_all_bands">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.bandNames.band"
+                            event="MOUSE_MPRC" id="_1pwo" modifiers="16"/>
+            <KeyEventStep client="$(client)"
+                          component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.bandNames"
+                          event="KEY_PRESSED" id="_1pwp" keychar="65535"
+                          keycode="17" modifiers="2"/>
+            <KeyEventStep client="$(client)"
+                          component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.bandNames"
+                          event="KEY_PTR" id="_1pwq" keychar="1" keycode="65"
+                          modifiers="2"/>
+            <KeyEventStep client="$(client)"
+                          component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.bandNames"
+                          event="KEY_RELEASED" id="_1pwr" keychar="65535"
+                          keycode="17" modifiers="0"/>
+          </BasicSequence>
+        </Procedure>
+        <Procedure id="_1qSO" name="three_bands">
+          <variable name="band1"/>
+          <variable name="band2"/>
+          <variable name="band3"/>
+          <comment>@teststep Selected 3 bands.</comment>
+          <BasicSequence id="_1pxr" name="select_3_bands">
+            <SetGlobalStep id="_1qSy" varname="band">
+              <default>$(band1)</default>
+            </SetGlobalStep>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.bandNames.band"
+                            event="MOUSE_PRESSED" id="_1pxt" modifiers="18"/>
+            <KeyEventStep client="$(client)"
+                          component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.bandNames"
+                          event="KEY_PRESSED" id="_1pxu" keychar="65535"
+                          keycode="17" modifiers="18"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.bandNames.band"
+                            event="MOUSE_RELEASED" id="_1pxv" modifiers="18"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.bandNames.band"
+                            event="MOUSE_CLICKED" id="_1pxw" modifiers="18"/>
+            <KeyEventStep client="$(client)"
+                          component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.bandNames"
+                          event="KEY_PRESSED" id="_1pxx" keychar="65535"
+                          keycode="17" modifiers="2"/>
+            <SetGlobalStep id="_1qSz" varname="band">
+              <default>$(band2)</default>
+            </SetGlobalStep>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.bandNames.band"
+                            event="MOUSE_PRESSED" id="_1pxy" modifiers="18"/>
+            <KeyEventStep client="$(client)"
+                          component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.bandNames"
+                          event="KEY_PRESSED" id="_1pxz" keychar="65535"
+                          keycode="17" modifiers="18"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.bandNames.band"
+                            event="MOUSE_RELEASED" id="_1px+" modifiers="18"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.bandNames.band"
+                            event="MOUSE_CLICKED" id="_1px-" modifiers="18"/>
+            <KeyEventStep client="$(client)"
+                          component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.bandNames"
+                          event="KEY_PRESSED" id="_1py0" keychar="65535"
+                          keycode="17" modifiers="2"/>
+            <SetGlobalStep id="_1qS+" varname="band">
+              <default>$(band3)</default>
+            </SetGlobalStep>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.bandNames.band"
+                            event="MOUSE_PRESSED" id="_1py1" modifiers="18"/>
+            <KeyEventStep client="$(client)"
+                          component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.bandNames"
+                          event="KEY_PRESSED" id="_1py2" keychar="65535"
+                          keycode="17" modifiers="18"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.bandNames.band"
+                            event="MOUSE_RELEASED" id="_1py3" modifiers="18"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.bandNames.band"
+                            event="MOUSE_CLICKED" id="_1py4" modifiers="18"/>
+            <KeyEventStep client="$(client)"
+                          component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.bandNames"
+                          event="KEY_PRESSED" id="_1py5" keychar="65535"
+                          keycode="17" modifiers="2"/>
+            <KeyEventStep client="$(client)"
+                          component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.bandNames"
+                          event="KEY_RELEASED" id="_1py6" keychar="65535"
+                          keycode="17" modifiers="0"/>
+          </BasicSequence>
+        </Procedure>
+        <Procedure id="_1qSg" name="one_band">
+          <variable name="band"/>
+          <comment>@teststep Selected one band.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.bandNames.band"
+                          event="MOUSE_MPRC" id="_1qSj" modifiers="16"/>
+        </Procedure>
+      </Package>
+      <Package id="_1qTv" name="aatsr_sst_processor">
+        <Procedure id="_1qWB" name="tab">
+          <variable name="tab"/>
+          <variable name="example">I/O Parameters;Processing Parameters</variable>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialog(A)ATSR_SST_Processor2.tabbed.tab"
+                          event="MOUSE_MPRC" id="_1qWe" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1qWD" name="output_format">
+          <variable name="output_format"/>
+          <comment>@teststep Select output format</comment>
+          <TryStep id="_1qWE">
+            <ProcedureCall id="_1qXL"
+                           procedure="utility.aatsr_sst_processor.output_format_aatsr_sst_processor">
+              <variable name="output_format_name">$(output_format)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1qWG" maxerror="0">
+              <TryStep id="_1qWH">
+                <ProcedureCall id="_1qXM"
+                               procedure="utility.aatsr_sst_processor.output_format_aatsr_sst_processor">
+                  <variable name="output_format_name">$(output_format)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1qWJ"
+                               maxerror="0">
+                  <ProcedureCall id="_1qWK" procedure="run-log.logError">
+                    <variable name="message">$(output_format) can not be selected</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1qWL" name="save_as">
+          <comment>@teststep Check-in checkbox 'Save as'</comment>
+          <ProcedureCall id="_1qWM"
+                         procedure="check.aatsr_sst_processor.checked.save_as"/>
+          <IfSequence id="_1qWN" test="&#34;$(save_as)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qWO"
+                           procedure="do_click.aatsr_sst_processor.save_as"/>
+          </IfSequence>
+          <ProcedureCall id="_1qWP"
+                         procedure="check.aatsr_sst_processor.checked.save_as_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qWQ" name="open_in_snap">
+          <comment>@teststep Check-in checkbox 'Open in SNAP'</comment>
+          <ProcedureCall id="_1qWR"
+                         procedure="check.aatsr_sst_processor.checked.open_in_snap"/>
+          <IfSequence id="_1qWS"
+                      test="&#34;$(open_in_snap)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qXN"
+                           procedure="check.aatsr_sst_processor.enabled.open_in_snap"/>
+            <IfSequence id="_1qXO"
+                        test="&#34;$(open_in_snap_en)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1qXR" procedure="daten_format.beam_dimap"/>
+              <ProcedureCall id="_1qXS"
+                             procedure="select.aatsr_sst_processor.output_format">
+                <variable name="output_format">$(beam_dimap)</variable>
+              </ProcedureCall>
+            </IfSequence>
+            <ProcedureCall id="_1qWT"
+                           procedure="do_click.aatsr_sst_processor.open_in_snap"/>
+          </IfSequence>
+          <ProcedureCall id="_1qWU"
+                         procedure="check.aatsr_sst_processor.checked.open_in_snap_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qV9" name="generate_nadir_view_sst">
+          <comment>@teststep Check-in checkbox 'Generate nadir-view SST'.</comment>
+          <ProcedureCall id="_1qYV"
+                         procedure="check.aatsr_sst_processor.checked.generate_nadir_view_sst"/>
+          <IfSequence id="_1qYW"
+                      test="&#34;$(generate_nadir_view_sst)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qYX"
+                           procedure="do_click.aatsr_sst_processor.generate_nadir_view_sst"/>
+          </IfSequence>
+          <ProcedureCall id="_1qYY"
+                         procedure="check.aatsr_sst_processor.checked.generate_nadir_view_sst_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qUP" name="generate_dual_view_sst">
+          <comment>@teststep Check-in checkbox 'Generate dual-view SST'.</comment>
+          <ProcedureCall id="_1qYZ"
+                         procedure="check.aatsr_sst_processor.checked.generate_dual_view_sst"/>
+          <IfSequence id="_1qYa"
+                      test="&#34;$(generate_dual_view_sst)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qYb"
+                           procedure="do_click.aatsr_sst_processor.generate_dual_view_sst"/>
+          </IfSequence>
+          <ProcedureCall id="_1qYc"
+                         procedure="check.aatsr_sst_processor.checked.generate_dual_view_sst_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qYP" name="dual_view_coefficient_file">
+          <variable name="dual_view_file"/>
+          <comment>@teststep Select dual-view coefficient file.</comment>
+          <TryStep id="_1qYd">
+            <ProcedureCall id="_1qYe"
+                           procedure="utility.aatsr_sst_processor.dual_view_coefficient_file">
+              <variable name="dual_view_file">$(dual_view_file)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1qYf" maxerror="0">
+              <TryStep id="_1qYg">
+                <ProcedureCall id="_1qYk"
+                               procedure="utility.aatsr_sst_processor.dual_view_coefficient_file">
+                  <variable name="dual_view_file">$(dual_view_file)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1qYi"
+                               maxerror="0">
+                  <ProcedureCall id="_1qYj" procedure="run-log.logError">
+                    <variable name="message">Dual-view file $(dual_view_file) can not be selected</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1qYS" name="nadir_view_coefficient_file">
+          <variable name="nadir_view_file"/>
+          <comment>@teststep Select nadir-view coefficient file.</comment>
+          <TryStep id="_1qYl">
+            <ProcedureCall id="_1qYm"
+                           procedure="utility.aatsr_sst_processor.nadir_view_coefficient_file">
+              <variable name="nadir_view_file">$(nadir_view_file)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1qYn" maxerror="0">
+              <TryStep id="_1qYo">
+                <ProcedureCall id="_1qYs"
+                               procedure="utility.aatsr_sst_processor.nadir_view_coefficient_file">
+                  <variable name="nadir_view_file">$(nadir_view_file)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1qYq"
+                               maxerror="0">
+                  <ProcedureCall id="_1qYr" procedure="run-log.logError">
+                    <variable name="message">Nadir-view file $(nadir_view_file) can not be selected</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+      </Package>
+      <Package id="_1q9O" name="principle_component_analysis">
+        <Procedure id="_1qaL" name="tab">
+          <variable name="tab"/>
+          <variable name="example">I/O Parameters;Processing Parameters</variable>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogPrincipal_Component_Analysis2.tabbed.tab"
+                          event="MOUSE_MPRC" id="_1qao" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1qaN" name="output_format">
+          <variable name="output_format"/>
+          <comment>@teststep Select output format.</comment>
+          <TryStep id="_1qaO">
+            <ProcedureCall id="_1qaP"
+                           procedure="utility.principle_component_analysis.output_format_principle_component_analysis">
+              <variable name="output_format_name">$(output_format)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1qaQ" maxerror="0">
+              <TryStep id="_1qaR">
+                <ProcedureCall id="_1qcM"
+                               procedure="utility.principle_component_analysis.output_format_principle_component_analysis">
+                  <variable name="output_format_name">$(output_format)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1qaT"
+                               maxerror="0">
+                  <ProcedureCall id="_1qaU" procedure="run-log.logError">
+                    <variable name="message">$(output_format) can not be selected</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1qaV" name="save_as">
+          <comment>@teststep Check-in checkbox 'Save as'</comment>
+          <ProcedureCall id="_1qaW"
+                         procedure="check.principle_component_analysis.checked.save_as"/>
+          <IfSequence id="_1qaX" test="&#34;$(save_as)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qaY"
+                           procedure="do_click.principal_component_analysis.save_as"/>
+          </IfSequence>
+          <ProcedureCall id="_1qaZ"
+                         procedure="check.principle_component_analysis.checked.save_as_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qaa" name="open_in_snap">
+          <comment>@teststep Check-in checkbox 'Open in SNAP'</comment>
+          <ProcedureCall id="_1qab"
+                         procedure="check.principle_component_analysis.checked.open_in_snap"/>
+          <IfSequence id="_1qac"
+                      test="&#34;$(open_in_snap)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qad"
+                           procedure="check.principle_component_analysis.enabled.open_in_snap"/>
+            <IfSequence id="_1qae"
+                        test="&#34;$(open_in_snap_en)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1qaf" procedure="daten_format.beam_dimap"/>
+              <ProcedureCall id="_1qag"
+                             procedure="select.principle_component_analysis.output_format">
+                <variable name="output_format">$(beam_dimap)</variable>
+              </ProcedureCall>
+            </IfSequence>
+            <ProcedureCall id="_1qah"
+                           procedure="do_click.principal_component_analysis.open_in_snap"/>
+          </IfSequence>
+          <ProcedureCall id="_1qai"
+                         procedure="check.principle_component_analysis.checked.open_in_snap_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qaj" name="remove_non_roi_pixels">
+          <comment>@teststep Check-in checkbox 'Remove non-ROI pixels'.</comment>
+          <ProcedureCall id="_1qak"
+                         procedure="check.principle_component_analysis.checked.remove_non_roi_pixels"/>
+          <IfSequence id="_1qal"
+                      test="&#34;$(remove_non_roi_pixels)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qam"
+                           procedure="do_click.principal_component_analysis.remove_non_roi_pixels"/>
+          </IfSequence>
+          <ProcedureCall id="_1qan"
+                         procedure="check.principle_component_analysis.checked.remove_non_roi_pixels_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qcN" name="roi_mask_name">
+          <variable name="roi_mask_name"/>
+          <comment>@teststep Select ROI mask.</comment>
+          <TryStep id="_1qcO">
+            <ProcedureCall id="_1qcP"
+                           procedure="utility.principle_component_analysis.roi_mask_name_principle_component_analysis">
+              <variable name="roi_mask_name">$(roi_mask_name)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1qcQ" maxerror="0">
+              <TryStep id="_1qcR">
+                <ProcedureCall id="_1qcV"
+                               procedure="utility.principle_component_analysis.roi_mask_name_principle_component_analysis">
+                  <variable name="roi_mask_name">$(roi_mask_name)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1qcT"
+                               maxerror="0">
+                  <ProcedureCall id="_1qcU" procedure="run-log.logError">
+                    <variable name="message">$(roi_mask_name) can not be selected</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1qdC" name="source_band">
+          <variable name="source_band"/>
+          <comment>@teststep Select source band.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogPrincipal_Component_Analysis2.sourceBandNames.source_band"
+                          event="MOUSE_MPRC" id="_1qdD" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1qdB" name="all_source_bands">
+          <variable name="source_band"/>
+          <comment>@teststep Select all source bands.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogPrincipal_Component_Analysis2.sourceBandNames.source_band"
+                          event="MOUSE_MPRC" id="_1qWx" modifiers="16"/>
+          <KeyEventStep client="$(client)"
+                        component="dialogPrincipal_Component_Analysis2.sourceBandNames"
+                        event="KEY_PRESSED" id="_1qWy" keychar="65535"
+                        keycode="17" modifiers="2"/>
+          <KeyEventStep client="$(client)"
+                        component="dialogPrincipal_Component_Analysis2.sourceBandNames"
+                        event="KEY_PTR" id="_1qWz" keychar="1" keycode="65"
+                        modifiers="2"/>
+          <KeyEventStep client="$(client)"
+                        component="dialogPrincipal_Component_Analysis2.sourceBandNames"
+                        event="KEY_RELEASED" id="_1qW+" keychar="65535"
+                        keycode="17" modifiers="0"/>
         </Procedure>
       </Package>
     </Package>
@@ -1058,6 +1766,16 @@
                          procedure="check.collocation.checked.open_in_snap"/>
           <IfSequence id="_1pNx"
                       test="&#34;$(open_in_snap)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1qXX"
+                           procedure="check.collocation.enabled.open_in_snap"/>
+            <IfSequence id="_1qXY"
+                        test="&#34;$(open_in_snap_en)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1qXZ" procedure="daten_format.beam_dimap"/>
+              <ProcedureCall id="_1qXa"
+                             procedure="select.collocation.output_format">
+                <variable name="output_format">$(beam_dimap)</variable>
+              </ProcedureCall>
+            </IfSequence>
             <ProcedureCall id="_1pNy"
                            procedure="do_click.collocation.open_in_snap"/>
           </IfSequence>
@@ -1115,6 +1833,16 @@
                          procedure="check.spectral_unmixing.checked.open_in_snap"/>
           <IfSequence id="_1pQv"
                       test="&#34;$(open_in_snap)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1qXf"
+                           procedure="check.spectral_unmixing.enabled.open_in_snap"/>
+            <IfSequence id="_1qXg"
+                        test="&#34;$(open_in_snap_en)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1qXh" procedure="daten_format.beam_dimap"/>
+              <ProcedureCall id="_1qXi"
+                             procedure="select.spectral_unmixing.output_format">
+                <variable name="output_format">$(beam_dimap)</variable>
+              </ProcedureCall>
+            </IfSequence>
             <ProcedureCall id="_1pQw"
                            procedure="do_click.spectral_unmixing.open_in_snap"/>
           </IfSequence>
@@ -1158,6 +1886,16 @@
                          procedure="check.ndvi_processor.checked.open_in_snap"/>
           <IfSequence id="_1pWR"
                       test="&#34;$(open_in_snap)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1qXn"
+                           procedure="check.ndvi_processor.enabled.open_in_snap"/>
+            <IfSequence id="_1qXo"
+                        test="&#34;$(open_in_snap_en)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1qXp" procedure="daten_format.beam_dimap"/>
+              <ProcedureCall id="_1qXq"
+                             procedure="select.ndvi_processor.output_format">
+                <variable name="output_format">$(beam_dimap)</variable>
+              </ProcedureCall>
+            </IfSequence>
             <ProcedureCall id="_1pWS"
                            procedure="do_click.ndvi_processor.open_in_snap"/>
           </IfSequence>
@@ -1187,6 +1925,16 @@
                          procedure="check.reprojection.checked.open_in_snap"/>
           <IfSequence id="_1pXb"
                       test="&#34;$(open_in_snap)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1qXv"
+                           procedure="check.reprojection.enabled.open_in_snap"/>
+            <IfSequence id="_1qXw"
+                        test="&#34;$(open_in_snap_en)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1qXx" procedure="daten_format.beam_dimap"/>
+              <ProcedureCall id="_1qXy"
+                             procedure="select.reprojection.output_format">
+                <variable name="output_format">$(beam_dimap)</variable>
+              </ProcedureCall>
+            </IfSequence>
             <ProcedureCall id="_1pXc"
                            procedure="do_click.reprojection.open_in_snap"/>
           </IfSequence>
@@ -1329,6 +2077,7 @@
       </Package>
       <Package id="_1q5w" name="edit_aggregator">
         <Procedure id="_1q5x" name="output_sums">
+          <comment>@teststep Check-out checkbox 'output sums'.</comment>
           <ProcedureCall id="_1q5y"
                          procedure="check.edit_aggregator.checked.output_sums"/>
           <IfSequence id="_1q5z"
@@ -1342,6 +2091,7 @@
           </ProcedureCall>
         </Procedure>
         <Procedure id="_1q60" name="output_counts">
+          <comment>@teststep Check-out checkbox 'output counts'.</comment>
           <ProcedureCall id="_1q61"
                          procedure="check.edit_aggregator.checked.output_counts"/>
           <IfSequence id="_1q62"
@@ -1375,6 +2125,16 @@
                          procedure="check.flh_mci_processor.checked.open_in_snap"/>
           <IfSequence id="_1qAy"
                       test="&#34;$(open_in_snap)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1qXz"
+                           procedure="check.flh_mci_processor.enabled.open_in_snap"/>
+            <IfSequence id="_1qX+"
+                        test="&#34;$(open_in_snap_en)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1qX-" procedure="daten_format.beam_dimap"/>
+              <ProcedureCall id="_1qY0"
+                             procedure="select.flh_mci_processor.output_format">
+                <variable name="output_format">$(beam_dimap)</variable>
+              </ProcedureCall>
+            </IfSequence>
             <ProcedureCall id="_1qAz"
                            procedure="do_click.flh_mci_processor.open_in_snap"/>
           </IfSequence>
@@ -1394,6 +2154,309 @@
           </IfSequence>
           <ProcedureCall id="_1qB3"
                          procedure="check.flh_mci_processor.checked.generate_slope_band_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+      </Package>
+      <Package id="_1qKF" name="meris_radiometric_correction">
+        <Procedure id="_1qKQ" name="save_as">
+          <comment>@teststep Check-out checkbox 'Save as'</comment>
+          <ProcedureCall id="_1qKR"
+                         procedure="check.meris_radiometric_correction.checked.save_as"/>
+          <IfSequence id="_1qKS" test="&#34;$(save_as)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1qKT"
+                           procedure="do_click.meris_radiometric_correction.save_as"/>
+          </IfSequence>
+          <ProcedureCall id="_1qKU"
+                         procedure="check.meris_radiometric_correction.checked.save_as_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qKV" name="open_in_snap">
+          <comment>@teststep Check-out checkbox 'Open in SNAP'</comment>
+          <ProcedureCall id="_1qKW"
+                         procedure="check.meris_radiometric_correction.checked.open_in_snap"/>
+          <IfSequence id="_1qKX"
+                      test="&#34;$(open_in_snap)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1qY9"
+                           procedure="check.meris_radiometric_correction.enabled.open_in_snap"/>
+            <IfSequence id="_1qYA"
+                        test="&#34;$(open_in_snap_en)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1qYB" procedure="daten_format.beam_dimap"/>
+              <ProcedureCall id="_1qYC"
+                             procedure="select.meris_radiometric_correction.output_format">
+                <variable name="output_format">$(beam_dimap)</variable>
+              </ProcedureCall>
+            </IfSequence>
+            <ProcedureCall id="_1qKY"
+                           procedure="do_click.meris_radiometric_correction.open_in_snap"/>
+          </IfSequence>
+          <ProcedureCall id="_1qKZ"
+                         procedure="check.meris_radiometric_correction.checked.open_in_snap_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qKi" name="perform_calibration">
+          <comment>@teststep Check-out checkbox 'Perform calibration'.</comment>
+          <ProcedureCall id="_1qKj"
+                         procedure="check.meris_radiometric_correction.checked.perform_calibration"/>
+          <IfSequence id="_1qKk"
+                      test="&#34;$(perform_calibration)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1qKl"
+                           procedure="do_click.meris_radiometric_correction.perform_calibration"/>
+          </IfSequence>
+          <ProcedureCall id="_1qKm"
+                         procedure="check.meris_radiometric_correction.checked.perform_calibration_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qKn" name="perform_smile_effect">
+          <comment>@teststep Check-out checkbox 'Perform smile-effect correction'.</comment>
+          <ProcedureCall id="_1qKo"
+                         procedure="check.meris_radiometric_correction.checked.perform_smile_effect"/>
+          <IfSequence id="_1qKp"
+                      test="&#34;$(perform_smile_effect)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1qKq"
+                           procedure="do_click.meris_radiometric_correction.perform_smile_effect"/>
+          </IfSequence>
+          <ProcedureCall id="_1qKr"
+                         procedure="check.meris_radiometric_correction.checked.perform_smile_effect_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qKs" name="perform_equalisation">
+          <comment>@teststep Check-out checkbox 'Perform equalisation'.</comment>
+          <ProcedureCall id="_1qKt"
+                         procedure="check.meris_radiometric_correction.checked.perform_equalisation"/>
+          <IfSequence id="_1qKu"
+                      test="&#34;$(perform_equalization)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1qKv"
+                           procedure="do_click.meris_radiometric_correction.perform_equalization"/>
+          </IfSequence>
+          <ProcedureCall id="_1qKw"
+                         procedure="check.meris_radiometric_correction.checked.perform_equalisation_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qKx" name="perform_rad_to_refl">
+          <comment>@teststep Check-out checkbox 'Perform radiance to reflectance'</comment>
+          <ProcedureCall id="_1qKy"
+                         procedure="check.meris_radiometric_correction.checked.perform_rad_to_refl"/>
+          <IfSequence id="_1qKz"
+                      test="&#34;$(perform_rad_to_refl)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1qK+"
+                           procedure="do_click.meris_radiometric_correction.perform_rad_to_refl"/>
+          </IfSequence>
+          <ProcedureCall id="_1qK-"
+                         procedure="check.meris_radiometric_correction.checked.perform_rad_to_refl_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+      </Package>
+      <Package id="_1qN5" name="meris_cloud_probability">
+        <Procedure id="_1qNE" name="save_as">
+          <comment>@teststep Check-out checkbox 'Save as'</comment>
+          <ProcedureCall id="_1qNF"
+                         procedure="check.meris_cloud_probability.checked.save_as"/>
+          <IfSequence id="_1qNG" test="&#34;$(save_as)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1qNH"
+                           procedure="do_click.meris_cloud_probability.save_as"/>
+          </IfSequence>
+          <ProcedureCall id="_1qNI"
+                         procedure="check.meris_cloud_probability.checked.save_as_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qNJ" name="open_in_snap">
+          <comment>@teststep Check-out checkbox 'Open in SNAP'</comment>
+          <ProcedureCall id="_1qNK"
+                         procedure="check.meris_cloud_probability.checked.open_in_snap"/>
+          <IfSequence id="_1qNL"
+                      test="&#34;$(open_in_snap)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1qYD"
+                           procedure="check.meris_cloud_probability.enabled.open_in_snap"/>
+            <IfSequence id="_1qYE"
+                        test="&#34;$(open_in_snap_en)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1qYF" procedure="daten_format.beam_dimap"/>
+              <ProcedureCall id="_1qYG"
+                             procedure="select.meris_cloud_probability.output_format">
+                <variable name="output_format">$(beam_dimap)</variable>
+              </ProcedureCall>
+            </IfSequence>
+            <ProcedureCall id="_1qNM"
+                           procedure="do_click.meris_cloud_probability.open_in_snap"/>
+          </IfSequence>
+          <ProcedureCall id="_1qNN"
+                         procedure="check.meris_cloud_probability.checked.open_in_snap_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+      </Package>
+      <Package id="_1qRr" name="smac">
+        <Procedure id="_1qS0" name="save_as">
+          <comment>@teststep Check-out checkbox 'Save as'</comment>
+          <ProcedureCall id="_1qS1" procedure="check.smac.checked.save_as"/>
+          <IfSequence id="_1qS2" test="&#34;$(save_as)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1qS3" procedure="do_click.smac.save_as"/>
+          </IfSequence>
+          <ProcedureCall id="_1qS4"
+                         procedure="check.smac.checked.save_as_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qS5" name="open_in_snap">
+          <comment>@teststep Check-out checkbox 'Open in SNAP'</comment>
+          <ProcedureCall id="_1qS6"
+                         procedure="check.smac.checked.open_in_snap"/>
+          <IfSequence id="_1qS7"
+                      test="&#34;$(open_in_snap)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1qYL"
+                           procedure="check.smac.enabled.open_in_snap"/>
+            <IfSequence id="_1qYM"
+                        test="&#34;$(open_in_snap_en)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1qYN" procedure="daten_format.beam_dimap"/>
+              <ProcedureCall id="_1qYO" procedure="select.smac.output_format">
+                <variable name="output_format">$(beam_dimap)</variable>
+              </ProcedureCall>
+            </IfSequence>
+            <ProcedureCall id="_1qS8" procedure="do_click.smac.open_in_snap"/>
+          </IfSequence>
+          <ProcedureCall id="_1qS9"
+                         procedure="check.smac.checked.open_in_snap_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qSA" name="use_meris_ecmwf">
+          <comment>@teststep Check-out checkbox 'Use MERIS ECMWF data'</comment>
+          <ProcedureCall id="_1qSB"
+                         procedure="check.smac.checked.use_meris_ecmwf"/>
+          <IfSequence id="_1qSC"
+                      test="&#34;$(use_meris_ecmwf)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1qSD"
+                           procedure="do_click.smac.use_meris_ecmwf"/>
+          </IfSequence>
+          <ProcedureCall id="_1qSE"
+                         procedure="check.smac.checked.use_meris_ecmwf_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+      </Package>
+      <Package id="_1qYt" name="aatsr_sst_processor">
+        <Procedure id="_1qZ2" name="save_as">
+          <comment>@teststep Check-out checkbox 'Save as'</comment>
+          <ProcedureCall id="_1qZ3"
+                         procedure="check.aatsr_sst_processor.checked.save_as"/>
+          <IfSequence id="_1qZ4" test="&#34;$(save_as)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1qZ5"
+                           procedure="do_click.aatsr_sst_processor.save_as"/>
+          </IfSequence>
+          <ProcedureCall id="_1qZ6"
+                         procedure="check.aatsr_sst_processor.checked.save_as_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qZ7" name="open_in_snap">
+          <comment>@teststep Check-out checkbox 'Open in SNAP'</comment>
+          <ProcedureCall id="_1qZ8"
+                         procedure="check.aatsr_sst_processor.checked.open_in_snap"/>
+          <IfSequence id="_1qZ9"
+                      test="&#34;$(open_in_snap)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1qZA"
+                           procedure="check.aatsr_sst_processor.enabled.open_in_snap"/>
+            <IfSequence id="_1qZB"
+                        test="&#34;$(open_in_snap_en)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1qZC" procedure="daten_format.beam_dimap"/>
+              <ProcedureCall id="_1qZD"
+                             procedure="select.aatsr_sst_processor.output_format">
+                <variable name="output_format">$(beam_dimap)</variable>
+              </ProcedureCall>
+            </IfSequence>
+            <ProcedureCall id="_1qZE"
+                           procedure="do_click.aatsr_sst_processor.open_in_snap"/>
+          </IfSequence>
+          <ProcedureCall id="_1qZF"
+                         procedure="check.aatsr_sst_processor.checked.open_in_snap_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qZG" name="generate_nadir_view_sst">
+          <comment>@teststep Check-out checkbox 'Generate nadir-view SST'.</comment>
+          <ProcedureCall id="_1qZH"
+                         procedure="check.aatsr_sst_processor.checked.generate_nadir_view_sst"/>
+          <IfSequence id="_1qZI"
+                      test="&#34;$(generate_nadir_view_sst)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1qZJ"
+                           procedure="do_click.aatsr_sst_processor.generate_nadir_view_sst"/>
+          </IfSequence>
+          <ProcedureCall id="_1qZK"
+                         procedure="check.aatsr_sst_processor.checked.generate_nadir_view_sst_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qZL" name="generate_dual_view_sst">
+          <comment>@teststep Check-out checkbox 'Generate dual-view SST'.</comment>
+          <ProcedureCall id="_1qZM"
+                         procedure="check.aatsr_sst_processor.checked.generate_dual_view_sst"/>
+          <IfSequence id="_1qZN"
+                      test="&#34;$(generate_dual_view_sst)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1qZO"
+                           procedure="do_click.aatsr_sst_processor.generate_dual_view_sst"/>
+          </IfSequence>
+          <ProcedureCall id="_1qZP"
+                         procedure="check.aatsr_sst_processor.checked.generate_dual_view_sst_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+      </Package>
+      <Package id="_1qcW" name="principle_component_analysis">
+        <Procedure id="_1qch" name="save_as">
+          <comment>@teststep Check-out checkbox 'Save as'</comment>
+          <ProcedureCall id="_1qci"
+                         procedure="check.principle_component_analysis.checked.save_as"/>
+          <IfSequence id="_1qcj" test="&#34;$(save_as)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1qck"
+                           procedure="do_click.principal_component_analysis.save_as"/>
+          </IfSequence>
+          <ProcedureCall id="_1qcl"
+                         procedure="check.principle_component_analysis.checked.save_as_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qcm" name="open_in_snap">
+          <comment>@teststep Check-out checkbox 'Open in SNAP'</comment>
+          <ProcedureCall id="_1qcn"
+                         procedure="check.principle_component_analysis.checked.open_in_snap"/>
+          <IfSequence id="_1qco"
+                      test="&#34;$(open_in_snap)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1qcp"
+                           procedure="check.principle_component_analysis.enabled.open_in_snap"/>
+            <IfSequence id="_1qcq"
+                        test="&#34;$(open_in_snap_en)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1qcr" procedure="daten_format.beam_dimap"/>
+              <ProcedureCall id="_1qcs"
+                             procedure="select.principle_component_analysis.output_format">
+                <variable name="output_format">$(beam_dimap)</variable>
+              </ProcedureCall>
+            </IfSequence>
+            <ProcedureCall id="_1qct"
+                           procedure="do_click.principal_component_analysis.open_in_snap"/>
+          </IfSequence>
+          <ProcedureCall id="_1qcu"
+                         procedure="check.principle_component_analysis.checked.open_in_snap_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qd6" name="remove_non_roi_pixels">
+          <comment>@teststep Check-out checkbox 'Remove non-ROI pixels'.</comment>
+          <ProcedureCall id="_1qd7"
+                         procedure="check.principle_component_analysis.checked.remove_non_roi_pixels"/>
+          <IfSequence id="_1qd8"
+                      test="&#34;$(remove_non_roi_pixels)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1qd9"
+                           procedure="do_click.principal_component_analysis.remove_non_roi_pixels"/>
+          </IfSequence>
+          <ProcedureCall id="_1qdA"
+                         procedure="check.principle_component_analysis.checked.remove_non_roi_pixels_selected_status">
             <variable name="selected">false</variable>
           </ProcedureCall>
         </Procedure>
@@ -1605,12 +2668,122 @@
                           event="MOUSE_MPRC" id="_1qCJ" modifiers="16"/>
         </Procedure>
       </Package>
+      <Package id="_1qCx" name="meris_radiometric_correction">
+        <Procedure id="_1qDT"
+                   name="output_format_meris_radiometric_correction">
+          <variable name="output_format_name"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogMERIS_L1b_Radiometric_Correction2.formatName"
+                          event="MOUSE_MPRC" id="_1psv" modifiers="16" x="59"
+                          y="9"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogMERIS_L1b_Radiometric_Correction2.listInvokerName:_formatName.output_format_name"
+                          event="MOUSE_MPRC" id="_1psw" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1qJN" name="reprocessing_version">
+          <variable name="reprocessing_version"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogMERIS_L1b_Radiometric_Correction2.reproVersion"
+                          event="MOUSE_MPRC" id="_1qJX" modifiers="16" x="30"
+                          y="6"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogMERIS_L1b_Radiometric_Correction2.listInvokerName:_reproVersion.reprocessing_version"
+                          event="MOUSE_MPRC" id="_1qJY" modifiers="16"/>
+        </Procedure>
+      </Package>
+      <Package id="_1qOU" name="meris_cloud_probability">
+        <Procedure id="_1qPt" name="output_format_meris_cloud_probability">
+          <variable name="output_format_name"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogMERIS_Cloud_Probability_Processor2.formatName"
+                          event="MOUSE_MPRC" id="_1qPi" modifiers="16" x="48"
+                          y="7"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogMERIS_Cloud_Probability_Processor2.listInvokerName:_formatName.output_format_name"
+                          event="MOUSE_MPRC" id="_1qPj" modifiers="16"/>
+        </Procedure>
+      </Package>
+      <Package id="_1qQj" name="smac">
+        <Procedure id="_1qQm" name="output_format_smac">
+          <variable name="output_format_name"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.formatName"
+                          event="MOUSE_MPRC" id="_1pvu" modifiers="16" x="49"
+                          y="10"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.listInvokerName:_formatName.output_format_name"
+                          event="MOUSE_MPRC" id="_1pvv" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1qRh" name="aerosol_type">
+          <variable name="aerosol_type"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.aerosolType"
+                          event="MOUSE_MPRC" id="_1pwC" modifiers="16" x="154"
+                          y="17"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.listInvokerName_aerosol_type"
+                          event="MOUSE_MPRC" id="_1pwD" modifiers="16"/>
+        </Procedure>
+      </Package>
+      <Package id="_1qTw" name="aatsr_sst_processor">
+        <Procedure id="_1qXI" name="output_format_aatsr_sst_processor">
+          <variable name="output_format_name"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialog(A)ATSR_SST_Processor2.formatName"
+                          event="MOUSE_MPRC" id="_1qWm" modifiers="16" x="77"
+                          y="13"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialog(A)ATSR_SST_Processor2.listInvokerName:_formatName.output_format_name"
+                          event="MOUSE_MPRC" id="_1qWn" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1qVL" name="dual_view_coefficient_file">
+          <variable name="dual_view_file"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialog(A)ATSR_SST_Processor2.dualCoefficientsFile"
+                          event="MOUSE_MPRC" id="_1qWu" modifiers="16" x="202"
+                          y="12"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialog(A)ATSR_SST_Processor2.listInvokerName:_dualCoefficientsFile.dual_view_file"
+                          event="MOUSE_MPRC" id="_1qWv" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1qUp" name="nadir_view_coefficient_file">
+          <variable name="nadir_view_file"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialog(A)ATSR_SST_Processor2.nadirCoefficientsFile"
+                          event="MOUSE_MPRC" id="_1qW-" modifiers="16" x="99"
+                          y="16"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialog(A)ATSR_SST_Processor2.listInvokerName:_nadirCoefficientsFile.nadir_view_file"
+                          event="MOUSE_MPRC" id="_1qX0" modifiers="16"/>
+        </Procedure>
+      </Package>
+      <Package id="_1qap" name="principle_component_analysis">
+        <Procedure id="_1qas"
+                   name="output_format_principle_component_analysis">
+          <variable name="output_format_name"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogPrincipal_Component_Analysis2.formatName"
+                          event="MOUSE_MPRC" id="_1qbM" modifiers="16" x="62"
+                          y="14"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogPrincipal_Component_Analysis2.listInvokerName:_formatName.output_format_name"
+                          event="MOUSE_MPRC" id="_1qbN" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1qcA"
+                   name="roi_mask_name_principle_component_analysis">
+          <variable name="roi_mask_name"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogPrincipal_Component_Analysis2.roiMaskName"
+                          event="MOUSE_MPRC" id="_1qX8" modifiers="16" x="119"
+                          y="12"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogPrincipal_Component_Analysis2.listInvokerName:_roiMaskName.roi_mask_name"
+                          event="MOUSE_MPRC" id="_1qX7" modifiers="16"/>
+        </Procedure>
+      </Package>
     </Package>
   </PackageRoot>
   <ExtraSequence id="_4">
-    <ProcedureCall id="_1pMK" procedure="collocation.select_output_format">
-      <variable name="output_format">BEAM-DIMAP</variable>
-    </ProcedureCall>
     <IfSequence id="_1op7" test="${qftest:windows}">
       <ElseifSequence id="_1op8" name="MAC?"
                       test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>

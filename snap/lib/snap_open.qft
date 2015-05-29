@@ -400,8 +400,8 @@
                              procedure="do_click.menu.processing.thematic_water_processing"/>
               <ProcedureCall id="_1pw+"
                              procedure="do_click.menu.processing.thematic_water_processing.aatsr_sst_processor"/>
-              <ProcedureCall id="_1pvr"
-                             procedure="check.aatsr_sst_processor.aatsr_sst_processor_tool_opened"/>
+              <ProcedureCall id="_1pxF"
+                             procedure="check.aatsr_sst_processor.aatsr_sst_processor_opened"/>
               <CatchSequence exception="TestException" id="_1pvs"
                              maxerror="0">
                 <TryStep id="_1pvt">
@@ -413,7 +413,7 @@
                   <ProcedureCall id="_1pw-"
                                  procedure="do_click.menu.processing.thematic_water_processing.aatsr_sst_processor"/>
                   <ProcedureCall id="_1px1"
-                                 procedure="check.aatsr_sst_processor.aatsr_sst_processor_tool_opened"/>
+                                 procedure="check.aatsr_sst_processor.aatsr_sst_processor_opened"/>
                   <CatchSequence exception="TestException" id="_1pvz"
                                  maxerror="0">
                     <ProcedureCall id="_1pv+" procedure="run-log.logError">
@@ -1018,67 +1018,76 @@
           <ProcedureCall id="_1oRv" postdelay="2000"
                          procedure="do_click.open_product_dialog.open"/>
         </IfSequence>
-        <BasicSequence id="_1oSE" name="find_error_dialog_click_ok">
-          <TryStep id="_1oRw" name="find_error_dialog_click_ok">
-            <ProcedureCall id="_1oRx"
+        <TryStep id="_1pxu" name="handle_SNAP_Multiple_Readers_dialog">
+          <ComponentWaiter client="$(client)"
+                           component="dialogSNAP_-_Multiple_Readers_Available"
+                           id="_1pxR" timeout="10"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogSNAP_-_Multiple_Readers_Available.buttonOK"
+                          event="MOUSE_MPRC" id="_1pxS" modifiers="16"/>
+          <CatchSequence exception="TestException" id="_1pxv" maxerror="0"/>
+        </TryStep>
+        <BasicSequence id="_1pxT" name="find_error_dialog_click_ok">
+          <TryStep id="_1pxU" name="find_error_dialog_click_ok">
+            <ProcedureCall id="_1pxV"
                            procedure="wait.appear.error.dialog_open_product"/>
-            <ProcedureCall id="_1oRy" procedure="run-log.make_screensot">
+            <ProcedureCall id="_1pxW" procedure="run-log.make_screensot">
               <variable name="iw_name">error_dialog_open_product</variable>
               <variable name="iw_name_example">error_dialog</variable>
             </ProcedureCall>
-            <ProcedureCall id="_1oRz"
+            <ProcedureCall id="_1pxX"
                            procedure="do_click.error_dialog.button_Yes_dialog_Open_Product"/>
-            <ProcedureCall id="_1oR+"
+            <ProcedureCall id="_1pxY"
                            procedure="run-log.error_message.error_dialog_appears">
               <variable name="dialog">'Open Product' error</variable>
             </ProcedureCall>
-            <CatchSequence exception="TestException" id="_1oR-" maxerror="0"/>
+            <CatchSequence exception="TestException" id="_1pxZ" maxerror="0"/>
           </TryStep>
-          <TryStep id="_1oS7" name="find_error_dialog_click_ok">
-            <ProcedureCall id="_1oS8"
+          <TryStep id="_1pxa" name="find_error_dialog_click_ok">
+            <ProcedureCall id="_1pxb"
                            procedure="wait.appear.error.dialog_SNAP_open_product"/>
-            <ProcedureCall id="_1oS9" procedure="run-log.make_screensot">
+            <ProcedureCall id="_1pxc" procedure="run-log.make_screensot">
               <variable name="iw_name">dialog_SNAP_open_product</variable>
               <variable name="iw_name_example">error_dialog</variable>
             </ProcedureCall>
-            <TryStep id="_1oSO">
-              <ProcedureCall id="_1oSF"
+            <TryStep id="_1pxd">
+              <ProcedureCall id="_1pxe"
                              procedure="get.text_error_dialog_SNAP_Open_Product"/>
-              <CatchSequence exception="TestException" id="_1oSP"
+              <CatchSequence exception="TestException" id="_1pxf"
                              maxerror="0">
-                <SetGlobalStep id="_1oSQ" varname="error_text">
+                <SetGlobalStep id="_1pxg" varname="error_text">
                   <default>$(prod_dir)/$(prod) can not be opened</default>
                 </SetGlobalStep>
               </CatchSequence>
             </TryStep>
-            <ProcedureCall id="_1oSA"
+            <ProcedureCall id="_1pxh"
                            procedure="do_click.error_dialog.button_OK_error_SNAP_Open_Product"/>
-            <IfSequence id="_1pkI"
+            <IfSequence id="_1pxi"
                         test="&#34;$(error_text)&#34;&lt;&gt;&#34;Open Product&#34;">
-              <ServerScriptStep id="_1oMr" name="error">
+              <ServerScriptStep id="_1pxj" name="error">
                 <code>rc.logError("'$(error_text)'.")</code>
               </ServerScriptStep>
             </IfSequence>
-            <CatchSequence exception="TestException" id="_1oSC" maxerror="0"/>
+            <CatchSequence exception="TestException" id="_1pxk" maxerror="0"/>
           </TryStep>
-          <TryStep id="_1omy" name="find_error_dialog_click_ok">
+          <TryStep id="_1pxl" name="find_error_dialog_click_ok">
             <ComponentWaiter client="$(client)" component="dialogSNAP_-_Error"
-                             id="_1mmw" timeout="10"/>
-            <TryStep id="_1onO">
-              <ProcedureCall id="_1om+" procedure="run-log.make_screensot">
+                             id="_1pxm" timeout="10"/>
+            <TryStep id="_1pxn">
+              <ProcedureCall id="_1pxo" procedure="run-log.make_screensot">
                 <variable name="iw_name">error_dialog_open_product</variable>
                 <variable name="iw_name_example">error_dialog</variable>
               </ProcedureCall>
-              <CatchSequence exception="TestException" id="_1onP"
+              <CatchSequence exception="TestException" id="_1pxp"
                              maxerror="0"/>
             </TryStep>
-            <ProcedureCall id="_1om-"
+            <ProcedureCall id="_1pxq"
                            procedure="do_click.error_dialog.button_OK_SNAP_Error"/>
-            <ProcedureCall id="_1on0"
+            <ProcedureCall id="_1pxr"
                            procedure="run-log.error_message.error_dialog_appears">
               <variable name="dialog">'Open Product' error</variable>
             </ProcedureCall>
-            <CatchSequence exception="TestException" id="_1on1" maxerror="0"/>
+            <CatchSequence exception="TestException" id="_1pxs" maxerror="0"/>
           </TryStep>
         </BasicSequence>
         <IfSequence disabled="true" id="_1omr" name="mac"

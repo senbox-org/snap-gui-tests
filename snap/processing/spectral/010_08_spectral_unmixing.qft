@@ -91,7 +91,7 @@
         </TestStep>
       </BasicSequence>
       <ProcedureCall id="_1pVo"
-                     procedure="close_processing_tool.spectral_unmixing"/>
+                     procedure="close_processing_tool.spectral_tools.spectral_unmixing"/>
     </TestCase>
     <TestSet id="_1pMP" name="02_processing">
       <TestCase id="_1pMR" name="01_meris">
@@ -140,7 +140,7 @@
                          procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
         </TestStep>
         <ProcedureCall id="_1pOV"
-                       procedure="close_processing_tool.spectral_unmixing"/>
+                       procedure="close_processing_tool.spectral_tools.spectral_unmixing"/>
       </TestCase>
       <TestCase id="_1pWq" name="02_landsat_tm">
         <variable name="source_data">band1.dat</variable>
@@ -172,7 +172,7 @@
             </ProcedureCall>
             <ProcedureCall id="_1pWz"
                            procedure="do_click.spectral_unmixing.button_apply"/>
-            <ProcedureCall id="_1pW+"
+            <ProcedureCall id="_1qXT"
                            procedure="click_ok_in_product_created_dialog"/>
           </IfSequence>
         </TestStep>
@@ -197,7 +197,7 @@
           </IfSequence>
         </TestStep>
         <ProcedureCall id="_1pX7"
-                       procedure="close_processing_tool.spectral_unmixing"/>
+                       procedure="close_processing_tool.spectral_tools.spectral_unmixing"/>
       </TestCase>
       <TestCase id="_1pXg" name="03_landsat_geotiff">
         <variable name="source_data">LM52010241984295AAA03_MTL.txt</variable>
@@ -254,7 +254,7 @@
           </IfSequence>
         </TestStep>
         <ProcedureCall id="_1pX-"
-                       procedure="close_processing_tool.spectral_unmixing"/>
+                       procedure="close_processing_tool.spectral_tools.spectral_unmixing"/>
       </TestCase>
       <TestCase id="_40q" name="04_store_load_display_parameters_meris">
         <variable name="ofn">unmix_save_parameters_meris.xml</variable>
@@ -394,7 +394,7 @@
           <ProcedureCall id="_1pbW" procedure="display_parameters_and_check"/>
         </TestStep>
         <ProcedureCall id="_1pV7"
-                       procedure="close_processing_tool.spectral_unmixing"/>
+                       procedure="close_processing_tool.spectral_tools.spectral_unmixing"/>
       </TestCase>
       <TestCase id="_1pYh" name="05_store_load_display_parameters_landsat7">
         <variable name="ofn">unmix_save_parameters_landsat7.xml</variable>
@@ -534,7 +534,7 @@
           <ProcedureCall id="_1pbX" procedure="display_parameters_and_check"/>
         </TestStep>
         <ProcedureCall id="_1pZN"
-                       procedure="close_processing_tool.spectral_unmixing"/>
+                       procedure="close_processing_tool.spectral_tools.spectral_unmixing"/>
       </TestCase>
       <TestCase id="_1pZO" name="06_cancel_processing">
         <variable name="output_file">test_06_cancel.dim</variable>
@@ -596,7 +596,7 @@
           </ProcedureCall>
         </TestStep>
         <ProcedureCall id="_1pa4"
-                       procedure="close_processing_tool.spectral_unmixing"/>
+                       procedure="close_processing_tool.spectral_tools.spectral_unmixing"/>
       </TestCase>
       <TestCase id="_1pRE" name="07_pixel_geocoded_product">
         <variable name="output_file">test_07_pixel_geocoding.dim</variable>
@@ -668,7 +668,7 @@
           </TestStep>
         </TestStep>
         <ProcedureCall id="_1paS"
-                       procedure="close_processing_tool.spectral_unmixing"/>
+                       procedure="close_processing_tool.spectral_tools.spectral_unmixing"/>
       </TestCase>
       <TestSet id="_1pT+" name="08_processing_in_different_formats_meris">
         <variable name="source_data">MER_RR__1_test.N1</variable>
@@ -753,7 +753,7 @@
         </TestSet>
         <CleanupSequence id="_1pUa" name="close_spectral_unmixing_tool">
           <ProcedureCall id="_1pUP"
-                         procedure="close_processing_tool.spectral_unmixing"/>
+                         procedure="close_processing_tool.spectral_tools.spectral_unmixing"/>
         </CleanupSequence>
       </TestSet>
     </TestSet>
@@ -780,7 +780,7 @@
                         event="MOUSE_MPRC" id="_1pPe" modifiers="16"/>
       </TestStep>
       <ProcedureCall id="_1pVF"
-                     procedure="close_processing_tool.spectral_unmixing"/>
+                     procedure="close_processing_tool.spectral_tools.spectral_unmixing"/>
     </TestCase>
   </TestSet>
   <PackageRoot id="_4">
@@ -851,6 +851,7 @@
                         id="_1pYV"/>
     </Procedure>
     <Procedure id="_1pON" name="click_ok_in_product_created_dialog">
+      <ProcedureCall id="_1qXS" procedure="handle_unmix_error"/>
       <TryStep id="_1pOQ">
         <ComponentWaiter client="$(client)"
                          component="dialogSpectral_Unmixing2.buttonOK"
@@ -1000,43 +1001,31 @@
         <variable name="file_name">$(ofn)</variable>
       </ProcedureCall>
     </Procedure>
+    <Procedure id="_1qXN" name="handle_unmix_error">
+      <TryStep id="_1qXQ">
+        <ComponentWaiter client="$(client)"
+                         component="dialogSpectral_Unmixing2.buttonOK"
+                         id="_1qXO" raise="false" timeout="100"/>
+        <ProcedureCall id="_1qXU" procedure="run-log.make_screensot">
+          <variable name="iw_name">unmix_error</variable>
+          <variable name="iw_name_example">error_dialog</variable>
+        </ProcedureCall>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSpectral_Unmixing2.buttonOK"
+                        event="MOUSE_MPRC" id="_1qXP" modifiers="16"/>
+        <ProcedureCall id="_1qXV" procedure="run-log.logError">
+          <variable name="message">unmix_error</variable>
+          <variable name="withScreenshots">false</variable>
+        </ProcedureCall>
+        <CatchSequence exception="TestException" id="_1qXR" maxerror="0"/>
+      </TryStep>
+    </Procedure>
   </PackageRoot>
   <ExtraSequence id="_5">
-    <BasicSequence id="_1pP4" name="Aufnahme 25.03.15 09:44">
-      <CheckBooleanStep checktype="item_selected" client="$(client)"
-                        component="dialogSpectral_Unmixing.sourceBandNames.radiance_1"
-                        id="_1pP5"/>
-      <CheckSelectableItemsStep checktype="items_with_selection"
-                                client="$(client)"
-                                component="dialogSpectral_Unmixing.sourceBandNames"
-                                id="_1pP6">
-        <item selected="true">radiance_1</item>
-        <item>radiance_2</item>
-        <item selected="true">radiance_3</item>
-        <item selected="true">radiance_4</item>
-        <item selected="true">radiance_5</item>
-        <item selected="true">radiance_6</item>
-        <item selected="true">radiance_7</item>
-        <item>radiance_8</item>
-        <item>radiance_9</item>
-        <item>radiance_10</item>
-        <item>radiance_11</item>
-        <item>radiance_12</item>
-        <item>radiance_13</item>
-        <item>radiance_14</item>
-        <item>radiance_15</item>
-      </CheckSelectableItemsStep>
-      <CheckStringStep checktype="value" client="$(client)"
-                       component="dialogSpectral_Unmixing.unmixingModelName"
-                       id="_1pP7">
-        <text>Constrained LSU</text>
-      </CheckStringStep>
-      <CheckStringStep checktype="value" client="$(client)"
-                       component="dialogSpectral_Unmixing.unmixingModelName"
-                       id="_1pP8">
-        <text>Constrained LSU</text>
-      </CheckStringStep>
-    </BasicSequence>
+    <ProcedureCall id="_1qXW" procedure="check.product.not_opened"/>
+    <IfSequence id="_1qXX" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
+      <ProcedureCall id="_1l3C" procedure="wait.product_is_opened"/>
+    </IfSequence>
     <ProcedureCall id="_1oXV" procedure="check.product.not_opened"/>
     <IfSequence id="_1oXW" test="&#34;$(not_opened)&#34;==&#34;false&#34;">
       <TestStep id="_1o+2" name="delete_band">

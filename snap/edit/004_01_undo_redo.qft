@@ -12219,7 +12219,9 @@ YbDwLsF7oar1/x7XtVk=</binary>
           </ProcedureCall>
           <ProcedureCall id="_1p19" procedure="delete_geometry"/>
           <ProcedureCall id="_1pjr"
-                         procedure="check_image_view_rectangle_deleted"/>
+                         procedure="check_image_view_rectangle_deleted">
+            <variable name="view_name">$(band)</variable>
+          </ProcedureCall>
           <BasicSequence disabled="true" id="_1pEz" name="tmp">
             <CheckImageStep client="$(client)"
                             component="NbMainWindow.algal_2.panel" id="_1p1G"
@@ -21294,7 +21296,9 @@ R2dVSOWNz4A//w0d2eKZ</binary>
         <TestStep id="_1p0d" name="redo">
           <ProcedureCall id="_1p0e" procedure="redo_strg_y"/>
           <ProcedureCall id="_1pjq"
-                         procedure="check_image_view_rectangle_deleted"/>
+                         procedure="check_image_view_rectangle_deleted">
+            <variable name="view_name">$(band)</variable>
+          </ProcedureCall>
         </TestStep>
         <TestStep id="_1p1M" name="undo">
           <ProcedureCall id="_1p1N" procedure="undo_strg_z"/>
@@ -51517,6 +51521,7 @@ R2dVSOWNz4A//w0d2eKZ</binary>
       </CheckImageStep>
     </Procedure>
     <Procedure id="_1pjo" name="check_image_view_rectangle_deleted">
+      <variable name="view_name"></variable>
       <CheckImageStep algorithm="algorithm=similarity;expected=0.85;find=best(resultX,resultY) "
                       client="$(client)"
                       component="NbMainWindow.[1]_algal_22.panel" id="_1pjp"

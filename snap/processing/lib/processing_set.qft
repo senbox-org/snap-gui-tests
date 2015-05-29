@@ -765,6 +765,301 @@
           </TextInputStep>
         </Procedure>
       </Package>
+      <Package id="_1qH8" name="meris_radiometric_correction">
+        <Procedure id="_1qJk" name="target_directory">
+          <variable name="dir"/>
+          <comment>@teststep Insert target directory.</comment>
+          <ProcedureCall id="_1qJl"
+                         procedure="select.meris_radiometric_correction.save_as"/>
+          <ProcedureCall id="_1qJm" procedure="path.output_data_directory">
+            <variable name="output_dir">$(dir)</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogMERIS_L1b_Radiometric_Correction2.productDir"
+                         id="_1qJn">
+            <text>$(output_data_directory)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1qJo" name="target_product_name">
+          <variable name="target_product_name"/>
+          <comment>@teststep Insert target product name.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogMERIS_L1b_Radiometric_Correction2.productName"
+                         id="_1qJp">
+            <text>$(target_product_name)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1qCT" name="available_reprocessing_version">
+          <SetGlobalStep id="_1qHp" varname="repr_2">
+            <default>REPROCESSING_2</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1qHq" varname="auto_detect">
+            <default>AUTO_DETECT</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1qHr" varname="repr_3">
+            <default>REPROCESSING_3</default>
+          </SetGlobalStep>
+        </Procedure>
+      </Package>
+      <Package id="_1qLR" name="meris_cloud_probability">
+        <Procedure id="_1qMj" name="target_directory">
+          <variable name="dir"/>
+          <comment>@teststep Insert target directory.</comment>
+          <ProcedureCall id="_1qMk"
+                         procedure="select.meris_cloud_probability.save_as"/>
+          <ProcedureCall id="_1qMl" procedure="path.output_data_directory">
+            <variable name="output_dir">$(dir)</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogMERIS_Cloud_Probability_Processor2.productDir"
+                         id="_1qMm">
+            <text>$(output_data_directory)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1qMn" name="target_product_name">
+          <variable name="target_product_name"/>
+          <comment>@teststep Insert target product name.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogMERIS_Cloud_Probability_Processor2.productName"
+                         id="_1qMo">
+            <text>$(target_product_name)</text>
+          </TextInputStep>
+        </Procedure>
+      </Package>
+      <Package id="_1qM2" name="smac">
+        <Procedure id="_1qQA" name="target_directory">
+          <variable name="dir"/>
+          <comment>@teststep Insert target directory.</comment>
+          <ProcedureCall id="_1qQB" procedure="select.smac.save_as"/>
+          <ProcedureCall id="_1qQC" procedure="path.output_data_directory">
+            <variable name="output_dir">$(dir)</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.productDir"
+                         id="_1qQD">
+            <text>$(output_data_directory)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1qQE" name="target_product_name">
+          <variable name="target_product_name"/>
+          <comment>@teststep Insert target product name.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.productName"
+                         id="_1qQF">
+            <text>$(target_product_name)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1qP7" name="aerosol_optical_depth">
+          <variable name="val"/>
+          <comment>@teststep Insert aerosol optical depth.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.tauAero550"
+                         id="_1qP8">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1qPD" name="relative_humidity">
+          <variable name="val"/>
+          <comment>@teststep Insert relative humidity.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.uH2o"
+                         id="_1qPF">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1qPJ" name="ozone_content">
+          <variable name="val"/>
+          <comment>@teststep Insert ozone content.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.uO3"
+                         id="_1qPM">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1qPP" name="surface_pressure">
+          <variable name="val"/>
+          <comment>@teststep Insert surface pressure.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.surfPress"
+                         id="_1qPT">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1qPV" name="aerosol_type">
+          <variable name="val"/>
+          <comment>@teststep Insert selected aerosol type.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.aerosolType"
+                         id="_1qPa">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1qPb" name="invalid_pixel">
+          <variable name="val"/>
+          <comment>@teststep Insert default reflectance for invalid pixel.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.invalidPixel"
+                         id="_1qPy">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1qPu" name="mask_expr_meris_aatsr_nadir">
+          <variable name="val"/>
+          <comment>@teststep Insert 'Mask expression for the whole view (MERIS) or the nadir view (AATSR)'.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.maskExpression"
+                         id="_1qPz">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1qPw" name="mask_expr_forward_aatsr">
+          <variable name="val"/>
+          <comment>@teststep Insert 'Mask expression for the forward view (AATSR only)'.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.maskExpressionForward"
+                         id="_1qP+">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+      </Package>
+      <Package id="_1qTv" name="aatsr_sst_processor">
+        <Procedure id="_1qXI" name="target_directory">
+          <variable name="dir"/>
+          <comment>@teststep Insert target directory.</comment>
+          <ProcedureCall id="_1qXJ"
+                         procedure="select.aatsr_sst_processor.save_as"/>
+          <ProcedureCall id="_1qXK" procedure="path.output_data_directory">
+            <variable name="output_dir">$(dir)</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialog(A)ATSR_SST_Processor2.productDir"
+                         id="_1qXL">
+            <text>$(output_data_directory)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1qXM" name="target_product_name">
+          <variable name="target_product_name"/>
+          <comment>@teststep Insert target product name.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialog(A)ATSR_SST_Processor2.productName"
+                         id="_1qXN">
+            <text>$(target_product_name)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1qUz" name="invalid_pixel">
+          <variable name="val"/>
+          <comment>@teststep Insert invalid SST value.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialog(A)ATSR_SST_Processor2.invalidSstValue"
+                         id="_1qU+">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1qU-" name="dual_view_mask">
+          <variable name="val"/>
+          <comment>@teststep Insert 'Dual-view mask'.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialog(A)ATSR_SST_Processor2.dualMaskExpression"
+                         id="_1qV0">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1qV1" name="nadir_view_mask">
+          <variable name="val"/>
+          <comment>@teststep Insert  'Nadir-view mask'.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialog(A)ATSR_SST_Processor2.nadirMaskExpression"
+                         id="_1qV2">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1qVL" name="dual_view_file_variables">
+          <SetGlobalStep id="_1qXi" varname="av_polar_dual">
+            <default>Average polar dual view</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1qXj" varname="av_temp_dual">
+            <default>Average temperate dual view</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1qXk" varname="av_trop_dual">
+            <default>Average tropical dual view</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1qXl" varname="grid_polar_dual">
+            <default>Gridded polar dual view</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1qXm" varname="grid_temp_dual">
+            <default>Gridded temperate dual view</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1qXn" varname="grid_trop_dual">
+            <default>Gridded tropical dual view</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1qXo" varname="grid_dual_ipf">
+            <default>Gridded dual view (IPF)</default>
+          </SetGlobalStep>
+        </Procedure>
+        <Procedure id="_1qUp" name="nadir_view_files_variables">
+          <SetGlobalStep id="_1qXw" varname="av_polar_single">
+            <default>Average polar single view</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1qXx" varname="av_temp_single">
+            <default>Average temperate single view</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1qXy" varname="av_trop_single">
+            <default>Average tropical single view</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1qXz" varname="grid_polar_single">
+            <default>Gridded polar single view</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1qX+" varname="grid_temp_single">
+            <default>Gridded temperate single view</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1qX-" varname="grid_trop_single">
+            <default>Gridded tropical single view</default>
+          </SetGlobalStep>
+        </Procedure>
+      </Package>
+      <Package id="_1q9O" name="principle_component_analysis">
+        <Procedure id="_1qcl" name="target_directory">
+          <variable name="dir"/>
+          <comment>@teststep Insert target directory.</comment>
+          <ProcedureCall id="_1qcm"
+                         procedure="select.principle_component_analysis.save_as"/>
+          <ProcedureCall id="_1qcn" procedure="path.output_data_directory">
+            <variable name="output_dir">$(dir)</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogPrincipal_Component_Analysis2.productDir"
+                         id="_1qco">
+            <text>$(output_data_directory)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1qcp" name="target_product_name">
+          <variable name="target_product_name"/>
+          <comment>@teststep Insert target product name.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogPrincipal_Component_Analysis2.productName"
+                         id="_1qcq">
+            <text>$(target_product_name)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1qcr" name="max_component_count">
+          <variable name="val"/>
+          <comment>@teststep Insert 'Maximum component count'</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogPrincipal_Component_Analysis2.componentCount"
+                         id="_1qXp">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1qXs" name="roi_mask_expression">
+          <variable name="val"/>
+          <comment>@teststep Insert 'ROI mask expression'.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogPrincipal_Component_Analysis2.roiMaskExpr"
+                         id="_1qXt">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+      </Package>
       <Procedure id="_1pQc" name="target_product_with_path">
         <ProcedureCall id="_1oO-" procedure="path.main_path"/>
         <IfSequence id="_1pQi" test="${qftest:windows}">

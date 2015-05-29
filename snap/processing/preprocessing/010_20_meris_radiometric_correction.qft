@@ -1,0 +1,651 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.4">
+  <include>qfs.qft</include>
+  <include>../../lib/snap_main.qft</include>
+  <include>../lib/processing_main.qft</include>
+  <variable name="output_folder">meris_radiometric_correction</variable>
+  <TestSet id="_2" name="010_20_meris_radiometric_correction"
+           reportname="010-20 MERIS Radiometric Correction">
+    <comment>Product generation tools. Arithmetic Expression Editor.</comment>
+    <DependencyReference id="_1pO-"
+                         reference="start_application_for_processing">
+      <variable name="output_dir">$(output_folder)</variable>
+    </DependencyReference>
+    <TestCase id="_8cc" name="01_check_ui"
+              reportname="01 MERIS Radiometric Correction Tool UI">
+      <ProcedureCall id="_1pFq"
+                     procedure="open.processing.preprocessing.meris_radiometric_correction_processor"/>
+      <TestStep id="_1pM7" name="default_componets">
+        <TestStep id="_1pbB" name="io_parameters">
+          <ProcedureCall id="_1pbA" procedure="select_io_tab"/>
+          <ProcedureCall id="_1qHg"
+                         procedure="check.meris_radiometric_correction.enabled.menu_file"/>
+          <ProcedureCall id="_1qHh"
+                         procedure="check.meris_radiometric_correction.enabled.menu_help"/>
+          <ProcedureCall id="_1qHi"
+                         procedure="check.meris_radiometric_correction.enabled.button_close"/>
+          <ProcedureCall id="_1qHj"
+                         procedure="check.meris_radiometric_correction.enabled.button_apply"/>
+          <ProcedureCall id="_1qHk"
+                         procedure="check.meris_radiometric_correction.enabled.button_source_product"/>
+          <ProcedureCall id="_1qHl"
+                         procedure="check.meris_radiometric_correction.enabled.button_directory"/>
+          <ProcedureCall id="_1qHo"
+                         procedure="check.meris_radiometric_correction.enabled.save_as_enabled_status">
+            <variable name="enabled">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qHp"
+                         procedure="check.meris_radiometric_correction.enabled.open_in_snap_enabled_status">
+            <variable name="enabled">true</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pbG" name="processing_parameters">
+          <ProcedureCall id="_1pbF"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_1qHq"
+                         procedure="check.meris_radiometric_correction.enabled.perform_calibration"/>
+          <ProcedureCall id="_1qHr"
+                         procedure="check.meris_radiometric_correction.enabled.perform_smile_effect"/>
+          <ProcedureCall id="_1qHs"
+                         procedure="check.meris_radiometric_correction.enabled.perform_equalisation"/>
+          <ProcedureCall id="_1qHt"
+                         procedure="check.meris_radiometric_correction.enabled.perform_rad_to_refl"/>
+          <ProcedureCall id="_1qHu"
+                         procedure="check.meris_radiometric_correction.enabled.source_radiometric_correction_file_button">
+            <variable name="val"/>
+          </ProcedureCall>
+          <ProcedureCall id="_1qHv"
+                         procedure="check.meris_radiometric_correction.enabled.target_radiometric_correction_file_button">
+            <variable name="val"/>
+          </ProcedureCall>
+          <ProcedureCall id="_1qHw"
+                         procedure="check.meris_radiometric_correction.checked.perform_calibration_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qHx"
+                         procedure="check.meris_radiometric_correction.checked.perform_smile_effect_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qHy"
+                         procedure="check.meris_radiometric_correction.checked.perform_equalisation_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qHz"
+                         procedure="check.meris_radiometric_correction.checked.perform_rad_to_refl_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </TestStep>
+      </TestStep>
+      <ProcedureCall id="_1qH7"
+                     procedure="close_processing_tool.preprocessing.meris_radiometric_correction_processor"/>
+    </TestCase>
+    <TestSet id="_1pMP" name="02_processing">
+      <TestCase id="_1pMR" name="01_meris_rr_l1b_n1">
+        <variable name="source_data">MER_RR__1_test.N1</variable>
+        <variable name="source_dir">mer_rr__1p_n1</variable>
+        <variable name="output_file">test_01.dim</variable>
+        <ProcedureCall id="_1qKh" procedure="test_sequence_2"/>
+      </TestCase>
+      <TestCase id="_1pbi" name="02_meris_fr_l1b_n1">
+        <variable name="source_data">MER_FR__1_test.N1</variable>
+        <variable name="source_dir">mer_fr__1p_n1</variable>
+        <variable name="output_file">test_02.dim</variable>
+        <ProcedureCall id="_1qKj" procedure="test_sequence_2"/>
+      </TestCase>
+      <TestCase id="_1pcI" name="03_meris_frs_l1b_n1">
+        <variable name="source_data">MER_FRS_1P_test.N1</variable>
+        <variable name="source_dir">mer_frs_1p_n1</variable>
+        <variable name="output_file">test_03.dim</variable>
+        <ProcedureCall id="_1qKm" procedure="test_sequence_3"/>
+      </TestCase>
+      <TestCase id="_1pb-" name="04_meris_fsg_l1b_n1">
+        <variable name="source_data">MER_FSG_1PNMAP20050726_232437_000000782039_00216_17805_0001.N1</variable>
+        <variable name="source_dir">mer_fsg_1p_n1</variable>
+        <variable name="output_file">test_04.dim</variable>
+        <ProcedureCall id="_1qKo" procedure="test_sequence_3"/>
+      </TestCase>
+      <TestCase id="_1pcb" name="05_meris_rrg_l_1bn1">
+        <variable name="source_data">MER_RRG_1PQBCM20050504_080734_000003972037_00021_16608_0005.N1</variable>
+        <variable name="source_dir">mer_rrg_1p_n1</variable>
+        <variable name="output_file">test_05.dim</variable>
+        <ProcedureCall id="_1qKp" procedure="test_sequence_2"/>
+      </TestCase>
+      <TestCase id="_1pcu" name="06_meris_pixel_geocoding">
+        <variable name="source_data">subset_MER_FSG_1PNUPA20050515_104058_000001852037_00180_16767_pixel_geocod.dim</variable>
+        <variable name="source_dir">dim_pixelgeocoding</variable>
+        <variable name="output_file">test_06.dim</variable>
+        <ProcedureCall id="_1qBg"
+                       procedure="open.processing.preprocessing.meris_radiometric_correction_processor"/>
+        <TestStep id="_1pcw" name="preparation">
+          <ProcedureCall id="_1qKq"
+                         procedure="preparation_for_test_without_save"/>
+          <ProcedureCall id="_1qKr"
+                         procedure="select.meris_radiometric_correction.reprocessing_version">
+            <variable name="reprocessing_version">$(repr_3)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1qK3" name="processing">
+          <ProcedureCall id="_1qK4" procedure="processing"/>
+        </TestStep>
+        <TestStep id="_1pd2" name="check_output_product">
+          <TestStep id="_1peN" name="open_image_view">
+            <ProcedureCall id="_1pgL"
+                           procedure="product_meta_data.for_open_image_view"/>
+            <ProcedureCall id="_1peR"
+                           procedure="utility.open_image_view_check_it"/>
+          </TestStep>
+          <TestStep id="_1peS" name="menu_attach_detach_pixel_geocoding">
+            <ProcedureCall id="_1peT" procedure="do_click.menu.tools"/>
+            <ProcedureCall id="_1peU"
+                           procedure="check.menu.tools.menuItemAttachPixelGeoCoding_enabled_status">
+              <variable name="enabled_status">false</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1peV"
+                           procedure="check.menu.tools.menuItemDetachPixelGeoCoding_enabled_enabled_status">
+              <variable name="enabled_status">true</variable>
+            </ProcedureCall>
+          </TestStep>
+          <TestStep id="_1peW"
+                    name="open_image_view_check_masks_layers_close_product">
+            <SetGlobalStep id="_1ped" varname="view_Id1">
+              <default>2</default>
+            </SetGlobalStep>
+            <ProcedureCall id="_1peZ"
+                           procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+          </TestStep>
+        </TestStep>
+        <ProcedureCall id="_1qBS"
+                       procedure="close_processing_tool.preprocessing.meris_radiometric_correction_processor"/>
+      </TestCase>
+      <TestCase id="_1pe4" name="07_meris_small_subset">
+        <variable name="source_data">MER_RR__1PQBCM20030502_221113_000002002016_00058_06124_0743_middle_16pixels.dim</variable>
+        <variable name="source_dir">dim_subset</variable>
+        <variable name="output_file">test_07.dim</variable>
+        <ProcedureCall id="_1qKs" procedure="test_sequence_2"/>
+      </TestCase>
+      <TestCase disabled="true" id="_1pdU" name="08_meris_reprojection">
+        <variable name="source_data">reproj_geo_lat_long_MER_RR__1_test.dim</variable>
+        <variable name="source_dir">dim_reproj</variable>
+        <variable name="output_file">test_08.dim</variable>
+        <ProcedureCall id="_1qKt" procedure="test_sequence_3"/>
+      </TestCase>
+      <TestCase id="_1pdn" name="09_meris_netcdf_beam">
+        <variable name="source_data">MER_FRS_1PNACR20040515_101402_000002112026_00466_11542_ncbeam.nc</variable>
+        <variable name="source_dir">netCdf_beam</variable>
+        <variable name="output_file">test_09.dim</variable>
+        <ProcedureCall id="_1qKu" procedure="test_sequence_3"/>
+      </TestCase>
+      <TestCase id="_40q" name="10_store_load_display_parameters">
+        <variable name="ofn">meris_radiometric_correction_save_parameters.xml</variable>
+        <variable name="output_file">test_10_save_parameters.dim</variable>
+        <variable name="source_data">MER_RR__1_test.N1</variable>
+        <variable name="source_dir">mer_rr__1p_n1</variable>
+        <ProcedureCall id="_1qBl"
+                       procedure="open.processing.preprocessing.meris_radiometric_correction_processor"/>
+        <TestStep id="_1pOt" name="change_parameters">
+          <ProcedureCall id="_1qGC"
+                         procedure="preparation_for_test_without_save"/>
+          <ProcedureCall id="_1qKv"
+                         procedure="select.meris_radiometric_correction.reprocessing_version">
+            <variable name="reprocessing_version">$(repr_3)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qKw"
+                         procedure="deselect.meris_radiometric_correction.perform_calibration"/>
+          <ProcedureCall id="_1qKx"
+                         procedure="deselect.meris_radiometric_correction.perform_smile_effect"/>
+          <ProcedureCall id="_1qKy"
+                         procedure="deselect.meris_radiometric_correction.perform_equalisation"/>
+          <ProcedureCall id="_1qKz"
+                         procedure="select.meris_radiometric_correction.perform_rad_to_refl"/>
+        </TestStep>
+        <ProcedureCall id="_1pPE" procedure="store_parameters"/>
+        <TestStep id="_1pPg" name="change_parameters">
+          <ProcedureCall id="_1pfT"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_1qK+"
+                         procedure="select.meris_radiometric_correction.reprocessing_version">
+            <variable name="reprocessing_version">$(repr_2)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qK-"
+                         procedure="select.meris_radiometric_correction.perform_calibration"/>
+          <ProcedureCall id="_1qL0"
+                         procedure="select.meris_radiometric_correction.perform_smile_effect"/>
+          <ProcedureCall id="_1qL1"
+                         procedure="select.meris_radiometric_correction.perform_equalisation"/>
+          <ProcedureCall id="_1qL2"
+                         procedure="deselect.meris_radiometric_correction.perform_rad_to_refl"/>
+        </TestStep>
+        <ProcedureCall id="_1pPl" procedure="load_parameters"/>
+        <TestStep id="_1pPm" name="check_parameters">
+          <ProcedureCall id="_1pfY"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_1qLA"
+                         procedure="check.meris_radiometric_correction.checked.perform_calibration_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qLB"
+                         procedure="check.meris_radiometric_correction.checked.perform_smile_effect_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qLC"
+                         procedure="check.meris_radiometric_correction.checked.perform_equalisation_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qLD"
+                         procedure="check.meris_radiometric_correction.checked.perform_rad_to_refl_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qLE"
+                         procedure="check.meris_radiometric_correction.text.reprocessing_version">
+            <variable name="val">$(repr_3)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pV8" name="display_parameters">
+          <ProcedureCall id="_1pbU" procedure="display_parameters_and_check"/>
+          <ProcedureCall id="_1qBX"
+                         procedure="close_processing_tool.preprocessing.meris_radiometric_correction_processor"/>
+        </TestStep>
+      </TestCase>
+      <TestCase id="_1pZO" name="11_cancel_processing">
+        <variable name="output_file">test_11_cancel.dim</variable>
+        <variable name="source_data">MER_FRS_1PNUPA20090707_090816_000005122080_00308_38438_7356.N1</variable>
+        <variable name="source_dir">mer_frs_1p_n1</variable>
+        <ProcedureCall id="_1qBm"
+                       procedure="open.processing.preprocessing.meris_radiometric_correction_processor"/>
+        <ProcedureCall id="_1qGx"
+                       procedure="preparation_for_test_save_output_product"/>
+        <ProcedureCall id="_1qLF"
+                       procedure="select.meris_radiometric_correction.reprocessing_version">
+          <variable name="reprocessing_version">$(repr_2)</variable>
+        </ProcedureCall>
+        <TestStep id="_1pZQ" name="cancel_processing">
+          <ProcedureCall id="_1qGy"
+                         procedure="do_click.meris_radiometric_correction.button_apply"/>
+          <ProcedureCall id="_1pa9"
+                         procedure="cancel_writing_target_product"/>
+        </TestStep>
+        <TestStep id="_1pQE" name="check">
+          <ProcedureCall id="_1l3B" procedure="check.product.not_opened"/>
+          <IfSequence id="_1kk7"
+                      test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1pQV" procedure="run-log.logError">
+              <variable name="message">$(output_file) is opened in SNAP</variable>
+              <variable name="withScreenshots">true</variable>
+            </ProcedureCall>
+          </IfSequence>
+          <ProcedureCall id="_1pQe" procedure="set.target_product_with_path"/>
+          <ProcedureCall id="_1pQW"
+                         procedure="check_external_file.file_was_not_processed_else_shoot_error">
+            <variable name="fileName">$(target_product)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <ProcedureCall id="_1qBY"
+                       procedure="close_processing_tool.preprocessing.meris_radiometric_correction_processor"/>
+      </TestCase>
+      <TestSet id="_1pT+" name="12_processing_in_different_formats_meris">
+        <variable name="source_data">MER_RR__1_test.N1</variable>
+        <variable name="source_dir">mer_rr__1p_n1</variable>
+        <SetupSequence id="_1pUV" name="prepare_for_the_testing">
+          <ProcedureCall id="_1qBn"
+                         procedure="open.processing.preprocessing.meris_radiometric_correction_processor"/>
+          <ProcedureCall id="_1qG+"
+                         procedure="preparation_for_test_save_output_product">
+            <variable name="output_file">test</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qLO"
+                         procedure="select.meris_radiometric_correction.reprocessing_version">
+            <variable name="reprocessing_version">$(repr_2)</variable>
+          </ProcedureCall>
+        </SetupSequence>
+        <TestSet id="_1pUb" name="processing">
+          <DataDriver id="_1pUc"
+                      loopreportname="Write the target product as $(output_format)"
+                      name="output_formats">
+            <ProcedureCall id="_1pUd" procedure="tables.output_formats"/>
+          </DataDriver>
+          <TestCase id="_1pUj" name="processing_in_different_formats"
+                    reportname="Processing in different formats and check output product">
+            <ServerScriptStep disabled="true" id="_1pV5" name="print">
+              <code>print "output_format = $(output_format)"</code>
+            </ServerScriptStep>
+            <ServerScriptStep disabled="true" id="_1pV6" name="print">
+              <code>print "output_file = $(output_file)"</code>
+            </ServerScriptStep>
+            <TestStep id="_1qG-" name="processing">
+              <TryStep id="_1qKD" name="click_OK_in_dialog_SNAP_SNAP_Error">
+                <ProcedureCall id="_1qKE"
+                               procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
+                <ProcedureCall id="_1qKF" procedure="run-log.make_screensot">
+                  <variable name="iw_name">run_meris_rad_corr_error</variable>
+                  <variable name="iw_name_example">error_dialog</variable>
+                </ProcedureCall>
+                <ProcedureCall id="_1qKG"
+                               procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
+                <ProcedureCall id="_1qKH" procedure="run-log.logError">
+                  <variable name="message">error dialog appears</variable>
+                  <variable name="withScreenshots">false</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1qKI"
+                               maxerror="0"/>
+              </TryStep>
+              <ProcedureCall id="_1qH2" procedure="select_io_tab"/>
+              <ProcedureCall id="_1qLP"
+                             procedure="set.meris_radiometric_correction.target_product_name">
+                <variable name="target_product_name">$(output_file)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qH4"
+                             procedure="select.meris_radiometric_correction.output_format">
+                <variable name="output_format">$(output_format)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qKC" procedure="processing"/>
+            </TestStep>
+            <TestStep id="_1pUq" name="check_target_product">
+              <ProcedureCall id="_1pfx"
+                             procedure="test_events.check_target_product"/>
+              <ProcedureCall id="_1qH5" procedure="close.all_products"/>
+            </TestStep>
+          </TestCase>
+        </TestSet>
+        <CleanupSequence id="_1pUa" name="close_processor_tool">
+          <ProcedureCall id="_1qBZ"
+                         procedure="close_processing_tool.preprocessing.meris_radiometric_correction_processor"/>
+        </CleanupSequence>
+      </TestSet>
+    </TestSet>
+    <TestCase id="_1pFr" name="03_help">
+      <ProcedureCall id="_1qBo"
+                     procedure="open.processing.preprocessing.meris_radiometric_correction_processor"/>
+      <TestStep id="_1pVG" name="check_help">
+        <ProcedureCall id="_1qJw"
+                       procedure="do_click.meris_radiometric_correction.menu.help"/>
+        <ProcedureCall id="_1qJx"
+                       procedure="do_click.meris_radiometric_correction.menu.help_menu_item"/>
+        <ProcedureCall id="_1pVL" procedure="check.help_appears"/>
+        <ProcedureCall id="_1pVM" procedure="close.help"/>
+      </TestStep>
+      <TestStep id="_1pVN" name="check_help_about">
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogMERIS_L1b_Radiometric_Correction2.menubar"
+                        event="MOUSE_MPRC" id="_1pte" modifiers="16" x="204"
+                        y="15"/>
+        <ProcedureCall id="_1qBq"
+                       procedure="do_click.meris_radiometric_correction.menu.help"/>
+        <ProcedureCall id="_1qJv"
+                       procedure="do_click.meris_radiometric_correction.menu.about"/>
+        <ComponentWaiter client="$(client)"
+                         component="dialogAbout_Meris.CorrectRadiometry"
+                         id="_1qHf"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogAbout_Meris.CorrectRadiometry.ModalDialog.ok"
+                        event="MOUSE_MPRC" id="_1ptT" modifiers="16"/>
+      </TestStep>
+      <ProcedureCall id="_1qBa"
+                     procedure="close_processing_tool.preprocessing.meris_radiometric_correction_processor"/>
+    </TestCase>
+  </TestSet>
+  <PackageRoot id="_4">
+    <Procedure id="_1qKL" name="test_sequence_2">
+      <ProcedureCall id="_1qKM"
+                     procedure="open.processing.preprocessing.meris_radiometric_correction_processor"/>
+      <TestStep id="_1qKN" name="preparation">
+        <ProcedureCall id="_1qKO"
+                       procedure="preparation_for_test_without_save"/>
+        <ProcedureCall id="_1qKP"
+                       procedure="select.meris_radiometric_correction.reprocessing_version">
+          <variable name="reprocessing_version">$(repr_2)</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1qKQ" name="processing">
+        <ProcedureCall id="_1qKR" procedure="processing"/>
+      </TestStep>
+      <TestStep id="_1qKS" name="check_output_product">
+        <ProcedureCall id="_1qKT"
+                       procedure="product_meta_data.for_open_image_view"/>
+        <ProcedureCall id="_1qKU"
+                       procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+      </TestStep>
+      <ProcedureCall id="_1qKV"
+                     procedure="close_processing_tool.preprocessing.meris_radiometric_correction_processor"/>
+    </Procedure>
+    <Procedure id="_1qKW" name="test_sequence_3">
+      <ProcedureCall id="_1qKX"
+                     procedure="open.processing.preprocessing.meris_radiometric_correction_processor"/>
+      <TestStep id="_1qKY" name="preparation">
+        <ProcedureCall id="_1qKZ"
+                       procedure="preparation_for_test_without_save"/>
+        <ProcedureCall id="_1qKa"
+                       procedure="select.meris_radiometric_correction.reprocessing_version">
+          <variable name="reprocessing_version">$(repr_3)</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1qKb" name="processing">
+        <ProcedureCall id="_1qKc" procedure="processing"/>
+      </TestStep>
+      <TestStep id="_1qKd" name="check_output_product">
+        <ProcedureCall id="_1qKe"
+                       procedure="product_meta_data.for_open_image_view"/>
+        <ProcedureCall id="_1qKf"
+                       procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+      </TestStep>
+      <ProcedureCall id="_1qKg"
+                     procedure="close_processing_tool.preprocessing.meris_radiometric_correction_processor"/>
+    </Procedure>
+    <Procedure id="_1pb8" name="select_io_tab">
+      <ProcedureCall id="_1pb9"
+                     procedure="select.meris_radiometric_correction.tab">
+        <variable name="tab">I/O Parameters</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pbC" name="select_processing_parameters_tab">
+      <ProcedureCall id="_1pbE"
+                     procedure="select.meris_radiometric_correction.tab">
+        <variable name="tab">Processing Parameters</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pbQ" name="display_parameters_and_check">
+      <ProcedureCall id="_1pbR" procedure="display_parameters"/>
+      <ComponentWaiter client="$(client)"
+                       component="dialogMeris.CorrectRadiometry_Parameters"
+                       id="_1ptW"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogMeris.CorrectRadiometry_Parameters.ModalDialog.ok"
+                      event="MOUSE_MPRC" id="_1ptX" modifiers="16"/>
+    </Procedure>
+    <Procedure id="_1pMT" name="open_source_product">
+      <variable name="prod_dir"/>
+      <variable name="prod_name"/>
+      <ProcedureCall id="_1oSj" procedure="path.source_data_directory">
+        <variable name="data_type">$(prod_dir)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1pMS"
+                     procedure="do_click.meris_radiometric_correction.button_source_product"/>
+      <ProcedureCall id="_1pHR"
+                     procedure="utility.handle_select_product_dialog">
+        <variable name="file">$(data_source_directory)$(prod_name)</variable>
+      </ProcedureCall>
+      <TryStep id="_1pXT">
+        <ProcedureCall id="_1pXV" procedure="wait.appear.error.dialog_Error"/>
+        <ProcedureCall id="_1pXS"
+                       procedure="do_click.error_dialog.button_OK_Error"/>
+        <ProcedureCall id="_1pXW" procedure="run-log.logError">
+          <variable name="message">Opening of the product $(data_source_directory)$(prod_name) failed</variable>
+          <variable name="withScreenshots">false</variable>
+        </ProcedureCall>
+        <CatchSequence exception="TestException" id="_1pXU" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1pON" name="click_ok_in_product_created_dialog">
+      <TryStep id="_1pOQ">
+        <ComponentWaiter client="$(client)"
+                         component="dialogMERIS_L1b_Radiometric_Correction3"
+                         id="_1prZ"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogMERIS_L1b_Radiometric_Correction3.buttonOK"
+                        event="MOUSE_MPRC" id="_1pbh" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1pOR" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1qCR" name="preparation_for_test_without_save">
+      <comment>@teststep preparation</comment>
+      <ProcedureCall id="_1qCS" procedure="select_io_tab"/>
+      <ProcedureCall id="_1qCT" procedure="open_source_product">
+        <variable name="prod_dir">$(source_dir)</variable>
+        <variable name="prod_name">$(source_data)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qCU"
+                     procedure="set.meris_radiometric_correction.target_product_name">
+        <variable name="target_product_name">$(output_file)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qCV"
+                     procedure="deselect.meris_radiometric_correction.save_as"/>
+      <ProcedureCall id="_1qJs" procedure="select_processing_parameters_tab"/>
+      <ProcedureCall id="_1qJt"
+                     procedure="set.meris_radiometric_correction.available_reprocessing_version">
+        <comment>repr_2</comment>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1qJh" name="processing">
+      <comment>@teststep processing</comment>
+      <ProcedureCall id="_1qJi"
+                     procedure="do_click.meris_radiometric_correction.button_apply"/>
+      <ProcedureCall id="_1pUo"
+                     procedure="wait.disappear.writing_target_product"/>
+      <TryStep id="_1qJl" name="click_OK_in_dialog_SNAP_SNAP_Error">
+        <ProcedureCall id="_1qJm"
+                       procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
+        <ProcedureCall id="_1qJq" procedure="run-log.make_screensot">
+          <variable name="iw_name">run_meris_rad_corr_error</variable>
+          <variable name="iw_name_example">error_dialog</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1qJn"
+                       procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
+        <ProcedureCall id="_1qJr" procedure="run-log.logError">
+          <variable name="message">error dialog appears</variable>
+          <variable name="withScreenshots">false</variable>
+        </ProcedureCall>
+        <CatchSequence exception="TestException" id="_1qJo" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1qJj"
+                     procedure="click_ok_in_product_created_dialog"/>
+    </Procedure>
+    <Procedure id="_1qGm" name="preparation_for_test_save_output_product">
+      <comment>@teststep preparation</comment>
+      <ProcedureCall id="_1qLG" procedure="select_io_tab"/>
+      <ProcedureCall id="_1qLH" procedure="open_source_product">
+        <variable name="prod_dir">$(source_dir)</variable>
+        <variable name="prod_name">$(source_data)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qLI"
+                     procedure="set.meris_radiometric_correction.target_product_name">
+        <variable name="target_product_name">$(output_file)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qLJ"
+                     procedure="select.meris_radiometric_correction.save_as"/>
+      <ProcedureCall id="_1qLM"
+                     procedure="select.meris_radiometric_correction.open_in_snap"/>
+      <ProcedureCall id="_1qLN"
+                     procedure="set.meris_radiometric_correction.target_directory">
+        <variable name="dir">$(output_folder)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qLK" procedure="select_processing_parameters_tab"/>
+      <ProcedureCall id="_1qLL"
+                     procedure="set.meris_radiometric_correction.available_reprocessing_version">
+        <comment>repr_2</comment>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pPF" name="store_parameters">
+      <TryStep id="_1pPG" name="select_menu_store_parameters">
+        <ProcedureCall id="_1qJf"
+                       procedure="do_click.meris_radiometric_correction.menu.file"/>
+        <ProcedureCall id="_1qJg"
+                       procedure="do_click.meris_radiometric_correction.menu.save_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPJ" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPK" procedure="utility.store_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pPv" name="display_parameters">
+      <TryStep id="_1pPw" name="select_menu_display_parameters">
+        <ProcedureCall id="_1qJd"
+                       procedure="do_click.meris_radiometric_correction.menu.file"/>
+        <ProcedureCall id="_1qJe"
+                       procedure="do_click.meris_radiometric_correction.menu.display_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPz" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1pP9" name="load_parameters">
+      <TryStep id="_1pPA" name="select_menu_load_parameters">
+        <ProcedureCall id="_1qGP"
+                       procedure="do_click.meris_radiometric_correction.menu.file"/>
+        <ProcedureCall id="_1qJc"
+                       procedure="do_click.meris_radiometric_correction.menu.load_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPD" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPM" procedure="utility.load_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+  </PackageRoot>
+  <ExtraSequence id="_5">
+    <ProcedureCall id="_1oXV" procedure="check.product.not_opened"/>
+    <IfSequence id="_1oXW" test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+      <TestStep id="_1o+2" name="delete_band">
+        <ProcedureCall id="_1oXb" procedure="select.product_tree.band">
+          <variable name="prod_id">0</variable>
+          <variable name="group_id"/>
+          <variable name="view_id">1</variable>
+          <variable name="band">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1ozv" procedure="delete_product_tree_node"/>
+        <ProcedureCall id="_1ozx" procedure="check.product.node_not_exists">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1o+t" name="undo">
+        <ProcedureCall id="_1p0C" procedure="undo_tree"/>
+        <ProcedureCall disabled="true" id="_1o+y"
+                       procedure="do_click_menubar_undo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o+z" procedure="get.tree.get_index_of_node">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+        <ServerScriptStep disabled="true" id="_1o++" name="print">
+          <code>print "$(new_band_id)"</code>
+        </ServerScriptStep>
+      </TestStep>
+      <TestStep id="_1o-3" name="redo">
+        <ProcedureCall id="_1p0D" procedure="redo_tree"/>
+        <ProcedureCall disabled="true" id="_1o-B"
+                       procedure="do_click_menubar_redo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o-C" procedure="check.product.node_not_exists">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1o-F" name="undo">
+        <ProcedureCall id="_1p0E" procedure="undo_tree"/>
+        <ProcedureCall disabled="true" id="_1o-P"
+                       procedure="do_click_menubar_undo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o-Q" procedure="get.tree.get_index_of_node">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+    </IfSequence>
+    <ProcedureCall id="_1oXO" procedure="close.all_products"/>
+  </ExtraSequence>
+  <WindowList id="_6"/>
+</RootStep>

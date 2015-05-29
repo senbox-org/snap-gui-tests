@@ -238,22 +238,44 @@
         </Procedure>
         <Procedure id="_1k-h" name="creating_image_progress monitor">
           <variable name="bandName"/>
-          <IfSequence id="_1owU" test="${qftest:windows}">
-            <ComponentWaiter absence="true" client="$(client)"
-                             component="dialogSNAP_-_Creating_image_for_band"
-                             id="_1mhY" timeout="150000"/>
-            <ElseifSequence id="_1owV" name="MAC?"
-                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+          <TryStep id="_1pxE">
+            <IfSequence id="_1owU" test="${qftest:windows}">
               <ComponentWaiter absence="true" client="$(client)"
-                               component="dialogCreating_image_for_band"
-                               id="_1ozJ"/>
-            </ElseifSequence>
-            <ElseSequence id="_1owW">
+                               component="dialogSNAP_-_Creating_image_for_band"
+                               id="_1mhY" timeout="150000"/>
+              <ElseifSequence id="_1owV" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ComponentWaiter absence="true" client="$(client)"
+                                 component="dialogCreating_image_for_band"
+                                 id="_1ozJ"/>
+              </ElseifSequence>
+              <ElseSequence id="_1owW">
+                <ComponentWaiter absence="true" client="$(client)"
+                                 component="dialogCreating_image_for_band"
+                                 id="_1ozI"/>
+              </ElseSequence>
+            </IfSequence>
+            <CatchSequence exception="TestException" id="_1pxF" maxerror="0"/>
+          </TryStep>
+          <TryStep id="_1pxG">
+            <IfSequence id="_1pxH" test="${qftest:windows}">
               <ComponentWaiter absence="true" client="$(client)"
-                               component="dialogCreating_image_for_band"
-                               id="_1ozI"/>
-            </ElseSequence>
-          </IfSequence>
+                               component="dialogSNAP_-_Creating_image_for_band"
+                               id="_1pxI" timeout="150000"/>
+              <ElseifSequence id="_1pxJ" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <ComponentWaiter absence="true" client="$(client)"
+                                 component="dialogCreating_image_for_band"
+                                 id="_1pxK"/>
+              </ElseifSequence>
+              <ElseSequence id="_1pxL">
+                <ComponentWaiter absence="true" client="$(client)"
+                                 component="dialogCreating_image_for_band"
+                                 id="_1pxM"/>
+              </ElseSequence>
+            </IfSequence>
+            <CatchSequence exception="TestException" id="_1pxN" maxerror="0"/>
+          </TryStep>
         </Procedure>
         <Procedure id="_1paJ" name="computing_histogram_progress monitor">
           <ComponentWaiter absence="true" client="$(client)"

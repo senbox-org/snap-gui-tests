@@ -25,8 +25,6 @@
           <variable name="in_out">in</variable>
           <variable name="prod">$(fileName)</variable>
           <variable name="product_type">$(import_data)</variable>
-          <comment>
-</comment>
         </ProcedureCall>
         <BasicSequence disabled="true" id="_1oUH"
                        name="if_import_is_working_again">
@@ -144,6 +142,21 @@
             <variable name="withScreenshots">true</variable>
           </ProcedureCall>
         </IfSequence>
+        <TryStep id="_1ptb">
+          <ProcedureCall id="_1ptZ"
+                         procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
+          <ProcedureCall id="_1ptf" procedure="run-log.make_screensot">
+            <variable name="iw_name">error_while_import</variable>
+            <variable name="iw_name_example">error_dialog</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pta"
+                         procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
+          <ProcedureCall id="_1ptd" procedure="run-log.logError">
+            <variable name="message">Error while import $(dataInDir)/$(fileName)</variable>
+            <variable name="withScreenshots">false</variable>
+          </ProcedureCall>
+          <CatchSequence exception="TestException" id="_1ptc" maxerror="0"/>
+        </TryStep>
       </Procedure>
       <Package id="_1pkI" name="vector_data">
         <Package id="_1pkJ" name="import_CSV_data_dialog">
