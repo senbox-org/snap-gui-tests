@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.4">
+<RootStep id="_0" name="root" version="4.0.5">
   <include>qfs.qft</include>
   <include>snap_components.qft</include>
   <include>snap_main.qft</include>
@@ -45,14 +45,25 @@
             <ProcedureCall id="_1oab" procedure="select.product_tree.product">
               <variable name="prod_id">0</variable>
             </ProcedureCall>
-            <RepeatSequence count="4" id="_1pXD"
+            <TryStep id="_1pXP" name="select_menu_close_session">
+              <ProcedureCall id="_1pXQ" procedure="do_click.menu.file"/>
+              <ProcedureCall id="_1pXR"
+                             procedure="do_click.menu.file.close_all_products"/>
+              <CatchSequence exception="TestException" id="_1pXS"
+                             maxerror="0">
+                <ServerScriptStep id="_1pXT" name="error">
+                  <code>rc.logError("Session can not be closed")</code>
+                </ServerScriptStep>
+              </CatchSequence>
+            </TryStep>
+            <RepeatSequence count="4" id="_1pXU"
                             name="handle_product_modified_dialog">
-              <TryStep id="_1l3j" name="click_No_in_product_modified_dialog">
-                <ProcedureCall id="_1l3h"
+              <TryStep id="_1pXV" name="click_No_in_product_modified_dialog">
+                <ProcedureCall id="_1pXW"
                                procedure="wait.appear.dialog.product_modified"/>
-                <ProcedureCall id="_1l3i"
+                <ProcedureCall id="_1pXX"
                                procedure="do_click.product_modified_dialog.button_No"/>
-                <CatchSequence exception="TestException" id="_1l3k"
+                <CatchSequence exception="TestException" id="_1pXY"
                                maxerror="0"/>
               </TryStep>
             </RepeatSequence>

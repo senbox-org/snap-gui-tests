@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.4">
+<RootStep id="_0" name="root" version="4.0.5">
   <include>qfs.qft</include>
   <include>snap_main.qft</include>
   <include>../processing/lib/processing_main.qft</include>
@@ -2981,52 +2981,22 @@ C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\snap\bin\</c
                       component="dialogFLH/MCI_Processor.openInAppSelected"
                       event="MOUSE_MPRC" id="_1psg" modifiers="16"/>
     </Procedure>
-    <BasicSequence id="_1ptN" name="Aufnahme 28.05.15 10:09">
-      <CheckItemsStep checktype="items" client="$(client)"
-                      component="dialogOpen_Product.listInvokerFeature:_Label:_Files_of_type:"
-                      id="_1ptO">
-        <item>All Files</item>
-        <item>ACE Data Product Tile (*.ACE)</item>
-        <item>ACE2 Data Product Tile (*.ACE2)</item>
-        <item>ArcInfo Binary Grids</item>
-        <item>BEAM NetCDF products (*.nc,*.nc.gz)</item>
-        <item>BEAM-DIMAP product files (*.dim)</item>
-        <item>CSV products (*.csv,*.txt)</item>
-        <item>ENVI Data Products (*.hdr,*.zip)</item>
-        <item>ENVISAT MERIS, AATSR, ASAR and ERS1/2 SAR products (*.N1,*.E1,*.E2,*.zip,*.gz)</item>
-        <item>GETASSE30 Data Product Tile (*.getasse30)</item>
-        <item>Generic NetCDF Data Product (*.nc,*.hdf.gz,*.nc.gz,*.hdf,*.grb.gz,*.grb)</item>
-        <item>GeoTIFF / BigTIFF data product (*.tif,*.tiff)</item>
-        <item>GeoTIFF data product. (*.tif,*.tiff,*.btf,*.zip)</item>
-        <item>HDF-EOS products (*.hdf,*.hdf.gz)</item>
-        <item>HICO Data Products (*.hdr)</item>
-        <item>Image files (*.png,*.gif,*.jpg,*.bmp,*.pnm,*.pbm,*.pgm,*.ppm)</item>
-        <item>NetCDF following CF-Convention (*.nc,*.nc.gz,*.grb,*.grb.gz)</item>
-        <item>PGX images (*.pgx)</item>
-        <item>SeaDAS-Level-3-alike NetCDF files containing binned Level-3 data (*.nc)</item>
-      </CheckItemsStep>
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogOpen_Product.buttonCancel"
-                      event="MOUSE_MPRC" id="_1ptP" modifiers="16"/>
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogOpen_Product.buttonCancel"
-                      event="MOUSE_MPRC" id="_1ptQ" modifiers="16"/>
-      <WindowEventStep client="$(client)" component="NbMainWindow"
-                       event="WINDOW_ICONIFIED" id="_1ptR"/>
-    </BasicSequence>
-    <BasicSequence id="_1pta" name="Aufnahme 28.05.15 14:37">
-      <ComponentWaiter client="$(client)"
-                       component="dialogSNAP_-_Multiple_Readers_Available"
-                       id="_1ptq"/>
+    <BasicSequence id="_1ptx" name="Aufnahme 29.05.15 16:45">
+      <CheckStringStep client="$(client)" component="textFile_Name:"
+                       id="_1pty"/>
       <CheckStringStep client="$(client)"
-                       component="dialogSNAP_-_Multiple_Readers_Available.buttonOK"
-                       id="_1ptr">
-        <text>OK</text>
+                       component="dialogSelect_Source_Product.buttonSelect"
+                       id="_1ptz">
+        <text>Select</text>
       </CheckStringStep>
       <CheckStringStep client="$(client)"
-                       component="dialogSNAP_-_Multiple_Readers_Available.buttonCancel"
-                       id="_1pts">
+                       component="dialogSelect_Source_Product.buttonCancel"
+                       id="_1pt+">
         <text>Cancel</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="comboFiles_of_Type:" id="_1pt-">
+        <text>All Files</text>
       </CheckStringStep>
     </BasicSequence>
   </ExtraSequence>
@@ -13992,6 +13962,32 @@ C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\snap\bin\</c
                         state="1">Cancel</extrafeature>
           <extrafeature name="qfs:systemclass" negate="false" regexp="false"
                         state="0">javax.swing.JButton</extrafeature>
+        </ComponentStep>
+        <ComponentStep class="TextField" classcount="1" classindex="0"
+                       feature="Label: File Name:" height="18"
+                       id="textFile_Name:" uid="_1ptv" width="690" x="99"
+                       y="228">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JTextField</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">TextField</extrafeature>
+          <extrafeature name="qfs:label" negate="false" regexp="false"
+                        state="1">File Name:</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JTextField</extrafeature>
+        </ComponentStep>
+        <ComponentStep class="ComboBox" classcount="2" classindex="1"
+                       feature="Label: Files of Type:" height="23"
+                       id="comboFiles_of_Type:" uid="_1ptw" width="690" x="99"
+                       y="251">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JComboBox</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">ComboBox</extrafeature>
+          <extrafeature name="qfs:label" negate="false" regexp="false"
+                        state="1">Files of Type:</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JComboBox</extrafeature>
         </ComponentStep>
       </ComponentStep>
       <ComponentStep class="Popup" feature="InvokerFeature: Label: Filter:"
