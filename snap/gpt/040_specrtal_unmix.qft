@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.4">
+  <include>qfs.qft</include>
+  <include>../lib/snap_main.qft</include>
+  <variable name="xml_file_dir">image_analysis</variable>
+  <variable name="sleep_time">1000</variable>
+  <variable name="output_folder">gpt_unmix</variable>
+  <variable name="gpf_op">Unmix</variable>
+  <TestSet id="_2" name="040_specrtal_unmix" reportname="040 Unmix Operator">
+    <DependencyReference id="_1pP1" reference="start_application_for_gpt">
+      <variable name="output_dir">$(output_folder)</variable>
+    </DependencyReference>
+    <TestSet id="_2rH" name="test_specrtal_unmix_operator"
+             reportname="run Unmix Operator using xml, properties file or commandline parameters">
+      <DataDriver id="_1l4f" loopreportname="$(xml_file)$(parameters_file)"
+                  name="dataTable">
+        <ProcedureCall id="_1l4d" procedure="tables.unmix"/>
+      </DataDriver>
+      <TestCase id="_9Xo" name="specrtal_unmix"
+                reportname="run Unmix operator">
+        <ProcedureCall id="_1pP2" procedure="test_sequence"/>
+      </TestCase>
+    </TestSet>
+  </TestSet>
+  <PackageRoot id="_4"/>
+  <ExtraSequence id="_5"/>
+  <WindowList id="_6"/>
+</RootStep>

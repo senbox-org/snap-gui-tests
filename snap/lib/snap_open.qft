@@ -921,8 +921,8 @@
         <comment>@teststep Open data product in SNAP.</comment>
         <ProcedureCall id="_1l3w" procedure="path.main_path"/>
         <IfSequence id="_1oSd" test="&#34;$(in_out)&#34;==&#34;out&#34;">
-          <SetGlobalStep id="_1oSf" varname="data_source_directory">
-            <default>${path:output_data_directory}</default>
+          <SetGlobalStep id="_1pxw" varname="data_source_directory">
+            <default>${path:output_data_directory}$(prod_dir)${path:slash}</default>
           </SetGlobalStep>
           <ElseSequence id="_1oSg">
             <ProcedureCall id="_1oSj" procedure="path.source_data_directory">
@@ -987,8 +987,10 @@
               <variable name="file_of_type">$(reader)</variable>
             </ProcedureCall>
             <CatchSequence exception="TestException" id="_1omi" maxerror="0">
-              <ProcedureCall id="_1omj" procedure="select.file_of_type">
-                <variable name="file_of_type">All Files</variable>
+              <ProcedureCall id="_1pzF"
+                             procedure="daten_format.file_of_type_all"/>
+              <ProcedureCall id="_1pzH" procedure="select.file_of_type">
+                <variable name="file_of_type">$(file_of_type_all)</variable>
               </ProcedureCall>
             </CatchSequence>
           </TryStep>
@@ -1018,15 +1020,8 @@
           <ProcedureCall id="_1oRv" postdelay="2000"
                          procedure="do_click.open_product_dialog.open"/>
         </IfSequence>
-        <TryStep id="_1pxu" name="handle_SNAP_Multiple_Readers_dialog">
-          <ComponentWaiter client="$(client)"
-                           component="dialogSNAP_-_Multiple_Readers_Available"
-                           id="_1pxR" timeout="10"/>
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="dialogSNAP_-_Multiple_Readers_Available.buttonOK"
-                          event="MOUSE_MPRC" id="_1pxS" modifiers="16"/>
-          <CatchSequence exception="TestException" id="_1pxv" maxerror="0"/>
-        </TryStep>
+        <ProcedureCall id="_1pzt"
+                       procedure="utility.handle_SNAP_Multiple_Readers_dialog"/>
         <BasicSequence id="_1pxT" name="find_error_dialog_click_ok">
           <TryStep id="_1pxU" name="find_error_dialog_click_ok">
             <ProcedureCall id="_1pxV"
@@ -1104,6 +1099,202 @@
                          procedure="do_click.open_product_dialog.open"/>
         </IfSequence>
       </Procedure>
+      <Procedure id="_1pxx" name="all_products_in_snap">
+        <variable name="prod_dir"/>
+        <comment>@teststep Open in SNAP all data products in the folder.</comment>
+        <ProcedureCall id="_1pz2"
+                       procedure="do_click.main_toolbar.standard.open"/>
+        <TryStep id="_1pz3" name="select_file_of_type_all">
+          <ProcedureCall id="_1pz7"
+                         procedure="wait.appear.dialog.open_product"/>
+          <ProcedureCall id="_1pzE"
+                         procedure="daten_format.file_of_type_all"/>
+          <TryStep id="_1pz8">
+            <ProcedureCall id="_1pzA" procedure="select.file_of_type">
+              <variable name="file_of_type">$(file_of_type_all)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1pzB" maxerror="0">
+              <ProcedureCall id="_1pzC" procedure="select.file_of_type">
+                <variable name="file_of_type">$(file_of_type_all)</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+          <CatchSequence exception="TestException" id="_1pz5" maxerror="0">
+            <ProcedureCall id="_1pzD"
+                           procedure="run-log.error_message.dialog_does_not_appear">
+              <variable name="dialog">Open Product</variable>
+            </ProcedureCall>
+          </CatchSequence>
+        </TryStep>
+        <IfSequence disabled="true" id="_1pyO" test="${qftest:windows}">
+          <ElseifSequence id="_1pyQ" name="MAC?"
+                          test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+            <TextInputStep clear="true" client="$(client)"
+                           component="textSelection:" id="_1pyR">
+              <text>$(input_file)</text>
+              <comment>@teststep Select $(input_file).</comment>
+            </TextInputStep>
+          </ElseifSequence>
+          <ElseSequence id="_1pyS">
+            <TextInputStep clear="true" client="$(client)"
+                           component="textSelection:" id="_1pyT">
+              <text>$(input_file)</text>
+              <comment>@teststep Select $(input_file).</comment>
+            </TextInputStep>
+          </ElseSequence>
+        </IfSequence>
+        <TextInputStep clear="true" client="$(client)"
+                       component="dialogOpen_Product.textDateiname:"
+                       id="_1pzN">
+          <text>$(prod_dir)</text>
+          <comment>@teststep Select $(input_file).</comment>
+        </TextInputStep>
+        <ProcedureCall id="_1pzO" postdelay="2000"
+                       procedure="do_click.open_product_dialog.open"/>
+        <IfSequence id="_1pzh" test="${qftest:windows}">
+          <BasicSequence id="_1puh" name="select_all_products_in_the_folder">
+            <KeyEventStep client="$(client)"
+                          component="dialogOpen_Product.buttonOpen"
+                          event="KEY_PTR" id="_1pvK" keychar="9" keycode="9"
+                          modifiers="0"/>
+            <KeyEventStep client="$(client)"
+                          component="dialogOpen_Product.buttonCancel"
+                          event="KEY_PTR" id="_1pzY" keychar="9" keycode="9"
+                          modifiers="0"/>
+            <KeyEventStep client="$(client)"
+                          component="dialogOpen_Product.comboLook_in:"
+                          event="KEY_PTR" id="_1pzZ" keychar="9" keycode="9"
+                          modifiers="0"/>
+            <KeyEventStep client="$(client)"
+                          component="dialogOpen_Product.buttonTipUp_One_Level2"
+                          event="KEY_PTR" id="_1pza" keychar="9" keycode="9"
+                          modifiers="0"/>
+            <KeyEventStep client="$(client)"
+                          component="dialogOpen_Product.buttonTipCreate_New_Folder"
+                          event="KEY_PTR" id="_1pzb" keychar="9" keycode="9"
+                          modifiers="0"/>
+            <KeyEventStep client="$(client)"
+                          component="dialogOpen_Product.buttonTipView_Menu"
+                          event="KEY_PTR" id="_1pvP" keychar="9" keycode="9"
+                          modifiers="0"/>
+            <KeyEventStep client="$(client)"
+                          component="dialogOpen_Product.toggleZuletzt_verwendet"
+                          event="KEY_PTR" id="_1pvQ" keychar="9" keycode="9"
+                          modifiers="0"/>
+            <KeyEventStep client="$(client)"
+                          component="dialogOpen_Product.toggleDesktop"
+                          event="KEY_PTR" id="_1pzc" keychar="9" keycode="9"
+                          modifiers="0"/>
+            <KeyEventStep client="$(client)"
+                          component="dialogOpen_Product.toggleEigene_Dokumente"
+                          event="KEY_PTR" id="_1pzd" keychar="9" keycode="9"
+                          modifiers="0"/>
+            <KeyEventStep client="$(client)"
+                          component="dialogOpen_Product.toggleComputer"
+                          event="KEY_PTR" id="_1pze" keychar="9" keycode="9"
+                          modifiers="0"/>
+            <KeyEventStep client="$(client)"
+                          component="dialogOpen_Product.toggleNetzwerk"
+                          event="KEY_PTR" id="_1pzf" keychar="9" keycode="9"
+                          modifiers="0"/>
+            <KeyEventStep client="$(client)"
+                          component="dialogOpen_Product.listLook_in:"
+                          event="KEY_PRESSED" id="_1puk" keychar="65535"
+                          keycode="17" modifiers="2"/>
+            <KeyEventStep client="$(client)"
+                          component="dialogOpen_Product.listLook_in:"
+                          event="KEY_PTR" id="_1pul" keychar="1" keycode="65"
+                          modifiers="2"/>
+            <KeyEventStep client="$(client)"
+                          component="dialogOpen_Product.listLook_in:"
+                          event="KEY_RELEASED" id="_1pzL" keychar="65535"
+                          keycode="17" modifiers="0"/>
+          </BasicSequence>
+          <ElseifSequence id="_1pzi" name="MAC?"
+                          test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+            <TextInputStep clear="true" client="$(client)"
+                           component="textSelection:" id="_1pzj">
+              <text>$(input_file)</text>
+              <comment>@teststep Select $(input_file).</comment>
+            </TextInputStep>
+          </ElseifSequence>
+          <ElseSequence id="_1pzk">
+            <TextInputStep clear="true" client="$(client)"
+                           component="textSelection:" id="_1pzl">
+              <text>$(input_file)</text>
+              <comment>@teststep Select $(input_file).</comment>
+            </TextInputStep>
+          </ElseSequence>
+        </IfSequence>
+        <ProcedureCall id="_1pzg" postdelay="2000"
+                       procedure="do_click.open_product_dialog.open"/>
+        <ProcedureCall id="_1pzm" procedure="wait.product_is_opened"/>
+        <ProcedureCall id="_1pzs"
+                       procedure="utility.handle_SNAP_Multiple_Readers_dialog"/>
+        <BasicSequence id="_1pyZ" name="find_error_dialog_click_ok">
+          <TryStep id="_1pya" name="find_error_dialog_click_ok">
+            <ProcedureCall id="_1pyb"
+                           procedure="wait.appear.error.dialog_open_product"/>
+            <ProcedureCall id="_1pyc" procedure="run-log.make_screensot">
+              <variable name="iw_name">error_dialog_open_product</variable>
+              <variable name="iw_name_example">error_dialog</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1pyd"
+                           procedure="do_click.error_dialog.button_Yes_dialog_Open_Product"/>
+            <ProcedureCall id="_1pye"
+                           procedure="run-log.error_message.error_dialog_appears">
+              <variable name="dialog">'Open Product' error</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1pyf" maxerror="0"/>
+          </TryStep>
+          <TryStep id="_1pyg" name="find_error_dialog_click_ok">
+            <ProcedureCall id="_1pyh"
+                           procedure="wait.appear.error.dialog_SNAP_open_product"/>
+            <ProcedureCall id="_1pyi" procedure="run-log.make_screensot">
+              <variable name="iw_name">dialog_SNAP_open_product</variable>
+              <variable name="iw_name_example">error_dialog</variable>
+            </ProcedureCall>
+            <TryStep id="_1pyj">
+              <ProcedureCall id="_1pyk"
+                             procedure="get.text_error_dialog_SNAP_Open_Product"/>
+              <CatchSequence exception="TestException" id="_1pyl"
+                             maxerror="0">
+                <SetGlobalStep id="_1pym" varname="error_text">
+                  <default>$(prod_dir)/$(prod) can not be opened</default>
+                </SetGlobalStep>
+              </CatchSequence>
+            </TryStep>
+            <ProcedureCall id="_1pyn"
+                           procedure="do_click.error_dialog.button_OK_error_SNAP_Open_Product"/>
+            <IfSequence id="_1pyo"
+                        test="&#34;$(error_text)&#34;&lt;&gt;&#34;Open Product&#34;">
+              <ServerScriptStep id="_1pyp" name="error">
+                <code>rc.logError("'$(error_text)'.")</code>
+              </ServerScriptStep>
+            </IfSequence>
+            <CatchSequence exception="TestException" id="_1pyq" maxerror="0"/>
+          </TryStep>
+          <TryStep id="_1pyr" name="find_error_dialog_click_ok">
+            <ComponentWaiter client="$(client)" component="dialogSNAP_-_Error"
+                             id="_1pys" timeout="10"/>
+            <TryStep id="_1pyt">
+              <ProcedureCall id="_1pyu" procedure="run-log.make_screensot">
+                <variable name="iw_name">error_dialog_open_product</variable>
+                <variable name="iw_name_example">error_dialog</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1pyv"
+                             maxerror="0"/>
+            </TryStep>
+            <ProcedureCall id="_1pyw"
+                           procedure="do_click.error_dialog.button_OK_SNAP_Error"/>
+            <ProcedureCall id="_1pyx"
+                           procedure="run-log.error_message.error_dialog_appears">
+              <variable name="dialog">'Open Product' error</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1pyy" maxerror="0"/>
+          </TryStep>
+        </BasicSequence>
+      </Procedure>
       <Procedure disabled="true" id="_1lBI" name="metadata_view">
         <comment>@teststep Open metadata view</comment>
         <TryStep id="_1lBJ">
@@ -1128,6 +1319,17 @@
       </Procedure>
     </Package>
     <Package id="_1oRH" name="utility">
+      <Procedure id="_1pzr" name="handle_SNAP_Multiple_Readers_dialog">
+        <TryStep id="_1pzn" name="handle_SNAP_Multiple_Readers_dialog">
+          <ComponentWaiter client="$(client)"
+                           component="dialogSNAP_-_Multiple_Readers_Available"
+                           id="_1pzo" timeout="10"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogSNAP_-_Multiple_Readers_Available.buttonOK"
+                          event="MOUSE_MPRC" id="_1pzp" modifiers="16"/>
+          <CatchSequence exception="TestException" id="_1pzq" maxerror="0"/>
+        </TryStep>
+      </Procedure>
       <Procedure id="_1pVd" name="handle_dialog_JIDE_software">
         <ComponentWaiter client="$(client)"
                          component="dialogJIDE_Software,_Inc." id="_1pVi"

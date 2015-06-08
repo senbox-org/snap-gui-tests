@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.5">
+<RootStep id="_0" name="root" version="4.0.4">
   <include>qfs.qft</include>
   <include>snap_select.qft</include>
   <include>snap_components.qft</include>
@@ -966,17 +966,22 @@
         </Procedure>
         <Procedure id="_1p1s"
                    name="open_band_compute_correlative_plot_close_all">
-          <ProcedureCall id="_1poe"
-                         procedure="compute.band_correlative_plot"/>
-          <ProcedureCall id="_1pof" procedure="close.all_products"/>
-          <TryStep disabled="true" id="_1p1x"
-                   name="close_correlative_plot_dialog">
-            <ProcedureCall id="_1p1y" procedure="close.dialog"/>
-            <CatchSequence exception="TestException" id="_1p1z" maxerror="0">
-              <ProcedureCall id="_1p1+" procedure="close.modal_dialogs"/>
-              <ProcedureCall id="_1p1-" procedure="close.dialog"/>
-            </CatchSequence>
-          </TryStep>
+          <ProcedureCall id="_1pyI" procedure="check.product.not_opened"/>
+          <IfSequence id="_1pyJ"
+                      test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1poe"
+                           procedure="compute.band_correlative_plot"/>
+            <ProcedureCall id="_1pof" procedure="close.all_products"/>
+            <TryStep disabled="true" id="_1p1x"
+                     name="close_correlative_plot_dialog">
+              <ProcedureCall id="_1p1y" procedure="close.dialog"/>
+              <CatchSequence exception="TestException" id="_1p1z"
+                             maxerror="0">
+                <ProcedureCall id="_1p1+" procedure="close.modal_dialogs"/>
+                <ProcedureCall id="_1p1-" procedure="close.dialog"/>
+              </CatchSequence>
+            </TryStep>
+          </IfSequence>
         </Procedure>
         <Procedure id="_1pom" name="open_band_compute_scatter_plot_close_all">
           <ProcedureCall id="_1ppJ"
@@ -993,83 +998,6 @@
           </TryStep>
         </Procedure>
       </Package>
-      <Procedure id="_1oJB" name="open_data_in_snap_and_check">
-        <variable name="file_name"/>
-        <variable name="format"/>
-        <ProcedureCall id="_1oMx" procedure="open.product_in_snap">
-          <variable name="prod_dir">$(data_out_dir)</variable>
-          <variable name="prod">$(file_name).$(fr)</variable>
-          <variable name="in_out">out</variable>
-          <variable name="product_type"/>
-          <comment> 	 
-</comment>
-        </ProcedureCall>
-        <ProcedureCall id="_1o+4" procedure="wait.product_is_opened"/>
-        <ProcedureCall id="_1oLa" procedure="check.product.not_opened"/>
-        <IfSequence id="_1oLb"
-                    test="&#34;$(not_opened)&#34;==&#34;false&#34;">
-          <ProcedureCall id="_1oLc"
-                         procedure="utility.open_image_view_check_it">
-            <comment>@teststep Open image view and check it.</comment>
-          </ProcedureCall>
-          <TestStep disabled="true" id="_1oLd" name="check_world_map">
-            <comment>@teststep Check World Map.</comment>
-            <ProcedureCall id="_1oLe"
-                           procedure="do_click.main_toolbar.views.worldmap">
-              <comment>@teststep Open world map.</comment>
-            </ProcedureCall>
-            <ProcedureCall id="_1oLf" procedure="close.dialog">
-              <comment>@teststep Close World Map.</comment>
-            </ProcedureCall>
-          </TestStep>
-          <TestStep disabled="true" id="_1oMH" name="check_masks_and_layers">
-            <IfSequence id="_1oLg"
-                        test="&#34;$(mask1)&#34;&lt;&gt;&#34;&#34; and &#34;$(output_netcdf_cf)&#34;==&#34;false&#34;">
-              <ProcedureCall id="_1oMb"
-                             procedure="check.masks_layers.all_mask_and_layer"/>
-            </IfSequence>
-          </TestStep>
-          <ProcedureCall id="_1oMF"
-                         procedure="check.product.tree_number_elements">
-            <variable name="number_elements">$(elements)</variable>
-            <comment>@teststep Check elements in product tree.</comment>
-          </ProcedureCall>
-          <TestStep disabled="true" id="_1kl3" name="check_metadata">
-            <IfSequence id="_1l0h"
-                        test="&#34;$(output_netcdf_cf)&#34;==&#34;true&#34;">
-              <SetGlobalStep id="_1l0i" varname="mn1">
-                <default>Global_Attributes</default>
-              </SetGlobalStep>
-              <ElseifSequence id="_1l0j" test="&#34;$(fr)&#34;==&#34;N1&#34;">
-                <SetGlobalStep id="_1l0k" varname="mn1">
-                  <default>MPH</default>
-                </SetGlobalStep>
-              </ElseifSequence>
-              <ElseifSequence disabled="true" id="_1oK7"
-                              test="&#34;$(check_timeseries)&#34;==&#34;true&#34;">
-                <SetGlobalStep id="_1l4n" varname="mn1">
-                  <default>TIME_SERIES</default>
-                </SetGlobalStep>
-              </ElseifSequence>
-              <ElseSequence id="_1l0l">
-                <SetGlobalStep id="_1l0m" varname="mn1">
-                  <default>Processing_Graph</default>
-                </SetGlobalStep>
-              </ElseSequence>
-            </IfSequence>
-            <ProcedureCall id="_1oMq"
-                           procedure="utility.open_metadata_check_it">
-              <variable name="metadata_name">$(mn1)</variable>
-            </ProcedureCall>
-          </TestStep>
-          <ElseSequence id="_1o+D">
-            <ProcedureCall id="_1o+E" procedure="run-log.logError">
-              <variable name="message">$(file_name).$(fr) can not be opened</variable>
-              <variable name="withScreenshots">true</variable>
-            </ProcedureCall>
-          </ElseSequence>
-        </IfSequence>
-      </Procedure>
       <Procedure id="_1pbm" name="check_target_product">
         <comment>@teststep Check target product.</comment>
         <ProcedureCall id="_1pbn" procedure="set.target_product_with_path"/>
@@ -1114,174 +1042,6 @@
         </IfSequence>
       </Procedure>
     </Package>
-    <Package id="_1ocT" name="gpt">
-      <Procedure id="_1p0u" name="check_output_file_in_snap">
-        <IfSequence id="_1p0v" test="&#34;$(fileExists)&#34;==&#34;True&#34;">
-          <IfSequence id="_1p0w" test="&#34;$(fr)&#34;&lt;&gt;&#34;h5&#34;">
-            <ProcedureCall id="_1p0x"
-                           procedure="test_events.open_data_in_snap_and_check">
-              <variable name="file_name">$(outfn)</variable>
-              <variable name="format">$(fr)</variable>
-            </ProcedureCall>
-          </IfSequence>
-          <ElseSequence id="_1p0y">
-            <ProcedureCall id="_1p0z" procedure="run-log.logError">
-              <variable name="message">$(outfn).$(fr) is not processed</variable>
-              <variable name="withScreenshots">false</variable>
-            </ProcedureCall>
-          </ElseSequence>
-        </IfSequence>
-        <ProcedureCall id="_1p0t" procedure="close.all_products"/>
-      </Procedure>
-      <Procedure id="_1ocU" name="test_sequence">
-        <SetGlobalStep id="_1o+F" varname="app">
-          <default>snap</default>
-        </SetGlobalStep>
-        <ProcedureCall id="_1p0s" procedure="close.all_products"/>
-        <IfSequence id="_1o+H"
-                    test="&#34;$(other_formats )&#34;==&#34;true&#34;">
-          <TestStep id="_1o+I" name="dimap">
-            <SetGlobalStep id="_1o+J" varname="f">
-              <default>dimap</default>
-            </SetGlobalStep>
-            <ProcedureCall id="_1o+K" procedure="daten_format.output_format">
-              <variable name="out_form">$(f)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1o+L"
-                           procedure="gpt.run_operator_check_output_file">
-              <variable name="application">$(app)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1p0+"
-                           procedure="gpt.check_output_file_in_snap"/>
-          </TestStep>
-          <TestStep id="_1o+R" name="geotiff">
-            <SetGlobalStep id="_1o+S" varname="f">
-              <default>geotiff</default>
-            </SetGlobalStep>
-            <ProcedureCall id="_1o+T" procedure="daten_format.output_format">
-              <variable name="out_form">$(f)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1o+U"
-                           procedure="gpt.run_operator_check_output_file">
-              <variable name="application">$(app)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1p0-"
-                           procedure="gpt.check_output_file_in_snap"/>
-          </TestStep>
-          <TestStep id="_1o+X" name="hdf5">
-            <SetGlobalStep id="_1o+Y" varname="f">
-              <default>hdf5</default>
-            </SetGlobalStep>
-            <ProcedureCall id="_1o+Z" procedure="daten_format.output_format">
-              <variable name="out_form">$(f)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1o+a"
-                           procedure="gpt.run_operator_check_output_file">
-              <variable name="application">$(app)</variable>
-            </ProcedureCall>
-          </TestStep>
-          <TestStep id="_1o+b" name="netCDF_CF">
-            <SetGlobalStep id="_1o+c" varname="f">
-              <default>netCDF_CF</default>
-            </SetGlobalStep>
-            <ProcedureCall id="_1o+d" procedure="daten_format.output_format">
-              <variable name="out_form">$(f)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1o+e"
-                           procedure="gpt.run_operator_check_output_file">
-              <variable name="application">$(app)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1p10"
-                           procedure="gpt.check_output_file_in_snap"/>
-          </TestStep>
-          <TestStep id="_1o+l" name="netCDF4_CF">
-            <SetGlobalStep id="_1o+m" varname="f">
-              <default>netCDF4_CF</default>
-            </SetGlobalStep>
-            <ProcedureCall id="_1o+n" procedure="daten_format.output_format">
-              <variable name="out_form">$(f)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1o+o"
-                           procedure="gpt.run_operator_check_output_file">
-              <variable name="application">$(app)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1p11"
-                           procedure="gpt.check_output_file_in_snap"/>
-          </TestStep>
-          <TestStep id="_1o+t" name="netCDF_beam">
-            <SetGlobalStep id="_1o+u" varname="f">
-              <default>netCDF_beam</default>
-            </SetGlobalStep>
-            <ProcedureCall id="_1o+v" procedure="daten_format.output_format">
-              <variable name="out_form">$(f)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1o+w"
-                           procedure="gpt.run_operator_check_output_file">
-              <variable name="application">$(app)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1p12"
-                           procedure="gpt.check_output_file_in_snap"/>
-          </TestStep>
-          <TestStep id="_1o+y" name="netCDF4_beam">
-            <SetGlobalStep id="_1o+z" varname="f">
-              <default>netCDF4_beam</default>
-            </SetGlobalStep>
-            <ProcedureCall id="_1o++" procedure="daten_format.output_format">
-              <variable name="out_form">$(f)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1o+-"
-                           procedure="gpt.run_operator_check_output_file">
-              <variable name="application">$(app)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1p13"
-                           procedure="gpt.check_output_file_in_snap"/>
-          </TestStep>
-          <ElseifSequence id="_1oQP"
-                          test="&#34;$(other_formats )&#34;==&#34;N1&#34;">
-            <TestStep id="_1oQQ" name="N1">
-              <SetGlobalStep id="_1oQR" varname="f">
-                <default>N1</default>
-              </SetGlobalStep>
-              <ProcedureCall id="_1oQS"
-                             procedure="daten_format.output_format">
-                <variable name="out_form">$(f)</variable>
-              </ProcedureCall>
-              <ProcedureCall id="_1oQT"
-                             procedure="gpt.run_operator_check_output_file">
-                <variable name="application">$(app)</variable>
-              </ProcedureCall>
-              <ProcedureCall id="_1p14"
-                             procedure="gpt.check_output_file_in_snap"/>
-            </TestStep>
-          </ElseifSequence>
-          <ElseSequence id="_1oQV">
-            <IfSequence id="_1p0m"
-                        test="&#34;$(gpf_op)&#34;==&#34;Binning&#34;">
-              <SetGlobalStep id="_1p0n" varname="f">
-                <default>$(other_formats)</default>
-              </SetGlobalStep>
-              <ProcedureCall id="_1p0q"
-                             procedure="daten_format.output_format">
-                <variable name="out_form">$(f)</variable>
-              </ProcedureCall>
-              <ElseSequence id="_1p0o">
-                <SetGlobalStep id="_1p0r" varname="f"/>
-                <ProcedureCall id="_1oQX"
-                               procedure="daten_format.output_format">
-                  <variable name="out_form">dimap</variable>
-                </ProcedureCall>
-              </ElseSequence>
-            </IfSequence>
-            <ProcedureCall id="_1oQY"
-                           procedure="gpt.run_operator_check_output_file">
-              <variable name="application">$(app)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1p15"
-                           procedure="gpt.check_output_file_in_snap"/>
-          </ElseSequence>
-        </IfSequence>
-      </Procedure>
-    </Package>
     <Package id="_6" name="compute">
       <Procedure id="_1p1c" name="band_histogram">
         <ProcedureCall id="_1p1d" procedure="open.analysis.histogram_dialog"/>
@@ -1298,8 +1058,18 @@
                          procedure="select.analysis.histogram_dialog.mask">
             <variable name="mask">$(mask1)</variable>
           </ProcedureCall>
-          <ProcedureCall id="_1p1m"
-                         procedure="do_click.analysis.histogram.refresh_button"/>
+          <TryStep id="_1pyK" name="do_click_refresh_button">
+            <ProcedureCall id="_1p1m"
+                           procedure="do_click.analysis.histogram.refresh_button"/>
+            <CatchSequence exception="TestException" id="_1pyL" maxerror="0">
+              <ProcedureCall id="_1pyM"
+                             procedure="deselect.analysis.histogram_dialog.use_ROI_mask"/>
+              <ProcedureCall id="_1pyP"
+                             procedure="select.analysis.histogram_dialog.use_ROI_mask"/>
+              <ProcedureCall id="_1pyQ"
+                             procedure="do_click.analysis.histogram.refresh_button"/>
+            </CatchSequence>
+          </TryStep>
           <ProcedureCall id="_1p1r"
                          procedure="wait.disappear.computing_histogram_progress monitor"/>
         </IfSequence>

@@ -8,6 +8,11 @@
   <dependency>../s3tbx/lib/s3tbx_main.qft</dependency>
   <PackageRoot id="_3">
     <Package id="_1pU3" name="daten_format">
+      <Procedure id="_1q5l" name="file_of_type_all">
+        <SetGlobalStep id="_1q5m" varname="file_of_type_all">
+          <default>All Files</default>
+        </SetGlobalStep>
+      </Procedure>
       <Procedure id="_1pU1" name="beam_dimap">
         <ProcedureCall id="_1q5k" procedure="daten_format.output_format">
           <variable name="out_form">dimap</variable>
@@ -18,57 +23,72 @@
       </Procedure>
       <Procedure id="_1owO" name="output_format">
         <variable name="out_form"/>
-        <IfSequence id="_1owP"
-                    test="&#34;$(out_form)&#34;==&#34;netCDF_CF&#34; or &#34;$(out_form)&#34;==&#34;netCDF4_CF&#34;">
-          <SetGlobalStep id="_1owQ" varname="output_netcdf_cf">
-            <default>true</default>
-          </SetGlobalStep>
-          <ElseSequence id="_1owR">
-            <SetGlobalStep id="_1owS" varname="output_netcdf_cf">
-              <default>false</default>
+        <IfSequence id="_1q5n" test="&#34;$(out_form)&#34;&lt;&gt;&#34;&#34;">
+          <IfSequence id="_1owP"
+                      test="&#34;$(out_form)&#34;==&#34;netCDF_CF&#34; or &#34;$(out_form)&#34;==&#34;netCDF4_CF&#34;">
+            <SetGlobalStep id="_1owQ" varname="output_netcdf_cf">
+              <default>true</default>
+            </SetGlobalStep>
+            <ElseSequence id="_1owR">
+              <SetGlobalStep id="_1owS" varname="output_netcdf_cf">
+                <default>false</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+          <LoadPropertiesStep id="_1owT"
+                              propertyfile="properties/output_format.properties"
+                              resourcename="format"/>
+          <TryStep id="_1owU">
+            <SetGlobalStep id="_1owV" varname="of">
+              <default>${format:$(out_form)_of}</default>
+            </SetGlobalStep>
+            <SetGlobalStep id="_1owW" varname="fr">
+              <default>${format:$(out_form)_fr}</default>
+            </SetGlobalStep>
+            <SetGlobalStep id="_1q5h" varname="output_format">
+              <default>${format:$(out_form)}</default>
+            </SetGlobalStep>
+            <SetGlobalStep id="_1o+q" varname="supported_format">
+              <default>true</default>
+            </SetGlobalStep>
+            <CatchSequence exception="TestException" id="_1owX" maxerror="0">
+              <SetGlobalStep id="_1owY" varname="output_netcdf_cf">
+                <default>false</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1owZ" varname="supported_format">
+                <default>false</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1owa" varname="of"/>
+              <SetGlobalStep id="_1owb" varname="fr">
+                <default>dim</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1q5i" varname="output_format">
+                <default>${format:dimap}</default>
+              </SetGlobalStep>
+              <ProcedureCall id="_1o+o" procedure="qfs.run-log.logError">
+                <variable name="message">$(out_form) format is not supported</variable>
+                <variable name="withScreenshots">false</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+          <ElseSequence id="_1q5o">
+            <SetGlobalStep id="_1q5p" varname="of"/>
+            <SetGlobalStep id="_1q5q" varname="fr">
+              <default>dim</default>
+            </SetGlobalStep>
+            <SetGlobalStep disabled="true" id="_1q5r" varname="output_format">
+              <default>dimap</default>
+            </SetGlobalStep>
+            <SetGlobalStep id="_1q5t" varname="output_format"/>
+            <SetGlobalStep id="_1q5s" varname="supported_format">
+              <default>true</default>
             </SetGlobalStep>
           </ElseSequence>
         </IfSequence>
-        <LoadPropertiesStep id="_1owT"
-                            propertyfile="properties/output_format.properties"
-                            resourcename="format"/>
-        <TryStep id="_1owU">
-          <SetGlobalStep id="_1owV" varname="of">
-            <default>${format:$(out_form)_of}</default>
-          </SetGlobalStep>
-          <SetGlobalStep id="_1owW" varname="fr">
-            <default>${format:$(out_form)_fr}</default>
-          </SetGlobalStep>
-          <SetGlobalStep id="_1q5h" varname="output_format">
-            <default>${format:$(out_form)}</default>
-          </SetGlobalStep>
-          <SetGlobalStep id="_1o+q" varname="supported_format">
-            <default>true</default>
-          </SetGlobalStep>
-          <CatchSequence exception="TestException" id="_1owX" maxerror="0">
-            <SetGlobalStep id="_1owY" varname="output_netcdf_cf">
-              <default>false</default>
-            </SetGlobalStep>
-            <SetGlobalStep id="_1owZ" varname="supported_format">
-              <default>false</default>
-            </SetGlobalStep>
-            <SetGlobalStep id="_1owa" varname="of"/>
-            <SetGlobalStep id="_1owb" varname="fr">
-              <default>dim</default>
-            </SetGlobalStep>
-            <SetGlobalStep id="_1q5i" varname="output_format">
-              <default>${format:dimap}</default>
-            </SetGlobalStep>
-            <ProcedureCall id="_1o+o" procedure="qfs.run-log.logError">
-              <variable name="message">$(out_form) format is not supported</variable>
-              <variable name="withScreenshots">false</variable>
-            </ProcedureCall>
-          </CatchSequence>
-        </TryStep>
-        <ServerScriptStep disabled="true" id="_1oxE" name="print">
+        <ServerScriptStep id="_1oxE" name="print">
           <code>print "of = $(of)"</code>
         </ServerScriptStep>
-        <ServerScriptStep disabled="true" id="_1oxF" name="print">
+        <ServerScriptStep id="_1oxF" name="print">
           <code>print "fr = $(fr)"</code>
         </ServerScriptStep>
         <ServerScriptStep disabled="true" id="_1q5j" name="print">
@@ -83,7 +103,7 @@
         <SetGlobalStep id="_1o+a" varname="graph_file_dir">
           <default>${path:graph_file_dir}$(xml_dir)${path:slash}</default>
         </SetGlobalStep>
-        <ServerScriptStep id="_1o+w" name="print">
+        <ServerScriptStep disabled="true" id="_1o+w" name="print">
           <code>print "graph_file_dir = $(graph_file_dir)"</code>
         </ServerScriptStep>
       </Procedure>

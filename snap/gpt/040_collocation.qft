@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.4">
+  <include>qfs.qft</include>
+  <include>../lib/snap_main.qft</include>
+  <variable name="sleep_time">100</variable>
+  <variable name="xml_file_dir">collocate</variable>
+  <variable name="gpf_op">Collocate</variable>
+  <variable name="output_folder">gpt_collocation</variable>
+  <TestSet id="_3VQ" name="040_collocation"
+           reportname="040 Collocation Operator">
+    <DependencyReference id="_1pP1" reference="start_application_for_gpt">
+      <variable name="output_dir">$(output_folder)</variable>
+    </DependencyReference>
+    <TestSet id="_2rH" name="collocation_xml_file"
+             reportname="run Collocation Operator using xml or properties file ">
+      <comment>xml_file	parameters_file	dataInDir	fileName	param	dataInDir2	fileName2	other_formats	sourceOption	sourceOption2	group_id1	view_Id1	group_id2	view_Id2	bandName	bandName2	unit1	unit2	invalid_pixel_val	dataInDir3	fileName3	
+</comment>
+      <DataDriver id="_9V5"
+                  loopreportname="$(xml_file) $(dataInDir)/$(fileName) $(dataInDir2)/$(fileName2)"
+                  name="dataTable">
+        <ProcedureCall id="_1pP0" procedure="tables.collocation"/>
+      </DataDriver>
+      <TestCase id="_9YC" name="collocation_using_xml_file"
+                reportname="run Collocation operator using xml file ">
+        <ProcedureCall id="_1pP2" procedure="test_sequence"/>
+      </TestCase>
+    </TestSet>
+  </TestSet>
+  <PackageRoot id="_4"/>
+  <ExtraSequence id="_5"/>
+  <WindowList id="_6"/>
+</RootStep>

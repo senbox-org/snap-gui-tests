@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.4">
+  <include>qfs.qft</include>
+  <include>../lib/snap_main.qft</include>
+  <variable name="output_folder">gpt_correctRadiometry</variable>
+  <variable name="xml_file_dir">correctRadiometry</variable>
+  <variable name="sleep_time">50000</variable>
+  <variable name="gpf_op">Meris.CorrectRadiometry</variable>
+  <TestSet id="_3VQ" name="040_meris_correctRadiometry"
+           reportname="040 Meris Correct Radiometry Operator">
+    <DependencyReference id="_1pP1" reference="start_application_for_gpt">
+      <variable name="output_dir">$(output_folder)</variable>
+    </DependencyReference>
+    <TestSet id="_7mA" name="correctRadiometry" postdelay="2000"
+             reportname="run Meris CorrectRadiometry Operator using xml or properties file ">
+      <DataDriver id="_Buq"
+                  loopreportname="$(xml_file) $(dataInDir)/$(fileName) "
+                  name="dataTable">
+        <ProcedureCall id="_1l4d"
+                       procedure="tables.meris_correct_radiometry"/>
+      </DataDriver>
+      <TestCase id="_A20" name="correctRadiometry">
+        <ProcedureCall id="_1pP2" procedure="test_sequence"/>
+      </TestCase>
+    </TestSet>
+  </TestSet>
+  <PackageRoot id="_4"/>
+  <ExtraSequence id="_5"/>
+  <WindowList id="_6"/>
+</RootStep>

@@ -304,23 +304,22 @@
                          procedure="open.processing.thematic_water_processing.aatsr_sst_processor"/>
           <ProcedureCall id="_1qTn"
                          procedure="preparation_io_tab_checkout_save"/>
-          <ProcedureCall id="_1qTo" procedure="select.smac.save_as"/>
+          <ProcedureCall id="_1qTo"
+                         procedure="select.aatsr_sst_processor.save_as"/>
           <ProcedureCall id="_1qTp"
                          procedure="select_processing_parameters_tab"/>
           <ProcedureCall id="_1qTq"
-                         procedure="set.smac.mask_expr_meris_aatsr_nadir">
+                         procedure="set.aatsr_sst_processor.dual_view_mask">
             <variable name="val">cloud_flags_nadir.LAND and !cloud_flags_nadir.CLOUDY</variable>
           </ProcedureCall>
           <ProcedureCall id="_1qTr"
-                         procedure="set.smac.mask_expr_forward_aatsr">
+                         procedure="set.aatsr_sst_processor.nadir_view_mask">
             <variable name="val">cloud_flags_fward.LAND and !cloud_flags_fward.CLOUDY</variable>
-          </ProcedureCall>
-          <ProcedureCall id="_1qTs" procedure="select.smac.all_bands">
-            <variable name="band">btemp_nadir_1200</variable>
           </ProcedureCall>
         </TestStep>
         <TestStep id="_1pZQ" name="cancel_processing">
-          <ProcedureCall id="_1qGy" procedure="do_click.smac.button_apply"/>
+          <ProcedureCall id="_1qGy"
+                         procedure="do_click.aatsr_sst_processor.button_apply"/>
           <ProcedureCall id="_1pa9"
                          procedure="cancel_writing_target_product"/>
         </TestStep>

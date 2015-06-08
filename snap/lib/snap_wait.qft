@@ -62,6 +62,17 @@
               <ElseSequence id="_1pPG"/>
             </IfSequence>
           </Procedure>
+          <Procedure id="_1pxO" name="dialog_Invalid_Input">
+            <ComponentWaiter client="$(client)"
+                             component="dialogInvalid_Input.buttonOK"
+                             errorlevel="0" id="_1pxP" raise="false"
+                             timeout="100"/>
+            <IfSequence id="_1pxQ" test="${qftest:windows}">
+              <ElseifSequence id="_1pxR" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+              <ElseSequence id="_1pxS"/>
+            </IfSequence>
+          </Procedure>
           <Procedure id="_1pDt" name="dialog_Band_Maths_error">
             <IfSequence id="_1pDv" test="${qftest:windows}">
               <ComponentWaiter client="$(client)"

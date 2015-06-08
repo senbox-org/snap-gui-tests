@@ -491,27 +491,7 @@
           <ProcedureCall id="_1oUp" procedure="create_virtual_band"/>
           <CatchSequence exception="TestException" id="_1oUr" maxerror="0"/>
         </TryStep>
-        <TestStep id="_1oUl" name="handle_invalid_input">
-          <TryStep id="_1oUY" postdelay="2000">
-            <ProcedureCall id="_1oUi"
-                           procedure="do_click.error_dialog.button_OK_Invalid_Input"/>
-            <CatchSequence exception="TestException" id="_1oUZ" maxerror="0">
-              <ProcedureCall id="_1oUf" procedure="run-log.make_screensot">
-                <variable name="iw_name">03_02_band_Math_double_band_name</variable>
-                <variable name="iw_name_example">error_dialog</variable>
-              </ProcedureCall>
-              <ProcedureCall id="_1oUg"
-                             procedure="run-log.error_message.dialog_does_not_appear">
-                <variable name="dialog">Invalid Input</variable>
-              </ProcedureCall>
-            </CatchSequence>
-          </TryStep>
-          <BasicSequence id="_1oW-" name="todo_if_snap_will_work_stably">
-            <ProcedureCall id="_1oUj" postdelay="500"
-                           procedure="do_click.error_dialog.button_OK_dialog_Band_Maths"/>
-            <ProcedureCall id="_1oW+" procedure="close.modal_dialogs"/>
-          </BasicSequence>
-        </TestStep>
+        <ProcedureCall id="_1pih" procedure="handle_invalid_input"/>
       </TestStep>
       <TestStep id="_1oUs" name="try_to_create_band_name_with_space">
         <variable name="newBand">new Band</variable>
@@ -529,27 +509,7 @@
           <ProcedureCall id="_1oU-" procedure="create_virtual_band"/>
           <CatchSequence exception="TestException" id="_1oX1" maxerror="0"/>
         </TryStep>
-        <TestStep id="_1oV1" name="handle_invalid_input">
-          <TryStep id="_1oV2" postdelay="2000">
-            <ProcedureCall id="_1oV3"
-                           procedure="do_click.error_dialog.button_OK_Invalid_Input"/>
-            <CatchSequence exception="TestException" id="_1oV4" maxerror="0">
-              <ProcedureCall id="_1oV5" procedure="run-log.make_screensot">
-                <variable name="iw_name">03_02_band_Math_double_band_name</variable>
-                <variable name="iw_name_example">error_dialog</variable>
-              </ProcedureCall>
-              <ProcedureCall id="_1oV6"
-                             procedure="run-log.error_message.dialog_does_not_appear">
-                <variable name="dialog">Invalid Input</variable>
-              </ProcedureCall>
-            </CatchSequence>
-          </TryStep>
-          <BasicSequence id="_1oX2" name="todo_if_snap_will_work_stably">
-            <ProcedureCall id="_1oX3" postdelay="500"
-                           procedure="do_click.error_dialog.button_OK_dialog_Band_Maths"/>
-            <ProcedureCall id="_1oX4" procedure="close.modal_dialogs"/>
-          </BasicSequence>
-        </TestStep>
+        <ProcedureCall id="_1pii" procedure="handle_invalid_input"/>
       </TestStep>
       <TestStep id="_1oV9" name="try_to_create_band_name_null">
         <variable name="newBand"/>
@@ -557,27 +517,7 @@
           <ProcedureCall id="_1oVA" procedure="create_virtual_band"/>
           <CatchSequence exception="TestException" id="_1oVK" maxerror="0"/>
         </TryStep>
-        <TestStep id="_1oVB" name="handle_invalid_input">
-          <TryStep id="_1oVC" postdelay="2000">
-            <ProcedureCall id="_1oVD"
-                           procedure="do_click.error_dialog.button_OK_Invalid_Input"/>
-            <CatchSequence exception="TestException" id="_1oVE" maxerror="0">
-              <ProcedureCall id="_1oVF" procedure="run-log.make_screensot">
-                <variable name="iw_name">03_02_band_Math_double_band_name</variable>
-                <variable name="iw_name_example">error_dialog</variable>
-              </ProcedureCall>
-              <ProcedureCall id="_1oVG"
-                             procedure="run-log.error_message.dialog_does_not_appear">
-                <variable name="dialog">Invalid Input</variable>
-              </ProcedureCall>
-            </CatchSequence>
-          </TryStep>
-          <BasicSequence id="_1oX5" name="todo_if_snap_will_work_stably">
-            <ProcedureCall id="_1oX6" postdelay="500"
-                           procedure="do_click.error_dialog.button_OK_dialog_Band_Maths"/>
-            <ProcedureCall id="_1oX7" procedure="close.modal_dialogs"/>
-          </BasicSequence>
-        </TestStep>
+        <ProcedureCall id="_1pij" procedure="handle_invalid_input"/>
       </TestStep>
       <ProcedureCall id="_1oVL" procedure="close.all_products"/>
     </TestCase>
@@ -1030,6 +970,8 @@ Not fully resolved. The coloring of the images are still slightly different on e
         <ProcedureCall id="_1oWy"
                        procedure="do_click.tools.bandMaths.button_help"/>
         <ProcedureCall id="_1oXF" procedure="check.help_appears"/>
+        <ProcedureCall disabled="true" id="_1pik"
+                       procedure="handle_invalid_input"/>
         <TestStep disabled="true" id="_1oXW" name="handle_error_dialog">
           <TryStep id="_1oXo" postdelay="2000">
             <ProcedureCall id="_1oXr" procedure="run-log.make_screensot">
@@ -1110,6 +1052,30 @@ Not fully resolved. The coloring of the images are still slightly different on e
                      procedure="do_click.error_dialog.button_OK_dialog_Band_Maths"/>
       <ProcedureCall id="_1oUh" procedure="close.modal_dialogs"/>
     </Procedure>
+    <Procedure id="_1piX" name="handle_invalid_input">
+      <comment>@teststep handle_invalid_input</comment>
+      <TryStep id="_1piY" postdelay="2000">
+        <ProcedureCall id="_1piZ"
+                       procedure="wait.appear.error.dialog_Invalid_Input"/>
+        <ProcedureCall id="_1pia"
+                       procedure="do_click.error_dialog.button_OK_Invalid_Input"/>
+        <CatchSequence exception="TestException" id="_1pib" maxerror="0">
+          <ProcedureCall id="_1pic" procedure="run-log.make_screensot">
+            <variable name="iw_name">invalid_input_error_dialog</variable>
+            <variable name="iw_name_example">error_dialog</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pid"
+                         procedure="run-log.error_message.dialog_does_not_appear">
+            <variable name="dialog">Invalid Input</variable>
+          </ProcedureCall>
+        </CatchSequence>
+      </TryStep>
+      <BasicSequence id="_1pie" name="todo_if_snap_will_work_stably">
+        <ProcedureCall id="_1pif" postdelay="500"
+                       procedure="do_click.error_dialog.button_OK_dialog_Band_Maths"/>
+        <ProcedureCall id="_1pig" procedure="close.modal_dialogs"/>
+      </BasicSequence>
+    </Procedure>
     <Procedure disabled="true" id="_Dk4" name="check_bands_table_1">
       <CheckItemsStep client="VISAT"
                       component="mainFrameVISAT.PixelInfoToolView.Control3.table4.02"
@@ -1137,6 +1103,30 @@ Not fully resolved. The coloring of the images are still slightly different on e
     </Procedure>
   </PackageRoot>
   <ExtraSequence id="_5">
+    <Procedure id="_1piN" name="handle_invalid_input">
+      <comment>@teststep handle_invalid_input</comment>
+      <TryStep id="_1piO" postdelay="2000">
+        <ProcedureCall id="_1piP"
+                       procedure="wait.appear.error.dialog_Invalid_Input"/>
+        <ProcedureCall id="_1piQ"
+                       procedure="do_click.error_dialog.button_OK_Invalid_Input"/>
+        <CatchSequence exception="TestException" id="_1piR" maxerror="0">
+          <ProcedureCall id="_1piS" procedure="run-log.make_screensot">
+            <variable name="iw_name">03_02_band_Math_double_band_name</variable>
+            <variable name="iw_name_example">error_dialog</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1piT"
+                         procedure="run-log.error_message.dialog_does_not_appear">
+            <variable name="dialog">Invalid Input</variable>
+          </ProcedureCall>
+        </CatchSequence>
+      </TryStep>
+      <BasicSequence id="_1piU" name="todo_if_snap_will_work_stably">
+        <ProcedureCall id="_1piV" postdelay="500"
+                       procedure="do_click.error_dialog.button_OK_dialog_Band_Maths"/>
+        <ProcedureCall id="_1piW" procedure="close.modal_dialogs"/>
+      </BasicSequence>
+    </Procedure>
     <ProcedureCall id="_1pXH" procedure="get.tree.get_index_of_node">
       <variable name="node">x</variable>
       <variable name="nodeSeparator">@</variable>

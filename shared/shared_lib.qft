@@ -19,6 +19,39 @@ rc.setGlobal("fileExists", File("$(fileName)").exists())</code>
           <code>print "fileExists = $(fileExists)"  </code>
         </ServerScriptStep>
       </Procedure>
+      <Procedure id="_6ec" name="check_text_in_external_file">
+        <variable name="file"/>
+        <variable name="text"/>
+        <variable name="file_example">C:\\Projects\\Testing\\SUT\\beam-u-testing\\test_pixEx\\test8_ATS_NR__2P_measurements.txt</variable>
+        <ProcedureCall id="_1pEV"
+                       procedure="check_external_file.file_exists_setGlobal">
+          <variable name="fileName">$(file)</variable>
+        </ProcedureCall>
+        <IfSequence id="_AbX" test="&#34;$(fileExists)&#34;==&#34;True&#34;">
+          <ServerScriptStep id="_6eb" name="Check_external_file">
+            <code>fh = open("$(file)")
+searchtext = "$(text)"
+
+found = 0
+for line in fh.readlines():
+    if searchtext in line:
+        found = 1
+        break
+
+if found == 0:
+    rc.logError("Couldn't find '" + searchtext + "' in $(file)!")
+
+fh.close()</code>
+            <comment>Check an external file</comment>
+          </ServerScriptStep>
+          <ElseSequence id="_BkI">
+            <ProcedureCall id="_1pEW" procedure="run-log.logError">
+              <variable name="message">$(file) is not processed</variable>
+              <variable name="withScreenshots">false</variable>
+            </ProcedureCall>
+          </ElseSequence>
+        </IfSequence>
+      </Procedure>
       <Procedure id="_1p2K" name="file_was_not_processed_else_shoot_error">
         <variable name="fileName"/>
         <comment>@teststep Check if file was not processed, else shoot error</comment>
