@@ -930,10 +930,18 @@
       </ProcedureCall>
     </Procedure>
     <Procedure id="_1pON" name="click_ok_in_product_created_dialog">
+      <TryStep id="_1qXf">
+        <ComponentWaiter client="$(client)" component="dialogSNAP_-_Binning"
+                         id="_1qXd" raise="false"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSNAP_-_Binning.buttonOK"
+                        event="MOUSE_MPRC" id="_1qXe" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1qXi" maxerror="0"/>
+      </TryStep>
       <TryStep id="_1pOQ">
         <ComponentWaiter client="$(client)"
                          component="dialogBinning2.buttonOK" errorlevel="0"
-                         id="_1pOO" raise="false"/>
+                         id="_1pOO" raise="false" timeout="100"/>
         <MouseEventStep clicks="1" client="$(client)"
                         component="dialogBinning2.buttonOK" event="MOUSE_MPRC"
                         id="_1pix" modifiers="16"/>

@@ -358,13 +358,10 @@
                          procedure="test_sequence.preparation_geo_lat_long"/>
         </TestStep>
         <TestStep id="_1pjc" name="processing_netCDF4_beam">
-          <TryStep id="_1pjd" name="click_OK_in_dialog_SNAP_SNAP_Error">
-            <ProcedureCall id="_1pje"
-                           procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
-            <ProcedureCall id="_1pjf"
-                           procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
-            <CatchSequence exception="TestException" id="_1pjg" maxerror="0"/>
-          </TryStep>
+          <ProcedureCall id="_1qTv"
+                         procedure="error_handling.if_error_shoot_message">
+            <variable name="screenshot">run_reprojection_netcdf4_error</variable>
+          </ProcedureCall>
           <ProcedureCall id="_1pjk" procedure="run_reprojection"/>
         </TestStep>
         <TestStep id="_1pjT" name="check_target_product">
@@ -396,13 +393,10 @@
                          procedure="select.reprojection.open_in_snap"/>
         </TestStep>
         <TestStep id="_1pjb" name="processing_beam_dimap">
-          <TryStep id="_1pjL" name="click_OK_in_dialog_SNAP_SNAP_Error">
-            <ProcedureCall id="_1pjM"
-                           procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
-            <ProcedureCall id="_1pjN"
-                           procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
-            <CatchSequence exception="TestException" id="_1pjO" maxerror="0"/>
-          </TryStep>
+          <ProcedureCall id="_1qTw"
+                         procedure="error_handling.if_error_shoot_message">
+            <variable name="screenshot">run_reprojection_dim_error</variable>
+          </ProcedureCall>
           <ProcedureCall id="_1pjP" procedure="select_io_tab"/>
           <ProcedureCall id="_1pjS" procedure="run_reprojection"/>
         </TestStep>
@@ -413,7 +407,7 @@
         <ProcedureCall id="_1pjW"
                        procedure="close_processing_tool.geometric_operations.reprojection"/>
       </TestCase>
-      <TestCase id="_1pZO" name="cancel_processing">
+      <TestCase disabled="true" id="_1pZO" name="cancel_processing">
         <variable name="output_file">test_12_cancel.dim</variable>
         <variable name="source_data">MER_FRS_1PNUPA20090707_090816_000005122080_00308_38438_7356.N1</variable>
         <variable name="source_dir">mer_frs_1p_n1</variable>
@@ -509,14 +503,10 @@
               <code>print "output_file = $(output_file)"</code>
             </ServerScriptStep>
             <TestStep id="_1pUk" name="processing">
-              <TryStep id="_1pir" name="click_OK_in_dialog_SNAP_SNAP_Error">
-                <ProcedureCall id="_1pfu"
-                               procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
-                <ProcedureCall id="_1pis"
-                               procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
-                <CatchSequence exception="TestException" id="_1pfw"
-                               maxerror="0"/>
-              </TryStep>
+              <ProcedureCall id="_1qTx"
+                             procedure="error_handling.if_error_shoot_message">
+                <variable name="screenshot">run_reprojection_error</variable>
+              </ProcedureCall>
               <ProcedureCall id="_1phP" procedure="select_io_tab"/>
               <ProcedureCall id="_1pUl"
                              procedure="set.reprojection.target_product_name">

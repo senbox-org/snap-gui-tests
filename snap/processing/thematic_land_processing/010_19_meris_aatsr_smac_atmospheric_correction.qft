@@ -584,22 +584,10 @@
               <code>print "output_file = $(output_file)"</code>
             </ServerScriptStep>
             <TestStep id="_1qG-" name="processing">
-              <TryStep id="_1qKD" name="click_OK_in_dialog_SNAP_SNAP_Error">
-                <ProcedureCall id="_1qKE"
-                               procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
-                <ProcedureCall id="_1qKF" procedure="run-log.make_screensot">
-                  <variable name="iw_name">run_meris_rad_corr_error</variable>
-                  <variable name="iw_name_example">error_dialog</variable>
-                </ProcedureCall>
-                <ProcedureCall id="_1qKG"
-                               procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
-                <ProcedureCall id="_1qKH" procedure="run-log.logError">
-                  <variable name="message">error dialog appears</variable>
-                  <variable name="withScreenshots">false</variable>
-                </ProcedureCall>
-                <CatchSequence exception="TestException" id="_1qKI"
-                               maxerror="0"/>
-              </TryStep>
+              <ProcedureCall id="_1qcm"
+                             procedure="error_handling.if_error_shoot_message">
+                <variable name="screenshot">smac_error</variable>
+              </ProcedureCall>
               <ProcedureCall id="_1qH2" procedure="select_io_tab"/>
               <ProcedureCall id="_1qTB"
                              procedure="set.smac.target_product_name">
@@ -662,22 +650,10 @@
               <code>print "output_file = $(output_file)"</code>
             </ServerScriptStep>
             <TestStep id="_1qTR" name="processing">
-              <TryStep id="_1qTS" name="click_OK_in_dialog_SNAP_SNAP_Error">
-                <ProcedureCall id="_1qTT"
-                               procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
-                <ProcedureCall id="_1qTU" procedure="run-log.make_screensot">
-                  <variable name="iw_name">run_meris_rad_corr_error</variable>
-                  <variable name="iw_name_example">error_dialog</variable>
-                </ProcedureCall>
-                <ProcedureCall id="_1qTV"
-                               procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
-                <ProcedureCall id="_1qTW" procedure="run-log.logError">
-                  <variable name="message">error dialog appears</variable>
-                  <variable name="withScreenshots">false</variable>
-                </ProcedureCall>
-                <CatchSequence exception="TestException" id="_1qTX"
-                               maxerror="0"/>
-              </TryStep>
+              <ProcedureCall id="_1qcn"
+                             procedure="error_handling.if_error_shoot_message">
+                <variable name="screenshot">smac_error</variable>
+              </ProcedureCall>
               <ProcedureCall id="_1qTY" procedure="select_io_tab"/>
               <ProcedureCall id="_1qTZ"
                              procedure="set.smac.target_product_name">
@@ -987,21 +963,10 @@
       <ProcedureCall id="_1qJi" procedure="do_click.smac.button_apply"/>
       <ProcedureCall id="_1pUo"
                      procedure="wait.disappear.writing_target_product"/>
-      <TryStep id="_1qJl" name="click_OK_in_dialog_SNAP_SNAP_Error">
-        <ProcedureCall id="_1qJm"
-                       procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
-        <ProcedureCall id="_1qJq" procedure="run-log.make_screensot">
-          <variable name="iw_name">run_meris_rad_corr_error</variable>
-          <variable name="iw_name_example">error_dialog</variable>
-        </ProcedureCall>
-        <ProcedureCall id="_1qJn"
-                       procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
-        <ProcedureCall id="_1qJr" procedure="run-log.logError">
-          <variable name="message">error dialog appears</variable>
-          <variable name="withScreenshots">false</variable>
-        </ProcedureCall>
-        <CatchSequence exception="TestException" id="_1qJo" maxerror="0"/>
-      </TryStep>
+      <ProcedureCall id="_1qTv"
+                     procedure="error_handling.if_error_shoot_message">
+        <variable name="screenshot">run_meris_rad_corr_error</variable>
+      </ProcedureCall>
       <ProcedureCall id="_1qJj"
                      procedure="click_ok_in_product_created_dialog"/>
     </Procedure>

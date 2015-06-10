@@ -18,30 +18,6 @@
         <SetGlobalStep id="_1ph7" varname="output_file">
           <default>reproj_test</default>
         </SetGlobalStep>
-        <BasicSequence disabled="true" id="_1ph4" name="tmp">
-          <comment>
-</comment>
-          <SetGlobalStep id="_1ph5" varname="dataInDir">
-            <default>mer_rr__1p_n1</default>
-          </SetGlobalStep>
-          <SetGlobalStep id="_1ph6" varname="fileName">
-            <default>MER_RR__1_test.N1</default>
-          </SetGlobalStep>
-          <SetGlobalStep id="_1ph8" varname="group_id1"/>
-          <SetGlobalStep id="_1ph9" varname="view_Id1">
-            <default>2</default>
-          </SetGlobalStep>
-          <SetGlobalStep disabled="true" id="_1phB" varname="group_id2"/>
-          <SetGlobalStep disabled="true" id="_1phC" varname="view_Id2">
-            <default>12</default>
-          </SetGlobalStep>
-          <SetGlobalStep id="_1phD" varname="bandName">
-            <default>radiance_3</default>
-          </SetGlobalStep>
-          <SetGlobalStep disabled="true" id="_1phA" varname="bandName2">
-            <default>radiance_13</default>
-          </SetGlobalStep>
-        </BasicSequence>
         <ProcedureCall id="_1pi6"
                        procedure="qfs.swing.cleanup.closeAllModalDialogs">
           <variable name="maxDialogs">5</variable>
@@ -210,7 +186,7 @@
     <Procedure id="_1pON" name="click_ok_in_product_created_dialog">
       <TryStep id="_1pOQ">
         <ComponentWaiter client="$(client)" component="dialogReprojection2"
-                         id="_1pdG" timeout="1500"/>
+                         id="_1pdG" timeout="10"/>
         <MouseEventStep clicks="1" client="$(client)"
                         component="dialogReprojection2.buttonOK"
                         event="MOUSE_MPRC" id="_1pdH" modifiers="16"/>
@@ -220,7 +196,9 @@
     <Procedure id="_1phE" name="run_reprojection">
       <ProcedureCall id="_1pgi"
                      procedure="do_click.reprojection.button_apply"/>
-      <ProcedureCall id="_1piR"
+      <ProcedureCall id="_1pkB"
+                     procedure="click_ok_in_product_created_dialog"/>
+      <ProcedureCall id="_1pkC"
                      procedure="wait.disappear.writing_target_product"/>
       <TestStep id="_1piQ" name="handle_errors">
         <TryStep id="_1pgj">

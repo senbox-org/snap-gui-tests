@@ -109,38 +109,16 @@
                            procedure="preparation_processing_tab_for_test"/>
           </TestStep>
           <TestStep id="_1qb5" name="processing">
-            <TryStep id="_1qb6" name="click_OK_in_dialog_SNAP_SNAP_Error">
-              <ProcedureCall id="_1qb7"
-                             procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
-              <ProcedureCall id="_1qbm" procedure="run-log.make_screensot">
-                <variable name="iw_name">principal_component_analysis_error_1</variable>
-              </ProcedureCall>
-              <ProcedureCall id="_1qb8"
-                             procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
-              <ProcedureCall id="_1qbn" procedure="run-log.logError">
-                <variable name="message">error dialog appears</variable>
-                <variable name="withScreenshots">false</variable>
-              </ProcedureCall>
-              <CatchSequence exception="TestException" id="_1qb9"
-                             maxerror="0"/>
-            </TryStep>
+            <ProcedureCall id="_1qTw"
+                           procedure="error_handling.if_error_shoot_message">
+              <variable name="screenshot">principal_component_analysis_error_1</variable>
+            </ProcedureCall>
             <ProcedureCall id="_1qbi"
                            procedure="do_click.principal_component_analysis.button_apply"/>
-            <TryStep id="_1qbE" name="click_OK_in_dialog_SNAP_SNAP_Error">
-              <ProcedureCall id="_1qbF"
-                             procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
-              <ProcedureCall id="_1qbG" procedure="run-log.make_screensot">
-                <variable name="iw_name">principal_component_analysis_error_2</variable>
-              </ProcedureCall>
-              <ProcedureCall id="_1qbH"
-                             procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
-              <ProcedureCall id="_1qbI" procedure="run-log.logError">
-                <variable name="message">error dialog appears</variable>
-                <variable name="withScreenshots">false</variable>
-              </ProcedureCall>
-              <CatchSequence exception="TestException" id="_1qbJ"
-                             maxerror="0"/>
-            </TryStep>
+            <ProcedureCall id="_1qcl"
+                           procedure="error_handling.if_error_shoot_message">
+              <variable name="screenshot">principal_component_analysis_error_2</variable>
+            </ProcedureCall>
             <ProcedureCall id="_1qbK"
                            procedure="wait.disappear.writing_target_product"/>
             <ProcedureCall id="_1qbL"
@@ -313,14 +291,10 @@
             <code>print "output_file = $(output_file)"</code>
           </ServerScriptStep>
           <TestStep id="_1qG-" name="processing">
-            <TryStep id="_1pft" name="click_OK_in_dialog_SNAP_SNAP_Error">
-              <ProcedureCall id="_1pfu"
-                             procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
-              <ProcedureCall id="_1pfv"
-                             procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
-              <CatchSequence exception="TestException" id="_1pfw"
-                             maxerror="0"/>
-            </TryStep>
+            <ProcedureCall id="_1qcm"
+                           procedure="error_handling.if_error_shoot_message">
+              <variable name="screenshot">principal_component_error</variable>
+            </ProcedureCall>
             <ProcedureCall id="_1qH2" procedure="select_io_tab"/>
             <ProcedureCall id="_1qcc"
                            procedure="set.principle_component_analysis.target_product_name">
@@ -332,22 +306,10 @@
             </ProcedureCall>
             <ProcedureCall id="_1qH0"
                            procedure="do_click.principal_component_analysis.button_apply"/>
-            <TryStep id="_1pQT" name="click_OK_in_dialog_SNAP_SNAP_Error">
-              <ProcedureCall id="_1qJm"
-                             procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
-              <ProcedureCall id="_1qJq" procedure="run-log.make_screensot">
-                <variable name="iw_name">run_flh_mci_error</variable>
-                <variable name="iw_name_example">error_dialog</variable>
-              </ProcedureCall>
-              <ProcedureCall id="_1qJn"
-                             procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
-              <ProcedureCall id="_1qJr" procedure="run-log.logError">
-                <variable name="message">error dialog appears</variable>
-                <variable name="withScreenshots">false</variable>
-              </ProcedureCall>
-              <CatchSequence exception="TestException" id="_1pU+"
-                             maxerror="0"/>
-            </TryStep>
+            <ProcedureCall id="_1qcn"
+                           procedure="error_handling.if_error_shoot_message">
+              <variable name="screenshot">run_principal_component_error</variable>
+            </ProcedureCall>
             <ProcedureCall id="_1pUo"
                            procedure="wait.disappear.writing_target_product"/>
             <ProcedureCall id="_1qH1"
@@ -439,10 +401,20 @@
                        procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
         <CatchSequence exception="TestException" id="_1qaA" maxerror="0"/>
       </TryStep>
+      <TryStep id="_1qch">
+        <ComponentWaiter client="$(client)"
+                         component="dialogSNAP_-_Principal_Component_Analysis"
+                         errorlevel="0" id="_1qci" raise="false"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSNAP_-_Principal_Component_Analysis.buttonOK"
+                        event="MOUSE_MPRC" id="_1qcj" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1qck" maxerror="0"/>
+      </TryStep>
       <TryStep id="_1pOQ">
         <ComponentWaiter client="$(client)"
                          component="dialogPrincipal_Component_Analysis3"
-                         id="_1prZ"/>
+                         errorlevel="0" id="_1prZ" raise="false"
+                         timeout="100"/>
         <MouseEventStep clicks="1" client="$(client)"
                         component="dialogPrincipal_Component_Analysis3.buttonOK"
                         event="MOUSE_MPRC" id="_1pbh" modifiers="16"/>

@@ -730,14 +730,10 @@
               <code>print "output_file = $(output_file)"</code>
             </ServerScriptStep>
             <TestStep id="_1pUk" name="processing">
-              <TryStep id="_1pft" name="click_OK_in_dialog_SNAP_SNAP_Error">
-                <ProcedureCall id="_1pfu"
-                               procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
-                <ProcedureCall id="_1pfv"
-                               procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
-                <CatchSequence exception="TestException" id="_1pfw"
-                               maxerror="0"/>
-              </TryStep>
+              <ProcedureCall id="_1qcm"
+                             procedure="error_handling.if_error_shoot_message">
+                <variable name="screenshot">ndvi_error</variable>
+              </ProcedureCall>
               <ProcedureCall id="_1pUl"
                              procedure="set.ndvi_processor.target_product_name">
                 <variable name="target_product_name">$(output_file)</variable>
@@ -750,14 +746,10 @@
                              procedure="do_click.ndvi_processor.button_apply"/>
               <ProcedureCall id="_1pUo"
                              procedure="wait.disappear.writing_target_product"/>
-              <TryStep id="_1pQT" name="click_OK_in_dialog_SNAP_SNAP_Error">
-                <ProcedureCall id="_1pQQ"
-                               procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
-                <ProcedureCall id="_1pQP"
-                               procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
-                <CatchSequence exception="TestException" id="_1pU+"
-                               maxerror="0"/>
-              </TryStep>
+              <ProcedureCall id="_1qcn"
+                             procedure="error_handling.if_error_shoot_message">
+                <variable name="screenshot">run_ndvi_error</variable>
+              </ProcedureCall>
               <ProcedureCall id="_1pax"
                              procedure="click_ok_in_product_created_dialog"/>
             </TestStep>
@@ -845,9 +837,18 @@
       </TryStep>
     </Procedure>
     <Procedure id="_1pON" name="click_ok_in_product_created_dialog">
+      <TryStep id="_1qXr">
+        <ComponentWaiter client="$(client)" component="dialogSNAP_-_NDVI"
+                         errorlevel="0" id="_1qXs" raise="false"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSNAP_-_NDVI.buttonOK"
+                        event="MOUSE_MPRC" id="_1qXt" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1qXu" maxerror="0"/>
+      </TryStep>
       <TryStep id="_1pOQ">
         <ComponentWaiter client="$(client)" component="dialogNDVI2.buttonOK"
-                         errorlevel="0" id="_1pOO" raise="false"/>
+                         errorlevel="0" id="_1pOO" raise="false"
+                         timeout="100"/>
         <MouseEventStep clicks="1" client="$(client)"
                         component="dialogNDVI2.buttonOK" event="MOUSE_MPRC"
                         id="_1pbh" modifiers="16"/>

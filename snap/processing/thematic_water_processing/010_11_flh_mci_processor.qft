@@ -744,14 +744,10 @@
               <code>print "output_file = $(output_file)"</code>
             </ServerScriptStep>
             <TestStep id="_1qG-" name="processing">
-              <TryStep id="_1pft" name="click_OK_in_dialog_SNAP_SNAP_Error">
-                <ProcedureCall id="_1pfu"
-                               procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
-                <ProcedureCall id="_1pfv"
-                               procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
-                <CatchSequence exception="TestException" id="_1pfw"
-                               maxerror="0"/>
-              </TryStep>
+              <ProcedureCall id="_1qcm"
+                             procedure="error_handling.if_error_shoot_message">
+                <variable name="screenshot">flh_mci_error</variable>
+              </ProcedureCall>
               <ProcedureCall id="_1qH2" procedure="select_io_tab"/>
               <ProcedureCall id="_1qH3"
                              procedure="set.flh_mci_processor.target_product_name">
@@ -763,22 +759,10 @@
               </ProcedureCall>
               <ProcedureCall id="_1qH0"
                              procedure="do_click.flh_mci_processor.button_apply"/>
-              <TryStep id="_1pQT" name="click_OK_in_dialog_SNAP_SNAP_Error">
-                <ProcedureCall id="_1qJm"
-                               procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
-                <ProcedureCall id="_1qJq" procedure="run-log.make_screensot">
-                  <variable name="iw_name">run_flh_mci_error</variable>
-                  <variable name="iw_name_example">error_dialog</variable>
-                </ProcedureCall>
-                <ProcedureCall id="_1qJn"
-                               procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
-                <ProcedureCall id="_1qJr" procedure="run-log.logError">
-                  <variable name="message">error dialog appears</variable>
-                  <variable name="withScreenshots">false</variable>
-                </ProcedureCall>
-                <CatchSequence exception="TestException" id="_1pU+"
-                               maxerror="0"/>
-              </TryStep>
+              <ProcedureCall id="_1qcn"
+                             procedure="error_handling.if_error_shoot_message">
+                <variable name="screenshot">run_flh_mci_error</variable>
+              </ProcedureCall>
               <ProcedureCall id="_1pUo"
                              procedure="wait.disappear.writing_target_product"/>
               <ProcedureCall id="_1qH1"
@@ -906,9 +890,19 @@
       </TryStep>
     </Procedure>
     <Procedure id="_1pON" name="click_ok_in_product_created_dialog">
+      <TryStep id="_1qXT">
+        <ComponentWaiter client="$(client)"
+                         component="dialogSNAP_-_FLH/MCI_Processor" id="_1qXS"
+                         raise="false"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSNAP_-_FLH/MCI_Processor.buttonOK"
+                        event="MOUSE_MPRC" id="_1qXR" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1qXW" maxerror="0"/>
+      </TryStep>
       <TryStep id="_1pOQ">
         <ComponentWaiter client="$(client)"
-                         component="dialogFLH/MCI_Processor2" id="_1prZ"/>
+                         component="dialogFLH/MCI_Processor2" id="_1prZ"
+                         timeout="100"/>
         <MouseEventStep clicks="1" client="$(client)"
                         component="dialogFLH/MCI_Processor2.buttonOK"
                         event="MOUSE_MPRC" id="_1pbh" modifiers="16"/>

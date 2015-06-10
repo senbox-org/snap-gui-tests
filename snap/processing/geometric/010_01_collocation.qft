@@ -248,14 +248,10 @@
                              procedure="do_click.collocation.button_apply"/>
               <ProcedureCall id="_1pUo"
                              procedure="wait.disappear.writing_target_product"/>
-              <TryStep id="_1pQT" name="click_OK_in_dialog_SNAP_SNAP_Error">
-                <ProcedureCall id="_1pQQ"
-                               procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
-                <ProcedureCall id="_1pQP"
-                               procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
-                <CatchSequence exception="TestException" id="_1pU+"
-                               maxerror="0"/>
-              </TryStep>
+              <ProcedureCall id="_1qTv"
+                             procedure="error_handling.if_error_shoot_message">
+                <variable name="screenshot">run_collocation_error</variable>
+              </ProcedureCall>
               <ProcedureCall id="_1pUp"
                              procedure="click_ok_in_product_created_dialog"/>
             </TestStep>
@@ -500,10 +496,19 @@
       </ProcedureCall>
     </Procedure>
     <Procedure id="_1pON" name="click_ok_in_product_created_dialog">
+      <TryStep id="_1qXZ">
+        <ComponentWaiter client="$(client)"
+                         component="dialogSNAP_-_Collocation" id="_1qXY"
+                         raise="false"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSNAP_-_Collocation.buttonOK"
+                        event="MOUSE_MPRC" id="_1qXX" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1qXc" maxerror="0"/>
+      </TryStep>
       <TryStep id="_1pOQ">
         <ComponentWaiter client="$(client)"
                          component="dialogCollocation.buttonOK" errorlevel="0"
-                         id="_1pOO" raise="false"/>
+                         id="_1pOO" raise="false" timeout="100"/>
         <MouseEventStep clicks="1" client="$(client)"
                         component="dialogCollocation.buttonOK"
                         event="MOUSE_MPRC" id="_1pOP" modifiers="16"/>

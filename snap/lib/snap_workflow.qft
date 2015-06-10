@@ -787,10 +787,14 @@
                 <SetGlobalStep id="_1ppZ" varname="table">
                   <default>NbMainWindow.maskTable</default>
                 </SetGlobalStep>
-                <ProcedureCall id="_1lX-" procedure="get.tree.rowCount">
-                  <variable name="id">$(table)</variable>
-                  <comment>@teststep Get number of masks.</comment>
-                </ProcedureCall>
+                <TryStep id="_1qJv">
+                  <ProcedureCall id="_1lX-" procedure="get.tree.rowCount">
+                    <variable name="id">$(table)</variable>
+                    <comment>@teststep Get number of masks.</comment>
+                  </ProcedureCall>
+                  <CatchSequence exception="TestException" id="_1qJw"
+                                 maxerror="0"/>
+                </TryStep>
                 <ServerScriptStep disabled="true" id="_1lY2" name="print">
                   <code>print "Masks number = $(rowCount)"  </code>
                 </ServerScriptStep>
@@ -1733,6 +1737,44 @@
         <MouseEventStep clicks="1" client="$(client)"
                         component="dialogNew_Vector_Data_Container.MyModalDialog.ok"
                         event="MOUSE_MPRC" id="_1ocI" modifiers="16"/>
+      </Procedure>
+    </Package>
+    <Package id="_1pyR" name="error_handling">
+      <Procedure id="_1pyV" name="if_error_shoot_message">
+        <variable name="screenshot"/>
+        <TryStep id="_1qJl" name="click_OK_in_dialog_SNAP_SNAP_Error">
+          <ProcedureCall id="_1qJm"
+                         procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
+          <ProcedureCall id="_1qJq" procedure="run-log.make_screensot">
+            <variable name="iw_name">$(screenshot)</variable>
+            <variable name="iw_name_example">error_dialog</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qJn"
+                         procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
+          <ProcedureCall id="_1qJr" procedure="run-log.logError">
+            <variable name="message">error dialog appears</variable>
+            <variable name="withScreenshots">false</variable>
+          </ProcedureCall>
+          <CatchSequence exception="TestException" id="_1qJo" maxerror="0"/>
+        </TryStep>
+        <ProcedureCall id="_1qJs"
+                       procedure="error_handling.cancel_dialogException"/>
+      </Procedure>
+      <Procedure id="_1pv5" name="cancel_dialogException">
+        <TryStep id="_1pyT">
+          <ComponentWaiter client="$(client)" component="dialogException"
+                           errorlevel="0" id="_1pv6" raise="false"
+                           timeout="10"/>
+          <FetchTextStep client="$(client)" component="dialogException.editor"
+                         id="_1pvC" local="true" varname="exception_text"/>
+          <ProcedureCall id="_1pyS"
+                         procedure="do_click.error_dialog.button_cancel_dialogException"/>
+          <ProcedureCall id="_1qJu" procedure="run-log.logError">
+            <variable name="message">$(exception_text)</variable>
+            <variable name="withScreenshots">false</variable>
+          </ProcedureCall>
+          <CatchSequence exception="TestException" id="_1pyU" maxerror="0"/>
+        </TryStep>
       </Procedure>
     </Package>
   </PackageRoot>

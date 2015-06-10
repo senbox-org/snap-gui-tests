@@ -734,14 +734,10 @@
                              procedure="do_click.spectral_unmixing.button_apply"/>
               <ProcedureCall id="_1pUo"
                              procedure="wait.disappear.writing_target_product"/>
-              <TryStep id="_1pQT" name="click_OK_in_dialog_SNAP_SNAP_Error">
-                <ProcedureCall id="_1pQQ"
-                               procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
-                <ProcedureCall id="_1pQP"
-                               procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
-                <CatchSequence exception="TestException" id="_1pU+"
-                               maxerror="0"/>
-              </TryStep>
+              <ProcedureCall id="_1qcm"
+                             procedure="error_handling.if_error_shoot_message">
+                <variable name="screenshot">run_spectral_unmixing_error</variable>
+              </ProcedureCall>
               <ProcedureCall id="_1pax"
                              procedure="click_ok_in_product_created_dialog"/>
             </TestStep>
@@ -851,7 +847,6 @@
                         id="_1pYV"/>
     </Procedure>
     <Procedure id="_1pON" name="click_ok_in_product_created_dialog">
-      <ProcedureCall id="_1qXS" procedure="handle_unmix_error"/>
       <TryStep id="_1pOQ">
         <ComponentWaiter client="$(client)"
                          component="dialogSpectral_Unmixing2.buttonOK"
@@ -861,6 +856,7 @@
                         event="MOUSE_MPRC" id="_1pOP" modifiers="16"/>
         <CatchSequence exception="TestException" id="_1pOR" maxerror="0"/>
       </TryStep>
+      <ProcedureCall id="_1qcn" procedure="handle_unmix_error"/>
     </Procedure>
     <Procedure id="_1pPv" name="display_parameters">
       <TryStep id="_1pPw" name="select_menu_display_parameters">
@@ -1005,7 +1001,8 @@
       <TryStep id="_1qXQ">
         <ComponentWaiter client="$(client)"
                          component="dialogSpectral_Unmixing2.buttonOK"
-                         id="_1qXO" raise="false" timeout="100"/>
+                         errorlevel="0" id="_1qXO" raise="false"
+                         timeout="100"/>
         <ProcedureCall id="_1qXU" procedure="run-log.make_screensot">
           <variable name="iw_name">unmix_error</variable>
           <variable name="iw_name_example">error_dialog</variable>

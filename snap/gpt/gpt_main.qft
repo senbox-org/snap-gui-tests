@@ -90,7 +90,8 @@
           </ElseSequence>
         </IfSequence>
       </TestStep>
-      <ProcedureCall id="_1qNM" procedure="gpt.run_operator_no_output_option">
+      <ProcedureCall id="_1qNM"
+                     procedure="gpt.run_operator_no_output_product">
         <variable name="application">$(app)</variable>
       </ProcedureCall>
       <TestStep id="_1p46" name="check_output">
@@ -218,7 +219,8 @@
           </ElseSequence>
         </IfSequence>
       </TestStep>
-      <ProcedureCall id="_1qOP" procedure="gpt.run_operator_no_output_option">
+      <ProcedureCall id="_1qOP"
+                     procedure="gpt.run_operator_no_output_product">
         <variable name="application">$(app)</variable>
       </ProcedureCall>
       <TestStep id="_1qOQ" name="check_output">
@@ -343,7 +345,7 @@ rc.setGlobal("files_number", len(sp))</code>
       </SetGlobalStep>
       <ProcedureCall id="_1qS5" procedure="close.all_products"/>
       <ProcedureCall id="_1qSr" procedure="daten_format.output_format">
-        <variable name="out_form"></variable>
+        <variable name="out_form"/>
       </ProcedureCall>
       <ProcedureCall id="_1qSD"
                      procedure="gpt.run_operator_check_output_file">
@@ -460,10 +462,16 @@ rc.setGlobal("files_number", len(sp))</code>
         <ElseifSequence id="_1oQP"
                         test="&#34;$(other_formats )&#34;==&#34;N1&#34;">
           <TestStep id="_1oQQ" name="N1">
-            <SetGlobalStep id="_1oQR" varname="f">
+            <ServerScriptStep disabled="true" id="_1qUq" name="print">
+              <code>print "*** N1 = $(sourceOption)-$(dataInDir)-$(fileName)"  </code>
+            </ServerScriptStep>
+            <ServerScriptStep disabled="true" id="_1qV5" name="print">
+              <code>print "*** N1 = $(sourceOption2)-$(dataInDir2)-$(fileName2)"  </code>
+            </ServerScriptStep>
+            <SetGlobalStep id="_1qUr" varname="f">
               <default>N1</default>
             </SetGlobalStep>
-            <ProcedureCall id="_1qL5" procedure="test_sequence_utility"/>
+            <ProcedureCall id="_1qUw" procedure="test_sequence_utility_N1"/>
           </TestStep>
         </ElseifSequence>
         <ElseSequence id="_1oQV">
@@ -561,22 +569,10 @@ rc.setGlobal("files_number", len(sp))</code>
             <ProcedureCall id="_1oap" procedure="check.product.not_opened"/>
             <IfSequence id="_1oaq"
                         test="&#34;$(not_opened)&#34;==&#34;false&#34;">
-              <TryStep id="_1ptb">
-                <ProcedureCall id="_1ptZ"
-                               procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
-                <ProcedureCall id="_1ptf" procedure="run-log.make_screensot">
-                  <variable name="iw_name">error_while_import</variable>
-                  <variable name="iw_name_example">error_dialog</variable>
-                </ProcedureCall>
-                <ProcedureCall id="_1pta"
-                               procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
-                <ProcedureCall id="_1ptd" procedure="run-log.logError">
-                  <variable name="message">Error while import $(dataInDir)/$(fileName)</variable>
-                  <variable name="withScreenshots">false</variable>
-                </ProcedureCall>
-                <CatchSequence exception="TestException" id="_1ptc"
-                               maxerror="0"/>
-              </TryStep>
+              <ProcedureCall id="_1qVC"
+                             procedure="error_handling.if_error_shoot_message">
+                <variable name="screenshot">error_while_import</variable>
+              </ProcedureCall>
               <ProcedureCall id="_1lEu"
                              procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
               <ElseSequence id="_1qKs">
@@ -586,6 +582,10 @@ rc.setGlobal("files_number", len(sp))</code>
                 </ProcedureCall>
               </ElseSequence>
             </IfSequence>
+            <ProcedureCall id="_1qVD"
+                           procedure="error_handling.if_error_shoot_message">
+              <variable name="screenshot">error_while_import</variable>
+            </ProcedureCall>
           </ElseSequence>
         </IfSequence>
       </IfSequence>
@@ -646,6 +646,15 @@ rc.setGlobal("files_number", len(sp))</code>
           </ElseSequence>
         </IfSequence>
       </IfSequence>
+    </Procedure>
+    <Procedure id="_1qV7" name="test_sequence_utility_N1">
+      <ProcedureCall id="_1qV8" procedure="daten_format.output_format">
+        <variable name="out_form">$(f)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qVA" procedure="gpt.run_meris_N1_patcher">
+        <variable name="application">$(app)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qVB" procedure="check_target_product_in_SNAP"/>
     </Procedure>
     <Procedure id="_1qKv" name="test_sequence_utility">
       <ProcedureCall id="_1qKw" procedure="daten_format.output_format">

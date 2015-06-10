@@ -893,14 +893,10 @@
                            procedure="do_click.mosaicing.button_apply"/>
             <ProcedureCall id="_1pUo"
                            procedure="wait.disappear.writing_target_product"/>
-            <TryStep id="_1pQT" name="click_OK_in_dialog_SNAP_SNAP_Error">
-              <ProcedureCall id="_1pQQ"
-                             procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
-              <ProcedureCall id="_1pQP"
-                             procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
-              <CatchSequence exception="TestException" id="_1pU+"
-                             maxerror="0"/>
-            </TryStep>
+            <ProcedureCall id="_1qTw"
+                           procedure="error_handling.if_error_shoot_message">
+              <variable name="screenshot">run_mosaic_error</variable>
+            </ProcedureCall>
             <ProcedureCall id="_1pUp"
                            procedure="click_ok_in_product_created_dialog"/>
           </TestStep>
