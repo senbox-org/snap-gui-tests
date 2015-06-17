@@ -536,7 +536,7 @@
         <ProcedureCall id="_1pZN"
                        procedure="close_processing_tool.spectral_tools.spectral_unmixing"/>
       </TestCase>
-      <TestCase id="_1pZO" name="06_cancel_processing">
+      <TestCase disabled="true" id="_1pZO" name="06_cancel_processing">
         <variable name="output_file">test_06_cancel.dim</variable>
         <variable name="source_data">MER_RR__1_test.N1</variable>
         <variable name="source_dir">mer_rr__1p_n1</variable>
@@ -715,10 +715,10 @@
           </DataDriver>
           <TestCase id="_1pUj" name="processing_in_different_formats"
                     reportname="Processing in different formats and check output product">
-            <ServerScriptStep id="_1pV5" name="print">
+            <ServerScriptStep disabled="true" id="_1pV5" name="print">
               <code>print "output_format = $(output_format)"</code>
             </ServerScriptStep>
-            <ServerScriptStep id="_1pV6" name="print">
+            <ServerScriptStep disabled="true" id="_1pV6" name="print">
               <code>print "output_file = $(output_file)"</code>
             </ServerScriptStep>
             <TestStep id="_1pUk" name="processing">
@@ -847,10 +847,20 @@
                         id="_1pYV"/>
     </Procedure>
     <Procedure id="_1pON" name="click_ok_in_product_created_dialog">
+      <TryStep id="_1qco">
+        <ComponentWaiter client="$(client)"
+                         component="dialogSNAP_-_Spectral_Unmixing.buttonOK"
+                         errorlevel="0" id="_1qcp" raise="false"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSNAP_-_Spectral_Unmixing.buttonOK"
+                        event="MOUSE_MPRC" id="_1qcq" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1qcr" maxerror="0"/>
+      </TryStep>
       <TryStep id="_1pOQ">
         <ComponentWaiter client="$(client)"
                          component="dialogSpectral_Unmixing2.buttonOK"
-                         errorlevel="0" id="_1pOO" raise="false"/>
+                         errorlevel="0" id="_1pOO" raise="false"
+                         timeout="10"/>
         <MouseEventStep clicks="1" client="$(client)"
                         component="dialogSpectral_Unmixing2.buttonOK"
                         event="MOUSE_MPRC" id="_1pOP" modifiers="16"/>

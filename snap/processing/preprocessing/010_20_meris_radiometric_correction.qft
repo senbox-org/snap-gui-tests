@@ -287,6 +287,9 @@
         <variable name="source_data">MER_RR__1_test.N1</variable>
         <variable name="source_dir">mer_rr__1p_n1</variable>
         <SetupSequence id="_1pUV" name="prepare_for_the_testing">
+          <ProcedureCall id="_1qd4" procedure="cleanup.output_data_folder">
+            <variable name="directory">$(output_folder)</variable>
+          </ProcedureCall>
           <ProcedureCall id="_1qBn"
                          procedure="open.processing.preprocessing.meris_radiometric_correction_processor"/>
           <ProcedureCall id="_1qG+"
@@ -464,14 +467,55 @@
       </TryStep>
     </Procedure>
     <Procedure id="_1pON" name="click_ok_in_product_created_dialog">
+      <TryStep id="_1qcp">
+        <ComponentWaiter client="$(client)"
+                         component="dialogMERIS_L1b_Radiometric_Correction3.buttonYes"
+                         errorlevel="0" id="_1qcq" raise="false"
+                         timeout="100"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogMERIS_L1b_Radiometric_Correction3.buttonYes"
+                        event="MOUSE_MPRC" id="_1qcr" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1qcs" maxerror="0"/>
+      </TryStep>
       <TryStep id="_1pOQ">
         <ComponentWaiter client="$(client)"
                          component="dialogMERIS_L1b_Radiometric_Correction3"
-                         id="_1prZ"/>
+                         errorlevel="0" id="_1prZ" raise="false"
+                         timeout="100"/>
         <MouseEventStep clicks="1" client="$(client)"
                         component="dialogMERIS_L1b_Radiometric_Correction3.buttonOK"
                         event="MOUSE_MPRC" id="_1pbh" modifiers="16"/>
         <CatchSequence exception="TestException" id="_1pOR" maxerror="0"/>
+      </TryStep>
+      <TryStep id="_1qct">
+        <ComponentWaiter client="$(client)"
+                         component="dialogMERIS_L1b_Radiometric_Correction3.buttonYes"
+                         errorlevel="0" id="_1qcu" raise="false"
+                         timeout="100"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogMERIS_L1b_Radiometric_Correction3.buttonYes"
+                        event="MOUSE_MPRC" id="_1qcv" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1qcw" maxerror="0"/>
+      </TryStep>
+      <TryStep id="_1qcx">
+        <ComponentWaiter client="$(client)"
+                         component="dialogMERIS_L1b_Radiometric_Correction3"
+                         errorlevel="0" id="_1qcy" raise="false"
+                         timeout="100"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogMERIS_L1b_Radiometric_Correction3.buttonOK"
+                        event="MOUSE_MPRC" id="_1qcz" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1qc+" maxerror="0"/>
+      </TryStep>
+      <TryStep id="_1qd0">
+        <ComponentWaiter client="$(client)"
+                         component="dialogSNAP_-_MERIS_L1b_Radiometric_Correction.buttonOK"
+                         errorlevel="0" id="_1qd1" raise="false"
+                         timeout="100"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSNAP_-_MERIS_L1b_Radiometric_Correction.buttonOK"
+                        event="MOUSE_MPRC" id="_1qd2" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1qd3" maxerror="0"/>
       </TryStep>
     </Procedure>
     <Procedure id="_1qCR" name="preparation_for_test_without_save">
@@ -499,12 +543,12 @@
                      procedure="do_click.meris_radiometric_correction.button_apply"/>
       <ProcedureCall id="_1pUo"
                      procedure="wait.disappear.writing_target_product"/>
-      <ProcedureCall id="_1qcn"
+      <ProcedureCall id="_1qc-"
+                     procedure="click_ok_in_product_created_dialog"/>
+      <ProcedureCall id="_1qco"
                      procedure="error_handling.if_error_shoot_message">
         <variable name="screenshot">run_meris_rad_corr_error</variable>
       </ProcedureCall>
-      <ProcedureCall id="_1qJj"
-                     procedure="click_ok_in_product_created_dialog"/>
       <ProcedureCall id="_1qLQ"
                      procedure="error_handling.cancel_dialogException"/>
     </Procedure>

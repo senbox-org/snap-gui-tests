@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.5">
+<RootStep id="_0" name="root" version="4.0.4">
   <include>qfs.qft</include>
   <include>snap_main.qft</include>
   <include>snap_components.qft</include>
@@ -216,6 +216,93 @@
         </Procedure>
       </Package>
       <Package id="_1pZX" name="opened">
+        <Package id="_1pxT" name="export">
+          <Procedure id="_1qae" name="export_colour_legend_image_dialog">
+            <TryStep id="_1qag">
+              <ComponentWaiter client="$(client)"
+                               component="dialogSNAP_-_export_Colour_Legend_Image"
+                               id="_1qah" timeout="10"/>
+              <SetGlobalStep id="_1qai"
+                             varname="export_colour_legend_appears">
+                <default>true</default>
+              </SetGlobalStep>
+              <CatchSequence exception="TestException" id="_1qaj"
+                             maxerror="0">
+                <SetGlobalStep id="_1qak"
+                               varname="export_colour_legend_appears">
+                  <default>false</default>
+                </SetGlobalStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
+          <Procedure id="_1pxU" name="export_colour_palette_dialog">
+            <TryStep id="_1qaa">
+              <ComponentWaiter client="$(client)"
+                               component="dialogExport_Colour_Palette"
+                               id="_1qYz" timeout="100"/>
+              <SetGlobalStep id="_1qac"
+                             varname="export_colour_palette_appears">
+                <default>true</default>
+              </SetGlobalStep>
+              <CatchSequence exception="TestException" id="_1qab"
+                             maxerror="0">
+                <SetGlobalStep id="_1qad"
+                               varname="export_colour_palette_appears">
+                  <default>false</default>
+                </SetGlobalStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
+          <Procedure id="_1qal" name="export_geocoding_envi_dialog">
+            <TryStep id="_1qam">
+              <ComponentWaiter client="$(client)"
+                               component="dialogExport_ENVI_Ground_Control_Points"
+                               id="_1qcH" timeout="100"/>
+              <SetGlobalStep id="_1qao"
+                             varname="export_geocoding_envi_appears">
+                <default>true</default>
+              </SetGlobalStep>
+              <CatchSequence exception="TestException" id="_1qap"
+                             maxerror="0">
+                <SetGlobalStep id="_1qaq"
+                               varname="export_geocoding_envi_appears">
+                  <default>false</default>
+                </SetGlobalStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
+          <Procedure id="_1qbD" name="view_as_image">
+            <comment>@teststep Do click Menu Item 'View as Image'.</comment>
+          </Procedure>
+          <Procedure id="_1qc1" name="view_as_google_earth_KMZ">
+            <comment>@teststep Do click Menu Item 'View as Google Earth KMZ'.</comment>
+          </Procedure>
+          <Procedure id="_1qcD" name="transect_pixels">
+            <comment>@teststep Do click Menu Item 'Transect Pixels'.</comment>
+          </Procedure>
+          <Procedure id="_1qcP" name="mask_pixels">
+            <comment>@teststep Do click Menu Item 'Mask Pixels'.</comment>
+          </Procedure>
+          <Procedure id="_1qcb" name="geometry_as_shape_file">
+            <comment>@teststep Do click Menu Item 'Geometry as Shape file'.</comment>
+            <TryStep id="_1qco">
+              <ComponentWaiter client="$(client)"
+                               component="dialogSNAP_-_Export_Geometry_as_ESRI_Shapefile"
+                               id="_1qcn" timeout="100"/>
+              <SetGlobalStep id="_1qcq"
+                             varname="export_geometry_as_shape_appears">
+                <default>true</default>
+              </SetGlobalStep>
+              <CatchSequence exception="TestException" id="_1qcr"
+                             maxerror="0">
+                <SetGlobalStep id="_1qcs"
+                               varname="export_geometry_as_shape_appears">
+                  <default>false</default>
+                </SetGlobalStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
+        </Package>
         <Procedure id="_1mmx" name="band_maths_expression_editor">
           <ComponentWaiter client="$(client)"
                            component="dialogBand_Maths_Expression_Editor"
@@ -2007,6 +2094,10 @@
             </ServerScriptStep>
           </CatchSequence>
         </TryStep>
+        <ProcedureCall id="_1px7"
+                       procedure="error_handling.if_error_shoot_message">
+          <variable name="screenshot">Help error</variable>
+        </ProcedureCall>
       </Procedure>
     </Package>
   </PackageRoot>

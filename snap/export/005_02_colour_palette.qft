@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.4">
+  <include>qfs.qft</include>
+  <include>../lib/snap_export.qft</include>
+  <TestSet id="_1" name="005_02_colour_palette_as_file"
+           reportname="005-02 Export colour palette as file">
+    <DependencyReference id="_1lWz"
+                         reference="dependencies.start_application"/>
+    <TestCase id="_79G" name="export_colour_palette_s3a_data">
+      <ProcedureCall id="_1oXQ" procedure="open.product_in_snap">
+        <variable name="prod_dir">sentinel3_S3A_OL_1_EFR_20130621T100921</variable>
+        <variable name="in_out">in</variable>
+        <variable name="prod">xfdumanifest.xml</variable>
+        <variable name="product_type"/>
+      </ProcedureCall>
+      <TestStep id="_1qcc" name="set_image_variables">
+        <SetGlobalStep id="_1qcd" varname="group_id1"/>
+        <SetGlobalStep id="_1qce" varname="view_Id1">
+          <default>0</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1qcf" varname="bandName">
+          <default>Oa01_radiance</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1qbJ" varname="exp_file">
+          <default>colour_palette_s3a.csv</default>
+        </SetGlobalStep>
+      </TestStep>
+      <ProcedureCall id="_1qd8" procedure="test_sequence"/>
+    </TestCase>
+    <TestCase id="_1p0F" name="export_colour_palette_meris_data">
+      <ProcedureCall id="_1p0G" procedure="open.product_in_snap">
+        <variable name="prod_dir">mer_rr__1p_n1</variable>
+        <variable name="in_out">in</variable>
+        <variable name="prod">MER_RR__1_test.N1</variable>
+        <variable name="product_type"/>
+      </ProcedureCall>
+      <TestStep id="_1qcg" name="set_image_variables">
+        <SetGlobalStep id="_1qch" varname="group_id1"/>
+        <SetGlobalStep id="_1qci" varname="view_Id1">
+          <default>0</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1qcj" varname="bandName">
+          <default>Oa01_radiance</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1qdA" varname="exp_file">
+          <default>colour_palette_meris.csv</default>
+        </SetGlobalStep>
+      </TestStep>
+      <ProcedureCall id="_1qd9" procedure="test_sequence"/>
+    </TestCase>
+  </TestSet>
+  <PackageRoot id="_3">
+    <Procedure id="_1qck" name="test_sequence">
+      <ProcedureCall id="_1qcl" procedure="check.product.not_opened"/>
+      <IfSequence id="_1qcm" test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+        <TestStep id="_1qcn" name="open_image_view">
+          <ProcedureCall id="_1qco"
+                         procedure="utility.open_image_view_check_it"/>
+        </TestStep>
+        <TestStep id="_1qcp" name="open_export_colour_palette_dialog">
+          <TryStep id="_1qcq">
+            <ProcedureCall id="_1qcr"
+                           procedure="open.export.colour_palette_dialog"/>
+            <ProcedureCall id="_1qcs"
+                           procedure="check.opened.export.export_colour_palette_dialog"/>
+            <CatchSequence exception="TestException" id="_1qct" maxerror="0">
+              <ProcedureCall id="_1qcu"
+                             procedure="open.views.colour_manipulation"/>
+              <ProcedureCall id="_1qcv" procedure="run-log.logError">
+                <variable name="message">menu_item export Colour Pallette as File is disabled</variable>
+                <variable name="withScreenshots">false</variable>
+              </ProcedureCall>
+              <TryStep id="_1qcw">
+                <ProcedureCall id="_1qdB"
+                               procedure="open.export.colour_palette_dialog"/>
+                <ProcedureCall id="_1qdC"
+                               procedure="check.opened.export.export_colour_palette_dialog"/>
+                <CatchSequence exception="TestException" id="_1qcz"
+                               maxerror="0">
+                  <ProcedureCall id="_1qc+" procedure="run-log.logError">
+                    <variable name="message">menu_item export Colour Palette as File is disabled</variable>
+                    <variable name="withScreenshots">false</variable>
+                  </ProcedureCall>
+                  <ProcedureCall id="_1qc-"
+                                 procedure="select.product_tree.band">
+                    <variable name="prod_id">0</variable>
+                    <variable name="group_id">$(group_id1)</variable>
+                    <variable name="view_id">$(view_Id1)</variable>
+                    <variable name="band">$(bandName)</variable>
+                  </ProcedureCall>
+                  <TryStep id="_1qd0">
+                    <ProcedureCall id="_1qdD"
+                                   procedure="open.export.colour_palette_dialog"/>
+                    <ProcedureCall id="_1qdE"
+                                   procedure="check.opened.export.export_colour_palette_dialog"/>
+                    <CatchSequence exception="TestException" id="_1qd3"
+                                   maxerror="0">
+                      <ProcedureCall id="_1qd4" procedure="run-log.logError">
+                        <variable name="message">dialog SNAP - export Colour Palette as File does not appear</variable>
+                        <variable name="withScreenshots">false</variable>
+                      </ProcedureCall>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </TestStep>
+      </IfSequence>
+      <IfSequence id="_1qd5"
+                  test="&#34;$(export_colour_palette_appears)&#34;==&#34;true&#34;">
+        <ProcedureCall id="_1qd6"
+                       procedure="export.colour_palette_as_file_and_check">
+          <variable name="file_name">$(exp_file)</variable>
+        </ProcedureCall>
+      </IfSequence>
+      <ProcedureCall id="_1qd7" procedure="close.all_products"/>
+    </Procedure>
+  </PackageRoot>
+  <ExtraSequence id="_4"/>
+  <WindowList id="_5"/>
+</RootStep>

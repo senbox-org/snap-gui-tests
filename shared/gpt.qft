@@ -23,7 +23,7 @@
                 <variable name="output_dir">$(output_folder)</variable>
               </ProcedureCall>
               <IfSequence id="_1p2F"
-                          test="&#34;$(parameters_file)&#34;&lt;&gt;&#34;&#34;">
+                          test="&#34;$(parameters_file)&#34;&lt;&gt;&#34;&#34; and &#34;$(xml_file)&#34;==&#34;&#34;">
                 <ProcedureCall id="_1p2G" procedure="path.param_file_dir"/>
                 <SetGlobalStep id="_1p2H" varname="new_param">
                   <default>$(gpf_op) -p $(param_file_dir)$(parameters_file) $(param)</default>
@@ -40,7 +40,7 @@
                   </ElseSequence>
                 </IfSequence>
                 <ElseifSequence id="_1p2M"
-                                test="&#34;$(xml_file)&#34;&lt;&gt;&#34;&#34;">
+                                test="&#34;$(xml_file)&#34;&lt;&gt;&#34;&#34; and &#34;$(parameters_file)&#34;==&#34;&#34; ">
                   <ProcedureCall id="_1p2N" procedure="path.graph_file_dir">
                     <variable name="xml_dir">$(xml_file_dir)</variable>
                   </ProcedureCall>
@@ -54,6 +54,26 @@
                     </SetGlobalStep>
                     <ElseSequence id="_1p2R">
                       <SetGlobalStep id="_1p2S" varname="outfn">
+                        <default>$(wv)_$(xml_file)</default>
+                      </SetGlobalStep>
+                    </ElseSequence>
+                  </IfSequence>
+                </ElseifSequence>
+                <ElseifSequence id="_1qZI"
+                                test="&#34;$(xml_file)&#34;&lt;&gt;&#34;&#34; and &#34;$(parameters_file)&#34;&lt;&gt;&#34;&#34;">
+                  <ProcedureCall id="_1qZJ" procedure="path.graph_file_dir">
+                    <variable name="xml_dir">$(xml_file_dir)</variable>
+                  </ProcedureCall>
+                  <SetGlobalStep id="_1qZK" varname="new_param">
+                    <default>$(graph_file_dir)$(xml_file).xml  -p $(param_file_dir)$(parameters_file) $(param)</default>
+                  </SetGlobalStep>
+                  <IfSequence id="_1qZL"
+                              test="&#34;$(gpf_op)&#34;==&#34;Binning&#34;">
+                    <SetGlobalStep id="_1qZM" varname="outfn">
+                      <default>$(xml_file)</default>
+                    </SetGlobalStep>
+                    <ElseSequence id="_1qZN">
+                      <SetGlobalStep id="_1qZO" varname="outfn">
                         <default>$(wv)_$(xml_file)</default>
                       </SetGlobalStep>
                     </ElseSequence>
@@ -147,7 +167,7 @@
                 <SetGlobalStep id="_1qYv" varname="gpt_client_name">
                   <default>$(gpt_client_name)_a</default>
                 </SetGlobalStep>
-                <ShellClientStarter client="$(gpt_client_name)"
+                <ShellClientStarter client="$(gpt_client_name)_a"
                                     command="$(pconvert_commando)"
                                     directory="$(folder)" id="_1qYw"
                                     postdelay="20000"/>
@@ -282,6 +302,9 @@
                   </SetGlobalStep>
                 </ElseifSequence>
               </IfSequence>
+              <SetGlobalStep id="_1qZP" varname="outfn">
+                <default>$(xml_file)</default>
+              </SetGlobalStep>
             </TestStep>
             <ServerScriptStep disabled="true" id="_1qWm" name="print">
               <code>print "************ graph or parameters file = $(new_param)*****************"  </code>

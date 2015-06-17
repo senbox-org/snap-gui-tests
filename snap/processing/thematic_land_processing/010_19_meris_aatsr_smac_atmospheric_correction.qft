@@ -84,6 +84,11 @@
                      procedure="close_processing_tool.thematic_land_processing.meris_aatsr_smac_atmospheric_correction"/>
     </TestCase>
     <TestSet id="_1pMP" name="02_processing">
+      <SetupSequence id="_1qc+" name="clean_output_folder">
+        <ProcedureCall id="_1p08" procedure="cleanup.output_data_folder">
+          <variable name="directory">$(output_folder)</variable>
+        </ProcedureCall>
+      </SetupSequence>
       <TestCase id="_1pMR" name="01_meris_rr_l1b_n1">
         <variable name="source_data">MER_RR__1_test.N1</variable>
         <variable name="source_dir">mer_rr__1p_n1</variable>
@@ -549,6 +554,9 @@
         <variable name="source_data">MER_RR__1_test.N1</variable>
         <variable name="source_dir">mer_rr__1p_n1</variable>
         <SetupSequence id="_1pUV" name="prepare_for_the_testing">
+          <ProcedureCall id="_1qd0" procedure="cleanup.output_data_folder">
+            <variable name="directory">$(output_folder)</variable>
+          </ProcedureCall>
           <ProcedureCall id="_1qBn"
                          procedure="open.processing.thematic_land_processing.meris_aatsr_smac_atmospheric_correction_processor"/>
           <ProcedureCall id="_1qT5"
@@ -577,12 +585,6 @@
           </DataDriver>
           <TestCase id="_1pUj" name="processing_in_different_formats"
                     reportname="Processing in different formats and check output product">
-            <ServerScriptStep disabled="true" id="_1pV5" name="print">
-              <code>print "output_format = $(output_format)"</code>
-            </ServerScriptStep>
-            <ServerScriptStep disabled="true" id="_1pV6" name="print">
-              <code>print "output_file = $(output_file)"</code>
-            </ServerScriptStep>
             <TestStep id="_1qG-" name="processing">
               <ProcedureCall id="_1qcm"
                              procedure="error_handling.if_error_shoot_message">
@@ -614,6 +616,9 @@
         <variable name="source_data">ATS_TOA_1_test.gz</variable>
         <variable name="source_dir">aatsr_toa_n1</variable>
         <SetupSequence id="_1qTD" name="prepare_for_the_testing">
+          <ProcedureCall id="_1qd1" procedure="cleanup.output_data_folder">
+            <variable name="directory">$(output_folder)</variable>
+          </ProcedureCall>
           <ProcedureCall id="_1qTE"
                          procedure="open.processing.thematic_land_processing.meris_aatsr_smac_atmospheric_correction_processor"/>
           <ProcedureCall id="_1qTG"
@@ -676,7 +681,7 @@
                          procedure="close_processing_tool.thematic_land_processing.meris_aatsr_smac_atmospheric_correction"/>
         </CleanupSequence>
       </TestSet>
-      <TestCase id="_1pZO" name="14_cancel_processing">
+      <TestCase disabled="true" id="_1pZO" name="14_cancel_processing">
         <variable name="output_file">test_14_cancel.dim</variable>
         <variable name="source_data">ATS_TOA_1_test.gz</variable>
         <variable name="source_dir">aatsr_toa_n1</variable>
@@ -935,14 +940,35 @@
       </TryStep>
     </Procedure>
     <Procedure id="_1pON" name="click_ok_in_product_created_dialog">
+      <TryStep id="_1qco">
+        <ComponentWaiter client="$(client)"
+                         component="dialogSNAP_-_MERIS/(A)ATSR_SMAC_Atmospheric_Correction.buttonOK"
+                         errorlevel="0" id="_1qcp" raise="false"
+                         timeout="600"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSNAP_-_MERIS/(A)ATSR_SMAC_Atmospheric_Correction.buttonOK"
+                        event="MOUSE_MPRC" id="_1qcq" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1qcr" maxerror="0"/>
+      </TryStep>
       <TryStep id="_1pOQ">
         <ComponentWaiter client="$(client)"
                          component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction3"
-                         id="_1prZ"/>
+                         errorlevel="0" id="_1prZ" raise="false"
+                         timeout="10"/>
         <MouseEventStep clicks="1" client="$(client)"
                         component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction3.buttonOK"
                         event="MOUSE_MPRC" id="_1pbh" modifiers="16"/>
         <CatchSequence exception="TestException" id="_1pOR" maxerror="0"/>
+      </TryStep>
+      <TryStep id="_1qcw">
+        <ComponentWaiter client="$(client)"
+                         component="dialogSNAP_-_MERIS/(A)ATSR_SMAC_Atmospheric_Correction.buttonOK"
+                         errorlevel="0" id="_1qcx" raise="false"
+                         timeout="10"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSNAP_-_MERIS/(A)ATSR_SMAC_Atmospheric_Correction.buttonOK"
+                        event="MOUSE_MPRC" id="_1qcy" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1qcz" maxerror="0"/>
       </TryStep>
     </Procedure>
     <Procedure id="_1qCR" name="preparation_io_tab_checkout_save">
@@ -963,12 +989,12 @@
       <ProcedureCall id="_1qJi" procedure="do_click.smac.button_apply"/>
       <ProcedureCall id="_1pUo"
                      procedure="wait.disappear.writing_target_product"/>
+      <ProcedureCall id="_1qJj"
+                     procedure="click_ok_in_product_created_dialog"/>
       <ProcedureCall id="_1qTv"
                      procedure="error_handling.if_error_shoot_message">
         <variable name="screenshot">run_meris_rad_corr_error</variable>
       </ProcedureCall>
-      <ProcedureCall id="_1qJj"
-                     procedure="click_ok_in_product_created_dialog"/>
     </Procedure>
     <Procedure id="_1pPF" name="store_parameters">
       <TryStep id="_1pPG" name="select_menu_store_parameters">

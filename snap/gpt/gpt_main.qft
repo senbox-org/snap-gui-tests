@@ -573,8 +573,18 @@ rc.setGlobal("files_number", len(sp))</code>
                              procedure="error_handling.if_error_shoot_message">
                 <variable name="screenshot">error_while_import</variable>
               </ProcedureCall>
-              <ProcedureCall id="_1lEu"
-                             procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+              <IfSequence id="_1qZG"
+                          test="&#34;$(f)&#34;==&#34;netCDF_CF&#34; or &#34;$(f)&#34;==&#34;netCDF4_CF&#34;">
+                <ProcedureCall id="_1l39"
+                               procedure="utility.open_image_view_check_it">
+                  <comment>@teststep Open image view and check it.</comment>
+                </ProcedureCall>
+                <ProcedureCall id="_1l33" procedure="close.all_products"/>
+                <ElseSequence id="_1qZH">
+                  <ProcedureCall id="_1lEu"
+                                 procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+                </ElseSequence>
+              </IfSequence>
               <ElseSequence id="_1qKs">
                 <ProcedureCall id="_1oao" procedure="run-log.logError">
                   <variable name="message">$(fileName) did not appear</variable>

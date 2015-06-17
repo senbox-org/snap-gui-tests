@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.4">
+  <include>qfs.qft</include>
+  <include>../lib/snap_export.qft</include>
+  <TestSet id="_1" name="005_03_geocoding_envi_gcp_file"
+           reportname="005-03 Export geo-coding ENVI GCP file">
+    <DependencyReference id="_1lWz"
+                         reference="dependencies.start_application"/>
+    <TestCase id="_79G" name="export_geocoding_envi_gcp_file_s3a_data">
+      <ProcedureCall id="_1oXQ" procedure="open.product_in_snap">
+        <variable name="prod_dir">sentinel3_S3A_OL_1_EFR_20130621T100921</variable>
+        <variable name="in_out">in</variable>
+        <variable name="prod">xfdumanifest.xml</variable>
+        <variable name="product_type"/>
+      </ProcedureCall>
+      <TestStep id="_1qcc" name="set_image_variables">
+        <SetGlobalStep id="_1qbJ" varname="exp_file">
+          <default>export_envi_s3a.pts</default>
+        </SetGlobalStep>
+      </TestStep>
+      <ProcedureCall id="_1qd8" procedure="test_sequence"/>
+    </TestCase>
+    <TestCase id="_1p0F" name="export_geocoding_envi_gcp_file_meris_data">
+      <ProcedureCall id="_1p0G" procedure="open.product_in_snap">
+        <variable name="prod_dir">mer_rr__1p_n1</variable>
+        <variable name="in_out">in</variable>
+        <variable name="prod">MER_RR__1_test.N1</variable>
+        <variable name="product_type"/>
+      </ProcedureCall>
+      <TestStep id="_1qcg" name="set_image_variables">
+        <SetGlobalStep id="_1qdA" varname="exp_file">
+          <default>export_envi_meris.pts</default>
+        </SetGlobalStep>
+      </TestStep>
+      <ProcedureCall id="_1qd9" procedure="test_sequence"/>
+    </TestCase>
+  </TestSet>
+  <PackageRoot id="_3">
+    <Procedure id="_1qck" name="test_sequence">
+      <ProcedureCall id="_1qcl" procedure="check.product.not_opened"/>
+      <IfSequence id="_1qcm" test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+        <ProcedureCall id="_1qdH" procedure="select.product_tree.product">
+          <variable name="prod_id">0</variable>
+        </ProcedureCall>
+        <TestStep id="_1qcp" name="export_geocoding_envi_gcp_file_dialog">
+          <TryStep id="_1qcq">
+            <ProcedureCall id="_1qcr"
+                           procedure="open.export.geocoding_envi_gcp_file"/>
+            <ProcedureCall id="_1qcs"
+                           procedure="check.opened.export.export_geocoding_envi_dialog"/>
+            <CatchSequence exception="TestException" id="_1qct" maxerror="0">
+              <ProcedureCall id="_1qd4" procedure="run-log.logError">
+                <variable name="message">dialog SNAP - Export geo-coding ENVI GCP File does not appear</variable>
+                <variable name="withScreenshots">false</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+        </TestStep>
+      </IfSequence>
+      <IfSequence id="_1qd5"
+                  test="&#34;$(export_geocoding_envi_appears)&#34;==&#34;true&#34;">
+        <ProcedureCall id="_1qd6"
+                       procedure="export.geocoding_envi_gcp_file_and_check">
+          <variable name="file_name">$(exp_file)</variable>
+        </ProcedureCall>
+      </IfSequence>
+      <ProcedureCall id="_1qd7" procedure="close.all_products"/>
+    </Procedure>
+  </PackageRoot>
+  <ExtraSequence id="_4"/>
+  <WindowList id="_5"/>
+</RootStep>

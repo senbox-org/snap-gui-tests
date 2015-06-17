@@ -332,10 +332,21 @@
       </TryStep>
     </Procedure>
     <Procedure id="_1pON" name="click_ok_in_product_created_dialog">
+      <TryStep id="_1qcq">
+        <ComponentWaiter client="$(client)"
+                         component="dialogSNAP_-_MERIS_Cloud_Probability_Processor.buttonOK"
+                         errorlevel="0" id="_1qcr" raise="false"
+                         timeout="100"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSNAP_-_MERIS_Cloud_Probability_Processor.buttonOK"
+                        event="MOUSE_MPRC" id="_1qcs" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1qct" maxerror="0"/>
+      </TryStep>
       <TryStep id="_1pOQ">
         <ComponentWaiter client="$(client)"
                          component="dialogMERIS_Cloud_Probability_Processor3"
-                         id="_1prZ"/>
+                         errorlevel="0" id="_1prZ" raise="false"
+                         timeout="100"/>
         <MouseEventStep clicks="1" client="$(client)"
                         component="dialogMERIS_Cloud_Probability_Processor3.buttonOK"
                         event="MOUSE_MPRC" id="_1pbh" modifiers="16"/>
@@ -348,12 +359,12 @@
                      procedure="do_click.meris_cloud_probability.button_apply"/>
       <ProcedureCall id="_1pUo"
                      procedure="wait.disappear.writing_target_product"/>
-      <ProcedureCall id="_1qcn"
+      <ProcedureCall id="_1qcp"
+                     procedure="click_ok_in_product_created_dialog"/>
+      <ProcedureCall id="_1qco"
                      procedure="error_handling.if_error_shoot_message">
         <variable name="screenshot">run_meris_cloud_probability_error</variable>
       </ProcedureCall>
-      <ProcedureCall id="_1qJj"
-                     procedure="click_ok_in_product_created_dialog"/>
     </Procedure>
     <Procedure id="_1qGm" name="preparation_for_test_save_output_product">
       <comment>@teststep preparation</comment>
