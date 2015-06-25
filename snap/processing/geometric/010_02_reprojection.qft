@@ -199,6 +199,9 @@
                          procedure="test_sequence.preparation_geo_lat_long"/>
         </TestStep>
         <TestStep id="_1pc-" name="processing">
+          <SetGlobalStep id="_1pxw" varname="output_format">
+            <default>BEAM-DIMAP</default>
+          </SetGlobalStep>
           <ProcedureCall id="_1pi9" procedure="run_reprojection"/>
         </TestStep>
         <TestStep id="_1pd2" name="check_output_product">
@@ -362,6 +365,9 @@
                          procedure="error_handling.if_error_shoot_message">
             <variable name="screenshot">run_reprojection_netcdf4_error</variable>
           </ProcedureCall>
+          <SetGlobalStep id="_1qd4" varname="output_format">
+            <default>BEAM-DIMAP</default>
+          </SetGlobalStep>
           <ProcedureCall id="_1pjk" procedure="run_reprojection"/>
         </TestStep>
         <TestStep id="_1pjT" name="check_target_product">
@@ -398,6 +404,9 @@
             <variable name="screenshot">run_reprojection_dim_error</variable>
           </ProcedureCall>
           <ProcedureCall id="_1pjP" procedure="select_io_tab"/>
+          <SetGlobalStep id="_1qd5" varname="output_format">
+            <default>BEAM-DIMAP</default>
+          </SetGlobalStep>
           <ProcedureCall id="_1pjS" procedure="run_reprojection"/>
         </TestStep>
         <TestStep id="_1pkO" name="check_target_product">
@@ -459,34 +468,7 @@
         <variable name="source_data">MER_RR__1_test.N1</variable>
         <variable name="source_dir">mer_rr__1p_n1</variable>
         <SetupSequence id="_1pUV" name="prepare_for_the_testing">
-          <ProcedureCall id="_1pix"
-                         procedure="open.processing.geometric_operations.reprojection"/>
-          <ProcedureCall id="_1piy" procedure="select_io_tab"/>
-          <ProcedureCall id="_1piz" procedure="open_source_product">
-            <variable name="prod_dir">$(source_dir)</variable>
-            <variable name="prod_name">$(source_data)</variable>
-          </ProcedureCall>
-          <ProcedureCall id="_1pi+"
-                         procedure="set.reprojection.target_directory">
-            <variable name="dir">$(output_folder)</variable>
-          </ProcedureCall>
-          <ProcedureCall id="_1pi-"
-                         procedure="set.reprojection.target_product_name">
-            <variable name="target_product_name">test</variable>
-          </ProcedureCall>
-          <ProcedureCall id="_1pj0" procedure="select.reprojection.save_as"/>
-          <ProcedureCall id="_1pj1"
-                         procedure="select.reprojection.output_format">
-            <variable name="output_format">BEAM-DIMAP</variable>
-          </ProcedureCall>
-          <ProcedureCall id="_1pj2"
-                         procedure="select.reprojection.open_in_snap"/>
-          <ProcedureCall id="_1phN"
-                         procedure="test_sequence.preparation_geo_lat_long"/>
-          <ProcedureCall id="_1pkT"
-                         procedure="select.reprojection.reproject_tie_point_grids"/>
-          <ProcedureCall id="_1pkU"
-                         procedure="deselect.reprojection.add_delta_lat_lon_bands"/>
+          <ProcedureCall id="_1qd3" procedure="prepare_for_the_testing"/>
         </SetupSequence>
         <TestSet id="_1pUb" name="processing">
           <DataDriver id="_1pUc"
@@ -503,6 +485,15 @@
               <code>print "output_file = $(output_file)"</code>
             </ServerScriptStep>
             <TestStep id="_1pUk" name="processing">
+              <TryStep id="_1qcq">
+                <ProcedureCall id="_1qcp"
+                               procedure="check.reprojection.reprojection_tool_opened"/>
+                <CatchSequence exception="TestException" id="_1qcr"
+                               maxerror="0">
+                  <ProcedureCall id="_1qd2"
+                                 procedure="prepare_for_the_testing"/>
+                </CatchSequence>
+              </TryStep>
               <ProcedureCall id="_1qTx"
                              procedure="error_handling.if_error_shoot_message">
                 <variable name="screenshot">run_reprojection_error</variable>
@@ -538,7 +529,8 @@
                        procedure="do_click.reprojection.menu.help"/>
         <ProcedureCall id="_1pVI"
                        procedure="do_click.reprojection.menu.help_menu_item"/>
-        <ProcedureCall id="_1pVL" procedure="check.help_appears"/>
+        <ProcedureCall id="_1pVL"
+                       procedure="check.help.help_or_error_appears"/>
         <ProcedureCall id="_1pVM" procedure="close.help"/>
       </TestStep>
       <TestStep id="_1pVN" name="check_help_about">
@@ -561,6 +553,33 @@
     </TestCase>
   </TestSet>
   <PackageRoot id="_4">
+    <Procedure id="_1qcs" name="prepare_for_the_testing">
+      <ProcedureCall id="_1qct"
+                     procedure="open.processing.geometric_operations.reprojection"/>
+      <ProcedureCall id="_1qcu" procedure="select_io_tab"/>
+      <ProcedureCall id="_1qcv" procedure="open_source_product">
+        <variable name="prod_dir">$(source_dir)</variable>
+        <variable name="prod_name">$(source_data)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qcw" procedure="set.reprojection.target_directory">
+        <variable name="dir">$(output_folder)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qcx"
+                     procedure="set.reprojection.target_product_name">
+        <variable name="target_product_name">test</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qcy" procedure="select.reprojection.save_as"/>
+      <ProcedureCall id="_1qcz" procedure="select.reprojection.output_format">
+        <variable name="output_format">BEAM-DIMAP</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qc+" procedure="select.reprojection.open_in_snap"/>
+      <ProcedureCall id="_1qc-"
+                     procedure="test_sequence.preparation_geo_lat_long"/>
+      <ProcedureCall id="_1qd0"
+                     procedure="select.reprojection.reproject_tie_point_grids"/>
+      <ProcedureCall id="_1qd1"
+                     procedure="deselect.reprojection.add_delta_lat_lon_bands"/>
+    </Procedure>
     <Procedure id="_1pbQ" name="display_parameters_and_check">
       <ProcedureCall id="_1pbR" procedure="display_parameters"/>
       <ComponentWaiter client="$(client)"

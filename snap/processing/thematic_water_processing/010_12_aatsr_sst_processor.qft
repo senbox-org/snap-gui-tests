@@ -283,7 +283,7 @@
                          procedure="close_processing_tool.thematic_water_processing.aatsr_sst_processor"/>
         </CleanupSequence>
       </TestSet>
-      <TestCase id="_1pZO" name="14_cancel_processing">
+      <TestCase disabled="true" id="_1pZO" name="cancel_processing">
         <variable name="output_file">test_14_cancel.dim</variable>
         <variable name="source_data">ATS_TOA_1_test.gz</variable>
         <variable name="source_dir">aatsr_toa_n1</variable>
@@ -338,7 +338,8 @@
                        procedure="do_click.aatsr_sst_processor.menu.help"/>
         <ProcedureCall id="_1qYD"
                        procedure="do_click.aatsr_sst_processor.menu.help_menu_item"/>
-        <ProcedureCall id="_1pVL" procedure="check.help_appears"/>
+        <ProcedureCall id="_1pVL"
+                       procedure="check.help.help_or_error_appears"/>
         <ProcedureCall id="_1pVM" procedure="close.help"/>
       </TestStep>
       <TestStep id="_1pVN" name="check_help_about">
@@ -479,6 +480,8 @@
                      procedure="do_click.aatsr_sst_processor.button_apply"/>
       <ProcedureCall id="_1pUo"
                      procedure="wait.disappear.writing_target_product"/>
+      <ProcedureCall id="_1qcv"
+                     procedure="click_ok_in_product_created_dialog"/>
       <ProcedureCall id="_1qcn"
                      procedure="error_handling.if_error_shoot_message">
         <variable name="screenshot">run_aatsr_sst_error</variable>

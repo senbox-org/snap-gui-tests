@@ -17,67 +17,6 @@
   <PackageRoot id="_3"/>
   <ExtraSequence id="_4">
     <comment>snap</comment>
-    <SetupSequence id="_1mK6"
-                   name="Java Anwendung starten als Skript oder ausführbares Programm">
-      <ProcedureCall id="_1mK5" procedure="set.variable.client_snap"/>
-      <SUTClientStarter client="$(client)"
-                        directory="C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\snap\bin"
-                        executable="&#34;C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\snap\bin\snap64.exe&#34; --userdir &#34;C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\userdir&#34;"
-                        id="_1mKG">
-        <comment>--userdir C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\userdir
-C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\snap\bin\</comment>
-      </SUTClientStarter>
-      <SUTClientStarter client="$(client)"
-                        directory="C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\snap\bin"
-                        executable="&#34;C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\snap\bin\snap64.exe&#34; --userdir &#34;C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\userdir&#34;"
-                        id="_1oZu">
-        <parameter>--userdir C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\userdir</parameter>
-        <comment>--userdir C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\userdir
-C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\snap\bin\</comment>
-      </SUTClientStarter>
-      <ClientWaiter client="$(client)" id="_1mK9"/>
-    </SetupSequence>
-    <SetupSequence id="_1mKc"
-                   name="Java Anwendung starten als Skript oder ausführbares Programm">
-      <SetGlobalStep id="_1mKd" varname="client">
-        <default>xxxx</default>
-      </SetGlobalStep>
-      <SUTClientStarter client="$(client)"
-                        directory="C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\snap"
-                        executable="C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\snap\bin\snap64.exe"
-                        id="_1mKe"/>
-      <ClientWaiter client="$(client)" id="_1mKf"/>
-    </SetupSequence>
-    <ShellClientStarter client="x0"
-                        command="C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\snap\bin\snap.bat"
-                        directory="C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\snap"
-                        id="_1mfE"/>
-    <ShellClientStarter client="x2" command="snap64.exe --help"
-                        directory="C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\snap\bin"
-                        id="_1mfF"/>
-    <ShellClientStarter client="x3"
-                        command="&#34;C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\snap\bin\snap64.exe&#34; --userdir C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\userdir"
-                        directory="C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\snap\bin"
-                        id="_1mfG"/>
-    <ProcessClientStarter client="x4"
-                          directory="C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\snap\bin"
-                          executable="&#34;C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\snap\bin\snap64.exe&#34; --userdir &#34;C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\userdir&#34;"
-                          id="_1mfD">
-      <parameter>--userdir C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\userdir</parameter>
-    </ProcessClientStarter>
-    <SetupSequence id="_1mf9"
-                   name="Java Anwendung starten als Skript oder ausführbares Programm">
-      <SetGlobalStep id="_1mfA" varname="client">
-        <default>x</default>
-      </SetGlobalStep>
-      <SUTClientStarter client="x"
-                        directory="C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\userdir"
-                        executable="C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\snap\bin\snap64.exe"
-                        id="_1mfB">
-        <parameter>--userdir C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\userdir</parameter>
-      </SUTClientStarter>
-      <ClientWaiter client="$(client)" id="_1mfC"/>
-    </SetupSequence>
     <Procedure id="_1mhs" name="menu_tools">
       <MouseEventStep clicks="1" client="$(client)"
                       component="NbMainWindow.Edit" event="MOUSE_MPRC"
@@ -442,10 +381,300 @@ C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\snap\bin\</c
                           event="COMPONENT_RESIZED" id="_1mlC" param1="1728"
                           param2="936"/>
     </BasicSequence>
+    <BasicSequence id="_1pkG" name="import">
+      <BasicSequence id="_1pl1" name="dem">
+        <CheckStringStep client="$(client)" component="NbMainWindow.DEM"
+                         id="_1pkH">
+          <text>DEM</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemGETASSE30_DEM_Tile2"
+                         id="_1pkI">
+          <text>GETASSE30 DEM Tile</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemACE_DEM_Tile"
+                         id="_1pkJ">
+          <text>ACE DEM Tile</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemASTER_GeoTIFF_DEM_Tile"
+                         id="_1pkK">
+          <text>ASTER GeoTIFF DEM Tile</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemSRTM_ArcGrid_DEM_Tile"
+                         id="_1pkL">
+          <text>SRTM ArcGrid DEM Tile</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemSRTM_GeoTIFF_DEM_Tile"
+                         id="_1pkM">
+          <text>SRTM GeoTIFF DEM Tile</text>
+        </CheckStringStep>
+      </BasicSequence>
+      <BasicSequence id="_1pl2" name="Generic_Formats">
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="NbMainWindow.Generic_Formats"
+                        event="MOUSE_MPRC" id="_1pkN" modifiers="16"/>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemCSV" id="_1pkO">
+          <text>CSV</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemArcInfo_Binary_Grid"
+                         id="_1pkP" notcheck="true">
+          <text>ArcInfo Binary Grid</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemGeoTIFF_/_BigTIFF"
+                         id="_1pkQ">
+          <text>GeoTIFF / BigTIFF</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemENVI" id="_1pkR">
+          <text>ENVI</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemGeoTIFF" id="_1pkV">
+          <text>GeoTIFF</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemHDF-EOS_Gridded"
+                         id="_1pkW">
+          <text>HDF-EOS Gridded</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemNetCDF-BEAM"
+                         id="_1pkX">
+          <text>NetCDF-BEAM</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemNetCDF-CF"
+                         id="_1pkY">
+          <text>NetCDF-CF</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemNetCDF_(Generic)"
+                         id="_1pkZ">
+          <text>NetCDF (Generic)</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemPGX_Image"
+                         id="_1pka">
+          <text>PGX Image</text>
+        </CheckStringStep>
+      </BasicSequence>
+      <BasicSequence id="_1pl3" name="Optical_Sensors">
+        <BasicSequence id="_1qcG" name="Aufnahme 24.06.15 11:52">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.Landsat" event="MOUSE_MPRC"
+                          id="_1qcH" modifiers="16"/>
+          <CheckStringStep client="$(client)"
+                           component="NbMainWindow.menuItemLandsat8_in_15m_(GeoTIFF)"
+                           id="_1qcI">
+            <text>Landsat8 in 15m (GeoTIFF)</text>
+          </CheckStringStep>
+          <CheckStringStep client="$(client)"
+                           component="NbMainWindow.menuItemLandsat8_in_30m_(GeoTIFF)"
+                           id="_1qcJ">
+            <text>Landsat8 in 30m (GeoTIFF)</text>
+          </CheckStringStep>
+          <CheckStringStep client="$(client)"
+                           component="NbMainWindow.menuItemLandsat_5_TM_(FAST)2"
+                           id="_1qcK">
+            <text>Landsat 5 TM (FAST)</text>
+          </CheckStringStep>
+          <CheckStringStep client="$(client)"
+                           component="NbMainWindow.menuItemLandsat_(GeoTIFF)2"
+                           id="_1qcL">
+            <text>Landsat (GeoTIFF)</text>
+          </CheckStringStep>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.Seadas" event="MOUSE_MPRC"
+                          id="_1qcM" modifiers="16"/>
+          <CheckStringStep client="$(client)"
+                           component="NbMainWindow.menuItemSeaDAS_Browse_(L1,_L2)2"
+                           id="_1qcN">
+            <text>SeaDAS Browse (L1, L2)</text>
+          </CheckStringStep>
+          <CheckStringStep client="$(client)"
+                           component="NbMainWindow.menuItemSeaDAS_L1_(OCTS,_CZCS,_SeaWiFS)2"
+                           id="_1qcO">
+            <text>SeaDAS L1 (OCTS, CZCS, SeaWiFS)</text>
+          </CheckStringStep>
+          <CheckStringStep client="$(client)"
+                           component="NbMainWindow.menuItemSeaDAS_L2_(CZCS,_OCTS,_SeaWiFS,_MODIS,_VIIRS,_etc.)2"
+                           id="_1qcP">
+            <text>SeaDAS L2 (CZCS, OCTS, SeaWiFS, MODIS, VIIRS, etc.)</text>
+          </CheckStringStep>
+          <CheckStringStep client="$(client)"
+                           component="NbMainWindow.menuItemSeaDAS_L3_(CZCS,_OCTS,_SeaWiFS,_MODIS,_VIIRS,_etc.)2"
+                           id="_1qcQ">
+            <text>SeaDAS L3 (CZCS, OCTS, SeaWiFS, MODIS, VIIRS, etc.)</text>
+          </CheckStringStep>
+          <MouseEventStep clicks="0" client="$(client)"
+                          component="NbMainWindow.Seadas" event="MOUSE_MOVED"
+                          id="_1qcR" modifiers="0"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.Sentinel-3"
+                          event="MOUSE_MPRC" id="_1qcS" modifiers="16"/>
+          <CheckStringStep client="$(client)"
+                           component="NbMainWindow.menuItemSentinel-3"
+                           id="_1qcT">
+            <text>Sentinel-3</text>
+          </CheckStringStep>
+          <CheckStringStep client="$(client)"
+                           component="NbMainWindow.menuItemSentinel-3_SLSTR_L1B_(1km)"
+                           id="_1qcU">
+            <text>Sentinel-3 SLSTR L1B (1km)</text>
+          </CheckStringStep>
+          <CheckStringStep client="$(client)"
+                           component="NbMainWindow.menuItemSentinel-3_SLSTR_L1B_(500m)"
+                           id="_1qcV">
+            <text>Sentinel-3 SLSTR L1B (500m)</text>
+          </CheckStringStep>
+          <CheckStringStep client="$(client)"
+                           component="NbMainWindow.menuItemSentinel-3_SLSTR_L1B_(500m)"
+                           id="_1qcW">
+            <text>Sentinel-3 SLSTR L1B (500m)</text>
+          </CheckStringStep>
+        </BasicSequence>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="NbMainWindow.Optical_Sensors"
+                        event="MOUSE_MPRC" id="_1pkb" modifiers="16"/>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemAquarius" id="_1pkc">
+          <text>Aquarius</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemHICO_L1B" id="_1pkd">
+          <text>HICO L1B</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemMODIS_L1B"
+                         id="_1pke">
+          <text>MODIS L1B</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemOCM2_L1B" id="_1pkf">
+          <text>OCM2 L1B</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemSeaDAS_Browse_(L1,_L2)"
+                         id="_1pkg">
+          <text>SeaDAS Browse (L1, L2)</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemSeaDAS_L1_(OCTS,_CZCS,_SeaWiFS)"
+                         id="_1pkh">
+          <text>SeaDAS L1 (OCTS, CZCS, SeaWiFS)</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemSeaDAS_L2_(CZCS,_OCTS,_SeaWiFS,_MODIS,_VIIRS,_etc.)"
+                         id="_1pki">
+          <text>SeaDAS L2 (CZCS, OCTS, SeaWiFS, MODIS, VIIRS, etc.)</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemSeaDAS_L3_(CZCS,_OCTS,_SeaWiFS,_MODIS,_VIIRS,_etc.)"
+                         id="_1pkj">
+          <text>SeaDAS L3 (CZCS, OCTS, SeaWiFS, MODIS, VIIRS, etc.)</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemVIIRS_(SDR,_EDR)"
+                         id="_1pkk">
+          <text>VIIRS (SDR, EDR)</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemATSR_Product"
+                         id="_1pkl">
+          <text>ATSR Product</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemNOAA-AVHRR/3_L1B"
+                         id="_1pkm">
+          <text>NOAA-AVHRR/3 L1B</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemALOS/AVNIR-2_Product"
+                         id="_1pkn">
+          <text>ALOS/AVNIR-2 Product</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemALOS/PRISM_Product"
+                         id="_1pko">
+          <text>ALOS/PRISM Product</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemCHRIS/Proba"
+                         id="_1pkp">
+          <text>CHRIS/Proba</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemLandsat_5_TM_(FAST)"
+                         id="_1pkq">
+          <text>Landsat 5 TM (FAST)</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemLandsat_(GeoTIFF)"
+                         id="_1pkr">
+          <text>Landsat (GeoTIFF)</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemMERIS_Binned_Level-3"
+                         id="_1pks">
+          <text>MERIS Binned Level-3</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemMODIS_(MOD,MXD,MYD)"
+                         id="_1pkt">
+          <text>MODIS (MOD,MXD,MYD)</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemProbaV" id="_1pku">
+          <text>ProbaV</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemSentinel-3_Format"
+                         id="_1pkv">
+          <text>Sentinel-3 Format</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemSPOT_VGT" id="_1pkw">
+          <text>SPOT VGT</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemBinned_SeaDAS_data3"
+                         id="_1pkx">
+          <text>Binned SeaDAS data</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemERS1/2_ATSR_(.E1,_.E2)3"
+                         id="_1pky">
+          <text>ERS1/2 ATSR (.E1, .E2)</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemENVISAT_MERIS,AATSR3"
+                         id="_1pkz">
+          <text>ENVISAT MERIS,AATSR</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="NbMainWindow.menuItemHICO_(ENVI_format)3"
+                         id="_1pk+">
+          <text>HICO (ENVI format)</text>
+        </CheckStringStep>
+      </BasicSequence>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="NbMainWindow.SAR_Sensors" event="MOUSE_MPRC"
+                      id="_1pk-" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="NbMainWindow.menuItemENVISAT_ASAR"
+                      event="MOUSE_MPRC" id="_1pl0" modifiers="16"/>
+    </BasicSequence>
     <BasicSequence id="_1msI" name="reader">
       <CheckItemsStep checktype="items" client="$(client)"
                       component="dialogOpen_Product.listInvokerFeature:_Label:_Files_of_type:"
-                      id="_1pjs">
+                      id="_1qc1">
         <item>All Files</item>
         <item>ACE Data Product Tile (*.ACE)</item>
         <item>ACE2 Data Product Tile (*.ACE2)</item>
@@ -470,7 +699,11 @@ C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\snap\bin\</c
         <item>Image files (*.png,*.gif,*.jpg,*.bmp,*.pnm,*.pbm,*.pgm,*.ppm)</item>
         <item>Landsat 5 TM Product Reader (*.dat,*.zip)</item>
         <item>Landsat Data Products (GeoTIFF)</item>
+        <item>Landsat8 Data Products in 15m Resolution (GeoTIFF)</item>
+        <item>Landsat8 Data Products in 30m Resolution (GeoTIFF)</item>
         <item>MERIS Binned Level-3 (netCDF) Data Product (*.nc)</item>
+        <item>MERIS Level 1 in Sentinel-3 product format (*.xml)</item>
+        <item>MERIS Level 2 in Sentinel-3 product format (*.xml)</item>
         <item>MODIS HDF4 Data Products (*.hdf)</item>
         <item>MODIS L1B Products (*.hdf,*.L1B_LAC,*.L1B_HKM,*.L1B_QKM)</item>
         <item>NOAA Polar Orbiter Data products (AVHRR HRPT)</item>
@@ -480,6 +713,9 @@ C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\snap\bin\</c
         <item>PGX images (*.pgx)</item>
         <item>PRISM Products</item>
         <item>PROBA-V Format</item>
+        <item>SMOS BUFR data products (*.bufr)</item>
+        <item>SMOS Data Products (*.HDR,*.DBL,*.zip,*.ZIP)</item>
+        <item>SMOS Light-BUFR data products (*.bin,*.bin.bz2)</item>
         <item>SPOT VGT Data Products (*.txt,*.TXT,*.zip,*.ZIP)</item>
         <item>SeaDAS-Level-3-alike NetCDF files containing binned Level-3 data (*.nc)</item>
         <item>SeaDAS-Supported Ancillary Products (*.hdf,*.nc,*.MET,*.OZONE)</item>
@@ -487,230 +723,11 @@ C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\snap\bin\</c
         <item>SeaDAS-Supported Level 1 Products (*.hdf,*.L1A_GAC,*.L1A_LAC,*.L1B_GAC,*.L1B_LAC,*.L1A_MLAC,*.L1A_H*)</item>
         <item>SeaDAS-Supported Level 2 Products (*.hdf,*.L2_GAC_OC,*.L2_LAC_OC,*.L2_LAC_SST,*.L2_LAC_SST4,*.L2_MLAC_OC)</item>
         <item>SeaDAS-Supported Level 3 Products (*.hdf,*.main,*.L3m*)</item>
+        <item>Sentinel-3 SLSTR L1B products in 1km resolution (*.xml)</item>
+        <item>Sentinel-3 SLSTR L1B products in 500 m resolution (*.xml)</item>
         <item>Sentinel-3 products (*.xml)</item>
         <item>VIIRS SDR/EDR Products (*.h5)</item>
       </CheckItemsStep>
-      <BasicSequence id="_1pkG" name="import">
-        <BasicSequence id="_1pl1" name="dem">
-          <CheckStringStep client="$(client)" component="NbMainWindow.DEM"
-                           id="_1pkH">
-            <text>DEM</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemGETASSE30_DEM_Tile2"
-                           id="_1pkI">
-            <text>GETASSE30 DEM Tile</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemACE_DEM_Tile"
-                           id="_1pkJ">
-            <text>ACE DEM Tile</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemASTER_GeoTIFF_DEM_Tile"
-                           id="_1pkK">
-            <text>ASTER GeoTIFF DEM Tile</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemSRTM_ArcGrid_DEM_Tile"
-                           id="_1pkL">
-            <text>SRTM ArcGrid DEM Tile</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemSRTM_GeoTIFF_DEM_Tile"
-                           id="_1pkM">
-            <text>SRTM GeoTIFF DEM Tile</text>
-          </CheckStringStep>
-        </BasicSequence>
-        <BasicSequence id="_1pl2" name="Generic_Formats">
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="NbMainWindow.Generic_Formats"
-                          event="MOUSE_MPRC" id="_1pkN" modifiers="16"/>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemCSV" id="_1pkO">
-            <text>CSV</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemArcInfo_Binary_Grid"
-                           id="_1pkP" notcheck="true">
-            <text>ArcInfo Binary Grid</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemGeoTIFF_/_BigTIFF"
-                           id="_1pkQ">
-            <text>GeoTIFF / BigTIFF</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemENVI" id="_1pkR">
-            <text>ENVI</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemGeoTIFF"
-                           id="_1pkV">
-            <text>GeoTIFF</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemHDF-EOS_Gridded"
-                           id="_1pkW">
-            <text>HDF-EOS Gridded</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemNetCDF-BEAM"
-                           id="_1pkX">
-            <text>NetCDF-BEAM</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemNetCDF-CF"
-                           id="_1pkY">
-            <text>NetCDF-CF</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemNetCDF_(Generic)"
-                           id="_1pkZ">
-            <text>NetCDF (Generic)</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemPGX_Image"
-                           id="_1pka">
-            <text>PGX Image</text>
-          </CheckStringStep>
-        </BasicSequence>
-        <BasicSequence id="_1pl3" name="Optical_Sensors">
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="NbMainWindow.Optical_Sensors"
-                          event="MOUSE_MPRC" id="_1pkb" modifiers="16"/>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemAquarius"
-                           id="_1pkc">
-            <text>Aquarius</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemHICO_L1B"
-                           id="_1pkd">
-            <text>HICO L1B</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemMODIS_L1B"
-                           id="_1pke">
-            <text>MODIS L1B</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemOCM2_L1B"
-                           id="_1pkf">
-            <text>OCM2 L1B</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemSeaDAS_Browse_(L1,_L2)"
-                           id="_1pkg">
-            <text>SeaDAS Browse (L1, L2)</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemSeaDAS_L1_(OCTS,_CZCS,_SeaWiFS)"
-                           id="_1pkh">
-            <text>SeaDAS L1 (OCTS, CZCS, SeaWiFS)</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemSeaDAS_L2_(CZCS,_OCTS,_SeaWiFS,_MODIS,_VIIRS,_etc.)"
-                           id="_1pki">
-            <text>SeaDAS L2 (CZCS, OCTS, SeaWiFS, MODIS, VIIRS, etc.)</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemSeaDAS_L3_(CZCS,_OCTS,_SeaWiFS,_MODIS,_VIIRS,_etc.)"
-                           id="_1pkj">
-            <text>SeaDAS L3 (CZCS, OCTS, SeaWiFS, MODIS, VIIRS, etc.)</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemVIIRS_(SDR,_EDR)"
-                           id="_1pkk">
-            <text>VIIRS (SDR, EDR)</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemATSR_Product"
-                           id="_1pkl">
-            <text>ATSR Product</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemNOAA-AVHRR/3_L1B"
-                           id="_1pkm">
-            <text>NOAA-AVHRR/3 L1B</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemALOS/AVNIR-2_Product"
-                           id="_1pkn">
-            <text>ALOS/AVNIR-2 Product</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemALOS/PRISM_Product"
-                           id="_1pko">
-            <text>ALOS/PRISM Product</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemCHRIS/Proba"
-                           id="_1pkp">
-            <text>CHRIS/Proba</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemLandsat_5_TM_(FAST)"
-                           id="_1pkq">
-            <text>Landsat 5 TM (FAST)</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemLandsat_(GeoTIFF)"
-                           id="_1pkr">
-            <text>Landsat (GeoTIFF)</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemMERIS_Binned_Level-3"
-                           id="_1pks">
-            <text>MERIS Binned Level-3</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemMODIS_(MOD,MXD,MYD)"
-                           id="_1pkt">
-            <text>MODIS (MOD,MXD,MYD)</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemProbaV" id="_1pku">
-            <text>ProbaV</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemSentinel-3_Format"
-                           id="_1pkv">
-            <text>Sentinel-3 Format</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemSPOT_VGT"
-                           id="_1pkw">
-            <text>SPOT VGT</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemBinned_SeaDAS_data3"
-                           id="_1pkx">
-            <text>Binned SeaDAS data</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemERS1/2_ATSR_(.E1,_.E2)3"
-                           id="_1pky">
-            <text>ERS1/2 ATSR (.E1, .E2)</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemENVISAT_MERIS,AATSR3"
-                           id="_1pkz">
-            <text>ENVISAT MERIS,AATSR</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.menuItemHICO_(ENVI_format)3"
-                           id="_1pk+">
-            <text>HICO (ENVI format)</text>
-          </CheckStringStep>
-        </BasicSequence>
-        <MouseEventStep clicks="1" client="$(client)"
-                        component="NbMainWindow.SAR_Sensors"
-                        event="MOUSE_MPRC" id="_1pk-" modifiers="16"/>
-        <MouseEventStep clicks="1" client="$(client)"
-                        component="NbMainWindow.menuItemENVISAT_ASAR"
-                        event="MOUSE_MPRC" id="_1pl0" modifiers="16"/>
-      </BasicSequence>
     </BasicSequence>
     <Procedure id="_1oao" name="attach_pixel_geo_coding-dialog">
       <CheckStringStep checktype="value" client="$(client)"
@@ -5767,6 +5784,20 @@ C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\snap\bin\</c
         <extrafeature name="qfs:systemclass" negate="false" regexp="false"
                       state="0">javax.swing.JPanel</extrafeature>
       </ComponentStep>
+      <ComponentStep class="Label" classcount="4" classindex="0"
+                     feature="Either the selected ROI is empty or no pixels have been found within the minimum and maximum values"
+                     height="16"
+                     id="dialogSNAP_-_Error.labelEither_the_selected_ROI_is_empty_or_no_pixels_have_been_found_within_the_minimum_and_maximum_values"
+                     uid="_1qai" width="549" x="65" y="46">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JLabel</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Label</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">Either the selected ROI is empty or no pixels have been found within the minimum and maximum values</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JLabel</extrafeature>
+      </ComponentStep>
     </WindowStep>
     <WindowStep class="Dialog" feature="SNAP - Open Product" height="177"
                 id="dialogSNAP_-_Open_Product" modal="true" uid="_1mfJ"
@@ -6539,6 +6570,33 @@ C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\snap\bin\</c
               <extrafeature name="qfs:systemclass" negate="false"
                             regexp="false" state="0">javax.swing.JMenuItem</extrafeature>
             </ComponentStep>
+            <ComponentStep class="MenuItem" classcount="20" classindex="10"
+                           feature="Export SMOS Grid Points ..." height="20"
+                           id="NbMainWindow.menuItemExport_SMOS_Grid_Points_..."
+                           uid="_1qak" width="225">
+              <extrafeature name="qfs:class" negate="false" regexp="false"
+                            state="0">org.openide.awt.Actions$$MenuItem</extrafeature>
+              <extrafeature name="qfs:genericclass" negate="false"
+                            regexp="false" state="0">MenuItem</extrafeature>
+              <extrafeature name="qfs:label" negate="false" regexp="false"
+                            state="1">Export SMOS Grid Points ...</extrafeature>
+              <extrafeature name="qfs:systemclass" negate="false"
+                            regexp="false" state="0">javax.swing.JMenuItem</extrafeature>
+            </ComponentStep>
+            <ComponentStep class="MenuItem" classcount="20" classindex="9"
+                           feature="Export SMOS EE Files to NetCDF..."
+                           height="20"
+                           id="NbMainWindow.menuItemExport_SMOS_EE_Files_to_NetCDF..."
+                           uid="_1qb-" width="225">
+              <extrafeature name="qfs:class" negate="false" regexp="false"
+                            state="0">org.openide.awt.Actions$$MenuItem</extrafeature>
+              <extrafeature name="qfs:genericclass" negate="false"
+                            regexp="false" state="0">MenuItem</extrafeature>
+              <extrafeature name="qfs:label" negate="false" regexp="false"
+                            state="1">Export SMOS EE Files to NetCDF...</extrafeature>
+              <extrafeature name="qfs:systemclass" negate="false"
+                            regexp="false" state="0">javax.swing.JMenuItem</extrafeature>
+            </ComponentStep>
           </ComponentStep>
           <ComponentStep class="MenuItem" classcount="44" classindex="8"
                          feature="Import" id="NbMainWindow.Import"
@@ -7133,6 +7191,193 @@ C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\snap\bin\</c
                 <extrafeature name="qfs:systemclass" negate="false"
                               regexp="false" state="0">javax.swing.JMenuItem</extrafeature>
               </ComponentStep>
+              <ComponentStep class="MenuItem" classcount="34" classindex="0"
+                             feature="Landsat" height="20"
+                             id="NbMainWindow.Landsat" name="Landsat"
+                             uid="_1qc2" width="185">
+                <extrafeature name="qfs:class" negate="false" regexp="false"
+                              state="0">org.openide.awt.MenuBar$$LazyMenu</extrafeature>
+                <extrafeature name="qfs:genericclass" negate="false"
+                              regexp="false" state="0">MenuItem</extrafeature>
+                <extrafeature name="qfs:label" negate="false" regexp="false"
+                              state="1">Landsat</extrafeature>
+                <extrafeature name="qfs:systemclass" negate="false"
+                              regexp="false" state="0">javax.swing.JMenu</extrafeature>
+                <ComponentStep class="MenuItem" classcount="4" classindex="0"
+                               feature="Landsat8 in 15m (GeoTIFF)" height="20"
+                               id="NbMainWindow.menuItemLandsat8_in_15m_(GeoTIFF)"
+                               uid="_1qc3" width="183">
+                  <extrafeature name="qfs:class" negate="false" regexp="false"
+                                state="0">org.openide.awt.Actions$$MenuItem</extrafeature>
+                  <extrafeature name="qfs:genericclass" negate="false"
+                                regexp="false" state="0">MenuItem</extrafeature>
+                  <extrafeature name="qfs:label" negate="false" regexp="false"
+                                state="1">Landsat8 in 15m (GeoTIFF)</extrafeature>
+                  <extrafeature name="qfs:systemclass" negate="false"
+                                regexp="false" state="0">javax.swing.JMenuItem</extrafeature>
+                </ComponentStep>
+                <ComponentStep class="MenuItem" classcount="4" classindex="1"
+                               feature="Landsat8 in 30m (GeoTIFF)" height="20"
+                               id="NbMainWindow.menuItemLandsat8_in_30m_(GeoTIFF)"
+                               uid="_1qc4" width="183">
+                  <extrafeature name="qfs:class" negate="false" regexp="false"
+                                state="0">org.openide.awt.Actions$$MenuItem</extrafeature>
+                  <extrafeature name="qfs:genericclass" negate="false"
+                                regexp="false" state="0">MenuItem</extrafeature>
+                  <extrafeature name="qfs:label" negate="false" regexp="false"
+                                state="1">Landsat8 in 30m (GeoTIFF)</extrafeature>
+                  <extrafeature name="qfs:systemclass" negate="false"
+                                regexp="false" state="0">javax.swing.JMenuItem</extrafeature>
+                </ComponentStep>
+                <ComponentStep class="MenuItem" classcount="4" classindex="2"
+                               feature="Landsat 5 TM (FAST)" height="20"
+                               id="NbMainWindow.menuItemLandsat_5_TM_(FAST)2"
+                               uid="_1qc5" width="183">
+                  <extrafeature name="qfs:class" negate="false" regexp="false"
+                                state="0">org.openide.awt.Actions$$MenuItem</extrafeature>
+                  <extrafeature name="qfs:genericclass" negate="false"
+                                regexp="false" state="0">MenuItem</extrafeature>
+                  <extrafeature name="qfs:label" negate="false" regexp="false"
+                                state="1">Landsat 5 TM (FAST)</extrafeature>
+                  <extrafeature name="qfs:systemclass" negate="false"
+                                regexp="false" state="0">javax.swing.JMenuItem</extrafeature>
+                </ComponentStep>
+                <ComponentStep class="MenuItem" classcount="4" classindex="3"
+                               feature="Landsat (GeoTIFF)" height="20"
+                               id="NbMainWindow.menuItemLandsat_(GeoTIFF)2"
+                               uid="_1qc6" width="183">
+                  <extrafeature name="qfs:class" negate="false" regexp="false"
+                                state="0">org.openide.awt.Actions$$MenuItem</extrafeature>
+                  <extrafeature name="qfs:genericclass" negate="false"
+                                regexp="false" state="0">MenuItem</extrafeature>
+                  <extrafeature name="qfs:label" negate="false" regexp="false"
+                                state="1">Landsat (GeoTIFF)</extrafeature>
+                  <extrafeature name="qfs:systemclass" negate="false"
+                                regexp="false" state="0">javax.swing.JMenuItem</extrafeature>
+                </ComponentStep>
+              </ComponentStep>
+              <ComponentStep class="MenuItem" classcount="34" classindex="5"
+                             feature="Seadas" height="20"
+                             id="NbMainWindow.Seadas" name="Seadas"
+                             uid="_1qc7" width="185">
+                <extrafeature name="qfs:class" negate="false" regexp="false"
+                              state="0">org.openide.awt.MenuBar$$LazyMenu</extrafeature>
+                <extrafeature name="qfs:genericclass" negate="false"
+                              regexp="false" state="0">MenuItem</extrafeature>
+                <extrafeature name="qfs:label" negate="false" regexp="false"
+                              state="1">Seadas</extrafeature>
+                <extrafeature name="qfs:systemclass" negate="false"
+                              regexp="false" state="0">javax.swing.JMenu</extrafeature>
+                <ComponentStep class="MenuItem" classcount="4" classindex="0"
+                               feature="SeaDAS Browse (L1, L2)" height="20"
+                               id="NbMainWindow.menuItemSeaDAS_Browse_(L1,_L2)2"
+                               uid="_1qc8" width="325">
+                  <extrafeature name="qfs:class" negate="false" regexp="false"
+                                state="0">org.openide.awt.Actions$$MenuItem</extrafeature>
+                  <extrafeature name="qfs:genericclass" negate="false"
+                                regexp="false" state="0">MenuItem</extrafeature>
+                  <extrafeature name="qfs:label" negate="false" regexp="false"
+                                state="1">SeaDAS Browse (L1, L2)</extrafeature>
+                  <extrafeature name="qfs:systemclass" negate="false"
+                                regexp="false" state="0">javax.swing.JMenuItem</extrafeature>
+                </ComponentStep>
+                <ComponentStep class="MenuItem" classcount="4" classindex="1"
+                               feature="SeaDAS L1 (OCTS, CZCS, SeaWiFS)"
+                               height="20"
+                               id="NbMainWindow.menuItemSeaDAS_L1_(OCTS,_CZCS,_SeaWiFS)2"
+                               uid="_1qc9" width="325">
+                  <extrafeature name="qfs:class" negate="false" regexp="false"
+                                state="0">org.openide.awt.Actions$$MenuItem</extrafeature>
+                  <extrafeature name="qfs:genericclass" negate="false"
+                                regexp="false" state="0">MenuItem</extrafeature>
+                  <extrafeature name="qfs:label" negate="false" regexp="false"
+                                state="1">SeaDAS L1 (OCTS, CZCS, SeaWiFS)</extrafeature>
+                  <extrafeature name="qfs:systemclass" negate="false"
+                                regexp="false" state="0">javax.swing.JMenuItem</extrafeature>
+                </ComponentStep>
+                <ComponentStep class="MenuItem" classcount="4" classindex="2"
+                               feature="SeaDAS L2 (CZCS, OCTS, SeaWiFS, MODIS, VIIRS, etc.)"
+                               height="20"
+                               id="NbMainWindow.menuItemSeaDAS_L2_(CZCS,_OCTS,_SeaWiFS,_MODIS,_VIIRS,_etc.)2"
+                               uid="_1qcA" width="325">
+                  <extrafeature name="qfs:class" negate="false" regexp="false"
+                                state="0">org.openide.awt.Actions$$MenuItem</extrafeature>
+                  <extrafeature name="qfs:genericclass" negate="false"
+                                regexp="false" state="0">MenuItem</extrafeature>
+                  <extrafeature name="qfs:label" negate="false" regexp="false"
+                                state="1">SeaDAS L2 (CZCS, OCTS, SeaWiFS, MODIS, VIIRS, etc.)</extrafeature>
+                  <extrafeature name="qfs:systemclass" negate="false"
+                                regexp="false" state="0">javax.swing.JMenuItem</extrafeature>
+                </ComponentStep>
+                <ComponentStep class="MenuItem" classcount="4" classindex="3"
+                               feature="SeaDAS L3 (CZCS, OCTS, SeaWiFS, MODIS, VIIRS, etc.)"
+                               height="20"
+                               id="NbMainWindow.menuItemSeaDAS_L3_(CZCS,_OCTS,_SeaWiFS,_MODIS,_VIIRS,_etc.)2"
+                               uid="_1qcB" width="325">
+                  <extrafeature name="qfs:class" negate="false" regexp="false"
+                                state="0">org.openide.awt.Actions$$MenuItem</extrafeature>
+                  <extrafeature name="qfs:genericclass" negate="false"
+                                regexp="false" state="0">MenuItem</extrafeature>
+                  <extrafeature name="qfs:label" negate="false" regexp="false"
+                                state="1">SeaDAS L3 (CZCS, OCTS, SeaWiFS, MODIS, VIIRS, etc.)</extrafeature>
+                  <extrafeature name="qfs:systemclass" negate="false"
+                                regexp="false" state="0">javax.swing.JMenuItem</extrafeature>
+                </ComponentStep>
+              </ComponentStep>
+              <ComponentStep class="MenuItem" classcount="34" classindex="10"
+                             feature="Sentinel-3" height="20"
+                             id="NbMainWindow.Sentinel-3" name="Sentinel-3"
+                             uid="_1qcC" width="185">
+                <extrafeature name="qfs:class" negate="false" regexp="false"
+                              state="0">org.openide.awt.MenuBar$$LazyMenu</extrafeature>
+                <extrafeature name="qfs:genericclass" negate="false"
+                              regexp="false" state="0">MenuItem</extrafeature>
+                <extrafeature name="qfs:label" negate="false" regexp="false"
+                              state="1">Sentinel-3</extrafeature>
+                <extrafeature name="qfs:systemclass" negate="false"
+                              regexp="false" state="0">javax.swing.JMenu</extrafeature>
+                <ComponentStep class="MenuItem" classcount="3" classindex="0"
+                               feature="Sentinel-3" height="20"
+                               id="NbMainWindow.menuItemSentinel-3"
+                               uid="_1qcD" width="193">
+                  <extrafeature name="qfs:class" negate="false" regexp="false"
+                                state="0">org.openide.awt.Actions$$MenuItem</extrafeature>
+                  <extrafeature name="qfs:genericclass" negate="false"
+                                regexp="false" state="0">MenuItem</extrafeature>
+                  <extrafeature name="qfs:label" negate="false" regexp="false"
+                                state="1">Sentinel-3</extrafeature>
+                  <extrafeature name="qfs:systemclass" negate="false"
+                                regexp="false" state="0">javax.swing.JMenuItem</extrafeature>
+                </ComponentStep>
+                <ComponentStep class="MenuItem" classcount="3" classindex="1"
+                               feature="Sentinel-3 SLSTR L1B (1km)"
+                               height="20"
+                               id="NbMainWindow.menuItemSentinel-3_SLSTR_L1B_(1km)"
+                               uid="_1qcE" width="193">
+                  <extrafeature name="qfs:class" negate="false" regexp="false"
+                                state="0">org.openide.awt.Actions$$MenuItem</extrafeature>
+                  <extrafeature name="qfs:genericclass" negate="false"
+                                regexp="false" state="0">MenuItem</extrafeature>
+                  <extrafeature name="qfs:label" negate="false" regexp="false"
+                                state="1">Sentinel-3 SLSTR L1B (1km)</extrafeature>
+                  <extrafeature name="qfs:systemclass" negate="false"
+                                regexp="false" state="0">javax.swing.JMenuItem</extrafeature>
+                </ComponentStep>
+                <ComponentStep class="MenuItem" classcount="3" classindex="2"
+                               feature="Sentinel-3 SLSTR L1B (500m)"
+                               height="20"
+                               id="NbMainWindow.menuItemSentinel-3_SLSTR_L1B_(500m)"
+                               uid="_1qcF" width="193">
+                  <extrafeature name="qfs:class" negate="false" regexp="false"
+                                state="0">org.openide.awt.Actions$$MenuItem</extrafeature>
+                  <extrafeature name="qfs:genericclass" negate="false"
+                                regexp="false" state="0">MenuItem</extrafeature>
+                  <extrafeature name="qfs:label" negate="false" regexp="false"
+                                state="1">Sentinel-3 SLSTR L1B (500m)</extrafeature>
+                  <extrafeature name="qfs:systemclass" negate="false"
+                                regexp="false" state="0">javax.swing.JMenuItem</extrafeature>
+                </ComponentStep>
+              </ComponentStep>
             </ComponentStep>
             <ComponentStep class="MenuItem" classcount="20" classindex="16"
                            feature="SAR Sensors" id="NbMainWindow.SAR_Sensors"
@@ -7323,6 +7568,73 @@ C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\snap\bin\</c
                               regexp="false" state="0">MenuItem</extrafeature>
                 <extrafeature name="qfs:label" negate="false" regexp="false"
                               state="1">SeaDAS 6.x Track</extrafeature>
+                <extrafeature name="qfs:systemclass" negate="false"
+                              regexp="false" state="0">javax.swing.JMenuItem</extrafeature>
+              </ComponentStep>
+              <ComponentStep class="MenuItem" classcount="5" classindex="0"
+                             feature="Import Vector Data Node From CSV"
+                             height="20"
+                             id="NbMainWindow.menuItemImport_Vector_Data_Node_From_CSV"
+                             uid="_1qaW" width="257">
+                <extrafeature name="qfs:class" negate="false" regexp="false"
+                              state="0">org.openide.awt.Actions$$MenuItem</extrafeature>
+                <extrafeature name="qfs:genericclass" negate="false"
+                              regexp="false" state="0">MenuItem</extrafeature>
+                <extrafeature name="qfs:label" negate="false" regexp="false"
+                              state="1">Import Vector Data Node From CSV</extrafeature>
+                <extrafeature name="qfs:systemclass" negate="false"
+                              regexp="false" state="0">javax.swing.JMenuItem</extrafeature>
+              </ComponentStep>
+              <ComponentStep class="MenuItem" classcount="5" classindex="1"
+                             feature="ESRI Shapefile" height="20"
+                             id="NbMainWindow.menuItemESRI_Shapefile2"
+                             uid="_1qaX" width="257">
+                <extrafeature name="qfs:class" negate="false" regexp="false"
+                              state="0">org.openide.awt.Actions$$MenuItem</extrafeature>
+                <extrafeature name="qfs:genericclass" negate="false"
+                              regexp="false" state="0">MenuItem</extrafeature>
+                <extrafeature name="qfs:label" negate="false" regexp="false"
+                              state="1">ESRI Shapefile</extrafeature>
+                <extrafeature name="qfs:systemclass" negate="false"
+                              regexp="false" state="0">javax.swing.JMenuItem</extrafeature>
+              </ComponentStep>
+              <ComponentStep class="MenuItem" classcount="5" classindex="2"
+                             feature="Import Vector Data Node From Mermaid"
+                             height="20"
+                             id="NbMainWindow.menuItemImport_Vector_Data_Node_From_Mermaid"
+                             uid="_1qaY" width="257">
+                <extrafeature name="qfs:class" negate="false" regexp="false"
+                              state="0">org.openide.awt.Actions$$MenuItem</extrafeature>
+                <extrafeature name="qfs:genericclass" negate="false"
+                              regexp="false" state="0">MenuItem</extrafeature>
+                <extrafeature name="qfs:label" negate="false" regexp="false"
+                              state="1">Import Vector Data Node From Mermaid</extrafeature>
+                <extrafeature name="qfs:systemclass" negate="false"
+                              regexp="false" state="0">javax.swing.JMenuItem</extrafeature>
+              </ComponentStep>
+              <ComponentStep class="MenuItem" classcount="5" classindex="3"
+                             feature="SeaDAS 6.x Track" height="20"
+                             id="NbMainWindow.menuItemSeaDAS_6.x_Track2"
+                             uid="_1qaZ" width="257">
+                <extrafeature name="qfs:class" negate="false" regexp="false"
+                              state="0">org.openide.awt.Actions$$MenuItem</extrafeature>
+                <extrafeature name="qfs:genericclass" negate="false"
+                              regexp="false" state="0">MenuItem</extrafeature>
+                <extrafeature name="qfs:label" negate="false" regexp="false"
+                              state="1">SeaDAS 6.x Track</extrafeature>
+                <extrafeature name="qfs:systemclass" negate="false"
+                              regexp="false" state="0">javax.swing.JMenuItem</extrafeature>
+              </ComponentStep>
+              <ComponentStep class="MenuItem" classcount="5" classindex="4"
+                             feature="SeaBASS Data" height="20"
+                             id="NbMainWindow.menuItemSeaBASS_Data"
+                             uid="_1qaa" width="257">
+                <extrafeature name="qfs:class" negate="false" regexp="false"
+                              state="0">org.openide.awt.Actions$$MenuItem</extrafeature>
+                <extrafeature name="qfs:genericclass" negate="false"
+                              regexp="false" state="0">MenuItem</extrafeature>
+                <extrafeature name="qfs:label" negate="false" regexp="false"
+                              state="1">SeaBASS Data</extrafeature>
                 <extrafeature name="qfs:systemclass" negate="false"
                               regexp="false" state="0">javax.swing.JMenuItem</extrafeature>
               </ComponentStep>
@@ -7535,6 +7847,19 @@ C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\snap\bin\</c
           <ComponentStep class="MenuItem" classcount="117" classindex="1"
                          feature="Reopen Product" height="20"
                          id="NbMainWindow.menuReopen_Product3" uid="_1qZL"
+                         width="177">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JMenu</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">MenuItem</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">Reopen Product</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JMenu</extrafeature>
+          </ComponentStep>
+          <ComponentStep class="MenuItem" classcount="91" classindex="1"
+                         feature="Reopen Product" height="20"
+                         id="NbMainWindow.menuReopen_Product4" uid="_1qaj"
                          width="177">
             <extrafeature name="qfs:class" negate="false" regexp="false"
                           state="0">javax.swing.JMenu</extrafeature>
@@ -16694,6 +17019,366 @@ C:\Users\olga\Projects\snaptop\snap-desktop\snap-application\target\snap\bin\</c
                         state="1">File name:</extrafeature>
           <extrafeature name="qfs:systemclass" negate="false" regexp="false"
                         state="0">javax.swing.JTextField</extrafeature>
+        </ComponentStep>
+      </ComponentStep>
+    </WindowStep>
+    <WindowStep class="Dialog" feature="Export SMOS Grid Points" height="530"
+                id="dialogExport_SMOS_Grid_Points" uid="_1qal" width="349"
+                x="785" y="275">
+      <extrafeature name="qfs:class" negate="false" regexp="false" state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                    state="0">Dialog</extrafeature>
+      <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                    state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Window:Dialog</extrafeature>
+      <ComponentStep class="RadioButton" classcount="5" classindex="0"
+                     feature="Use selected SMOS product" height="23"
+                     id="dialogExport_SMOS_Grid_Points.useSelectedProduct"
+                     name="useSelectedProduct" uid="_1qam" width="303" x="23"
+                     y="55">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JRadioButton</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">RadioButton</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">Use selected SMOS product</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JRadioButton</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="RadioButton" classcount="5" classindex="1"
+                     feature="Use all SMOS products in directory:" height="23"
+                     id="dialogExport_SMOS_Grid_Points.useSelectedProduct.1"
+                     name="useSelectedProduct.1" uid="_1qan" width="303"
+                     x="23" y="81">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JRadioButton</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">RadioButton</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">Use all SMOS products in directory:</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JRadioButton</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="TextField" classcount="6" classindex="0"
+                     height="20"
+                     id="dialogExport_SMOS_Grid_Points.sourceDirectory"
+                     name="sourceDirectory" uid="_1qao" width="254" x="44"
+                     y="107">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JTextField</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">TextField</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JTextField</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="Button" classcount="7" classindex="3"
+                     feature="..." height="20"
+                     id="dialogExport_SMOS_Grid_Points.openFileDialog"
+                     name="openFileDialog" uid="_1qap" width="26" x="300"
+                     y="107">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Button</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">...</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="CheckBox" classcount="1" classindex="0"
+                     feature="Descend into subdirectories" height="23"
+                     id="dialogExport_SMOS_Grid_Points.recursive"
+                     name="recursive" uid="_1qaq" width="282" x="44" y="130">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JCheckBox</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">CheckBox</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">Descend into subdirectories</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JCheckBox</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="RadioButton" classcount="5" classindex="2"
+                     feature="Geometry" height="23"
+                     id="dialogExport_SMOS_Grid_Points.roiType" name="roiType"
+                     uid="_1qar" width="303" x="23" y="182">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JRadioButton</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">RadioButton</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">Geometry</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JRadioButton</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="ComboBox" classcount="2" classindex="0"
+                     height="20"
+                     id="dialogExport_SMOS_Grid_Points.geometryNode"
+                     name="geometryNode" uid="_1qas" width="303" x="23"
+                     y="208">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JComboBox</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">ComboBox</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">North:</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JComboBox</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="RadioButton" classcount="5" classindex="3"
+                     feature="Pins" height="23"
+                     id="dialogExport_SMOS_Grid_Points.roiType.1"
+                     name="roiType.1" uid="_1qat" width="303" x="23" y="231">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JRadioButton</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">RadioButton</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">Pins</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JRadioButton</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="RadioButton" classcount="5" classindex="4"
+                     feature="Area" height="23"
+                     id="dialogExport_SMOS_Grid_Points.roiType.2"
+                     name="roiType.2" uid="_1qau" width="303" x="23" y="257">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JRadioButton</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">RadioButton</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">Area</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JRadioButton</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="TextField" classcount="6" classindex="1"
+                     height="20" id="dialogExport_SMOS_Grid_Points.north"
+                     name="north" uid="_1qav" width="38" x="170" y="291">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JTextField</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">TextField</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">North:</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JTextField</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="TextField" classcount="6" classindex="2"
+                     height="20" id="dialogExport_SMOS_Grid_Points.west"
+                     name="west" uid="_1qaw" width="46" x="65" y="324">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JTextField</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">TextField</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">West:</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JTextField</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="TextField" classcount="6" classindex="3"
+                     height="20" id="dialogExport_SMOS_Grid_Points.east"
+                     name="east" uid="_1qax" width="46" x="262" y="324">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JTextField</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">TextField</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">East:</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JTextField</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="TextField" classcount="6" classindex="4"
+                     height="20" id="dialogExport_SMOS_Grid_Points.south"
+                     name="south" uid="_1qay" width="38" x="171" y="357">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JTextField</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">TextField</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">South:</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JTextField</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="ComboBox" classcount="2" classindex="1"
+                     height="20"
+                     id="dialogExport_SMOS_Grid_Points.exportFormat"
+                     name="exportFormat" uid="_1qaz" width="134" x="73"
+                     y="414">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JComboBox</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">ComboBox</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">Export as:</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JComboBox</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="TextField" classcount="6" classindex="5"
+                     height="20" id="dialogExport_SMOS_Grid_Points.targetFile"
+                     name="targetFile" uid="_1qa+" width="275" x="23" y="454">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JTextField</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">TextField</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">Save to file:</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JTextField</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="Button" classcount="7" classindex="2"
+                     feature="Help" height="23"
+                     id="dialogExport_SMOS_Grid_Points.GridPointExportDialog.help"
+                     name="GridPointExportDialog.help" uid="_1qa-" width="53"
+                     x="282" y="493">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Button</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">Help</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="Button" classcount="7" classindex="1"
+                     feature="Close" height="23"
+                     id="dialogExport_SMOS_Grid_Points.GridPointExportDialog.close"
+                     name="GridPointExportDialog.close" uid="_1qb0" width="59"
+                     x="219" y="493">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Button</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">Close</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="Button" classcount="7" classindex="0" feature="OK"
+                     height="23"
+                     id="dialogExport_SMOS_Grid_Points.GridPointExportDialog.ok"
+                     name="GridPointExportDialog.ok" uid="_1qb1" width="47"
+                     x="168" y="493">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Button</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">OK</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+      </ComponentStep>
+      <ComponentStep class="Popup" feature="InvokerName: exportFormat"
+                     height="34"
+                     id="dialogExport_SMOS_Grid_Points.popupInvokerName:_exportFormat"
+                     uid="_1qb2" width="134" x="73" y="434">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.plaf.basic.BasicComboPopup</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Popup</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.plaf.basic.BasicComboPopup</extrafeature>
+        <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Popup:ComboBoxPopup</extrafeature>
+        <ComponentStep class="Panel" classcount="2" classindex="0" height="32"
+                       id="dialogExport_SMOS_Grid_Points.popupInvokerName:_exportFormat.scroll"
+                       uid="_1qb3" width="132" x="1" y="1">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JScrollPane</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">Panel</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JScrollPane</extrafeature>
+          <extrafeature name="qfs:type" negate="false" regexp="false"
+                        state="0">Panel:ScrollPanel</extrafeature>
+          <ComponentStep class="List" classcount="1" classindex="0"
+                         feature="InvokerName: exportFormat"
+                         id="dialogExport_SMOS_Grid_Points.listInvokerName:_exportFormat"
+                         uid="_1qb4">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JList</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">List</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">Export as:</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JList</extrafeature>
+            <extrafeature name="qfs:type" negate="false" regexp="false"
+                          state="0">List:ComboBoxList</extrafeature>
+            <SubItemStep id="dialogExport_SMOS_Grid_Points.listInvokerName:_exportFormat.Earth_Explorer_subsets"
+                         uid="_1qb5">
+              <primary>Earth Explorer subsets</primary>
+            </SubItemStep>
+          </ComponentStep>
+        </ComponentStep>
+      </ComponentStep>
+    </WindowStep>
+    <WindowStep class="Dialog" feature="Select" height="435" id="dialogSelect"
+                modal="true" uid="_1qb6" width="598" x="671" y="175">
+      <extrafeature name="qfs:class" negate="false" regexp="false" state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                    state="0">Dialog</extrafeature>
+      <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                    state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Window:Dialog</extrafeature>
+      <ComponentStep class="FileChooser" classcount="1" classindex="0"
+                     height="397" id="dialogSelect.fileChooser" uid="_1qb7"
+                     width="582" x="8" y="30">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">org.esa.snap.util.io.SnapFileChooser</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">FileChooser</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JFileChooser</extrafeature>
+        <ComponentStep class="Button" classcount="11" classindex="9"
+                       feature="Select" height="23"
+                       id="dialogSelect.buttonSelect" uid="_1qb8" width="75"
+                       x="497" y="337">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JButton</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">Button</extrafeature>
+          <extrafeature name="qfs:label" negate="false" regexp="false"
+                        state="1">Select</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JButton</extrafeature>
+        </ComponentStep>
+        <ComponentStep class="TextField" classcount="1" classindex="0"
+                       feature="Label: Folder name:" height="20"
+                       id="dialogSelect.textFolder_name:" uid="_1qb9"
+                       width="286" x="181" y="339">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JTextField</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">TextField</extrafeature>
+          <extrafeature name="qfs:label" negate="false" regexp="false"
+                        state="1">Folder name:</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JTextField</extrafeature>
+        </ComponentStep>
+        <ComponentStep class="ComboBox" classcount="2" classindex="1"
+                       feature="Label: Files of type:" height="20"
+                       id="dialogSelect.comboFiles_of_type:" uid="_1qbA"
+                       width="286" x="181" y="367">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JComboBox</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">ComboBox</extrafeature>
+          <extrafeature name="qfs:label" negate="false" regexp="false"
+                        state="1">Files of type:</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JComboBox</extrafeature>
+        </ComponentStep>
+        <ComponentStep class="Button" classcount="11" classindex="10"
+                       feature="Cancel" height="23"
+                       id="dialogSelect.buttonCancel" uid="_1qbB" width="75"
+                       x="497" y="364">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JButton</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">Button</extrafeature>
+          <extrafeature name="qfs:label" negate="false" regexp="false"
+                        state="1">Cancel</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JButton</extrafeature>
         </ComponentStep>
       </ComponentStep>
     </WindowStep>

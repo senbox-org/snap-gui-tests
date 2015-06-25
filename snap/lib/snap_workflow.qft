@@ -851,6 +851,11 @@
                     </TryStep>
                   </RepeatSequence>
                   <ElseSequence id="_1lXr">
+                    <ProcedureCall id="_1qZa"
+                                   procedure="run-log.make_screensot">
+                      <variable name="iw_name">mask_manager</variable>
+                      <variable name="iw_name_example">error_dialog</variable>
+                    </ProcedureCall>
                     <ServerScriptStep id="_1lY8" name="error">
                       <code>rc.logError("Mask manager is empty.")</code>
                     </ServerScriptStep>
@@ -959,7 +964,26 @@
           <ProcedureCall id="_1p1T"
                          procedure="utility.open_image_view_check_it"/>
           <ProcedureCall id="_1p1U" procedure="compute.band_histogram"/>
-          <ProcedureCall id="_1p1W" procedure="close.all_products"/>
+          <TryStep id="_1qZS" name="find_error_dialog_mask_is_empty">
+            <ProcedureCall id="_1qZZ"
+                           procedure="wait.appear.error.dialog_SNAP-Error"/>
+            <ProcedureCall id="_1qZU" procedure="run-log.make_screensot">
+              <variable name="iw_name">histogram_error</variable>
+              <variable name="iw_name_example">error_dialog</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1qZX" procedure="get.error_text.snap_error"/>
+            <ProcedureCall id="_1qZQ"
+                           procedure="do_click.error_dialog.button_OK_SNAP_Error"/>
+            <IfSequence id="_1qZY"
+                        test="&#34;$(snap_error)&#34;&lt;&gt;&#34;Either the selected ROI is empty or no pixels have been found within the minimum and maximum values&#34;">
+              <ProcedureCall id="_1qZW" procedure="run-log.logError">
+                <variable name="message">Error: $(snap_error)</variable>
+                <variable name="withScreenshots"/>
+              </ProcedureCall>
+            </IfSequence>
+            <CatchSequence exception="TestException" id="_1qZT" maxerror="0"/>
+          </TryStep>
+          <ProcedureCall id="_1qZR" procedure="close.all_products"/>
           <TryStep disabled="true" id="_1p1X" name="close_histogram_dialog">
             <ProcedureCall id="_1p1Y" procedure="close.dialog"/>
             <CatchSequence exception="TestException" id="_1p1Z" maxerror="0">

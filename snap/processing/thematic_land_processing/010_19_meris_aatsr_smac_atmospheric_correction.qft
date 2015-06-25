@@ -749,7 +749,8 @@
         <ProcedureCall id="_1qP6" procedure="do_click.smac.menu.help"/>
         <ProcedureCall id="_1qP7"
                        procedure="do_click.smac.menu.help_menu_item"/>
-        <ProcedureCall id="_1pVL" procedure="check.help_appears"/>
+        <ProcedureCall id="_1pVL"
+                       procedure="check.help.help_or_error_appears"/>
         <ProcedureCall id="_1pVM" procedure="close.help"/>
       </TestStep>
       <ProcedureCall id="_1qBa"
@@ -1027,6 +1028,16 @@
       </ProcedureCall>
     </Procedure>
   </PackageRoot>
-  <ExtraSequence id="_5"/>
+  <ExtraSequence id="_5">
+    <IfSequence id="_1qd2"
+                test="&#34;$(output_format)&#34;&lt;&gt;&#34;HDF5&#34;">
+      <comment>
+</comment>
+      <ProcedureCall id="_1qd3"
+                     procedure="error_handling.if_error_shoot_message">
+        <variable name="screenshot">run_ndvi_error</variable>
+      </ProcedureCall>
+    </IfSequence>
+  </ExtraSequence>
   <WindowList id="_6"/>
 </RootStep>

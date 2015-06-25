@@ -64,7 +64,8 @@
                   <ProcedureCall id="_1qZJ" procedure="path.graph_file_dir">
                     <variable name="xml_dir">$(xml_file_dir)</variable>
                   </ProcedureCall>
-                  <SetGlobalStep id="_1qZK" varname="new_param">
+                  <ProcedureCall id="_1qZT" procedure="path.param_file_dir"/>
+                  <SetGlobalStep id="_1qZU" varname="new_param">
                     <default>$(graph_file_dir)$(xml_file).xml  -p $(param_file_dir)$(parameters_file) $(param)</default>
                   </SetGlobalStep>
                   <IfSequence id="_1qZL"
@@ -112,7 +113,11 @@
         <IfSequence id="_1qTq" postdelay="2000"
                     test="&#34;$(supported_format)&#34;==&#34;true&#34;">
           <TestStep id="_1qVt" name="set_processing_parameters">
-            <ProcedureCall id="_1qXz"
+            <ProcedureCall id="_1qZQ"
+                           procedure="variables.variable_increase_on_1">
+              <variable name="var_int">$(sleep_time)</variable>
+            </ProcedureCall>
+            <ProcedureCall disabled="true" id="_1qXz"
                            procedure="variables.variable_increase_on_1">
               <variable name="var_int">100</variable>
             </ProcedureCall>
@@ -155,24 +160,18 @@
               </ServerScriptStep>
             </TestStep>
           </TestStep>
+          <ProcedureCall id="_1qZV" procedure="utils.terminate_process">
+            <variable name="client_name">$(gpt_client_name)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qZW" procedure="utils.terminate_process">
+            <variable name="client_name">$(gpt_client_name)</variable>
+          </ProcedureCall>
           <TestStep id="_1qYq" name="run_operator">
             <comment>$(gpt_commando)</comment>
-            <TryStep id="_1qYs">
-              <ShellClientStarter client="$(gpt_client_name)"
-                                  command="$(pconvert_commando)"
-                                  directory="$(folder)" id="_1qYt"
-                                  postdelay="20000"/>
-              <CatchSequence exception="TestException" id="_1qYu"
-                             maxerror="0">
-                <SetGlobalStep id="_1qYv" varname="gpt_client_name">
-                  <default>$(gpt_client_name)_a</default>
-                </SetGlobalStep>
-                <ShellClientStarter client="$(gpt_client_name)_a"
-                                    command="$(pconvert_commando)"
-                                    directory="$(folder)" id="_1qYw"
-                                    postdelay="20000"/>
-              </CatchSequence>
-            </TryStep>
+            <ShellClientStarter client="$(gpt_client_name)"
+                                command="$(pconvert_commando)"
+                                directory="$(folder)" id="_1qYt"
+                                postdelay="20000"/>
             <ProcedureCall id="_1qYx" postdelay="1000"
                            procedure="run-log.log_client_output">
               <variable name="client_name">$(gpt_client_name)</variable>
@@ -306,7 +305,7 @@
                 <default>$(xml_file)</default>
               </SetGlobalStep>
             </TestStep>
-            <ServerScriptStep disabled="true" id="_1qWm" name="print">
+            <ServerScriptStep id="_1qWm" name="print">
               <code>print "************ graph or parameters file = $(new_param)*****************"  </code>
             </ServerScriptStep>
           </TestStep>
@@ -314,6 +313,9 @@
             <SetGlobalStep id="_1qZG" varname="gpt_commando">
               <default>$(gpt_calling) $(new_param) $(input)</default>
             </SetGlobalStep>
+            <ServerScriptStep id="_1qZY" name="print">
+              <code>print "*** gpt_commando = $(gpt_commando)"  </code>
+            </ServerScriptStep>
           </TestStep>
           <ProcedureCall id="_1qWo" procedure="utils.run_operator"/>
           <ProcedureCall id="_1qWp"
@@ -533,6 +535,9 @@
               </SetGlobalStep>
             </ElseSequence>
           </IfSequence>
+          <ServerScriptStep id="_1qZX" name="print">
+            <code>print "outfile = $(outfile)"</code>
+          </ServerScriptStep>
         </TestStep>
         <ProcedureCall id="_1qXG"
                        procedure="check_external_file.file_exists_setGlobal">

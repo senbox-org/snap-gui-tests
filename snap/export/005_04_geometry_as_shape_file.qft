@@ -3,10 +3,13 @@
 <RootStep id="_0" name="root" version="4.0.4">
   <include>qfs.qft</include>
   <include>../lib/snap_export.qft</include>
+  <variable name="output_folder">export</variable>
   <TestSet id="_1" name="005_04_geometry_as_shape_file"
            reportname="005-04 Export geometry as shape file">
-    <DependencyReference id="_1lWz"
-                         reference="dependencies.start_application"/>
+    <DependencyReference id="_1pO-"
+                         reference="start_application_for_processing">
+      <variable name="output_dir">$(output_folder)</variable>
+    </DependencyReference>
     <TestCase id="_79G" name="export_geometry_as_shape_s3a_data">
       <ProcedureCall id="_1oXQ" procedure="open.product_in_snap">
         <variable name="prod_dir">sentinel3_S3A_OL_1_EFR_20130621T100921</variable>
@@ -59,21 +62,46 @@
           <ProcedureCall id="_1qco"
                          procedure="utility.open_image_view_check_it"/>
         </TestStep>
-        <ProcedureCall id="_1qdJ" procedure="draw.rectangle"/>
+        <ProcedureCall id="_1qdh"
+                       procedure="do_click.main_toolbar.tools.draw_rectangle"/>
+        <BasicSequence id="_1qdW" name="draw_rectangle">
+          <MouseEventStep clicks="0" client="$(client)"
+                          component="NbMainWindow.[1]_Oa01_radiance2.panel"
+                          event="MOUSE_MOVED" id="_1qdc" modifiers="0" x="462"
+                          y="231"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.[1]_Oa01_radiance2.panel"
+                          event="MOUSE_PRESSED" id="_1qdd" modifiers="16"
+                          x="462" y="231"/>
+          <MouseEventStep clicks="0" client="$(client)"
+                          component="NbMainWindow.[1]_Oa01_radiance2.panel"
+                          event="MOUSE_DRAGGED" id="_1qde" modifiers="16"
+                          x="558" y="300"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.[1]_Oa01_radiance2.panel"
+                          event="MOUSE_RELEASED" id="_1qdf" modifiers="16"
+                          x="558" y="300"/>
+        </BasicSequence>
+        <ProcedureCall id="_1qdg"
+                       procedure="do_click.main_toolbar.tools.selectTool"/>
         <TestStep id="_1qcp" name="open_export_dialog">
           <TryStep id="_1qcq">
+            <SetGlobalStep id="_1qdX"
+                           varname="export_geometry_as_shape_appears"/>
             <ProcedureCall id="_1qcr"
                            procedure="open.export.geometry_as_shape_file"/>
             <ProcedureCall id="_1qcs"
                            procedure="check.opened.export.geometry_as_shape_file"/>
             <CatchSequence exception="TestException" id="_1qct" maxerror="0">
+              <ProcedureCall id="_1qdY" procedure="do_click.menubar"/>
               <ProcedureCall id="_1qdO"
                              procedure="select.product_tree.vector_node">
                 <variable name="prod_id">0</variable>
                 <variable name="node_id">2</variable>
                 <variable name="node_name">geometry</variable>
               </ProcedureCall>
-              <ProcedureCall id="_1qcv" procedure="run-log.logError">
+              <ProcedureCall disabled="true" id="_1qcv"
+                             procedure="run-log.logError">
                 <variable name="message">menu_item export geometry as shape file is disabled</variable>
                 <variable name="withScreenshots">false</variable>
               </ProcedureCall>
@@ -84,10 +112,12 @@
                                procedure="check.opened.export.geometry_as_shape_file"/>
                 <CatchSequence exception="TestException" id="_1qcz"
                                maxerror="0">
-                  <ProcedureCall id="_1qc+" procedure="run-log.logError">
+                  <ProcedureCall disabled="true" id="_1qc+"
+                                 procedure="run-log.logError">
                     <variable name="message">menu_item export geometry as shape file is disabled</variable>
                     <variable name="withScreenshots">false</variable>
                   </ProcedureCall>
+                  <ProcedureCall id="_1qdZ" procedure="do_click.menubar"/>
                   <ProcedureCall id="_1qc-"
                                  procedure="select.product_tree.band">
                     <variable name="prod_id">0</variable>
@@ -116,9 +146,7 @@
       </IfSequence>
       <IfSequence id="_1qd5"
                   test="&#34;$(export_geometry_as_shape_appears)&#34;==&#34;true&#34;">
-        <ProcedureCall id="_1qd6" procedure="export.geometry_as_shape_file">
-          <variable name="file_name">$(exp_file)</variable>
-        </ProcedureCall>
+        <ProcedureCall id="_1qd6" procedure="export.geometry_as_shape_file"/>
       </IfSequence>
       <ProcedureCall id="_1qd7" procedure="close.all_products"/>
     </Procedure>

@@ -515,19 +515,15 @@
           <ProcedureCall id="_1pZE" procedure="check_selected_source_band">
             <variable name="band_name">radiance_5</variable>
           </ProcedureCall>
-          <ProcedureCall id="_1pZF" procedure="check_selected_source_band">
-            <variable name="band_name">radiance_6</variable>
-          </ProcedureCall>
           <ProcedureCall id="_1pZG" procedure="check_selected_source_band">
             <variable name="band_name">radiance_7</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pZF" procedure="check_selected_source_band">
+            <variable name="band_name">radiance_8</variable>
           </ProcedureCall>
           <ProcedureCall id="_1pZH"
                          procedure="check_source_band_not_selected">
             <variable name="band_name">radiance_2</variable>
-          </ProcedureCall>
-          <ProcedureCall id="_1pZI"
-                         procedure="check_source_band_not_selected">
-            <variable name="band_name">radiance_8</variable>
           </ProcedureCall>
         </TestStep>
         <TestStep id="_1pZJ" name="display_parameters">
@@ -734,12 +730,19 @@
                              procedure="do_click.spectral_unmixing.button_apply"/>
               <ProcedureCall id="_1pUo"
                              procedure="wait.disappear.writing_target_product"/>
-              <ProcedureCall id="_1qcm"
+              <IfSequence id="_1qct"
+                          test="&#34;$(output_format)&#34;&lt;&gt;&#34;HDF5&#34;">
+                <ProcedureCall id="_1qcm"
+                               procedure="error_handling.if_error_shoot_message">
+                  <variable name="screenshot">run_spectral_unmixing_error</variable>
+                </ProcedureCall>
+              </IfSequence>
+              <ProcedureCall id="_1pax"
+                             procedure="click_ok_in_product_created_dialog"/>
+              <ProcedureCall id="_1qcu"
                              procedure="error_handling.if_error_shoot_message">
                 <variable name="screenshot">run_spectral_unmixing_error</variable>
               </ProcedureCall>
-              <ProcedureCall id="_1pax"
-                             procedure="click_ok_in_product_created_dialog"/>
             </TestStep>
             <TestStep id="_1pUq" name="check_target_product">
               <ProcedureCall id="_1pc3"
@@ -761,7 +764,8 @@
                        procedure="do_click.spectral_unmixing.menu.help"/>
         <ProcedureCall id="_1pVI"
                        procedure="do_click.spectral_unmixing.menu.help_menu_item"/>
-        <ProcedureCall id="_1pVL" procedure="check.help_appears"/>
+        <ProcedureCall id="_1pVL"
+                       procedure="check.help.help_or_error_appears"/>
         <ProcedureCall id="_1pVM" procedure="close.help"/>
       </TestStep>
       <TestStep id="_1pVN" name="check_help_about">

@@ -18,6 +18,9 @@
         <SetGlobalStep id="_1ph7" varname="output_file">
           <default>reproj_test</default>
         </SetGlobalStep>
+        <SetGlobalStep id="_1pxw" varname="output_format">
+          <default>BEAM-DIMAP</default>
+        </SetGlobalStep>
         <ProcedureCall id="_1pi6"
                        procedure="qfs.swing.cleanup.closeAllModalDialogs">
           <variable name="maxDialogs">5</variable>
@@ -200,50 +203,53 @@
                      procedure="click_ok_in_product_created_dialog"/>
       <ProcedureCall id="_1pkC"
                      procedure="wait.disappear.writing_target_product"/>
-      <TestStep id="_1piQ" name="handle_errors">
-        <TryStep id="_1pgj">
-          <ProcedureCall id="_1pgk"
-                         procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
-          <ProcedureCall id="_1pjo" procedure="run-log.make_screensot">
-            <variable name="iw_name">error_dialog_SNAP_SNAP_Error</variable>
-            <variable name="iw_name_example">error_dialog</variable>
+      <IfSequence id="_1pbq"
+                  test="&#34;$(output_format)&#34;&lt;&gt;&#34;HDF5&#34;">
+        <TestStep id="_1piQ" name="handle_errors">
+          <TryStep id="_1pgj">
+            <ProcedureCall id="_1pgk"
+                           procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
+            <ProcedureCall id="_1pjo" procedure="run-log.make_screensot">
+              <variable name="iw_name">error_dialog_SNAP_SNAP_Error</variable>
+              <variable name="iw_name_example">error_dialog</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1pgl"
+                           procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
+            <ProcedureCall disabled="true" id="_1oJI"
+                           procedure="set.variable.client_snap"/>
+            <ProcedureCall disabled="true" id="_1pgm"
+                           procedure="run-log.log_client_output">
+              <variable name="client_name">$(client)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1pgo"
+                           procedure="run-log.error_message.error_dialog_appears">
+              <variable name="dialog">dialog_SNAP_SNAP_Error</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1pgn" maxerror="0"/>
+          </TryStep>
+          <TryStep id="_1piI">
+            <ProcedureCall id="_1piJ"
+                           procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
+            <ProcedureCall id="_1piK"
+                           procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
+            <ProcedureCall disabled="true" id="_1piL"
+                           procedure="set.variable.client_snap"/>
+            <ProcedureCall disabled="true" id="_1piM"
+                           procedure="run-log.log_client_output">
+              <variable name="client_name">$(client)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1piN"
+                           procedure="run-log.error_message.error_dialog_appears">
+              <variable name="dialog">Error</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1piO" maxerror="0"/>
+          </TryStep>
+          <ProcedureCall id="_1piP"
+                         procedure="qfs.swing.cleanup.closeAllModalDialogs">
+            <variable name="maxDialogs">5</variable>
           </ProcedureCall>
-          <ProcedureCall id="_1pgl"
-                         procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
-          <ProcedureCall disabled="true" id="_1oJI"
-                         procedure="set.variable.client_snap"/>
-          <ProcedureCall disabled="true" id="_1pgm"
-                         procedure="run-log.log_client_output">
-            <variable name="client_name">$(client)</variable>
-          </ProcedureCall>
-          <ProcedureCall id="_1pgo"
-                         procedure="run-log.error_message.error_dialog_appears">
-            <variable name="dialog">dialog_SNAP_SNAP_Error</variable>
-          </ProcedureCall>
-          <CatchSequence exception="TestException" id="_1pgn" maxerror="0"/>
-        </TryStep>
-        <TryStep id="_1piI">
-          <ProcedureCall id="_1piJ"
-                         procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
-          <ProcedureCall id="_1piK"
-                         procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
-          <ProcedureCall disabled="true" id="_1piL"
-                         procedure="set.variable.client_snap"/>
-          <ProcedureCall disabled="true" id="_1piM"
-                         procedure="run-log.log_client_output">
-            <variable name="client_name">$(client)</variable>
-          </ProcedureCall>
-          <ProcedureCall id="_1piN"
-                         procedure="run-log.error_message.error_dialog_appears">
-            <variable name="dialog">Error</variable>
-          </ProcedureCall>
-          <CatchSequence exception="TestException" id="_1piO" maxerror="0"/>
-        </TryStep>
-        <ProcedureCall id="_1piP"
-                       procedure="qfs.swing.cleanup.closeAllModalDialogs">
-          <variable name="maxDialogs">5</variable>
-        </ProcedureCall>
-      </TestStep>
+        </TestStep>
+      </IfSequence>
       <ProcedureCall id="_1pg+"
                      procedure="click_ok_in_product_created_dialog"/>
     </Procedure>

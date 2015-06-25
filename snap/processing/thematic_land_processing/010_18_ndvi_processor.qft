@@ -740,10 +740,15 @@
                              procedure="do_click.ndvi_processor.button_apply"/>
               <ProcedureCall id="_1pUo"
                              procedure="wait.disappear.writing_target_product"/>
-              <ProcedureCall id="_1qcn"
-                             procedure="error_handling.if_error_shoot_message">
-                <variable name="screenshot">run_ndvi_error</variable>
-              </ProcedureCall>
+              <IfSequence id="_1qcq"
+                          test="&#34;$(output_format)&#34;&lt;&gt;&#34;HDF5&#34;">
+                <comment>
+</comment>
+                <ProcedureCall id="_1qcn"
+                               procedure="error_handling.if_error_shoot_message">
+                  <variable name="screenshot">run_ndvi_error</variable>
+                </ProcedureCall>
+              </IfSequence>
               <ProcedureCall id="_1pax"
                              procedure="click_ok_in_product_created_dialog"/>
             </TestStep>
@@ -767,7 +772,8 @@
                        procedure="do_click.ndvi_processor.menu.help"/>
         <ProcedureCall id="_1pVI"
                        procedure="do_click.ndvi_processor.menu.help_menu_item"/>
-        <ProcedureCall id="_1pVL" procedure="check.help_appears"/>
+        <ProcedureCall id="_1pVL"
+                       procedure="check.help.help_or_error_appears"/>
         <ProcedureCall id="_1pVM" procedure="close.help"/>
       </TestStep>
       <TestStep id="_1pVN" name="check_help_about">

@@ -1105,6 +1105,67 @@
                          procedure="do_click.open_product_dialog.open"/>
         </Procedure>
       </Package>
+      <Package id="_1ps5" name="layer_manager">
+        <Procedure id="_1mQM" name="layer_checkbox">
+          <variable name="layer_node1"/>
+          <variable name="layer_node2"/>
+          <IfSequence id="_1psC" test="&#34;$(layer_node2)&#34;==&#34;&#34;">
+            <SetGlobalStep id="_1psD" local="true" varname="layer_id">
+              <default>$(layer_node1)</default>
+            </SetGlobalStep>
+            <IfSequence id="_1psE" test="${qftest:windows}">
+              <ElseifSequence id="_1psF" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+              <ElseSequence id="_1psG"/>
+            </IfSequence>
+            <ElseSequence id="_1psH">
+              <SetGlobalStep id="_1psI" local="true" varname="layer_id">
+                <default>$(layer_node1)/$(layer_node2)</default>
+              </SetGlobalStep>
+              <IfSequence id="_1psJ" test="${qftest:windows}">
+                <ElseifSequence id="_1psK" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+                <ElseSequence id="_1psL"/>
+              </IfSequence>
+            </ElseSequence>
+          </IfSequence>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.Content_displayer.treeTransparency:2&amp;/$(layer_id)"
+                          event="MOUSE_MPRC" id="_1psM" modifiers="16"/>
+          <IfSequence id="_1omJ" test="${qftest:windows}">
+            <ElseifSequence id="_1omK" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+            <ElseSequence id="_1omL"/>
+          </IfSequence>
+        </Procedure>
+        <Procedure id="_1mQT" name="layer_node">
+          <variable name="layer_node1"/>
+          <variable name="layer_node2"/>
+          <IfSequence id="_1mQU" test="&#34;$(layer_node2)&#34;==&#34;&#34;">
+            <SetGlobalStep id="_1psA" local="true" varname="layer_id">
+              <default>$(layer_node1)</default>
+            </SetGlobalStep>
+            <IfSequence id="_1omP" test="${qftest:windows}">
+              <ElseifSequence id="_1omQ" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+              <ElseSequence id="_1omR"/>
+            </IfSequence>
+            <ElseSequence id="_1mQW">
+              <SetGlobalStep id="_1psB" local="true" varname="layer_id">
+                <default>$(layer_node1)/$(layer_node2)</default>
+              </SetGlobalStep>
+              <IfSequence id="_1omS" test="${qftest:windows}">
+                <ElseifSequence id="_1omT" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+                <ElseSequence id="_1omU"/>
+              </IfSequence>
+            </ElseSequence>
+          </IfSequence>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.Content_displayer.treeTransparency:2&amp;/$(layer_id)"
+                          event="MOUSE_MPRC" id="_1pjM" modifiers="16"/>
+        </Procedure>
+      </Package>
       <Package id="_1l3o" name="main_toolbar">
         <Package id="_1lOH" name="analysis">
           <Procedure id="_1lVH" name="correlative_plot">
@@ -2078,71 +2139,6 @@
         </Procedure>
       </Package>
       <Package id="_1ps4" name="mask_manager"/>
-      <Package id="_1ps5" name="layer_manager">
-        <Procedure id="_1mQT" name="layer_node">
-          <variable name="layer_node1"/>
-          <variable name="layer_node2"/>
-          <IfSequence id="_1mQU" test="&#34;$(layer_node2)&#34;==&#34;&#34;">
-            <SetGlobalStep id="_1psA" local="true" varname="layer_id">
-              <default>$(layer_node1)</default>
-            </SetGlobalStep>
-            <IfSequence id="_1omP" test="${qftest:windows}">
-              <ElseifSequence id="_1omQ" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1omR"/>
-            </IfSequence>
-            <ElseSequence id="_1mQW">
-              <SetGlobalStep id="_1psB" local="true" varname="layer_id">
-                <default>$(layer_node1)/$(layer_node2)</default>
-              </SetGlobalStep>
-              <IfSequence id="_1omS" test="${qftest:windows}">
-                <ElseifSequence id="_1omT" name="MAC?"
-                                test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                <ElseSequence id="_1omU"/>
-              </IfSequence>
-            </ElseSequence>
-          </IfSequence>
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="NbMainWindow.Content_displayer.treeTransparency:2&amp;/$(layer_id)"
-                          event="MOUSE_MPRC" id="_1pjM" modifiers="16"/>
-        </Procedure>
-        <Procedure id="_1mQM" name="layer_checkbox">
-          <variable name="layer_node1"/>
-          <variable name="layer_node2"/>
-          <IfSequence id="_1psC" test="&#34;$(layer_node2)&#34;==&#34;&#34;">
-            <SetGlobalStep id="_1psD" local="true" varname="layer_id">
-              <default>$(layer_node1)</default>
-            </SetGlobalStep>
-            <IfSequence id="_1psE" test="${qftest:windows}">
-              <ElseifSequence id="_1psF" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_1psG"/>
-            </IfSequence>
-            <ElseSequence id="_1psH">
-              <SetGlobalStep id="_1psI" local="true" varname="layer_id">
-                <default>$(layer_node1)/$(layer_node2)</default>
-              </SetGlobalStep>
-              <IfSequence id="_1psJ" test="${qftest:windows}">
-                <ElseifSequence id="_1psK" name="MAC?"
-                                test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                <ElseSequence id="_1psL"/>
-              </IfSequence>
-            </ElseSequence>
-          </IfSequence>
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="NbMainWindow.Content_displayer.treeTransparency:2&amp;/$(layer_id)"
-                          event="MOUSE_MPRC" id="_1psM" modifiers="16"/>
-          <IfSequence id="_1omJ" test="${qftest:windows}">
-            <ElseifSequence id="_1omK" name="MAC?"
-                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-            <ElseSequence id="_1omL"/>
-          </IfSequence>
-        </Procedure>
-      </Package>
-      <Package id="_1ps6" name="placemark_manager">
-        <Package id="_1ps7" name="pin"/>
-        <Package id="_1ps8" name="gcp"/>
-      </Package>
       <Package id="_1kxH" name="menu">
         <Package id="_1lAD" name="edit">
           <Procedure id="_1mUV" name="copy">
@@ -2339,70 +2335,15 @@
         <Package id="_1kxI" name="file">
           <Package id="_1ouW" name="export">
             <Package id="_1qaC" name="other">
-              <Procedure id="_1qbD" name="view_as_image">
-                <comment>@teststep Do click Menu Item 'View as Image'.</comment>
+              <Procedure id="_1qaD" name="colour_legend_as_image">
+                <comment>@teststep Do click Menu Item 'Colour Legend as Image'</comment>
                 <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.menuItemView_as_Image"
-                                event="MOUSE_MPRC" id="_1qbL" modifiers="16"/>
-                <IfSequence id="_1qb+" test="${qftest:windows}">
-                  <ElseifSequence id="_1qb-" name="MAC?"
+                                component="NbMainWindow.menuItemColour_Legend_as_Image"
+                                event="MOUSE_MPRC" id="_1qaY" modifiers="16"/>
+                <IfSequence id="_1qb2" test="${qftest:windows}">
+                  <ElseifSequence id="_1qb3" name="MAC?"
                                   test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1qc0"/>
-                </IfSequence>
-              </Procedure>
-              <Procedure id="_1qc1" name="view_as_google_earth_KMZ">
-                <comment>@teststep Do click Menu Item 'View as Google Earth KMZ'.</comment>
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.menuItemView_as_Google_Earth_KMZ"
-                                event="MOUSE_MPRC" id="_1qc8" modifiers="16"/>
-                <IfSequence id="_1qcA" test="${qftest:windows}">
-                  <ElseifSequence id="_1qcB" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1qcC"/>
-                </IfSequence>
-              </Procedure>
-              <Procedure id="_1qcD" name="transect_pixels">
-                <comment>@teststep Do click Menu Item 'Transect Pixels'.</comment>
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.menuItemTransect_Pixels"
-                                event="MOUSE_MPRC" id="_1qcJ" modifiers="16"/>
-                <IfSequence id="_1qcM" test="${qftest:windows}">
-                  <ElseifSequence id="_1qcN" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1qcO"/>
-                </IfSequence>
-              </Procedure>
-              <Procedure id="_1qcP" name="mask_pixels">
-                <comment>@teststep Do click Menu Item 'Mask Pixels'.</comment>
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.menuItemMask_Pixels"
-                                event="MOUSE_MPRC" id="_1qcU" modifiers="16"/>
-                <IfSequence id="_1qcY" test="${qftest:windows}">
-                  <ElseifSequence id="_1qcZ" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1qca"/>
-                </IfSequence>
-              </Procedure>
-              <Procedure id="_1qcb" name="geometry_as_shape_file">
-                <comment>@teststep Do click Menu Item 'Geometry as Shape file'.</comment>
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.menuItemGeometry_as_Shape_file"
-                                event="MOUSE_MPRC" id="_1qcf" modifiers="16"/>
-                <IfSequence id="_1qck" test="${qftest:windows}">
-                  <ElseifSequence id="_1qcl" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1qcm"/>
-                </IfSequence>
-              </Procedure>
-              <Procedure id="_1qcn" name="geo_coding_as_ENVI_GCP_file">
-                <comment>@teststep Do click Menu Item 'Geo-Coding as ENVI GCP File'.</comment>
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.menuItemGeo-Coding_as_ENVI_GCP_File"
-                                event="MOUSE_MPRC" id="_1qcq" modifiers="16"/>
-                <IfSequence id="_1qcw" test="${qftest:windows}">
-                  <ElseifSequence id="_1qcx" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1qcy"/>
+                  <ElseSequence id="_1qb4"/>
                 </IfSequence>
               </Procedure>
               <Procedure id="_1qcz" name="colour_palette_as_file">
@@ -2416,29 +2357,73 @@
                   <ElseSequence id="_1qd8"/>
                 </IfSequence>
               </Procedure>
-              <Procedure id="_1qaD" name="colour_legend_as_image">
-                <comment>@teststep Do click Menu Item 'Colour Legend as Image'</comment>
+              <Procedure id="_1qcn" name="geo_coding_as_ENVI_GCP_file">
+                <comment>@teststep Do click Menu Item 'Geo-Coding as ENVI GCP File'.</comment>
                 <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.menuItemColour_Legend_as_Image"
-                                event="MOUSE_MPRC" id="_1qaY" modifiers="16"/>
-                <IfSequence id="_1qb2" test="${qftest:windows}">
-                  <ElseifSequence id="_1qb3" name="MAC?"
+                                component="NbMainWindow.menuItemGeo-Coding_as_ENVI_GCP_File"
+                                event="MOUSE_MPRC" id="_1qcq" modifiers="16"/>
+                <IfSequence id="_1qcw" test="${qftest:windows}">
+                  <ElseifSequence id="_1qcx" name="MAC?"
                                   test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1qb4"/>
+                  <ElseSequence id="_1qcy"/>
+                </IfSequence>
+              </Procedure>
+              <Procedure id="_1qcb" name="geometry_as_shape_file">
+                <comment>@teststep Do click Menu Item 'Geometry as Shape file'.</comment>
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.menuItemGeometry_as_Shape_file"
+                                event="MOUSE_MPRC" id="_1qcf" modifiers="16"/>
+                <IfSequence id="_1qck" test="${qftest:windows}">
+                  <ElseifSequence id="_1qcl" name="MAC?"
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+                  <ElseSequence id="_1qcm"/>
+                </IfSequence>
+              </Procedure>
+              <Procedure id="_1qcP" name="mask_pixels">
+                <comment>@teststep Do click Menu Item 'Mask Pixels'.</comment>
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.menuItemMask_Pixels"
+                                event="MOUSE_MPRC" id="_1qcU" modifiers="16"/>
+                <IfSequence id="_1qcY" test="${qftest:windows}">
+                  <ElseifSequence id="_1qcZ" name="MAC?"
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+                  <ElseSequence id="_1qca"/>
+                </IfSequence>
+              </Procedure>
+              <Procedure id="_1qcD" name="transect_pixels">
+                <comment>@teststep Do click Menu Item 'Transect Pixels'.</comment>
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.menuItemTransect_Pixels"
+                                event="MOUSE_MPRC" id="_1qcJ" modifiers="16"/>
+                <IfSequence id="_1qcM" test="${qftest:windows}">
+                  <ElseifSequence id="_1qcN" name="MAC?"
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+                  <ElseSequence id="_1qcO"/>
+                </IfSequence>
+              </Procedure>
+              <Procedure id="_1qc1" name="view_as_google_earth_KMZ">
+                <comment>@teststep Do click Menu Item 'View as Google Earth KMZ'.</comment>
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.menuItemView_as_Google_Earth_KMZ"
+                                event="MOUSE_MPRC" id="_1qc8" modifiers="16"/>
+                <IfSequence id="_1qcA" test="${qftest:windows}">
+                  <ElseifSequence id="_1qcB" name="MAC?"
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+                  <ElseSequence id="_1qcC"/>
+                </IfSequence>
+              </Procedure>
+              <Procedure id="_1qbD" name="view_as_image">
+                <comment>@teststep Do click Menu Item 'View as Image'.</comment>
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.menuItemView_as_Image"
+                                event="MOUSE_MPRC" id="_1qbL" modifiers="16"/>
+                <IfSequence id="_1qb+" test="${qftest:windows}">
+                  <ElseifSequence id="_1qb-" name="MAC?"
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+                  <ElseSequence id="_1qc0"/>
                 </IfSequence>
               </Procedure>
             </Package>
-            <Procedure id="_1qa4" name="other">
-              <comment>@teststep Do click Menu Item 'Other'</comment>
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="NbMainWindow.Other"
-                              event="MOUSE_MPRC" id="_1qaB" modifiers="16"/>
-              <IfSequence id="_1qa5" test="${qftest:windows}">
-                <ElseifSequence id="_1qa7" name="MAC?"
-                                test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                <ElseSequence id="_1qa9"/>
-              </IfSequence>
-            </Procedure>
             <Procedure id="_1oun" name="big_geotiff">
               <comment>@teststep Do click Menu Item 'export GeoTIFF / BigTIFF'.</comment>
               <IfSequence id="_1ouo" test="${qftest:windows}">
@@ -2627,6 +2612,29 @@
                                   modifiers="16"/>
                 </ElseSequence>
               </IfSequence>
+            </Procedure>
+            <Procedure id="_1qa4" name="other">
+              <comment>@teststep Do click Menu Item 'Other'</comment>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.Other"
+                              event="MOUSE_MPRC" id="_1qaB" modifiers="16"/>
+              <IfSequence id="_1qa5" test="${qftest:windows}">
+                <ElseifSequence id="_1qa7" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+                <ElseSequence id="_1qa9"/>
+              </IfSequence>
+            </Procedure>
+            <Procedure id="_1qhq" name="smos_ee_files_to_netcdf">
+              <comment>@teststep Do click Menu Item 'Export SMOS EE Files to NetCDF...'.</comment>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.menuItemExport_SMOS_EE_Files_to_NetCDF..."
+                              event="MOUSE_MPRC" id="_1qhr" modifiers="16"/>
+            </Procedure>
+            <Procedure id="_1qhs" name="smos_grid_points">
+              <comment>@teststep Do click Menu Item 'Export SMOS Grid Points ...'.</comment>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.menuItemExport_SMOS_Grid_Points_..."
+                              event="MOUSE_MPRC" id="_1qht" modifiers="16"/>
             </Procedure>
           </Package>
           <Package id="_1orP" name="import">
@@ -3049,7 +3057,7 @@
               <Procedure id="_1pib" name="csv">
                 <comment>@teststep Do click Menu Item 'CSV'.</comment>
                 <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.menuItemCSV3"
+                                component="NbMainWindow.menuItemImport_Vector_Data_Node_From_CSV"
                                 event="MOUSE_MPRC" id="_1pjn" modifiers="16"/>
                 <IfSequence id="_1pid" test="${qftest:windows}">
                   <ElseifSequence id="_1pie" name="MAC?"
@@ -3060,7 +3068,7 @@
               <Procedure id="_1pjP" name="esri_shapefile">
                 <comment>@teststep Do click Menu Item 'ESRI Shapefile'.</comment>
                 <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.menuItemESRI_Shapefile"
+                                component="NbMainWindow.menuItemESRI_Shapefile2"
                                 event="MOUSE_MPRC" id="_1pjo" modifiers="16"/>
                 <IfSequence id="_1pjQ" test="${qftest:windows}">
                   <ElseifSequence id="_1pjR" name="MAC?"
@@ -3071,7 +3079,7 @@
               <Procedure id="_1pjT" name="mermaid_extraction_file">
                 <comment>@teststep Do click Menu Item 'MERMAID Extraction File'.</comment>
                 <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.menuItemMERMAID_Extraction_File"
+                                component="NbMainWindow.menuItemImport_Vector_Data_Node_From_Mermaid"
                                 event="MOUSE_MPRC" id="_1pjp" modifiers="16"/>
                 <IfSequence id="_1pjU" test="${qftest:windows}">
                   <ElseifSequence id="_1pjV" name="MAC?"
@@ -3079,10 +3087,21 @@
                   <ElseSequence id="_1pjW"/>
                 </IfSequence>
               </Procedure>
+              <Procedure id="_1qhG" name="seaBASS_data">
+                <comment>@teststep Do click Menu Item 'SeaBASS Data'.</comment>
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.menuItemSeaBASS_Data"
+                                event="MOUSE_MPRC" id="_1qhH" modifiers="16"/>
+                <IfSequence id="_1qhI" test="${qftest:windows}">
+                  <ElseifSequence id="_1qhJ" name="MAC?"
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+                  <ElseSequence id="_1qhK"/>
+                </IfSequence>
+              </Procedure>
               <Procedure id="_1pjb" name="seaDAS_6x_track">
                 <comment>@teststep Do click Menu Item 'SeaDAS 6.x Track'.</comment>
                 <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.menuItemSeaDAS_6.x_Track"
+                                component="NbMainWindow.menuItemSeaDAS_6.x_Track2"
                                 event="MOUSE_MPRC" id="_1pjr" modifiers="16"/>
                 <IfSequence id="_1pjc" test="${qftest:windows}">
                   <ElseifSequence id="_1pjd" name="MAC?"
@@ -3164,107 +3183,6 @@
                 <ElseifSequence id="_1piZ" name="MAC?"
                                 test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
                 <ElseSequence id="_1pia"/>
-              </IfSequence>
-            </Procedure>
-          </Package>
-          <Package id="_1qa3" name="export">
-            <Procedure id="_1qdn" name="csv">
-              <comment>@teststep Do click Menu Item 'CSV'.</comment>
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="NbMainWindow.menuItemCSV"
-                              event="MOUSE_MPRC" id="_1qdo" modifiers="16"/>
-              <IfSequence id="_1qe5" test="${qftest:windows}">
-                <ElseifSequence id="_1qe6" name="MAC?"
-                                test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                <ElseSequence id="_1qe7"/>
-              </IfSequence>
-            </Procedure>
-            <Procedure id="_1qe8" name="geoTIFF_bigTIFF">
-              <comment>@teststep Do click Menu Item 'GeoTIFF / BigTIFF'.</comment>
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="NbMainWindow.menuItemGeoTIFF_/_BigTIFF"
-                              event="MOUSE_MPRC" id="_1qeA" modifiers="16"/>
-              <IfSequence id="_1qeS" test="${qftest:windows}">
-                <ElseifSequence id="_1qeT" name="MAC?"
-                                test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                <ElseSequence id="_1qeU"/>
-              </IfSequence>
-            </Procedure>
-            <Procedure id="_1qeV" name="envi">
-              <comment>@teststep Do click Menu Item 'ENVI'</comment>
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="NbMainWindow.menuItemENVI"
-                              event="MOUSE_MPRC" id="_1qeY" modifiers="16"/>
-              <IfSequence id="_1qep" test="${qftest:windows}">
-                <ElseifSequence id="_1qeq" name="MAC?"
-                                test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                <ElseSequence id="_1qer"/>
-              </IfSequence>
-            </Procedure>
-            <Procedure id="_1qes" name="geoTIFF">
-              <comment>@teststep Do click Menu Item 'GeoTIFF'.</comment>
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="NbMainWindow.menuItemGeoTIFF"
-                              event="MOUSE_MPRC" id="_1qew" modifiers="16"/>
-              <IfSequence id="_1qfA" test="${qftest:windows}">
-                <ElseifSequence id="_1qfB" name="MAC?"
-                                test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                <ElseSequence id="_1qfC"/>
-              </IfSequence>
-            </Procedure>
-            <Procedure id="_1qfD" name="hdf5">
-              <comment>@teststep Do click Menu Item 'HDF5'</comment>
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="NbMainWindow.menuItemHDF5"
-                              event="MOUSE_MPRC" id="_1qfI" modifiers="16"/>
-              <IfSequence id="_1qfX" test="${qftest:windows}">
-                <ElseifSequence id="_1qfY" name="MAC?"
-                                test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                <ElseSequence id="_1qfZ"/>
-              </IfSequence>
-            </Procedure>
-            <Procedure id="_1qgf" name="netCDF4-BEAM">
-              <comment>@teststep Do click Menu Item 'NetCDF4-BEAM'.</comment>
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="NbMainWindow.menuItemNetCDF4-BEAM"
-                              event="MOUSE_MPRC" id="_1qgg" modifiers="16"/>
-              <IfSequence id="_1qgp" test="${qftest:windows}">
-                <ElseifSequence id="_1qgq" name="MAC?"
-                                test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                <ElseSequence id="_1qgr"/>
-              </IfSequence>
-            </Procedure>
-            <Procedure id="_1qgs" name="netCDF4-CF">
-              <comment>@teststep Do click Menu Item 'NetCDF4-CF'.</comment>
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="NbMainWindow.menuItemNetCDF4-CF"
-                              event="MOUSE_MPRC" id="_1qgu" modifiers="16"/>
-              <IfSequence id="_1qh0" test="${qftest:windows}">
-                <ElseifSequence id="_1qh1" name="MAC?"
-                                test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                <ElseSequence id="_1qh2"/>
-              </IfSequence>
-            </Procedure>
-            <Procedure id="_1qh3" name="netCDF-BEAM">
-              <comment>@teststep Do click Menu Item 'NetCDF-BEAM'.</comment>
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="NbMainWindow2.menuItemNetCDF-BEAM"
-                              event="MOUSE_MPRC" id="_1qh6" modifiers="16"/>
-              <IfSequence id="_1qhD" test="${qftest:windows}">
-                <ElseifSequence id="_1qhE" name="MAC?"
-                                test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                <ElseSequence id="_1qhF"/>
-              </IfSequence>
-            </Procedure>
-            <Procedure id="_1qfa" name="netCDF-CF">
-              <comment>@teststep Do click Menu Item 'NetCDF-CF'.</comment>
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="NbMainWindow2.menuItemNetCDF-CF"
-                              event="MOUSE_MPRC" id="_1qfj" modifiers="16"/>
-              <IfSequence id="_1qfu" test="${qftest:windows}">
-                <ElseifSequence id="_1qfv" name="MAC?"
-                                test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                <ElseSequence id="_1qfw"/>
               </IfSequence>
             </Procedure>
           </Package>
@@ -3765,6 +3683,51 @@
               </IfSequence>
             </Procedure>
           </Package>
+          <Package id="_1pss" name="preprocessing">
+            <Procedure id="_1ps+" name="meris_cloud_probability_processor">
+              <comment>@teststep Do click Menu Item 'MERIS Cloud Probability Processor'</comment>
+              <IfSequence id="_1ps-" test="${qftest:windows}">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.menuItemMERIS_Cloud_Probability_Processor"
+                                event="MOUSE_MPRC" id="_1pt0" modifiers="16"/>
+                <ElseifSequence id="_1pt1" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItemMERIS_Cloud_Probability_Processor"
+                                  event="MOUSE_MPRC" id="_1pt2"
+                                  modifiers="16"/>
+                </ElseifSequence>
+                <ElseSequence id="_1pt3">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItemMERIS_Cloud_Probability_Processor"
+                                  event="MOUSE_MPRC" id="_1pt4"
+                                  modifiers="16"/>
+                </ElseSequence>
+              </IfSequence>
+            </Procedure>
+            <Procedure id="_1pst"
+                       name="meris_radiometric_correction_processor">
+              <comment>@teststep Do click Menu Item 'MERIS Radiometric Correction'.</comment>
+              <IfSequence id="_1psu" test="${qftest:windows}">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.menuItemMERIS_Radiometric_Correction"
+                                event="MOUSE_MPRC" id="_1psv" modifiers="16"/>
+                <ElseifSequence id="_1psw" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItemMERIS_Radiometric_Correction"
+                                  event="MOUSE_MPRC" id="_1psx"
+                                  modifiers="16"/>
+                </ElseifSequence>
+                <ElseSequence id="_1psy">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItemMERIS_Radiometric_Correction"
+                                  event="MOUSE_MPRC" id="_1psz"
+                                  modifiers="16"/>
+                </ElseSequence>
+              </IfSequence>
+            </Procedure>
+          </Package>
           <Package id="_1pAG" name="spectral_tools">
             <Procedure id="_1p7S" name="spectral_unmixing">
               <comment>@teststep Do click Menu Item 'Spectral Unmixing'</comment>
@@ -3789,27 +3752,6 @@
             </Procedure>
           </Package>
           <Package id="_1pAM" name="thematic_land_processing">
-            <Procedure id="_1p7W" name="ndvi_processor">
-              <comment>@teststep Do click Menu Item 'NDVI Processor'</comment>
-              <IfSequence id="_1p7X" test="${qftest:windows}">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.menuItemNDVI_Processor"
-                                event="MOUSE_MPRC" id="_1p78" modifiers="16"/>
-                <ElseifSequence id="_1p7Y" name="MAC?"
-                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                  <MouseEventStep clicks="1" client="$(client)"
-                                  component="NbMainWindow.menuItemNDVI_Processor"
-                                  event="MOUSE_MPRC" id="_1pAN"
-                                  modifiers="16"/>
-                </ElseifSequence>
-                <ElseSequence id="_1p7Z">
-                  <MouseEventStep clicks="1" client="$(client)"
-                                  component="NbMainWindow.menuItemNDVI_Processor2"
-                                  event="MOUSE_MPRC" id="_1pAO"
-                                  modifiers="16"/>
-                </ElseSequence>
-              </IfSequence>
-            </Procedure>
             <Procedure id="_1pt5"
                        name="meris_aatsr_smac_atmospheric_correction">
               <comment>@teststep Do click Menu Item 'MERIS/(A)ATSR SMAC Atmospheric Correction'</comment>
@@ -3828,6 +3770,27 @@
                   <MouseEventStep clicks="1" client="$(client)"
                                   component="NbMainWindow.menuItemMERIS/(A)ATSR_SMAC_Atmospheric_Correction"
                                   event="MOUSE_MPRC" id="_1ptB"
+                                  modifiers="16"/>
+                </ElseSequence>
+              </IfSequence>
+            </Procedure>
+            <Procedure id="_1p7W" name="ndvi_processor">
+              <comment>@teststep Do click Menu Item 'NDVI Processor'</comment>
+              <IfSequence id="_1p7X" test="${qftest:windows}">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.menuItemNDVI_Processor"
+                                event="MOUSE_MPRC" id="_1p78" modifiers="16"/>
+                <ElseifSequence id="_1p7Y" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItemNDVI_Processor"
+                                  event="MOUSE_MPRC" id="_1pAN"
+                                  modifiers="16"/>
+                </ElseifSequence>
+                <ElseSequence id="_1p7Z">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItemNDVI_Processor2"
+                                  event="MOUSE_MPRC" id="_1pAO"
                                   modifiers="16"/>
                 </ElseSequence>
               </IfSequence>
@@ -3872,51 +3835,6 @@
                   <MouseEventStep clicks="1" client="$(client)"
                                   component="NbMainWindow.menuItemFLH/MCI_Processor"
                                   event="MOUSE_MPRC" id="_1ptI"
-                                  modifiers="16"/>
-                </ElseSequence>
-              </IfSequence>
-            </Procedure>
-          </Package>
-          <Package id="_1pss" name="preprocessing">
-            <Procedure id="_1pst"
-                       name="meris_radiometric_correction_processor">
-              <comment>@teststep Do click Menu Item 'MERIS Radiometric Correction'.</comment>
-              <IfSequence id="_1psu" test="${qftest:windows}">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.menuItemMERIS_Radiometric_Correction"
-                                event="MOUSE_MPRC" id="_1psv" modifiers="16"/>
-                <ElseifSequence id="_1psw" name="MAC?"
-                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                  <MouseEventStep clicks="1" client="$(client)"
-                                  component="NbMainWindow.menuItemMERIS_Radiometric_Correction"
-                                  event="MOUSE_MPRC" id="_1psx"
-                                  modifiers="16"/>
-                </ElseifSequence>
-                <ElseSequence id="_1psy">
-                  <MouseEventStep clicks="1" client="$(client)"
-                                  component="NbMainWindow.menuItemMERIS_Radiometric_Correction"
-                                  event="MOUSE_MPRC" id="_1psz"
-                                  modifiers="16"/>
-                </ElseSequence>
-              </IfSequence>
-            </Procedure>
-            <Procedure id="_1ps+" name="meris_cloud_probability_processor">
-              <comment>@teststep Do click Menu Item 'MERIS Cloud Probability Processor'</comment>
-              <IfSequence id="_1ps-" test="${qftest:windows}">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.menuItemMERIS_Cloud_Probability_Processor"
-                                event="MOUSE_MPRC" id="_1pt0" modifiers="16"/>
-                <ElseifSequence id="_1pt1" name="MAC?"
-                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                  <MouseEventStep clicks="1" client="$(client)"
-                                  component="NbMainWindow.menuItemMERIS_Cloud_Probability_Processor"
-                                  event="MOUSE_MPRC" id="_1pt2"
-                                  modifiers="16"/>
-                </ElseifSequence>
-                <ElseSequence id="_1pt3">
-                  <MouseEventStep clicks="1" client="$(client)"
-                                  component="NbMainWindow.menuItemMERIS_Cloud_Probability_Processor"
-                                  event="MOUSE_MPRC" id="_1pt4"
                                   modifiers="16"/>
                 </ElseSequence>
               </IfSequence>
@@ -3979,6 +3897,25 @@
               </ElseSequence>
             </IfSequence>
           </Procedure>
+          <Procedure id="_1psW" name="preprocessing">
+            <comment>@teststep Do click Menu Item 'Preprocessing'</comment>
+            <IfSequence id="_1psX" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.Preprocessing"
+                              event="MOUSE_MPRC" id="_1psY" modifiers="16"/>
+              <ElseifSequence id="_1psZ" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.Preprocessing"
+                                event="MOUSE_MPRC" id="_1psa" modifiers="16"/>
+              </ElseifSequence>
+              <ElseSequence id="_1psb">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.Preprocessing"
+                                event="MOUSE_MPRC" id="_1psc" modifiers="16"/>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
           <Procedure id="_1p9K" name="spectral_tools">
             <comment>@teststep Do click Menu Item 'Spectral Tools'</comment>
             <IfSequence id="_1p9L" test="${qftest:windows}">
@@ -4033,25 +3970,6 @@
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="NbMainWindow.Thematic_Water_Processing"
                                 event="MOUSE_MPRC" id="_1psj" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1psW" name="preprocessing">
-            <comment>@teststep Do click Menu Item 'Preprocessing'</comment>
-            <IfSequence id="_1psX" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="NbMainWindow.Preprocessing"
-                              event="MOUSE_MPRC" id="_1psY" modifiers="16"/>
-              <ElseifSequence id="_1psZ" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.Preprocessing"
-                                event="MOUSE_MPRC" id="_1psa" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1psb">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.Preprocessing"
-                                event="MOUSE_MPRC" id="_1psc" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
           </Procedure>
@@ -5553,6 +5471,10 @@
             </ElseSequence>
           </IfSequence>
         </Procedure>
+      </Package>
+      <Package id="_1ps6" name="placemark_manager">
+        <Package id="_1ps8" name="gcp"/>
+        <Package id="_1ps7" name="pin"/>
       </Package>
       <Package id="_1pnQ" name="point_data_interpretation_dialog">
         <Procedure id="_1poV" name="button_cance">

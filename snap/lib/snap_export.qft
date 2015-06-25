@@ -11,6 +11,7 @@
   <dependency>../export/005_03_geocoding_envi_gcp_file.qft</dependency>
   <dependency>../export/005_04_geometry_as_shape_file.qft</dependency>
   <PackageRoot id="_3">
+    <Package id="_1qdt" name="check_exported_file"/>
     <Package id="_1lB5" name="export">
       <Procedure id="_1qb2" name="colour_legend_as_image">
         <variable name="file_name"/>
@@ -78,7 +79,7 @@
         <SetGlobalStep id="_1qc9" local="true" varname="export_directory">
           <default>${path:output_data_directory}export${path:slash}</default>
         </SetGlobalStep>
-        <ProcedureCall id="_1qcA"
+        <ProcedureCall id="_1qcA" postdelay="1000"
                        procedure="utility.export_geocoding_envi_gcp_file_dialog">
           <variable name="file">$(export_directory)$(file_name)</variable>
         </ProcedureCall>
@@ -114,103 +115,99 @@
       <Procedure id="_1qcP" name="mask_pixels"/>
       <Procedure id="_1qcb" name="geometry_as_shape_file">
         <ProcedureCall id="_1qcj" procedure="path.main_path"/>
-        <SetGlobalStep id="_1qck" local="true" varname="export_directory">
-          <default>${path:output_data_directory}export${path:slash}</default>
+        <SetGlobalStep id="_1qeK" local="true" varname="output_file">
+          <default>${path:output_data_directory}export${path:slash}$(exp_file)</default>
         </SetGlobalStep>
-        <ProcedureCall id="_1qcl" procedure="utility.geometry_as_shape_file">
-          <variable name="file">$(export_directory)$(file_name)</variable>
+        <ProcedureCall id="_1qeJ"
+                       procedure="utility.geometry_as_shape_file_dialog">
+          <variable name="file">$(output_file)</variable>
         </ProcedureCall>
-        <IfSequence id="_1qdh"
-                    test="&#34;$(fileExists)&#34;==&#34;false&#34;">
-          <ProcedureCall id="_1qdi" procedure="run-log.logError">
-            <variable name="message">$(file_name) is not exported</variable>
-            <variable name="withScreenshots">false</variable>
+        <TestStep id="_1qeM" name="check_exported_files">
+          <SetGlobalStep id="_1qeO" varname="file_name">
+            <default>$(output_file)_Polygon.dbf</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1qeP"
+                         procedure="check_external_file.file_exists_setGlobal">
+            <variable name="fileName">$(file_name)</variable>
           </ProcedureCall>
-        </IfSequence>
-        <SetGlobalStep id="_1qdW" varname="exp_file">
-          <default>$(file_name)_Polygon.dbf</default>
-        </SetGlobalStep>
-        <ProcedureCall id="_1qdX"
-                       procedure="check_external_file.file_exists_setGlobal">
-          <variable name="fileName">$(export_directory)$(file_name)</variable>
-        </ProcedureCall>
-        <IfSequence id="_1qdj"
-                    test="&#34;$(fileExists)&#34;==&#34;false&#34;">
-          <ProcedureCall id="_1qdk" procedure="run-log.logError">
-            <variable name="message">$(file_name) is not exported</variable>
-            <variable name="withScreenshots">false</variable>
+          <IfSequence id="_1qdj"
+                      test="&#34;$(fileExists)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qdk" procedure="run-log.logError">
+              <variable name="message">$(file_name) is not exported</variable>
+              <variable name="withScreenshots">false</variable>
+            </ProcedureCall>
+          </IfSequence>
+          <SetGlobalStep id="_1qdR" varname="file_name">
+            <default>$(output_file)_Polygon.fix</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1qeQ"
+                         procedure="check_external_file.file_exists_setGlobal">
+            <variable name="fileName">$(file_name)</variable>
           </ProcedureCall>
-        </IfSequence>
-        <SetGlobalStep id="_1qdR" varname="exp_file">
-          <default>$(file_name)_Polygon.fix</default>
-        </SetGlobalStep>
-        <ProcedureCall id="_1qdY"
-                       procedure="check_external_file.file_exists_setGlobal">
-          <variable name="fileName">$(export_directory)$(file_name)</variable>
-        </ProcedureCall>
-        <IfSequence id="_1qdl"
-                    test="&#34;$(fileExists)&#34;==&#34;false&#34;">
-          <ProcedureCall id="_1qdm" procedure="run-log.logError">
-            <variable name="message">$(file_name) is not exported</variable>
-            <variable name="withScreenshots">false</variable>
+          <IfSequence id="_1qdl"
+                      test="&#34;$(fileExists)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qdm" procedure="run-log.logError">
+              <variable name="message">$(file_name) is not exported</variable>
+              <variable name="withScreenshots">false</variable>
+            </ProcedureCall>
+          </IfSequence>
+          <SetGlobalStep id="_1qdZ" varname="file_name">
+            <default>$(output_file)_Polygon.prj</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1qeR"
+                         procedure="check_external_file.file_exists_setGlobal">
+            <variable name="fileName">$(file_name)</variable>
           </ProcedureCall>
-        </IfSequence>
-        <SetGlobalStep id="_1qdZ" varname="exp_file">
-          <default>$(file_name)_Polygon.prj</default>
-        </SetGlobalStep>
-        <ProcedureCall id="_1qda"
-                       procedure="check_external_file.file_exists_setGlobal">
-          <variable name="fileName">$(export_directory)$(file_name)</variable>
-        </ProcedureCall>
-        <IfSequence id="_1qdn"
-                    test="&#34;$(fileExists)&#34;==&#34;false&#34;">
-          <ProcedureCall id="_1qdo" procedure="run-log.logError">
-            <variable name="message">$(file_name) is not exported</variable>
-            <variable name="withScreenshots">false</variable>
+          <IfSequence id="_1qdn"
+                      test="&#34;$(fileExists)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qdo" procedure="run-log.logError">
+              <variable name="message">$(file_name) is not exported</variable>
+              <variable name="withScreenshots">false</variable>
+            </ProcedureCall>
+          </IfSequence>
+          <SetGlobalStep id="_1qdb" varname="file_name">
+            <default>$(output_file)_Polygon.qix</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1qeS"
+                         procedure="check_external_file.file_exists_setGlobal">
+            <variable name="fileName">$(file_name)</variable>
           </ProcedureCall>
-        </IfSequence>
-        <SetGlobalStep id="_1qdb" varname="exp_file">
-          <default>$(file_name)_Polygon.qix</default>
-        </SetGlobalStep>
-        <ProcedureCall id="_1qdc"
-                       procedure="check_external_file.file_exists_setGlobal">
-          <variable name="fileName">$(export_directory)$(file_name)</variable>
-        </ProcedureCall>
-        <IfSequence id="_1qdp"
-                    test="&#34;$(fileExists)&#34;==&#34;false&#34;">
-          <ProcedureCall id="_1qdq" procedure="run-log.logError">
-            <variable name="message">$(file_name) is not exported</variable>
-            <variable name="withScreenshots">false</variable>
+          <IfSequence id="_1qdp"
+                      test="&#34;$(fileExists)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qdq" procedure="run-log.logError">
+              <variable name="message">$(file_name) is not exported</variable>
+              <variable name="withScreenshots">false</variable>
+            </ProcedureCall>
+          </IfSequence>
+          <SetGlobalStep id="_1qdd" varname="file_name">
+            <default>$(output_file)_Polygon.shp</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1qeT"
+                         procedure="check_external_file.file_exists_setGlobal">
+            <variable name="fileName">$(file_name)</variable>
           </ProcedureCall>
-        </IfSequence>
-        <SetGlobalStep id="_1qdd" varname="exp_file">
-          <default>$(file_name)_Polygon.shp</default>
-        </SetGlobalStep>
-        <ProcedureCall id="_1qde"
-                       procedure="check_external_file.file_exists_setGlobal">
-          <variable name="fileName">$(export_directory)$(file_name)</variable>
-        </ProcedureCall>
-        <IfSequence id="_1qdr"
-                    test="&#34;$(fileExists)&#34;==&#34;false&#34;">
-          <ProcedureCall id="_1qds" procedure="run-log.logError">
-            <variable name="message">$(file_name) is not exported</variable>
-            <variable name="withScreenshots">false</variable>
+          <IfSequence id="_1qdr"
+                      test="&#34;$(fileExists)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qds" procedure="run-log.logError">
+              <variable name="message">$(file_name) is not exported</variable>
+              <variable name="withScreenshots">false</variable>
+            </ProcedureCall>
+          </IfSequence>
+          <SetGlobalStep id="_1qdf" varname="file_name">
+            <default>$(output_file)_Polygon.shx</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1qeU"
+                         procedure="check_external_file.file_exists_setGlobal">
+            <variable name="fileName">$(file_name)</variable>
           </ProcedureCall>
-        </IfSequence>
-        <SetGlobalStep id="_1qdf" varname="exp_file">
-          <default>$(file_name)_Polygon.shx</default>
-        </SetGlobalStep>
-        <ProcedureCall id="_1qdg"
-                       procedure="check_external_file.file_exists_setGlobal">
-          <variable name="fileName">$(export_directory)$(file_name)</variable>
-        </ProcedureCall>
-        <IfSequence id="_1qcn"
-                    test="&#34;$(fileExists)&#34;==&#34;false&#34;">
-          <ProcedureCall id="_1qco" procedure="run-log.logError">
-            <variable name="message">$(file_name) is not exported</variable>
-            <variable name="withScreenshots">false</variable>
-          </ProcedureCall>
-        </IfSequence>
+          <IfSequence id="_1qcn"
+                      test="&#34;$(fileExists)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qco" procedure="run-log.logError">
+              <variable name="message">$(file_name) is not exported</variable>
+              <variable name="withScreenshots">false</variable>
+            </ProcedureCall>
+          </IfSequence>
+        </TestStep>
       </Procedure>
     </Package>
     <Package id="_1qbK" name="utility">
@@ -319,7 +316,8 @@
       <Procedure id="_1qcd" name="view_as_google_earth_KMZ"/>
       <Procedure id="_1qce" name="transect_pixels"/>
       <Procedure id="_1qcf" name="mask_pixels"/>
-      <Procedure id="_1qcg" name="geometry_as_shape_file">
+      <Procedure id="_1qcg" name="geometry_as_shape_file_dialog">
+        <variable name="file"/>
         <TextInputStep clear="true" client="$(client)"
                        component="dialogSNAP_-_Export_Geometry_as_ESRI_Shapefile.textFile_name:"
                        id="_1qdT">

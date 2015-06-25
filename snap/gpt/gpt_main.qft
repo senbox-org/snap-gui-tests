@@ -352,7 +352,10 @@ rc.setGlobal("files_number", len(sp))</code>
         <variable name="application">$(app)</variable>
       </ProcedureCall>
       <TestStep id="_1qSE" name="check_output_in_snap">
-        <ProcedureCall id="_1qSs" procedure="check_target_product_in_SNAP"/>
+        <SetGlobalStep id="_1qZJ" varname="f">
+          <default>$(of)</default>
+        </SetGlobalStep>
+        <ProcedureCall id="_1qZK" procedure="check_target_product_in_SNAP"/>
         <IfSequence id="_1qSu"
                     test="&#34;$(timeseries_product)&#34;&lt;&gt;&#34;&#34;">
           <SetGlobalStep id="_1p2L" varname="outfn">
@@ -462,10 +465,10 @@ rc.setGlobal("files_number", len(sp))</code>
         <ElseifSequence id="_1oQP"
                         test="&#34;$(other_formats )&#34;==&#34;N1&#34;">
           <TestStep id="_1oQQ" name="N1">
-            <ServerScriptStep disabled="true" id="_1qUq" name="print">
+            <ServerScriptStep id="_1qUq" name="print">
               <code>print "*** N1 = $(sourceOption)-$(dataInDir)-$(fileName)"  </code>
             </ServerScriptStep>
-            <ServerScriptStep disabled="true" id="_1qV5" name="print">
+            <ServerScriptStep id="_1qV5" name="print">
               <code>print "*** N1 = $(sourceOption2)-$(dataInDir2)-$(fileName2)"  </code>
             </ServerScriptStep>
             <SetGlobalStep id="_1qUr" varname="f">
@@ -484,16 +487,15 @@ rc.setGlobal("files_number", len(sp))</code>
               <variable name="out_form">$(f)</variable>
             </ProcedureCall>
             <ElseSequence id="_1p0o">
-              <SetGlobalStep id="_1p0r" varname="f"/>
+              <SetGlobalStep id="_1qK+" varname="f">
+                <default>dimap</default>
+              </SetGlobalStep>
               <ProcedureCall id="_1oQX"
                              procedure="daten_format.output_format">
                 <variable name="out_form">dimap</variable>
               </ProcedureCall>
             </ElseSequence>
           </IfSequence>
-          <SetGlobalStep id="_1qK+" varname="f">
-            <default>dimap</default>
-          </SetGlobalStep>
           <ProcedureCall id="_1qK-" procedure="test_sequence_utility"/>
         </ElseSequence>
       </IfSequence>
@@ -587,7 +589,7 @@ rc.setGlobal("files_number", len(sp))</code>
               </IfSequence>
               <ElseSequence id="_1qKs">
                 <ProcedureCall id="_1oao" procedure="run-log.logError">
-                  <variable name="message">$(fileName) did not appear</variable>
+                  <variable name="message">Target product is not opened in SNAP</variable>
                   <variable name="withScreenshots">true</variable>
                 </ProcedureCall>
               </ElseSequence>

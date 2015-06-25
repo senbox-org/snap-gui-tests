@@ -248,10 +248,15 @@
                              procedure="do_click.collocation.button_apply"/>
               <ProcedureCall id="_1pUo"
                              procedure="wait.disappear.writing_target_product"/>
-              <ProcedureCall id="_1qTv"
-                             procedure="error_handling.if_error_shoot_message">
-                <variable name="screenshot">run_collocation_error</variable>
-              </ProcedureCall>
+              <IfSequence id="_1qcq"
+                          test="&#34;$(output_format)&#34;&lt;&gt;&#34;HDF5&#34;">
+                <comment>
+</comment>
+                <ProcedureCall id="_1qTv"
+                               procedure="error_handling.if_error_shoot_message">
+                  <variable name="screenshot">run_collocation_error</variable>
+                </ProcedureCall>
+              </IfSequence>
               <ProcedureCall id="_1pUp"
                              procedure="click_ok_in_product_created_dialog"/>
             </TestStep>
@@ -454,7 +459,8 @@
         <ProcedureCall id="_1pVH" procedure="do_click.collocation.menu.help"/>
         <ProcedureCall id="_1pVI"
                        procedure="do_click.collocation.menu.help_menu_item"/>
-        <ProcedureCall id="_1pVL" procedure="check.help_appears"/>
+        <ProcedureCall id="_1pVL"
+                       procedure="check.help.help_or_error_appears"/>
         <ProcedureCall id="_1pVM" procedure="close.help"/>
       </TestStep>
       <TestStep id="_1pVN" name="check_help_about">
@@ -498,8 +504,8 @@
     <Procedure id="_1pON" name="click_ok_in_product_created_dialog">
       <TryStep id="_1qXZ">
         <ComponentWaiter client="$(client)"
-                         component="dialogSNAP_-_Collocation" id="_1qXY"
-                         raise="false"/>
+                         component="dialogSNAP_-_Collocation" errorlevel="0"
+                         id="_1qXY" raise="false"/>
         <MouseEventStep clicks="1" client="$(client)"
                         component="dialogSNAP_-_Collocation.buttonOK"
                         event="MOUSE_MPRC" id="_1qXX" modifiers="16"/>

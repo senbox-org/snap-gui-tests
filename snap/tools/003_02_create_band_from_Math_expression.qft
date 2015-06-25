@@ -317,6 +317,9 @@
         <ProcedureCall id="_1pbc" procedure="deselect.reprojection.save_as"/>
         <ProcedureCall id="_1phG"
                        procedure="test_sequence.preparation_geo_lat_long"/>
+        <SetGlobalStep id="_1pxw" varname="output_format">
+          <default>BEAM-DIMAP</default>
+        </SetGlobalStep>
         <ProcedureCall id="_1phF" procedure="run_reprojection"/>
         <ProcedureCall id="_1piH"
                        procedure="close_processing_tool.geometric_operations.reprojection"/>
@@ -402,13 +405,22 @@
           </ProcedureCall>
           <CatchSequence exception="TestException" id="_1oTN" maxerror="0"/>
         </TryStep>
-        <TryStep id="_1oTQ" name="click_Yes_in_error_dialog">
-          <ProcedureCall id="_1oTO"
-                         procedure="wait.appear.error.dialog_SNAP-Error"/>
-          <ProcedureCall id="_1oTP"
-                         procedure="do_click.error_dialog.button_Yes_SNAP_Error"/>
-          <CatchSequence exception="TestException" id="_1oTR" maxerror="0"/>
-        </TryStep>
+        <TestStep id="_1px-" name="handle_cancel_by_user_dialog">
+          <TryStep id="_1oTQ" name="click_Yes_in_SNAP_SNAP_error_dialog">
+            <ProcedureCall id="_1oTO"
+                           procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
+            <ProcedureCall id="_1oTP"
+                           procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
+            <CatchSequence exception="TestException" id="_1oTR" maxerror="0"/>
+          </TryStep>
+          <TryStep id="_1pxx" name="click_Yes_in_SNAP_error_dialog">
+            <ProcedureCall id="_1pxy"
+                           procedure="wait.appear.error.dialog_SNAP-Error"/>
+            <ProcedureCall id="_1pxz"
+                           procedure="do_click.error_dialog.button_Yes_SNAP_Error"/>
+            <CatchSequence exception="TestException" id="_1px+" maxerror="0"/>
+          </TryStep>
+        </TestStep>
         <TestStep id="_1oT2" name="check">
           <ProcedureCall disabled="true" id="_1oT3"
                          procedure="check.image_view.visible">
@@ -969,7 +981,8 @@ Not fully resolved. The coloring of the images are still slightly different on e
       <TestStep id="_1oWh" name="check_help">
         <ProcedureCall id="_1oWy"
                        procedure="do_click.tools.bandMaths.button_help"/>
-        <ProcedureCall id="_1oXF" procedure="check.help_appears"/>
+        <ProcedureCall id="_1oXF"
+                       procedure="check.help.help_or_error_appears"/>
         <ProcedureCall disabled="true" id="_1pik"
                        procedure="handle_invalid_input"/>
         <ProcedureCall id="_1oXG" procedure="close.help"/>

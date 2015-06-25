@@ -882,6 +882,20 @@
           <ProcedureCall id="_1qcv"
                          procedure="do_click.menu.file.export.other.geometry_as_shape_file"/>
         </Procedure>
+        <Procedure id="_1qhj" name="smos_ee_files_to_netcdf">
+          <comment>@teststep Do click Menu Item 'Export SMOS EE Files to NetCDF...'.</comment>
+          <ProcedureCall id="_1qhq" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1qhs" procedure="do_click.menu.file.export"/>
+          <ProcedureCall id="_1qht"
+                         procedure="do_click.menu.file.export.smos_ee_files_to_netcdf"/>
+        </Procedure>
+        <Procedure id="_1qhL" name="smos_grid_points">
+          <comment>@teststep Do click Menu Item 'Export SMOS Grid Points ...'.</comment>
+          <ProcedureCall id="_1qhu" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1qhv" procedure="do_click.menu.file.export"/>
+          <ProcedureCall id="_1qhw"
+                         procedure="do_click.menu.file.export.smos_grid_points"/>
+        </Procedure>
       </Package>
       <Package id="_1pj-" name="analysis">
         <Procedure id="_1l8W" name="statistics_dialog">
@@ -1043,6 +1057,11 @@
                     <default>false</default>
                   </SetGlobalStep>
                   <ProcedureCall id="_1oQb"
+                                 procedure="run-log.make_screensot">
+                    <variable name="iw_name">open_product_dialog_missing</variable>
+                    <variable name="iw_name_example">error_dialog</variable>
+                  </ProcedureCall>
+                  <ProcedureCall id="_1qhx"
                                  procedure="run-log.error_message.dialog_does_not_appear">
                     <variable name="dialog">Open Product</variable>
                   </ProcedureCall>
@@ -1051,47 +1070,79 @@
             </CatchSequence>
           </TryStep>
         </TestStep>
-        <IfSequence id="_1oRt"
+        <IfSequence id="_1qcy"
                     test="&#34;$(open_product_dialog_appears)&#34;==&#34;true&#34;">
-          <SetGlobalStep id="_1omf" varname="input_file">
-            <default>$(data_source_directory)$(prod)</default>
-          </SetGlobalStep>
-          <TryStep id="_1omh">
-            <ProcedureCall id="_1omg" procedure="select.file_of_type">
+          <IfSequence id="_1qcz"
+                      test="&#34;$(product_type)&#34;==&#34;smos&#34;">
+            <ServerScriptStep disabled="true" id="_1qc+" name="findInString">
+              <code>print "$(prod)"</code>
+              <comment> </comment>
+            </ServerScriptStep>
+            <ServerScriptStep id="_1qdL" name="findInString">
+              <code>import string
+rc.setGlobal("zip_file", string.find("$(prod)", ".zip"))</code>
+              <comment> </comment>
+            </ServerScriptStep>
+            <ServerScriptStep disabled="true" id="_1qdO" name="findInString">
+              <code>print "$(zip_file)"</code>
+              <comment> </comment>
+            </ServerScriptStep>
+            <IfSequence id="_1qdP" test="$(zip_file)&lt;0">
+              <SetGlobalStep id="_1qdQ" varname="input_file">
+                <default>$(data_source_directory)$(prod)${path:slash}$(prod).HDR</default>
+              </SetGlobalStep>
+              <ElseSequence id="_1qdS">
+                <SetGlobalStep id="_1qdT" varname="input_file">
+                  <default>$(data_source_directory)$(prod)</default>
+                </SetGlobalStep>
+              </ElseSequence>
+            </IfSequence>
+            <ElseSequence id="_1qdR">
+              <SetGlobalStep id="_1qd0" varname="input_file">
+                <default>$(data_source_directory)$(prod)</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+          <ServerScriptStep disabled="true" id="_1qdU" name="findInString">
+            <code>print "input_file = $(input_file)"</code>
+            <comment> </comment>
+          </ServerScriptStep>
+          <TryStep id="_1qd1">
+            <ProcedureCall id="_1qd2" procedure="select.file_of_type">
               <variable name="file_of_type">$(reader)</variable>
             </ProcedureCall>
-            <CatchSequence exception="TestException" id="_1omi" maxerror="0">
-              <ProcedureCall id="_1pzF"
+            <CatchSequence exception="TestException" id="_1qd3" maxerror="0">
+              <ProcedureCall id="_1qd4"
                              procedure="daten_format.file_of_type_all"/>
-              <ProcedureCall id="_1pzH" procedure="select.file_of_type">
+              <ProcedureCall id="_1qd5" procedure="select.file_of_type">
                 <variable name="file_of_type">$(file_of_type_all)</variable>
               </ProcedureCall>
             </CatchSequence>
           </TryStep>
-          <IfSequence id="_1op7" test="${qftest:windows}">
+          <IfSequence id="_1qd6" test="${qftest:windows}">
             <TextInputStep clear="true" client="$(client)"
                            component="dialogOpen_Product.textDateiname:"
-                           id="_1oRu">
+                           id="_1qd7">
               <text>$(input_file)</text>
               <comment>@teststep Select $(input_file).</comment>
             </TextInputStep>
-            <ElseifSequence id="_1op8" name="MAC?"
+            <ElseifSequence id="_1qd8" name="MAC?"
                             test="'${system:os.name}' .find('Mac OS X')&gt;=0">
               <TextInputStep clear="true" client="$(client)"
-                             component="textSelection:" id="_1ofd">
+                             component="textSelection:" id="_1qd9">
                 <text>$(input_file)</text>
                 <comment>@teststep Select $(input_file).</comment>
               </TextInputStep>
             </ElseifSequence>
-            <ElseSequence id="_1op9">
+            <ElseSequence id="_1qdA">
               <TextInputStep clear="true" client="$(client)"
-                             component="textSelection:" id="_1opA">
+                             component="textSelection:" id="_1qdB">
                 <text>$(input_file)</text>
                 <comment>@teststep Select $(input_file).</comment>
               </TextInputStep>
             </ElseSequence>
           </IfSequence>
-          <ProcedureCall id="_1oRv" postdelay="2000"
+          <ProcedureCall id="_1qdC" postdelay="2000"
                          procedure="do_click.open_product_dialog.open"/>
         </IfSequence>
         <ProcedureCall id="_1pzt"
@@ -1142,7 +1193,7 @@
           <TryStep id="_1pxl" name="find_error_dialog_click_ok">
             <ComponentWaiter client="$(client)" component="dialogSNAP_-_Error"
                              id="_1pxm" timeout="10"/>
-            <TryStep id="_1pxn">
+            <TryStep id="_1pxn" name="make_screensot">
               <ProcedureCall id="_1pxo" procedure="run-log.make_screensot">
                 <variable name="iw_name">error_dialog_open_product</variable>
                 <variable name="iw_name_example">error_dialog</variable>

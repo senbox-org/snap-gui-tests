@@ -302,6 +302,37 @@
               </CatchSequence>
             </TryStep>
           </Procedure>
+          <Procedure id="_1qhj" name="export_smos_ee_files_to_netcdf"/>
+          <Procedure id="_1qhL" name="export_smos_grid_points">
+            <TryStep id="_1qhk">
+              <ComponentWaiter client="$(client)"
+                               component="dialogExport_SMOS_Grid_Points"
+                               id="_1qc6" timeout="10"/>
+              <SetGlobalStep id="_1qhm"
+                             varname="export_smos_grid_points_dialog_appears">
+                <default>true</default>
+              </SetGlobalStep>
+              <CatchSequence exception="TestException" id="_1qhn"
+                             maxerror="0">
+                <TryStep id="_1qhp">
+                  <ComponentWaiter client="$(client)"
+                                   component="dialogExport_SMOS_Grid_Points"
+                                   id="_1qhq" timeout="1000"/>
+                  <SetGlobalStep id="_1qhr"
+                                 varname="export_smos_grid_points_dialog_appears">
+                    <default>true</default>
+                  </SetGlobalStep>
+                  <CatchSequence exception="TestException" id="_1qhs"
+                                 maxerror="0">
+                    <SetGlobalStep id="_1qht"
+                                   varname="export_smos_grid_points_dialog_appears">
+                      <default>false</default>
+                    </SetGlobalStep>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
         </Package>
         <Procedure id="_1mmx" name="band_maths_expression_editor">
           <ComponentWaiter client="$(client)"
@@ -2080,25 +2111,31 @@
                             id="_1oWf" state="$(visible)"/>
         </Procedure>
       </Package>
-      <Procedure id="_1oWg" name="help_appears">
-        <comment>@teststep Check Help appears.</comment>
-        <TryStep id="_1oaH">
-          <CheckBooleanStep checktype="enabled" client="$(client)"
-                            component="frameHelp.toolbar" id="_1oc+"/>
-          <CheckBooleanStep checktype="enabled" client="$(client)"
-                            component="frameHelp.tabContents.tree"
-                            id="_1oc-"/>
-          <CatchSequence exception="TestException" id="_1oaI" maxerror="0">
-            <ServerScriptStep id="_1oaL" name="error">
-              <code>rc.logError("'Help' does not appear.")</code>
-            </ServerScriptStep>
-          </CatchSequence>
-        </TryStep>
-        <ProcedureCall id="_1px7"
-                       procedure="error_handling.if_error_shoot_message">
-          <variable name="screenshot">Help error</variable>
-        </ProcedureCall>
-      </Procedure>
+      <Package id="_1qct" name="help">
+        <Procedure id="_1oWg" name="help_or_error_appears">
+          <comment>@teststep Check Help or Error appears.</comment>
+          <ProcedureCall id="_1qc-" procedure="check.help.help_appears"/>
+          <ProcedureCall id="_1px7"
+                         procedure="error_handling.if_error_shoot_message">
+            <variable name="screenshot">Help error</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1qcu" name="help_appears">
+          <comment>@teststep Check Help appears.</comment>
+          <TryStep id="_1qcv">
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="frameHelp.toolbar" id="_1qcw"/>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="frameHelp.tabContents.tree"
+                              id="_1qcx"/>
+            <CatchSequence exception="TestException" id="_1qcy" maxerror="0">
+              <ServerScriptStep id="_1qcz" name="error">
+                <code>rc.logError("'Help' does not appear.")</code>
+              </ServerScriptStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+      </Package>
     </Package>
   </PackageRoot>
   <ExtraSequence id="_4">
