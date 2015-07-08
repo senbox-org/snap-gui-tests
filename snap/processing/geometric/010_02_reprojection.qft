@@ -12,7 +12,7 @@
     <TestCase id="_8cc" name="01_check_ui"
               reportname="01 Check Reprojection Tool UI">
       <ProcedureCall id="_1pFq"
-                     procedure="open.processing.geometric_operations.reprojection"/>
+                     procedure="open.raster.geometric_operations.reprojection"/>
       <TestStep id="_1pM7" name="default_componets">
         <TestStep id="_1pbB" name="io_parameters">
           <ProcedureCall id="_1pbA" procedure="select_io_tab"/>
@@ -189,7 +189,7 @@
         <variable name="output_file">test_06.dim</variable>
         <TestStep id="_1pcw" name="preparation">
           <ProcedureCall id="_1pcv"
-                         procedure="open.processing.geometric_operations.reprojection"/>
+                         procedure="open.raster.geometric_operations.reprojection"/>
           <ProcedureCall id="_1pi7" procedure="test_sequence.preparation_io">
             <variable name="prod_dir">$(source_dir)</variable>
             <variable name="prod_name">$(source_data)</variable>
@@ -202,11 +202,13 @@
           <SetGlobalStep id="_1pxw" varname="output_format">
             <default>BEAM-DIMAP</default>
           </SetGlobalStep>
-          <ProcedureCall id="_1pi9" procedure="run_reprojection"/>
+          <ProcedureCall id="_1pi9" procedure="utility.run_reprojection"/>
         </TestStep>
         <TestStep id="_1pd2" name="check_output_product">
           <TestStep id="_1peN" name="open_image_view">
-            <SetGlobalStep id="_1pea" varname="group_id1"/>
+            <SetGlobalStep id="_1pea" varname="group_id1">
+              <default>0</default>
+            </SetGlobalStep>
             <SetGlobalStep id="_1peb" varname="view_Id1">
               <default>0</default>
             </SetGlobalStep>
@@ -326,13 +328,13 @@
       </TestCase>
       <TestCase id="_1pj3"
                 name="processing_add_delta_lat_long_not_reproject_tie_point_grid_meris">
-        <fallback name="source_data">MER_RR__1_test.N1</fallback>
-        <fallback name="source_dir">mer_rr__1p_n1</fallback>
+        <variable name="source_data">MER_RR__1_test.N1</variable>
+        <variable name="source_dir">mer_rr__1p_n1</variable>
         <TestStep id="_1pja" name="prepare_for_the_testing">
           <ProcedureCall id="_1pj5"
-                         procedure="open.processing.geometric_operations.reprojection"/>
+                         procedure="open.raster.geometric_operations.reprojection"/>
           <ProcedureCall id="_1pj6" procedure="select_io_tab"/>
-          <ProcedureCall id="_1pj7" procedure="open_source_product">
+          <ProcedureCall id="_1pj7" procedure="utility.open_source_product">
             <variable name="prod_dir">$(source_dir)</variable>
             <variable name="prod_name">$(source_data)</variable>
           </ProcedureCall>
@@ -368,7 +370,7 @@
           <SetGlobalStep id="_1qd4" varname="output_format">
             <default>BEAM-DIMAP</default>
           </SetGlobalStep>
-          <ProcedureCall id="_1pjk" procedure="run_reprojection"/>
+          <ProcedureCall id="_1pjk" procedure="utility.run_reprojection"/>
         </TestStep>
         <TestStep id="_1pjT" name="check_target_product">
           <ProcedureCall id="_1pjU"
@@ -407,7 +409,7 @@
           <SetGlobalStep id="_1qd5" varname="output_format">
             <default>BEAM-DIMAP</default>
           </SetGlobalStep>
-          <ProcedureCall id="_1pjS" procedure="run_reprojection"/>
+          <ProcedureCall id="_1pjS" procedure="utility.run_reprojection"/>
         </TestStep>
         <TestStep id="_1pkO" name="check_target_product">
           <ProcedureCall id="_1pkP"
@@ -422,7 +424,7 @@
         <variable name="source_dir">mer_frs_1p_n1</variable>
         <TestStep id="_1ph5" name="preparation">
           <ProcedureCall id="_1pZP"
-                         procedure="open.processing.geometric_operations.reprojection"/>
+                         procedure="open.raster.geometric_operations.reprojection"/>
           <ProcedureCall id="_1ph3" procedure="test_sequence.preparation_io">
             <variable name="prod_dir">$(source_dir)</variable>
             <variable name="prod_name">$(source_data)</variable>
@@ -468,6 +470,14 @@
         <variable name="source_data">MER_RR__1_test.N1</variable>
         <variable name="source_dir">mer_rr__1p_n1</variable>
         <SetupSequence id="_1pUV" name="prepare_for_the_testing">
+          <TryStep id="_1l9R" name="check_is_SNAP_is_already_started">
+            <ProcedureCall id="_1oJI" procedure="set.variable.client_snap"/>
+            <ClientWaiter client="$(client)" id="_1oJH" timeout="0"/>
+            <CatchSequence exception="ClientNotConnectedException" id="_1l9T"
+                           maxerror="0" name="not start -&gt; start">
+              <ProcedureCall id="_1p05" procedure="start.snap.application"/>
+            </CatchSequence>
+          </TryStep>
           <ProcedureCall id="_1qd3" procedure="prepare_for_the_testing"/>
         </SetupSequence>
         <TestSet id="_1pUb" name="processing">
@@ -485,7 +495,7 @@
               <code>print "output_file = $(output_file)"</code>
             </ServerScriptStep>
             <TestStep id="_1pUk" name="processing">
-              <TryStep id="_1qcq">
+              <TryStep id="_1qcq" name="check_reprojection_tool_opened">
                 <ProcedureCall id="_1qcp"
                                procedure="check.reprojection.reprojection_tool_opened"/>
                 <CatchSequence exception="TestException" id="_1qcr"
@@ -507,7 +517,7 @@
                              procedure="select.reprojection.output_format">
                 <variable name="output_format">$(output_format)</variable>
               </ProcedureCall>
-              <ProcedureCall id="_1phO" procedure="run_reprojection"/>
+              <ProcedureCall id="_1phO" procedure="utility.run_reprojection"/>
             </TestStep>
             <TestStep id="_1pUq" name="check_target_product">
               <ProcedureCall id="_1pc3"
@@ -523,7 +533,7 @@
     </TestSet>
     <TestCase id="_1pFr" name="03_help">
       <ProcedureCall id="_1pVE"
-                     procedure="open.processing.geometric_operations.reprojection"/>
+                     procedure="open.raster.geometric_operations.reprojection"/>
       <TestStep id="_1pVG" name="check_help">
         <ProcedureCall id="_1pVH"
                        procedure="do_click.reprojection.menu.help"/>
@@ -555,9 +565,9 @@
   <PackageRoot id="_4">
     <Procedure id="_1qcs" name="prepare_for_the_testing">
       <ProcedureCall id="_1qct"
-                     procedure="open.processing.geometric_operations.reprojection"/>
+                     procedure="open.raster.geometric_operations.reprojection"/>
       <ProcedureCall id="_1qcu" procedure="select_io_tab"/>
-      <ProcedureCall id="_1qcv" procedure="open_source_product">
+      <ProcedureCall id="_1qcv" procedure="utility.open_source_product">
         <variable name="prod_dir">$(source_dir)</variable>
         <variable name="prod_name">$(source_data)</variable>
       </ProcedureCall>

@@ -11,9 +11,8 @@
     <comment>Product generation tools. Arithmetic Expression Editor.</comment>
     <DependencyReference id="_1lWz"
                          reference="dependencies.start_application"/>
-    <TestCase id="_8cc" name="01_check_components"
-              reportname="01 Check components default">
-      <variable name="fileName">MER_RR__1_test.N1</variable>
+    <TestCase id="_8cc" name="check_components"
+              reportname="Check components default">
       <TestStep id="_1lF0" name="check_menu_item_band_maths_is_disabled">
         <ProcedureCall id="_1lE-" procedure="do_click.menu.tools"/>
         <ProcedureCall id="_1lEw"
@@ -21,8 +20,9 @@
           <variable name="enabled_status">false</variable>
         </ProcedureCall>
       </TestStep>
-      <ProcedureCall id="_1lEy" procedure="open.product_in_snap">
-        <variable name="prod_dir">mer_rr__1p_n1</variable>
+      <ProcedureCall id="_1qdI" procedure="product_meta_data.MER_RR__1P"/>
+      <ProcedureCall id="_1qdL" procedure="open.product_in_snap">
+        <variable name="prod_dir">$(dataInDir)</variable>
         <variable name="in_out">in</variable>
         <variable name="prod">$(fileName)</variable>
         <variable name="product_type"/>
@@ -153,15 +153,15 @@
         </ElseSequence>
       </IfSequence>
     </TestCase>
-    <TestCase id="_8fb" name="02_create_virtual_band_save_session"
-              reportname="02 Create virtual band, save session">
-      <variable name="fileName">MER_RR__1_test.N1</variable>
+    <TestCase id="_8fb" name="create_virtual_band_save_session"
+              reportname="Create virtual band, save session">
       <variable name="valid_expr">(!l1_flags.INVALID)</variable>
       <variable name="newBand">test_session</variable>
       <variable name="expr">radiance_7&lt;radiance_1 ? radiance_13 : 999.0</variable>
       <TestStep id="_1mkL" name="open_product">
-        <ProcedureCall id="_1oXI" procedure="open.product_in_snap">
-          <variable name="prod_dir">mer_rr__1p_n1</variable>
+        <ProcedureCall id="_1qdM" procedure="product_meta_data.MER_RR__1P"/>
+        <ProcedureCall id="_1qdN" procedure="open.product_in_snap">
+          <variable name="prod_dir">$(dataInDir)</variable>
           <variable name="in_out">in</variable>
           <variable name="prod">$(fileName)</variable>
           <variable name="product_type"/>
@@ -180,7 +180,7 @@
         <ProcedureCall disabled="true" id="_1mkE"
                        procedure="save.file.product_save_as">
           <variable name="output_file_name">$(newBand)</variable>
-          <variable name="dir">$(out_dir_bm)</variable>
+          <variable name="output_folder">$(out_dir_bm)</variable>
         </ProcedureCall>
         <ProcedureCall disabled="true" id="_8fr"
                        procedure="wait.writting_BEAM-DIMAP_format_disappears"/>
@@ -197,21 +197,22 @@
       </TestStep>
       <ProcedureCall id="_1mkK" procedure="close.all_products"/>
     </TestCase>
-    <TestCase id="_8gA" name="03_virtual_collocated_products_save_session"
-              reportname="03 Virtual collocated products save session">
+    <TestCase id="_8gA" name="virtual_collocated_products_save_session"
+              reportname="Virtual collocated products save session">
       <variable name="fileName">MER_RR__1PNMAP20070729_022435_000000792060_00175_28285_0001.N1</variable>
       <variable name="newBand">test_coll_session</variable>
       <variable name="expr">$2.reflec_2&lt;0.5 ? radiance_2 : 999.0</variable>
       <variable name="fileName2">MER_RR__2PNMAP20070729_022435_000000792060_00175_28285_0001.N1</variable>
+      <variable name="dataInDir">collocated_small</variable>
       <TestStep id="_8gB" name="open_data_products" postdelay="1000">
         <ProcedureCall id="_1oRe" procedure="open.product_in_snap">
-          <variable name="prod_dir">collocated_small</variable>
+          <variable name="prod_dir">$(dataInDir)</variable>
           <variable name="in_out">in</variable>
           <variable name="prod">$(fileName)</variable>
           <variable name="product_type"/>
         </ProcedureCall>
         <ProcedureCall id="_1oRf" procedure="open.product_in_snap">
-          <variable name="prod_dir">collocated_small</variable>
+          <variable name="prod_dir">$(dataInDir)</variable>
           <variable name="in_out">in</variable>
           <variable name="prod">$(fileName2)</variable>
           <variable name="product_type"/>
@@ -251,7 +252,7 @@
         <ProcedureCall disabled="true" id="_1oRy"
                        procedure="save.file.product_save_as">
           <variable name="output_file_name">$(newBand)</variable>
-          <variable name="dir">$(out_dir_bm)</variable>
+          <variable name="output_folder">$(out_dir_bm)</variable>
         </ProcedureCall>
         <ProcedureCall disabled="true" id="_1oRz"
                        procedure="wait.writting_BEAM-DIMAP_format_disappears"/>
@@ -261,7 +262,7 @@
         <ProcedureCall disabled="true" id="_1oS3"
                        procedure="save.file.product_save_as">
           <variable name="output_file_name">$(newBand)2</variable>
-          <variable name="dir">$(out_dir_bm)</variable>
+          <variable name="output_folder">$(out_dir_bm)</variable>
         </ProcedureCall>
         <ProcedureCall disabled="true" id="_8gQ"
                        procedure="wait.writting_BEAM-DIMAP_format_disappears"/>
@@ -279,8 +280,8 @@
       </TestStep>
       <ProcedureCall id="_1oS8" procedure="close.all_products"/>
     </TestCase>
-    <TestCase id="_8i1" name="04_reproject_product_containing_math_bands"
-              reportname="04 Reproject product containing math bands">
+    <TestCase id="_8i1" name="reproject_product_containing_math_bands"
+              reportname="Reproject product containing math bands">
       <variable name="fileName">MER_RR__2_test.N1</variable>
       <variable name="valid_expr">(l2_flags.WATER)</variable>
       <variable name="expr">algal_1 / algal_2</variable>
@@ -308,7 +309,7 @@
       <TestStep id="_8wu" name="reproject_geo_lat_long">
         <variable name="ofn">test</variable>
         <ProcedureCall id="_1phv"
-                       procedure="open.processing.geometric_operations.reprojection"/>
+                       procedure="open.raster.geometric_operations.reprojection"/>
         <ProcedureCall id="_1pgy" procedure="select_io_tab"/>
         <ProcedureCall id="_1pbb"
                        procedure="set.reprojection.target_product_name">
@@ -320,7 +321,7 @@
         <SetGlobalStep id="_1pxw" varname="output_format">
           <default>BEAM-DIMAP</default>
         </SetGlobalStep>
-        <ProcedureCall id="_1phF" procedure="run_reprojection"/>
+        <ProcedureCall id="_1phF" procedure="utility.run_reprojection"/>
         <ProcedureCall id="_1piH"
                        procedure="close_processing_tool.geometric_operations.reprojection"/>
       </TestStep>
@@ -365,8 +366,8 @@
         <ProcedureCall id="_1oSb" procedure="close.all_products"/>
       </TestStep>
     </TestCase>
-    <TestCase id="_9BZ" name="05_band_math_in_reproj_product"
-              reportname="05 Create band in the reprojected product">
+    <TestCase id="_9BZ" name="band_math_in_reproj_product"
+              reportname="Create band in the reprojected product">
       <variable name="fileName">proj_geo_NN_MER_FR__2_test</variable>
       <variable name="valid_expr">(!l1_flags.INVALID)</variable>
       <variable name="newBand">test</variable>
@@ -382,8 +383,8 @@
       <ProcedureCall id="_1oUU" procedure="check_new_band"/>
       <ProcedureCall id="_1oSu" procedure="close.all_products"/>
     </TestCase>
-    <TestCase id="_9B-" name="06_cancel_band_math_BEAM-365"
-              reportname="06 Cancel Band Math BEAM-365">
+    <TestCase id="_9B-" name="cancel_band_math_BEAM-365"
+              reportname="Cancel Band Math BEAM-365">
       <variable name="fileName">AT1_TOA_1P_test.zip</variable>
       <variable name="valid_expr">(!l1_flags.INVALID)</variable>
       <variable name="expr">reflec_nadir_0870&lt;reflec_nadir_1600 ? reflec_nadir_0870 : 999.0</variable>
@@ -405,7 +406,8 @@
           </ProcedureCall>
           <CatchSequence exception="TestException" id="_1oTN" maxerror="0"/>
         </TryStep>
-        <TestStep id="_1px-" name="handle_cancel_by_user_dialog">
+        <TestStep id="_1px-" name="handle_cancel_by_user_dialog"
+                  predelay="1000">
           <TryStep id="_1oTQ" name="click_Yes_in_SNAP_SNAP_error_dialog">
             <ProcedureCall id="_1oTO"
                            procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
@@ -419,6 +421,20 @@
             <ProcedureCall id="_1pxz"
                            procedure="do_click.error_dialog.button_Yes_SNAP_Error"/>
             <CatchSequence exception="TestException" id="_1px+" maxerror="0"/>
+          </TryStep>
+          <TryStep id="_1qdO" name="click_Yes_in_SNAP_SNAP_error_dialog">
+            <ProcedureCall id="_1qdP"
+                           procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
+            <ProcedureCall id="_1qdQ"
+                           procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
+            <CatchSequence exception="TestException" id="_1qdR" maxerror="0"/>
+          </TryStep>
+          <TryStep id="_1qdS" name="click_Yes_in_SNAP_error_dialog">
+            <ProcedureCall id="_1qdT"
+                           procedure="wait.appear.error.dialog_SNAP-Error"/>
+            <ProcedureCall id="_1qdU"
+                           procedure="do_click.error_dialog.button_Yes_SNAP_Error"/>
+            <CatchSequence exception="TestException" id="_1qdV" maxerror="0"/>
           </TryStep>
         </TestStep>
         <TestStep id="_1oT2" name="check">
@@ -453,13 +469,37 @@
           </ProcedureCall>
           <CatchSequence exception="TestException" id="_1oTr" maxerror="0"/>
         </TryStep>
-        <TryStep id="_1oTs" name="click_Yes_in_error_dialog">
-          <ProcedureCall id="_1oTt"
-                         procedure="wait.appear.error.dialog_SNAP-Error"/>
-          <ProcedureCall id="_1oTu"
-                         procedure="do_click.error_dialog.button_Yes_SNAP_Error"/>
-          <CatchSequence exception="TestException" id="_1oTv" maxerror="0"/>
-        </TryStep>
+        <TestStep id="_1qdW" name="handle_cancel_by_user_dialog"
+                  predelay="1000">
+          <TryStep id="_1qdX" name="click_Yes_in_SNAP_SNAP_error_dialog">
+            <ProcedureCall id="_1qdY"
+                           procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
+            <ProcedureCall id="_1qdZ"
+                           procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
+            <CatchSequence exception="TestException" id="_1qda" maxerror="0"/>
+          </TryStep>
+          <TryStep id="_1qdb" name="click_Yes_in_SNAP_error_dialog">
+            <ProcedureCall id="_1qdc"
+                           procedure="wait.appear.error.dialog_SNAP-Error"/>
+            <ProcedureCall id="_1qdd"
+                           procedure="do_click.error_dialog.button_Yes_SNAP_Error"/>
+            <CatchSequence exception="TestException" id="_1qde" maxerror="0"/>
+          </TryStep>
+          <TryStep id="_1qdf" name="click_Yes_in_SNAP_SNAP_error_dialog">
+            <ProcedureCall id="_1qdg"
+                           procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
+            <ProcedureCall id="_1qdh"
+                           procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
+            <CatchSequence exception="TestException" id="_1qdi" maxerror="0"/>
+          </TryStep>
+          <TryStep id="_1qdj" name="click_Yes_in_SNAP_error_dialog">
+            <ProcedureCall id="_1qdk"
+                           procedure="wait.appear.error.dialog_SNAP-Error"/>
+            <ProcedureCall id="_1qdl"
+                           procedure="do_click.error_dialog.button_Yes_SNAP_Error"/>
+            <CatchSequence exception="TestException" id="_1qdm" maxerror="0"/>
+          </TryStep>
+        </TestStep>
         <TestStep id="_1oTw" name="check">
           <ProcedureCall disabled="true" id="_1oTx"
                          procedure="check.image_view.visible">
@@ -480,15 +520,15 @@
       </TestStep>
       <ProcedureCall id="_1oTK" procedure="close.all_products"/>
     </TestCase>
-    <TestCase id="_9DO" name="07_band_name_duplicate_invalid_BEAM-307"
-              reportname="07 Band name duplicate, invalid BEAM-307 ">
-      <variable name="fileName">MER_RR__1_test.N1</variable>
+    <TestCase id="_9DO" name="band_name_duplicate_invalid_BEAM-307"
+              reportname="Band name duplicate, invalid BEAM-307 ">
       <variable name="valid_expr">(!l1_flags.INVALID)</variable>
       <variable name="newBand">test</variable>
       <variable name="expr">radiance_7&lt;radiance_1 ? radiance_13 : 999.0</variable>
       <TestStep id="_9DP" name="openProduct">
-        <ProcedureCall id="_1oXP" procedure="open.product_in_snap">
-          <variable name="prod_dir">mer_rr__1p_n1</variable>
+        <ProcedureCall id="_1qdn" procedure="product_meta_data.MER_RR__1P"/>
+        <ProcedureCall id="_1qdo" procedure="open.product_in_snap">
+          <variable name="prod_dir">$(dataInDir)</variable>
           <variable name="in_out">in</variable>
           <variable name="prod">$(fileName)</variable>
           <variable name="product_type"/>
@@ -500,7 +540,9 @@
       </TestStep>
       <TestStep id="_9Dm" name="try_to_create_band_name_duplicate">
         <TryStep id="_1oUq" name="try_to_create_band">
-          <ProcedureCall id="_1oUp" procedure="create_virtual_band"/>
+          <ProcedureCall id="_1qdq" procedure="create_virtual_band"/>
+          <ProcedureCall disabled="true" id="_1qdp"
+                         procedure="bandMaths_dialog_preparation"/>
           <CatchSequence exception="TestException" id="_1oUr" maxerror="0"/>
         </TryStep>
         <ProcedureCall id="_1pih" procedure="handle_invalid_input"/>
@@ -533,8 +575,8 @@
       </TestStep>
       <ProcedureCall id="_1oVL" procedure="close.all_products"/>
     </TestCase>
-    <TestCase id="_9Er" name="08_arithmeticException_by_zero_BEAM-973"
-              reportname="08 Arithmetic Exception by zero BEAM-973">
+    <TestCase id="_9Er" name="arithmeticException_by_zero_BEAM-973"
+              reportname="Arithmetic Exception by zero BEAM-973">
       <variable name="fileName">ASA_APP_1PNPDE20080210_031331_000000162065_00476_31091_7329.N1</variable>
       <variable name="valid_expr">(!l1_flags.INVALID)</variable>
       <variable name="newBand">test</variable>
@@ -562,8 +604,8 @@
       <ProcedureCall id="_1oVW" procedure="close.all_products"/>
     </TestCase>
     <TestCase id="_9Fz"
-              name="09_no-data_samples_shall_be_considered_in_band_math_BEAM-939 "
-              reportname="09 No-data samples shall be considered in band math BEAM-939 ">
+              name="no-data_samples_shall_be_considered_in_band_math_BEAM-939 "
+              reportname="No-data samples shall be considered in band math BEAM-939 ">
       <variable name="fileName">MER_RR__2_test.N1</variable>
       <variable name="valid_expr">l2_flags.WATER</variable>
       <variable name="expr">algal_2&gt;10? algal_2 : 999.9</variable>
@@ -612,8 +654,8 @@
       <ProcedureCall id="_1oVn" procedure="close.all_products"/>
     </TestCase>
     <TestCase disabled="true" id="_9H5"
-              name="11_refresh of virtual bands_BEAM-1012"
-              reportname="11 Refresh of virtual bands BEAM-1012 ">
+              name="refresh of virtual bands_BEAM-1012"
+              reportname="Refresh of virtual bands BEAM-1012 ">
       <variable name="prod">MER_RR__2_test.N1</variable>
       <variable name="valid_expr">(!nan(test_1)) &amp;&amp; (!nan(test_2))</variable>
       <variable name="expr">10</variable>
@@ -863,8 +905,8 @@ Workaround:&lt;br&gt;
       <ProcedureCall id="_9Hf" procedure="close_modified_product"/>
     </TestCase>
     <TestCase disabled="true" id="_9oz"
-              name="12_vb_results_for_non_zero_levels_of_image_pyramids_BEAM-1291 "
-              reportname="12 Virtual bands may compute wrong results for non-zero levels of image pyramids  BEAM-1291 ">
+              name="vb_results_for_non_zero_levels_of_image_pyramids_BEAM-1291 "
+              reportname="Virtual bands may compute wrong results for non-zero levels of image pyramids  BEAM-1291 ">
       <variable name="prod">MER_RR__1_test.N1</variable>
       <variable name="valid_expr">(!nan(test_1)) &amp;&amp; (!nan(test_2))</variable>
       <variable name="expr">X</variable>
@@ -962,7 +1004,69 @@ Not fully resolved. The coloring of the images are still slightly different on e
       </TestStep>
       <ProcedureCall id="_9p-" procedure="close_modified_product"/>
     </TestCase>
-    <TestCase id="_1oWc" name="13_help" reportname="13 Help">
+    <TestCase id="_1py0"
+              name="save_virtual_band_that_has_been_converted_issue_9 "
+              reportname="Save a virtual band that has been converted to computed band ">
+      <variable name="valid_expr">(!l1_flags.INVALID)</variable>
+      <variable name="newBand">test_save_converted_virtual_band</variable>
+      <variable name="expr">radiance_7&lt;radiance_1 ? radiance_13 : 999.0</variable>
+      <TestStep id="_1py1" name="open_product">
+        <ProcedureCall id="_1qdr" procedure="product_meta_data.MER_RR__1P"/>
+        <ProcedureCall id="_1qds" procedure="open.product_in_snap">
+          <variable name="prod_dir">$(dataInDir)</variable>
+          <variable name="in_out">in</variable>
+          <variable name="prod">$(fileName)</variable>
+          <variable name="product_type"/>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1py3" name="create_virtual_band">
+        <ProcedureCall id="_1py4" procedure="create_virtual_band"/>
+      </TestStep>
+      <TestStep id="_1py5" name="check">
+        <ProcedureCall id="_1py6" procedure="check_new_band"/>
+      </TestStep>
+      <TestStep id="_1pyI" name="convert_virtual_band">
+        <ProcedureCall id="_1pyK" procedure="get.tree.get_index_of_node">
+          <variable name="node">$(newBand)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1qcm"
+                       procedure="do_click.tree.right_click_product_node">
+          <variable name="node">$(new_band_id)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1qcn"
+                       procedure="do_click.context_menu.convert_computed_band"/>
+        <ServerScriptStep disabled="true" id="_1l5A" name="print">
+          <code>print "$(new_band_id)"</code>
+        </ServerScriptStep>
+      </TestStep>
+      <TestStep id="_1py7" name="save">
+        <ProcedureCall id="_1qcp" procedure="select.product_tree.product">
+          <variable name="prod_id">0</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1qco" procedure="save.file.product_save_as">
+          <variable name="output_file_name">$(newBand)</variable>
+          <variable name="output_folder">$(out_dir_bm)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pyC" procedure="close.all_products"/>
+      </TestStep>
+      <TestStep id="_1pyF" name="check">
+        <variable name="group_id1"/>
+        <variable name="view_Id1">3</variable>
+        <variable name="bandName">$(newBand)</variable>
+        <ProcedureCall id="_1qcq" procedure="open.product_in_snap">
+          <variable name="prod_dir">$(out_dir_bm)</variable>
+          <variable name="in_out">out</variable>
+          <variable name="prod">$(newBand).dim</variable>
+          <variable name="product_type"/>
+        </ProcedureCall>
+        <ProcedureCall id="_1qcr"
+                       procedure="utility.open_image_view_check_it"/>
+      </TestStep>
+      <ProcedureCall id="_1pyH" procedure="close.all_products"/>
+    </TestCase>
+    <TestCase id="_1oWc" name="help" reportname="Help">
       <variable name="fileName">MER_RR__1_test.N1</variable>
       <TestStep id="_1oWd" name="open_product">
         <ProcedureCall id="_1oXV" procedure="open.product_in_snap">

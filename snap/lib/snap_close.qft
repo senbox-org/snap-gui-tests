@@ -155,6 +155,19 @@
                          event="WINDOW_CLOSING" id="_1oaK"/>
       </Procedure>
       <Procedure id="_1lDa" name="modal_dialogs">
+        <TryStep id="_1pXc">
+          <ComponentWaiter client="$(client)" component="genericModalDialog"
+                           id="_3CY" timeout="50"/>
+          <ProcedureCall id="_1pXe" procedure="run-log.make_screensot">
+            <variable name="iw_name">modal_dialog</variable>
+            <variable name="iw_name_example">error_dialog</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pXf" procedure="run-log.logError">
+            <variable name="message">Unexpected modal dialog appears</variable>
+            <variable name="withScreenshots">true</variable>
+          </ProcedureCall>
+          <CatchSequence exception="TestException" id="_1pXd" maxerror="0"/>
+        </TryStep>
         <ProcedureCall id="_1lDc"
                        procedure="qfs.swing.cleanup.closeAllModalDialogs">
           <variable name="maxDialogs">5</variable>

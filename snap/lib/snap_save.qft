@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.3">
+<RootStep id="_0" name="root" version="4.0.4">
   <include>qfs.qft</include>
   <include>snap_check.qft</include>
   <include>snap_components.qft</include>
@@ -13,8 +13,8 @@
     <Package id="_1lB5" name="save">
       <Package id="_1l05" name="file">
         <Procedure id="_1oQI" name="product_save_as">
-          <variable name="output_file_name">$(newBand)</variable>
-          <variable name="dir">$(out_dir_bm)</variable>
+          <variable name="output_file_name"/>
+          <variable name="output_folder"/>
           <TryStep id="_1oQP">
             <ProcedureCall id="_1oQO" procedure="utility.saveas"/>
             <CatchSequence exception="TestException" id="_1oQQ" maxerror="0">
@@ -30,16 +30,33 @@
               </TryStep>
             </CatchSequence>
           </TryStep>
+          <ProcedureCall id="_1qSb" procedure="path.output_data_directory">
+            <variable name="output_dir">$(output_folder)</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogSNAP_-_Save_Product_As.textFile_name:"
+                         id="_1qdg">
+            <text>$(output_data_directory)$(output_file_name)</text>
+          </TextInputStep>
+          <ProcedureCall id="_1qdi" procedure="do_click.save_as.save_button"/>
+          <ProcedureCall id="_1qds"
+                         procedure="wait.disappear.save_product_progress monitor"/>
         </Procedure>
       </Package>
       <Package id="_1oOp" name="tools"/>
     </Package>
     <Package id="_1oQJ" name="utility">
       <Procedure id="_1oQM" name="saveas">
-        <ProcedureCall id="_1oQK" procedure="do_click.menu.file"/>
-        <ProcedureCall id="_1oQL" procedure="do_click.menu.file.save_as"/>
-        <ProcedureCall id="_1oQN"
-                       procedure="wait.appear.save_product_dialog"/>
+        <TestStep id="_1qdt" name="open_save_as_dialog">
+          <ProcedureCall id="_1oQK" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1oQL" procedure="do_click.menu.file.save_as"/>
+        </TestStep>
+        <ProcedureCall id="_1qdZ"
+                       procedure="wait.appear.dialog.save_product_as_question"/>
+        <ProcedureCall id="_1qda"
+                       procedure="do_click.export_product_dialog.question_yes"/>
+        <ProcedureCall id="_1qdu"
+                       procedure="wait.appear.dialog.save_product_as"/>
       </Procedure>
     </Package>
   </PackageRoot>

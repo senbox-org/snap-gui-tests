@@ -326,16 +326,20 @@
         <MouseEventStep clicks="1" client="$(client)"
                         component="dialogSNAP_-_Export_Geometry_as_ESRI_Shapefile.buttonSave"
                         event="MOUSE_MPRC" id="_1qdU" modifiers="16"/>
+        <IfSequence id="_1r3C" test="${qftest:windows}">
+          <ElseifSequence id="_1r3D" name="MAC?"
+                          test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+          <ElseSequence id="_1r3E"/>
+        </IfSequence>
       </Procedure>
     </Package>
   </PackageRoot>
   <ExtraSequence id="_4">
-    <CheckStringStep client="$(client)"
-                     component="dialogSNAP_-_Export_Geometry_as_ESRI_Shapefile.textFile_name:"
-                     id="_1qci">
-      <text>geometry.shp</text>
-    </CheckStringStep>
-    <BasicSequence id="_1qaW" name="Aufnahme 17.06.15 16:34"/>
+    <IfSequence id="_1op7" test="${qftest:windows}">
+      <ElseifSequence id="_1op8" name="MAC?"
+                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+      <ElseSequence id="_1op9"/>
+    </IfSequence>
     <ProcedureCall id="_1oXb" procedure="select.product_tree.band">
       <variable name="prod_id">0</variable>
       <variable name="group_id"/>

@@ -11,45 +11,29 @@
       <variable name="output_dir">$(output_folder)</variable>
     </DependencyReference>
     <TestCase id="_79G" name="export_colour_legend_as_image_s3a_data">
-      <ProcedureCall id="_1oXQ" procedure="open.product_in_snap">
-        <variable name="prod_dir">sentinel3_S3A_OL_1_EFR_20130621T100921</variable>
+      <ProcedureCall id="_1qdK" procedure="product_meta_data.S3A_OL_1"/>
+      <ProcedureCall id="_1qdJ" procedure="open.product_in_snap">
+        <variable name="prod_dir">$(dataInDir)</variable>
         <variable name="in_out">in</variable>
-        <variable name="prod">xfdumanifest.xml</variable>
+        <variable name="prod">$(fileName)</variable>
         <variable name="product_type"/>
       </ProcedureCall>
-      <TestStep id="_1qcc" name="set_image_variables">
-        <SetGlobalStep id="_1qcd" varname="group_id1"/>
-        <SetGlobalStep id="_1qce" varname="view_Id1">
-          <default>0</default>
-        </SetGlobalStep>
-        <SetGlobalStep id="_1qcf" varname="bandName">
-          <default>Oa01_radiance</default>
-        </SetGlobalStep>
-        <SetGlobalStep id="_1qbJ" varname="exp_file">
-          <default>export_colour_legend_s3a.bmp</default>
-        </SetGlobalStep>
-      </TestStep>
+      <SetGlobalStep id="_1qbJ" varname="exp_file">
+        <default>export_colour_legend_s3a.bmp</default>
+      </SetGlobalStep>
       <ProcedureCall id="_1qd8" procedure="test_sequence"/>
     </TestCase>
     <TestCase id="_1p0F" name="export_colour_legend_as_image_meris_data">
-      <ProcedureCall id="_1p0G" procedure="open.product_in_snap">
-        <variable name="prod_dir">mer_rr__1p_n1</variable>
+      <ProcedureCall id="_1qdI" procedure="product_meta_data.MER_RR__1P"/>
+      <ProcedureCall id="_1qdL" procedure="open.product_in_snap">
+        <variable name="prod_dir">$(dataInDir)</variable>
         <variable name="in_out">in</variable>
-        <variable name="prod">MER_RR__1_test.N1</variable>
+        <variable name="prod">$(fileName)</variable>
         <variable name="product_type"/>
       </ProcedureCall>
-      <TestStep id="_1qcg" name="set_image_variables">
-        <SetGlobalStep id="_1qch" varname="group_id1"/>
-        <SetGlobalStep id="_1qci" varname="view_Id1">
-          <default>0</default>
-        </SetGlobalStep>
-        <SetGlobalStep id="_1qcj" varname="bandName">
-          <default>Oa01_radiance</default>
-        </SetGlobalStep>
-        <SetGlobalStep id="_1qdA" varname="exp_file">
-          <default>export_colour_legend_meris.bmp</default>
-        </SetGlobalStep>
-      </TestStep>
+      <SetGlobalStep id="_1qdA" varname="exp_file">
+        <default>export_colour_legend_meris.bmp</default>
+      </SetGlobalStep>
       <ProcedureCall id="_1qd9" procedure="test_sequence"/>
     </TestCase>
   </TestSet>

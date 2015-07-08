@@ -186,9 +186,8 @@ rc.setGlobal("nd", v)                       </code>
           <ServerScriptStep disabled="true" id="_1oRb" name="print">
             <code>print "node = $(node)"</code>
           </ServerScriptStep>
-          <SetGlobalStep id="_1mKN" local="true" varname="id">
-            <default>NbMainWindow.Product_Explorer.tree</default>
-          </SetGlobalStep>
+          <ProcedureCall id="_1r3k"
+                         procedure="set.product_explorer_tree_component_id"/>
           <ProcedureCall disabled="true" id="_1oRc" procedure="tree.expand">
             <variable name="tree_id">$(id)&amp;/0</variable>
           </ProcedureCall>
@@ -199,7 +198,7 @@ rc.setGlobal("nd", v)                       </code>
               <code>rc.setOption("LegacyFetchIndex", rc.getBool("linear"))</code>
             </ClientScriptStep>
             <FetchIndexStep client="$(client)"
-                            component="$(id)$(nodeSeparator)$(node)"
+                            component="$(product_explorer_tree_component_id)$(nodeSeparator)$(node)"
                             id="_1mKM" local="true" varname="index"/>
             <SetGlobalStep id="_1oTf" varname="new_band_id">
               <default>$(index)</default>
@@ -228,6 +227,67 @@ rc.setGlobal("nd", v)                       </code>
             <FinallySequence id="_1l8S" name="reset option">
               <ClientScriptStep client="$(client)"
                                 engine="${default:guiengine:awt}" id="_1l8T"
+                                name="Unset legacy option">
+                <code>rc.unsetOption("LegacyFetchIndex")</code>
+              </ClientScriptStep>
+            </FinallySequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1r3Q" name="get_index_of_band">
+          <variable name="band_name"/>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+          <comment>Return the current index of a given node.</comment>
+          <ProcedureCall id="_1r3j"
+                         procedure="set.product_explorer_tree_component_id"/>
+          <ProcedureCall id="_1r3i" procedure="qfs.swing.tree.getIndexOfNode">
+            <variable name="id">$(product_explorer_tree_component_id)</variable>
+            <variable name="node">$(band_name)</variable>
+            <variable name="nodeSeparator">@</variable>
+            <variable name="linear">false</variable>
+          </ProcedureCall>
+          <ServerScriptStep id="_1r3l" name="print">
+            <code>print "node id = $(index)"</code>
+          </ServerScriptStep>
+          <ProcedureCall disabled="true" id="_1r3T" procedure="tree.expand">
+            <variable name="tree_id">$(id)&amp;/0</variable>
+          </ProcedureCall>
+          <TryStep disabled="true" id="_1r3U" name="override option">
+            <ClientScriptStep client="$(client)"
+                              engine="${default:guiengine:awt}" id="_1r3V"
+                              name="set legacy option">
+              <code>rc.setOption("LegacyFetchIndex", rc.getBool("linear"))</code>
+            </ClientScriptStep>
+            <FetchIndexStep client="$(client)"
+                            component="$(id)$(nodeSeparator)$(node)"
+                            id="_1r3W" local="true" varname="index"/>
+            <SetGlobalStep id="_1r3X" varname="new_band_id">
+              <default>$(index)</default>
+            </SetGlobalStep>
+            <ServerScriptStep disabled="true" id="_1r3Y" name="print">
+              <code>print "$(new_band_id)"</code>
+            </ServerScriptStep>
+            <ReturnStep id="_1r3Z" retval="$(index)"/>
+            <CatchSequence exception="TestException" id="_1r3a" maxerror="0">
+              <SetGlobalStep id="_1r3b" varname="new_band_id"/>
+              <SetGlobalStep id="_1r3c" varname="ifn">
+                <default>bands_node_id_$(node)</default>
+              </SetGlobalStep>
+              <ServerScriptStep disabled="true" id="_1r3d" name="print">
+                <code>print "$(ifn)"</code>
+              </ServerScriptStep>
+              <ProcedureCall id="_1r3e" procedure="run-log.make_screensot">
+                <variable name="iw_name">$(ifn)</variable>
+                <variable name="iw_name_example">error_dialog</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1r3f"
+                             procedure="run-log.error_message.node_does_not_exist">
+                <variable name="node_name">$(node)</variable>
+              </ProcedureCall>
+            </CatchSequence>
+            <FinallySequence id="_1r3g" name="reset option">
+              <ClientScriptStep client="$(client)"
+                                engine="${default:guiengine:awt}" id="_1r3h"
                                 name="Unset legacy option">
                 <code>rc.unsetOption("LegacyFetchIndex")</code>
               </ClientScriptStep>
@@ -370,6 +430,17 @@ rc.setGlobal("rowCount", rowCount)</code>
         </Procedure>
       </Package>
       <Package id="_1ptO" name="error_text">
+        <Procedure id="_1r3L" name="snap_error_open_product">
+          <SetGlobalStep id="_1r3P" varname="open_product_error"/>
+          <FetchTextStep client="$(client)"
+                         component="dialogError.labelProduct" id="_1r3N"
+                         varname="open_product_error"/>
+        </Procedure>
+        <Procedure id="_1r3m" name="message_in_dialog_SNAP_SNAP_Error">
+          <FetchTextStep client="$(client)"
+                         component="dialogSNAP_-_SNAP_-_Error.labelMessage"
+                         id="_1r3n" varname="error_message"/>
+        </Procedure>
         <Procedure id="_1ptP" name="snap_error">
           <FetchTextStep client="$(client)"
                          component="dialogSNAP_-_Error.labelEither_the_selected_ROI_is_empty_or_no_pixels_have_been_found_within_the_minimum_and_maximum_values"

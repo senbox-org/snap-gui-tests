@@ -950,6 +950,14 @@
         <text>OK</text>
       </CheckStringStep>
     </BasicSequence>
+    <TryStep id="_1qcq" name="check_is_SNAP_is_already_started">
+      <ProcedureCall id="_1qcr" procedure="set.variable.client_snap"/>
+      <ClientWaiter client="$(client)" id="_1qcs" timeout="0"/>
+      <CatchSequence exception="ClientNotConnectedException" id="_1qct"
+                     maxerror="0" name="not start -&gt; start">
+        <ProcedureCall id="_1qcu" procedure="start.snap.application"/>
+      </CatchSequence>
+    </TryStep>
   </ExtraSequence>
   <WindowList id="_5">
     <WindowStep class="Dialog" feature="Collocation" height="502"
@@ -11153,6 +11161,51 @@
                       state="1">OK</extrafeature>
         <extrafeature name="qfs:systemclass" negate="false" regexp="false"
                       state="0">javax.swing.JButton</extrafeature>
+      </ComponentStep>
+    </WindowStep>
+    <WindowStep class="Window" feature="SNAP" height="936" id="NbMainWindow2"
+                name="NbMainWindow" uid="_1qcv" width="1728" x="5" y="0">
+      <extrafeature name="qfs:class" negate="false" regexp="false" state="0">javax.swing.JFrame</extrafeature>
+      <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                    state="0">Window</extrafeature>
+      <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                    state="0">javax.swing.JFrame</extrafeature>
+      <ComponentStep class="MenuBar" classcount="1" classindex="0" height="22"
+                     id="NbMainWindow2.menubar" uid="_1qcw" width="1712" x="8"
+                     y="30">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">org.openide.awt.MenuBar</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">MenuBar</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JMenuBar</extrafeature>
+        <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Menu:MenuBar</extrafeature>
+        <ComponentStep class="MenuItem" classcount="377" classindex="227"
+                       feature="Optical" height="22"
+                       id="NbMainWindow2.Optical" name="Optical" uid="_1qcx"
+                       width="47" x="261" y="0">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">org.openide.awt.MenuBar$$LazyMenu</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">MenuItem</extrafeature>
+          <extrafeature name="qfs:label" negate="false" regexp="false"
+                        state="1">Optical</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JMenu</extrafeature>
+          <ComponentStep class="MenuItem" classcount="13" classindex="1"
+                         feature="Spectral Unmixing" height="20"
+                         id="NbMainWindow2.menuItemSpectral_Unmixing"
+                         uid="_1qcy" width="193">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">org.openide.awt.Actions$$MenuItem</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">MenuItem</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">Spectral Unmixing</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JMenuItem</extrafeature>
+          </ComponentStep>
+        </ComponentStep>
       </ComponentStep>
     </WindowStep>
   </WindowList>

@@ -444,7 +444,7 @@ rc.setGlobal("files_number", len(sp))</code>
           </SetGlobalStep>
           <ProcedureCall id="_1qL1" procedure="test_sequence_utility"/>
         </TestStep>
-        <TestStep id="_1oQA" name="netCDF4_CF">
+        <TestStep disabled="true" id="_1oQA" name="netCDF4_CF">
           <SetGlobalStep id="_1oQB" varname="f">
             <default>netCDF4_CF</default>
           </SetGlobalStep>
@@ -577,6 +577,7 @@ rc.setGlobal("files_number", len(sp))</code>
               </ProcedureCall>
               <IfSequence id="_1qZG"
                           test="&#34;$(f)&#34;==&#34;netCDF_CF&#34; or &#34;$(f)&#34;==&#34;netCDF4_CF&#34;">
+                <SetGlobalStep id="_1q65" varname="group_id1"/>
                 <ProcedureCall id="_1l39"
                                procedure="utility.open_image_view_check_it">
                   <comment>@teststep Open image view and check it.</comment>
@@ -584,7 +585,7 @@ rc.setGlobal("files_number", len(sp))</code>
                 <ProcedureCall id="_1l33" procedure="close.all_products"/>
                 <ElseSequence id="_1qZH">
                   <ProcedureCall id="_1lEu"
-                                 procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+                                 procedure="test_events.imaging_tools.open_image_window_in_target_product_check_masks_layers"/>
                 </ElseSequence>
               </IfSequence>
               <ElseSequence id="_1qKs">

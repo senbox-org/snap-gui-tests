@@ -7,18 +7,20 @@
            reportname="01-01 Imaging tools Aquarius (L1A, L2, L3)">
     <DependencyReference id="_1lWj"
                          reference="dependencies.start_application"/>
-    <DataDriver id="_3y4"
-                loopreportname="Open image view of $(dataInDir)/$(fileName) data product"
-                name="dataTable">
-      <ProcedureCall id="_Bt4" procedure="tables.aquarius"/>
-    </DataDriver>
-    <TestCase id="_2" name="test" reportname="$(productName)">
-      <ProcedureCall id="_C" procedure="import.raster_data">
-        <variable name="import_data">aquarius</variable>
-      </ProcedureCall>
-      <ProcedureCall id="_1lEu"
-                     procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
-    </TestCase>
+    <TestSet id="_1lWz" name="open_product_open_image_view">
+      <DataDriver id="_3y4"
+                  loopreportname="Open image view of $(dataInDir)/$(fileName) data product"
+                  name="dataTable">
+        <ProcedureCall id="_Bt4" procedure="tables.aquarius"/>
+      </DataDriver>
+      <TestCase id="_2" name="test" reportname="$(productName)">
+        <ProcedureCall id="_C" procedure="import.raster_data">
+          <variable name="import_data">aquarius</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1lEu"
+                       procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+      </TestCase>
+    </TestSet>
   </TestSet>
   <PackageRoot id="_3"/>
   <ExtraSequence id="_4"/>

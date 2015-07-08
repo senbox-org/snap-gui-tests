@@ -15,7 +15,7 @@
     <TestCase id="_8cc" name="01_check_ui"
               reportname="01 Check Principal Component Analysis Tool UI">
       <ProcedureCall id="_1pFq"
-                     procedure="open.processing.image_analysis.principle_component_analysis"/>
+                     procedure="open.raster.image_analysis.principle_component_analysis"/>
       <TestStep id="_1pM7" name="default_componets">
         <TestStep id="_1pbB" name="io_parameters">
           <ProcedureCall id="_1pbA" procedure="select_io_tab"/>
@@ -65,10 +65,6 @@
           </ProcedureCall>
           <ProcedureCall id="_1qa4"
                          procedure="check.principle_component_analysis.text.source_bands_empty"/>
-          <ProcedureCall id="_1qZ+"
-                         procedure="check.principle_component_analysis.enabled.button_roi_mask_expression_enabled_status">
-            <variable name="enabled">false</variable>
-          </ProcedureCall>
         </TestStep>
       </TestStep>
       <ProcedureCall id="_1pVo"
@@ -79,8 +75,16 @@
       <variable name="source_data">MER_RR__1_test.N1</variable>
       <variable name="source_dir">mer_rr__1p_n1</variable>
       <SetupSequence id="_1qay" name="prepare_for_the_testing">
+        <TryStep id="_1l9R" name="check_is_SNAP_is_already_started">
+          <ProcedureCall id="_1oJI" procedure="set.variable.client_snap"/>
+          <ClientWaiter client="$(client)" id="_1oJH" timeout="0"/>
+          <CatchSequence exception="ClientNotConnectedException" id="_1l9T"
+                         maxerror="0" name="not start -&gt; start">
+            <ProcedureCall id="_1p05" procedure="start.snap.application"/>
+          </CatchSequence>
+        </TryStep>
         <ProcedureCall id="_1qaz"
-                       procedure="open.processing.image_analysis.principle_component_analysis"/>
+                       procedure="open.raster.image_analysis.principle_component_analysis"/>
       </SetupSequence>
       <TestSet id="_1qa-" name="processing">
         <DataDriver id="_1qb0"
@@ -98,7 +102,7 @@
               <CatchSequence exception="TestException" id="_1qcf"
                              maxerror="0">
                 <ProcedureCall id="_1qcg"
-                               procedure="open.processing.image_analysis.principle_component_analysis"/>
+                               procedure="open.raster.image_analysis.principle_component_analysis"/>
               </CatchSequence>
             </TryStep>
             <ProcedureCall id="_1qbY"
@@ -128,7 +132,7 @@
             <ProcedureCall id="_1qbo"
                            procedure="product_meta_data.for_open_image_view"/>
             <ProcedureCall id="_1qbq"
-                           procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+                           procedure="test_events.imaging_tools.open_image_window_in_target_product_check_masks_layers"/>
           </TestStep>
         </TestCase>
       </TestSet>
@@ -140,7 +144,7 @@
     <TestCase id="_40q" name="03_store_load_display_parameters"
               reportname="03 Store, load, display parameters">
       <ProcedureCall id="_1qBl"
-                     procedure="open.processing.image_analysis.principle_component_analysis"/>
+                     procedure="open.raster.image_analysis.principle_component_analysis"/>
       <TestStep id="_1qbx" name="set_test_variables">
         <SetGlobalStep id="_1qby" varname="source_data">
           <default>MER_FSG_1PNMAP20050726_232437_000000782039_00216_17805_0001.N1</default>
@@ -178,7 +182,7 @@
                        procedure="select.principle_component_analysis.all_source_bands">
           <variable name="source_band">$(band)</variable>
         </ProcedureCall>
-        <ProcedureCall id="_1qcK"
+        <ProcedureCall disabled="true" id="_1qcK"
                        procedure="set.principle_component_analysis.roi_mask_expression">
           <variable name="val"/>
         </ProcedureCall>
@@ -205,7 +209,7 @@
                        procedure="check.principle_component_analysis.text.roi_mask_name">
           <variable name="val">$(roi_mask)</variable>
         </ProcedureCall>
-        <ProcedureCall id="_1qcO"
+        <ProcedureCall disabled="true" id="_1qcO"
                        procedure="check.principle_component_analysis.text.roi_mask_expression">
           <variable name="val">$(mask_expr)</variable>
         </ProcedureCall>
@@ -238,8 +242,16 @@
     <TestSet id="_1pT+" name="04_processing_data_in_different_formats"
              reportname="04 Processing data in different formats">
       <SetupSequence id="_1pUV" name="prepare_for_the_testing">
+        <TryStep id="_1qcq" name="check_is_SNAP_is_already_started">
+          <ProcedureCall id="_1qcr" procedure="set.variable.client_snap"/>
+          <ClientWaiter client="$(client)" id="_1qcs" timeout="0"/>
+          <CatchSequence exception="ClientNotConnectedException" id="_1qct"
+                         maxerror="0" name="not start -&gt; start">
+            <ProcedureCall id="_1qcu" procedure="start.snap.application"/>
+          </CatchSequence>
+        </TryStep>
         <ProcedureCall id="_1qBn"
-                       procedure="open.processing.image_analysis.principle_component_analysis"/>
+                       procedure="open.raster.image_analysis.principle_component_analysis"/>
         <TestStep id="_1qcU" name="set_test_variables">
           <SetGlobalStep id="_1qcV" varname="source_data">
             <default>MER_RR__1_test.N1</default>
@@ -329,7 +341,7 @@
     </TestSet>
     <TestCase id="_1pFr" name="05_help" reportname="05 Check Help">
       <ProcedureCall id="_1qBo"
-                     procedure="open.processing.image_analysis.principle_component_analysis"/>
+                     procedure="open.raster.image_analysis.principle_component_analysis"/>
       <TestStep id="_1pVG" name="check_help">
         <ProcedureCall id="_1pVH"
                        procedure="do_click.principal_component_analysis.menu.help"/>
@@ -470,7 +482,8 @@
           </ProcedureCall>
         </ElseSequence>
       </IfSequence>
-      <IfSequence id="_1qbc" test="&#34;$(mask_expr)&#34;&lt;&gt;&#34;&#34;">
+      <IfSequence disabled="true" id="_1qbc"
+                  test="&#34;$(mask_expr)&#34;&lt;&gt;&#34;&#34;">
         <ProcedureCall id="_1qbs"
                        procedure="select.principle_component_analysis.remove_non_roi_pixels"/>
         <ProcedureCall id="_1qbe"
@@ -505,6 +518,22 @@
     </Procedure>
   </PackageRoot>
   <ExtraSequence id="_5">
+    <BasicSequence id="_1qZC" name="Aufnahme 08.07.15 13:45">
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogPrincipal_Component_Analysis2.roiMaskName"
+                       id="_1qZD"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogPrincipal_Component_Analysis2.componentCount"
+                       id="_1qZE">
+        <text>-1</text>
+      </CheckStringStep>
+      <CheckItemsStep checktype="items" client="$(client)"
+                      component="dialogPrincipal_Component_Analysis2.sourceBandNames"
+                      id="_1qZF"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogPrincipal_Component_Analysis2.removeNonRoiPixels"
+                        id="_1qZG" state="false"/>
+    </BasicSequence>
     <TestStep id="_1qbR" name="set_test_variables">
       <SetGlobalStep id="_1qbS" varname="source_data">
         <default>MER_FSG_1PNMAP20050726_232437_000000782039_00216_17805_0001.N1</default>

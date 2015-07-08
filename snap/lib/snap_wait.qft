@@ -64,9 +64,8 @@
           </Procedure>
           <Procedure id="_1pxO" name="dialog_Invalid_Input">
             <ComponentWaiter client="$(client)"
-                             component="dialogInvalid_Input.buttonOK"
-                             errorlevel="0" id="_1pxP" raise="false"
-                             timeout="100"/>
+                             component="dialogInvalid_Input" errorlevel="0"
+                             id="_1pxP" raise="false" timeout="100"/>
             <IfSequence id="_1pxQ" test="${qftest:windows}">
               <ElseifSequence id="_1pxR" name="MAC?"
                               test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -197,7 +196,7 @@
             <IfSequence id="_1own" test="${qftest:windows}">
               <ComponentWaiter client="$(client)"
                                component="dialogSNAP_-_Save_Product_As"
-                               id="_1owt"/>
+                               id="_1owt" timeout="100"/>
               <ElseifSequence id="_1owo" name="MAC?"
                               test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <ComponentWaiter client="$(client)"
@@ -317,6 +316,11 @@
                             test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
             <ElseSequence id="_1paY"/>
           </IfSequence>
+        </Procedure>
+        <Procedure id="_1qdi" name="save_product_progress monitor">
+          <ComponentWaiter absence="true" client="$(client)"
+                           component="dialogSave_Product" errorlevel="0"
+                           id="_1qdj" raise="false" timeout="1500000"/>
         </Procedure>
       </Package>
       <Procedure id="_9Z5" name="product_is_opened">

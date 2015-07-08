@@ -40,14 +40,14 @@
                       test="&#34;$(source_product_opened)&#34;==&#34;true&#34;">
             <ProcedureCall id="_1phG"
                            procedure="test_sequence.preparation_geo_lat_long"/>
-            <ProcedureCall id="_1phF" procedure="run_reprojection"/>
-            <ProcedureCall id="_1peZ"
-                           procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+            <ProcedureCall id="_1phF" procedure="utility.run_reprojection"/>
+            <ProcedureCall id="_1r3P"
+                           procedure="test_events.imaging_tools.open_image_window_in_target_product_check_masks_layers"/>
             <ProcedureCall id="_1phM"
                            procedure="test_sequence.preparation_utm_automatic"/>
-            <ProcedureCall id="_1phN" procedure="run_reprojection"/>
-            <ProcedureCall id="_1phO"
-                           procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+            <ProcedureCall id="_1phN" procedure="utility.run_reprojection"/>
+            <ProcedureCall id="_1r3Q"
+                           procedure="test_events.imaging_tools.open_image_window_in_target_product_check_masks_layers"/>
           </IfSequence>
           <ElseifSequence id="_1pi8"
                           test="&#34;$(processing)&#34;==&#34;geo&#34;">
@@ -61,9 +61,9 @@
                         test="&#34;$(source_product_opened)&#34;==&#34;true&#34;">
               <ProcedureCall id="_1piB"
                              procedure="test_sequence.preparation_geo_lat_long"/>
-              <ProcedureCall id="_1piC" procedure="run_reprojection"/>
-              <ProcedureCall id="_1piD"
-                             procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+              <ProcedureCall id="_1piC" procedure="utility.run_reprojection"/>
+              <ProcedureCall id="_1r3R"
+                             procedure="test_events.imaging_tools.open_image_window_in_target_product_check_masks_layers"/>
             </IfSequence>
           </ElseifSequence>
         </IfSequence>
@@ -75,9 +75,9 @@
         <variable name="prod_name"/>
         <variable name="output_file"/>
         <ProcedureCall id="_1phv"
-                       procedure="open.processing.geometric_operations.reprojection"/>
+                       procedure="open.raster.geometric_operations.reprojection"/>
         <ProcedureCall id="_1pgy" procedure="select_io_tab"/>
-        <ProcedureCall id="_1pg-" procedure="open_source_product">
+        <ProcedureCall id="_1pg-" procedure="utility.open_source_product">
           <variable name="prod_dir">$(prod_dir)</variable>
           <variable name="prod_name">$(prod_name)</variable>
         </ProcedureCall>
@@ -136,56 +136,133 @@
       </Procedure>
     </Package>
     <Package id="_1pjn" name="projection_parameters_dialog"/>
-    <Procedure id="_1pMT" name="open_source_product">
-      <variable name="prod_dir"/>
-      <variable name="prod_name"/>
-      <ProcedureCall id="_1oSj" procedure="path.source_data_directory">
-        <variable name="data_type">$(prod_dir)</variable>
-      </ProcedureCall>
-      <ProcedureCall id="_1pMS"
-                     procedure="do_click.reprojection.button_source_product"/>
-      <ProcedureCall id="_1pHR"
-                     procedure="utility.handle_select_product_dialog">
-        <variable name="file">$(data_source_directory)$(prod_name)</variable>
-      </ProcedureCall>
-      <TryStep id="_1pXT">
-        <ProcedureCall id="_1pXV" procedure="wait.appear.error.dialog_Error"/>
-        <ProcedureCall id="_1pjp" procedure="run-log.make_screensot">
-          <variable name="iw_name">error_dialog_select_source_product_reprojection</variable>
+    <Package id="_1r3Z" name="utility">
+      <Procedure id="_1r3w" name="handle_error_help">
+        <ProcedureCall id="_1r3y"
+                       procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
+        <ProcedureCall id="_1r3z" procedure="run-log.make_screensot">
+          <variable name="iw_name">error_dialog_SNAP_SNAP_Error</variable>
           <variable name="iw_name_example">error_dialog</variable>
         </ProcedureCall>
-        <ProcedureCall id="_1pXS"
-                       procedure="do_click.error_dialog.button_OK_Error"/>
-        <SetGlobalStep id="_1phw" varname="source_product_opened">
-          <default>false</default>
-        </SetGlobalStep>
-        <ProcedureCall id="_1pXW" procedure="run-log.logError">
-          <variable name="message">Opening of the product $(data_source_directory)$(prod_name) failed</variable>
-          <variable name="withScreenshots">false</variable>
+        <TryStep id="_1r3+" name="get_error_text">
+          <SetGlobalStep id="_1r3-" varname="error_message"/>
+          <ProcedureCall id="_1r40"
+                         procedure="get.error_text.message_in_dialog_SNAP_SNAP_Error"/>
+          <CatchSequence exception="TestException" id="_1r41" maxerror="0"/>
+        </TryStep>
+        <ProcedureCall id="_1r42"
+                       procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
+        <ProcedureCall disabled="true" id="_1r43"
+                       procedure="set.variable.client_snap"/>
+        <ProcedureCall disabled="true" id="_1r44"
+                       procedure="run-log.log_client_output">
+          <variable name="client_name">$(client)</variable>
         </ProcedureCall>
-        <CatchSequence exception="TestException" id="_1pXU" maxerror="0">
-          <SetGlobalStep id="_1phx" varname="source_product_opened">
-            <default>true</default>
-          </SetGlobalStep>
-        </CatchSequence>
-      </TryStep>
-      <ProcedureCall id="_1pju" procedure="reprojection.source_product_name"/>
-      <IfSequence id="_1pjv"
-                  test="&#34;$(source_product_name)&#34;&lt;&gt;&#34;&#34;">
-        <SetGlobalStep id="_1pk2" varname="source_product_opened">
-          <default>true</default>
-        </SetGlobalStep>
-        <ElseSequence id="_1pk0">
-          <SetGlobalStep id="_1pk3" varname="source_product_opened">
+        <ProcedureCall id="_1r45"
+                       procedure="run-log.error_message.error_dialog_appears">
+          <variable name="dialog">SNAP_SNAP_Error $(error_message) </variable>
+        </ProcedureCall>
+      </Procedure>
+      <Procedure id="_1r3a" name="handle_errors">
+        <TryStep id="_1r3c">
+          <ProcedureCall id="_1r4F" procedure="utility.handle_error_help"/>
+          <CatchSequence exception="TestException" id="_1r3n" maxerror="0"/>
+        </TryStep>
+        <TryStep id="_1r3o">
+          <ProcedureCall id="_1r4G" procedure="utility.handle_error_help"/>
+          <CatchSequence exception="TestException" id="_1r3u" maxerror="0"/>
+        </TryStep>
+        <ProcedureCall id="_1r3v"
+                       procedure="qfs.swing.cleanup.closeAllModalDialogs">
+          <variable name="maxDialogs">5</variable>
+        </ProcedureCall>
+      </Procedure>
+      <Procedure id="_1pMT" name="open_source_product">
+        <variable name="prod_dir"/>
+        <variable name="prod_name"/>
+        <ProcedureCall id="_1oSj" procedure="path.source_data_directory">
+          <variable name="data_type">$(prod_dir)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pMS"
+                       procedure="do_click.reprojection.button_source_product"/>
+        <ProcedureCall id="_1pHR"
+                       procedure="utility.handle_select_product_dialog">
+          <variable name="file">$(data_source_directory)$(prod_name)</variable>
+        </ProcedureCall>
+        <TryStep id="_1pXT">
+          <ProcedureCall id="_1pXV"
+                         procedure="wait.appear.error.dialog_Error"/>
+          <TryStep id="_1r3N" name="get_error_text">
+            <ProcedureCall id="_1r3L"
+                           procedure="get.error_text.snap_error_open_product"/>
+            <CatchSequence exception="TestException" id="_1r3O" maxerror="0"/>
+          </TryStep>
+          <ProcedureCall id="_1pjp" procedure="run-log.make_screensot">
+            <variable name="iw_name">error_dialog_select_source_product_reprojection</variable>
+            <variable name="iw_name_example">error_dialog</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pXS"
+                         procedure="do_click.error_dialog.button_OK_Error"/>
+          <SetGlobalStep id="_1phw" varname="source_product_opened">
             <default>false</default>
           </SetGlobalStep>
-          <ProcedureCall id="_1pk1" procedure="run-log.logError">
-            <variable name="message">$(prod_dir)/$(prod_name) cann't be opened</variable>
-            <variable name="withScreenshots">true</variable>
+          <ProcedureCall id="_1pXW" procedure="run-log.logError">
+            <variable name="message">$(open_product_error)</variable>
+            <variable name="withScreenshots">false</variable>
           </ProcedureCall>
-        </ElseSequence>
-      </IfSequence>
-    </Procedure>
+          <ProcedureCall disabled="true" id="_1r3M"
+                         procedure="run-log.logError">
+            <variable name="message">Opening of the product $(data_source_directory)$(prod_name) failed</variable>
+            <variable name="withScreenshots">false</variable>
+          </ProcedureCall>
+          <CatchSequence exception="TestException" id="_1pXU" maxerror="0">
+            <SetGlobalStep id="_1phx" varname="source_product_opened">
+              <default>true</default>
+            </SetGlobalStep>
+          </CatchSequence>
+        </TryStep>
+        <ProcedureCall id="_1pju"
+                       procedure="reprojection.source_product_name"/>
+        <IfSequence id="_1pjv"
+                    test="&#34;$(source_product_name)&#34;&lt;&gt;&#34;&#34;">
+          <SetGlobalStep id="_1pk2" varname="source_product_opened">
+            <default>true</default>
+          </SetGlobalStep>
+          <ElseSequence id="_1pk0">
+            <SetGlobalStep id="_1pk3" varname="source_product_opened">
+              <default>false</default>
+            </SetGlobalStep>
+            <ProcedureCall id="_1pk1" procedure="run-log.logError">
+              <variable name="message">$(prod_dir)/$(prod_name) cann't be opened</variable>
+              <variable name="withScreenshots">true</variable>
+            </ProcedureCall>
+          </ElseSequence>
+        </IfSequence>
+      </Procedure>
+      <Procedure id="_1phE" name="run_reprojection">
+        <ProcedureCall id="_1pgi"
+                       procedure="do_click.reprojection.button_apply"/>
+        <ProcedureCall id="_1pkB"
+                       procedure="click_ok_in_product_created_dialog"/>
+        <ProcedureCall id="_1pkC"
+                       procedure="wait.disappear.writing_target_product"/>
+        <IfSequence id="_1pbq"
+                    test="&#34;$(output_format)&#34;&lt;&gt;&#34;HDF5&#34;">
+          <ProcedureCall id="_1r4H" procedure="utility.handle_errors"/>
+          <ElseSequence id="_1r4K">
+            <TryStep id="_1r4L" name="click_buttonOK_dialogSNAP_Reprojection">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="dialogSNAP_-_Reprojection.buttonOK"
+                              event="MOUSE_MPRC" id="_1r3T" modifiers="16"/>
+              <CatchSequence exception="TestException" id="_1r4M"
+                             maxerror="0"/>
+            </TryStep>
+          </ElseSequence>
+        </IfSequence>
+        <ProcedureCall id="_1pg+"
+                       procedure="click_ok_in_product_created_dialog"/>
+      </Procedure>
+    </Package>
     <Procedure id="_1pON" name="click_ok_in_product_created_dialog">
       <TryStep id="_1pOQ">
         <ComponentWaiter client="$(client)" component="dialogReprojection2"
@@ -195,63 +272,6 @@
                         event="MOUSE_MPRC" id="_1pdH" modifiers="16"/>
         <CatchSequence exception="TestException" id="_1pOR" maxerror="0"/>
       </TryStep>
-    </Procedure>
-    <Procedure id="_1phE" name="run_reprojection">
-      <ProcedureCall id="_1pgi"
-                     procedure="do_click.reprojection.button_apply"/>
-      <ProcedureCall id="_1pkB"
-                     procedure="click_ok_in_product_created_dialog"/>
-      <ProcedureCall id="_1pkC"
-                     procedure="wait.disappear.writing_target_product"/>
-      <IfSequence id="_1pbq"
-                  test="&#34;$(output_format)&#34;&lt;&gt;&#34;HDF5&#34;">
-        <TestStep id="_1piQ" name="handle_errors">
-          <TryStep id="_1pgj">
-            <ProcedureCall id="_1pgk"
-                           procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
-            <ProcedureCall id="_1pjo" procedure="run-log.make_screensot">
-              <variable name="iw_name">error_dialog_SNAP_SNAP_Error</variable>
-              <variable name="iw_name_example">error_dialog</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1pgl"
-                           procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
-            <ProcedureCall disabled="true" id="_1oJI"
-                           procedure="set.variable.client_snap"/>
-            <ProcedureCall disabled="true" id="_1pgm"
-                           procedure="run-log.log_client_output">
-              <variable name="client_name">$(client)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1pgo"
-                           procedure="run-log.error_message.error_dialog_appears">
-              <variable name="dialog">dialog_SNAP_SNAP_Error</variable>
-            </ProcedureCall>
-            <CatchSequence exception="TestException" id="_1pgn" maxerror="0"/>
-          </TryStep>
-          <TryStep id="_1piI">
-            <ProcedureCall id="_1piJ"
-                           procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
-            <ProcedureCall id="_1piK"
-                           procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
-            <ProcedureCall disabled="true" id="_1piL"
-                           procedure="set.variable.client_snap"/>
-            <ProcedureCall disabled="true" id="_1piM"
-                           procedure="run-log.log_client_output">
-              <variable name="client_name">$(client)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1piN"
-                           procedure="run-log.error_message.error_dialog_appears">
-              <variable name="dialog">Error</variable>
-            </ProcedureCall>
-            <CatchSequence exception="TestException" id="_1piO" maxerror="0"/>
-          </TryStep>
-          <ProcedureCall id="_1piP"
-                         procedure="qfs.swing.cleanup.closeAllModalDialogs">
-            <variable name="maxDialogs">5</variable>
-          </ProcedureCall>
-        </TestStep>
-      </IfSequence>
-      <ProcedureCall id="_1pg+"
-                     procedure="click_ok_in_product_created_dialog"/>
     </Procedure>
     <Procedure id="_1pb8" name="select_io_tab">
       <ProcedureCall id="_1pb9" procedure="select.reprojection.tab">
@@ -274,6 +294,49 @@
     </Procedure>
   </PackageRoot>
   <ExtraSequence id="_4">
+    <Procedure disabled="true" id="_1pbm" name="check_reproj_target_product">
+      <comment>@teststep Check target product.</comment>
+      <ProcedureCall id="_1pbn" procedure="set.target_product_with_path"/>
+      <ProcedureCall id="_1pbo"
+                     procedure="check_external_file.file_exists_setGlobal">
+        <variable name="fileName">$(target_product)</variable>
+      </ProcedureCall>
+      <IfSequence id="_1pbp" test="&#34;$(fileExists)&#34;==&#34;True&#34;">
+        <IfSequence id="_1r4I"
+                    test="&#34;$(output_format)&#34;&lt;&gt;&#34;HDF5&#34;">
+          <ProcedureCall id="_1pbr" procedure="check.product.not_opened"/>
+          <IfSequence id="_1pbs"
+                      test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+            <TestStep id="_1pbt" name="open_image_view">
+              <ProcedureCall id="_1pxv"
+                             procedure="product_meta_data.for_open_image_view"/>
+              <ProcedureCall id="_1pbx"
+                             procedure="utility.open_image_view_using_menu_check_it"/>
+            </TestStep>
+            <TestStep id="_1pby"
+                      name="open_image_view_check_masks_layers_close_product">
+              <SetGlobalStep id="_1pbz" varname="view_Id1">
+                <default>1</default>
+              </SetGlobalStep>
+              <ProcedureCall id="_1r4J"
+                             procedure="test_events.imaging_tools.open_image_window_in_target_product_check_masks_layers"/>
+            </TestStep>
+            <ElseSequence id="_1pb-">
+              <ProcedureCall id="_1pc0" procedure="run-log.logError">
+                <variable name="message">$(target_product) is not opened.</variable>
+                <variable name="withScreenshots">false</variable>
+              </ProcedureCall>
+            </ElseSequence>
+          </IfSequence>
+        </IfSequence>
+        <ElseSequence id="_1pc1">
+          <ProcedureCall id="_1pc2" procedure="run-log.logError">
+            <variable name="message">$(target_product) is not written.</variable>
+            <variable name="withScreenshots">false</variable>
+          </ProcedureCall>
+        </ElseSequence>
+      </IfSequence>
+    </Procedure>
     <ServerScriptStep id="_1l5A" name="print">
       <code>print "${default:varname:defaultvalue}"</code>
     </ServerScriptStep>
