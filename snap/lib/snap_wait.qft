@@ -127,8 +127,8 @@
           </Procedure>
           <Procedure id="_1lK4" name="import_product">
             <IfSequence id="_1owC" test="${qftest:windows}">
-              <ComponentWaiter client="$(client)"
-                               component="dialogOpen_Product" id="_1ofb"/>
+              <ProcedureCall id="_1rT1"
+                             procedure="wait.appear.dialog.open_product"/>
               <ElseifSequence id="_1owD" name="MAC?"
                               test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <ComponentWaiter client="$(client)"
@@ -155,19 +155,31 @@
           </Procedure>
           <Procedure id="_1l3q" name="open_product">
             <comment>@teststep Wait if 'Open Product' dialog appears.</comment>
-            <IfSequence id="_1ok3" test="${qftest:windows}">
-              <ComponentWaiter client="$(client)"
-                               component="dialogOpen_Product" id="_1mhH"/>
-              <ElseifSequence id="_1ok4" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+            <TryStep id="_1rT2">
+              <IfSequence id="_1ok3" test="${qftest:windows}">
                 <ComponentWaiter client="$(client)"
-                                 component="dialogOpen_Product" id="_1owA"/>
-              </ElseifSequence>
-              <ElseSequence id="_1ok5">
-                <ComponentWaiter client="$(client)"
-                                 component="dialogOpen_Product" id="_1owB"/>
-              </ElseSequence>
-            </IfSequence>
+                                 component="dialogOpen_Product" id="_1mhH"/>
+                <ElseifSequence id="_1ok4" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <ComponentWaiter client="$(client)"
+                                   component="dialogOpen_Product" id="_1owA"/>
+                </ElseifSequence>
+                <ElseSequence id="_1ok5">
+                  <ComponentWaiter client="$(client)"
+                                   component="dialogOpen_Product" id="_1owB"/>
+                </ElseSequence>
+              </IfSequence>
+              <SetGlobalStep id="_1oRm" varname="open_product_dialog_appears">
+                <default>true</default>
+              </SetGlobalStep>
+              <CatchSequence exception="TestException" id="_1rT3"
+                             maxerror="0">
+                <SetGlobalStep id="_1rT4"
+                               varname="open_product_dialog_appears">
+                  <default>false</default>
+                </SetGlobalStep>
+              </CatchSequence>
+            </TryStep>
           </Procedure>
           <Procedure id="_1l3Z" name="product_modified">
             <ComponentWaiter client="$(client)"
@@ -223,6 +235,10 @@
             <ComponentWaiter client="$(client)"
                              component="dialogWriting_Target_Product"
                              id="_1pP2"/>
+          </Procedure>
+          <Procedure id="_1qdk" name="new_pin">
+            <ComponentWaiter client="$(client)" component="New_Pin"
+                             id="_1rT0"/>
           </Procedure>
         </Package>
         <Procedure id="_1mho" name="snap_window">

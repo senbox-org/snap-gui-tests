@@ -17,43 +17,88 @@
           <Procedure id="_1pgz" name="box_size">
             <variable name="val"/>
             <comment>@teststep Insert 'Box size' in the 'Correlative Plot' dialog.</comment>
-            <TextInputStep clear="true" client="$(client)"
-                           component="NbMainWindow.boxSize.textBox_size:"
-                           id="_1pg-">
-              <text>$(val)</text>
-            </TextInputStep>
+            <TryStep id="_1r3r">
+              <ProcedureCall id="_1r3l"
+                             procedure="set.analysis.dialog.box_size">
+                <variable name="val">$(val)</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1r3s"
+                             maxerror="0">
+                <TextInputStep clear="true" client="$(client)"
+                               component="NbMainWindow.boxSize.textBox_size:"
+                               id="_1pg-">
+                  <text>$(val)</text>
+                </TextInputStep>
+              </CatchSequence>
+            </TryStep>
           </Procedure>
           <Procedure id="_1pep" name="x_axis_min">
             <variable name="val"/>
             <comment>@teststep Insert min x in the 'Correlative Plot' dialog.</comment>
-            <TextInputStep clear="true" client="$(client)"
-                           component="NbMainWindow.min" id="_1per">
-              <text>$(val)</text>
-            </TextInputStep>
+            <TryStep id="_1r3t">
+              <ProcedureCall id="_1r4C"
+                             procedure="set.analysis.dialog.x_axis_min">
+                <variable name="val">$(val)</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1r3v"
+                             maxerror="0">
+                <TextInputStep clear="true" client="$(client)"
+                               component="NbMainWindow.min" id="_1per">
+                  <text>$(val)</text>
+                </TextInputStep>
+              </CatchSequence>
+            </TryStep>
           </Procedure>
           <Procedure id="_1pet" name="x_axis_max">
             <variable name="val"/>
             <comment>@teststep Insert max x in the 'Correlative Plot' dialog.</comment>
-            <TextInputStep clear="true" client="$(client)"
-                           component="NbMainWindow.max" id="_1pew">
-              <text>$(val)</text>
-            </TextInputStep>
+            <TryStep id="_1r3x">
+              <ProcedureCall id="_1r3n"
+                             procedure="set.analysis.dialog.x_axis_max">
+                <variable name="val">$(val)</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1r3y"
+                             maxerror="0">
+                <TextInputStep clear="true" client="$(client)"
+                               component="NbMainWindow.max" id="_1pew">
+                  <text>$(val)</text>
+                </TextInputStep>
+              </CatchSequence>
+            </TryStep>
           </Procedure>
           <Procedure id="_1pfJ" name="y_axis_min">
             <variable name="val"/>
             <comment>@teststep Insert min y in the 'Correlative Plot' dialog.</comment>
-            <TextInputStep clear="true" client="$(client)"
-                           component="NbMainWindow.min2" id="_1pfK">
-              <text>$(val)</text>
-            </TextInputStep>
+            <TryStep id="_1r3z">
+              <ProcedureCall id="_1r3o"
+                             procedure="set.analysis.dialog.y_axis_min">
+                <variable name="val">$(val)</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1r3+"
+                             maxerror="0">
+                <TextInputStep clear="true" client="$(client)"
+                               component="NbMainWindow.min2" id="_1pfK">
+                  <text>$(val)</text>
+                </TextInputStep>
+              </CatchSequence>
+            </TryStep>
           </Procedure>
           <Procedure id="_1pfM" name="y_axis_max">
             <variable name="val"/>
             <comment>@teststep Insert max y in the 'Correlative Plot' dialog.</comment>
-            <TextInputStep clear="true" client="$(client)"
-                           component="NbMainWindow.max2" id="_1pfO">
-              <text>$(val)</text>
-            </TextInputStep>
+            <TryStep id="_1r3-">
+              <ProcedureCall id="_1r3p"
+                             procedure="set.analysis.dialog.y_axis_max">
+                <variable name="val">$(val)</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1r40"
+                             maxerror="0">
+                <TextInputStep clear="true" client="$(client)"
+                               component="NbMainWindow.max2" id="_1pfO">
+                  <text>$(val)</text>
+                </TextInputStep>
+              </CatchSequence>
+            </TryStep>
           </Procedure>
           <Procedure id="_1peh" name="tolerance_range">
             <variable name="val"/>
@@ -64,11 +109,20 @@
                            procedure="check.analysis.correlative_plot.enabled.tolerance_range"/>
             <IfSequence id="_1ph6"
                         test="&#34;$(tolerance_range_enabled)&#34;==&#34;true&#34;">
-              <TextInputStep clear="true" client="$(client)"
-                             component="NbMainWindow.acceptableDeviationInterval"
-                             id="_1pfX">
-                <text>$(val)</text>
-              </TextInputStep>
+              <TryStep id="_1r41">
+                <ProcedureCall id="_1r3q"
+                               procedure="set.analysis.dialog.tolerance_range">
+                  <variable name="val">$(val)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1r42"
+                               maxerror="0">
+                  <TextInputStep clear="true" client="$(client)"
+                                 component="NbMainWindow.acceptableDeviationInterval"
+                                 id="_1pfX">
+                    <text>$(val)</text>
+                  </TextInputStep>
+                </CatchSequence>
+              </TryStep>
               <ElseSequence id="_1ph8">
                 <ProcedureCall id="_1ph9" procedure="run-log.logError">
                   <variable name="message">'Tolerance range' is disabled</variable>
@@ -82,32 +136,120 @@
           <Procedure id="_1px5" name="x_axis_min">
             <variable name="val"/>
             <comment>@teststep Insert min x in the 'Correlative Plot' dialog.</comment>
-            <TextInputStep clear="true" client="$(client)"
-                           component="NbMainWindow.min" id="_1px6">
-              <text>$(val)</text>
-            </TextInputStep>
+            <TryStep id="_1r49">
+              <ProcedureCall id="_1r4B"
+                             procedure="set.analysis.dialog.x_axis_min">
+                <variable name="val">$(val)</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1r4A"
+                             maxerror="0">
+                <TextInputStep clear="true" client="$(client)"
+                               component="NbMainWindow.min" id="_1px6">
+                  <text>$(val)</text>
+                </TextInputStep>
+              </CatchSequence>
+            </TryStep>
           </Procedure>
           <Procedure id="_1px7" name="x_axis_max">
             <variable name="val"/>
             <comment>@teststep Insert max x in the 'Correlative Plot' dialog.</comment>
-            <TextInputStep clear="true" client="$(client)"
-                           component="NbMainWindow.max" id="_1px8">
-              <text>$(val)</text>
-            </TextInputStep>
+            <TryStep id="_1r47">
+              <ProcedureCall id="_1r4D"
+                             procedure="set.analysis.dialog.x_axis_max">
+                <variable name="val">$(val)</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1r48"
+                             maxerror="0">
+                <TextInputStep clear="true" client="$(client)"
+                               component="NbMainWindow.max" id="_1px8">
+                  <text>$(val)</text>
+                </TextInputStep>
+              </CatchSequence>
+            </TryStep>
           </Procedure>
           <Procedure id="_1px9" name="y_axis_min">
             <variable name="val"/>
             <comment>@teststep Insert min y in the 'Correlative Plot' dialog.</comment>
-            <TextInputStep clear="true" client="$(client)"
-                           component="NbMainWindow.min2" id="_1pxA">
-              <text>$(val)</text>
-            </TextInputStep>
+            <TryStep id="_1r45">
+              <ProcedureCall id="_1r4E"
+                             procedure="set.analysis.dialog.y_axis_min">
+                <variable name="val">$(val)</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1r46"
+                             maxerror="0">
+                <TextInputStep clear="true" client="$(client)"
+                               component="NbMainWindow.min2" id="_1pxA">
+                  <text>$(val)</text>
+                </TextInputStep>
+              </CatchSequence>
+            </TryStep>
           </Procedure>
           <Procedure id="_1pxB" name="y_axis_max">
             <variable name="val"/>
             <comment>@teststep Insert max y in the 'Correlative Plot' dialog.</comment>
+            <TryStep id="_1r43">
+              <ProcedureCall id="_1r4F"
+                             procedure="set.analysis.dialog.y_axis_max">
+                <variable name="val">$(val)</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1r44"
+                             maxerror="0">
+                <TextInputStep clear="true" client="$(client)"
+                               component="NbMainWindow.max2" id="_1pxC">
+                  <text>$(val)</text>
+                </TextInputStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
+        </Package>
+        <Package id="_1r3T" name="dialog">
+          <Procedure id="_1r3U" name="box_size">
+            <variable name="val"/>
+            <comment>@teststep Insert 'Box size' in the 'Correlative Plot' dialog.</comment>
             <TextInputStep clear="true" client="$(client)"
-                           component="NbMainWindow.max2" id="_1pxC">
+                           component="dialog.boxSize.textBox_size:"
+                           id="_1r3V">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1r3W" name="x_axis_min">
+            <variable name="val"/>
+            <comment>@teststep Insert min x in the 'Correlative Plot' dialog.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialog.min" id="_1r3X">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1r3Y" name="x_axis_max">
+            <variable name="val"/>
+            <comment>@teststep Insert max x in the 'Correlative Plot' dialog.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialog.max" id="_1r3Z">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1r3a" name="y_axis_min">
+            <variable name="val"/>
+            <comment>@teststep Insert min y in the 'Correlative Plot' dialog.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialog.min2" id="_1r3b">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1r3c" name="y_axis_max">
+            <variable name="val"/>
+            <comment>@teststep Insert max y in the 'Correlative Plot' dialog.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialog.max2" id="_1r3d">
+              <text>$(val)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1r3e" name="tolerance_range">
+            <variable name="val"/>
+            <comment>@teststep Insert 'Tolerance range' in the 'Correlative Plot' dialog.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialog.acceptableDeviationInterval"
+                           id="_1r3i">
               <text>$(val)</text>
             </TextInputStep>
           </Procedure>
@@ -386,7 +528,7 @@
                   <ProcedureCall id="_1pEN"
                                  procedure="check.opened.expression_editor"/>
                   <TextInputStep clear="true" client="$(client)"
-                                 component="dialog5.codeArea" id="_1pET">
+                                 component="dialog.codeArea" id="_1pET">
                     <text>$(exp)</text>
                   </TextInputStep>
                   <CatchSequence exception="TestException" id="_1pES"
@@ -400,7 +542,45 @@
           </Procedure>
         </Package>
       </Package>
-      <Package disabled="true" id="_1lFb" name="placemark_dialog">
+      <Package id="_1rVR" name="subset_tool">
+        <Procedure id="_1rh1" name="start_X">
+          <variable name="val"/>
+          <comment>@teststep Insert start X</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogSpecify_Product_Subset.pixelCoordinatesPane.textScene_start_X:"
+                         id="_1rh2">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1rh6" name="start_Y">
+          <variable name="val"/>
+          <comment>@teststep Insert start Y</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogSpecify_Product_Subset.pixelCoordinatesPane.textScene_start_Y:"
+                         id="_1rh8">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1rhB" name="end_X">
+          <variable name="val"/>
+          <comment>@teststep Insert end X</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogSpecify_Product_Subset.pixelCoordinatesPane.textScene_end_X:"
+                         id="_1rhE">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1raM" name="end_Y">
+          <variable name="val"/>
+          <comment>@teststep Insert end Y</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogSpecify_Product_Subset.pixelCoordinatesPane.textScene_end_Y:"
+                         id="_1rbb">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+      </Package>
+      <Package id="_1lFb" name="placemark_dialog">
         <Package id="_1lHo" name="new_pin">
           <Procedure id="_1lHp" name="name">
             <variable name="var"/>
@@ -434,6 +614,30 @@
             <variable name="var"/>
             <ProcedureCall id="_1lMt"
                            procedure="check.placemark_dialog.pixelX_new_pin_enabled"/>
+            <BasicSequence id="_1rS+" name="new_pin">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="New_Pin.usePixelPos"
+                              event="MOUSE_MPRC" id="_1rTH" modifiers="16"/>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="New_Pin.pixelX" event="MOUSE_MPRC"
+                              id="_1rTI" modifiers="16" x="91" y="13"/>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="New_Pin.pixelY" event="MOUSE_MPRC"
+                              id="_1rTJ" modifiers="16" x="92" y="15"/>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="New_Pin.usePixelPos"
+                              event="MOUSE_MPRC" id="_1rTK" modifiers="16"/>
+              <CheckStringStep client="$(client)"
+                               component="New_Pin.PlacemarkDialog.ok"
+                               id="_1rTL">
+                <text>OK</text>
+              </CheckStringStep>
+              <CheckStringStep client="$(client)"
+                               component="New_Pin.PlacemarkDialog.cancel"
+                               id="_1rTM">
+                <text>Cancel</text>
+              </CheckStringStep>
+            </BasicSequence>
             <IfSequence id="_1lMx"
                         test="&#34;$(pixelX_new_pin_enabled)&#34;==&#34;false&#34;">
               <ProcedureCall id="_1lMy"

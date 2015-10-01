@@ -16,14 +16,15 @@
   <include>../../shared/gpt.qft</include>
   <include>../../shared/shared_lib.qft</include>
   <include>../../shared/variables.qft</include>
-  <include>../analysis_tools/analysis_lib.qft</include>
-  <include>../edit/edit_lib.qft</include>
-  <include>../gpt/gpt_main.qft</include>
-  <include>../imaging_tools/imaging_lib.qft</include>
-  <include>../processing/lib/processing_main.qft</include>
-  <include>../smos_box/smosbox_lib.qft</include>
-  <include>../time_series/snap_time_series_lib.qft</include>
-  <include>../tools/tools_lib.qft</include>
+  <include>../01_reader/reader.qft</include>
+  <include>../02_analysis_tools/analysis_lib.qft</include>
+  <include>../03_tools/tools_lib.qft</include>
+  <include>../04_edit/edit_lib.qft</include>
+  <include>../06_imaging_tools/imaging_lib.qft</include>
+  <include>../10_processing/lib/processing_main.qft</include>
+  <include>../15_smos_box/smosbox_lib.qft</include>
+  <include>../16_time_series/snap_time_series_lib.qft</include>
+  <include>../40_gpt/gpt_main.qft</include>
   <dependency>snap_check.qft</dependency>
   <dependency>snap_close.qft</dependency>
   <dependency>snap_do_click.qft</dependency>
@@ -37,16 +38,17 @@
   <dependency>snap_vector_data.qft</dependency>
   <dependency>snap_wait.qft</dependency>
   <dependency>snap_workflow.qft</dependency>
-  <dependency>../analysis_tools/analysis_lib.qft</dependency>
-  <dependency>../edit/edit_lib.qft</dependency>
-  <dependency>../gpt/gpt_main.qft</dependency>
-  <dependency>../imaging_tools/imaging_lib.qft</dependency>
-  <dependency>../processing/lib/processing_main.qft</dependency>
-  <dependency>../smos_box/smosbox_lib.qft</dependency>
-  <dependency>../time_series/snap_time_series_lib.qft</dependency>
-  <dependency>../tools/tools_lib.qft</dependency>
-  <dependency>../../variables/lib.qft</dependency>
   <dependency>../../shared/shared_lib.qft</dependency>
+  <dependency>../../variables/lib.qft</dependency>
+  <dependency>../01_reader/reader.qft</dependency>
+  <dependency>../02_analysis_tools/analysis_lib.qft</dependency>
+  <dependency>../03_tools/tools_lib.qft</dependency>
+  <dependency>../04_edit/edit_lib.qft</dependency>
+  <dependency>../06_imaging_tools/imaging_lib.qft</dependency>
+  <dependency>../10_processing/lib/processing_main.qft</dependency>
+  <dependency>../15_smos_box/smosbox_lib.qft</dependency>
+  <dependency>../16_time_series/snap_time_series_lib.qft</dependency>
+  <dependency>../40_gpt/gpt_main.qft</dependency>
   <variable name="client">snap</variable>
   <PackageRoot id="_3">
     <comment>snap</comment>
@@ -177,6 +179,8 @@
                   </ElseSequence>
                 </IfSequence>
                 <ClientWaiter client="$(client)" id="_1p0W"/>
+                <ProcedureCall id="_1pEj"
+                               procedure="error_handling.if_SNAP_Error_shoot_error_message"/>
               </CatchSequence>
             </TryStep>
             <RepeatSequence count="60" disabled="true" id="_1oMf"

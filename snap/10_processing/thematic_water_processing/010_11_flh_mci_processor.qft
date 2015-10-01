@@ -1,0 +1,1409 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.4">
+  <include>qfs.qft</include>
+  <include>../../lib/snap_main.qft</include>
+  <include>../lib/processing_main.qft</include>
+  <variable name="output_folder">flh_mci</variable>
+  <TestSet id="_2" name="010_11_flh_mci_processor"
+           reportname="010-11 FLH/MCI Processor">
+    <comment>Product generation tools. Arithmetic Expression Editor.</comment>
+    <DependencyReference id="_1pO-"
+                         reference="start_application_for_processing">
+      <variable name="output_dir">$(output_folder)</variable>
+    </DependencyReference>
+    <TestCase id="_8cc" name="01_check_ui"
+              reportname="01 Check FLH/MCI Processor UI">
+      <ProcedureCall id="_1pFq"
+                     procedure="open.optical.thematic_water_processing.flh_mci_processor"/>
+      <TestStep id="_1pM7" name="default_componets">
+        <TestStep id="_1pbB" name="io_parameters">
+          <ProcedureCall id="_1pbA" procedure="select_io_tab"/>
+          <ProcedureCall id="_1pt7"
+                         procedure="check.flh_mci_processor.enabled.menu_file"/>
+          <ProcedureCall id="_1pt8"
+                         procedure="check.flh_mci_processor.enabled.menu_help"/>
+          <ProcedureCall id="_1pt9"
+                         procedure="check.flh_mci_processor.enabled.button_close"/>
+          <ProcedureCall id="_1ptA"
+                         procedure="check.flh_mci_processor.enabled.button_apply"/>
+          <ProcedureCall id="_1ptB"
+                         procedure="check.flh_mci_processor.enabled.button_source_product"/>
+          <ProcedureCall id="_1ptC"
+                         procedure="check.flh_mci_processor.enabled.button_directory"/>
+          <ProcedureCall id="_1ptD"
+                         procedure="check.flh_mci_processor.enabled.save_as"/>
+          <ProcedureCall id="_1ptE"
+                         procedure="check.flh_mci_processor.enabled.open_in_snap"/>
+          <ProcedureCall id="_1ptF"
+                         procedure="check.flh_mci_processor.enabled.save_as_enabled_status">
+            <variable name="enabled">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptG"
+                         procedure="check.flh_mci_processor.enabled.open_in_snap_enabled_status">
+            <variable name="enabled">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptH"
+                         procedure="check.flh_mci_processor.checked.save_as_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptI"
+                         procedure="check.flh_mci_processor.checked.open_in_snap_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pbG" name="processing_parameters">
+          <ProcedureCall id="_1pbF"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_1ptK"
+                         procedure="check.flh_mci_processor.text.preset">
+            <variable name="val">None</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptL"
+                         procedure="check.flh_mci_processor.text.lower_baseline_band_name">
+            <variable name="val"/>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptM"
+                         procedure="check.flh_mci_processor.text.upper_baseline_band_name">
+            <variable name="val"/>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptN"
+                         procedure="check.flh_mci_processor.text.signal_band_name">
+            <variable name="val"/>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptO"
+                         procedure="check.flh_mci_processor.text.line_height_band_name">
+            <variable name="val"/>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptP"
+                         procedure="check.flh_mci_processor.text.slope_band_name">
+            <variable name="val"/>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptQ"
+                         procedure="check.flh_mci_processor.text.mask_expression">
+            <variable name="val"/>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptR"
+                         procedure="check.flh_mci_processor.text.cloud_correction_factor">
+            <variable name="val">1.005</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptS"
+                         procedure="check.flh_mci_processor.text.invalid_flh_mci_value">
+            <variable name="val">NaN</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptJ"
+                         procedure="check.flh_mci_processor.checked.generate_slope_band_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </TestStep>
+      </TestStep>
+      <ProcedureCall id="_1pVo"
+                     procedure="close_processing_tool.thematic_water_processing.flh_mci_processor"/>
+    </TestCase>
+    <TestSet id="_1pMP" name="02_processing">
+      <TestCase id="_1pMR" name="01_meris_rr_l1b_n1">
+        <variable name="source_data">MER_RR__1_test.N1</variable>
+        <variable name="source_dir">mer_rr__1p_n1</variable>
+        <variable name="output_file">test_01.dim</variable>
+        <ProcedureCall id="_1qBb"
+                       procedure="open.optical.thematic_water_processing.flh_mci_processor"/>
+        <TestStep id="_1pbY" name="preparation">
+          <ProcedureCall id="_1qCZ"
+                         procedure="preparation_for_test_without_save"/>
+          <ProcedureCall id="_1qCr" procedure="preset_selection">
+            <variable name="preset">$(meris_l1b_mci)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pOr" name="processing">
+          <ProcedureCall id="_1pMd"
+                         procedure="do_click.flh_mci_processor.button_apply"/>
+          <ProcedureCall id="_1qCQ"
+                         procedure="click_ok_in_product_created_dialog"/>
+        </TestStep>
+        <TestStep id="_1pOo" name="check_output_product">
+          <ProcedureCall id="_1pgG"
+                         procedure="product_meta_data.for_open_image_view"/>
+          <ProcedureCall id="_1opT"
+                         procedure="utility.open_image_view_check_it"/>
+          <ProcedureCall id="_1pOS"
+                         procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+        </TestStep>
+        <ProcedureCall id="_1qBN"
+                       procedure="close_processing_tool.thematic_water_processing.flh_mci_processor"/>
+      </TestCase>
+      <TestCase id="_1pbi" name="02_meris_fr_l1b_n1">
+        <variable name="source_data">MER_FR__1_test.N1</variable>
+        <variable name="source_dir">mer_fr__1p_n1</variable>
+        <variable name="output_file">test_02.dim</variable>
+        <ProcedureCall id="_1qBc"
+                       procedure="open.optical.thematic_water_processing.flh_mci_processor"/>
+        <TestStep id="_1pbk" name="preparation">
+          <ProcedureCall id="_1qCa"
+                         procedure="preparation_for_test_without_save"/>
+          <ProcedureCall id="_1qCs" procedure="preset_selection">
+            <variable name="preset">$(meris_l1b_mci)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pbp" name="processing">
+          <ProcedureCall id="_1qCF"
+                         procedure="do_click.flh_mci_processor.button_apply"/>
+          <ProcedureCall id="_1qCc"
+                         procedure="click_ok_in_product_created_dialog"/>
+        </TestStep>
+        <TestStep id="_1pbs" name="check_output_product">
+          <ProcedureCall id="_1pgH"
+                         procedure="product_meta_data.for_open_image_view"/>
+          <ProcedureCall id="_1pbw"
+                         procedure="utility.open_image_view_check_it"/>
+          <SetGlobalStep id="_1pbx" varname="view_Id1">
+            <default>2</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1pby" varname="bandName">
+            <default>ndvi_flags</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1pbz"
+                         procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+        </TestStep>
+        <ProcedureCall id="_1qBO"
+                       procedure="close_processing_tool.thematic_water_processing.flh_mci_processor"/>
+      </TestCase>
+      <TestCase id="_1pcI" name="03_meris_frs_l1b_n1">
+        <variable name="source_data">MER_FRS_1P_test.N1</variable>
+        <variable name="source_dir">mer_frs_1p_n1</variable>
+        <variable name="output_file">test_03.dim</variable>
+        <ProcedureCall id="_1qBd"
+                       procedure="open.optical.thematic_water_processing.flh_mci_processor"/>
+        <TestStep id="_1pcK" name="preparation">
+          <ProcedureCall id="_1qCd"
+                         procedure="preparation_for_test_without_save"/>
+          <ProcedureCall id="_1qCt" procedure="preset_selection">
+            <variable name="preset">$(meris_l1b_mci)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pcP" name="processing">
+          <ProcedureCall id="_1qCG"
+                         procedure="do_click.flh_mci_processor.button_apply"/>
+          <ProcedureCall id="_1pcR"
+                         procedure="click_ok_in_product_created_dialog"/>
+        </TestStep>
+        <TestStep id="_1pcS" name="check_output_product">
+          <ProcedureCall id="_1pgI"
+                         procedure="product_meta_data.for_open_image_view"/>
+          <ProcedureCall id="_1pcW"
+                         procedure="utility.open_image_view_check_it"/>
+          <ProcedureCall id="_1pcZ"
+                         procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+        </TestStep>
+        <ProcedureCall id="_1qBP"
+                       procedure="close_processing_tool.thematic_water_processing.flh_mci_processor"/>
+      </TestCase>
+      <TestCase id="_1pb-" name="04_meris_fsg_l1b_n1">
+        <variable name="source_data">MER_FSG_1PNMAP20050726_232437_000000782039_00216_17805_0001.N1</variable>
+        <variable name="source_dir">mer_fsg_1p_n1</variable>
+        <variable name="output_file">test_04.dim</variable>
+        <ProcedureCall id="_1qBe"
+                       procedure="open.optical.thematic_water_processing.flh_mci_processor"/>
+        <TestStep id="_1pc1" name="preparation">
+          <ProcedureCall id="_1qCz"
+                         procedure="preparation_for_test_without_save"/>
+          <ProcedureCall id="_1qC+" procedure="preset_selection">
+            <variable name="preset">$(meris_l1b_mci)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pc6" name="processing">
+          <ProcedureCall id="_1qCH"
+                         procedure="do_click.flh_mci_processor.button_apply"/>
+          <ProcedureCall id="_1pc8"
+                         procedure="click_ok_in_product_created_dialog"/>
+        </TestStep>
+        <TestStep id="_1pc9" name="check_output_product">
+          <ProcedureCall id="_1pgJ"
+                         procedure="product_meta_data.for_open_image_view"/>
+          <SetGlobalStep id="_1pcC" varname="bandName">
+            <default>ndvi</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1pcD"
+                         procedure="utility.open_image_view_check_it"/>
+          <SetGlobalStep id="_1pcE" varname="view_Id1">
+            <default>2</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1pcF" varname="bandName">
+            <default>ndvi_flags</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1pcG"
+                         procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+        </TestStep>
+        <ProcedureCall id="_1qBQ"
+                       procedure="close_processing_tool.thematic_water_processing.flh_mci_processor"/>
+      </TestCase>
+      <TestCase id="_1pcb" name="05_meris_rrg_l_1bn1">
+        <variable name="source_data">MER_RRG_1PQBCM20050504_080734_000003972037_00021_16608_0005.N1</variable>
+        <variable name="source_dir">mer_rrg_1p_n1</variable>
+        <variable name="output_file">test_05.dim</variable>
+        <ProcedureCall id="_1qBf"
+                       procedure="open.optical.thematic_water_processing.flh_mci_processor"/>
+        <TestStep id="_1pcd" name="preparation">
+          <ProcedureCall id="_1qC-"
+                         procedure="preparation_for_test_without_save"/>
+          <ProcedureCall id="_1qD0" procedure="preset_selection">
+            <variable name="preset">$(meris_l1b_mci)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pci" name="processing">
+          <ProcedureCall id="_1qCI"
+                         procedure="do_click.flh_mci_processor.button_apply"/>
+          <ProcedureCall id="_1pck"
+                         procedure="click_ok_in_product_created_dialog"/>
+        </TestStep>
+        <TestStep id="_1pcl" name="check_output_product">
+          <ProcedureCall id="_1pgK"
+                         procedure="product_meta_data.for_open_image_view"/>
+          <SetGlobalStep id="_1pco" varname="bandName">
+            <default>ndvi</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1pcp"
+                         procedure="utility.open_image_view_check_it"/>
+          <SetGlobalStep id="_1pcq" varname="view_Id1">
+            <default>2</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1pcr" varname="bandName">
+            <default>ndvi_flags</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1pcs"
+                         procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+        </TestStep>
+        <ProcedureCall id="_1qBR"
+                       procedure="close_processing_tool.thematic_water_processing.flh_mci_processor"/>
+      </TestCase>
+      <TestCase id="_1pcu" name="06_meris_pixel_geocoding">
+        <variable name="source_data">subset_MER_FSG_1PNUPA20050515_104058_000001852037_00180_16767_pixel_geocod.dim</variable>
+        <variable name="source_dir">dim_pixelgeocoding</variable>
+        <variable name="output_file">test_06.dim</variable>
+        <ProcedureCall id="_1qBg"
+                       procedure="open.optical.thematic_water_processing.flh_mci_processor"/>
+        <TestStep id="_1pcw" name="preparation">
+          <ProcedureCall id="_1qD1"
+                         procedure="preparation_for_test_without_save"/>
+          <ProcedureCall id="_1qD2" procedure="preset_selection">
+            <variable name="preset">$(meris_l1b_mci)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pc-" name="processing">
+          <ProcedureCall id="_1qCJ"
+                         procedure="do_click.flh_mci_processor.button_apply"/>
+          <ProcedureCall id="_1pd1"
+                         procedure="click_ok_in_product_created_dialog"/>
+        </TestStep>
+        <TestStep id="_1pd2" name="check_output_product">
+          <TestStep id="_1peN" name="open_image_view">
+            <ProcedureCall id="_1pgL"
+                           procedure="product_meta_data.for_open_image_view"/>
+            <SetGlobalStep id="_1pec" varname="bandName">
+              <default>MCI</default>
+            </SetGlobalStep>
+            <ProcedureCall id="_1peR"
+                           procedure="utility.open_image_view_check_it"/>
+          </TestStep>
+          <TestStep id="_1peS" name="menu_attach_detach_pixel_geocoding">
+            <ProcedureCall id="_1peT" procedure="do_click.menu.tools"/>
+            <ProcedureCall id="_1peU"
+                           procedure="check.menu.tools.menuItemAttachPixelGeoCoding_enabled_status">
+              <variable name="enabled_status">false</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1peV"
+                           procedure="check.menu.tools.menuItemDetachPixelGeoCoding_enabled_enabled_status">
+              <variable name="enabled_status">true</variable>
+            </ProcedureCall>
+          </TestStep>
+          <TestStep id="_1peW"
+                    name="open_image_view_check_masks_layers_close_product">
+            <SetGlobalStep id="_1ped" varname="view_Id1">
+              <default>2</default>
+            </SetGlobalStep>
+            <SetGlobalStep id="_1pee" varname="bandName"/>
+            <ProcedureCall id="_1peZ"
+                           procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+          </TestStep>
+        </TestStep>
+        <ProcedureCall id="_1qBS"
+                       procedure="close_processing_tool.thematic_water_processing.flh_mci_processor"/>
+      </TestCase>
+      <TestCase id="_1pe4" name="07_meris_small_subset">
+        <variable name="source_data">MER_RR__1PQBCM20030502_221113_000002002016_00058_06124_0743_middle_16pixels.dim</variable>
+        <variable name="source_dir">dim_subset</variable>
+        <variable name="output_file">test_07.dim</variable>
+        <ProcedureCall id="_1qBh"
+                       procedure="open.optical.thematic_water_processing.flh_mci_processor"/>
+        <TestStep id="_1pe6" name="preparation">
+          <ProcedureCall id="_1qD3"
+                         procedure="preparation_for_test_without_save"/>
+          <ProcedureCall id="_1qD4" procedure="preset_selection">
+            <variable name="preset">$(meris_l1b_mci)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1peB" name="processing">
+          <ProcedureCall id="_1qCK"
+                         procedure="do_click.flh_mci_processor.button_apply"/>
+          <ProcedureCall id="_1peD"
+                         procedure="click_ok_in_product_created_dialog"/>
+        </TestStep>
+        <TestStep id="_1peE" name="check_output_product">
+          <ProcedureCall id="_1pgM"
+                         procedure="product_meta_data.for_open_image_view"/>
+          <SetGlobalStep id="_1peH" varname="bandName">
+            <default>MCI</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1peL"
+                         procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+        </TestStep>
+        <ProcedureCall id="_1qBT"
+                       procedure="close_processing_tool.thematic_water_processing.flh_mci_processor"/>
+      </TestCase>
+      <TestCase id="_1pdU" name="08_meris_reprojection">
+        <variable name="source_data">reproj_geo_lat_long_MER_RR__1_test.dim</variable>
+        <variable name="source_dir">dim_reproj</variable>
+        <variable name="output_file">test_08.dim</variable>
+        <ProcedureCall id="_1qBi"
+                       procedure="open.optical.thematic_water_processing.flh_mci_processor"/>
+        <TestStep id="_1pdW" name="preparation">
+          <ProcedureCall id="_1qD5"
+                         procedure="preparation_for_test_without_save"/>
+          <ProcedureCall id="_1qD6" procedure="preset_selection">
+            <variable name="preset">$(meris_l1b_mci)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pdb" name="processing">
+          <ProcedureCall id="_1qCL"
+                         procedure="do_click.flh_mci_processor.button_apply"/>
+          <ProcedureCall id="_1pdd"
+                         procedure="click_ok_in_product_created_dialog"/>
+        </TestStep>
+        <TestStep id="_1pde" name="check_output_product">
+          <ProcedureCall id="_1pgN"
+                         procedure="product_meta_data.for_open_image_view"/>
+          <SetGlobalStep id="_1pdh" varname="bandName">
+            <default>MCI</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1pdl"
+                         procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+        </TestStep>
+        <ProcedureCall id="_1qBU"
+                       procedure="close_processing_tool.thematic_water_processing.flh_mci_processor"/>
+      </TestCase>
+      <TestCase id="_1pdn" name="09_meris_netcdf_beam">
+        <variable name="source_data">MER_FRS_1PNACR20040515_101402_000002112026_00466_11542_ncbeam.nc</variable>
+        <variable name="source_dir">netCdf_beam</variable>
+        <variable name="output_file">test_09.dim</variable>
+        <ProcedureCall id="_1qBj"
+                       procedure="open.optical.thematic_water_processing.flh_mci_processor"/>
+        <TestStep id="_1pdp" name="preparation">
+          <ProcedureCall id="_1qD7"
+                         procedure="preparation_for_test_without_save"/>
+          <ProcedureCall id="_1qD8" procedure="preset_selection">
+            <variable name="preset">$(meris_l1b_mci)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pdu" name="processing">
+          <IfSequence id="_1pfo"
+                      test="&#34;$(source_product)&#34;&lt;&gt;&#34;&#34;">
+            <ProcedureCall id="_1qCM"
+                           procedure="do_click.flh_mci_processor.button_apply"/>
+            <ProcedureCall id="_1pdw"
+                           procedure="click_ok_in_product_created_dialog"/>
+          </IfSequence>
+        </TestStep>
+        <TestStep id="_1pdx" name="check_output_product">
+          <IfSequence id="_1pfp"
+                      test="&#34;$(source_product)&#34;&lt;&gt;&#34;&#34;">
+            <ProcedureCall id="_1pgO"
+                           procedure="product_meta_data.for_open_image_view"/>
+            <SetGlobalStep id="_1pd+" varname="bandName">
+              <default>MCI</default>
+            </SetGlobalStep>
+            <ProcedureCall id="_1pe2"
+                           procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+          </IfSequence>
+        </TestStep>
+        <ProcedureCall id="_1qBV"
+                       procedure="close_processing_tool.thematic_water_processing.flh_mci_processor"/>
+      </TestCase>
+      <TestCase id="_1qE2" name="10_flh_meris_rr_l2_n1">
+        <variable name="source_data">MER_RR__2_test.N1</variable>
+        <variable name="source_dir">mer_rr__2p_n1</variable>
+        <variable name="output_file">test_10.dim</variable>
+        <ProcedureCall id="_1qE3"
+                       procedure="open.optical.thematic_water_processing.flh_mci_processor"/>
+        <TestStep id="_1qE4" name="preparation">
+          <ProcedureCall id="_1qE5"
+                         procedure="preparation_for_test_without_save"/>
+          <ProcedureCall id="_1qE6" procedure="preset_selection">
+            <variable name="preset">$(meris_l2_flh)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1qE7" name="processing">
+          <ProcedureCall id="_1qE8"
+                         procedure="do_click.flh_mci_processor.button_apply"/>
+          <ProcedureCall id="_1qE9"
+                         procedure="click_ok_in_product_created_dialog"/>
+        </TestStep>
+        <TestStep id="_1qEA" name="check_output_product">
+          <ProcedureCall id="_1qEB"
+                         procedure="product_meta_data.for_open_image_view"/>
+          <ProcedureCall id="_1qEC"
+                         procedure="utility.open_image_view_check_it"/>
+          <ProcedureCall id="_1qED"
+                         procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+        </TestStep>
+        <ProcedureCall id="_1qEE"
+                       procedure="close_processing_tool.thematic_water_processing.flh_mci_processor"/>
+      </TestCase>
+      <TestCase id="_1qEF" name="11_mci_meris_fr_l2_n1">
+        <variable name="source_data">MER_FR__2_test.N1</variable>
+        <variable name="source_dir">mer_fr__2p_n1</variable>
+        <variable name="output_file">test_11.dim</variable>
+        <ProcedureCall id="_1qEG"
+                       procedure="open.optical.thematic_water_processing.flh_mci_processor"/>
+        <TestStep id="_1qEH" name="preparation">
+          <ProcedureCall id="_1qEI"
+                         procedure="preparation_for_test_without_save"/>
+          <ProcedureCall id="_1qEJ" procedure="preset_selection">
+            <variable name="preset">$(meris_l2_mci)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1qEK" name="processing">
+          <ProcedureCall id="_1qEL"
+                         procedure="do_click.flh_mci_processor.button_apply"/>
+          <ProcedureCall id="_1qEM"
+                         procedure="click_ok_in_product_created_dialog"/>
+        </TestStep>
+        <TestStep id="_1qEN" name="check_output_product">
+          <ProcedureCall id="_1qEO"
+                         procedure="product_meta_data.for_open_image_view"/>
+          <ProcedureCall id="_1qEP"
+                         procedure="utility.open_image_view_check_it"/>
+          <SetGlobalStep id="_1qEQ" varname="view_Id1">
+            <default>2</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1qER" varname="bandName">
+            <default>ndvi_flags</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1qES"
+                         procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+        </TestStep>
+        <ProcedureCall id="_1qET"
+                       procedure="close_processing_tool.thematic_water_processing.flh_mci_processor"/>
+      </TestCase>
+      <TestCase id="_1qEU" name="12_flh_meris_frs_l2_n1">
+        <variable name="source_data">MER_FRS_2PNMAP20090717_090743_000001912080_00451_38581_0001.N1</variable>
+        <variable name="source_dir">mer_frs_2p_n1</variable>
+        <variable name="output_file">test_12.dim</variable>
+        <ProcedureCall id="_1qEV"
+                       procedure="open.optical.thematic_water_processing.flh_mci_processor"/>
+        <TestStep id="_1qEW" name="preparation">
+          <ProcedureCall id="_1qEX"
+                         procedure="preparation_for_test_without_save"/>
+          <ProcedureCall id="_1qGA" procedure="preset_selection">
+            <variable name="preset">$(meris_l2_flh)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1qEZ" name="processing">
+          <ProcedureCall id="_1qEa"
+                         procedure="do_click.flh_mci_processor.button_apply"/>
+          <ProcedureCall id="_1qEb"
+                         procedure="click_ok_in_product_created_dialog"/>
+        </TestStep>
+        <TestStep id="_1qEc" name="check_output_product">
+          <ProcedureCall id="_1qEd"
+                         procedure="product_meta_data.for_open_image_view"/>
+          <ProcedureCall id="_1qEe"
+                         procedure="utility.open_image_view_check_it"/>
+          <ProcedureCall id="_1qEf"
+                         procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+        </TestStep>
+        <ProcedureCall id="_1qEg"
+                       procedure="close_processing_tool.thematic_water_processing.flh_mci_processor"/>
+      </TestCase>
+      <TestCase id="_1qEh" name="13_mci_meris_fsg_21b_n1">
+        <variable name="source_data">MER_FSG_2PNMAP20050528_021222_000000732037_00361_16948_0001.N1</variable>
+        <variable name="source_dir">mer_fsg_2p_n1</variable>
+        <variable name="output_file">test_13.dim</variable>
+        <ProcedureCall id="_1qEi"
+                       procedure="open.optical.thematic_water_processing.flh_mci_processor"/>
+        <TestStep id="_1qEj" name="preparation">
+          <ProcedureCall id="_1qEk"
+                         procedure="preparation_for_test_without_save"/>
+          <ProcedureCall id="_1qGB" procedure="preset_selection">
+            <variable name="preset">$(meris_l2_mci)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1qEm" name="processing">
+          <ProcedureCall id="_1qEn"
+                         procedure="do_click.flh_mci_processor.button_apply"/>
+          <ProcedureCall id="_1qEo"
+                         procedure="click_ok_in_product_created_dialog"/>
+        </TestStep>
+        <TestStep id="_1qEp" name="check_output_product">
+          <ProcedureCall id="_1qEq"
+                         procedure="product_meta_data.for_open_image_view"/>
+          <SetGlobalStep id="_1qEr" varname="bandName">
+            <default>ndvi</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1qEs"
+                         procedure="utility.open_image_view_check_it"/>
+          <SetGlobalStep id="_1qEt" varname="view_Id1">
+            <default>2</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1qEu" varname="bandName">
+            <default>ndvi_flags</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1qEv"
+                         procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+        </TestStep>
+        <ProcedureCall id="_1qEw"
+                       procedure="close_processing_tool.thematic_water_processing.flh_mci_processor"/>
+      </TestCase>
+      <TestCase id="_40q" name="14_store_load_display_parameters">
+        <variable name="ofn">flh_mci_save_parameters.xml</variable>
+        <variable name="output_file">test_14_save_parameters.dim</variable>
+        <variable name="source_data">MER_RR__1_test.N1</variable>
+        <variable name="source_dir">mer_rr__1p_n1</variable>
+        <variable name="line_height_band">test_MCI</variable>
+        <variable name="slope_band">test_slope_MCI</variable>
+        <variable name="mask_expression">NOT l1_flags.LAND_OCEAN AND NOT l1_flags.BRIGHT AND NOT l1_flags.INVALID</variable>
+        <variable name="invalid_value">-999.0</variable>
+        <variable name="cloud_corr">1.01</variable>
+        <ProcedureCall id="_1qBl"
+                       procedure="open.optical.thematic_water_processing.flh_mci_processor"/>
+        <TestStep id="_1pOt" name="change_parameters">
+          <ProcedureCall id="_1qGC"
+                         procedure="preparation_for_test_without_save"/>
+          <ProcedureCall id="_1qGE" procedure="preset_selection">
+            <variable name="preset">$(meris_l1b_mci)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qGF"
+                         procedure="select.flh_mci_processor.generate_slope_band"/>
+          <ProcedureCall id="_1qGG"
+                         procedure="set.flh_mci_processor.line_height_band_name">
+            <variable name="val">$(line_height_band)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qGH"
+                         procedure="set.flh_mci_processor.slope_band_name">
+            <variable name="val">$(slope_band)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qGI"
+                         procedure="set.flh_mci_processor.mask_expression">
+            <variable name="val">$(mask_expression)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qGJ"
+                         procedure="set.flh_mci_processor.cloud_correction_factor">
+            <variable name="val">$(cloud_corr)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qGK"
+                         procedure="set.flh_mci_processor.invalid_value">
+            <variable name="val">$(invalid_value)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <ProcedureCall id="_1pPE" procedure="store_parameters"/>
+        <TestStep id="_1pPg" name="change_parameters">
+          <ProcedureCall id="_1pfT"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_1qGR" procedure="preset_selection">
+            <variable name="preset">$(none)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qGY"
+                         procedure="select.flh_mci_processor.generate_slope_band"/>
+          <ProcedureCall id="_1qGT"
+                         procedure="set.flh_mci_processor.line_height_band_name">
+            <variable name="val">test</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qGU"
+                         procedure="set.flh_mci_processor.slope_band_name">
+            <variable name="val">test</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qGV"
+                         procedure="set.flh_mci_processor.mask_expression">
+            <variable name="val"/>
+          </ProcedureCall>
+          <ProcedureCall id="_1qGW"
+                         procedure="set.flh_mci_processor.cloud_correction_factor">
+            <variable name="val">1.002</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qGX"
+                         procedure="set.flh_mci_processor.invalid_value">
+            <variable name="val">0.0</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qGS"
+                         procedure="deselect.flh_mci_processor.generate_slope_band"/>
+        </TestStep>
+        <ProcedureCall id="_1pPl" procedure="load_parameters"/>
+        <TestStep id="_1pPm" name="check_parameters">
+          <ProcedureCall id="_1pfY"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_1qGZ"
+                         procedure="check.flh_mci_processor.text.preset">
+            <variable name="val">$(meris_l1b_mci)</variable>
+          </ProcedureCall>
+          <ProcedureCall disabled="true" id="_1qGa"
+                         procedure="check.flh_mci_processor.text.lower_baseline_band_name">
+            <variable name="val"/>
+          </ProcedureCall>
+          <ProcedureCall disabled="true" id="_1qGb"
+                         procedure="check.flh_mci_processor.text.upper_baseline_band_name">
+            <variable name="val"/>
+          </ProcedureCall>
+          <ProcedureCall disabled="true" id="_1qGc"
+                         procedure="check.flh_mci_processor.text.signal_band_name">
+            <variable name="val"/>
+          </ProcedureCall>
+          <ProcedureCall id="_1qGd"
+                         procedure="check.flh_mci_processor.text.line_height_band_name">
+            <variable name="val">$(line_height_band)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qGi"
+                         procedure="check.flh_mci_processor.checked.generate_slope_band_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qGe"
+                         procedure="check.flh_mci_processor.text.slope_band_name">
+            <variable name="val">$(slope_band)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qGf"
+                         procedure="check.flh_mci_processor.text.mask_expression">
+            <variable name="val">$(mask_expression)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qGg"
+                         procedure="check.flh_mci_processor.text.cloud_correction_factor">
+            <variable name="val">$(cloud_corr)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qGh"
+                         procedure="check.flh_mci_processor.text.invalid_flh_mci_value">
+            <variable name="val">$(invalid_value)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pV8" name="display_parameters">
+          <ProcedureCall id="_1pbU" procedure="display_parameters_and_check"/>
+          <ProcedureCall id="_1qBX"
+                         procedure="close_processing_tool.thematic_water_processing.flh_mci_processor"/>
+        </TestStep>
+      </TestCase>
+      <TestCase disabled="true" id="_1pZO" name="15_cancel_processing">
+        <variable name="output_file">test_15_cancel.dim</variable>
+        <variable name="source_data">MER_FRS_1PNUPA20090707_090816_000005122080_00308_38438_7356.N1</variable>
+        <variable name="source_dir">mer_frs_1p_n1</variable>
+        <ProcedureCall id="_1qBm"
+                       procedure="open.optical.thematic_water_processing.flh_mci_processor"/>
+        <ProcedureCall id="_1qGx"
+                       procedure="preparation_for_test_save_output_product"/>
+        <TestStep id="_1pZQ" name="cancel_processing">
+          <ProcedureCall id="_1qGy"
+                         procedure="do_click.flh_mci_processor.button_apply"/>
+          <ProcedureCall id="_1pa9"
+                         procedure="cancel_writing_target_product"/>
+        </TestStep>
+        <TestStep id="_1pQE" name="check">
+          <ProcedureCall id="_1l3B" procedure="check.product.not_opened"/>
+          <IfSequence id="_1kk7"
+                      test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1pQV" procedure="run-log.logError">
+              <variable name="message">$(output_file) is opened in SNAP</variable>
+              <variable name="withScreenshots">true</variable>
+            </ProcedureCall>
+          </IfSequence>
+          <ProcedureCall id="_1pQe" procedure="set.target_product_with_path"/>
+          <ProcedureCall id="_1pQW"
+                         procedure="check_external_file.file_was_not_processed_else_shoot_error">
+            <variable name="fileName">$(target_product)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <ProcedureCall id="_1qBY"
+                       procedure="close_processing_tool.thematic_water_processing.flh_mci_processor"/>
+      </TestCase>
+      <TestSet id="_1pT+" name="16_processing_in_different_formats_meris">
+        <variable name="source_data">MER_RR__1_test.N1</variable>
+        <variable name="source_dir">mer_rr__1p_n1</variable>
+        <SetupSequence id="_1pUV" name="prepare_for_the_testing">
+          <ProcedureCall id="_1qBn"
+                         procedure="open.optical.thematic_water_processing.flh_mci_processor"/>
+          <ProcedureCall id="_1qG+"
+                         procedure="preparation_for_test_save_output_product">
+            <variable name="output_file">test</variable>
+          </ProcedureCall>
+        </SetupSequence>
+        <TestSet id="_1pUb" name="processing">
+          <DataDriver id="_1pUc"
+                      loopreportname="Write the target product as $(output_format)"
+                      name="output_formats">
+            <ProcedureCall id="_1pUd" procedure="tables.output_formats"/>
+          </DataDriver>
+          <TestCase id="_1pUj" name="processing_in_different_formats"
+                    reportname="Processing in different formats and check output product">
+            <ServerScriptStep id="_1pV5" name="print">
+              <code>print "output_format = $(output_format)"</code>
+            </ServerScriptStep>
+            <ServerScriptStep id="_1pV6" name="print">
+              <code>print "output_file = $(output_file)"</code>
+            </ServerScriptStep>
+            <TestStep id="_1qG-" name="processing">
+              <ProcedureCall id="_1qcm"
+                             procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
+                <variable name="screenshot">flh_mci_error</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qH2" procedure="select_io_tab"/>
+              <ProcedureCall id="_1qH3"
+                             procedure="set.flh_mci_processor.target_product_name">
+                <variable name="target_product_name">$(output_file)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qH4"
+                             procedure="select.flh_mci_processor.output_format">
+                <variable name="output_format">$(output_format)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qH0"
+                             procedure="do_click.flh_mci_processor.button_apply"/>
+              <ProcedureCall id="_1qcn"
+                             procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
+                <variable name="screenshot">run_flh_mci_error</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1pUo"
+                             procedure="wait.disappear.writing_target_product"/>
+              <ProcedureCall id="_1qH1"
+                             procedure="click_ok_in_product_created_dialog"/>
+            </TestStep>
+            <TestStep id="_1pUq" name="check_target_product">
+              <ProcedureCall id="_1pfx"
+                             procedure="test_events.check_target_product"/>
+              <ProcedureCall id="_1qH5" procedure="close.all_products"/>
+            </TestStep>
+          </TestCase>
+        </TestSet>
+        <CleanupSequence id="_1pUa" name="close_processor_tool">
+          <ProcedureCall id="_1qBZ"
+                         procedure="close_processing_tool.thematic_water_processing.flh_mci_processor"/>
+        </CleanupSequence>
+      </TestSet>
+    </TestSet>
+    <TestCase id="_1pFr" name="03_help">
+      <ProcedureCall id="_1qBo"
+                     procedure="open.optical.thematic_water_processing.flh_mci_processor"/>
+      <TestStep id="_1pVG" name="check_help">
+        <ProcedureCall id="_1pVH"
+                       procedure="do_click.flh_mci_processor.menu.help"/>
+        <ProcedureCall id="_1qBp"
+                       procedure="do_click.flh_mci_processor.menu.help_menu_item"/>
+        <ProcedureCall id="_1pVL"
+                       procedure="check.help.help_or_error_appears"/>
+        <ProcedureCall id="_1pVM" procedure="close.help"/>
+      </TestStep>
+      <TestStep id="_1pVN" name="check_help_about">
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogFLH/MCI_Processor.menubar"
+                        event="MOUSE_MPRC" id="_1prU" modifiers="16" x="161"
+                        y="11"/>
+        <ProcedureCall id="_1qBq"
+                       procedure="do_click.flh_mci_processor.menu.help"/>
+        <ProcedureCall id="_1qBr"
+                       procedure="do_click.flh_mci_processor.menu.about"/>
+        <ComponentWaiter client="$(client)" component="dialogAbout_FlhMci"
+                         id="_1q9q"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogAbout_FlhMci.ModalDialog.ok"
+                        event="MOUSE_MPRC" id="_1q9r" modifiers="16"/>
+      </TestStep>
+      <ProcedureCall id="_1qBa"
+                     procedure="close_processing_tool.thematic_water_processing.flh_mci_processor"/>
+    </TestCase>
+  </TestSet>
+  <PackageRoot id="_4">
+    <Procedure id="_1pb8" name="select_io_tab">
+      <ProcedureCall id="_1pb9" procedure="select.flh_mci_processor.tab">
+        <variable name="tab">I/O Parameters</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pbC" name="select_processing_parameters_tab">
+      <ProcedureCall id="_1pbE" procedure="select.flh_mci_processor.tab">
+        <variable name="tab">Processing Parameters</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pbQ" name="display_parameters_and_check">
+      <ProcedureCall id="_1pbR" procedure="display_parameters"/>
+      <ComponentWaiter client="$(client)" component="dialogFlhMci_Parameters"
+                       id="_1pra"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFlhMci_Parameters.ModalDialog.ok"
+                      event="MOUSE_MPRC" id="_1prb" modifiers="16"/>
+    </Procedure>
+    <Procedure id="_1qCk" name="preset_selection">
+      <variable name="preset"/>
+      <ProcedureCall id="_1qCl" procedure="select.flh_mci_processor.preset">
+        <variable name="preset">$(preset)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qCm"
+                     procedure="get.flh_mci_processor.lower_baseline_band_name"/>
+      <IfSequence id="_1qCn"
+                  test="&#34;$(lower_baseline_band_name)&#34;==&#34;&#34;">
+        <ProcedureCall id="_1qCo" procedure="select.flh_mci_processor.preset">
+          <variable name="preset">$(none)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1qCp" procedure="select.flh_mci_processor.preset">
+          <variable name="preset">$(preset)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1qCq" procedure="run-log.logError">
+          <variable name="message">Preset $(preset) cann't be selected immediately</variable>
+          <variable name="withScreenshots">true</variable>
+        </ProcedureCall>
+      </IfSequence>
+      <ProcedureCall id="_1qCu"
+                     procedure="get.flh_mci_processor.lower_baseline_band_name"/>
+      <IfSequence id="_1qCv"
+                  test="&#34;$(lower_baseline_band_name)&#34;==&#34;&#34;">
+        <ProcedureCall id="_1qCw" procedure="select.flh_mci_processor.preset">
+          <variable name="preset">$(none)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1qCx" procedure="select.flh_mci_processor.preset">
+          <variable name="preset">$(preset)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1qCy" procedure="run-log.logError">
+          <variable name="message">Preset $(preset) cann't be selected immediately</variable>
+          <variable name="withScreenshots">true</variable>
+        </ProcedureCall>
+      </IfSequence>
+    </Procedure>
+    <Procedure id="_1pMT" name="open_source_product">
+      <variable name="prod_dir"/>
+      <variable name="prod_name"/>
+      <ProcedureCall id="_1oSj" procedure="path.source_data_directory">
+        <variable name="data_type">$(prod_dir)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1pMS"
+                     procedure="do_click.flh_mci_processor.button_source_product"/>
+      <ProcedureCall id="_1pHR"
+                     procedure="utility.handle_select_product_dialog">
+        <variable name="file">$(data_source_directory)$(prod_name)</variable>
+      </ProcedureCall>
+      <TryStep id="_1pXT">
+        <ProcedureCall id="_1pXV" procedure="wait.appear.error.dialog_Error"/>
+        <ProcedureCall id="_1pXS"
+                       procedure="do_click.error_dialog.button_OK_Error"/>
+        <ProcedureCall id="_1pXW" procedure="run-log.logError">
+          <variable name="message">Opening of the product $(data_source_directory)$(prod_name) failed</variable>
+          <variable name="withScreenshots">false</variable>
+        </ProcedureCall>
+        <CatchSequence exception="TestException" id="_1pXU" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1pON" name="click_ok_in_product_created_dialog">
+      <TryStep id="_1qXT">
+        <ComponentWaiter client="$(client)"
+                         component="dialogSNAP_-_FLH/MCI_Processor" id="_1qXS"
+                         raise="false"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSNAP_-_FLH/MCI_Processor.buttonOK"
+                        event="MOUSE_MPRC" id="_1qXR" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1qXW" maxerror="0"/>
+      </TryStep>
+      <TryStep id="_1pOQ">
+        <ComponentWaiter client="$(client)"
+                         component="dialogFLH/MCI_Processor2" id="_1prZ"
+                         timeout="100"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogFLH/MCI_Processor2.buttonOK"
+                        event="MOUSE_MPRC" id="_1pbh" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1pOR" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1qCR" name="preparation_for_test_without_save">
+      <comment>@teststep preparation</comment>
+      <ProcedureCall id="_1qCS" procedure="select_io_tab"/>
+      <ProcedureCall id="_1qCT" procedure="open_source_product">
+        <variable name="prod_dir">$(source_dir)</variable>
+        <variable name="prod_name">$(source_data)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qCU"
+                     procedure="set.flh_mci_processor.target_product_name">
+        <variable name="target_product_name">$(output_file)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1pfn" procedure="get_source_product"/>
+      <ProcedureCall id="_1qCV"
+                     procedure="deselect.flh_mci_processor.save_as"/>
+      <ProcedureCall id="_1qCW" procedure="select_processing_parameters_tab"/>
+      <ProcedureCall id="_1qCX"
+                     procedure="set.flh_mci_processor.presets_list"/>
+    </Procedure>
+    <Procedure id="_1qGm" name="preparation_for_test_save_output_product">
+      <comment>@teststep preparation</comment>
+      <ProcedureCall id="_1qGn" procedure="select_io_tab"/>
+      <ProcedureCall id="_1qGo" procedure="open_source_product">
+        <variable name="prod_dir">$(source_dir)</variable>
+        <variable name="prod_name">$(source_data)</variable>
+      </ProcedureCall>
+      <ProcedureCall disabled="true" id="_1qGq"
+                     procedure="get_source_product"/>
+      <ProcedureCall id="_1qGr" procedure="select.flh_mci_processor.save_as"/>
+      <ProcedureCall id="_1qGu"
+                     procedure="select.flh_mci_processor.open_in_snap"/>
+      <ProcedureCall id="_1qGw" procedure="daten_format.beam_dimap"/>
+      <ProcedureCall id="_1qGv"
+                     procedure="select.flh_mci_processor.output_format">
+        <variable name="output_format">$(beam_dimap)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qH6"
+                     procedure="set.flh_mci_processor.target_directory">
+        <variable name="dir">$(output_folder)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qGp"
+                     procedure="set.flh_mci_processor.target_product_name">
+        <variable name="target_product_name">$(output_file)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qGs" procedure="select_processing_parameters_tab"/>
+      <ProcedureCall id="_1qGt"
+                     procedure="set.flh_mci_processor.presets_list"/>
+      <ProcedureCall id="_1qGl" procedure="preset_selection">
+        <variable name="preset">$(meris_l1b_mci)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pPF" name="store_parameters">
+      <TryStep id="_1pPG" name="select_menu_store_parameters">
+        <ProcedureCall id="_1pPH"
+                       procedure="do_click.flh_mci_processor.menu.file"/>
+        <ProcedureCall id="_1qGM"
+                       procedure="do_click.flh_mci_processor.menu.save_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPJ" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPK" procedure="utility.store_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pTE" name="get_source_product">
+      <FetchTextStep client="$(client)"
+                     component="dialogFLH/MCI_Processor.panelI/O_Parameters.comboThe_source_product."
+                     id="_1pTF" varname="source_product"/>
+    </Procedure>
+    <Procedure id="_1pPv" name="display_parameters">
+      <TryStep id="_1pPw" name="select_menu_display_parameters">
+        <ProcedureCall id="_1qGN"
+                       procedure="do_click.flh_mci_processor.menu.file"/>
+        <ProcedureCall id="_1qGO"
+                       procedure="do_click.flh_mci_processor.menu.display_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPz" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1pP9" name="load_parameters">
+      <TryStep id="_1pPA" name="select_menu_load_parameters">
+        <ProcedureCall id="_1qGP"
+                       procedure="do_click.flh_mci_processor.menu.file"/>
+        <ProcedureCall id="_1qGQ"
+                       procedure="do_click.flh_mci_processor.menu.load_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPD" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPM" procedure="utility.load_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+  </PackageRoot>
+  <ExtraSequence id="_5">
+    <BasicSequence id="_1q9g" name="Aufnahme 08.05.15 16:05">
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.menuItemDisplay_Parameters..."
+                      event="MOUSE_MPRC" id="_1q9t" modifiers="16"/>
+      <ComponentWaiter client="$(client)" component="dialogFlhMci_Parameters"
+                       id="_1q9u"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFlhMci_Parameters.ModalDialog.ok"
+                      event="MOUSE_MPRC" id="_1q9v" modifiers="16"/>
+    </BasicSequence>
+    <Procedure id="_1qC6" name="flh_mci">
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.button..."
+                      event="MOUSE_MPRC" id="_1qC7" modifiers="16"/>
+      <ComponentWaiter client="$(client)"
+                       component="dialogSelect_Source_Product" id="_1qC8"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSelect_Source_Product.buttonCancel"
+                      event="MOUSE_MPRC" id="_1qC9" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.tabbed.Processing_Parameters"
+                      event="MOUSE_MPRC" id="_1qCA" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.lowerBaselineBandName"
+                      event="MOUSE_MPRC" id="_1qCB" modifiers="16" x="25"
+                      y="6"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.labelPreset:"
+                      event="MOUSE_MPRC" id="_1qCC" modifiers="16" x="89"
+                      y="10"/>
+    </Procedure>
+    <Procedure id="_1qA3" name="flh_mci">
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogFLH/MCI_Processor.panelI/O_Parameters.comboThe_source_product."
+                       id="_1qA4"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogFLH/MCI_Processor.productName"
+                       id="_1qA5"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogFLH/MCI_Processor.saveToFileSelected"
+                        id="_1qA6"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogFLH/MCI_Processor.formatName"
+                       id="_1qA7">
+        <text>BEAM-DIMAP</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogFLH/MCI_Processor.productDir"
+                       id="_1qA8">
+        <text>C:\Users\olga_2</text>
+      </CheckStringStep>
+      <CheckBooleanStep checktype="enabled" client="$(client)"
+                        component="dialogFLH/MCI_Processor.openInAppSelected"
+                        id="_1qA9"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogFLH/MCI_Processor.button...2"
+                       id="_1qAA">
+        <text>...</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.tabbed.Processing_Parameters"
+                      event="MOUSE_MPRC" id="_1qAB" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.panelI/O_Parameters.comboThe_source_product."
+                      event="MOUSE_MPRC" id="_1qAC" modifiers="16" x="165"
+                      y="9"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.panelI/O_Parameters.comboThe_source_product."
+                      event="MOUSE_MPRC" id="_1qAD" modifiers="16" x="165"
+                      y="9"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.button..."
+                      event="MOUSE_MPRC" id="_1qAE" modifiers="16"/>
+      <ComponentWaiter client="$(client)"
+                       component="dialogSelect_Source_Product" id="_1qAF"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSelect_Source_Product.buttonCancel"
+                      event="MOUSE_MPRC" id="_1qAG" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.productName"
+                      event="MOUSE_MPRC" id="_1qAH" modifiers="16" x="199"
+                      y="9"/>
+      <TextInputStep clear="true" client="$(client)"
+                     component="dialogFLH/MCI_Processor.productName"
+                     id="_1qAI">
+        <text>dd</text>
+      </TextInputStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.saveToFileSelected"
+                      event="MOUSE_MPRC" id="_1qAJ" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.saveToFileSelected"
+                      event="MOUSE_MPRC" id="_1qAK" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.openInAppSelected"
+                      event="MOUSE_MPRC" id="_1qAL" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.openInAppSelected"
+                      event="MOUSE_MPRC" id="_1qAM" modifiers="16"/>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="dialogFLH/MCI_Processor.productDir"
+                      event="MOUSE_MOVED" id="_1qAN" modifiers="0" x="109"
+                      y="5"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.productDir"
+                      event="MOUSE_PRESSED" id="_1qAO" modifiers="16" x="109"
+                      y="5"/>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="dialogFLH/MCI_Processor.panel"
+                      event="MOUSE_DRAGGED" id="_1qAP" modifiers="16" x="0"
+                      y="221"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.panel"
+                      event="MOUSE_RELEASED" id="_1qAQ" modifiers="16" x="0"
+                      y="221"/>
+      <TextInputStep clear="true" client="$(client)"
+                     component="dialogFLH/MCI_Processor.productDir"
+                     id="_1qAR">
+        <text>dd</text>
+      </TextInputStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.formatName"
+                      event="MOUSE_MPRC" id="_1qAS" modifiers="16" x="67"
+                      y="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.listInvokerName:_formatName.output_format_name"
+                      event="MOUSE_MPRC" id="_1qAT" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.formatName"
+                      event="MOUSE_MPRC" id="_1qAU" modifiers="16" x="54"
+                      y="11"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.listInvokerName:_formatName.BEAM-DIMAP"
+                      event="MOUSE_MPRC" id="_1qAV" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.tabbed.Processing_Parameters"
+                      event="MOUSE_MPRC" id="_1qAW" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.preset"
+                      event="MOUSE_MPRC" id="_1qAX" modifiers="16" x="44"
+                      y="9"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.listInvokerName:_preset.MERIS_L1b_MCI"
+                      event="MOUSE_MPRC" id="_1qAY" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.preset"
+                      event="MOUSE_MPRC" id="_1qAZ" modifiers="16" x="35"
+                      y="12"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.listInvokerName:_preset.preset"
+                      event="MOUSE_MPRC" id="_1qAa" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.preset"
+                      event="MOUSE_MPRC" id="_1qAb" modifiers="16" x="36"
+                      y="9"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.listInvokerName:_preset.MERIS_L2_MCI"
+                      event="MOUSE_MPRC" id="_1qAc" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.preset"
+                      event="MOUSE_MPRC" id="_1qAd" modifiers="16" x="32"
+                      y="9"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.listInvokerName:_preset.None"
+                      event="MOUSE_MPRC" id="_1qAe" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.lowerBaselineBandName"
+                      event="MOUSE_MPRC" id="_1qAf" modifiers="16" x="25"
+                      y="6"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.labelPreset:"
+                      event="MOUSE_MPRC" id="_1qAg" modifiers="16" x="89"
+                      y="10"/>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="dialogFLH/MCI_Processor.lineHeightBandName"
+                      event="MOUSE_MOVED" id="_1qAh" modifiers="0" x="44"
+                      y="10"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.lineHeightBandName"
+                      event="MOUSE_PRESSED" id="_1qAi" modifiers="16" x="44"
+                      y="10"/>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="dialogFLH/MCI_Processor.labelLine_height_band_name:"
+                      event="MOUSE_DRAGGED" id="_1qAj" modifiers="16" x="98"
+                      y="1"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.labelLine_height_band_name:"
+                      event="MOUSE_RELEASED" id="_1qAk" modifiers="16" x="98"
+                      y="1"/>
+      <TextInputStep clear="true" client="$(client)"
+                     component="dialogFLH/MCI_Processor.lineHeightBandName"
+                     id="_1qAl">
+        <text>dd</text>
+      </TextInputStep>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="dialogFLH/MCI_Processor.slopeBandName"
+                      event="MOUSE_MOVED" id="_1qAm" modifiers="0" x="59"
+                      y="10"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.slopeBandName"
+                      event="MOUSE_PRESSED" id="_1qAn" modifiers="16" x="59"
+                      y="10"/>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="dialogFLH/MCI_Processor.labelSlope_band_name:"
+                      event="MOUSE_DRAGGED" id="_1qAo" modifiers="16" x="105"
+                      y="4"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.labelSlope_band_name:"
+                      event="MOUSE_RELEASED" id="_1qAp" modifiers="16" x="105"
+                      y="4"/>
+      <TextInputStep clear="true" client="$(client)"
+                     component="dialogFLH/MCI_Processor.slopeBandName"
+                     id="_1qAq">
+        <text>dd</text>
+      </TextInputStep>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="dialogFLH/MCI_Processor.maskExpression"
+                      event="MOUSE_MOVED" id="_1qAr" modifiers="0" x="91"
+                      y="13"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.maskExpression"
+                      event="MOUSE_PRESSED" id="_1qAs" modifiers="16" x="91"
+                      y="13"/>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="dialogFLH/MCI_Processor.scrollProcessing_Parameters.panel"
+                      event="MOUSE_DRAGGED" id="_1qAt" modifiers="16" x="102"
+                      y="188"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.scrollProcessing_Parameters.panel"
+                      event="MOUSE_RELEASED" id="_1qAu" modifiers="16" x="102"
+                      y="188"/>
+      <TextInputStep clear="true" client="$(client)"
+                     component="dialogFLH/MCI_Processor.maskExpression"
+                     id="_1qAv">
+        <text>dd</text>
+      </TextInputStep>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="dialogFLH/MCI_Processor.cloudCorrectionFactor"
+                      event="MOUSE_MOVED" id="_1qAw" modifiers="0" x="47"
+                      y="11"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.cloudCorrectionFactor"
+                      event="MOUSE_PRESSED" id="_1qAx" modifiers="16" x="47"
+                      y="11"/>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="dialogFLH/MCI_Processor"
+                      event="MOUSE_DRAGGED" id="_1qAy" modifiers="16" x="349"
+                      y="297"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor"
+                      event="MOUSE_RELEASED" id="_1qAz" modifiers="16" x="349"
+                      y="297"/>
+      <TextInputStep clear="true" client="$(client)"
+                     component="dialogFLH/MCI_Processor.cloudCorrectionFactor"
+                     id="_1qA+">
+        <text>1.</text>
+      </TextInputStep>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="dialogFLH/MCI_Processor.invalidFlhMciValue"
+                      event="MOUSE_MOVED" id="_1qA-" modifiers="0" x="108"
+                      y="7"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.invalidFlhMciValue"
+                      event="MOUSE_PRESSED" id="_1qB0" modifiers="16" x="108"
+                      y="7"/>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="dialogFLH/MCI_Processor"
+                      event="MOUSE_DRAGGED" id="_1qB1" modifiers="16" x="325"
+                      y="319"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor"
+                      event="MOUSE_RELEASED" id="_1qB2" modifiers="16" x="325"
+                      y="319"/>
+      <TextInputStep clear="true" client="$(client)"
+                     component="dialogFLH/MCI_Processor.invalidFlhMciValue"
+                     id="_1qB3">
+        <text>NaN</text>
+      </TextInputStep>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogFLH/MCI_Processor.preset" id="_1qB4">
+        <text>None</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogFLH/MCI_Processor.lowerBaselineBandName"
+                       id="_1qB5"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogFLH/MCI_Processor.upperBaselineBandName"
+                       id="_1qB6"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogFLH/MCI_Processor.signalBandName"
+                       id="_1qB7"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogFLH/MCI_Processor.lineHeightBandName"
+                       id="_1qB8">
+        <text>dd</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogFLH/MCI_Processor.slopeBandName"
+                       id="_1qB9">
+        <text>dd</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogFLH/MCI_Processor.maskExpression"
+                       id="_1qBA">
+        <text>dd</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogFLH/MCI_Processor.cloudCorrectionFactor"
+                       id="_1qBB">
+        <text>1.0</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogFLH/MCI_Processor.invalidFlhMciValue"
+                       id="_1qBC">
+        <text>NaN</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogFLH/MCI_Processor.button...3"
+                       id="_1qBD">
+        <text>...</text>
+      </CheckStringStep>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogFLH/MCI_Processor.slope" id="_1qBE"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogFLH/MCI_Processor.slope" id="_1qBF"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.slope"
+                      event="MOUSE_MPRC" id="_1qBG" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.slope"
+                      event="MOUSE_MPRC" id="_1qBH" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.tabbed.tab"
+                      event="MOUSE_MPRC" id="_1qBI" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.saveToFileSelected"
+                      event="MOUSE_MPRC" id="_1qBJ" modifiers="16"/>
+      <MouseEventStep clicks="2" client="$(client)"
+                      component="dialogFLH/MCI_Processor.saveToFileSelected"
+                      event="MOUSE_MPRC" id="_1qBK" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFLH/MCI_Processor.openInAppSelected"
+                      event="MOUSE_MPRC" id="_1qBL" modifiers="16"/>
+      <MouseEventStep clicks="2" client="$(client)"
+                      component="dialogFLH/MCI_Processor.openInAppSelected"
+                      event="MOUSE_MPRC" id="_1qBM" modifiers="16"/>
+    </Procedure>
+    <ProcedureCall id="_1oXV" procedure="check.product.not_opened"/>
+    <IfSequence id="_1oXW" test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+      <TestStep id="_1o+2" name="delete_band">
+        <ProcedureCall id="_1oXb" procedure="select.product_tree.band">
+          <variable name="prod_id">0</variable>
+          <variable name="group_id"/>
+          <variable name="view_id">1</variable>
+          <variable name="band">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1ozv" procedure="delete_product_tree_node"/>
+        <ProcedureCall id="_1ozx" procedure="check.product.node_not_exists">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1o+t" name="undo">
+        <ProcedureCall id="_1p0C" procedure="undo_tree"/>
+        <ProcedureCall disabled="true" id="_1o+y"
+                       procedure="do_click_menubar_undo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o+z" procedure="get.tree.get_index_of_node">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+        <ServerScriptStep disabled="true" id="_1o++" name="print">
+          <code>print "$(new_band_id)"</code>
+        </ServerScriptStep>
+      </TestStep>
+      <TestStep id="_1o-3" name="redo">
+        <ProcedureCall id="_1p0D" procedure="redo_tree"/>
+        <ProcedureCall disabled="true" id="_1o-B"
+                       procedure="do_click_menubar_redo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o-C" procedure="check.product.node_not_exists">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1o-F" name="undo">
+        <ProcedureCall id="_1p0E" procedure="undo_tree"/>
+        <ProcedureCall disabled="true" id="_1o-P"
+                       procedure="do_click_menubar_undo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o-Q" procedure="get.tree.get_index_of_node">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+    </IfSequence>
+    <ProcedureCall id="_1oXO" procedure="close.all_products"/>
+  </ExtraSequence>
+  <WindowList id="_6"/>
+</RootStep>

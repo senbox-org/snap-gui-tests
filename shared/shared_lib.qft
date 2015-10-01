@@ -449,6 +449,25 @@ In this case we catch the exeption in this node and perform a hard close.
             </ProcedureCall>
           </CatchSequence>
         </TryStep>
+        <TryStep disabled="true" id="_1pEf" name="check_client_exists">
+          <ClientWaiter client="$(client_name)" errorlevel="0" id="_1oJH"
+                        raise="false" timeout="0"/>
+          <ProcessWaiter client="$(client_name)" errorlevel="0" id="_1pEg"
+                         raise="false" timeout="1000"/>
+          <TryStep id="_1pEj" name="check if really stopped">
+            <ProcessWaiter client="$(client_name)" errorlevel="0" id="_1pEk"
+                           raise="false" timeout="1000"/>
+            <CatchSequence exception="ClientNotTerminatedException" id="_1pEl"
+                           maxerror="0" name="notTerminated">
+              <comment>The Wait for client to terminate node throws an exeption if it did not stop.
+In this case we catch the exeption in this node and perform a hard close.
+</comment>
+              <ProcedureCall id="_1pEm" procedure="utils.terminate_process">
+                <variable name="client_name">$(client_name)</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+        </TryStep>
       </Procedure>
       <Procedure id="_1o+u" name="terminate_process">
         <variable name="client_name"/>

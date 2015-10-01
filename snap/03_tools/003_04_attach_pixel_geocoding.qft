@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.4">
+  <include>qfs.qft</include>
+  <include>tools_lib.qft</include>
+  <reference>../010_Data_Processors/02_ImageAnalysis/010_Data_Processors_02_ImageAnalysis_03_K_Means_Cluster.qft</reference>
+  <TestSet id="_2" name="003_04_attach_pixel_geocoding"
+           reportname="003-04  Attach pixel geo-coding">
+    <comment>Product generation tools. Arithmetic Expression Editor.</comment>
+    <DependencyReference id="_1lWz"
+                         reference="dependencies.start_application"/>
+    <TestCase id="_8cc" name="attach_pixel_geocoding"
+              reportname="Attach pixel geo-coding">
+      <variable name="fileName">MER_FSG_1PNMAP20050726_232437_000000782039_00216_17805_0001.N1</variable>
+      <ProcedureCall id="_1lEy" procedure="open.product_in_snap">
+        <variable name="prod_dir">mer_fsg_1p_n1</variable>
+        <variable name="in_out">in</variable>
+        <variable name="prod">$(fileName)</variable>
+        <variable name="product_type"/>
+      </ProcedureCall>
+      <ProcedureCall id="_1l52" procedure="check.product.not_opened"/>
+      <IfSequence id="_1l53" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
+        <TryStep id="_9Z6">
+          <ComponentWaiter client="VISAT"
+                           component="NbMainWindow.Product_Explorer.tree"
+                           errorlevel="0" id="_9ZA" raise="false"/>
+          <CatchSequence exception="TestException" id="_9Z8" maxerror="0"/>
+        </TryStep>
+        <ElseSequence id="_1lEz">
+          <ProcedureCall id="_1opR" procedure="pixel_geo_coding.attach">
+            <variable name="prod_id">0</variable>
+          </ProcedureCall>
+          <TestStep id="_1opS" name="check_todo">
+            <SetGlobalStep id="_1opU" varname="group_id1">
+              <default>0</default>
+            </SetGlobalStep>
+            <SetGlobalStep id="_1opV" varname="view_Id1">
+              <default>0</default>
+            </SetGlobalStep>
+            <SetGlobalStep id="_1opW" varname="bandName">
+              <default>radiance_1</default>
+            </SetGlobalStep>
+            <TryStep id="_1p1I"
+                     name="click_button_OK_in_pixel_geocoding_has_been_attached_dialog">
+              <ProcedureCall id="_1p1J"
+                             procedure="wait.appear.tools.dialogSNAP_Attach_Pixel_Geo-Coding"/>
+              <ProcedureCall id="_1p1K"
+                             procedure="do_click.tools.pixel_geocoding.attach.do_you_really_want_to_continue_dialog.cancel_button"/>
+              <CatchSequence exception="TestException" id="_1p1L"
+                             maxerror="0"/>
+            </TryStep>
+            <ProcedureCall id="_1opT"
+                           procedure="utility.open_image_view_check_it"/>
+            <TestStep id="_1p1P" name="check_menu">
+              <ProcedureCall id="_1p1O" procedure="do_click.menu.tools"/>
+              <ProcedureCall id="_1p1M"
+                             procedure="check.menu.tools.menuItemAttachPixelGeoCoding_enabled_status">
+                <variable name="enabled_status">false</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1p1N"
+                             procedure="check.menu.tools.menuItemDetachPixelGeoCoding_enabled_enabled_status">
+                <variable name="enabled_status">true</variable>
+              </ProcedureCall>
+            </TestStep>
+          </TestStep>
+          <ProcedureCall id="_1opX" procedure="pixel_geo_coding.detach">
+            <variable name="prod_id">0</variable>
+          </ProcedureCall>
+          <SetGlobalStep id="_1p1V" varname="view_Id1">
+            <default>1</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1p1Z" varname="group_id1">
+            <default>0</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1p1U" varname="bandName">
+            <default>radiance_2</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1p1W"
+                         procedure="utility.open_image_view_check_it"/>
+          <TestStep id="_1p1Q" name="check_menu">
+            <ProcedureCall id="_1p1R" procedure="do_click.menu.tools"/>
+            <ProcedureCall id="_1p1S"
+                           procedure="check.menu.tools.menuItemAttachPixelGeoCoding_enabled_status">
+              <variable name="enabled_status">true</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1p1T"
+                           procedure="check.menu.tools.menuItemDetachPixelGeoCoding_enabled_enabled_status">
+              <variable name="enabled_status">false</variable>
+            </ProcedureCall>
+          </TestStep>
+        </ElseSequence>
+      </IfSequence>
+      <ProcedureCall id="_1mk5" procedure="close.all_products"/>
+    </TestCase>
+    <TestCase id="_1oWc" name="help" reportname="Help">
+      <variable name="fileName">MER_FSG_1PNMAP20050726_232437_000000782039_00216_17805_0001.N1</variable>
+      <TestStep id="_1oWd" name="open_product">
+        <ProcedureCall id="_1p1X" procedure="open.product_in_snap">
+          <variable name="prod_dir">mer_fsg_1p_n1</variable>
+          <variable name="in_out">in</variable>
+          <variable name="prod">$(fileName)</variable>
+          <variable name="product_type"/>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1oWf" name="open_attach_pixelgeocoding_dialog">
+        <ProcedureCall id="_1oas" procedure="select.product_tree.product">
+          <variable name="prod_id">0</variable>
+        </ProcedureCall>
+        <TryStep id="_1oQv" name="open_dialog_attach_pixel_geo_coding">
+          <ProcedureCall id="_1oQq"
+                         procedure="menu.utility.attach_pixel_geo-coding"/>
+          <CatchSequence exception="TestException" id="_1oQw" maxerror="0">
+            <ProcedureCall disabled="true" id="_1oQz"
+                           procedure="run-log.error_message.dialog_does_not_appear">
+              <variable name="dialog">Attach pixel geo-coding</variable>
+            </ProcedureCall>
+          </CatchSequence>
+        </TryStep>
+      </TestStep>
+      <TestStep id="_1oWh" name="check_help">
+        <ProcedureCall id="_1oWy"
+                       procedure="do_click.tools.pixel_geocoding.attach.help_button"/>
+        <ProcedureCall id="_1p1Y" procedure="check.help.help_appears"/>
+        <ProcedureCall id="_1oXG" procedure="close.help"/>
+        <ProcedureCall id="_1oWx"
+                       procedure="do_click.tools.pixel_geocoding.attach.cancel_button"/>
+      </TestStep>
+      <ProcedureCall id="_1oWt" procedure="close.all_products"/>
+    </TestCase>
+  </TestSet>
+  <PackageRoot id="_4"/>
+  <ExtraSequence id="_5">
+    <TestCase disabled="true" id="_7ww"
+              name="02_virtual_data_Landsat_k_mean_claster_analysis"
+              reportname="02 Virtual data problem with Band Arithmetic Landsat k-mean claster analysis">
+      <variable name="prod">LANDSAT 5 TM SCENE 20090115</variable>
+      <variable name="newBand">test</variable>
+      <variable name="kmeans_band">class_indices</variable>
+      <variable name="expr">radiance_3</variable>
+      <variable name="valid_expr">radiance_3.raw != 0.0</variable>
+      <comment>Open a Landsat 5 TM product in VISAT&lt;br&gt;
+Open the Band Arithmetic dialog, uncheck the 'Virtual...' option, define my expression and click the 'OK' button.&lt;br&gt;
+A new band appeared in the Products View.&lt;br&gt;
+Save the product, which implied conversion into BEAM DIMAP.&lt;br&gt;
+Opened the K-means clustering, where define the source bands in the 'Processing Parameters' by selecting the applicable bands from the list.
+</comment>
+      <ProcedureCall id="_7wv" procedure="opens.openProduct_clickIcon">
+        <variable name="fileName">LANDSAT/Landsat_5/fastTM/Australia/scene01/band1.dat</variable>
+        <variable name="prodType">$(prodTypeAll)</variable>
+        <comment>Open Product</comment>
+      </ProcedureCall>
+      <ProcedureCall id="_1kfC"
+                     procedure="checks.checkProductNotOpened_return_prodNotOpened_variable"/>
+      <IfSequence id="_1kfD"
+                  test="&#34;$(prodNotOpened)&#34;==&#34;true&#34;">
+        <TestStep id="_1kfE" name="wait" postdelay="5000"/>
+      </IfSequence>
+      <ProcedureCall id="_1kfF"
+                     procedure="checks.checkProductNotOpened_return_prodNotOpened_variable"/>
+      <IfSequence id="_1kfG"
+                  test="&#34;$(prodNotOpened)&#34;==&#34;true&#34;">
+        <TestStep id="_1kfH" name="wait" postdelay="6000"/>
+      </IfSequence>
+      <ProcedureCall id="_9QI" procedure="wait.product_is_opened_in_visat">
+        <variable name="product_name">$(prod)</variable>
+        <variable name="index">1</variable>
+        <variable name="waiting_time">120000</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_DjC"
+                     procedure="checks.checkProductNotOpened_return_prodNotOpened_variable"/>
+      <IfSequence id="_DjD" test="&#34;$(prodNotOpened)&#34;==&#34;true&#34;">
+        <ProcedureCall id="_Djq" postdelay="12000"
+                       procedure="wait.product_is_opened_in_visat">
+          <variable name="product_name">$(prod)</variable>
+          <variable name="index">1</variable>
+          <variable name="waiting_time">120000</variable>
+        </ProcedureCall>
+      </IfSequence>
+      <ProcedureCall id="_7wx"
+                     procedure="checks.checkProductNotOpened_return_prodNotOpened_variable"/>
+      <IfSequence id="_1kfM"
+                  test="&#34;$(prodNotOpened)&#34;==&#34;true&#34;">
+        <TestStep id="_1kfN" name="wait" postdelay="50000"/>
+      </IfSequence>
+      <ProcedureCall id="_1kfL"
+                     procedure="checks.checkProductNotOpened_return_prodNotOpened_variable"/>
+      <IfSequence id="_9QK" test="&#34;$(prodNotOpened)&#34;==&#34;true&#34;">
+        <ProcedureCall id="_9QL"
+                       procedure="scripts.error.product_can_not_be_opened">
+          <variable name="product_name">LANDSAT/Australia/scene01/band1.dat</variable>
+        </ProcedureCall>
+        <ElseSequence id="_9QM">
+          <ProcedureCall id="_9QJ"
+                         procedure="checkProductTree.check_product_contains_metadata_bandClosed">
+            <variable name="id">1</variable>
+            <variable name="prodName">$(prod)</variable>
+          </ProcedureCall>
+          <TestStep id="_7xs" name="createNewBand">
+            <ProcedureCall id="_7w+"
+                           procedure="open.open_BandArithmeticTool"/>
+            <ProcedureCall id="_7xF"
+                           procedure="checks.bandMath_tool.targetProduct_comboBox">
+              <variable name="product">$(prod)</variable>
+              <variable name="prId">1</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_7xn"
+                           procedure="help.bandMath_tool.select_Virtual_option"/>
+            <ProcedureCall id="_7xo"
+                           procedure="help.bandMath_tool.insert_BandName">
+              <variable name="bandName">$(newBand)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_7xp"
+                           procedure="help.bandMath_tool.insert_Expression">
+              <variable name="expression">$(expr)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_7xq" postdelay="6000"
+                           procedure="clicks.bandMath_tool.ok"/>
+          </TestStep>
+          <TestStep id="_7y4" name="check">
+            <ProcedureCall id="_7xw"
+                           procedure="checkImageViewIsOpened.checkImageView">
+              <variable name="product_id">1</variable>
+              <variable name="image_view_title">$(newBand)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_7xx"
+                           procedure="check_band.band_uncluded_in_product_tree">
+              <variable name="prId">1</variable>
+              <variable name="band">$(newBand)</variable>
+              <variable name="product">/0/1/7</variable>
+              <variable name="example_product">/0/1/7 (/product node/Bands node/band node)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_7y1"
+                           procedure="checks.band_properties.virtual_band">
+              <variable name="prId">1</variable>
+              <variable name="product_name">$(prod)</variable>
+              <variable name="validExp">$(valid_expr)</variable>
+              <variable name="no_data">NaN</variable>
+              <variable name="virtual_band">$(newBand)</variable>
+              <variable name="vb_exp">$(expr)</variable>
+              <variable name="use_no_data_selection">true</variable>
+            </ProcedureCall>
+          </TestStep>
+          <ProcedureCall id="_3kf" postdelay="1000"
+                         procedure="saves.saveProductAs">
+            <variable name="output_file_name">test</variable>
+            <variable name="dir">$(out_dir_bm)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8fF"
+                         procedure="wait.writting_BEAM-DIMAP_format_disappears"/>
+          <TestStep id="_8XG" name="K-Means_Cluster_Analysis">
+            <ProcedureCall id="_8XC"
+                           procedure="open.openProcessorUI.open_K-Means_Cluster_Analysis"/>
+            <ProcedureCall id="_8XD"
+                           procedure="select.tab_Processing_Parameters"/>
+            <ProcedureCall id="_8XE"
+                           procedure="select.tab_Processing_Parameters.one_source_band">
+              <variable name="source_band">$(newBand)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_8XF" postdelay="1000"
+                           procedure="click.RUN_processor.K-Means_Cluster_Analysis"/>
+            <ProcedureCall id="_8fZ"
+                           procedure="wait.wait_dialogWriting_Target_Product_disappears"/>
+            <TryStep id="_9n8"
+                     name="handle_error_dialogVISAT_K_Means_Cluster_Analysis">
+              <ProcedureCall id="_9n6"
+                             procedure="../010_Data_Processors/02_ImageAnalysis/010_Data_Processors_02_ImageAnalysis_03_K_Means_Cluster.qft#wait.error_dialogVISAT_K_Means_Cluster_Analysis"/>
+              <ProcedureCall id="_9n7"
+                             procedure="../010_Data_Processors/02_ImageAnalysis/010_Data_Processors_02_ImageAnalysis_03_K_Means_Cluster.qft#click.OK_error_dialogVISAT_K_Means_Cluster_Analysis"/>
+              <ProcedureCall id="_9nI"
+                             procedure="closeProcessorUI.close_K-Means_Cluster_Analysis"/>
+              <ProcedureCall id="_9nA"
+                             procedure="scripts.error.dialog_appears">
+                <variable name="dialog">Error dialog VISAT_-_K-Means_Cluster_Analysis...</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_9n9"
+                             maxerror="0"/>
+            </TryStep>
+            <TryStep id="_9nG" name="clickOKinInfoDialogSuccessfullyWritten">
+              <ProcedureCall id="_8i0" predelay="2000"
+                             procedure="click.clickOKinInfoDialogSuccessfullyWritten">
+                <variable name="w">15000</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_9nJ"
+                             procedure="closeProcessorUI.close_K-Means_Cluster_Analysis"/>
+              <ProcedureCall id="_9QP"
+                             procedure="checks.checkProductName_return_prodOpened_variable">
+                <variable name="product_name">$(newBand)_kmeans</variable>
+                <variable name="index">2</variable>
+              </ProcedureCall>
+              <IfSequence id="_9nK"
+                          test="&#34;$(prodOpened)&#34;==&#34;true&#34;">
+                <ProcedureCall id="_6Vm" procedure="opens.openImageView">
+                  <variable name="prodBand">[2] $(newBand)_kmeans/Bands/$(kmeans_band)</variable>
+                </ProcedureCall>
+                <ProcedureCall id="_8XQ"
+                               procedure="checkImageViewIsOpened.checkImageView">
+                  <variable name="product_id">2</variable>
+                  <variable name="image_view_title">$(kmeans_band)</variable>
+                </ProcedureCall>
+              </IfSequence>
+              <CatchSequence exception="TestException" id="_9nH" maxerror="0">
+                <ProcedureCall id="_9nL"
+                               procedure="scripts.error.product_is_not_opened_in_VISAT">
+                  <variable name="product_name">$(newBand)_kmeans is not processed and </variable>
+                </ProcedureCall>
+              </CatchSequence>
+            </TryStep>
+          </TestStep>
+          <ProcedureCall id="_9qd" procedure="close_modified_product"/>
+        </ElseSequence>
+      </IfSequence>
+    </TestCase>
+  </ExtraSequence>
+  <WindowList id="_6"/>
+</RootStep>

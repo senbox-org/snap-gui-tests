@@ -1,0 +1,636 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.4">
+  <include>qfs.qft</include>
+  <include>tools_lib.qft</include>
+  <variable name="out_dir_bm">bandArithmetic</variable>
+  <TestSet id="_2" name="003_03_math_expression_editor"
+           reportname="003-03 Math expression editor">
+    <comment>Product generation tools. Arithmetic Expression Editor.</comment>
+    <DependencyReference id="_1oXU"
+                         reference="dependencies.start_application"/>
+    <TestCase id="_8cc" name="check_components" reportname="Check components">
+      <variable name="fileName">MER_RR__1_test.N1</variable>
+      <ProcedureCall id="_1oXQ" procedure="open.product_in_snap">
+        <variable name="prod_dir">mer_rr__1p_n1</variable>
+        <variable name="in_out">in</variable>
+        <variable name="prod">$(fileName)</variable>
+        <variable name="product_type"/>
+      </ProcedureCall>
+      <ProcedureCall id="_1oX0" procedure="check.product.not_opened"/>
+      <IfSequence id="_1oX1" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
+        <TryStep id="_1oX2">
+          <ComponentWaiter client="VISAT"
+                           component="NbMainWindow.Product_Explorer.tree"
+                           errorlevel="0" id="_1oX3" raise="false"/>
+          <CatchSequence exception="TestException" id="_1oX4" maxerror="0"/>
+        </TryStep>
+        <ElseSequence id="_1oX5">
+          <ProcedureCall id="_1oXF" procedure="select.product_tree.product">
+            <variable name="prod_id">0</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1oXB" procedure="open.tools.band_maths"/>
+          <IfSequence id="_1oXA"
+                      test="&#34;$(menuItemBandMath_enabled)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1oXG"
+                           procedure="do_click.tools.bandMaths.button_expression_Editor"/>
+            <TryStep id="_1oXR" name="check_band_Maths_Expression_Editor">
+              <ProcedureCall id="_1oXH"
+                             procedure="wait.appear.tools.band_Maths_Expression_Editor"/>
+              <ProcedureCall id="_1oXI"
+                             procedure="check.tools.bandMaths.expression_Editor.show_bands_selected_status">
+                <variable name="selected">true</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1oXJ"
+                             procedure="check.tools.bandMaths.expression_Editor.show_masks_selected_status">
+                <variable name="selected">true</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1oXK"
+                             procedure="check.tools.bandMaths.expression_Editor.show_tie-point_grids_selected_status">
+                <variable name="selected">false</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1oXL"
+                             procedure="check.tools.bandMaths.expression_Editor.show_single_flags_selected_status">
+                <variable name="selected">false</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1oXN"
+                             procedure="check.tools.bandMaths.expression_Editor.experession">
+                <variable name="exp"/>
+              </ProcedureCall>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBand_Maths_Expression_Editor.plusButton"
+                                id="_1oW0"/>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBand_Maths_Expression_Editor.minusButton"
+                                id="_1oW1"/>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBand_Maths_Expression_Editor.mulButton"
+                                id="_1oW2"/>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBand_Maths_Expression_Editor.divButton"
+                                id="_1oW3"/>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBand_Maths_Expression_Editor.parenButton"
+                                id="_1oW4"/>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBand_Maths_Expression_Editor.constBox"
+                                id="_1oUw"/>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBand_Maths_Expression_Editor.operBox"
+                                id="_1oUx"/>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBand_Maths_Expression_Editor.functBox"
+                                id="_1oUy"/>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBand_Maths_Expression_Editor.selAllButton"
+                                id="_1oUz" state="false"/>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBand_Maths_Expression_Editor.clearButton"
+                                id="_1oU+" state="false"/>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBand_Maths_Expression_Editor.undoButton"
+                                id="_1oU-" state="false"/>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBand_Maths_Expression_Editor.historyUpButton"
+                                id="_1oV0" state="false"/>
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogBand_Maths_Expression_Editor.historyDownButton"
+                                id="_1oV1" state="false"/>
+              <ProcedureCall id="_1oXM"
+                             procedure="do_click.tools.expression_Editor.button_cancel"/>
+              <CatchSequence exception="TestException" id="_1oXS"
+                             maxerror="0">
+                <ProcedureCall id="_1oXT"
+                               procedure="run-log.eroor_message.dialog_does_not_appear">
+                  <variable name="dialog">Band Maths Expression Editor</variable>
+                </ProcedureCall>
+              </CatchSequence>
+            </TryStep>
+            <ProcedureCall id="_1oXD"
+                           procedure="do_click.tools.bandMaths.button_cancel"/>
+          </IfSequence>
+          <ProcedureCall id="_1oXE" procedure="close.all_products"/>
+        </ElseSequence>
+      </IfSequence>
+      <ProcedureCall id="_1oXO" procedure="close.all_products"/>
+    </TestCase>
+    <TestCase disabled="true" id="_8lc" name="check_data_sources"
+              reportname="Check data sources">
+      <IfSequence id="_8wA"
+                  test="&#34;$(bandMath_enabled)&#34;==&#34;true&#34;">
+        <TestStep id="_8oL" name="deselect_all_sources">
+          <ProcedureCall id="_8oH"
+                         procedure="select.arithmeticExpressionEditor.checkbox.deselect_show_bands"/>
+          <ProcedureCall id="_8oI"
+                         procedure="select.arithmeticExpressionEditor.checkbox.deselect_show_masks"/>
+          <ProcedureCall id="_8oJ"
+                         procedure="select.arithmeticExpressionEditor.checkbox.deselect_show_tie_point_grids"/>
+          <ProcedureCall id="_8oK"
+                         procedure="select.arithmeticExpressionEditor.checkbox.deselect_show_single_flags"/>
+          <ProcedureCall id="_8oM"
+                         procedure="checks.arithmeticExpressionEditor.data_sources.empty"/>
+        </TestStep>
+        <TestStep id="_8oP" name="show_bands">
+          <ProcedureCall id="_8oN"
+                         procedure="select.arithmeticExpressionEditor.checkbox.show_bands"/>
+          <ProcedureCall id="_8oO"
+                         procedure="checks.arithmeticExpressionEditor.data_sources.mer_rr_1p_bands"/>
+        </TestStep>
+        <TestStep id="_8oQ" name="show_masks">
+          <ProcedureCall id="_8oR"
+                         procedure="select.arithmeticExpressionEditor.checkbox.deselect_show_bands"/>
+          <ProcedureCall id="_8oZ"
+                         procedure="select.arithmeticExpressionEditor.checkbox.show_masks"/>
+          <ProcedureCall id="_8oS"
+                         procedure="checks.arithmeticExpressionEditor.data_sources.mer_rr_1p_masks"/>
+        </TestStep>
+        <TestStep id="_8oa" name="show_tie_point_grids">
+          <ProcedureCall id="_8ob"
+                         procedure="select.arithmeticExpressionEditor.checkbox.deselect_show_masks"/>
+          <ProcedureCall id="_8oc"
+                         procedure="select.arithmeticExpressionEditor.checkbox.show_tie_point_grids"/>
+          <ProcedureCall id="_8od"
+                         procedure="checks.arithmeticExpressionEditor.data_sources.mer_rr_1p_tie-point_grids"/>
+        </TestStep>
+        <TestStep id="_8oe" name="show_single_flags">
+          <ProcedureCall id="_8of"
+                         procedure="select.arithmeticExpressionEditor.checkbox.deselect_show_tie_point_grids"/>
+          <ProcedureCall id="_8og"
+                         procedure="select.arithmeticExpressionEditor.checkbox.show_single_flags"/>
+          <ProcedureCall id="_8oh"
+                         procedure="checks.arithmeticExpressionEditor.data_sources.mer_rr_1p_single_flags"/>
+        </TestStep>
+        <TestStep id="_8oi" name="select_all_sources">
+          <ProcedureCall id="_8oj"
+                         procedure="select.arithmeticExpressionEditor.checkbox.show_bands"/>
+          <ProcedureCall id="_8ok"
+                         procedure="select.arithmeticExpressionEditor.checkbox.show_masks"/>
+          <ProcedureCall id="_8ol"
+                         procedure="select.arithmeticExpressionEditor.checkbox.show_tie_point_grids"/>
+          <ProcedureCall id="_8om"
+                         procedure="select.arithmeticExpressionEditor.checkbox.show_single_flags"/>
+          <ProcedureCall id="_8on"
+                         procedure="checks.arithmeticExpressionEditor.data_sources.mer_rr_1p_all_sources"/>
+        </TestStep>
+      </IfSequence>
+    </TestCase>
+    <TestCase disabled="true" id="_8oq" name="expression"
+              reportname="Expressions">
+      <IfSequence id="_8wB"
+                  test="&#34;$(bandMath_enabled)&#34;==&#34;true&#34;">
+        <TestStep id="_8oz" name="radiance_7">
+          <variable name="s1">radiance_7</variable>
+          <ProcedureCall id="_8or"
+                         procedure="select.arithmeticExpressionEditor.data_source">
+            <variable name="data_source">$(s1)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8p5"
+                         procedure="checks.arithmeticExpressionEditor.expression_area">
+            <variable name="txt">$(s1)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8os"
+                         procedure="checks.arithmeticExpressionEditor.enabledStatus.selectAll_button">
+            <variable name="selectAll_button">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8ot"
+                         procedure="checks.arithmeticExpressionEditor.enabledStatus.clear_button">
+            <variable name="clear_button">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8ou"
+                         procedure="checks.arithmeticExpressionEditor.enabledStatus.undo_button">
+            <variable name="undo_button">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8oy"
+                         procedure="checks.arithmeticExpressionEditor.expression_validation_message">
+            <variable name="message">Ok, no errors.</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_8p9" name="radiance_7_plus_radiance_13">
+          <variable name="s1">radiance_7</variable>
+          <variable name="s2">radiance_13</variable>
+          <ProcedureCall id="_8p3"
+                         procedure="clicks.arithmeticExpressionEditor.plus_button"/>
+          <ProcedureCall id="_8p4"
+                         procedure="checks.arithmeticExpressionEditor.expression_area">
+            <variable name="txt">$(s1) + @</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8p2"
+                         procedure="checks.arithmeticExpressionEditor.expression_validation_message">
+            <variable name="message">Replace '@' by inserting an element.</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8p6"
+                         procedure="select.arithmeticExpressionEditor.data_source">
+            <variable name="data_source">$(s2)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8p7"
+                         procedure="checks.arithmeticExpressionEditor.expression_area">
+            <variable name="txt">$(s1) + $(s2)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8p8"
+                         procedure="checks.arithmeticExpressionEditor.expression_validation_message">
+            <variable name="message">Ok, no errors.</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_8pA" name="clean">
+          <ProcedureCall id="_8pB"
+                         procedure="clicks.arithmeticExpressionEditor.clear_button"/>
+          <ProcedureCall id="_8pK"
+                         procedure="checks.arithmeticExpressionEditor.expression_area">
+            <variable name="txt"/>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_8pS" name="radiance_5_multiply_radiance_9">
+          <variable name="s1">radiance_5</variable>
+          <variable name="s2">radiance_9</variable>
+          <ProcedureCall id="_8pZ"
+                         procedure="select.arithmeticExpressionEditor.data_source">
+            <variable name="data_source">$(s1)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8pT"
+                         procedure="clicks.arithmeticExpressionEditor.multiply_button"/>
+          <ProcedureCall id="_8pU"
+                         procedure="checks.arithmeticExpressionEditor.expression_area">
+            <variable name="txt">$(s1) * @</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8pV"
+                         procedure="checks.arithmeticExpressionEditor.expression_validation_message">
+            <variable name="message">Replace '@' by inserting an element.</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8pW"
+                         procedure="select.arithmeticExpressionEditor.data_source">
+            <variable name="data_source">$(s2)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8pX"
+                         procedure="checks.arithmeticExpressionEditor.expression_area">
+            <variable name="txt">$(s1) * $(s2)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8pY"
+                         procedure="checks.arithmeticExpressionEditor.expression_validation_message">
+            <variable name="message">Ok, no errors.</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_8pL" name="undo">
+          <variable name="s1">radiance_5</variable>
+          <ProcedureCall id="_8pM"
+                         procedure="clicks.arithmeticExpressionEditor.undo_button"/>
+          <ProcedureCall id="_8pb"
+                         procedure="checks.arithmeticExpressionEditor.expression_area">
+            <variable name="txt">$(s1) * @</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8pc"
+                         procedure="checks.arithmeticExpressionEditor.expression_validation_message">
+            <variable name="message">Replace '@' by inserting an element.</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8pd"
+                         procedure="clicks.arithmeticExpressionEditor.undo_button"/>
+          <ProcedureCall id="_8pe"
+                         procedure="checks.arithmeticExpressionEditor.expression_area">
+            <variable name="txt">$(s1)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8pf"
+                         procedure="checks.arithmeticExpressionEditor.expression_validation_message">
+            <variable name="message">Ok, no errors.</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8pg"
+                         procedure="clicks.arithmeticExpressionEditor.undo_button"/>
+          <ProcedureCall id="_8ph"
+                         procedure="checks.arithmeticExpressionEditor.expression_area">
+            <variable name="txt"/>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_8so" name="operator">
+          <variable name="s1">radiance_5</variable>
+          <variable name="s2">radiance_9</variable>
+          <ProcedureCall id="_8sp"
+                         procedure="select.arithmeticExpressionEditor.operator">
+            <variable name="operator">\@ || \@</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8sq"
+                         procedure="select.arithmeticExpressionEditor.data_source">
+            <variable name="data_source">$(s1)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8sr"
+                         procedure="select.arithmeticExpressionEditor.data_source">
+            <variable name="data_source">$(s2)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8ss"
+                         procedure="checks.arithmeticExpressionEditor.expression_area">
+            <variable name="txt">$(s1) || $(s2)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8st"
+                         procedure="checks.arithmeticExpressionEditor.expression_validation_message">
+            <variable name="message">Ok, no errors.</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_8tt" name="clean">
+          <ProcedureCall id="_8tu"
+                         procedure="clicks.arithmeticExpressionEditor.clear_button"/>
+          <ProcedureCall id="_8tv"
+                         procedure="checks.arithmeticExpressionEditor.expression_area">
+            <variable name="txt"/>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_8sv" name="operator">
+          <variable name="s1">l1_flags.LAND_OCEAN</variable>
+          <variable name="s2">l1_flags.BRIGHT</variable>
+          <ProcedureCall id="_8sw"
+                         procedure="select.arithmeticExpressionEditor.operator">
+            <variable name="operator">not \@</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8sx"
+                         procedure="select.arithmeticExpressionEditor.data_source">
+            <variable name="data_source">$(s1)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8sy"
+                         procedure="select.arithmeticExpressionEditor.operator">
+            <variable name="operator">\@ and \@</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8sz"
+                         procedure="select.arithmeticExpressionEditor.data_source">
+            <variable name="data_source">$(s2)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8s+"
+                         procedure="checks.arithmeticExpressionEditor.expression_area">
+            <variable name="txt">not $(s1) and $(s2)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8s-"
+                         procedure="checks.arithmeticExpressionEditor.expression_validation_message">
+            <variable name="message">Ok, no errors.</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_8tw" name="clean">
+          <ProcedureCall id="_8tx"
+                         procedure="clicks.arithmeticExpressionEditor.clear_button"/>
+          <ProcedureCall id="_8ty"
+                         procedure="checks.arithmeticExpressionEditor.expression_area">
+            <variable name="txt"/>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_8t4" name="function">
+          <variable name="s1">radiance_11</variable>
+          <ProcedureCall id="_8t5"
+                         procedure="select.arithmeticExpressionEditor.function">
+            <variable name="function">abs(\@)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8t6"
+                         procedure="select.arithmeticExpressionEditor.data_source">
+            <variable name="data_source">$(s1)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8t7"
+                         procedure="checks.arithmeticExpressionEditor.expression_area">
+            <variable name="txt">abs($(s1))</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8t8"
+                         procedure="checks.arithmeticExpressionEditor.expression_validation_message">
+            <variable name="message">Ok, no errors.</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_8tz" name="clean">
+          <ProcedureCall id="_8t+"
+                         procedure="clicks.arithmeticExpressionEditor.clear_button"/>
+          <ProcedureCall id="_8t-"
+                         procedure="checks.arithmeticExpressionEditor.expression_area">
+            <variable name="txt"/>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_8tA" name="constant">
+          <variable name="s1">radiance_12</variable>
+          <variable name="s2">radiance_2</variable>
+          <ProcedureCall id="_8tB"
+                         procedure="select.arithmeticExpressionEditor.constant">
+            <variable name="const">PI</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8tC"
+                         procedure="clicks.arithmeticExpressionEditor.divide_button"/>
+          <ProcedureCall id="_8tD"
+                         procedure="select.arithmeticExpressionEditor.data_source">
+            <variable name="data_source">$(s1)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8tE"
+                         procedure="clicks.arithmeticExpressionEditor.minus_button"/>
+          <ProcedureCall id="_8tF"
+                         procedure="select.arithmeticExpressionEditor.constant">
+            <variable name="const">0.5</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8tG"
+                         procedure="clicks.arithmeticExpressionEditor.divide_button"/>
+          <ProcedureCall id="_8tH"
+                         procedure="select.arithmeticExpressionEditor.data_source">
+            <variable name="data_source">$(s2)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8tI"
+                         procedure="checks.arithmeticExpressionEditor.expression_area">
+            <variable name="txt">PI / $(s1) - 0.5 / $(s2)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8tJ"
+                         procedure="checks.arithmeticExpressionEditor.expression_validation_message">
+            <variable name="message">Ok, no errors.</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_8u0" name="clean">
+          <ProcedureCall id="_8u1"
+                         procedure="clicks.arithmeticExpressionEditor.clear_button"/>
+          <ProcedureCall id="_8u2"
+                         procedure="checks.arithmeticExpressionEditor.expression_area">
+            <variable name="txt"/>
+          </ProcedureCall>
+        </TestStep>
+      </IfSequence>
+    </TestCase>
+    <TestCase disabled="true" id="_8pi" name="up_down"
+              reportname="History up and down">
+      <variable name="s1">radiance_7</variable>
+      <variable name="s2">radiance_13</variable>
+      <variable name="s3">l1_flags.LAND_OCEAN</variable>
+      <variable name="s4">l1_flags.BRIGHT</variable>
+      <IfSequence id="_8wC"
+                  test="&#34;$(bandMath_enabled)&#34;==&#34;true&#34;">
+        <TestStep id="_8pq" name="expression_1">
+          <ProcedureCall id="_8u3"
+                         procedure="select.arithmeticExpressionEditor.data_source">
+            <variable name="data_source">$(s1)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8pr"
+                         procedure="clicks.arithmeticExpressionEditor.plus_button"/>
+          <ProcedureCall id="_8pu"
+                         procedure="select.arithmeticExpressionEditor.data_source">
+            <variable name="data_source">$(s2)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8pv"
+                         procedure="checks.arithmeticExpressionEditor.expression_area">
+            <variable name="txt">$(s1) + $(s2)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8pw"
+                         procedure="checks.arithmeticExpressionEditor.expression_validation_message">
+            <variable name="message">Ok, no errors.</variable>
+          </ProcedureCall>
+        </TestStep>
+        <ProcedureCall id="_8uC"
+                       procedure="clicks.arithmeticExpressionEditor.ok_button"/>
+        <ProcedureCall id="_8uD"
+                       procedure="checks.bandMath_tool.band_math_expression">
+          <variable name="expression">$(s1) + $(s2)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_8uE"
+                       procedure="clicks.bandMath_tool.editExpression"/>
+        <TestStep id="_8px" name="clean">
+          <ProcedureCall id="_8py"
+                         procedure="clicks.arithmeticExpressionEditor.clear_button"/>
+          <ProcedureCall id="_8pz"
+                         procedure="checks.arithmeticExpressionEditor.expression_area">
+            <variable name="txt"/>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_8uP" name="history_up">
+          <ProcedureCall id="_8uK"
+                         procedure="checks.arithmeticExpressionEditor.enabledStatus.up_button">
+            <variable name="up_button">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8uL"
+                         procedure="checks.arithmeticExpressionEditor.enabledStatus.down_button">
+            <variable name="down_button">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8uF"
+                         procedure="clicks.arithmeticExpressionEditor.history_up_button"/>
+          <ProcedureCall id="_8uO"
+                         procedure="checks.arithmeticExpressionEditor.expression_area">
+            <variable name="txt">$(s1) + $(s2)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8uX"
+                         procedure="checks.arithmeticExpressionEditor.enabledStatus.up_button">
+            <variable name="up_button">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8uY"
+                         procedure="checks.arithmeticExpressionEditor.enabledStatus.down_button">
+            <variable name="down_button">true</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_8ua" name="clean">
+          <ProcedureCall id="_8ub"
+                         procedure="clicks.arithmeticExpressionEditor.clear_button"/>
+          <ProcedureCall id="_8uc"
+                         procedure="checks.arithmeticExpressionEditor.expression_area">
+            <variable name="txt"/>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_8s9" name="expression_2">
+          <ProcedureCall id="_8ud"
+                         procedure="select.arithmeticExpressionEditor.checkbox.show_single_flags"/>
+          <ProcedureCall id="_8sA"
+                         procedure="select.arithmeticExpressionEditor.operator">
+            <variable name="operator">not \@</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8sB"
+                         procedure="select.arithmeticExpressionEditor.data_source">
+            <variable name="data_source">$(s3)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8sF"
+                         procedure="select.arithmeticExpressionEditor.operator">
+            <variable name="operator">\@ and \@</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8sC"
+                         procedure="select.arithmeticExpressionEditor.data_source">
+            <variable name="data_source">$(s4)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8sH"
+                         procedure="checks.arithmeticExpressionEditor.expression_area">
+            <variable name="txt">not $(s3) and $(s4)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8sD"
+                         procedure="checks.arithmeticExpressionEditor.expression_validation_message">
+            <variable name="message">Ok, no errors.</variable>
+          </ProcedureCall>
+        </TestStep>
+        <ProcedureCall id="_8sI"
+                       procedure="clicks.arithmeticExpressionEditor.ok_button"/>
+        <ProcedureCall id="_8sP"
+                       procedure="checks.bandMath_tool.band_math_expression">
+          <variable name="expression">not $(s3) and $(s4)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_8sQ"
+                       procedure="clicks.bandMath_tool.editExpression"/>
+        <TestStep id="_8ue" name="history_up">
+          <ProcedureCall id="_8uf"
+                         procedure="checks.arithmeticExpressionEditor.enabledStatus.up_button">
+            <variable name="up_button">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8ug"
+                         procedure="checks.arithmeticExpressionEditor.enabledStatus.down_button">
+            <variable name="down_button">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8uh" postdelay="500"
+                         procedure="clicks.arithmeticExpressionEditor.history_up_button"/>
+          <ProcedureCall id="_8vs"
+                         procedure="checks.arithmeticExpressionEditor.expression_area">
+            <variable name="txt">not $(s3) and $(s4)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8um" postdelay="500"
+                         procedure="clicks.arithmeticExpressionEditor.history_up_button"/>
+          <ProcedureCall id="_8vt"
+                         procedure="checks.arithmeticExpressionEditor.expression_area">
+            <variable name="txt">$(s1) + $(s2)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8uj"
+                         procedure="checks.arithmeticExpressionEditor.enabledStatus.up_button">
+            <variable name="up_button">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8uk"
+                         procedure="checks.arithmeticExpressionEditor.enabledStatus.down_button">
+            <variable name="down_button">true</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_8uQ" name="history_down">
+          <ProcedureCall id="_8uT"
+                         procedure="clicks.arithmeticExpressionEditor.history_down_button"/>
+          <ProcedureCall id="_8vu"
+                         procedure="checks.arithmeticExpressionEditor.expression_area">
+            <variable name="txt">$(s1) + $(s2)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8uo" postdelay="500"
+                         procedure="clicks.arithmeticExpressionEditor.history_down_button"/>
+          <ProcedureCall id="_8vv"
+                         procedure="checks.arithmeticExpressionEditor.expression_area">
+            <variable name="txt">not $(s3) and $(s4)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8uV"
+                         procedure="checks.arithmeticExpressionEditor.enabledStatus.up_button">
+            <variable name="up_button">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_8uW"
+                         procedure="checks.arithmeticExpressionEditor.enabledStatus.down_button">
+            <variable name="down_button">false</variable>
+          </ProcedureCall>
+        </TestStep>
+        <ProcedureCall id="_8sR"
+                       procedure="clicks.arithmeticExpressionEditor.clear_button"/>
+      </IfSequence>
+    </TestCase>
+    <TestCase disabled="true" id="_8uq" name="help" reportname="Help">
+      <IfSequence id="_8wD"
+                  test="&#34;$(bandMath_enabled)&#34;==&#34;true&#34;">
+        <ProcedureCall id="_8vc"
+                       procedure="clicks.arithmeticExpressionEditor.help_button"/>
+        <ProcedureCall id="_BX8" procedure="wait.BEAM_Help"/>
+        <ProcedureCall id="_8ve" procedure="checks.help_is_opened"/>
+        <CheckBooleanStep checktype="selected" client="VISAT"
+                          component="dialogBEAM_Help.tab.tree./VISAT/Tools/Product_Generation_Tools/Band_Maths_Expression_Editor"
+                          disabled="true" id="_8vo"/>
+        <ProcedureCall id="_8vf" procedure="closes.close_Help"/>
+        <ProcedureCall id="_8sj"
+                       procedure="clicks.arithmeticExpressionEditor.cancel_button"/>
+        <ProcedureCall id="_8vq" procedure="clicks.bandMath_tool.cancel"/>
+      </IfSequence>
+      <ProcedureCall id="_7wu"
+                     procedure="startStop.stopApplicationNotModified">
+        <comment>Close Visat.&lt;br&gt;
+Check if VISAT really stopped.&lt;br&gt;
+If normal close did not work, so we simply terminate the application.&lt;br&gt;
+Default layout.&lt;br&gt;
+Delete preferences.properties.</comment>
+      </ProcedureCall>
+    </TestCase>
+  </TestSet>
+  <PackageRoot id="_4"/>
+  <ExtraSequence id="_5"/>
+  <WindowList id="_6"/>
+</RootStep>

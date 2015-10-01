@@ -95,7 +95,7 @@
             </TestStep>
           </TestStep>
           <ProcedureCall id="_1qZF" procedure="utils.run_operator"/>
-          <ProcedureCall id="_1p2p"
+          <ProcedureCall id="_1p2p" postdelay="2000" predelay="2000"
                          procedure="utils.waiting_for_processierung_else_terminate_process">
             <variable name="client_name">$(gpt_client_name)</variable>
           </ProcedureCall>
@@ -257,7 +257,7 @@
           </ServerScriptStep>
         </TestStep>
         <ProcedureCall id="_1qWP" procedure="utils.run_operator"/>
-        <ProcedureCall id="_1p43"
+        <ProcedureCall id="_1p43" predelay="1000"
                        procedure="utils.waiting_for_processierung_else_terminate_process">
           <variable name="client_name">$(gpt_client_name)</variable>
         </ProcedureCall>
@@ -545,22 +545,37 @@
         </ProcedureCall>
         <IfSequence id="_1qXH"
                     test="&#34;$(fileExists)&#34;==&#34;False&#34;">
-          <TestStep id="_1qXI" name="wait" postdelay="5000">
-            <ProcedureCall id="_1qXJ"
-                           procedure="utils.waiting_for_processierung_else_terminate_process">
-              <variable name="client_name">$(gpt_client_name)</variable>
-            </ProcedureCall>
-          </TestStep>
-          <ProcedureCall id="_1qXK"
+          <ProcedureCall id="_1qZZ"
                          procedure="check_external_file.file_exists_setGlobal">
             <variable name="fileName">$(outfile)</variable>
           </ProcedureCall>
-          <IfSequence id="_1qXL"
+          <IfSequence id="_1qZa"
                       test="&#34;$(fileExists)&#34;==&#34;False&#34;">
-            <ProcedureCall id="_1qXM" procedure="run-log.logError">
-              <variable name="message">$(outfile) is not processed</variable>
-              <variable name="withScreenshots">false</variable>
+            <TestStep id="_1qZb" name="wait" postdelay="5000"/>
+          </IfSequence>
+          <ProcedureCall id="_1qZg"
+                         procedure="check_external_file.file_exists_setGlobal">
+            <variable name="fileName">$(outfile)</variable>
+          </ProcedureCall>
+          <IfSequence id="_1qZh"
+                      test="&#34;$(fileExists)&#34;==&#34;False&#34;">
+            <TestStep id="_1qXI" name="wait" postdelay="5000">
+              <ProcedureCall id="_1qXJ"
+                             procedure="utils.waiting_for_processierung_else_terminate_process">
+                <variable name="client_name">$(gpt_client_name)</variable>
+              </ProcedureCall>
+            </TestStep>
+            <ProcedureCall id="_1qXK"
+                           procedure="check_external_file.file_exists_setGlobal">
+              <variable name="fileName">$(outfile)</variable>
             </ProcedureCall>
+            <IfSequence id="_1qXL"
+                        test="&#34;$(fileExists)&#34;==&#34;False&#34;">
+              <ProcedureCall id="_1qXM" procedure="run-log.logError">
+                <variable name="message">$(outfile) is not processed</variable>
+                <variable name="withScreenshots">false</variable>
+              </ProcedureCall>
+            </IfSequence>
           </IfSequence>
         </IfSequence>
       </Procedure>
@@ -748,9 +763,10 @@ $(gpt_commando)</comment>
         </ServerScriptStep>
       </Procedure>
       <Procedure id="_1p04"
-                 name="waiting_for_processierung_else_terminate_process">
+                 name="waiting_for_processierung_else_terminate_process"
+                 predelay="2000">
         <variable name="client_name"/>
-        <TryStep id="_6d5" name="waiting_for_processierung">
+        <TryStep id="_6d5" name="waiting_for_processierung" predelay="2000">
           <ProcessWaiter client="$(client_name)" errorlevel="0" id="_1p09"
                          raise="false" timeout="60000"/>
           <CatchSequence exception="ClientNotTerminatedException" id="_6dH"

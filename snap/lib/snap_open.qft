@@ -226,7 +226,7 @@
             </TryStep>
           </Procedure>
           <Procedure id="_1pjc" name="binning" postdelay="5000">
-            <comment>@teststep Open Mosaicing tool.</comment>
+            <comment>@teststep Open L-3 Binning tool.</comment>
             <TryStep id="_1pjd">
               <ProcedureCall id="_1qi6" procedure="do_click.menu.raster"/>
               <ProcedureCall id="_1qi7"
@@ -635,7 +635,19 @@
         </Procedure>
         <Procedure id="_1lWP" name="layer_manager">
           <comment>@teststep Open 'Layer Manager'.</comment>
-          <TryStep id="_1qj0">
+          <TryStep id="_1r4x"
+                   name="select_menu_view_tool_windows_layer_manager">
+            <ProcedureCall id="_1r4-"
+                           procedure="utility.do_click_menu_view_tool_windows"/>
+            <ProcedureCall id="_1r50"
+                           procedure="do_click.menu.view.tool_windows.layer_manager"/>
+            <CatchSequence exception="TestException" id="_1r4+" maxerror="0"/>
+          </TryStep>
+          <TryStep disabled="true" id="_1rLT" name="dock_layer_manager">
+            <ProcedureCall id="_1rLS" procedure="utility.dock_tab_displayer"/>
+            <CatchSequence exception="TestException" id="_1rLU" maxerror="0"/>
+          </TryStep>
+          <TryStep disabled="true" id="_1qj0">
             <ProcedureCall id="_1ph4"
                            procedure="do_click.main_toolbar.views.layer_manager"/>
             <ProcedureCall disabled="true" id="_1qj2"
@@ -662,7 +674,19 @@
         </Procedure>
         <Procedure id="_1lWj" name="mask_manager">
           <comment>@teststep Open 'Mask Manager'.</comment>
-          <TryStep id="_1qj9">
+          <TryStep id="_1rLV"
+                   name="select_menu_view_tool_windows_mask_manager">
+            <ProcedureCall id="_1rLc"
+                           procedure="utility.do_click_menu_view_tool_windows"/>
+            <ProcedureCall id="_1rLd"
+                           procedure="do_click.menu.view.tool_windows.mask_manager"/>
+            <CatchSequence exception="TestException" id="_1rLY" maxerror="0"/>
+          </TryStep>
+          <TryStep disabled="true" id="_1rLZ" name="dock_mask_manager">
+            <ProcedureCall id="_1rLa" procedure="utility.dock_tab_displayer"/>
+            <CatchSequence exception="TestException" id="_1rLb" maxerror="0"/>
+          </TryStep>
+          <TryStep disabled="true" id="_1qj9">
             <ProcedureCall id="_1ph5"
                            procedure="do_click.main_toolbar.views.mask_manager"/>
             <ProcedureCall disabled="true" id="_1qjB"
@@ -678,30 +702,30 @@
         <Procedure id="_1l8s" name="navigation">
           <comment>@teststep Open 'Navigation' tool window.</comment>
           <TryStep id="_1qjG">
-            <ProcedureCall id="_1ph6"
-                           procedure="do_click.main_toolbar.views.navigation"/>
+            <ProcedureCall id="_1r4w"
+                           procedure="utility.do_click_menu_view_tool_windows"/>
+            <ProcedureCall id="_1qjL"
+                           procedure="do_click.menu.view.tool_windows.navigation"/>
             <ProcedureCall disabled="true" id="_1qjI"
                            procedure="wait.appear.dialog.dialog"/>
             <CatchSequence exception="TestException" id="_1qjJ" maxerror="0">
-              <ProcedureCall id="_1qjK"
-                             procedure="utility.do_click_menu_view_tool_windows"/>
-              <ProcedureCall id="_1qjL"
-                             procedure="do_click.menu.view.tool_windows.navigation"/>
+              <ProcedureCall id="_1ph6"
+                             procedure="do_click.main_toolbar.views.navigation"/>
             </CatchSequence>
           </TryStep>
         </Procedure>
         <Procedure id="_1lXf" name="pin_manager">
           <comment>@teststep Open 'PIN Manager'.</comment>
           <TryStep id="_1qjW">
-            <ProcedureCall id="_1ph7"
-                           procedure="do_click.main_toolbar.views.pin_manager"/>
+            <ProcedureCall id="_1qja"
+                           procedure="utility.do_click_menu_view_tool_windows"/>
+            <ProcedureCall id="_1qjb"
+                           procedure="do_click.menu.view.tool_windows.pin_manager"/>
             <ProcedureCall disabled="true" id="_1qjY"
                            procedure="wait.appear.dialog.dialog"/>
             <CatchSequence exception="TestException" id="_1qjZ" maxerror="0">
-              <ProcedureCall id="_1qja"
-                             procedure="utility.do_click_menu_view_tool_windows"/>
-              <ProcedureCall id="_1qjb"
-                             procedure="do_click.menu.view.tool_windows.pin_manager"/>
+              <ProcedureCall disabled="true" id="_1ph7"
+                             procedure="do_click.main_toolbar.views.pin_manager"/>
             </CatchSequence>
           </TryStep>
         </Procedure>
@@ -780,13 +804,22 @@
         <Procedure id="_1lK1" name="worldmap">
           <comment>@teststep Open 'World Map'.</comment>
           <TryStep id="_1qkB">
-            <ProcedureCall id="_1phD"
-                           procedure="do_click.main_toolbar.views.worldmap"/>
+            <ProcedureCall id="_1qkF"
+                           procedure="utility.do_click_menu_view_tool_windows"/>
+            <ProcedureCall id="_1qkG"
+                           procedure="do_click.menu.view.tool_windows.world_map"/>
             <CatchSequence exception="TestException" id="_1qkE" maxerror="0">
-              <ProcedureCall id="_1qkF"
-                             procedure="utility.do_click_menu_view_tool_windows"/>
-              <ProcedureCall id="_1qkG"
-                             procedure="do_click.menu.view.tool_windows.world_map"/>
+              <TryStep id="_1rLe">
+                <ProcedureCall id="_1rLf"
+                               procedure="utility.do_click_menu_view_tool_windows"/>
+                <ProcedureCall id="_1rLg"
+                               procedure="do_click.menu.view.tool_windows.world_map"/>
+                <CatchSequence exception="TestException" id="_1rLh"
+                               maxerror="0">
+                  <ProcedureCall id="_1rLi"
+                                 procedure="do_click.main_toolbar.views.worldmap"/>
+                </CatchSequence>
+              </TryStep>
             </CatchSequence>
           </TryStep>
         </Procedure>
@@ -883,38 +916,38 @@
         <Procedure id="_1pW0" name="geo_coding_dialog">
           <comment>@teststep Open 'Geo-Coding' information.</comment>
           <TryStep id="_1qiX">
-            <ProcedureCall id="_1pif"
-                           procedure="do_click.main_toolbar.analysis.geo_coding_information"/>
+            <ProcedureCall id="_1qiZ" procedure="do_click.menu.analysis"/>
+            <ProcedureCall id="_1qia"
+                           procedure="do_click.menu.analysis.geo_coding"/>
             <CatchSequence exception="TestException" id="_1qiY" maxerror="0">
-              <ProcedureCall id="_1qiZ" procedure="do_click.menu.analysis"/>
-              <ProcedureCall id="_1qia"
-                             procedure="do_click.menu.analysis.geo_coding"/>
+              <ProcedureCall id="_1pif"
+                             procedure="do_click.main_toolbar.analysis.geo_coding_information"/>
             </CatchSequence>
           </TryStep>
         </Procedure>
         <Procedure id="_1pWS" name="information_dialog">
           <comment>@teststep Open 'Information'.</comment>
           <TryStep id="_1qib">
-            <ProcedureCall id="_1qic"
-                           procedure="do_click.main_toolbar.analysis.information"/>
+            <ProcedureCall id="_1qie" procedure="do_click.menu.analysis"/>
+            <ProcedureCall id="_1qif"
+                           procedure="do_click.menu.analysis.information"/>
             <CatchSequence exception="TestException" id="_1qid" maxerror="0">
-              <ProcedureCall id="_1qie" procedure="do_click.menu.analysis"/>
-              <ProcedureCall id="_1qif"
-                             procedure="do_click.menu.analysis.information"/>
+              <ProcedureCall id="_1qic"
+                             procedure="do_click.main_toolbar.analysis.information"/>
             </CatchSequence>
           </TryStep>
         </Procedure>
         <Procedure id="_1l8W" name="statistics_dialog">
           <comment>@teststep Open 'Band Statistics' dialog</comment>
           <TryStep id="_1lBA">
-            <ProcedureCall id="_1lB5"
-                           procedure="do_click.main_toolbar.analysis.statistics"/>
+            <ProcedureCall id="_1qil" procedure="do_click.menu.analysis"/>
+            <ProcedureCall id="_1qim"
+                           procedure="do_click.menu.analysis.statistics"/>
             <ProcedureCall disabled="true" id="_1lB9"
                            procedure="wait.appear.dialog.dialog"/>
             <CatchSequence exception="TestException" id="_1lBB" maxerror="0">
-              <ProcedureCall id="_1qil" procedure="do_click.menu.analysis"/>
-              <ProcedureCall id="_1qim"
-                             procedure="do_click.menu.analysis.statistics"/>
+              <ProcedureCall id="_1lB5"
+                             procedure="do_click.main_toolbar.analysis.statistics"/>
               <ProcedureCall disabled="true" id="_1lBC"
                              procedure="run-log.logError">
                 <variable name="message">Statistics dialog does not appear</variable>
@@ -926,56 +959,56 @@
         <Procedure id="_1pjv" name="histogram_dialog">
           <comment>@teststep Open Histogram dialog</comment>
           <TryStep id="_1pjw">
-            <ProcedureCall id="_1pjx"
-                           procedure="do_click.main_toolbar.analysis.histogram"/>
+            <ProcedureCall id="_1qin" procedure="do_click.menu.analysis"/>
+            <ProcedureCall id="_1qio"
+                           procedure="do_click.menu.analysis.histogram"/>
             <ProcedureCall disabled="true" id="_1pjy"
                            procedure="wait.appear.dialog.dialog"/>
             <CatchSequence exception="TestException" id="_1pjz" maxerror="0">
-              <ProcedureCall id="_1qin" procedure="do_click.menu.analysis"/>
-              <ProcedureCall id="_1qio"
-                             procedure="do_click.menu.analysis.histogram"/>
+              <ProcedureCall id="_1pjx"
+                             procedure="do_click.main_toolbar.analysis.histogram"/>
             </CatchSequence>
           </TryStep>
         </Procedure>
         <Procedure id="_1pk0" name="correlative_plot_dialog">
           <comment>@teststep Open  'Correlative plot' dialog</comment>
           <TryStep id="_1pk1">
-            <ProcedureCall id="_1pk2"
-                           procedure="do_click.main_toolbar.analysis.correlative_plot"/>
+            <ProcedureCall id="_1qip" procedure="do_click.menu.analysis"/>
+            <ProcedureCall id="_1qiq"
+                           procedure="do_click.menu.analysis.correlative_plot"/>
             <ProcedureCall disabled="true" id="_1pk3"
                            procedure="wait.appear.dialog.dialog"/>
             <CatchSequence exception="TestException" id="_1pk4" maxerror="0">
-              <ProcedureCall id="_1qip" procedure="do_click.menu.analysis"/>
-              <ProcedureCall id="_1qiq"
-                             procedure="do_click.menu.analysis.correlative_plot"/>
+              <ProcedureCall id="_1pk2"
+                             procedure="do_click.main_toolbar.analysis.correlative_plot"/>
             </CatchSequence>
           </TryStep>
         </Procedure>
         <Procedure id="_1pk6" name="profile_plot_dialog">
           <comment>@teststep Open  'Profile plot' dialog</comment>
           <TryStep id="_1pk7">
-            <ProcedureCall id="_1pk8"
-                           procedure="do_click.main_toolbar.analysis.profile_plot"/>
+            <ProcedureCall id="_1qir" procedure="do_click.menu.analysis"/>
+            <ProcedureCall id="_1qis"
+                           procedure="do_click.menu.analysis.profile_plot"/>
             <ProcedureCall disabled="true" id="_1pk9"
                            procedure="wait.appear.dialog.dialog"/>
             <CatchSequence exception="TestException" id="_1pkA" maxerror="0">
-              <ProcedureCall id="_1qir" procedure="do_click.menu.analysis"/>
-              <ProcedureCall id="_1qis"
-                             procedure="do_click.menu.analysis.profile_plot"/>
+              <ProcedureCall id="_1pk8"
+                             procedure="do_click.main_toolbar.analysis.profile_plot"/>
             </CatchSequence>
           </TryStep>
         </Procedure>
         <Procedure id="_1pkC" name="scatter_plot_dialog">
           <comment>@teststep Open 'Scatter plot' dialog</comment>
           <TryStep id="_1pkD">
-            <ProcedureCall id="_1pkE"
-                           procedure="do_click.main_toolbar.analysis.scatter_plot"/>
+            <ProcedureCall id="_1qit" procedure="do_click.menu.analysis"/>
+            <ProcedureCall id="_1qiu"
+                           procedure="do_click.menu.analysis.scatter_plot"/>
             <ProcedureCall disabled="true" id="_1pkF"
                            procedure="wait.appear.dialog.dialog"/>
             <CatchSequence exception="TestException" id="_1pkG" maxerror="0">
-              <ProcedureCall id="_1qit" procedure="do_click.menu.analysis"/>
-              <ProcedureCall id="_1qiu"
-                             procedure="do_click.menu.analysis.scatter_plot"/>
+              <ProcedureCall id="_1pkE"
+                             procedure="do_click.main_toolbar.analysis.scatter_plot"/>
             </CatchSequence>
           </TryStep>
         </Procedure>
@@ -1103,8 +1136,9 @@
         <variable name="prod"/>
         <variable name="product_type"/>
         <comment>@teststep Open data product in SNAP.</comment>
-        <ProcedureCall id="_1l3w" procedure="path.main_path"/>
-        <IfSequence id="_1oSd" test="&#34;$(in_out)&#34;==&#34;out&#34;">
+        <ProcedureCall disabled="true" id="_1l3w" procedure="path.main_path"/>
+        <IfSequence disabled="true" id="_1oSd"
+                    test="&#34;$(in_out)&#34;==&#34;out&#34;">
           <SetGlobalStep id="_1pxw" varname="data_source_directory">
             <default>${path:output_data_directory}$(prod_dir)${path:slash}</default>
           </SetGlobalStep>
@@ -1114,7 +1148,7 @@
             </ProcedureCall>
           </ElseSequence>
         </IfSequence>
-        <ProcedureCall id="_1oS1"
+        <ProcedureCall disabled="true" id="_1oS1"
                        procedure="product_meta_data.product_attributes">
           <variable name="prod_type">$(product_type)</variable>
         </ProcedureCall>
@@ -1168,41 +1202,6 @@
         </TestStep>
         <IfSequence id="_1qcy"
                     test="&#34;$(open_product_dialog_appears)&#34;==&#34;true&#34;">
-          <IfSequence id="_1qcz"
-                      test="&#34;$(product_type)&#34;==&#34;smos&#34;">
-            <ServerScriptStep disabled="true" id="_1qc+" name="findInString">
-              <code>print "$(prod)"</code>
-              <comment> </comment>
-            </ServerScriptStep>
-            <ServerScriptStep id="_1qdL" name="findInString">
-              <code>import string
-rc.setGlobal("zip_file", string.find("$(prod)", ".zip"))</code>
-              <comment> </comment>
-            </ServerScriptStep>
-            <ServerScriptStep disabled="true" id="_1qdO" name="findInString">
-              <code>print "$(zip_file)"</code>
-              <comment> </comment>
-            </ServerScriptStep>
-            <IfSequence id="_1qdP" test="$(zip_file)&lt;0">
-              <SetGlobalStep id="_1qdQ" varname="input_file">
-                <default>$(data_source_directory)$(prod)${path:slash}$(prod).HDR</default>
-              </SetGlobalStep>
-              <ElseSequence id="_1qdS">
-                <SetGlobalStep id="_1qdT" varname="input_file">
-                  <default>$(data_source_directory)$(prod)</default>
-                </SetGlobalStep>
-              </ElseSequence>
-            </IfSequence>
-            <ElseSequence id="_1qdR">
-              <SetGlobalStep id="_1qd0" varname="input_file">
-                <default>$(data_source_directory)$(prod)</default>
-              </SetGlobalStep>
-            </ElseSequence>
-          </IfSequence>
-          <ServerScriptStep disabled="true" id="_1qdU" name="findInString">
-            <code>print "input_file = $(input_file)"</code>
-            <comment> </comment>
-          </ServerScriptStep>
           <TryStep id="_1qd1">
             <ProcedureCall id="_1qd2" procedure="select.file_of_type">
               <variable name="file_of_type">$(reader)</variable>
@@ -1215,31 +1214,19 @@ rc.setGlobal("zip_file", string.find("$(prod)", ".zip"))</code>
               </ProcedureCall>
             </CatchSequence>
           </TryStep>
-          <IfSequence id="_1qd6" test="${qftest:windows}">
-            <TextInputStep clear="true" client="$(client)"
-                           component="dialogOpen_Product.textDateiname:"
-                           id="_1qd7">
-              <text>$(input_file)</text>
-              <comment>@teststep Select $(input_file).</comment>
-            </TextInputStep>
-            <ElseifSequence id="_1qd8" name="MAC?"
-                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-              <TextInputStep clear="true" client="$(client)"
-                             component="textSelection:" id="_1qd9">
-                <text>$(input_file)</text>
-                <comment>@teststep Select $(input_file).</comment>
-              </TextInputStep>
-            </ElseifSequence>
-            <ElseSequence id="_1qdA">
-              <TextInputStep clear="true" client="$(client)"
-                             component="textSelection:" id="_1qdB">
-                <text>$(input_file)</text>
-                <comment>@teststep Select $(input_file).</comment>
-              </TextInputStep>
-            </ElseSequence>
-          </IfSequence>
+          <ProcedureCall id="_1rM7"
+                         procedure="utility.fill_in_open_product_dialog">
+            <variable name="in_out">$(in_out)</variable>
+            <variable name="prod_dir">$(prod_dir)</variable>
+            <variable name="prod">$(prod)</variable>
+            <variable name="product_type">$(product_type)</variable>
+          </ProcedureCall>
           <ProcedureCall id="_1qdC" postdelay="2000"
                          procedure="do_click.open_product_dialog.open"/>
+          <ServerScriptStep disabled="true" id="_1r4v" name="print">
+            <code>print "$(input_file)"</code>
+            <comment> </comment>
+          </ServerScriptStep>
         </IfSequence>
         <ProcedureCall id="_1pzt"
                        procedure="utility.handle_SNAP_Multiple_Readers_dialog"/>
@@ -1518,6 +1505,92 @@ rc.setGlobal("zip_file", string.find("$(prod)", ".zip"))</code>
       </Procedure>
     </Package>
     <Package id="_1oRH" name="utility">
+      <Procedure id="_1rLj" name="fill_in_open_product_dialog">
+        <variable name="in_out"/>
+        <variable name="prod_dir"/>
+        <variable name="prod"/>
+        <variable name="product_type"/>
+        <ProcedureCall id="_1rM8" procedure="path.main_path"/>
+        <IfSequence id="_1rM9" test="&#34;$(in_out)&#34;==&#34;out&#34;">
+          <SetGlobalStep id="_1rMA" varname="data_source_directory">
+            <default>${path:output_data_directory}$(prod_dir)${path:slash}</default>
+          </SetGlobalStep>
+          <ElseSequence id="_1rMB">
+            <ProcedureCall id="_1rMC" procedure="path.source_data_directory">
+              <variable name="data_type">$(prod_dir)</variable>
+            </ProcedureCall>
+          </ElseSequence>
+        </IfSequence>
+        <ProcedureCall id="_1rMD"
+                       procedure="product_meta_data.product_attributes">
+          <variable name="prod_type">$(product_type)</variable>
+        </ProcedureCall>
+        <IfSequence id="_1rLk"
+                    test="&#34;$(open_product_dialog_appears)&#34;==&#34;true&#34;">
+          <IfSequence id="_1rLl"
+                      test="&#34;$(product_type)&#34;==&#34;smos&#34;">
+            <ServerScriptStep disabled="true" id="_1rLm" name="print">
+              <code>print "$(prod)"</code>
+              <comment> </comment>
+            </ServerScriptStep>
+            <ServerScriptStep id="_1rLn" name="findInString">
+              <code>import string
+rc.setGlobal("zip_file", string.find("$(prod)", ".zip"))</code>
+              <comment> </comment>
+            </ServerScriptStep>
+            <ServerScriptStep disabled="true" id="_1rLo" name="print">
+              <code>print "$(zip_file)"</code>
+              <comment> </comment>
+            </ServerScriptStep>
+            <IfSequence id="_1rLp" test="$(zip_file)&lt;0">
+              <SetGlobalStep id="_1rLq" varname="input_file">
+                <default>$(data_source_directory)$(prod)${path:slash}$(prod).HDR</default>
+              </SetGlobalStep>
+              <ElseSequence id="_1rLr">
+                <SetGlobalStep id="_1rLs" varname="input_file">
+                  <default>$(data_source_directory)$(prod)</default>
+                </SetGlobalStep>
+              </ElseSequence>
+            </IfSequence>
+            <ElseSequence id="_1rLt">
+              <SetGlobalStep id="_1rLu" varname="input_file">
+                <default>$(data_source_directory)$(prod)</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+          <ServerScriptStep disabled="true" id="_1rLv" name="findInString">
+            <code>print "input_file = $(input_file)"</code>
+            <comment> </comment>
+          </ServerScriptStep>
+          <IfSequence id="_1rL-" test="${qftest:windows}">
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogOpen_Product.textDateiname:"
+                           id="_1rM0">
+              <text>$(input_file)</text>
+              <comment>@teststep Select $(input_file).</comment>
+            </TextInputStep>
+            <ElseifSequence id="_1rM1" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <TextInputStep clear="true" client="$(client)"
+                             component="textSelection:" id="_1rM2">
+                <text>$(input_file)</text>
+                <comment>@teststep Select $(input_file).</comment>
+              </TextInputStep>
+            </ElseifSequence>
+            <ElseSequence id="_1rM3">
+              <TextInputStep clear="true" client="$(client)"
+                             component="textSelection:" id="_1rM4">
+                <text>$(input_file)</text>
+                <comment>@teststep Select $(input_file).</comment>
+              </TextInputStep>
+            </ElseSequence>
+          </IfSequence>
+          <ServerScriptStep disabled="true" id="_1rM6" name="print">
+            <code>print "$(input_file)"</code>
+            <comment> </comment>
+          </ServerScriptStep>
+        </IfSequence>
+      </Procedure>
       <Procedure id="_1pzr" name="handle_SNAP_Multiple_Readers_dialog">
         <TryStep id="_1pzn" name="handle_SNAP_Multiple_Readers_dialog">
           <ComponentWaiter client="$(client)"
@@ -1567,6 +1640,15 @@ rc.setGlobal("zip_file", string.find("$(prod)", ".zip"))</code>
         <ProcedureCall id="_1phb" procedure="do_click.menu.view"/>
         <ProcedureCall id="_1phc"
                        procedure="do_click.menu.view.tool_windows"/>
+      </Procedure>
+      <Procedure id="_1r52" name="dock_tab_displayer">
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="NbMainWindow.Tab_Displayer"
+                        event="MOUSE_MPRC" id="_1rLQ" modifiers="4"
+                        popup="true" x="129" y="13"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="NbMainWindow.menuItemDock2"
+                        event="MOUSE_MPRC" id="_1rLR" modifiers="16"/>
       </Procedure>
     </Package>
   </PackageRoot>

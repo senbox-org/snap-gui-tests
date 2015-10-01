@@ -1,0 +1,667 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.4">
+  <include>qfs.qft</include>
+  <include>../lib/processing_main.qft</include>
+  <variable name="output_folder">collocation</variable>
+  <TestSet id="_2" name="10_01_collocation" reportname="10-01 Collocation">
+    <DependencyReference id="_1pO-"
+                         reference="start_application_for_processing">
+      <variable name="output_dir">$(output_folder)</variable>
+    </DependencyReference>
+    <TestCase id="_8cc" name="01_check_collocation_ui"
+              reportname="01 Check Collocation Tool UI">
+      <ProcedureCall id="_1pFq"
+                     procedure="open.raster.geometric_operations.collocation"/>
+      <TestStep id="_1pM7" name="default_componets">
+        <ProcedureCall id="_1pLq"
+                       procedure="check.collocation.enabled.menu_file"/>
+        <ProcedureCall id="_1pLr"
+                       procedure="check.collocation.enabled.menu_help"/>
+        <ProcedureCall id="_1pLs"
+                       procedure="check.collocation.enabled.button_close"/>
+        <ProcedureCall id="_1pLt"
+                       procedure="check.collocation.enabled.button_apply"/>
+        <ProcedureCall id="_1pLu"
+                       procedure="check.collocation.enabled.button_source_master_product"/>
+        <ProcedureCall id="_1pLv"
+                       procedure="check.collocation.enabled.button_source_slave_product"/>
+        <ProcedureCall id="_1pLw"
+                       procedure="check.collocation.enabled.button_directory"/>
+        <ProcedureCall id="_1pLx"
+                       procedure="check.collocation.enabled.save_as"/>
+        <ProcedureCall id="_1pLy"
+                       procedure="check.collocation.enabled.open_in_snap"/>
+        <ProcedureCall id="_1pLz"
+                       procedure="check.collocation.enabled.save_as_enabled_status">
+          <variable name="enabled">true</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pL+"
+                       procedure="check.collocation.enabled.open_in_snap_enabled_status">
+          <variable name="enabled">true</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pL-"
+                       procedure="check.collocation.enabled.rename_master_components"/>
+        <ProcedureCall id="_1pM0"
+                       procedure="check.collocation.enabled.rename_slave_components"/>
+        <ProcedureCall id="_1pM1"
+                       procedure="check.collocation.checked.save_as_selected_status">
+          <variable name="selected">true</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pM2"
+                       procedure="check.collocation.checked.open_in_snap_selected_status">
+          <variable name="selected">true</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pM3"
+                       procedure="check.collocation.checked.rename_master_components_selected_status">
+          <variable name="selected">true</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pM4"
+                       procedure="check.collocation.checked.rename_slave_components_selected_status">
+          <variable name="selected">true</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1pM9" name="target_area">
+        <ProcedureCall id="_1pMA"
+                       procedure="set.collocation.target_directory">
+          <variable name="dir">$(output_folder)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pMC"
+                       procedure="deselect.collocation.open_in_snap"/>
+        <ProcedureCall id="_1pMF"
+                       procedure="check.collocation.checked.save_as_selected_status">
+          <variable name="selected">true</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pMG"
+                       procedure="check.collocation.checked.open_in_snap_selected_status">
+          <variable name="selected">false</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pMB" procedure="deselect.collocation.save_as"/>
+        <ProcedureCall id="_1pMD"
+                       procedure="check.collocation.checked.save_as_selected_status">
+          <variable name="selected">false</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pME"
+                       procedure="check.collocation.checked.open_in_snap_selected_status">
+          <variable name="selected">true</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pMI"
+                       procedure="set.collocation.target_product_name">
+          <variable name="target_product_name">test</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1pM8" name="source_area">
+        <ProcedureCall id="_1pMJ"
+                       procedure="do_click.collocation.button_apply"/>
+        <TryStep id="_1pMK" name="click_ok_in_error_dialog">
+          <ProcedureCall id="_1pMN"
+                         procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
+          <ProcedureCall id="_1pMM"
+                         procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
+          <CatchSequence exception="TestException" id="_1pML" maxerror="0">
+            <TryStep id="_1r4r" name="click_ok_in_error_dialog">
+              <ProcedureCall id="_1r4s"
+                             procedure="wait.appear.error.dialog_SNAP-Error"/>
+              <ProcedureCall id="_1r4t"
+                             procedure="do_click.error_dialog.button_OK_SNAP_Error"/>
+              <CatchSequence exception="TestException" id="_1r4u"
+                             maxerror="0">
+                <ProcedureCall id="_1r4v" procedure="run-log.logError">
+                  <variable name="message">Error Message does not appear</variable>
+                  <variable name="withScreenshots">true</variable>
+                </ProcedureCall>
+              </CatchSequence>
+            </TryStep>
+          </CatchSequence>
+        </TryStep>
+        <ProcedureCall id="_1r4Z"
+                       procedure="qfs.swing.cleanup.closeAllModalDialogs">
+          <variable name="maxDialogs">5</variable>
+        </ProcedureCall>
+      </TestStep>
+    </TestCase>
+    <TestSet id="_1pMP" name="02_processing">
+      <TestCase id="_1pMR" name="01_meris_aatsr">
+        <variable name="master_data">MER_RR__1PNMAP20070729_022228_000002062060_00175_28285_0001.N1</variable>
+        <variable name="slave_data">ATS_NR__2PNMAP20070729_022242_000001922060_00174_28284_0001.N1</variable>
+        <variable name="master_dir">collocated</variable>
+        <variable name="slave_dir">collocated</variable>
+        <variable name="output_file">test_01.dim</variable>
+        <ProcedureCall id="_1pMQ"
+                       procedure="open.raster.geometric_operations.collocation"/>
+        <TestStep id="_1pOr" name="processing">
+          <ProcedureCall id="_1pMY" procedure="select_master_product">
+            <variable name="prod_dir">$(master_dir)</variable>
+            <variable name="prod_name">$(master_data)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pMZ" procedure="select_slave_product">
+            <variable name="prod_dir">$(slave_dir)</variable>
+            <variable name="prod_name">$(slave_data)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pMa"
+                         procedure="set.collocation.target_product_name">
+            <variable name="target_product_name">$(output_file)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pMb" procedure="deselect.collocation.save_as"/>
+          <ProcedureCall id="_1pMc"
+                         procedure="select.collocation.resampling_type">
+            <variable name="resampling_type">bilinear</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pMd"
+                         procedure="do_click.collocation.button_apply"/>
+          <ProcedureCall id="_1pOm"
+                         procedure="click_ok_in_product_created_dialog"/>
+        </TestStep>
+        <TestStep id="_1pOo" name="check_collocated_product">
+          <ProcedureCall id="_1pwk"
+                         procedure="product_meta_data.for_open_image_view"/>
+          <ProcedureCall id="_1opT"
+                         procedure="utility.open_image_view_check_it"/>
+          <SetGlobalStep id="_1pOT" varname="view_Id1">
+            <default>4</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1pOU" varname="bandName">
+            <default>radiance_5_M</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1pOS"
+                         procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+        </TestStep>
+        <ProcedureCall id="_1pOV"
+                       procedure="close_processing_tool.geometric_operations.collocation"/>
+      </TestCase>
+      <TestCase id="_1pOW" name="02_aatsr_meris">
+        <variable name="slave_data">MER_RR__1PNMAP20070729_022228_000002062060_00175_28285_0001.N1</variable>
+        <variable name="master_data">ATS_NR__2PNMAP20070729_022242_000001922060_00174_28284_0001.N1</variable>
+        <variable name="master_dir">collocated</variable>
+        <variable name="slave_dir">collocated</variable>
+        <variable name="output_file">test_02.dim</variable>
+        <ProcedureCall id="_1pOX"
+                       procedure="open.raster.geometric_operations.collocation"/>
+        <TestStep id="_1pOq" name="processing">
+          <ProcedureCall id="_1pOY" procedure="select_master_product">
+            <variable name="prod_dir">$(master_dir)</variable>
+            <variable name="prod_name">$(master_data)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pOZ" procedure="select_slave_product">
+            <variable name="prod_dir">$(slave_dir)</variable>
+            <variable name="prod_name">$(slave_data)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pOa"
+                         procedure="set.collocation.target_product_name">
+            <variable name="target_product_name">$(output_file)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pOb" procedure="deselect.collocation.save_as"/>
+          <ProcedureCall id="_1pOc"
+                         procedure="select.collocation.resampling_type">
+            <variable name="resampling_type">nearest</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pOd"
+                         procedure="do_click.collocation.button_apply"/>
+          <ProcedureCall id="_1pOn"
+                         procedure="click_ok_in_product_created_dialog"/>
+        </TestStep>
+        <TestStep id="_1pOp" name="check_collocated_product">
+          <ProcedureCall id="_1pwl"
+                         procedure="product_meta_data.for_open_image_view"/>
+          <ProcedureCall id="_1pOh"
+                         procedure="utility.open_image_view_check_it"/>
+          <SetGlobalStep id="_1pOi" varname="view_Id1">
+            <default>11</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1pOj" varname="bandName">
+            <default>radiance_5_S</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1pOk"
+                         procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+        </TestStep>
+        <ProcedureCall id="_1pOl"
+                       procedure="close_processing_tool.geometric_operations.collocation"/>
+      </TestCase>
+      <TestSet id="_1pT+" name="03_processing_in_different_formats">
+        <variable name="master_data">MER_RR__2PNMAP20070729_022435_000000792060_00175_28285_0001.N1</variable>
+        <variable name="slave_data">ATS_TOA_1PNMAP20070729_022413_000000482060_00174_28284_0001.N1</variable>
+        <variable name="master_dir">collocated_small</variable>
+        <variable name="slave_dir">collocated_small</variable>
+        <SetupSequence id="_1pUV" name="prepare_for_the_testing">
+          <ProcedureCall id="_1pUX"
+                         procedure="open.raster.geometric_operations.collocation"/>
+          <SetGlobalStep id="_1pwj" varname="output_file">
+            <default>test</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1pUY" procedure="fill_dialog"/>
+          <ProcedureCall id="_1pUZ"
+                         procedure="select.collocation.resampling_type">
+            <variable name="resampling_type">nearest</variable>
+          </ProcedureCall>
+        </SetupSequence>
+        <TestSet id="_1pUb" name="06_processing_in_different_formats">
+          <DataDriver id="_1pUc"
+                      loopreportname="Collocation, write the target product as $(output_format)"
+                      name="collocation">
+            <ProcedureCall id="_1pUd" procedure="tables.output_formats"/>
+          </DataDriver>
+          <TestCase id="_1pUj" name="processing_in_different_formats"
+                    reportname="Processing in different formats and check output product">
+            <ServerScriptStep disabled="true" id="_1pV5" name="print">
+              <code>print "output_format = $(output_format)"</code>
+            </ServerScriptStep>
+            <ServerScriptStep disabled="true" id="_1pV6" name="print">
+              <code>print "output_file = $(output_file)"</code>
+            </ServerScriptStep>
+            <TestStep id="_1pUk" name="processing">
+              <ProcedureCall id="_1pUl"
+                             procedure="set.collocation.target_product_name">
+                <variable name="target_product_name">$(output_file)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1pUm"
+                             procedure="select.collocation.output_format">
+                <variable name="output_format">$(output_format)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1pUn"
+                             procedure="do_click.collocation.button_apply"/>
+              <ProcedureCall id="_1pUo"
+                             procedure="wait.disappear.writing_target_product"/>
+              <IfSequence id="_1qcq"
+                          test="&#34;$(output_format)&#34;&lt;&gt;&#34;HDF5&#34;">
+                <comment>
+</comment>
+                <ProcedureCall id="_1qTv"
+                               procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
+                  <variable name="screenshot">run_collocation_error</variable>
+                </ProcedureCall>
+              </IfSequence>
+              <ProcedureCall id="_1pUp"
+                             procedure="click_ok_in_product_created_dialog"/>
+            </TestStep>
+            <TestStep id="_1pUq" name="check_target_product">
+              <ProcedureCall id="_1pwg"
+                             procedure="test_events.check_target_product"/>
+            </TestStep>
+          </TestCase>
+        </TestSet>
+        <CleanupSequence id="_1pUa" name="close_collocation_tool">
+          <ProcedureCall id="_1pUP"
+                         procedure="close_processing_tool.geometric_operations.collocation"/>
+        </CleanupSequence>
+      </TestSet>
+      <TestCase disabled="true" id="_1pQ4" name="04_cancel_processing">
+        <variable name="output_file">test_04_cancel.dim</variable>
+        <variable name="master_data">MER_FSG_1PNUPA20090704_041155_000004532080_00262_38392_7000_pix.nc</variable>
+        <variable name="slave_data">MER_FSG_1PNUPA20090704_041155_000004532080_00262_38392_7000.dim</variable>
+        <variable name="master_dir">collocated_pixelgeocoding</variable>
+        <variable name="slave_dir">collocated_pixelgeocoding</variable>
+        <ProcedureCall id="_1pQ5"
+                       procedure="open.raster.geometric_operations.collocation"/>
+        <TestStep id="_1pQ6" name="cancel_processing">
+          <ProcedureCall id="_1pRu" procedure="fill_dialog"/>
+          <ProcedureCall id="_1pQB"
+                         procedure="select.collocation.resampling_type">
+            <variable name="resampling_type">cubic</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pQC"
+                         procedure="do_click.collocation.button_apply"/>
+          <ProcedureCall id="_1pQU"
+                         procedure="cancel_writing_target_product"/>
+        </TestStep>
+        <TestStep id="_1pQE" name="check">
+          <ProcedureCall id="_1l3B" procedure="check.product.not_opened"/>
+          <IfSequence id="_1kk7"
+                      test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1pQV" procedure="run-log.logError">
+              <variable name="message">$(output_file) is opened in SNAP</variable>
+              <variable name="withScreenshots">true</variable>
+            </ProcedureCall>
+          </IfSequence>
+          <ProcedureCall id="_1pVQ" procedure="set.target_product_with_path"/>
+          <ProcedureCall id="_1pQW"
+                         procedure="check_external_file.file_was_not_processed_else_shoot_error">
+            <variable name="fileName">$(target_product)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <ProcedureCall id="_1pQM"
+                       procedure="close_processing_tool.geometric_operations.collocation"/>
+      </TestCase>
+      <TestCase id="_1pRE" name="05_collocate_pixel_geocoded_products"
+                reportname="05 Collocate pixel geo-coded products, open in SNAP">
+        <variable name="master_data">MER_FSG_1PNUPA20090704_041155_000004532080_00262_38392_7000_pix.nc</variable>
+        <variable name="slave_data">MER_FSG_1PNUPA20090704_041155_000004532080_00262_38392_7000.dim</variable>
+        <variable name="master_dir">collocated_pixelgeocoding</variable>
+        <variable name="slave_dir">collocated_pixelgeocoding</variable>
+        <variable name="output_file">test_collocated_pixel_geocoding.dim</variable>
+        <ProcedureCall id="_1pRF"
+                       procedure="open.raster.geometric_operations.collocation"/>
+        <TestStep id="_1pRG" name="processing">
+          <ProcedureCall id="_1pRt" procedure="fill_dialog"/>
+          <ProcedureCall id="_1r4n"
+                         procedure="get.collocation.master_product"/>
+          <ProcedureCall id="_1r4o"
+                         procedure="get.collocation.slave_product"/>
+          <IfSequence id="_1r4p"
+                      test="&#34;$(master_product)&#34;&lt;&gt;&#34;&#34; and &#34;$(slave_product)&#34;&lt;&gt;&#34;&#34;">
+            <ProcedureCall id="_1pRZ"
+                           procedure="select.collocation.output_format">
+              <variable name="output_format">BEAM-DIMAP</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1pRL"
+                           procedure="select.collocation.resampling_type">
+              <variable name="resampling_type">nearest</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1pRM"
+                           procedure="do_click.collocation.button_apply"/>
+            <ProcedureCall id="_1r4m"
+                           procedure="error_handling.if_any_error_make_screenshot_shoot_error_message"/>
+            <ProcedureCall id="_1pRa"
+                           procedure="wait.appear.dialog.writing_target_product"/>
+            <ProcedureCall id="_1pRd"
+                           procedure="wait.disappear.writing_target_product"/>
+            <ProcedureCall id="_1pRb"
+                           procedure="click_ok_in_product_created_dialog"/>
+            <TestStep id="_1pRO" name="check_target_product">
+              <TestStep id="_1pRi" name="open_image_view">
+                <ProcedureCall id="_1pwm"
+                               procedure="product_meta_data.for_open_image_view"/>
+                <SetGlobalStep id="_1pRR" varname="bandName">
+                  <default>radiance_1_M</default>
+                </SetGlobalStep>
+                <ProcedureCall id="_1pRS"
+                               procedure="utility.open_image_view_check_it"/>
+              </TestStep>
+              <TestStep id="_1pRh" name="menu_attach_detach_pixel_geocoding">
+                <ProcedureCall id="_1pRg" procedure="do_click.menu.tools"/>
+                <ProcedureCall id="_1pRe"
+                               procedure="check.menu.tools.menuItemAttachPixelGeoCoding_enabled_status">
+                  <variable name="enabled_status">false</variable>
+                </ProcedureCall>
+                <ProcedureCall id="_1pRf"
+                               procedure="check.menu.tools.menuItemDetachPixelGeoCoding_enabled_enabled_status">
+                  <variable name="enabled_status">true</variable>
+                </ProcedureCall>
+              </TestStep>
+              <TestStep id="_1pRj"
+                        name="open_image_view_check_masks_layers_close_product">
+                <SetGlobalStep id="_1pRT" varname="view_Id1">
+                  <default>20</default>
+                </SetGlobalStep>
+                <SetGlobalStep id="_1pRU" varname="bandName">
+                  <default>radiance_1_S</default>
+                </SetGlobalStep>
+                <ProcedureCall id="_1pRV"
+                               procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+              </TestStep>
+            </TestStep>
+          </IfSequence>
+        </TestStep>
+        <ProcedureCall id="_1pRW"
+                       procedure="close_processing_tool.geometric_operations.collocation"/>
+      </TestCase>
+      <TestCase id="_40q" name="06_store_load_display_parameters">
+        <variable name="ofn">collocate_save_parameters.xml</variable>
+        <variable name="master_data">MER_RR__1PNMAP20070729_022228_000002062060_00175_28285_0001.N1</variable>
+        <variable name="slave_data">ATS_NR__2PNMAP20070729_022242_000001922060_00174_28284_0001.N1</variable>
+        <variable name="master_dir">collocated</variable>
+        <variable name="slave_dir">collocated</variable>
+        <variable name="output_file">test_save_parameters.dim</variable>
+        <ProcedureCall id="_1pOs"
+                       procedure="open.raster.geometric_operations.collocation"/>
+        <TestStep id="_1pOt" name="change_parameters">
+          <ProcedureCall id="_1pOu" procedure="select_master_product">
+            <variable name="prod_dir">$(master_dir)</variable>
+            <variable name="prod_name">$(master_data)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pOv" procedure="select_slave_product">
+            <variable name="prod_dir">$(slave_dir)</variable>
+            <variable name="prod_name">$(slave_data)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pOw"
+                         procedure="set.collocation.target_product_name">
+            <variable name="target_product_name">$(output_file)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pOx" procedure="deselect.collocation.save_as"/>
+          <ProcedureCall id="_1pOy"
+                         procedure="select.collocation.resampling_type">
+            <variable name="resampling_type">bisinc</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pPN"
+                         procedure="set.collocation.master_pattern">
+            <variable name="val">master</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pPO" procedure="set.collocation.slave_pattern">
+            <variable name="val">slave</variable>
+          </ProcedureCall>
+        </TestStep>
+        <ProcedureCall id="_1pPE" procedure="store_parameters"/>
+        <TestStep id="_1pPg" name="change_parameters">
+          <ProcedureCall id="_1pPh"
+                         procedure="set.collocation.target_directory">
+            <variable name="dir">$(output_folder)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pPi"
+                         procedure="select.collocation.resampling_type">
+            <variable name="resampling_type">bilinear</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pPj"
+                         procedure="set.collocation.master_pattern">
+            <variable name="val">x</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pPk" procedure="set.collocation.slave_pattern">
+            <variable name="val">y</variable>
+          </ProcedureCall>
+        </TestStep>
+        <ProcedureCall id="_1pPl" procedure="load_parameters"/>
+        <TestStep id="_1pPm" name="check_parameters">
+          <ProcedureCall id="_1pPn"
+                         procedure="check.collocation.text.resampling_type">
+            <variable name="val">bisinc</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pQ2"
+                         procedure="check.collocation.text.master_pattern">
+            <variable name="val">master</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pQ3"
+                         procedure="check.collocation.text.slave_pattern">
+            <variable name="val">slave</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pV8" name="display_parameters">
+          <ProcedureCall id="_1pP-" procedure="display_parameters"/>
+          <ComponentWaiter client="$(client)"
+                           component="dialogCollocate_Parameters" id="_1pOz"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogCollocate_Parameters.ModalDialog.ok"
+                          event="MOUSE_MPRC" id="_1pO+" modifiers="16"/>
+        </TestStep>
+        <ProcedureCall id="_1pV7"
+                       procedure="close_processing_tool.geometric_operations.collocation"/>
+      </TestCase>
+    </TestSet>
+    <TestCase id="_1pFr" name="03_help">
+      <ProcedureCall id="_1pVE"
+                     procedure="open.raster.geometric_operations.collocation"/>
+      <TestStep id="_1pVG" name="check_help">
+        <ProcedureCall id="_1pVH" procedure="do_click.collocation.menu.help"/>
+        <ProcedureCall id="_1pVI"
+                       procedure="do_click.collocation.menu.help_menu_item"/>
+        <ProcedureCall id="_1pVL"
+                       procedure="check.help.help_or_error_appears"/>
+        <ProcedureCall id="_1pVM" procedure="close.help"/>
+      </TestStep>
+      <TestStep id="_1pVN" name="check_help_about">
+        <ProcedureCall id="_1pVO" procedure="do_click.collocation.menu.help"/>
+        <ProcedureCall id="_1pVP"
+                       procedure="do_click.collocation.menu.about"/>
+        <ComponentWaiter client="$(client)" component="dialogAbout_Collocate2"
+                         id="_1pLo"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogAbout_Collocate2.ModalDialog.ok"
+                        event="MOUSE_MPRC" id="_1pLp" modifiers="16"/>
+      </TestStep>
+      <ProcedureCall id="_1pVF"
+                     procedure="close_processing_tool.geometric_operations.collocation"/>
+    </TestCase>
+  </TestSet>
+  <PackageRoot id="_4">
+    <Procedure id="_1pRk" name="fill_dialog">
+      <ProcedureCall id="_1pRl" procedure="select_master_product">
+        <variable name="prod_dir">$(master_dir)</variable>
+        <variable name="prod_name">$(master_data)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1r4k"
+                     procedure="error_handling.if_any_error_make_screenshot_shoot_error_message"/>
+      <ProcedureCall id="_1pRm" procedure="select_slave_product">
+        <variable name="prod_dir">$(slave_dir)</variable>
+        <variable name="prod_name">$(slave_data)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1r4l"
+                     procedure="error_handling.if_any_error_make_screenshot_shoot_error_message"/>
+      <ProcedureCall id="_1pRn"
+                     procedure="set.collocation.target_product_name">
+        <variable name="target_product_name">$(output_file)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1pRo" procedure="select.collocation.save_as"/>
+      <ProcedureCall id="_1pXI" procedure="daten_format.beam_dimap"/>
+      <ProcedureCall id="_1pXH" procedure="select.collocation.output_format">
+        <variable name="output_format">$(beam_dimap)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1pRp" procedure="select.collocation.open_in_snap"/>
+      <ProcedureCall id="_1pRq" procedure="set.collocation.target_directory">
+        <variable name="dir">$(output_folder)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pON" name="click_ok_in_product_created_dialog">
+      <TryStep id="_1qXZ">
+        <ComponentWaiter client="$(client)"
+                         component="dialogSNAP_-_Collocation" errorlevel="0"
+                         id="_1qXY" raise="false"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSNAP_-_Collocation.buttonOK"
+                        event="MOUSE_MPRC" id="_1qXX" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1qXc" maxerror="0"/>
+      </TryStep>
+      <TryStep id="_1pOQ">
+        <ComponentWaiter client="$(client)"
+                         component="dialogCollocation.buttonOK" errorlevel="0"
+                         id="_1pOO" raise="false" timeout="100"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogCollocation.buttonOK"
+                        event="MOUSE_MPRC" id="_1pOP" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1pOR" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1pPv" name="display_parameters">
+      <TryStep id="_1pPw" name="select_menu_display_parameters">
+        <ProcedureCall id="_1pPx" procedure="do_click.collocation.menu.file"/>
+        <ProcedureCall id="_1pPy"
+                       procedure="do_click.collocation.menu.display_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPz" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1pP9" name="load_parameters">
+      <TryStep id="_1pPA" name="select_menu_load_parameters">
+        <ProcedureCall id="_1pPB" procedure="do_click.collocation.menu.file"/>
+        <ProcedureCall id="_1pPC"
+                       procedure="do_click.collocation.menu.load_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPD" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPM" procedure="utility.load_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pMT" name="select_master_product">
+      <variable name="prod_dir"/>
+      <variable name="prod_name"/>
+      <ProcedureCall id="_1oSj" procedure="path.source_data_directory">
+        <variable name="data_type">$(prod_dir)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1pMS"
+                     procedure="do_click.collocation.button_source_master_product"/>
+      <ProcedureCall id="_1pHR"
+                     procedure="utility.handle_select_product_dialog">
+        <variable name="file">$(data_source_directory)$(prod_name)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pMU" name="select_slave_product">
+      <variable name="prod_dir"/>
+      <variable name="prod_name"/>
+      <ProcedureCall id="_1pMX" procedure="path.source_data_directory">
+        <variable name="data_type">$(prod_dir)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1pMV"
+                     procedure="do_click.collocation.button_source_slave_product"/>
+      <ProcedureCall id="_1pMW"
+                     procedure="utility.handle_select_product_dialog">
+        <variable name="file">$(data_source_directory)$(prod_name)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pPF" name="store_parameters">
+      <TryStep id="_1pPG" name="select_menu_store_parameters">
+        <ProcedureCall id="_1pPH" procedure="do_click.collocation.menu.file"/>
+        <ProcedureCall id="_1pPI"
+                       procedure="do_click.collocation.menu.save_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPJ" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPK" procedure="utility.store_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+  </PackageRoot>
+  <ExtraSequence id="_5">
+    <ProcedureCall id="_1oXV" procedure="check.product.not_opened"/>
+    <IfSequence id="_1oXW" test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+      <TestStep id="_1o+2" name="delete_band">
+        <ProcedureCall id="_1oXb" procedure="select.product_tree.band">
+          <variable name="prod_id">0</variable>
+          <variable name="group_id"/>
+          <variable name="view_id">1</variable>
+          <variable name="band">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1ozv" procedure="delete_product_tree_node"/>
+        <ProcedureCall id="_1ozx" procedure="check.product.node_not_exists">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1o+t" name="undo">
+        <ProcedureCall id="_1p0C" procedure="undo_tree"/>
+        <ProcedureCall disabled="true" id="_1o+y"
+                       procedure="do_click_menubar_undo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o+z" procedure="get.tree.get_index_of_node">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+        <ServerScriptStep disabled="true" id="_1o++" name="print">
+          <code>print "$(new_band_id)"</code>
+        </ServerScriptStep>
+      </TestStep>
+      <TestStep id="_1o-3" name="redo">
+        <ProcedureCall id="_1p0D" procedure="redo_tree"/>
+        <ProcedureCall disabled="true" id="_1o-B"
+                       procedure="do_click_menubar_redo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o-C" procedure="check.product.node_not_exists">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1o-F" name="undo">
+        <ProcedureCall id="_1p0E" procedure="undo_tree"/>
+        <ProcedureCall disabled="true" id="_1o-P"
+                       procedure="do_click_menubar_undo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o-Q" procedure="get.tree.get_index_of_node">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+    </IfSequence>
+    <ProcedureCall id="_1oXO" procedure="close.all_products"/>
+  </ExtraSequence>
+  <WindowList id="_6"/>
+</RootStep>

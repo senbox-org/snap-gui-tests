@@ -1,0 +1,729 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.4">
+  <include>qfs.qft</include>
+  <include>../lib/snap_components.qft</include>
+  <include>../lib/snap_main.qft</include>
+  <include>../../shared/shared_lib.qft</include>
+  <include>../../shared/variables.qft</include>
+  <dependency>015_01_smosbox_actions.qft</dependency>
+  <dependency>015_03_export_smos_grid_points.qft</dependency>
+  <PackageRoot id="_3">
+    <Package id="_1qhx" name="check">
+      <Package id="_1qhy" name="export_smos_grid_points">
+        <Package id="_9Zt" name="enabled">
+          <Procedure id="_9rx" name="use_selected_smos_product">
+            <comment>@teststep Check 'Use selected SMOS product' radiobutton is enabled.</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogExport_SMOS_Grid_Points.useSelectedProduct"
+                              errorlevel="0" id="_9ry"
+                              resvarname="use_selected_product_enabled"/>
+          </Procedure>
+          <Procedure id="_1qh+"
+                     name="use_selected_product_smos_enabled_status">
+            <variable name="enabled"/>
+            <comment>@teststep Check 'Use selected SMOS product' radiobutton enabled status.</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogExport_SMOS_Grid_Points.useSelectedProduct"
+                              errorlevel="0" id="_1qh-" state="$(enabled)"/>
+          </Procedure>
+        </Package>
+        <Package id="_9Zm" name="selection">
+          <Procedure id="_9ZC" name="use_selected_product">
+            <variable name="select"/>
+            <comment>@teststep Check selection of the 'Use selected SMOS product' checkbox.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogExport_SMOS_Grid_Points.useSelectedProduct"
+                              id="_1qi0" state="$(select)"/>
+          </Procedure>
+          <Procedure id="_9ZJ" name="use_all_smos_products_in_directory">
+            <variable name="select"/>
+            <comment>@teststep Check selection of the 'Use all SMOS products in directory:' checkbox.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogExport_SMOS_Grid_Points.useSelectedProduct.1"
+                              id="_1qi1" state="$(select)"/>
+          </Procedure>
+          <Procedure id="_9ZQ" name="recursive">
+            <variable name="select"/>
+            <comment>@teststep Check selection of the 'Descend into subdirectories' checkbox.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogExport_SMOS_Grid_Points.recursive"
+                              id="_1qi2" state="$(select)"/>
+          </Procedure>
+          <Procedure id="_9ZX" name="geometry">
+            <variable name="select"/>
+            <comment>@teststep Check selection of the  'Geometry' radiobutton.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogExport_SMOS_Grid_Points.roiType"
+                              id="_1qi3" state="$(select)"/>
+          </Procedure>
+          <Procedure id="_9Ze" name="pins">
+            <variable name="select"/>
+            <comment>@teststep Check selection of the  'Pins' radiobutton.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogExport_SMOS_Grid_Points.roiType.1"
+                              id="_1qi4" state="$(select)"/>
+          </Procedure>
+          <Procedure id="_9XE" name="area">
+            <variable name="select"/>
+            <comment>@teststep Check selection of the  'Area' radiobutton.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogExport_SMOS_Grid_Points.roiType.2"
+                              id="_1qi5" state="$(select)"/>
+          </Procedure>
+        </Package>
+        <Package id="_9ri" name="checked">
+          <Procedure id="_1qiM" name="recursive">
+            <comment>@teststep Check 'Descend into subdirectories' checkbox is selected.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogExport_SMOS_Grid_Points.recursive"
+                              id="_1qiN" resvarname="recursive"/>
+          </Procedure>
+        </Package>
+        <Package id="_9Zl" name="text">
+          <Procedure id="_1qiW" name="source_directory">
+            <variable name="val"/>
+            <comment>@teststep Check source directory value.</comment>
+            <CheckStringStep client="$(client)"
+                             component="dialogExport_SMOS_Grid_Points.sourceDirectory"
+                             id="_1qiX">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1qia" name="target_directory">
+            <variable name="val"/>
+            <comment>@teststep Check target directory value.</comment>
+            <CheckStringStep client="$(client)"
+                             component="dialogExport_SMOS_Grid_Points.targetFile"
+                             id="_1qid">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1qig" name="target_file">
+            <variable name="val"/>
+            <comment>@teststep Check target file value.</comment>
+            <CheckStringStep client="$(client)"
+                             component="dialogExport_SMOS_Grid_Points.targetFile"
+                             id="_1qih">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_9YZ" name="north">
+            <variable name="val"/>
+            <comment>@teststep Check north value.</comment>
+            <CheckStringStep client="$(client)"
+                             component="dialogExport_SMOS_Grid_Points.north"
+                             id="_1qiQ">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_9Yg" name="west">
+            <variable name="val"/>
+            <comment>@teststep Check west value.</comment>
+            <CheckStringStep client="$(client)"
+                             component="dialogExport_SMOS_Grid_Points.west"
+                             id="_1qiR">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_9Yk" name="east">
+            <variable name="val"/>
+            <comment>@teststep Check east value.</comment>
+            <CheckStringStep client="$(client)"
+                             component="dialogExport_SMOS_Grid_Points.east"
+                             id="_1qiS">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_9YE" name="south">
+            <variable name="val"/>
+            <comment>@teststep Check south value.</comment>
+            <CheckStringStep client="$(client)"
+                             component="dialogExport_SMOS_Grid_Points.south"
+                             id="_1qiT">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_9Z7" name="geometry">
+            <variable name="val"/>
+            <comment>@teststep Check selected geometry.</comment>
+            <CheckStringStep checktype="value" client="$(client)"
+                             component="dialogExport_SMOS_Grid_Points.geometryNode"
+                             id="_1qiP">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_9Yv" name="export_format">
+            <variable name="val"/>
+            <comment>@teststep Check selected 'export format'.</comment>
+            <CheckStringStep checktype="value" client="$(client)"
+                             component="dialogExport_SMOS_Grid_Points.exportFormat"
+                             id="_1qiU">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+        </Package>
+      </Package>
+    </Package>
+    <Package id="_1qii" name="do_cklick">
+      <Package id="_1qij" name="export_smos_grid_points">
+        <Procedure id="_1qiq" name="use_selected_product">
+          <comment>@teststep Click 'Use selected SMOS product' radiobutton.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogExport_SMOS_Grid_Points.useSelectedProduct"
+                          event="MOUSE_MPRC" id="_1qc7" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1qis" name="use_all_smos_products_in_directory">
+          <comment>@teststep Click 'Use all Smos products in directory' radiobutton.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogExport_SMOS_Grid_Points.useSelectedProduct.1"
+                          event="MOUSE_MPRC" id="_1qcA" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1qiu" name="recursive">
+          <comment>@teststep Click on checkbox 'Descend into subdirectories'.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogExport_SMOS_Grid_Points.recursive"
+                          event="MOUSE_MPRC" id="_1qcE" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1qiw" name="geometry">
+          <comment>@teststep Click 'Geometry' radiobutton.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogExport_SMOS_Grid_Points.roiType"
+                          event="MOUSE_MPRC" id="_1qcF" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1qiy" name="pins">
+          <comment>@teststep Click 'Pins' radiobutton.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogExport_SMOS_Grid_Points.roiType.1"
+                          event="MOUSE_MPRC" id="_1qcH" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1qi+" name="area">
+          <comment>@teststep Click 'Area' radiobutton.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogExport_SMOS_Grid_Points.roiType.2"
+                          event="MOUSE_MPRC" id="_1qcI" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1qj1" name="source_directory">
+          <comment>@teststep Click 'Source directory' button.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogExport_SMOS_Grid_Points.openFileDialog"
+                          event="MOUSE_MPRC" id="_1qcc" modifiers="16"/>
+        </Procedure>
+      </Package>
+    </Package>
+    <Package id="_1qjM" name="select">
+      <Package id="_1qjN" name="export_smos_grid_points">
+        <Procedure id="_1qjO" name="use_selected_product">
+          <comment>@teststep check-in 'Use selected SMOS product' radiobutton.</comment>
+          <ProcedureCall id="_1qjc"
+                         procedure="check.export_smos_grid_points.enabled.use_selected_smos_product"/>
+          <IfSequence id="_1qjd"
+                      test="&#34;$(use_selected_product_enabled)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1qje"
+                           procedure="do_cklick.export_smos_grid_points.use_selected_product"/>
+            <ElseSequence id="_1qjf">
+              <ProcedureCall id="_1qjg" procedure="run-log.logError">
+                <variable name="message">'Use selected SMOS product' radiobutton is disabled</variable>
+                <variable name="withScreenshots">true</variable>
+              </ProcedureCall>
+            </ElseSequence>
+          </IfSequence>
+        </Procedure>
+      </Package>
+    </Package>
+  </PackageRoot>
+  <ExtraSequence id="_4">
+    <Package id="_1qj3" name="text">
+      <Procedure id="_1qj4" name="source_directory">
+        <variable name="val"/>
+        <comment>@teststep Check source directory value.</comment>
+        <CheckStringStep client="$(client)"
+                         component="dialogExport_SMOS_Grid_Points.sourceDirectory"
+                         id="_1qj5">
+          <text>$(val)</text>
+        </CheckStringStep>
+      </Procedure>
+      <Procedure id="_1qj6" name="target_directory">
+        <variable name="val"/>
+        <comment>@teststep Check target directory value.</comment>
+        <CheckStringStep client="$(client)"
+                         component="dialogExport_SMOS_Grid_Points.targetFile"
+                         id="_1qj7">
+          <text>$(val)</text>
+        </CheckStringStep>
+      </Procedure>
+      <Procedure id="_1qj8" name="target_file">
+        <variable name="val"/>
+        <comment>@teststep Check target file value.</comment>
+        <CheckStringStep client="$(client)"
+                         component="dialogExport_SMOS_Grid_Points.targetFile"
+                         id="_1qj9">
+          <text>$(val)</text>
+        </CheckStringStep>
+      </Procedure>
+      <Procedure id="_1qjA" name="north">
+        <variable name="val"/>
+        <comment>@teststep Check north value.</comment>
+        <CheckStringStep client="$(client)"
+                         component="dialogExport_SMOS_Grid_Points.north"
+                         id="_1qjB">
+          <text>$(val)</text>
+        </CheckStringStep>
+      </Procedure>
+      <Procedure id="_1qjC" name="west">
+        <variable name="val"/>
+        <comment>@teststep Check west value.</comment>
+        <CheckStringStep client="$(client)"
+                         component="dialogExport_SMOS_Grid_Points.west"
+                         id="_1qjD">
+          <text>$(val)</text>
+        </CheckStringStep>
+      </Procedure>
+      <Procedure id="_1qjE" name="east">
+        <variable name="val"/>
+        <comment>@teststep Check east value.</comment>
+        <CheckStringStep client="$(client)"
+                         component="dialogExport_SMOS_Grid_Points.east"
+                         id="_1qjF">
+          <text>$(val)</text>
+        </CheckStringStep>
+      </Procedure>
+      <Procedure id="_1qjG" name="south">
+        <variable name="val"/>
+        <comment>@teststep Check south value.</comment>
+        <CheckStringStep client="$(client)"
+                         component="dialogExport_SMOS_Grid_Points.south"
+                         id="_1qjH">
+          <text>$(val)</text>
+        </CheckStringStep>
+      </Procedure>
+      <Procedure id="_1qjI" name="geometry">
+        <variable name="val"/>
+        <comment>@teststep Check selected geometry.</comment>
+        <CheckStringStep checktype="value" client="$(client)"
+                         component="dialogExport_SMOS_Grid_Points.geometryNode"
+                         id="_1qjJ">
+          <text>$(val)</text>
+        </CheckStringStep>
+      </Procedure>
+      <Procedure id="_1qjK" name="export_format">
+        <variable name="val"/>
+        <comment>@teststep Check selected 'export format'.</comment>
+        <CheckStringStep checktype="value" client="$(client)"
+                         component="dialogExport_SMOS_Grid_Points.exportFormat"
+                         id="_1qjL">
+          <text>$(val)</text>
+        </CheckStringStep>
+      </Procedure>
+    </Package>
+    <Procedure id="_1qhj" name="smos_ee_files_to_netcdf">
+      <comment>@teststep Do click Menu Item 'Export SMOS EE Files to NetCDF...'.</comment>
+    </Procedure>
+    <Procedure id="_1qhL" name="smos_grid_points">
+      <comment>@teststep Do click Menu Item 'Export SMOS Grid Points ...'.</comment>
+    </Procedure>
+    <Package id="_1lPZ" name="output">
+      <Procedure id="_1lPa" name="csv_is_written">
+        <ProcedureCall id="_1lPh" procedure="set.data_out_dir"/>
+        <ProcedureCall id="_1lPb" procedure="checks.checkIfOutputDataExist">
+          <variable name="fileName">out/$(data_out_dir)/$(out_file)</variable>
+        </ProcedureCall>
+      </Procedure>
+      <Procedure id="_1lPc" name="smos_subset_is_written">
+        <ProcedureCall id="_1lPi" procedure="set.data_out_dir"/>
+        <ProcedureCall id="_1lPe" procedure="checks.checkIfOutputDataExist">
+          <variable name="fileName">out/$(data_out_dir)/$(out_prod_name)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1lPf" procedure="checks.checkIfOutputDataExist">
+          <variable name="fileName">out/$(data_out_dir)/$(out_prod_name)/$(out_prod_name).DBL</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1lPg" procedure="checks.checkIfOutputDataExist">
+          <variable name="fileName">out/$(data_out_dir)/$(out_prod_name)/$(out_prod_name).HDR</variable>
+        </ProcedureCall>
+      </Procedure>
+      <Procedure id="_APR" name="subset_in_visat">
+        <variable name="band1"/>
+        <variable name="band2"/>
+        <variable name="prod_name"/>
+        <variable name="ind"/>
+        <ProcedureCall id="_1lPQ" procedure="set.data_out_dir"/>
+        <ProcedureCall id="_BkL"
+                       procedure="checks.check_fileExists_setGlobal">
+          <variable name="fileName">out/$(data_out_dir)/$(prod_name)/$(prod_name).DBL</variable>
+        </ProcedureCall>
+        <IfSequence id="_9uJ" test="&#34;$(fileExists)&#34;==&#34;True&#34;">
+          <ProcedureCall id="_BwE"
+                         procedure="opens.openProduct_all_fileType_all_dir">
+            <variable name="out_dir">out/$(data_out_dir)/$(prod_name)</variable>
+            <variable name="fileName">$(prod_name).DBL</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_9uL"
+                         procedure="wait.product_is_opened_in_visat">
+            <variable name="product_name">$(prod_name)</variable>
+            <variable name="waiting_time">10000</variable>
+            <variable name="index">$(ind)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_9uO" procedure="checks.checkProductName">
+            <variable name="product_name">$(prod_name)</variable>
+            <variable name="index">$(ind)</variable>
+            <variable name="waiting_time">100</variable>
+          </ProcedureCall>
+          <TryStep id="_BwP" name="open_image_view">
+            <ProcedureCall id="_A1V" procedure="opens.openImageView">
+              <variable name="prodBand">[$(ind)] $(prod_name)/Bands/$(band1)</variable>
+              <variable name="prodBand_example">[1] productName/Bands/bandName</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_BkM" procedure="wait.image_view_created">
+              <variable name="band">$(band1)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_9uY"
+                           procedure="checkImageViewIsOpened.checkImageView">
+              <variable name="product_id">$(ind)</variable>
+              <variable name="image_view_title">$(band1)</variable>
+              <variable name="wait_for_image">12000</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_BwQ" maxerror="0">
+              <ProcedureCall id="_BwT"
+                             procedure="scripts.error.band_cannot_be_opened">
+                <variable name="prodBand">$(band1)</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+          <TryStep id="_BwR" name="open_image_view">
+            <ProcedureCall id="_BwM" procedure="opens.openImageView">
+              <variable name="prodBand">[$(ind)] $(prod_name)/Bands/$(band2)</variable>
+              <variable name="prodBand_example">[1] productName/Bands/bandName</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_BwN" procedure="wait.image_view_created">
+              <variable name="band">$(band2)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_BwO"
+                           procedure="checkImageViewIsOpened.checkImageView">
+              <variable name="product_id">$(ind)</variable>
+              <variable name="image_view_title">$(band2)</variable>
+              <variable name="wait_for_image">12000</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_BwS" maxerror="0">
+              <ProcedureCall id="_BwU"
+                             procedure="scripts.error.band_cannot_be_opened">
+                <variable name="prodBand">$(band2)</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+        </IfSequence>
+      </Procedure>
+    </Package>
+    <BasicSequence id="_1qc5" name="Aufnahme 22.06.15 14:29">
+      <comment>@teststep Click 'Help' button in the 'Correlative plot' dialog.
+@teststep Click on checkbox 'X Axis auto Min Max' in the 'Correlative plot' dialog.
+@teststep Click 'Custom CRS' radiobutton in the 'Import CSV Data' dialog.</comment>
+      <CheckStringStep client="$(client)"
+                       component="dialogExport_SMOS_Grid_Points.openFileDialog"
+                       id="_1qie">
+        <text>...</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogExport_SMOS_Grid_Points.openFileDialog"
+                       id="_1qif">
+        <text>...</text>
+      </CheckStringStep>
+    </BasicSequence>
+    <BasicSequence id="_1qbC" name="Aufnahme 22.06.15 11:40">
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="NbMainWindow.File" event="MOUSE_MPRC"
+                      id="_1qbD" modifiers="16"/>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="NbMainWindow.menuReopen_Product4"
+                      event="MOUSE_MOVED" id="_1qbE" modifiers="0"/>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="NbMainWindow.Import" event="MOUSE_MOVED"
+                      id="_1qbF" modifiers="0"/>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="NbMainWindow.Export" event="MOUSE_MOVED"
+                      id="_1qbG" modifiers="0"/>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="NbMainWindow.Other" event="MOUSE_MOVED"
+                      id="_1qbH" modifiers="0"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="NbMainWindow.menuItemExport_SMOS_Grid_Points_..."
+                      event="MOUSE_MPRC" id="_1qbI" modifiers="16"/>
+      <ComponentWaiter client="$(client)"
+                       component="dialogExport_SMOS_Grid_Points" id="_1qbJ"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogExport_SMOS_Grid_Points.useSelectedProduct"
+                        id="_1qbK" state="false"/>
+      <CheckBooleanStep checktype="enabled" client="$(client)"
+                        component="dialogExport_SMOS_Grid_Points.useSelectedProduct"
+                        id="_1qbL" state="false"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogExport_SMOS_Grid_Points.useSelectedProduct"
+                        id="_1qbM" state="false"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogExport_SMOS_Grid_Points.useSelectedProduct.1"
+                        id="_1qbN"/>
+      <CheckBooleanStep checktype="enabled" client="$(client)"
+                        component="dialogExport_SMOS_Grid_Points.useSelectedProduct.1"
+                        id="_1qbO"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogExport_SMOS_Grid_Points.sourceDirectory"
+                       id="_1qbP">
+        <text>C:\Users\olga_2</text>
+      </CheckStringStep>
+      <CheckBooleanStep checktype="enabled" client="$(client)"
+                        component="dialogExport_SMOS_Grid_Points.openFileDialog"
+                        id="_1qbQ"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogExport_SMOS_Grid_Points.recursive"
+                        id="_1qbR" state="false"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogExport_SMOS_Grid_Points.roiType"
+                        id="_1qbS" state="false"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogExport_SMOS_Grid_Points.geometryNode"
+                       id="_1qbT"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogExport_SMOS_Grid_Points.roiType.1"
+                        id="_1qbU" state="false"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogExport_SMOS_Grid_Points.roiType.2"
+                        id="_1qbV"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogExport_SMOS_Grid_Points.north"
+                       id="_1qbW">
+        <text>90.0</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogExport_SMOS_Grid_Points.west"
+                       id="_1qbX">
+        <text>-180.0</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogExport_SMOS_Grid_Points.east"
+                       id="_1qbY">
+        <text>180.0</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogExport_SMOS_Grid_Points.south"
+                       id="_1qbZ">
+        <text>-90.0</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogExport_SMOS_Grid_Points.exportFormat"
+                       id="_1qba">
+        <text>CSV</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogExport_SMOS_Grid_Points.targetFile"
+                       id="_1qbb">
+        <text>C:\Users\olga_2\export.csv</text>
+      </CheckStringStep>
+      <CheckBooleanStep checktype="enabled" client="$(client)"
+                        component="dialogExport_SMOS_Grid_Points.openFileDialog"
+                        id="_1qbc"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogExport_SMOS_Grid_Points.GridPointExportDialog.help"
+                       id="_1qbd">
+        <text>Help</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogExport_SMOS_Grid_Points.GridPointExportDialog.close"
+                       id="_1qbe">
+        <text>Close</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogExport_SMOS_Grid_Points.GridPointExportDialog.ok"
+                       id="_1qbf">
+        <text>OK</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogExport_SMOS_Grid_Points.roiType"
+                      event="MOUSE_MPRC" id="_1qbg" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogExport_SMOS_Grid_Points.geometryNode"
+                      event="MOUSE_MPRC" id="_1qbh" modifiers="16" x="17"
+                      y="5"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogExport_SMOS_Grid_Points.roiType.2"
+                      event="MOUSE_MPRC" id="_1qbi" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogExport_SMOS_Grid_Points.roiType.1"
+                      event="MOUSE_MPRC" id="_1qbj" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogExport_SMOS_Grid_Points.roiType.2"
+                      event="MOUSE_MPRC" id="_1qbk" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogExport_SMOS_Grid_Points.recursive"
+                      event="MOUSE_MPRC" id="_1qbl" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogExport_SMOS_Grid_Points.recursive"
+                      event="MOUSE_MPRC" id="_1qbm" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogExport_SMOS_Grid_Points.exportFormat"
+                      event="MOUSE_MPRC" id="_1qbn" modifiers="16" x="32"
+                      y="14"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogExport_SMOS_Grid_Points.listInvokerName:_exportFormat.Earth_Explorer_subsets"
+                      event="MOUSE_MPRC" id="_1qbo" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogExport_SMOS_Grid_Points.openFileDialog"
+                      event="MOUSE_MPRC" id="_1qbp" modifiers="16"/>
+      <ComponentWaiter client="$(client)" component="dialogSelect"
+                       id="_1qbq"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogSelect.buttonSelect" id="_1qbr">
+        <text>Select</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogSelect.textFolder_name:" id="_1qbs">
+        <text>C:\Users\olga_2</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogSelect.comboFiles_of_type:"
+                       id="_1qbt"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogSelect.textFolder_name:" id="_1qbu">
+        <text>C:\Users\olga_2</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSelect.buttonCancel" event="MOUSE_MPRC"
+                      id="_1qbv" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogExport_SMOS_Grid_Points.GridPointExportDialog.help"
+                      event="MOUSE_MPRC" id="_1qbw" modifiers="16"/>
+      <ComponentWaiter client="$(client)"
+                       component="dialogLoading_help_sets..." id="_1qbx"/>
+      <ComponentWaiter client="$(client)" component="frameHelp" id="_1qby"/>
+      <WindowEventStep client="$(client)" component="frameHelp"
+                       event="WINDOW_CLOSING" id="_1qbz"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogExport_SMOS_Grid_Points.GridPointExportDialog.close"
+                      event="MOUSE_MPRC" id="_1qb+" modifiers="16"/>
+    </BasicSequence>
+    <Procedure id="_1qb-" name="Aufnahme 22_06_15 11:40">
+      <ComponentWaiter client="$(client)"
+                       component="dialogExport_SMOS_Grid_Points" id="_1qc6"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogExport_SMOS_Grid_Points.sourceDirectory"
+                       id="_1qcC">
+        <text>C:\Users\olga_2</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogExport_SMOS_Grid_Points.geometryNode"
+                       id="_1qcG"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogExport_SMOS_Grid_Points.north"
+                       id="_1qcJ">
+        <text>90.0</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogExport_SMOS_Grid_Points.west"
+                       id="_1qcK">
+        <text>-180.0</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogExport_SMOS_Grid_Points.east"
+                       id="_1qcL">
+        <text>180.0</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogExport_SMOS_Grid_Points.south"
+                       id="_1qcM">
+        <text>-90.0</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogExport_SMOS_Grid_Points.exportFormat"
+                       id="_1qcN">
+        <text>CSV</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogExport_SMOS_Grid_Points.targetFile"
+                       id="_1qcO">
+        <text>C:\Users\olga_2\export.csv</text>
+      </CheckStringStep>
+      <CheckBooleanStep checktype="enabled" client="$(client)"
+                        component="dialogExport_SMOS_Grid_Points.openFileDialog"
+                        id="_1qcP"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogExport_SMOS_Grid_Points.GridPointExportDialog.help"
+                       id="_1qcQ">
+        <text>Help</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogExport_SMOS_Grid_Points.GridPointExportDialog.close"
+                       id="_1qcR">
+        <text>Close</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogExport_SMOS_Grid_Points.GridPointExportDialog.ok"
+                       id="_1qcS">
+        <text>OK</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogExport_SMOS_Grid_Points.roiType"
+                      event="MOUSE_MPRC" id="_1qcT" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogExport_SMOS_Grid_Points.geometryNode"
+                      event="MOUSE_MPRC" id="_1qcU" modifiers="16" x="17"
+                      y="5"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogExport_SMOS_Grid_Points.roiType.2"
+                      event="MOUSE_MPRC" id="_1qcV" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogExport_SMOS_Grid_Points.roiType.1"
+                      event="MOUSE_MPRC" id="_1qcW" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogExport_SMOS_Grid_Points.roiType.2"
+                      event="MOUSE_MPRC" id="_1qcX" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogExport_SMOS_Grid_Points.recursive"
+                      event="MOUSE_MPRC" id="_1qcY" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogExport_SMOS_Grid_Points.recursive"
+                      event="MOUSE_MPRC" id="_1qcZ" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogExport_SMOS_Grid_Points.exportFormat"
+                      event="MOUSE_MPRC" id="_1qca" modifiers="16" x="32"
+                      y="14"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogExport_SMOS_Grid_Points.listInvokerName:_exportFormat.Earth_Explorer_subsets"
+                      event="MOUSE_MPRC" id="_1qcb" modifiers="16"/>
+      <ComponentWaiter client="$(client)" component="dialogSelect"
+                       id="_1qcd"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogSelect.buttonSelect" id="_1qce">
+        <text>Select</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogSelect.textFolder_name:" id="_1qcf">
+        <text>C:\Users\olga_2</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogSelect.comboFiles_of_type:"
+                       id="_1qcg"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogSelect.textFolder_name:" id="_1qch">
+        <text>C:\Users\olga_2</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSelect.buttonCancel" event="MOUSE_MPRC"
+                      id="_1qci" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogExport_SMOS_Grid_Points.GridPointExportDialog.help"
+                      event="MOUSE_MPRC" id="_1qcj" modifiers="16"/>
+      <ComponentWaiter client="$(client)"
+                       component="dialogLoading_help_sets..." id="_1qck"/>
+      <ComponentWaiter client="$(client)" component="frameHelp" id="_1qcl"/>
+      <WindowEventStep client="$(client)" component="frameHelp"
+                       event="WINDOW_CLOSING" id="_1qcm"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogExport_SMOS_Grid_Points.GridPointExportDialog.close"
+                      event="MOUSE_MPRC" id="_1qcn" modifiers="16"/>
+    </Procedure>
+    <IfSequence id="_1op7" test="${qftest:windows}">
+      <ElseifSequence id="_1op8" name="MAC?"
+                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+      <ElseSequence id="_1op9"/>
+    </IfSequence>
+  </ExtraSequence>
+  <WindowList id="_5"/>
+</RootStep>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.4">
+  <include>qfs.qft</include>
+  <include>../../lib/snap_components.qft</include>
+  <include>../../lib/snap_main.qft</include>
+  <include>../../../shared/shared_lib.qft</include>
+  <include>../../../shared/variables.qft</include>
+  <include>processing_components.qft</include>
+  <include>processing_check.qft</include>
+  <include>processing_close.qft</include>
+  <include>processing_do_click.qft</include>
+  <include>processing_get.qft</include>
+  <include>processing_set.qft</include>
+  <include>processing_select.qft</include>
+  <include>reprojection_workflow.qft</include>
+  <include>reprojection_lib.qft</include>
+  <dependency>processing_check.qft</dependency>
+  <dependency>processing_close.qft</dependency>
+  <dependency>processing_do_click.qft</dependency>
+  <dependency>processing_get.qft</dependency>
+  <dependency>processing_set.qft</dependency>
+  <dependency>processing_select.qft</dependency>
+  <dependency>reprojection_workflow.qft</dependency>
+  <dependency>reprojection_lib.qft</dependency>
+  <dependency>../geometric/010_01_collocation.qft</dependency>
+  <dependency>../geometric/010_04_mosaic.qft</dependency>
+  <dependency>../geometric/010_05_binning.qft</dependency>
+  <dependency>../spectral/010_08_spectral_unmixing.qft</dependency>
+  <dependency>../thematic_land_processing/010_18_ndvi_processor.qft</dependency>
+  <dependency>../thematic_land_processing/010_19_meris_aatsr_smac_atmospheric_correction.qft</dependency>
+  <dependency>../thematic_water_processing/010_11_flh_mci_processor.qft</dependency>
+  <dependency>../thematic_water_processing/010_12_aatsr_sst_processor.qft</dependency>
+  <dependency>../preprocessing/010_20_meris_radiometric_correction.qft</dependency>
+  <dependency>../preprocessing/010_21_meris_cloud_probability.qft</dependency>
+  <dependency>../image_analysis/010_25_principal_component_analysis.qft</dependency>
+  <PackageRoot id="_3">
+    <Dependency id="_1p03" name="start_application_for_processing">
+      <variable name="output_dir"/>
+      <SetupSequence id="_1p04" name="start">
+        <TryStep id="_1l9R" name="already started?">
+          <ProcedureCall id="_1oJI" procedure="set.variable.client_snap"/>
+          <ClientWaiter client="$(client)" id="_1oJH" timeout="0"/>
+          <CatchSequence exception="ClientNotConnectedException" id="_1l9T"
+                         maxerror="0" name="not start -&gt; start">
+            <ProcedureCall id="_1p05" procedure="start.snap.application"/>
+            <ProcedureCall id="_1p08" procedure="cleanup.output_data_folder">
+              <variable name="directory">$(output_dir)</variable>
+            </ProcedureCall>
+          </CatchSequence>
+        </TryStep>
+        <ProcedureCall id="_1p09" procedure="cleanup.output_data_folder">
+          <variable name="directory">parameters</variable>
+        </ProcedureCall>
+      </SetupSequence>
+      <CleanupSequence id="_1p06" name="exit">
+        <ProcedureCall id="_1p07" procedure="stop.exit_snap"/>
+      </CleanupSequence>
+    </Dependency>
+    <Package id="_1pLf" name="collocation"/>
+    <Package id="_1pMZ" name="utility">
+      <Procedure id="_1q55"
+                 name="set_pattern_click_OK_file_selection_pattern_dialog">
+        <variable name="pattern"/>
+        <TryStep id="_1q5B">
+          <ProcedureCall id="_1q5A"
+                         procedure="check.file_selection_pattern.file_selection_pattern_appears"/>
+          <ProcedureCall id="_1q59"
+                         procedure="set.file_selection_pattern.file_selection_pattern">
+            <variable name="val">$(pattern)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1q58"
+                         procedure="do_click.file_selection_pattern.button_ok"/>
+          <CatchSequence exception="TestException" id="_1q5C" maxerror="0">
+            <ProcedureCall id="_1q5D" procedure="run-log.logError">
+              <variable name="message">'File Selection Pattern' dialog does not appear</variable>
+              <variable name="withScreenshots">true</variable>
+            </ProcedureCall>
+          </CatchSequence>
+        </TryStep>
+      </Procedure>
+      <Procedure id="_1pjc" name="open_all_products_in_folder">
+        <variable name="file"/>
+        <ProcedureCall id="_1pjd" postdelay="1000"
+                       procedure="wait.appear.dialog.select_source_product"/>
+        <ProcedureCall id="_1pje"
+                       procedure="set.select_source_product_dialog.file_name">
+          <variable name="file_name">$(file)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pjh"
+                       procedure="do_click.select_products_dialog.button_open_product"/>
+        <KeyEventStep client="$(client)"
+                      component="dialogMosaic_-_Open_Source_Product(s).listFile_name:"
+                      event="KEY_PRESSED" id="_1pWZ" keychar="65535"
+                      keycode="17" modifiers="2"/>
+        <KeyEventStep client="$(client)"
+                      component="dialogMosaic_-_Open_Source_Product(s).listFile_name:"
+                      event="KEY_PTR" id="_1pWa" keychar="1" keycode="65"
+                      modifiers="2"/>
+        <KeyEventStep client="$(client)"
+                      component="dialogMosaic_-_Open_Source_Product(s).listFile_name:"
+                      event="KEY_RELEASED" id="_1pji" keychar="65535"
+                      keycode="17" modifiers="0"/>
+        <ProcedureCall id="_1pjj"
+                       procedure="do_click.select_products_dialog.button_open_product"/>
+      </Procedure>
+      <Procedure id="_1pMa" name="store_parameters_dialog">
+        <variable name="file_name"/>
+        <ProcedureCall id="_1pOd"
+                       procedure="set.store_parameters_dialog.parameters_file_name">
+          <variable name="file_name">$(file_name)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pOe"
+                       procedure="do_click.store_parameters_dialog.button_save"/>
+      </Procedure>
+      <Procedure id="_1pOf" name="load_parameters_dialog">
+        <variable name="file_name"/>
+        <ProcedureCall id="_1pOi"
+                       procedure="set.load_parameters_dialog.parameters_file_name">
+          <variable name="file_name">$(file_name)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pOj"
+                       procedure="do_click.load_parameters_dialog.button_load"/>
+      </Procedure>
+    </Package>
+    <Procedure id="_1pO+" name="cancel_writing_target_product">
+      <TryStep id="_1pQR"
+               name="click_cancel_in_writing_target_product_dialog">
+        <ProcedureCall id="_1pP8"
+                       procedure="wait.appear.dialog.writing_target_product"/>
+        <ProcedureCall id="_1pP9"
+                       procedure="do_click.cancel.writing_target_product"/>
+        <ProcedureCall id="_1pQV"
+                       procedure="wait.disappear.writing_target_product"/>
+        <CatchSequence exception="TestException" id="_1pQS" maxerror="0"/>
+      </TryStep>
+      <TryStep id="_1pQT" name="click_OK_in_dialog_SNAP_SNAP_Error">
+        <ProcedureCall id="_1pQQ"
+                       procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
+        <ProcedureCall id="_1pQP"
+                       procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
+        <CatchSequence exception="TestException" id="_1pQU" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+  </PackageRoot>
+  <ExtraSequence id="_4">
+    <IfSequence id="_1op7" test="${qftest:windows}">
+      <ElseifSequence id="_1op8" name="MAC?"
+                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+      <ElseSequence id="_1op9"/>
+    </IfSequence>
+  </ExtraSequence>
+  <WindowList id="_5"/>
+</RootStep>

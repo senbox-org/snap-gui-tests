@@ -1,0 +1,1382 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.4">
+  <include>qfs.qft</include>
+  <include>smosbox_lib.qft</include>
+  <variable name="out_dir_bm">bandArithmetic</variable>
+  <TestSet id="_2" name="015_03_export_smos_grid_points"
+           reportname="015-03 export SMOS grid points">
+    <comment>Product generation tools. Arithmetic Expression Editor.</comment>
+    <DependencyReference id="_1lWz"
+                         reference="dependencies.start_application"/>
+    <TestCase id="_1pxx" name="export_selected_product"
+              reportname="Export selected SMOS product">
+      <TestStep id="_1py0" name="open_smos_product">
+        <ProcedureCall id="_1qcQ"
+                       procedure="product_meta_data.SMOS_MIR_SCLF1C"/>
+        <ProcedureCall id="_1oRE" procedure="open.product_in_snap">
+          <variable name="prod_dir">$(dataInDir)</variable>
+          <variable name="in_out">in</variable>
+          <variable name="prod">$(fileName)</variable>
+          <variable name="product_type">smos</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1po3" procedure="check.product.not_opened"/>
+        <IfSequence id="_1po4" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
+          <ProcedureCall id="_1po6" procedure="wait.product_is_opened"/>
+        </IfSequence>
+      </TestStep>
+      <TestStep id="_1qcb" name="export">
+        <ProcedureCall id="_1qcS" procedure="check.product.not_opened"/>
+        <IfSequence id="_1qcT"
+                    test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+          <TestStep id="_1pxy" name="open_SMOS_grid_points_dialog">
+            <ProcedureCall id="_1pzA"
+                           procedure="open.export.smos_grid_points"/>
+            <ProcedureCall id="_1pz9"
+                           procedure="check.opened.export.export_smos_grid_points"/>
+          </TestStep>
+          <IfSequence id="_1pzB"
+                      test="&#34;$(export_smos_grid_points_dialog_appears)&#34;==&#34;true&#34;">
+            <TestStep id="_1px+" name="check_gui_components">
+              <CheckBooleanStep checktype="enabled" client="$(client)"
+                                component="dialogExport_SMOS_Grid_Points.openFileDialog"
+                                id="_1qcD"/>
+              <ProcedureCall id="_1qcE"
+                             procedure="check.export_smos_grid_points.selection.use_selected_product">
+                <variable name="select">true</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qcF"
+                             procedure="check.export_smos_grid_points.selection.use_all_smos_products_in_directory">
+                <variable name="select">false</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qcG"
+                             procedure="check.export_smos_grid_points.selection.recursive">
+                <variable name="select">false</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qcH"
+                             procedure="check.export_smos_grid_points.selection.geometry">
+                <variable name="select">false</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qcI"
+                             procedure="check.export_smos_grid_points.selection.pins">
+                <variable name="select">false</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qcJ"
+                             procedure="check.export_smos_grid_points.selection.area">
+                <variable name="select">true</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qcK"
+                             procedure="check.export_smos_grid_points.text.north">
+                <variable name="val">90.0</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qcL"
+                             procedure="check.export_smos_grid_points.text.west">
+                <variable name="val">-180.0</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qcM"
+                             procedure="check.export_smos_grid_points.text.east">
+                <variable name="val">180.0</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qcN"
+                             procedure="check.export_smos_grid_points.text.south">
+                <variable name="val">-90.0</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qcO"
+                             procedure="check.export_smos_grid_points.text.geometry">
+                <variable name="val"/>
+              </ProcedureCall>
+              <ProcedureCall id="_1qcP"
+                             procedure="check.export_smos_grid_points.text.export_format">
+                <variable name="val">CSV</variable>
+              </ProcedureCall>
+            </TestStep>
+            <TestStep id="_1qjl" name="select_use_selected_SMOS_product">
+              <ProcedureCall id="_1qjh"
+                             procedure="select.product_tree.product">
+                <variable name="prod_id">0</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qji"
+                             procedure="select.export_smos_grid_points.use_selected_product"/>
+            </TestStep>
+            <TestStep disabled="true" id="_1qca" name="export_area_as_csv">
+              <IfSequence id="_1qjd"
+                          test="&#34;$(use_selected_product_enabled)&#34;==&#34;true&#34;">
+                <ElseSequence id="_1qjf"/>
+              </IfSequence>
+            </TestStep>
+            <TestStep disabled="true" id="_1qjm" name="export_area_as_csv">
+              <IfSequence id="_1qjn"
+                          test="&#34;$(use_selected_product_enabled)&#34;==&#34;true&#34;">
+                <ElseSequence id="_1qjo"/>
+              </IfSequence>
+            </TestStep>
+            <TestStep disabled="true" id="_1qjp" name="export_area_as_csv">
+              <IfSequence id="_1qjq"
+                          test="&#34;$(use_selected_product_enabled)&#34;==&#34;true&#34;">
+                <ElseSequence id="_1qjr"/>
+              </IfSequence>
+            </TestStep>
+            <TestStep disabled="true" id="_1qjs" name="export_area_as_csv">
+              <IfSequence id="_1qjt"
+                          test="&#34;$(use_selected_product_enabled)&#34;==&#34;true&#34;">
+                <ElseSequence id="_1qju"/>
+              </IfSequence>
+            </TestStep>
+            <TestStep disabled="true" id="_1qjv" name="export_area_as_csv">
+              <IfSequence id="_1qjw"
+                          test="&#34;$(use_selected_product_enabled)&#34;==&#34;true&#34;">
+                <ElseSequence id="_1qjx"/>
+              </IfSequence>
+            </TestStep>
+            <TestStep disabled="true" id="_1py5"
+                      name="export_one_product_as_csv">
+              <variable name="out_file">export_smos_area.csv</variable>
+              <TestStep id="_1py6" name="define_source">
+                <ProcedureCall id="_1py7"
+                               procedure="select.useSelectedProduct"/>
+              </TestStep>
+              <TestStep id="_1py8" name="define_roi">
+                <ProcedureCall id="_1py9" procedure="select.area"/>
+                <ProcedureCall id="_1pyA" procedure="insert.north">
+                  <variable name="txt">60</variable>
+                </ProcedureCall>
+                <ProcedureCall id="_1pyB" procedure="insert.south">
+                  <variable name="txt">30</variable>
+                </ProcedureCall>
+                <ProcedureCall id="_1pyC" procedure="insert.west">
+                  <variable name="txt">45</variable>
+                </ProcedureCall>
+                <ProcedureCall id="_1pyD" procedure="insert.east">
+                  <variable name="txt">65</variable>
+                </ProcedureCall>
+              </TestStep>
+              <TestStep id="_1pyE" name="define_target_parameters">
+                <ProcedureCall id="_1pyF" procedure="select.export_format">
+                  <variable name="exportFormat">CSV</variable>
+                  <variable name="examples">Earth Explorer subsets CSV</variable>
+                </ProcedureCall>
+                <ProcedureCall id="_1pyG" procedure="insert.output_dir_file">
+                  <variable name="output_file">$(out_file)</variable>
+                </ProcedureCall>
+              </TestStep>
+              <TestStep id="_1pyH" name="running">
+                <ProcedureCall id="_1pyI" procedure="click.ok"/>
+                <ProcedureCall id="_1pyJ"
+                               procedure="wait.dialogExporting_grid_points_progress_disappears"/>
+                <ProcedureCall id="_1pyK"
+                               procedure="help.export_grid_points_error_dialog"/>
+              </TestStep>
+              <TestStep id="_1pyL" name="check_output">
+                <ProcedureCall id="_1pyM"
+                               procedure="check.output.csv_is_written"/>
+              </TestStep>
+            </TestStep>
+          </IfSequence>
+        </IfSequence>
+      </TestStep>
+      <TestStep disabled="true" id="_1pyN"
+                name="export_one_product_as_EarthExplorer_subsets">
+        <TestStep id="_1pyO" name="define_target_parameters">
+          <ProcedureCall id="_1pyP" procedure="select.export_format">
+            <variable name="exportFormat">Earth Explorer subsets</variable>
+            <variable name="examples">Earth Explorer subsets CSV</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pyQ" procedure="insert.output_dir_file">
+            <variable name="output_file"/>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pyR" name="running">
+          <ProcedureCall id="_1pyS" procedure="click.ok"/>
+          <ProcedureCall id="_1pyT"
+                         procedure="wait.dialogExporting_grid_points_progress"/>
+          <ProcedureCall id="_1pyU"
+                         procedure="wait.dialogExporting_grid_points_progress_disappears"/>
+        </TestStep>
+        <TestStep id="_1pyV" name="check_output">
+          <SetGlobalStep id="_1pyW" varname="out_prod_name">
+            <default>SM_OPER_MIR_SCLF1C_20100119T010305_20100119T011457_323_001_1</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1pyX"
+                         procedure="check.output.smos_subset_is_written"/>
+          <ProcedureCall id="_1pyY" procedure="check.output.subset_in_visat">
+            <variable name="band1">BT_Value_Y</variable>
+            <variable name="band2">Stokes_4</variable>
+            <variable name="prod_name">$(out_prod_name)</variable>
+            <variable name="ind">2</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pyZ"
+                         procedure="check.validity_period_vs_snapshot_time">
+            <variable name="start_time">2010-01-19T01:03:05.753</variable>
+            <variable name="stop_time">2010-01-19T01:14:57.359</variable>
+            <variable name="prod_id">1</variable>
+          </ProcedureCall>
+        </TestStep>
+      </TestStep>
+      <TestStep disabled="true" id="_1pya"
+                name="export_large_amount_of_data_as_csv">
+        <variable name="out_file">export_smos_area_all_prod.csv</variable>
+        <TestStep id="_1pyb" name="define_source">
+          <ProcedureCall id="_1pyc"
+                         procedure="select.useAllSmosProductsInDirectory"/>
+          <ProcedureCall id="_1pyd" procedure="insert.source_prod_dir"/>
+          <ProcedureCall id="_1pye"
+                         procedure="select.descend_into_subdirectories"/>
+        </TestStep>
+        <TestStep id="_1pyf" name="define_target_parameters">
+          <ProcedureCall id="_1pyg" procedure="select.export_format">
+            <variable name="exportFormat">CSV</variable>
+            <variable name="examples">Earth Explorer subsets CSV</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pyh" procedure="insert.output_dir_file">
+            <variable name="output_file">$(out_file)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pyi" name="running">
+          <ProcedureCall id="_1pyj" procedure="click.ok"/>
+          <ProcedureCall id="_1pyk" predelay="2000"
+                         procedure="wait.dialogExporting_grid_points_progress_disappears"/>
+          <ProcedureCall id="_1pyl"
+                         procedure="help.export_grid_points_error_dialog"/>
+        </TestStep>
+        <TestStep id="_1pym" name="check_output">
+          <ProcedureCall id="_1pyn" procedure="check.output.csv_is_written"/>
+        </TestStep>
+      </TestStep>
+      <TestStep disabled="true" id="_1pyo"
+                name="export_large_amount_of_data_as_EarthExplorer_subsets">
+        <TestStep id="_1pyp" name="define_target_parameters">
+          <ProcedureCall id="_1pyq" procedure="select.export_format">
+            <variable name="exportFormat">Earth Explorer subsets</variable>
+            <variable name="examples">Earth Explorer subsets CSV</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pyr" procedure="insert.output_dir_file">
+            <variable name="output_file"/>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pys" name="running">
+          <ProcedureCall id="_1pyt" procedure="click.ok"/>
+          <ProcedureCall id="_1pyu"
+                         procedure="wait.dialogExporting_grid_points_progress"/>
+          <ProcedureCall id="_1pyv"
+                         procedure="wait.dialogExporting_grid_points_progress_disappears"/>
+          <ProcedureCall id="_1pyw"
+                         procedure="help.export_grid_points_error_dialog"/>
+          <ProcedureCall id="_1pyx"
+                         procedure="help.export_grid_points_error_dialog"/>
+        </TestStep>
+        <TestStep id="_1pyy" name="check_output">
+          <SetGlobalStep id="_1pyz" varname="out_prod_name">
+            <default>SM_OPER_MIR_SCLF1C_20100119T002827_20100119T012226_323_001_1</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1py+"
+                         procedure="check.output.smos_subset_is_written"/>
+          <ProcedureCall id="_1py-" procedure="check.output.subset_in_visat">
+            <variable name="band1">BT_Value_Y</variable>
+            <variable name="band2">Stokes_4</variable>
+            <variable name="prod_name">$(out_prod_name)</variable>
+            <variable name="ind">3</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pz0"
+                         procedure="check.validity_period_vs_snapshot_time">
+            <variable name="start_time">2010-01-19T01:03:05.753</variable>
+            <variable name="stop_time">2010-01-19T01:14:57.359</variable>
+            <variable name="prod_id">2</variable>
+          </ProcedureCall>
+          <SetGlobalStep id="_1pz1" varname="out_prod_name">
+            <default>SM_OPER_MIR_SMUDP2_20120718T135056_20120718T135735_611_001_1</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1pz2"
+                         procedure="check.output.smos_subset_is_written"/>
+          <ProcedureCall id="_1pz3" procedure="check.output.subset_in_visat">
+            <variable name="band1">Soil_Moisture</variable>
+            <variable name="band2">Surface_Temperature</variable>
+            <variable name="prod_name">$(out_prod_name)</variable>
+            <variable name="ind">4</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pz4"
+                         procedure="check.validity_period_vs_product_name">
+            <variable name="start_time">2012-07-18T13:50:56</variable>
+            <variable name="stop_time">2012-07-18T13:57:35</variable>
+            <variable name="prod_id">3</variable>
+          </ProcedureCall>
+        </TestStep>
+      </TestStep>
+      <TestStep disabled="true" id="_1pz5" name="close_dialog">
+        <TryStep id="_1pz6" name="close_dialog">
+          <ProcedureCall id="_1pz7" procedure="click.close"/>
+          <CatchSequence exception="TestException" id="_1pz8" maxerror="0"/>
+        </TryStep>
+      </TestStep>
+      <ProcedureCall id="_1qlk" procedure="close.all_products"/>
+    </TestCase>
+    <TestCase disabled="true" id="_1qjy"
+              name="export_all_smos_products_in_directory"
+              reportname="Export selected SMOS product">
+      <TestStep id="_1qk3" name="export">
+        <TestStep id="_1qk6" name="open_SMOS_grid_points_dialog">
+          <ProcedureCall id="_1qk7" procedure="open.export.smos_grid_points"/>
+          <ProcedureCall id="_1qk8"
+                         procedure="check.opened.export.export_smos_grid_points"/>
+        </TestStep>
+        <IfSequence id="_1qk9"
+                    test="&#34;$(export_smos_grid_points_dialog_appears)&#34;==&#34;true&#34;">
+          <TestStep id="_1qkA" name="check_gui_components">
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogExport_SMOS_Grid_Points.openFileDialog"
+                              id="_1qkB"/>
+            <ProcedureCall id="_1qkC"
+                           procedure="check.export_smos_grid_points.selection.use_selected_product">
+              <variable name="select">false</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1qkD"
+                           procedure="check.export_smos_grid_points.selection.use_all_smos_products_in_directory">
+              <variable name="select">true</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1qkE"
+                           procedure="check.export_smos_grid_points.selection.recursive">
+              <variable name="select">false</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1qkF"
+                           procedure="check.export_smos_grid_points.selection.geometry">
+              <variable name="select">false</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1qkG"
+                           procedure="check.export_smos_grid_points.selection.pins">
+              <variable name="select">false</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1qkH"
+                           procedure="check.export_smos_grid_points.selection.area">
+              <variable name="select">true</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1qkI"
+                           procedure="check.export_smos_grid_points.text.north">
+              <variable name="val">90.0</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1qkJ"
+                           procedure="check.export_smos_grid_points.text.west">
+              <variable name="val">-180.0</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1qkK"
+                           procedure="check.export_smos_grid_points.text.east">
+              <variable name="val">180.0</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1qkL"
+                           procedure="check.export_smos_grid_points.text.south">
+              <variable name="val">-90.0</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1qkM"
+                           procedure="check.export_smos_grid_points.text.geometry">
+              <variable name="val"/>
+            </ProcedureCall>
+            <ProcedureCall id="_1qkN"
+                           procedure="check.export_smos_grid_points.text.export_format">
+              <variable name="val">CSV</variable>
+            </ProcedureCall>
+          </TestStep>
+          <TestStep disabled="true" id="_1qkR" name="export_area_as_csv">
+            <IfSequence id="_1qkS"
+                        test="&#34;$(use_selected_product_enabled)&#34;==&#34;true&#34;">
+              <ElseSequence id="_1qkT"/>
+            </IfSequence>
+          </TestStep>
+          <TestStep disabled="true" id="_1qkU" name="export_area_as_csv">
+            <IfSequence id="_1qkV"
+                        test="&#34;$(use_selected_product_enabled)&#34;==&#34;true&#34;">
+              <ElseSequence id="_1qkW"/>
+            </IfSequence>
+          </TestStep>
+          <TestStep disabled="true" id="_1qkX" name="export_area_as_csv">
+            <IfSequence id="_1qkY"
+                        test="&#34;$(use_selected_product_enabled)&#34;==&#34;true&#34;">
+              <ElseSequence id="_1qkZ"/>
+            </IfSequence>
+          </TestStep>
+          <TestStep disabled="true" id="_1qka" name="export_area_as_csv">
+            <IfSequence id="_1qkb"
+                        test="&#34;$(use_selected_product_enabled)&#34;==&#34;true&#34;">
+              <ElseSequence id="_1qkc"/>
+            </IfSequence>
+          </TestStep>
+          <TestStep disabled="true" id="_1qkd" name="export_area_as_csv">
+            <IfSequence id="_1qke"
+                        test="&#34;$(use_selected_product_enabled)&#34;==&#34;true&#34;">
+              <ElseSequence id="_1qkf"/>
+            </IfSequence>
+          </TestStep>
+          <TestStep disabled="true" id="_1qkg"
+                    name="export_one_product_as_csv">
+            <variable name="out_file">export_smos_area.csv</variable>
+            <TestStep id="_1qkh" name="define_source">
+              <ProcedureCall id="_1qki"
+                             procedure="select.useSelectedProduct"/>
+            </TestStep>
+            <TestStep id="_1qkj" name="define_roi">
+              <ProcedureCall id="_1qkk" procedure="select.area"/>
+              <ProcedureCall id="_1qkl" procedure="insert.north">
+                <variable name="txt">60</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qkm" procedure="insert.south">
+                <variable name="txt">30</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qkn" procedure="insert.west">
+                <variable name="txt">45</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qko" procedure="insert.east">
+                <variable name="txt">65</variable>
+              </ProcedureCall>
+            </TestStep>
+            <TestStep id="_1qkp" name="define_target_parameters">
+              <ProcedureCall id="_1qkq" procedure="select.export_format">
+                <variable name="exportFormat">CSV</variable>
+                <variable name="examples">Earth Explorer subsets CSV</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qkr" procedure="insert.output_dir_file">
+                <variable name="output_file">$(out_file)</variable>
+              </ProcedureCall>
+            </TestStep>
+            <TestStep id="_1qks" name="running">
+              <ProcedureCall id="_1qkt" procedure="click.ok"/>
+              <ProcedureCall id="_1qku"
+                             procedure="wait.dialogExporting_grid_points_progress_disappears"/>
+              <ProcedureCall id="_1qkv"
+                             procedure="help.export_grid_points_error_dialog"/>
+            </TestStep>
+            <TestStep id="_1qkw" name="check_output">
+              <ProcedureCall id="_1qkx"
+                             procedure="check.output.csv_is_written"/>
+            </TestStep>
+          </TestStep>
+        </IfSequence>
+      </TestStep>
+      <TestStep disabled="true" id="_1qky"
+                name="export_one_product_as_EarthExplorer_subsets">
+        <TestStep id="_1qkz" name="define_target_parameters">
+          <ProcedureCall id="_1qk+" procedure="select.export_format">
+            <variable name="exportFormat">Earth Explorer subsets</variable>
+            <variable name="examples">Earth Explorer subsets CSV</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qk-" procedure="insert.output_dir_file">
+            <variable name="output_file"/>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1ql0" name="running">
+          <ProcedureCall id="_1ql1" procedure="click.ok"/>
+          <ProcedureCall id="_1ql2"
+                         procedure="wait.dialogExporting_grid_points_progress"/>
+          <ProcedureCall id="_1ql3"
+                         procedure="wait.dialogExporting_grid_points_progress_disappears"/>
+        </TestStep>
+        <TestStep id="_1ql4" name="check_output">
+          <SetGlobalStep id="_1ql5" varname="out_prod_name">
+            <default>SM_OPER_MIR_SCLF1C_20100119T010305_20100119T011457_323_001_1</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1ql6"
+                         procedure="check.output.smos_subset_is_written"/>
+          <ProcedureCall id="_1ql7" procedure="check.output.subset_in_visat">
+            <variable name="band1">BT_Value_Y</variable>
+            <variable name="band2">Stokes_4</variable>
+            <variable name="prod_name">$(out_prod_name)</variable>
+            <variable name="ind">2</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ql8"
+                         procedure="check.validity_period_vs_snapshot_time">
+            <variable name="start_time">2010-01-19T01:03:05.753</variable>
+            <variable name="stop_time">2010-01-19T01:14:57.359</variable>
+            <variable name="prod_id">1</variable>
+          </ProcedureCall>
+        </TestStep>
+      </TestStep>
+      <TestStep disabled="true" id="_1ql9"
+                name="export_large_amount_of_data_as_csv">
+        <variable name="out_file">export_smos_area_all_prod.csv</variable>
+        <TestStep id="_1qlA" name="define_source">
+          <ProcedureCall id="_1qlB"
+                         procedure="select.useAllSmosProductsInDirectory"/>
+          <ProcedureCall id="_1qlC" procedure="insert.source_prod_dir"/>
+          <ProcedureCall id="_1qlD"
+                         procedure="select.descend_into_subdirectories"/>
+        </TestStep>
+        <TestStep id="_1qlE" name="define_target_parameters">
+          <ProcedureCall id="_1qlF" procedure="select.export_format">
+            <variable name="exportFormat">CSV</variable>
+            <variable name="examples">Earth Explorer subsets CSV</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qlG" procedure="insert.output_dir_file">
+            <variable name="output_file">$(out_file)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1qlH" name="running">
+          <ProcedureCall id="_1qlI" procedure="click.ok"/>
+          <ProcedureCall id="_1qlJ" predelay="2000"
+                         procedure="wait.dialogExporting_grid_points_progress_disappears"/>
+          <ProcedureCall id="_1qlK"
+                         procedure="help.export_grid_points_error_dialog"/>
+        </TestStep>
+        <TestStep id="_1qlL" name="check_output">
+          <ProcedureCall id="_1qlM" procedure="check.output.csv_is_written"/>
+        </TestStep>
+      </TestStep>
+      <TestStep disabled="true" id="_1qlN"
+                name="export_large_amount_of_data_as_EarthExplorer_subsets">
+        <TestStep id="_1qlO" name="define_target_parameters">
+          <ProcedureCall id="_1qlP" procedure="select.export_format">
+            <variable name="exportFormat">Earth Explorer subsets</variable>
+            <variable name="examples">Earth Explorer subsets CSV</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qlQ" procedure="insert.output_dir_file">
+            <variable name="output_file"/>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1qlR" name="running">
+          <ProcedureCall id="_1qlS" procedure="click.ok"/>
+          <ProcedureCall id="_1qlT"
+                         procedure="wait.dialogExporting_grid_points_progress"/>
+          <ProcedureCall id="_1qlU"
+                         procedure="wait.dialogExporting_grid_points_progress_disappears"/>
+          <ProcedureCall id="_1qlV"
+                         procedure="help.export_grid_points_error_dialog"/>
+          <ProcedureCall id="_1qlW"
+                         procedure="help.export_grid_points_error_dialog"/>
+        </TestStep>
+        <TestStep id="_1qlX" name="check_output">
+          <SetGlobalStep id="_1qlY" varname="out_prod_name">
+            <default>SM_OPER_MIR_SCLF1C_20100119T002827_20100119T012226_323_001_1</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1qlZ"
+                         procedure="check.output.smos_subset_is_written"/>
+          <ProcedureCall id="_1qla" procedure="check.output.subset_in_visat">
+            <variable name="band1">BT_Value_Y</variable>
+            <variable name="band2">Stokes_4</variable>
+            <variable name="prod_name">$(out_prod_name)</variable>
+            <variable name="ind">3</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qlb"
+                         procedure="check.validity_period_vs_snapshot_time">
+            <variable name="start_time">2010-01-19T01:03:05.753</variable>
+            <variable name="stop_time">2010-01-19T01:14:57.359</variable>
+            <variable name="prod_id">2</variable>
+          </ProcedureCall>
+          <SetGlobalStep id="_1qlc" varname="out_prod_name">
+            <default>SM_OPER_MIR_SMUDP2_20120718T135056_20120718T135735_611_001_1</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1qld"
+                         procedure="check.output.smos_subset_is_written"/>
+          <ProcedureCall id="_1qle" procedure="check.output.subset_in_visat">
+            <variable name="band1">Soil_Moisture</variable>
+            <variable name="band2">Surface_Temperature</variable>
+            <variable name="prod_name">$(out_prod_name)</variable>
+            <variable name="ind">4</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qlf"
+                         procedure="check.validity_period_vs_product_name">
+            <variable name="start_time">2012-07-18T13:50:56</variable>
+            <variable name="stop_time">2012-07-18T13:57:35</variable>
+            <variable name="prod_id">3</variable>
+          </ProcedureCall>
+        </TestStep>
+      </TestStep>
+      <TestStep disabled="true" id="_1qlg" name="close_dialog">
+        <TryStep id="_1qlh" name="close_dialog">
+          <ProcedureCall id="_1qli" procedure="click.close"/>
+          <CatchSequence exception="TestException" id="_1qlj" maxerror="0"/>
+        </TryStep>
+      </TestStep>
+    </TestCase>
+    <TestCase disabled="true" id="_1oWc" name="13_help" reportname="13 Help">
+      <variable name="fileName">MER_RR__1_test.N1</variable>
+      <TestStep id="_1oWd" name="open_product">
+        <ProcedureCall id="_1oXV" procedure="open.product_in_snap">
+          <variable name="prod_dir">mer_rr__1p_n1</variable>
+          <variable name="in_out">in</variable>
+          <variable name="prod">$(fileName)</variable>
+          <variable name="product_type"/>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1oWf" name="open_band_Maths_dialog">
+        <ProcedureCall id="_1oWu" procedure="select.product_tree.product">
+          <variable name="prod_id">0</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1oWv" procedure="open.tools.band_maths"/>
+      </TestStep>
+      <TestStep id="_1oWh" name="check_help">
+        <ProcedureCall id="_1oWy"
+                       procedure="do_click.tools.bandMaths.button_help"/>
+        <ProcedureCall id="_1oXF"
+                       procedure="check.help.help_or_error_appears"/>
+        <ProcedureCall disabled="true" id="_1pik"
+                       procedure="handle_invalid_input"/>
+        <ProcedureCall id="_1oXG" procedure="close.help"/>
+      </TestStep>
+      <ProcedureCall id="_1oWx"
+                     procedure="do_click.tools.bandMaths.button_cancel"/>
+      <ProcedureCall id="_1oWt" procedure="close.all_products"/>
+    </TestCase>
+  </TestSet>
+  <PackageRoot id="_4"/>
+  <ExtraSequence id="_5">
+    <TestCase id="_7lZ" name="01_SMOS_export_grid_points_area"
+              reportname="01 SMOS export grid points, region = area">
+      <variable name="prodName">SM_OPER_MIR_SCLF1C_20100119T002827_20100119T012226_323_001_1</variable>
+      <variable name="subDir">MIR_SCLF1C</variable>
+      <TestStep id="_1lNo" name="open_SMOS_grid_points_dialog">
+        <ProcedureCall id="_9Wa" procedure="open.SMOS_grid_points_tool"/>
+      </TestStep>
+      <TestStep id="_6qO" name="check_gui_components">
+        <ProcedureCall id="_9Yu" procedure="check.components_default"/>
+      </TestStep>
+      <TestStep id="_1lS2" name="open_smos_product">
+        <ProcedureCall disabled="true" id="_1lS7"
+                       procedure="set.variables_smos"/>
+        <ProcedureCall id="_1lS4" procedure="opens.openProduct_clickIcon">
+          <variable name="fileName">SMOS/$(subDir)/$(prodName)/$(prodName).DBL</variable>
+          <variable name="prodType">$(prodTypeAll)</variable>
+          <comment>Open Product</comment>
+        </ProcedureCall>
+        <ProcedureCall id="_1lS5" procedure="wait.product_is_opened_in_visat">
+          <variable name="product_name">$(prodName)</variable>
+          <variable name="waiting_time">100000</variable>
+          <variable name="index">1</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1lS6"
+                       procedure="check.components_default_prod_opened"/>
+      </TestStep>
+      <TestStep id="_1lRH" name="export_one_product_as_csv">
+        <variable name="out_file">export_smos_area.csv</variable>
+        <TestStep id="_1lQu" name="define_source">
+          <ProcedureCall id="_9s8" procedure="select.useSelectedProduct"/>
+        </TestStep>
+        <TestStep id="_1lQm" name="define_roi">
+          <ProcedureCall id="_AGN" procedure="select.area"/>
+          <ProcedureCall id="_9vb" procedure="insert.north">
+            <variable name="txt">60</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_9vc" procedure="insert.south">
+            <variable name="txt">30</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_9vd" procedure="insert.west">
+            <variable name="txt">45</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_9ve" procedure="insert.east">
+            <variable name="txt">65</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1lQn" name="define_target_parameters">
+          <ProcedureCall id="_9vW" procedure="select.export_format">
+            <variable name="exportFormat">CSV</variable>
+            <variable name="examples">Earth Explorer subsets CSV</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1lOo" procedure="insert.output_dir_file">
+            <variable name="output_file">$(out_file)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_9re" name="running">
+          <ProcedureCall id="_9vi" procedure="click.ok"/>
+          <ProcedureCall id="_9vq"
+                         procedure="wait.dialogExporting_grid_points_progress_disappears"/>
+          <ProcedureCall id="_1lUR"
+                         procedure="help.export_grid_points_error_dialog"/>
+        </TestStep>
+        <TestStep id="_1lQp" name="check_output">
+          <ProcedureCall id="_1lQt" procedure="check.output.csv_is_written"/>
+        </TestStep>
+      </TestStep>
+      <TestStep id="_1lRI" name="export_one_product_as_EarthExplorer_subsets">
+        <TestStep id="_1lQx" name="define_target_parameters">
+          <ProcedureCall id="_A5g" procedure="select.export_format">
+            <variable name="exportFormat">Earth Explorer subsets</variable>
+            <variable name="examples">Earth Explorer subsets CSV</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1lQ+" procedure="insert.output_dir_file">
+            <variable name="output_file"/>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1lQ-" name="running">
+          <ProcedureCall id="_1lR0" procedure="click.ok"/>
+          <ProcedureCall id="_1lR1"
+                         procedure="wait.dialogExporting_grid_points_progress"/>
+          <ProcedureCall id="_1lR2"
+                         procedure="wait.dialogExporting_grid_points_progress_disappears"/>
+        </TestStep>
+        <TestStep id="_1lR3" name="check_output">
+          <SetGlobalStep id="_1lR5" varname="out_prod_name">
+            <default>SM_OPER_MIR_SCLF1C_20100119T010305_20100119T011457_323_001_1</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1lR6"
+                         procedure="check.output.smos_subset_is_written"/>
+          <ProcedureCall id="_1lR7" procedure="check.output.subset_in_visat">
+            <variable name="band1">BT_Value_Y</variable>
+            <variable name="band2">Stokes_4</variable>
+            <variable name="prod_name">$(out_prod_name)</variable>
+            <variable name="ind">2</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1lUf"
+                         procedure="check.validity_period_vs_snapshot_time">
+            <variable name="start_time">2010-01-19T01:03:05.753</variable>
+            <variable name="stop_time">2010-01-19T01:14:57.359</variable>
+            <variable name="prod_id">1</variable>
+          </ProcedureCall>
+        </TestStep>
+      </TestStep>
+      <TestStep id="_A6I" name="export_large_amount_of_data_as_csv">
+        <variable name="out_file">export_smos_area_all_prod.csv</variable>
+        <TestStep id="_1lRZ" name="define_source">
+          <ProcedureCall id="_A6R"
+                         procedure="select.useAllSmosProductsInDirectory"/>
+          <ProcedureCall id="_1lU-" procedure="insert.source_prod_dir"/>
+          <ProcedureCall id="_1lU+"
+                         procedure="select.descend_into_subdirectories"/>
+        </TestStep>
+        <TestStep id="_1lRc" name="define_target_parameters">
+          <ProcedureCall id="_1lRd" procedure="select.export_format">
+            <variable name="exportFormat">CSV</variable>
+            <variable name="examples">Earth Explorer subsets CSV</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1lRe" procedure="insert.output_dir_file">
+            <variable name="output_file">$(out_file)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1lRf" name="running">
+          <ProcedureCall id="_1lRg" procedure="click.ok"/>
+          <ProcedureCall id="_1lRi" predelay="2000"
+                         procedure="wait.dialogExporting_grid_points_progress_disappears"/>
+          <ProcedureCall id="_1lUV"
+                         procedure="help.export_grid_points_error_dialog"/>
+        </TestStep>
+        <TestStep id="_1lRj" name="check_output">
+          <ProcedureCall id="_1lRk" procedure="check.output.csv_is_written"/>
+        </TestStep>
+      </TestStep>
+      <TestStep id="_A5x"
+                name="export_large_amount_of_data_as_EarthExplorer_subsets">
+        <TestStep id="_1lRM" name="define_target_parameters">
+          <ProcedureCall id="_1lRN" procedure="select.export_format">
+            <variable name="exportFormat">Earth Explorer subsets</variable>
+            <variable name="examples">Earth Explorer subsets CSV</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1lRO" procedure="insert.output_dir_file">
+            <variable name="output_file"/>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1lRP" name="running">
+          <ProcedureCall id="_1lRQ" procedure="click.ok"/>
+          <ProcedureCall id="_1lRR"
+                         procedure="wait.dialogExporting_grid_points_progress"/>
+          <ProcedureCall id="_1lRS"
+                         procedure="wait.dialogExporting_grid_points_progress_disappears"/>
+          <ProcedureCall id="_1lUW"
+                         procedure="help.export_grid_points_error_dialog"/>
+          <ProcedureCall id="_1lV3"
+                         procedure="help.export_grid_points_error_dialog"/>
+        </TestStep>
+        <TestStep id="_1lRT" name="check_output">
+          <SetGlobalStep id="_1lPt" varname="out_prod_name">
+            <default>SM_OPER_MIR_SCLF1C_20100119T002827_20100119T012226_323_001_1</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1lPu"
+                         procedure="check.output.smos_subset_is_written"/>
+          <ProcedureCall id="_Bwy" procedure="check.output.subset_in_visat">
+            <variable name="band1">BT_Value_Y</variable>
+            <variable name="band2">Stokes_4</variable>
+            <variable name="prod_name">$(out_prod_name)</variable>
+            <variable name="ind">3</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1lV1"
+                         procedure="check.validity_period_vs_snapshot_time">
+            <variable name="start_time">2010-01-19T01:03:05.753</variable>
+            <variable name="stop_time">2010-01-19T01:14:57.359</variable>
+            <variable name="prod_id">2</variable>
+          </ProcedureCall>
+          <SetGlobalStep id="_1lPv" varname="out_prod_name">
+            <default>SM_OPER_MIR_SMUDP2_20120718T135056_20120718T135735_611_001_1</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1lPw"
+                         procedure="check.output.smos_subset_is_written"/>
+          <ProcedureCall id="_Bx9" procedure="check.output.subset_in_visat">
+            <variable name="band1">Soil_Moisture</variable>
+            <variable name="band2">Surface_Temperature</variable>
+            <variable name="prod_name">$(out_prod_name)</variable>
+            <variable name="ind">4</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1lV2"
+                         procedure="check.validity_period_vs_product_name">
+            <variable name="start_time">2012-07-18T13:50:56</variable>
+            <variable name="stop_time">2012-07-18T13:57:35</variable>
+            <variable name="prod_id">3</variable>
+          </ProcedureCall>
+        </TestStep>
+      </TestStep>
+      <TestStep id="_1lNX" name="close_dialog">
+        <TryStep id="_1lNS" name="close_dialog">
+          <ProcedureCall id="_1lNR" procedure="click.close"/>
+          <CatchSequence exception="TestException" id="_1lNT" maxerror="0"/>
+        </TryStep>
+      </TestStep>
+    </TestCase>
+    <TestCase id="_AM7" name="02_SMOS_export_grid_points_pins"
+              reportname="02 SMOS export grid points, region = pins">
+      <variable name="prodName">SM_REPR_MIR_SCSF1C_20101105T190021_20101105T195420_346_001_5</variable>
+      <variable name="band">BT_Value_Y</variable>
+      <variable name="subDir">MIR_SCSF1C</variable>
+      <TestStep id="_1lS8" name="open_smos_product_create_some_pins">
+        <ProcedureCall id="_AM9" procedure="opens.openProduct_clickIcon">
+          <variable name="fileName">SMOS/$(subDir)/$(prodName)/$(prodName).DBL</variable>
+          <variable name="prodType">$(prodTypeAll)</variable>
+          <comment>Open Product</comment>
+        </ProcedureCall>
+        <ProcedureCall id="_AMA" procedure="wait.product_is_opened_in_visat">
+          <variable name="product_name">$(prodName)</variable>
+          <variable name="waiting_time">100000</variable>
+          <variable name="index">1</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_AMB" procedure="opens.openImageView">
+          <variable name="prodBand">[1] $(prodName)/Bands/$(band)</variable>
+          <variable name="prodBand_example">[1] productName/Bands/bandName</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_AMC"
+                       procedure="checkImageViewIsOpened.checkImageView">
+          <variable name="product_id">1</variable>
+          <variable name="wait_for_image">1000000</variable>
+          <variable name="image_view_title">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_AMD" procedure="opens.openPinDialog"/>
+        <ProcedureCall id="_AME"
+                       procedure="create.PIN.usePiselPos_in_PinManager">
+          <variable name="pixel_X">15820</variable>
+          <variable name="pixel_Y">5681</variable>
+          <variable name="pin_name">pin1</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_AMF"
+                       procedure="create.PIN.usePiselPos_in_PinManager">
+          <variable name="pixel_X">15413</variable>
+          <variable name="pixel_Y">3653</variable>
+          <variable name="pin_name">pin2</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_AMG"
+                       procedure="create.PIN.usePiselPos_in_PinManager">
+          <variable name="pixel_X">16203</variable>
+          <variable name="pixel_Y">6943</variable>
+          <variable name="pin_name">pin3</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1lV4" procedure="closes.close_PIN_Manager"/>
+      </TestStep>
+      <TestStep id="_1lRl" name="open_SMOS_grid_points_dialog">
+        <ProcedureCall id="_1lRm" procedure="open.SMOS_grid_points_tool"/>
+      </TestStep>
+      <TestStep id="_AM8" name="export_as_csv_file">
+        <variable name="out_file">export_smos_pins.csv</variable>
+        <TestStep id="_1lRn" name="define_source">
+          <ProcedureCall id="_1lRo" procedure="select.useSelectedProduct"/>
+        </TestStep>
+        <TestStep id="_1lRp" name="define_roi">
+          <ProcedureCall id="_AMJ" procedure="select.pins"/>
+        </TestStep>
+        <TestStep id="_1lRv" name="define_target_parameters">
+          <ProcedureCall id="_1lRw" procedure="select.export_format">
+            <variable name="exportFormat">CSV</variable>
+            <variable name="examples">Earth Explorer subsets CSV</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1lRx" procedure="insert.output_dir_file">
+            <variable name="output_file">$(out_file)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1lRy" name="running">
+          <ProcedureCall id="_1lRz" procedure="click.ok"/>
+          <ProcedureCall id="_1lR+"
+                         procedure="wait.dialogExporting_grid_points_progress"/>
+          <ProcedureCall id="_1lR-"
+                         procedure="wait.dialogExporting_grid_points_progress_disappears"/>
+          <ProcedureCall id="_1lUX"
+                         procedure="help.export_grid_points_error_dialog"/>
+        </TestStep>
+        <TestStep id="_1lS0" name="check_output">
+          <ProcedureCall id="_1lS1" procedure="check.output.csv_is_written"/>
+        </TestStep>
+      </TestStep>
+      <TestStep id="_1lSD" name="export_as_EarthExplorer_subsets">
+        <TestStep id="_1lVJ" name="define_roi">
+          <ProcedureCall id="_1lVK" procedure="select.pins"/>
+        </TestStep>
+        <TestStep id="_1lSI" name="define_target_parameters">
+          <ProcedureCall id="_AMe" procedure="select.export_format">
+            <variable name="exportFormat">Earth Explorer subsets</variable>
+            <variable name="examples">Earth Explorer subsets CSV</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1lP5" procedure="insert.output_dir_file">
+            <variable name="output_file"/>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1lSL" name="running">
+          <ProcedureCall id="_1lSM" procedure="click.ok"/>
+          <ProcedureCall id="_1lSO"
+                         procedure="wait.dialogExporting_grid_points_progress_disappears"/>
+          <ProcedureCall id="_1lUY"
+                         procedure="help.export_grid_points_error_dialog"/>
+        </TestStep>
+        <TestStep id="_1lSS" name="check_output">
+          <SetGlobalStep id="_1lPx" varname="out_prod_name">
+            <default>SM_REPR_MIR_SCSF1C_20101105T190858_20101105T193150_346_001_5</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1lPy"
+                         procedure="check.output.smos_subset_is_written"/>
+          <ProcedureCall id="_BxB" procedure="check.output.subset_in_visat">
+            <variable name="band1">BT_Value_Y</variable>
+            <variable name="band2">Stokes_4</variable>
+            <variable name="prod_name">$(out_prod_name)</variable>
+            <variable name="ind">2</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1lV5"
+                         procedure="check.validity_period_vs_snapshot_time">
+            <variable name="start_time">2010-11-05T19:08:58.661</variable>
+            <variable name="stop_time">2010-11-05T19:31:50.275</variable>
+            <variable name="prod_id">1</variable>
+          </ProcedureCall>
+        </TestStep>
+      </TestStep>
+      <TestStep id="_AMx" name="export_large_amount_of_data_as_csv">
+        <variable name="out_file">export_smos_pins_all_prod.csv</variable>
+        <ProcedureCall id="_BxN" procedure="selects.selectProductInVisatTree">
+          <variable name="index">1</variable>
+          <variable name="product_name">$(prodName)</variable>
+        </ProcedureCall>
+        <TestStep id="_1lSU" name="define_source">
+          <ProcedureCall id="_1lSV"
+                         procedure="select.useAllSmosProductsInDirectory"/>
+          <ProcedureCall id="_1lSW" procedure="insert.source_prod_dir"/>
+          <ProcedureCall id="_1lUT"
+                         procedure="select.descend_into_subdirectories"/>
+        </TestStep>
+        <TestStep id="_1lVL" name="define_roi">
+          <ProcedureCall id="_1lVM" procedure="select.pins"/>
+        </TestStep>
+        <TestStep id="_1lSX" name="define_target_parameters">
+          <ProcedureCall id="_1lSY" procedure="select.export_format">
+            <variable name="exportFormat">CSV</variable>
+            <variable name="examples">Earth Explorer subsets CSV</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1lSZ" procedure="insert.output_dir_file">
+            <variable name="output_file">$(out_file)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1lSa" name="running">
+          <ProcedureCall id="_1lSb" procedure="click.ok"/>
+          <ProcedureCall id="_1lSd"
+                         procedure="wait.dialogExporting_grid_points_progress_disappears"/>
+          <ProcedureCall id="_1lUZ"
+                         procedure="help.export_grid_points_error_dialog"/>
+        </TestStep>
+        <TestStep id="_1lSe" name="check_output">
+          <ProcedureCall id="_1lSf" procedure="check.output.csv_is_written"/>
+        </TestStep>
+      </TestStep>
+      <TestStep id="_ANL"
+                name="export_large_amount_of_data_as_EarthExplorer_subsets">
+        <ProcedureCall id="_BxO" procedure="selects.selectProductInVisatTree">
+          <variable name="index">1</variable>
+          <variable name="product_name">$(prodName)</variable>
+        </ProcedureCall>
+        <TestStep id="_1lVN" name="define_roi">
+          <ProcedureCall id="_1lVO" procedure="select.pins"/>
+        </TestStep>
+        <TestStep id="_1lSg" name="define_target_parameters">
+          <ProcedureCall id="_1lSh" procedure="select.export_format">
+            <variable name="exportFormat">Earth Explorer subsets</variable>
+            <variable name="examples">Earth Explorer subsets CSV</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1lSi" procedure="insert.output_dir_file">
+            <variable name="output_file"/>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1lSj" name="running">
+          <ProcedureCall id="_1lSk" procedure="click.ok"/>
+          <ProcedureCall id="_1lSm"
+                         procedure="wait.dialogExporting_grid_points_progress_disappears"/>
+          <ProcedureCall id="_1lUa"
+                         procedure="help.export_grid_points_error_dialog"/>
+        </TestStep>
+        <TestStep id="_1lSn" name="check_output">
+          <SetGlobalStep id="_1lQ4" varname="out_prod_name">
+            <default>SM_OPER_MIR_OSUDP2_20100208T054535_20100208T054535_311_001_1</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1lQ5"
+                         procedure="check.output.smos_subset_is_written"/>
+          <ProcedureCall id="_BxG" procedure="check.output.subset_in_visat">
+            <variable name="band1">SSS1</variable>
+            <variable name="band2">SSS3</variable>
+            <variable name="prod_name">$(out_prod_name)</variable>
+            <variable name="ind">3</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1lV6"
+                         procedure="check.validity_period_vs_product_name">
+            <variable name="start_time">2010-02-08T05:45:35</variable>
+            <variable name="stop_time">2010-02-08T05:45:35</variable>
+            <variable name="prod_id">2</variable>
+          </ProcedureCall>
+          <SetGlobalStep id="_1lQ7" varname="out_prod_name">
+            <default>SM_OPER_MIR_SCSF1C_20100119T052216_20100119T052527_324_001_1</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1lQ8"
+                         procedure="check.output.smos_subset_is_written"/>
+          <ProcedureCall id="_BxM" procedure="check.output.subset_in_visat">
+            <variable name="band1">BT_Value_Y</variable>
+            <variable name="band2">Stokes_1</variable>
+            <variable name="prod_name">$(out_prod_name)</variable>
+            <variable name="ind">4</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1lV8"
+                         procedure="check.validity_period_vs_snapshot_time">
+            <variable name="start_time">2010-01-19T05:22:16.692</variable>
+            <variable name="stop_time">2010-01-19T05:25:27.493</variable>
+            <variable name="prod_id">3</variable>
+          </ProcedureCall>
+          <SetGlobalStep id="_1lQA" varname="out_prod_name">
+            <default>SM_OPER_MIR_BWSF1C_20100119T043836_20100119T053238_324_001_1</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1lQB"
+                         procedure="check.output.smos_subset_is_written"/>
+          <SetGlobalStep id="_1lQD" varname="out_prod_name">
+            <default>SM_OPER_MIR_SCSD1C_20100208T070603_20100208T070610_324_001_1</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1lQE"
+                         procedure="check.output.smos_subset_is_written"/>
+          <SetGlobalStep id="_1lQG" varname="out_prod_name">
+            <default>SM_OPER_AUX_ECMWF__20100208T045820_20100208T060050_306_001_3</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1lQH"
+                         procedure="check.output.smos_subset_is_written"/>
+        </TestStep>
+      </TestStep>
+      <TestStep id="_1lNY" name="close_dialog">
+        <TryStep id="_1lNZ" name="close_dialog">
+          <ProcedureCall id="_1lNa" procedure="click.close"/>
+          <CatchSequence exception="TestException" id="_1lNb" maxerror="0"/>
+        </TryStep>
+      </TestStep>
+    </TestCase>
+    <TestCase id="_AGY" name="03_SMOS_export_grid_points_geometry"
+              reportname="03 SMOS export grid points, region = geometry">
+      <variable name="prodName">SM_REPR_MIR_SCLF1C_20101105T204026_20101105T213425_346_001_5</variable>
+      <variable name="subDir">MIR_SCLF1C</variable>
+      <variable name="band">BT_Value_Y</variable>
+      <TestStep id="_1lSu" name="open_smos_product_create_geometry">
+        <ProcedureCall id="_AGa" procedure="opens.openProduct_clickIcon">
+          <variable name="fileName">SMOS/$(subDir)/$(prodName)/$(prodName).DBL</variable>
+          <variable name="prodType">$(prodTypeAll)</variable>
+          <comment>Open Product</comment>
+        </ProcedureCall>
+        <ProcedureCall id="_AKu" procedure="wait.product_is_opened_in_visat">
+          <variable name="product_name">$(prodName)</variable>
+          <variable name="waiting_time">100000</variable>
+          <variable name="index">1</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_AGb" procedure="opens.openImageView">
+          <variable name="prodBand">[1] $(prodName)/Bands/$(band)</variable>
+          <variable name="prodBand_example">[1] productName/Bands/bandName</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_AGc"
+                       procedure="checkImageViewIsOpened.checkImageView">
+          <variable name="product_id">1</variable>
+          <variable name="wait_for_image">1000000</variable>
+          <variable name="image_view_title">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_AJe"
+                       procedure="create.SHAPE.ellipse_right_bottom">
+          <variable name="band">$(band)</variable>
+        </ProcedureCall>
+        <BasicSequence id="_BxR" name="create_geometry">
+          <ProcedureCall id="_BxS" procedure="clicks.click_icon.drawEllipse"/>
+          <MouseEventStep clicks="0" client="VISAT"
+                          component="mainFrameVISAT2.intFrame[1]_BT_Value_Y.com"
+                          event="MOUSE_MOVED" id="_DxK" modifiers="0" x="642"
+                          y="458"/>
+          <MouseEventStep clicks="1" client="VISAT"
+                          component="mainFrameVISAT2.intFrame[1]_BT_Value_Y.com"
+                          event="MOUSE_PRESSED" id="_DxL" modifiers="16"
+                          x="642" y="458"/>
+          <MouseEventStep clicks="0" client="VISAT"
+                          component="mainFrameVISAT2.intFrame[1]_BT_Value_Y.com"
+                          event="MOUSE_DRAGGED" id="_DxM" modifiers="16"
+                          x="682" y="479"/>
+          <MouseEventStep clicks="1" client="VISAT"
+                          component="mainFrameVISAT2.intFrame[1]_BT_Value_Y.com"
+                          event="MOUSE_RELEASED" id="_DxN" modifiers="16"
+                          x="682" y="479"/>
+        </BasicSequence>
+      </TestStep>
+      <TestStep id="_1lT1" name="open_SMOS_grid_points_dialog">
+        <ProcedureCall id="_1lT2" procedure="open.SMOS_grid_points_tool"/>
+      </TestStep>
+      <TestStep id="_1lT3" name="export_as_csv_file">
+        <variable name="out_file">export_smos_geometry.csv</variable>
+        <TestStep id="_1lT4" name="define_source">
+          <ProcedureCall id="_1lT5" procedure="select.useSelectedProduct"/>
+        </TestStep>
+        <TestStep id="_1lT6" name="define_roi">
+          <ProcedureCall id="_AGj" procedure="select.geometry"/>
+          <ProcedureCall id="_AJt" procedure="check.selected_geometry_name">
+            <variable name="geom_name">[1] geometry</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1lT8" name="define_target_parameters">
+          <ProcedureCall id="_1lT9" procedure="select.export_format">
+            <variable name="exportFormat">CSV</variable>
+            <variable name="examples">Earth Explorer subsets CSV</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1lTA" procedure="insert.output_dir_file">
+            <variable name="output_file">$(out_file)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1lTB" name="running">
+          <ProcedureCall id="_1lTC" procedure="click.ok"/>
+          <ProcedureCall id="_1lTE"
+                         procedure="wait.dialogExporting_grid_points_progress_disappears"/>
+          <ProcedureCall id="_1lUb"
+                         procedure="help.export_grid_points_error_dialog"/>
+        </TestStep>
+        <TestStep id="_1lTI" name="check_output">
+          <ProcedureCall id="_1lTJ" procedure="check.output.csv_is_written"/>
+        </TestStep>
+      </TestStep>
+      <TestStep id="_1lTK" name="export_as_EarthExplorer_subsets">
+        <variable name="out_prod">SM_REPR_MIR_SCSF1C_20101105T190858_20101105T192856_346_001_5</variable>
+        <TestStep id="_1lVD" name="define_roi">
+          <ProcedureCall id="_1lVE" procedure="select.geometry"/>
+          <ProcedureCall id="_1lVF" procedure="check.selected_geometry_name">
+            <variable name="geom_name">[1] geometry</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1lTL" name="define_target_parameters">
+          <ProcedureCall id="_1lTM" procedure="select.export_format">
+            <variable name="exportFormat">Earth Explorer subsets</variable>
+            <variable name="examples">Earth Explorer subsets CSV</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1lTN" procedure="insert.output_dir_file">
+            <variable name="output_file"/>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1lTO" name="running">
+          <ProcedureCall id="_1lTP" predelay="1000" procedure="click.ok"/>
+          <ProcedureCall id="_1lTQ"
+                         procedure="wait.dialogExporting_grid_points_progress_disappears"/>
+          <ProcedureCall id="_1lUc"
+                         procedure="help.export_grid_points_error_dialog"/>
+        </TestStep>
+        <TestStep id="_1lTU" name="check_output">
+          <SetGlobalStep id="_1lTV" varname="out_prod_name">
+            <default>SM_REPR_MIR_SCLF1C_20101105T204413_20101105T205023_346_001_5</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1lTW"
+                         procedure="check.output.smos_subset_is_written"/>
+          <ProcedureCall id="_1lTX" procedure="check.output.subset_in_visat">
+            <variable name="band1">BT_Value_Y</variable>
+            <variable name="band2">Stokes_4</variable>
+            <variable name="prod_name">$(out_prod_name)</variable>
+            <variable name="ind">2</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1lV9"
+                         procedure="check.validity_period_vs_snapshot_time">
+            <variable name="start_time">2010-11-05T20:44:13.117</variable>
+            <variable name="stop_time">2010-11-05T20:50:23.920</variable>
+            <variable name="prod_id">1</variable>
+          </ProcedureCall>
+        </TestStep>
+      </TestStep>
+      <TestStep id="_1lTY" name="export_large_amount_of_data_as_csv">
+        <variable name="out_file">export_smos_pins_all_prod.csv</variable>
+        <ProcedureCall id="_1lTZ"
+                       procedure="selects.selectProductInVisatTree">
+          <variable name="index">1</variable>
+          <variable name="product_name">$(prodName)</variable>
+        </ProcedureCall>
+        <TestStep id="_1lTa" name="define_source">
+          <ProcedureCall id="_1lTb"
+                         procedure="select.useAllSmosProductsInDirectory"/>
+          <ProcedureCall id="_1lTc" procedure="insert.source_prod_dir"/>
+          <ProcedureCall id="_1lUU"
+                         procedure="select.descend_into_subdirectories"/>
+        </TestStep>
+        <TestStep id="_1lVG" name="define_roi">
+          <ProcedureCall id="_1lVH" procedure="select.geometry"/>
+          <ProcedureCall id="_1lVI" procedure="check.selected_geometry_name">
+            <variable name="geom_name">[1] geometry</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1lTd" name="define_target_parameters">
+          <ProcedureCall id="_1lTe" procedure="select.export_format">
+            <variable name="exportFormat">CSV</variable>
+            <variable name="examples">Earth Explorer subsets CSV</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1lTf" procedure="insert.output_dir_file">
+            <variable name="output_file">$(out_file)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1lTg" name="running">
+          <ProcedureCall id="_1lTh" procedure="click.ok"/>
+          <ProcedureCall id="_1lTi"
+                         procedure="wait.dialogExporting_grid_points_progress_disappears"/>
+          <ProcedureCall id="_1lUd"
+                         procedure="help.export_grid_points_error_dialog"/>
+        </TestStep>
+        <TestStep id="_1lTm" name="check_output">
+          <ProcedureCall id="_1lTn" procedure="check.output.csv_is_written"/>
+        </TestStep>
+      </TestStep>
+      <TestStep id="_1lTo"
+                name="export_large_amount_of_data_as_EarthExplorer_subsets">
+        <ProcedureCall id="_1lTp"
+                       procedure="selects.selectProductInVisatTree">
+          <variable name="index">1</variable>
+          <variable name="product_name">$(prodName)</variable>
+        </ProcedureCall>
+        <TestStep id="_1lVP" name="define_roi">
+          <ProcedureCall id="_1lVQ" procedure="select.geometry"/>
+          <ProcedureCall id="_1lVR" procedure="check.selected_geometry_name">
+            <variable name="geom_name">[1] geometry</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1lTq" name="define_target_parameters">
+          <ProcedureCall id="_1lTr" procedure="select.export_format">
+            <variable name="exportFormat">Earth Explorer subsets</variable>
+            <variable name="examples">Earth Explorer subsets CSV</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1lTs" procedure="insert.output_dir_file">
+            <variable name="output_file"/>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1lTt" name="running">
+          <ProcedureCall id="_1lTu" procedure="click.ok"/>
+          <ProcedureCall id="_1lTv" predelay="1000"
+                         procedure="wait.dialogExporting_grid_points_progress_disappears"/>
+          <ProcedureCall id="_1lUe"
+                         procedure="help.export_grid_points_error_dialog"/>
+        </TestStep>
+        <TestStep id="_1lTz" name="check_output">
+          <SetGlobalStep id="_1lT+" varname="out_prod_name">
+            <default>SM_OPER_MIR_SMUDP2_20100207T213525_20100207T213810_305_001_1</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1lVS" procedure="check.output.subset_in_visat">
+            <variable name="band1">Soil_Moisture</variable>
+            <variable name="band2">Surface_Temperature</variable>
+            <variable name="prod_name">$(out_prod_name)</variable>
+            <variable name="ind">3</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1lVT"
+                         procedure="check.validity_period_vs_product_name">
+            <variable name="start_time">2010-02-07T21:35:25</variable>
+            <variable name="stop_time">2010-02-07T21:38:10</variable>
+            <variable name="prod_id">2</variable>
+          </ProcedureCall>
+          <SetGlobalStep id="_1lU1" varname="out_prod_name">
+            <default>SM_TEST_MIR_SCLF1C_20120704T015113_20120704T015451_620_001_1</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1lT-"
+                         procedure="check.output.smos_subset_is_written"/>
+          <ProcedureCall id="_1lU0" procedure="check.output.subset_in_visat">
+            <variable name="band1">BT_Value_Y</variable>
+            <variable name="band2">BT_Value_X</variable>
+            <variable name="prod_name">$(out_prod_name)</variable>
+            <variable name="ind">4</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1lVV"
+                         procedure="check.validity_period_vs_snapshot_time">
+            <variable name="prod_id">3</variable>
+            <variable name="start_time">2012-07-04T01:51:13.122</variable>
+            <variable name="stop_time">2012-07-04T01:54:51.524</variable>
+          </ProcedureCall>
+          <SetGlobalStep id="_1lVB" varname="out_prod_name">
+            <default>SM_OPER_MIR_OSUDP2_20100208T054638_20100208T055009_311_001_1</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1lU2"
+                         procedure="check.output.smos_subset_is_written"/>
+          <ProcedureCall id="_1lVW" procedure="check.output.subset_in_visat">
+            <variable name="band1">SSS1</variable>
+            <variable name="band2">SSS3</variable>
+            <variable name="prod_name">$(out_prod_name)</variable>
+            <variable name="ind">5</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1lVX"
+                         procedure="check.validity_period_vs_product_name">
+            <variable name="start_time">2010-02-08T05:46:38</variable>
+            <variable name="stop_time">2010-02-08T05:50:09</variable>
+            <variable name="prod_id">4</variable>
+          </ProcedureCall>
+          <SetGlobalStep id="_1lU4" varname="out_prod_name">
+            <default>SM_REPR_MIR_SMUDP2_20101105T195023_20101105T204422_400_001_9</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1lU5"
+                         procedure="check.output.smos_subset_is_written"/>
+          <SetGlobalStep id="_1lVY" varname="out_prod_name">
+            <default>SM_TEST_MIR_OSUDP2_20121117T033609_20121117T043008_001_001_8</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1lVZ"
+                         procedure="check.output.smos_subset_is_written"/>
+          <SetGlobalStep id="_1lVa" varname="out_prod_name">
+            <default>SM_TEST_MIR_SCSF1C_20120704T015113_20120704T015451_620_001_1</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1lVb"
+                         procedure="check.output.smos_subset_is_written"/>
+          <SetGlobalStep id="_1lVc" varname="out_prod_name">
+            <default>SM_REPR_MIR_SCSF1C_20101105T190723_20101105T191003_346_001_5</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1lVd"
+                         procedure="check.output.smos_subset_is_written"/>
+          <SetGlobalStep id="_1lVe" varname="out_prod_name">
+            <default>SM_REPR_MIR_SCLF1C_20101105T204413_20101105T205023_346_001_5</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1lVf"
+                         procedure="check.output.smos_subset_is_written"/>
+          <SetGlobalStep id="_1lVg" varname="out_prod_name">
+            <default>SM_REPR_MIR_SCLF1C_20101105T204026_20101105T213425_346_001_5</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1lVh"
+                         procedure="check.output.smos_subset_is_written"/>
+          <SetGlobalStep id="_1lU6" varname="out_prod_name">
+            <default>SM_OPER_MIR_SCSF1C_20100119T052407_20100119T052956_324_001_1</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1lU7"
+                         procedure="check.output.smos_subset_is_written"/>
+          <SetGlobalStep id="_1lVi" varname="out_prod_name">
+            <default>SM_OPER_MIR_SCLF1C_20100119T002929_20100119T003753_323_001_1</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1lVj"
+                         procedure="check.output.smos_subset_is_written"/>
+          <SetGlobalStep id="_1lVk" varname="out_prod_name">
+            <default>SM_OPER_MIR_BWSF1C_20140415T015031_20140415T024349_505_001_1</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1lVl"
+                         procedure="check.output.smos_subset_is_written"/>
+          <SetGlobalStep id="_1lVm" varname="out_prod_name">
+            <default>SM_OPER_MIR_BWSF1C_20100119T043836_20100119T053238_324_001_1</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1lVn"
+                         procedure="check.output.smos_subset_is_written"/>
+          <SetGlobalStep id="_1lU8" varname="out_prod_name">
+            <default>SM_OPER_MIR_BWLF1C_20100119T061841_20100119T071243_324_003_1</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1lU9"
+                         procedure="check.output.smos_subset_is_written"/>
+          <SetGlobalStep id="_1lUE" varname="out_prod_name">
+            <default>SM_OPER_AUX_ECMWF__20100208T045820_20100208T060050_306_001_3</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1lUF"
+                         procedure="check.output.smos_subset_is_written"/>
+        </TestStep>
+      </TestStep>
+      <TestStep id="_1lUA" name="close_dialog">
+        <TryStep id="_1lUB" name="close_dialog">
+          <ProcedureCall id="_1lUC" procedure="click.close"/>
+          <CatchSequence exception="TestException" id="_1lUD" maxerror="0"/>
+        </TryStep>
+      </TestStep>
+    </TestCase>
+    <ServerScriptStep id="_1pXI" name="print">
+      <code>print "$(new_band_id)"</code>
+    </ServerScriptStep>
+    <IfSequence id="_1pXJ" test="&#34;$(new_band_id)&#34;==&#34;&#34;">
+      <ProcedureCall id="_1pXK" procedure="run-log.logError">
+        <variable name="message">$(newBand) is not found</variable>
+        <variable name="withScreenshots">true</variable>
+      </ProcedureCall>
+    </IfSequence>
+  </ExtraSequence>
+  <WindowList id="_6"/>
+</RootStep>

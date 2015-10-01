@@ -85,13 +85,13 @@
             </SetGlobalStep>
           </ElseSequence>
         </IfSequence>
-        <ServerScriptStep id="_1oxE" name="print">
+        <ServerScriptStep disabled="true" id="_1oxE" name="print">
           <code>print "of = $(of)"</code>
         </ServerScriptStep>
-        <ServerScriptStep id="_1oxF" name="print">
+        <ServerScriptStep disabled="true" id="_1oxF" name="print">
           <code>print "fr = $(fr)"</code>
         </ServerScriptStep>
-        <ServerScriptStep id="_1q5j" name="print">
+        <ServerScriptStep disabled="true" id="_1q5j" name="print">
           <code>print "output_format = $(output_format)"</code>
         </ServerScriptStep>
       </Procedure>
@@ -479,15 +479,17 @@ rc.setGlobal("smos", var1[:3])
             </TryStep>
           </ElseSequence>
         </IfSequence>
-        <ServerScriptStep disabled="true" id="_1o+0" name="print">
-          <code>print "product_group = $(product_group)"</code>
-        </ServerScriptStep>
-        <ServerScriptStep disabled="true" id="_1o+1" name="print">
-          <code>print "reader = $(reader)"</code>
-        </ServerScriptStep>
-        <ServerScriptStep disabled="true" id="_1o+2" name="print">
-          <code>print "menu_item = $(menu_item)"</code>
-        </ServerScriptStep>
+        <BasicSequence id="_1q68" name="print">
+          <ServerScriptStep id="_1o+0" name="print">
+            <code>print "product_group = $(product_group)"</code>
+          </ServerScriptStep>
+          <ServerScriptStep id="_1o+1" name="print">
+            <code>print "reader = $(reader)"</code>
+          </ServerScriptStep>
+          <ServerScriptStep id="_1o+2" name="print">
+            <code>print "menu_item = $(menu_item)"</code>
+          </ServerScriptStep>
+        </BasicSequence>
       </Procedure>
       <Procedure id="_1q5f" name="for_open_image_view">
         <SetGlobalStep id="_1pUs" varname="group_id1"/>
@@ -609,9 +611,13 @@ rc.setGlobal("smos", var1[:3])
                          id="_1q5e" name="seaDAS_multispectral_binned"
                          sheetname="listing"/>
       </Procedure>
-      <Procedure id="_1oGu" name="sentinel3">
+      <Procedure id="_1oGu" name="sentinel2">
+        <ExcelDataBinder excelfile="tables/input_data/sentinel_2.xls"
+                         id="_1oGv" name="sentinel2" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1q66" name="sentinel3">
         <ExcelDataBinder excelfile="tables/input_data/sentinel_3.xls"
-                         id="_1oGv" name="sentinel3" sheetname="listing"/>
+                         id="_1q67" name="sentinel3" sheetname="listing"/>
       </Procedure>
       <Procedure id="_1lBZ" name="smos">
         <ExcelDataBinder excelfile="tables/input_data/smos.xls" id="_1lBa"

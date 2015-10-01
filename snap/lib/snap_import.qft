@@ -11,126 +11,28 @@
     <Package id="_1k-S" name="import">
       <Procedure id="_1lWC" name="raster_data">
         <variable name="import_data"/>
-        <ProcedureCall id="_1ocP" procedure="check.product.not_opened"/>
-        <IfSequence id="_1ocQ"
-                    test="&#34;$(not_opened)&#34;==&#34;false&#34;">
-          <ProcedureCall id="_1ocS" procedure="close.all_products"/>
+        <ProcedureCall id="_1rVu"
+                       procedure="utility.open_import_product_window"/>
+        <IfSequence id="_1qcy"
+                    test="&#34;$(open_product_dialog_appears)&#34;==&#34;true&#34;">
+          <ProcedureCall id="_1rUc"
+                         procedure="utility.fill_in_open_product_dialog">
+            <variable name="prod_dir">$(dataInDir)</variable>
+            <variable name="in_out">in</variable>
+            <variable name="prod">$(fileName)</variable>
+            <variable name="product_type">$(import_data)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rUj"
+                         procedure="do_click.open_product_dialog.import_product"/>
+          <ServerScriptStep disabled="true" id="_1r4v" name="print">
+            <code>print "$(input_file)"</code>
+            <comment> </comment>
+          </ServerScriptStep>
+          <ElseSequence id="_1rUd">
+            <ProcedureCall id="_1puB"
+                           procedure="run-log.error_message.dialog_Import_Product_does_not_appear"/>
+          </ElseSequence>
         </IfSequence>
-        <ProcedureCall id="_1oUI"
-                       procedure="product_meta_data.product_attributes">
-          <variable name="prod_type">$(import_data)</variable>
-        </ProcedureCall>
-        <ProcedureCall id="_1oRE" procedure="open.product_in_snap">
-          <variable name="prod_dir">$(dataInDir)</variable>
-          <variable name="in_out">in</variable>
-          <variable name="prod">$(fileName)</variable>
-          <variable name="product_type">$(import_data)</variable>
-        </ProcedureCall>
-        <BasicSequence disabled="true" id="_1oUH"
-                       name="if_import_is_working_again">
-          <IfSequence id="_1oaH"
-                      test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-            <ProcedureCall id="_1oaj" procedure="open.product_in_snap">
-              <variable name="prod_dir">$(dataInDir)</variable>
-              <variable name="prod">$(fileName)</variable>
-              <variable name="product_type">$(import_data)</variable>
-              <comment> 	 
-</comment>
-            </ProcedureCall>
-            <ElseSequence id="_1oak">
-              <IfSequence id="_1oaI"
-                          test="&#34;$(menu_item)&#34;&lt;&gt;&#34;&#34;">
-                <TryStep id="_1oaJ" name="open_import_dialog">
-                  <comment>@teststep Open 'Import Product' dialog</comment>
-                  <IfSequence id="_1oaK"
-                              test="&#34;$(product_group)&#34;==&#34;&#34;">
-                    <ProcedureCall id="_1oaL"
-                                   procedure="utility.raster_data.other_import">
-                      <variable name="menu_item">$(menu_item)</variable>
-                    </ProcedureCall>
-                    <ElseifSequence id="_1oaM"
-                                    test="&#34;$(product_group)&#34;==&#34;multispectral&#34;">
-                      <ProcedureCall id="_1oaN"
-                                     procedure="utility.raster_data.import_multispectral">
-                        <variable name="menu_item">$(menu_item)</variable>
-                      </ProcedureCall>
-                    </ElseifSequence>
-                    <ElseifSequence id="_1oaO"
-                                    test="&#34;$(product_group)&#34;==&#34;generic&#34;">
-                      <ProcedureCall id="_1oaP"
-                                     procedure="utility.raster_data.import_generic">
-                        <variable name="menu_item">$(menu_item)</variable>
-                      </ProcedureCall>
-                    </ElseifSequence>
-                    <ElseifSequence id="_1oaQ"
-                                    test="&#34;$(product_group)&#34;==&#34;sar&#34;">
-                      <ProcedureCall id="_1oaR"
-                                     procedure="utility.raster_data.import_sar">
-                        <variable name="menu_item">$(menu_item)</variable>
-                      </ProcedureCall>
-                    </ElseifSequence>
-                  </IfSequence>
-                  <ProcedureCall id="_1oaS"
-                                 procedure="wait.appear.dialog.import_product"/>
-                  <ProcedureCall id="_1oaT"
-                                 procedure="utility.import.fill_dialog"/>
-                  <CatchSequence exception="TestException" id="_1oaU"
-                                 maxerror="0">
-                    <TryStep id="_1oaV">
-                      <IfSequence id="_1oaW"
-                                  test="&#34;$(product_group)&#34;==&#34;&#34;">
-                        <ProcedureCall id="_1oaX"
-                                       procedure="utility.raster_data.other_import">
-                          <variable name="menu_item">$(menu_item)</variable>
-                        </ProcedureCall>
-                        <ElseifSequence id="_1oaY"
-                                        test="&#34;$(product_group)&#34;==&#34;multispectral&#34;">
-                          <ProcedureCall id="_1oaZ"
-                                         procedure="utility.raster_data.import_multispectral">
-                            <variable name="menu_item">$(menu_item)</variable>
-                          </ProcedureCall>
-                        </ElseifSequence>
-                        <ElseifSequence id="_1oaa"
-                                        test="&#34;$(product_group)&#34;==&#34;generic&#34;">
-                          <ProcedureCall id="_1oab"
-                                         procedure="utility.raster_data.import_generic">
-                            <variable name="menu_item">$(menu_item)</variable>
-                          </ProcedureCall>
-                        </ElseifSequence>
-                        <ElseifSequence id="_1oac"
-                                        test="&#34;$(product_group)&#34;==&#34;sar&#34;">
-                          <ProcedureCall id="_1oad"
-                                         procedure="utility.raster_data.import_sar">
-                            <variable name="menu_item">$(menu_item)</variable>
-                          </ProcedureCall>
-                        </ElseifSequence>
-                      </IfSequence>
-                      <ProcedureCall id="_1oae"
-                                     procedure="wait.appear.dialog.import_product"/>
-                      <ProcedureCall id="_1oaf"
-                                     procedure="utility.import.fill_dialog"/>
-                      <CatchSequence exception="TestException" id="_1oag"
-                                     maxerror="0">
-                        <ProcedureCall id="_1oah"
-                                       procedure="run-log.error_message.dialog_Import_Product_does_not_appear"/>
-                      </CatchSequence>
-                    </TryStep>
-                  </CatchSequence>
-                </TryStep>
-                <ElseSequence id="_1oal">
-                  <ProcedureCall id="_1oam" procedure="open.product_in_snap">
-                    <variable name="prod_dir">$(dataInDir)</variable>
-                    <variable name="in_out">in</variable>
-                    <variable name="prod">$(fileName)</variable>
-                    <variable name="product_type">$(import_data)</variable>
-                    <comment>
-</comment>
-                  </ProcedureCall>
-                </ElseSequence>
-              </IfSequence>
-            </ElseSequence>
-          </IfSequence>
-        </BasicSequence>
         <ProcedureCall id="_1po3" procedure="check.product.not_opened"/>
         <IfSequence id="_1po4" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
           <ProcedureCall id="_1po6" procedure="wait.product_is_opened"/>
@@ -157,6 +59,82 @@
           </ProcedureCall>
           <CatchSequence exception="TestException" id="_1ptc" maxerror="0"/>
         </TryStep>
+      </Procedure>
+      <Procedure id="_1rUk" name="raster_data_pixel_subset">
+        <variable name="import_data"/>
+        <ProcedureCall id="_1rWe"
+                       procedure="utility.open_import_product_window"/>
+        <IfSequence id="_1rVA"
+                    test="&#34;$(open_product_dialog_appears)&#34;==&#34;true&#34;">
+          <ProcedureCall id="_1rVB"
+                         procedure="utility.fill_in_open_product_dialog">
+            <variable name="prod_dir">$(dataInDir)</variable>
+            <variable name="in_out">in</variable>
+            <variable name="prod">$(fileName)</variable>
+            <variable name="product_type">$(import_data)</variable>
+          </ProcedureCall>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogSNAP_-_Open_Product.listFile_name:._file_name"
+                          event="MOUSE_MPRC" id="_1rWh" modifiers="16"/>
+          <TryStep id="_1rWl">
+            <ProcedureCall id="_1rWm"
+                           procedure="do_click.open_product_dialog.subset"/>
+            <ProcedureCall id="_1rWr" procedure="set.subset_tool.start_X">
+              <variable name="val">200</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1rWs" procedure="set.subset_tool.start_Y">
+              <variable name="val">200</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1rWt" procedure="set.subset_tool.end_X">
+              <variable name="val">400</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1rWu" procedure="set.subset_tool.end_Y">
+              <variable name="val">400</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1rWv"
+                           procedure="do_click.subset_tool.button_OK"/>
+            <CatchSequence exception="TestException" id="_1rWn" maxerror="0">
+              <ProcedureCall id="_1rWo" procedure="run-log.make_screensot">
+                <variable name="iw_name">import_product_window</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1rWp" procedure="run-log.logError">
+                <variable name="message">Subset button is disabled</variable>
+                <variable name="withScreenshots"/>
+              </ProcedureCall>
+              <ProcedureCall id="_1rWq"
+                             procedure="do_click.open_product_dialog.cancel"/>
+            </CatchSequence>
+          </TryStep>
+          <ElseSequence id="_1rVE">
+            <ProcedureCall id="_1rVF"
+                           procedure="run-log.error_message.dialog_Import_Product_does_not_appear"/>
+          </ElseSequence>
+        </IfSequence>
+        <ProcedureCall id="_1rVG" procedure="check.product.not_opened"/>
+        <IfSequence id="_1rVH" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
+          <ProcedureCall id="_1rVL" procedure="run-log.logError">
+            <variable name="message">subset from $(fileName) did not appear</variable>
+            <variable name="withScreenshots">true</variable>
+          </ProcedureCall>
+          <ElseSequence id="_1rWw">
+            <TryStep id="_1rVM">
+              <ProcedureCall id="_1rVN"
+                             procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
+              <ProcedureCall id="_1rVO" procedure="run-log.make_screensot">
+                <variable name="iw_name">error_while_import</variable>
+                <variable name="iw_name_example">error_dialog</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1rVP"
+                             procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
+              <ProcedureCall id="_1rVQ" procedure="run-log.logError">
+                <variable name="message">Error while import $(dataInDir)/$(fileName)</variable>
+                <variable name="withScreenshots">false</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1rVR"
+                             maxerror="0"/>
+            </TryStep>
+          </ElseSequence>
+        </IfSequence>
       </Procedure>
       <Package id="_1pkI" name="vector_data">
         <Package id="_1pkJ" name="import_CSV_data_dialog">
@@ -245,7 +223,8 @@
                 <SetGlobalStep id="_1po1" varname="import_csv_error">
                   <default>true</default>
                 </SetGlobalStep>
-                <ProcedureCall id="_1pnv" procedure="run-log.make_screensot">
+                <ProcedureCall disabled="true" id="_1pnv"
+                               procedure="run-log.make_screensot">
                   <variable name="iw_name">import_CSV_data</variable>
                   <variable name="iw_name_example">error_dialog</variable>
                 </ProcedureCall>
@@ -272,6 +251,10 @@
                     <default>true</default>
                   </SetGlobalStep>
                 </IfSequence>
+                <ProcedureCall id="_1ptm" procedure="run-log.make_screensot">
+                  <variable name="iw_name">import_CSV_data</variable>
+                  <variable name="iw_name_example">error_dialog</variable>
+                </ProcedureCall>
                 <ProcedureCall id="_1ptX"
                                procedure="qfs.swing.cleanup.closeAllModalDialogs">
                   <variable name="maxDialogs">5</variable>
@@ -284,9 +267,352 @@
         </Package>
       </Package>
     </Package>
-    <Package id="_1oRH" name="utility"/>
+    <Package id="_1oRH" name="utility">
+      <Procedure id="_1rVS" name="open_import_product_window">
+        <ProcedureCall id="_1rVT" procedure="check.product.not_opened"/>
+        <IfSequence id="_1rVU"
+                    test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+          <ProcedureCall id="_1rVV" procedure="close.all_products"/>
+        </IfSequence>
+        <ProcedureCall id="_1rVW"
+                       procedure="product_meta_data.product_attributes">
+          <variable name="prod_type">$(import_data)</variable>
+        </ProcedureCall>
+        <IfSequence id="_1rVX"
+                    test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+          <ProcedureCall id="_1rVY" procedure="open.product_in_snap">
+            <variable name="prod_dir">$(dataInDir)</variable>
+            <variable name="in_out">in</variable>
+            <variable name="prod">$(fileName)</variable>
+            <variable name="product_type">$(import_data)</variable>
+          </ProcedureCall>
+          <ElseSequence id="_1rVZ">
+            <IfSequence id="_1rVa"
+                        test="&#34;$(menu_item)&#34;&lt;&gt;&#34;&#34;">
+              <TryStep id="_1rVb" name="open_import_dialog">
+                <comment>@teststep Open 'Import Product' dialog</comment>
+                <IfSequence id="_1rVc"
+                            test="&#34;$(product_group)&#34;==&#34;&#34;">
+                  <ProcedureCall id="_1rVd" procedure="open.product_in_snap">
+                    <variable name="prod_dir">$(dataInDir)</variable>
+                    <variable name="in_out">in</variable>
+                    <variable name="prod">$(fileName)</variable>
+                    <variable name="product_type">$(import_data)</variable>
+                  </ProcedureCall>
+                  <ElseifSequence id="_1rVe"
+                                  test="&#34;$(product_group)&#34;==&#34;multispectral&#34;">
+                    <ProcedureCall id="_1rVf"
+                                   procedure="utility.raster_data.optical_sensors.menu_file_import_optical_sensors"/>
+                    <ProcedureCall id="_1rVg"
+                                   procedure="utility.raster_data.optical_sensors.optical_sensor">
+                      <variable name="menu_item">$(menu_item)</variable>
+                    </ProcedureCall>
+                  </ElseifSequence>
+                  <ElseifSequence id="_1rVh"
+                                  test="&#34;$(product_group)&#34;==&#34;generic&#34;">
+                    <ProcedureCall id="_1rVi"
+                                   procedure="utility.raster_data.generic_formats.menu_file_import_generic_formats">
+                      <variable name="menu_item">$(menu_item)</variable>
+                    </ProcedureCall>
+                  </ElseifSequence>
+                  <ElseifSequence id="_1rVj"
+                                  test="&#34;$(product_group)&#34;==&#34;sar&#34;">
+                    <ProcedureCall id="_1rVk"
+                                   procedure="utility.raster_data.sar_sensors.menu_file_import_sar_sensors">
+                      <variable name="menu_item">$(menu_item)</variable>
+                    </ProcedureCall>
+                  </ElseifSequence>
+                  <ElseifSequence id="_1rVl"
+                                  test="&#34;$(product_group)&#34;==&#34;sentinel2&#34;">
+                    <ProcedureCall id="_1rVm"
+                                   procedure="utility.raster_data.optical_sensors.menu_file_import_optical_sensors_sentinel2">
+                      <variable name="menu_item">$(menu_item)</variable>
+                    </ProcedureCall>
+                  </ElseifSequence>
+                  <ElseifSequence id="_1rVn"
+                                  test="&#34;$(product_group)&#34;==&#34;sentinel3&#34;">
+                    <ProcedureCall id="_1rVo"
+                                   procedure="utility.raster_data.optical_sensors.menu_file_import_optical_sensors_sentinel3">
+                      <variable name="menu_item">$(menu_item)</variable>
+                    </ProcedureCall>
+                  </ElseifSequence>
+                  <ElseifSequence id="_1rVp"
+                                  test="&#34;$(product_group)&#34;==&#34;landsat&#34;">
+                    <ProcedureCall id="_1rVq"
+                                   procedure="utility.raster_data.optical_sensors.menu_file_import_optical_sensors_landsat">
+                      <variable name="menu_item">$(menu_item)</variable>
+                    </ProcedureCall>
+                  </ElseifSequence>
+                  <ElseifSequence id="_1rVr"
+                                  test="&#34;$(product_group)&#34;==&#34;seadas&#34;">
+                    <ProcedureCall id="_1rVs"
+                                   procedure="utility.raster_data.optical_sensors.menu_file_import_optical_sensors_seadas">
+                      <variable name="menu_item">$(menu_item)</variable>
+                    </ProcedureCall>
+                  </ElseifSequence>
+                </IfSequence>
+                <ProcedureCall id="_1rVt"
+                               procedure="wait.appear.dialog.import_product"/>
+              </TryStep>
+            </IfSequence>
+          </ElseSequence>
+        </IfSequence>
+      </Procedure>
+      <Package id="_1oZk" name="raster_data">
+        <Package id="_1rSV" name="optical_sensors">
+          <Procedure id="_1oZh" name="menu_file_import_optical_sensors">
+            <ProcedureCall id="_1rSb"
+                           procedure="utility.raster_data.menu_file_import"/>
+            <ProcedureCall id="_1rSB"
+                           procedure="do_click.menu.file.import.optical_sensors"/>
+          </Procedure>
+          <Procedure id="_1rSG"
+                     name="menu_file_import_optical_sensors_landsat">
+            <ProcedureCall id="_1rSc"
+                           procedure="utility.raster_data.optical_sensors.menu_file_import_optical_sensors"/>
+            <ProcedureCall id="_1rSi"
+                           procedure="do_click.menu.file.import.optical_sensors.landsat"/>
+          </Procedure>
+          <Procedure id="_1rSJ"
+                     name="menu_file_import_optical_sensors_sentinel2">
+            <ProcedureCall id="_1rSd"
+                           procedure="utility.raster_data.optical_sensors.menu_file_import_optical_sensors"/>
+            <ProcedureCall id="_1rSh"
+                           procedure="do_click.menu.file.import.optical_sensors.sentinel_2"/>
+          </Procedure>
+          <Procedure id="_1rSM"
+                     name="menu_file_import_optical_sensors_sentinel3">
+            <ProcedureCall id="_1rSe"
+                           procedure="utility.raster_data.optical_sensors.menu_file_import_optical_sensors"/>
+            <ProcedureCall id="_1rSg"
+                           procedure="do_click.menu.file.import.optical_sensors.sentinel_3"/>
+          </Procedure>
+          <Procedure id="_1rSQ"
+                     name="menu_file_import_optical_sensors_seadas">
+            <ProcedureCall id="_1rSf"
+                           procedure="utility.raster_data.optical_sensors.menu_file_import_optical_sensors"/>
+            <ProcedureCall id="_1rSS"
+                           procedure="do_click.menu.file.import.optical_sensors.seadas"/>
+          </Procedure>
+          <Procedure id="_1rSj" name="optical_sensor">
+            <variable name="menu_item"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="NbMainWindow.menuItem" disabled="true"
+                            event="MOUSE_MPRC" id="_1qy5" modifiers="16"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="NbMainWindow.$(menu_item)"
+                            event="MOUSE_MPRC" id="_1rUi" modifiers="16"/>
+            <IfSequence id="_1qwc" test="${qftest:windows}">
+              <ElseifSequence id="_1qwd" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+              <ElseSequence id="_1qwe"/>
+            </IfSequence>
+          </Procedure>
+        </Package>
+        <Package id="_1rSW" name="sar_sensors">
+          <Procedure id="_1oZj" name="menu_file_import_sar_sensors">
+            <ProcedureCall id="_1rSa"
+                           procedure="utility.raster_data.menu_file_import"/>
+            <ProcedureCall id="_1rSF"
+                           procedure="do_click.menu.file.import.sar_sensors"/>
+          </Procedure>
+          <Procedure id="_1rSm" name="sar_sensor">
+            <variable name="menu_item"/>
+          </Procedure>
+        </Package>
+        <Package id="_1rSX" name="dem"/>
+        <Package id="_1rSY" name="generic_formats">
+          <Procedure id="_1oZi" name="menu_file_import_generic_formats">
+            <variable name="menu_item"/>
+            <ProcedureCall id="_1rSZ"
+                           procedure="utility.raster_data.menu_file_import"/>
+            <ProcedureCall id="_1rSC"
+                           procedure="do_click.menu.file.import.generic_formats"/>
+          </Procedure>
+          <Procedure id="_1rSn" name="generic_format">
+            <variable name="menu_item"/>
+          </Procedure>
+        </Package>
+        <Procedure id="_1oZl" name="menu_file_import">
+          <ProcedureCall id="_1oZy" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1rS9" procedure="do_click.menu.file.import"/>
+        </Procedure>
+      </Package>
+      <Package id="_1p2v" name="vector_data">
+        <Procedure id="_1p2w" name="csv">
+          <ProcedureCall id="_1p3D" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1p3G" procedure="do_click.menu.file.import"/>
+          <ProcedureCall id="_1p3H"
+                         procedure="do_click.menu.file.import.vector_data"/>
+          <ProcedureCall id="_1p3F"
+                         procedure="do_click.menu.file.import.vector_data.csv"/>
+        </Procedure>
+        <Procedure id="_1p3I" name="esri_shapefile">
+          <ProcedureCall id="_1p3J" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1p3K" procedure="do_click.menu.file.import"/>
+          <ProcedureCall id="_1p3L"
+                         procedure="do_click.menu.file.import.vector_data"/>
+          <ProcedureCall id="_1p3M"
+                         procedure="do_click.menu.file.import.vector_data.esri_shapefile"/>
+        </Procedure>
+        <Procedure id="_1p3N" name="mermaid_extraction_file">
+          <ProcedureCall id="_1p3O" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1p3P" procedure="do_click.menu.file.import"/>
+          <ProcedureCall id="_1p3Q"
+                         procedure="do_click.menu.file.import.vector_data"/>
+          <ProcedureCall id="_1p3R"
+                         procedure="do_click.menu.file.import.vector_data.mermaid_extraction_file"/>
+        </Procedure>
+        <Procedure id="_1p3S" name="seaDAS_6x_track">
+          <ProcedureCall id="_1p3T" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1p3U" procedure="do_click.menu.file.import"/>
+          <ProcedureCall id="_1p3V"
+                         procedure="do_click.menu.file.import.vector_data"/>
+          <ProcedureCall id="_1p3W"
+                         procedure="do_click.menu.file.import.vector_data.seaDAS_6x_track"/>
+        </Procedure>
+      </Package>
+    </Package>
   </PackageRoot>
   <ExtraSequence id="_4">
+    <Procedure id="_1rVv" name="raster_data">
+      <variable name="import_data"/>
+      <ProcedureCall id="_1rVw"
+                     procedure="utility.open_import_product_window"/>
+      <ProcedureCall id="_1rVx" procedure="check.product.not_opened"/>
+      <IfSequence id="_1rVy" test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+        <ProcedureCall id="_1rVz" procedure="close.all_products"/>
+      </IfSequence>
+      <ProcedureCall id="_1rV+"
+                     procedure="product_meta_data.product_attributes">
+        <variable name="prod_type">$(import_data)</variable>
+      </ProcedureCall>
+      <IfSequence id="_1rV-"
+                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+        <ProcedureCall id="_1rW0" procedure="open.product_in_snap">
+          <variable name="prod_dir">$(dataInDir)</variable>
+          <variable name="in_out">in</variable>
+          <variable name="prod">$(fileName)</variable>
+          <variable name="product_type">$(import_data)</variable>
+        </ProcedureCall>
+        <ElseSequence id="_1rW1">
+          <IfSequence id="_1rW2"
+                      test="&#34;$(menu_item)&#34;&lt;&gt;&#34;&#34;">
+            <TryStep id="_1rW3" name="open_import_dialog">
+              <comment>@teststep Open 'Import Product' dialog</comment>
+              <IfSequence id="_1rW4"
+                          test="&#34;$(product_group)&#34;==&#34;&#34;">
+                <ProcedureCall id="_1rW5" procedure="open.product_in_snap">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="in_out">in</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <variable name="product_type">$(import_data)</variable>
+                </ProcedureCall>
+                <ElseifSequence id="_1rW6"
+                                test="&#34;$(product_group)&#34;==&#34;multispectral&#34;">
+                  <ProcedureCall id="_1rW7"
+                                 procedure="utility.raster_data.optical_sensors.menu_file_import_optical_sensors"/>
+                  <ProcedureCall id="_1rW8"
+                                 procedure="utility.raster_data.optical_sensors.optical_sensor">
+                    <variable name="menu_item">$(menu_item)</variable>
+                  </ProcedureCall>
+                </ElseifSequence>
+                <ElseifSequence id="_1rW9"
+                                test="&#34;$(product_group)&#34;==&#34;generic&#34;">
+                  <ProcedureCall id="_1rWA"
+                                 procedure="utility.raster_data.generic_formats.menu_file_import_generic_formats">
+                    <variable name="menu_item">$(menu_item)</variable>
+                  </ProcedureCall>
+                </ElseifSequence>
+                <ElseifSequence id="_1rWB"
+                                test="&#34;$(product_group)&#34;==&#34;sar&#34;">
+                  <ProcedureCall id="_1rWC"
+                                 procedure="utility.raster_data.sar_sensors.menu_file_import_sar_sensors">
+                    <variable name="menu_item">$(menu_item)</variable>
+                  </ProcedureCall>
+                </ElseifSequence>
+                <ElseifSequence id="_1rWD"
+                                test="&#34;$(product_group)&#34;==&#34;sentinel2&#34;">
+                  <ProcedureCall id="_1rWE"
+                                 procedure="utility.raster_data.optical_sensors.menu_file_import_optical_sensors_sentinel2">
+                    <variable name="menu_item">$(menu_item)</variable>
+                  </ProcedureCall>
+                </ElseifSequence>
+                <ElseifSequence id="_1rWF"
+                                test="&#34;$(product_group)&#34;==&#34;sentinel3&#34;">
+                  <ProcedureCall id="_1rWG"
+                                 procedure="utility.raster_data.optical_sensors.menu_file_import_optical_sensors_sentinel3">
+                    <variable name="menu_item">$(menu_item)</variable>
+                  </ProcedureCall>
+                </ElseifSequence>
+                <ElseifSequence id="_1rWH"
+                                test="&#34;$(product_group)&#34;==&#34;landsat&#34;">
+                  <ProcedureCall id="_1rWI"
+                                 procedure="utility.raster_data.optical_sensors.menu_file_import_optical_sensors_landsat">
+                    <variable name="menu_item">$(menu_item)</variable>
+                  </ProcedureCall>
+                </ElseifSequence>
+                <ElseifSequence id="_1rWJ"
+                                test="&#34;$(product_group)&#34;==&#34;seadas&#34;">
+                  <ProcedureCall id="_1rWK"
+                                 procedure="utility.raster_data.optical_sensors.menu_file_import_optical_sensors_seadas">
+                    <variable name="menu_item">$(menu_item)</variable>
+                  </ProcedureCall>
+                </ElseifSequence>
+              </IfSequence>
+              <ProcedureCall id="_1rWL"
+                             procedure="wait.appear.dialog.import_product"/>
+              <IfSequence id="_1rWM"
+                          test="&#34;$(open_product_dialog_appears)&#34;==&#34;true&#34;">
+                <ProcedureCall id="_1rWN"
+                               procedure="utility.fill_in_open_product_dialog">
+                  <variable name="prod_dir">$(dataInDir)</variable>
+                  <variable name="in_out">in</variable>
+                  <variable name="prod">$(fileName)</variable>
+                  <variable name="product_type">$(import_data)</variable>
+                </ProcedureCall>
+                <ProcedureCall id="_1rWO"
+                               procedure="do_click.open_product_dialog.import_product"/>
+                <ServerScriptStep disabled="true" id="_1rWP" name="print">
+                  <code>print "$(input_file)"</code>
+                  <comment> </comment>
+                </ServerScriptStep>
+                <ElseSequence id="_1rWQ">
+                  <ProcedureCall id="_1rWR"
+                                 procedure="run-log.error_message.dialog_Import_Product_does_not_appear"/>
+                </ElseSequence>
+              </IfSequence>
+            </TryStep>
+          </IfSequence>
+        </ElseSequence>
+      </IfSequence>
+      <ProcedureCall id="_1rWS" procedure="check.product.not_opened"/>
+      <IfSequence id="_1rWT" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
+        <ProcedureCall id="_1rWU" procedure="wait.product_is_opened"/>
+      </IfSequence>
+      <ProcedureCall id="_1rWV" procedure="check.product.not_opened"/>
+      <IfSequence id="_1rWW" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
+        <ProcedureCall id="_1rWX" procedure="run-log.logError">
+          <variable name="message">$(fileName) did not appear</variable>
+          <variable name="withScreenshots">true</variable>
+        </ProcedureCall>
+      </IfSequence>
+      <TryStep id="_1rWY">
+        <ProcedureCall id="_1rWZ"
+                       procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
+        <ProcedureCall id="_1rWa" procedure="run-log.make_screensot">
+          <variable name="iw_name">error_while_import</variable>
+          <variable name="iw_name_example">error_dialog</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1rWb"
+                       procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
+        <ProcedureCall id="_1rWc" procedure="run-log.logError">
+          <variable name="message">Error while import $(dataInDir)/$(fileName)</variable>
+          <variable name="withScreenshots">false</variable>
+        </ProcedureCall>
+        <CatchSequence exception="TestException" id="_1rWd" maxerror="0"/>
+      </TryStep>
+    </Procedure>
     <Procedure id="_1pl2" name="import_csv">
       <comment>@teststep Click 'OK' button in the 'SNAP - Import CSV file' error dialog.</comment>
       <ComponentWaiter client="$(client)"
