@@ -1,0 +1,564 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.4">
+  <include>qfs.qft</include>
+  <include>../../lib/snap_main.qft</include>
+  <include>../lib/processing_main.qft</include>
+  <variable name="output_folder">aatsr_sst_processor</variable>
+  <TestSet id="_2" name="010_12_aatsr_sst_processor"
+           reportname="010-12 (A)ATSR SST Processor">
+    <comment>Product generation tools. Arithmetic Expression Editor.</comment>
+    <DependencyReference id="_1pO-"
+                         reference="start_application_for_processing">
+      <variable name="output_dir">$(output_folder)</variable>
+    </DependencyReference>
+    <TestCase id="_8cc" name="01_check_ui"
+              reportname="01 Check (A)ATSR SST Processor UI">
+      <ProcedureCall id="_1pFq"
+                     procedure="open.optical.thematic_water_processing.aatsr_sst_processor"/>
+      <TestStep id="_1pM7" name="default_componets">
+        <TestStep id="_1pbB" name="io_parameters">
+          <ProcedureCall id="_1pbA" procedure="select_io_tab"/>
+          <ProcedureCall id="_1qXj"
+                         procedure="check.aatsr_sst_processor.enabled.menu_file"/>
+          <ProcedureCall id="_1qXk"
+                         procedure="check.aatsr_sst_processor.enabled.menu_help"/>
+          <ProcedureCall id="_1qXl"
+                         procedure="check.aatsr_sst_processor.enabled.button_close"/>
+          <ProcedureCall id="_1qXm"
+                         procedure="check.aatsr_sst_processor.enabled.button_apply"/>
+          <ProcedureCall id="_1qXn"
+                         procedure="check.aatsr_sst_processor.enabled.button_source_product"/>
+          <ProcedureCall id="_1qXo"
+                         procedure="check.aatsr_sst_processor.enabled.button_directory"/>
+          <ProcedureCall id="_1qXr"
+                         procedure="check.aatsr_sst_processor.enabled.save_as_enabled_status">
+            <variable name="enabled">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qXs"
+                         procedure="check.aatsr_sst_processor.enabled.open_in_snap_enabled_status">
+            <variable name="enabled">true</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pbG" name="processing_parameters">
+          <ProcedureCall id="_1pbF"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_1qXt"
+                         procedure="check.aatsr_sst_processor.checked.generate_nadir_view_sst_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qXu"
+                         procedure="check.aatsr_sst_processor.checked.generate_dual_view_sst_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qYB" procedure="default_parameters"/>
+          <ProcedureCall id="_1qXv"
+                         procedure="check.aatsr_sst_processor.text.dual_view_coefficient_file">
+            <variable name="val">$(dual_view_file_default)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qXw"
+                         procedure="check.aatsr_sst_processor.text.nadir_view_coefficient_file">
+            <variable name="val">$(nadir_view_file_default)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qXx"
+                         procedure="check.aatsr_sst_processor.text.invalid_pixel">
+            <variable name="val">$(invalid_pixel_default)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qXy"
+                         procedure="check.aatsr_sst_processor.text.dual_view_mask">
+            <variable name="val">$(dual_mask_default)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qXz"
+                         procedure="check.aatsr_sst_processor.text.nadir_view_mask">
+            <variable name="val">$(nadir_mask_default)</variable>
+          </ProcedureCall>
+        </TestStep>
+      </TestStep>
+      <ProcedureCall id="_1qH7"
+                     procedure="close_processing_tool.thematic_water_processing.aatsr_sst_processor"/>
+    </TestCase>
+    <TestSet id="_1pMP" name="02_processing">
+      <TestCase id="_1qQN" name="test_1">
+        <variable name="output_file">test_01.dim</variable>
+        <variable name="source_data">ATS_TOA_1_test.gz</variable>
+        <variable name="source_dir">aatsr_toa_n1</variable>
+        <comment>
+</comment>
+        <ProcedureCall id="_1qQO" procedure="test_sequence"/>
+      </TestCase>
+      <TestCase id="_1qYL" name="test_2">
+        <variable name="output_file">test_01.dim</variable>
+        <variable name="source_data">ATS_TOA_1COLRA20030530_104438_000000762016_00451_06517_1067.N1</variable>
+        <variable name="source_dir">aatsr_toa_n1</variable>
+        <comment>
+</comment>
+        <ProcedureCall id="_1qYM" procedure="test_sequence"/>
+      </TestCase>
+      <TestCase id="_40q" name="store_load_display_parameters">
+        <variable name="ofn">aatsr_sst_save_parameters.xml</variable>
+        <variable name="source_data">ATS_TOA_1_test.gz</variable>
+        <variable name="source_dir">aatsr_toa_n1</variable>
+        <variable name="output_file">save_parameters.dim</variable>
+        <ProcedureCall id="_1qBl"
+                       procedure="open.optical.thematic_water_processing.aatsr_sst_processor"/>
+        <TestStep id="_1qRP" name="set_parameters">
+          <ProcedureCall id="_1qYN"
+                         procedure="set.aatsr_sst_processor.dual_view_file_variables"/>
+          <ProcedureCall id="_1qYO"
+                         procedure="set.aatsr_sst_processor.nadir_view_files_variables"/>
+          <SetGlobalStep id="_1qYP" varname="dual_view">
+            <default>$(grid_temp_dual)</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1qYQ" varname="nadir_view">
+            <default>$(grid_trop_single)</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1qYR" varname="dual_mask">
+            <default>!cloud_flags_nadir.LAND</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1qYS" varname="nadir_mask">
+            <default>!cloud_flags_nadir.LAND</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1qYT" varname="inv_pixel">
+            <default>0.0</default>
+          </SetGlobalStep>
+        </TestStep>
+        <TestStep id="_1qS5" name="change_parameters">
+          <ProcedureCall id="_1qS6"
+                         procedure="preparation_io_tab_checkout_save"/>
+          <ProcedureCall id="_1qS7"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_1qYj"
+                         procedure="select.aatsr_sst_processor.generate_nadir_view_sst"/>
+          <ProcedureCall id="_1qYk"
+                         procedure="select.aatsr_sst_processor.generate_dual_view_sst"/>
+          <ProcedureCall id="_1qYU"
+                         procedure="set.aatsr_sst_processor.invalid_pixel">
+            <variable name="val">$(inv_pixel)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qYV"
+                         procedure="set.aatsr_sst_processor.dual_view_mask">
+            <variable name="val">$(dual_mask)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qYW"
+                         procedure="set.aatsr_sst_processor.nadir_view_mask">
+            <variable name="val">$(nadir_view)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qYb"
+                         procedure="select.aatsr_sst_processor.dual_view_coefficient_file">
+            <variable name="dual_view_file">$(dual_view)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qYa"
+                         procedure="select.aatsr_sst_processor.nadir_view_coefficient_file">
+            <variable name="nadir_view_file">$(nadir_view)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <ProcedureCall id="_1qSJ" procedure="store_parameters"/>
+        <TestStep id="_1qSK" name="change_parameters">
+          <ProcedureCall id="_1qYh" procedure="default_parameters"/>
+          <ProcedureCall id="_1qSL"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_1qYc"
+                         procedure="set.aatsr_sst_processor.invalid_pixel">
+            <variable name="val">5555.0</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qYd"
+                         procedure="set.aatsr_sst_processor.dual_view_mask">
+            <variable name="val">$(dual_mask_default)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qYe"
+                         procedure="set.aatsr_sst_processor.nadir_view_mask">
+            <variable name="val">$(nadir_mask_default)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qYf"
+                         procedure="select.aatsr_sst_processor.dual_view_coefficient_file">
+            <variable name="dual_view_file">$(dual_view_file_default)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qYg"
+                         procedure="select.aatsr_sst_processor.nadir_view_coefficient_file">
+            <variable name="nadir_view_file">$(nadir_view_file_default)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qYi"
+                         procedure="deselect.aatsr_sst_processor.generate_nadir_view_sst"/>
+        </TestStep>
+        <ProcedureCall id="_1qSX" procedure="load_parameters"/>
+        <TestStep id="_1qSY" name="check_parameters">
+          <ProcedureCall id="_1qSZ"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_1qYl"
+                         procedure="check.aatsr_sst_processor.checked.generate_nadir_view_sst_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qYm"
+                         procedure="check.aatsr_sst_processor.checked.generate_dual_view_sst_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qYo"
+                         procedure="check.aatsr_sst_processor.text.dual_view_coefficient_file">
+            <variable name="val">$(dual_view)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qYp"
+                         procedure="check.aatsr_sst_processor.text.nadir_view_coefficient_file">
+            <variable name="val">$(nadir_view)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qYq"
+                         procedure="check.aatsr_sst_processor.text.invalid_pixel">
+            <variable name="val">$(inv_pixel)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qYr"
+                         procedure="check.aatsr_sst_processor.text.dual_view_mask">
+            <variable name="val">$(dual_mask)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qYs"
+                         procedure="check.aatsr_sst_processor.text.nadir_view_mask">
+            <variable name="val">$(nadir_view)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pV8" name="display_parameters">
+          <ProcedureCall id="_1pbR" procedure="display_parameters"/>
+          <ComponentWaiter client="$(client)"
+                           component="dialogAatsr.SST_Parameters" id="_1qXU"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogAatsr.SST_Parameters.ModalDialog.ok"
+                          event="MOUSE_MPRC" id="_1qXV" modifiers="16"/>
+        </TestStep>
+        <ProcedureCall id="_1qBX"
+                       procedure="close_processing_tool.thematic_water_processing.aatsr_sst_processor"/>
+      </TestCase>
+      <TestSet id="_1qTC" name="processing_in_different_formats">
+        <variable name="source_data">ATS_TOA_1_test.gz</variable>
+        <variable name="source_dir">aatsr_toa_n1</variable>
+        <SetupSequence id="_1qTD" name="prepare_for_the_testing">
+          <ProcedureCall id="_1qTE"
+                         procedure="open.optical.thematic_water_processing.aatsr_sst_processor"/>
+          <ProcedureCall id="_1qTG"
+                         procedure="preparation_io_tab_checkout_save">
+            <variable name="output_file">test</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qTH"
+                         procedure="select.aatsr_sst_processor.save_as"/>
+          <ProcedureCall id="_1qH6"
+                         procedure="set.aatsr_sst_processor.target_directory">
+            <variable name="dir">$(output_folder)</variable>
+          </ProcedureCall>
+        </SetupSequence>
+        <TestSet id="_1qTL" name="processing">
+          <DataDriver id="_1qTM"
+                      loopreportname="Write the target product as $(output_format)"
+                      name="output_formats">
+            <ProcedureCall id="_1qTN" procedure="tables.output_formats"/>
+          </DataDriver>
+          <TestCase id="_1qTO" name="processing_in_different_formats"
+                    reportname="Processing in different formats and check output product">
+            <ServerScriptStep disabled="true" id="_1qTP" name="print">
+              <code>print "output_format = $(output_format)"</code>
+            </ServerScriptStep>
+            <ServerScriptStep disabled="true" id="_1qTQ" name="print">
+              <code>print "output_file = $(output_file)"</code>
+            </ServerScriptStep>
+            <TestStep id="_1qTR" name="processing">
+              <ProcedureCall id="_1qcm"
+                             procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
+                <variable name="screenshot">aatsr_sst_error</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qTY" procedure="select_io_tab"/>
+              <ProcedureCall id="_1qYt"
+                             procedure="set.aatsr_sst_processor.target_product_name">
+                <variable name="target_product_name">$(output_file)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qTa"
+                             procedure="select.aatsr_sst_processor.output_format">
+                <variable name="output_format">$(output_format)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qTb" procedure="processing"/>
+            </TestStep>
+            <TestStep id="_1qTc" name="check_target_product">
+              <ProcedureCall id="_1qTd"
+                             procedure="test_events.check_target_product"/>
+              <ProcedureCall id="_1qTe" procedure="close.all_products"/>
+            </TestStep>
+          </TestCase>
+        </TestSet>
+        <CleanupSequence id="_1qTf" name="close_processor_tool">
+          <ProcedureCall id="_1qTg"
+                         procedure="close_processing_tool.thematic_water_processing.aatsr_sst_processor"/>
+        </CleanupSequence>
+      </TestSet>
+      <TestCase disabled="true" id="_1pZO" name="cancel_processing">
+        <variable name="output_file">test_14_cancel.dim</variable>
+        <variable name="source_data">ATS_TOA_1_test.gz</variable>
+        <variable name="source_dir">aatsr_toa_n1</variable>
+        <TestStep id="_1qTt" name="preparation">
+          <ProcedureCall id="_1qTm"
+                         procedure="open.optical.thematic_water_processing.aatsr_sst_processor"/>
+          <ProcedureCall id="_1qTn"
+                         procedure="preparation_io_tab_checkout_save"/>
+          <ProcedureCall id="_1qTo"
+                         procedure="select.aatsr_sst_processor.save_as"/>
+          <ProcedureCall id="_1qTp"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_1qTq"
+                         procedure="set.aatsr_sst_processor.dual_view_mask">
+            <variable name="val">cloud_flags_nadir.LAND and !cloud_flags_nadir.CLOUDY</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qTr"
+                         procedure="set.aatsr_sst_processor.nadir_view_mask">
+            <variable name="val">cloud_flags_fward.LAND and !cloud_flags_fward.CLOUDY</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pZQ" name="cancel_processing">
+          <ProcedureCall id="_1qGy"
+                         procedure="do_click.aatsr_sst_processor.button_apply"/>
+          <ProcedureCall id="_1pa9"
+                         procedure="cancel_writing_target_product"/>
+        </TestStep>
+        <TestStep id="_1pQE" name="check">
+          <ProcedureCall id="_1l3B" procedure="check.product.not_opened"/>
+          <IfSequence id="_1kk7"
+                      test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1pQV" procedure="run-log.logError">
+              <variable name="message">$(output_file) is opened in SNAP</variable>
+              <variable name="withScreenshots">true</variable>
+            </ProcedureCall>
+          </IfSequence>
+          <ProcedureCall id="_1pQe" procedure="set.target_product_with_path"/>
+          <ProcedureCall id="_1pQW"
+                         procedure="check_external_file.file_was_not_processed_else_shoot_error">
+            <variable name="fileName">$(target_product)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <ProcedureCall id="_1qBY"
+                       procedure="close_processing_tool.thematic_water_processing.aatsr_sst_processor"/>
+      </TestCase>
+    </TestSet>
+    <TestCase id="_1pFr" name="03_help">
+      <ProcedureCall id="_1qBo"
+                     procedure="open.optical.thematic_water_processing.aatsr_sst_processor"/>
+      <TestStep id="_1pVG" name="check_help">
+        <ProcedureCall id="_1qYC"
+                       procedure="do_click.aatsr_sst_processor.menu.help"/>
+        <ProcedureCall id="_1qYD"
+                       procedure="do_click.aatsr_sst_processor.menu.help_menu_item"/>
+        <ProcedureCall id="_1qcw" procedure="help.check_help_appears_close"/>
+      </TestStep>
+      <TestStep id="_1pVN" name="check_help_about">
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialog(A)ATSR_SST_Processor2.menubar"
+                        event="MOUSE_MPRC" id="_1qXb" modifiers="16" x="210"
+                        y="13"/>
+        <ProcedureCall id="_1qYE"
+                       procedure="do_click.aatsr_sst_processor.menu.help"/>
+        <ProcedureCall id="_1qYF"
+                       procedure="do_click.aatsr_sst_processor.menu.about"/>
+        <ComponentWaiter client="$(client)" component="dialogAbout_Aatsr.SST"
+                         id="_1qXZ"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogAbout_Aatsr.SST.ModalDialog.ok"
+                        event="MOUSE_MPRC" id="_1qXa" modifiers="16"/>
+      </TestStep>
+      <ProcedureCall id="_1qBa"
+                     procedure="close_processing_tool.thematic_water_processing.aatsr_sst_processor"/>
+    </TestCase>
+  </TestSet>
+  <PackageRoot id="_4">
+    <Procedure id="_1qY0" name="default_parameters">
+      <ProcedureCall id="_1qY1"
+                     procedure="set.aatsr_sst_processor.dual_view_file_variables"/>
+      <ProcedureCall id="_1qY2"
+                     procedure="set.aatsr_sst_processor.nadir_view_files_variables"/>
+      <SetGlobalStep id="_1qY3" varname="dual_view_file_default">
+        <default>$(av_polar_dual)</default>
+      </SetGlobalStep>
+      <SetGlobalStep id="_1qY4" varname="nadir_view_file_default">
+        <default>$(av_polar_single)</default>
+      </SetGlobalStep>
+      <SetGlobalStep id="_1qY5" varname="dual_mask_default">
+        <default>!cloud_flags_nadir.LAND and !cloud_flags_nadir.CLOUDY and !cloud_flags_nadir.SUN_GLINT and !cloud_flags_fward.LAND and !cloud_flags_fward.CLOUDY and !cloud_flags_fward.SUN_GLINT</default>
+      </SetGlobalStep>
+      <SetGlobalStep id="_1qY6" varname="nadir_mask_default">
+        <default>!cloud_flags_nadir.LAND and !cloud_flags_nadir.CLOUDY and !cloud_flags_nadir.SUN_GLINT</default>
+      </SetGlobalStep>
+      <SetGlobalStep id="_1qY7" varname="invalid_pixel_default">
+        <default>-999.0</default>
+      </SetGlobalStep>
+    </Procedure>
+    <Procedure id="_1qQc" name="test_sequence">
+      <ProcedureCall id="_1qQd"
+                     procedure="open.optical.thematic_water_processing.aatsr_sst_processor"/>
+      <TestStep id="_1qQe" name="preparation">
+        <ProcedureCall id="_1qQf"
+                       procedure="preparation_io_tab_checkout_save"/>
+        <ProcedureCall id="_1qQg"
+                       procedure="select_processing_parameters_tab"/>
+      </TestStep>
+      <TestStep id="_1qQi" name="processing">
+        <ProcedureCall id="_1qQj" procedure="processing"/>
+      </TestStep>
+      <TestStep id="_1qQk" name="check_output_product">
+        <ProcedureCall id="_1qQl"
+                       procedure="product_meta_data.for_open_image_view"/>
+        <ProcedureCall id="_1qQm"
+                       procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+      </TestStep>
+      <ProcedureCall id="_1qQn"
+                     procedure="close_processing_tool.thematic_water_processing.aatsr_sst_processor"/>
+    </Procedure>
+    <Procedure id="_1pb8" name="select_io_tab">
+      <ProcedureCall id="_1pb9" procedure="select.aatsr_sst_processor.tab">
+        <variable name="tab">I/O Parameters</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pbC" name="select_processing_parameters_tab">
+      <ProcedureCall id="_1pbE" procedure="select.aatsr_sst_processor.tab">
+        <variable name="tab">Processing Parameters</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pMT" name="open_source_product">
+      <variable name="prod_dir"/>
+      <variable name="prod_name"/>
+      <ProcedureCall id="_1oSj" procedure="path.source_data_directory">
+        <variable name="data_type">$(prod_dir)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1pMS"
+                     procedure="do_click.aatsr_sst_processor.button_source_product"/>
+      <ProcedureCall id="_1pHR"
+                     procedure="utility.handle_select_product_dialog">
+        <variable name="file">$(data_source_directory)$(prod_name)</variable>
+      </ProcedureCall>
+      <TryStep id="_1pXT">
+        <ProcedureCall id="_1pXV" procedure="wait.appear.error.dialog_Error"/>
+        <ProcedureCall id="_1pXS"
+                       procedure="do_click.error_dialog.button_OK_Error"/>
+        <ProcedureCall id="_1pXW" procedure="run-log.logError">
+          <variable name="message">Opening of the product $(data_source_directory)$(prod_name) failed</variable>
+          <variable name="withScreenshots">false</variable>
+        </ProcedureCall>
+        <CatchSequence exception="TestException" id="_1pXU" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1pON" name="click_ok_in_product_created_dialog">
+      <TryStep id="_1qcr">
+        <ComponentWaiter client="$(client)"
+                         component="dialogSNAP_-_(A)ATSR_SST_Processor"
+                         errorlevel="0" id="_1qcs" raise="false"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSNAP_-_(A)ATSR_SST_Processor.buttonOK"
+                        event="MOUSE_MPRC" id="_1qct" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1qcu" maxerror="0"/>
+      </TryStep>
+      <TryStep id="_1pOQ">
+        <ComponentWaiter client="$(client)"
+                         component="dialog(A)ATSR_SST_Processor3"
+                         errorlevel="0" id="_1prZ" raise="false"
+                         timeout="10"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialog(A)ATSR_SST_Processor3.buttonOK"
+                        event="MOUSE_MPRC" id="_1pbh" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1pOR" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1qCR" name="preparation_io_tab_checkout_save">
+      <comment>@teststep preparation 'I/O Parameters' tab.</comment>
+      <ProcedureCall id="_1qCS" procedure="select_io_tab"/>
+      <ProcedureCall id="_1qCT" procedure="open_source_product">
+        <variable name="prod_dir">$(source_dir)</variable>
+        <variable name="prod_name">$(source_data)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qCU"
+                     procedure="set.aatsr_sst_processor.target_product_name">
+        <variable name="target_product_name">$(output_file)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qTl"
+                     procedure="select.aatsr_sst_processor.open_in_snap"/>
+      <ProcedureCall id="_1qCV"
+                     procedure="deselect.aatsr_sst_processor.save_as"/>
+    </Procedure>
+    <Procedure id="_1qJh" name="processing">
+      <comment>@teststep processing</comment>
+      <ProcedureCall id="_1qJi"
+                     procedure="do_click.aatsr_sst_processor.button_apply"/>
+      <ProcedureCall id="_1pUo"
+                     procedure="wait.disappear.writing_target_product"/>
+      <ProcedureCall id="_1qcv"
+                     procedure="click_ok_in_product_created_dialog"/>
+      <ProcedureCall id="_1qcn"
+                     procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
+        <variable name="screenshot">run_aatsr_sst_error</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qJj"
+                     procedure="click_ok_in_product_created_dialog"/>
+    </Procedure>
+    <Procedure id="_1pPF" name="store_parameters">
+      <TryStep id="_1pPG" name="select_menu_store_parameters">
+        <ProcedureCall id="_1qP4"
+                       procedure="do_click.aatsr_sst_processor.menu.file"/>
+        <ProcedureCall id="_1qYG"
+                       procedure="do_click.aatsr_sst_processor.menu.save_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPJ" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPK" procedure="utility.store_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pPv" name="display_parameters">
+      <TryStep id="_1pPw" name="select_menu_display_parameters">
+        <ProcedureCall id="_1qYH"
+                       procedure="do_click.aatsr_sst_processor.menu.file"/>
+        <ProcedureCall id="_1qYI"
+                       procedure="do_click.aatsr_sst_processor.menu.display_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPz" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1pP9" name="load_parameters">
+      <TryStep id="_1pPA" name="select_menu_load_parameters">
+        <ProcedureCall id="_1qYJ"
+                       procedure="do_click.aatsr_sst_processor.menu.file"/>
+        <ProcedureCall id="_1qYK"
+                       procedure="do_click.aatsr_sst_processor.menu.load_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPD" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPM" procedure="utility.load_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+  </PackageRoot>
+  <ExtraSequence id="_5">
+    <Procedure id="_1qXI" name="Aufnahme 13_05_15 14:33">
+      <ProcedureCall id="_1qXc"
+                     procedure="set.aatsr_sst_processor.target_directory">
+        <variable name="dir"/>
+      </ProcedureCall>
+      <ProcedureCall id="_1qXd"
+                     procedure="set.aatsr_sst_processor.target_product_name">
+        <variable name="target_product_name"/>
+      </ProcedureCall>
+      <ProcedureCall id="_1qXe"
+                     procedure="set.aatsr_sst_processor.invalid_pixel">
+        <variable name="val"/>
+      </ProcedureCall>
+      <ProcedureCall id="_1qXf"
+                     procedure="set.aatsr_sst_processor.dual_view_mask">
+        <variable name="val"/>
+      </ProcedureCall>
+      <ProcedureCall id="_1qXg"
+                     procedure="set.aatsr_sst_processor.nadir_view_mask">
+        <variable name="val"/>
+      </ProcedureCall>
+      <ProcedureCall id="_1qXh"
+                     procedure="set.aatsr_sst_processor.dual_view_file_variables"/>
+      <ProcedureCall id="_1qXi"
+                     procedure="set.aatsr_sst_processor.nadir_view_files_variables"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialog(A)ATSR_SST_Processor2.menuHelp"
+                      event="MOUSE_MPRC" id="_1qXW" modifiers="16"/>
+      <CheckStringStep client="$(client)"
+                       component="dialog(A)ATSR_SST_Processor2.menuItemHelp"
+                       id="_1qXX">
+        <text>Help</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialog(A)ATSR_SST_Processor2.menuItemAbout..."
+                      event="MOUSE_MPRC" id="_1qXY" modifiers="16"/>
+    </Procedure>
+  </ExtraSequence>
+  <WindowList id="_6"/>
+</RootStep>

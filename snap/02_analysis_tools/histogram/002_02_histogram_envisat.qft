@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.4">
+  <include>qfs.qft</include>
+  <include>../analysis_lib.qft</include>
+  <TestSet id="_1" name="histogram_envisat"
+           reportname="Histogram ENVISAT MERIS,AATSR">
+    <DependencyReference id="_1lWz"
+                         reference="dependencies.start_application"/>
+    <TestSet id="_79G" name="compute_histogram"
+             reportname="Compute Histogram">
+      <DataDriver id="_3y4"
+                  loopreportname="Open image view of $(dataInDir)/$(fileName) data product"
+                  name="dataTable">
+        <ProcedureCall id="_Bt4" procedure="tables.envisat_multispectral"/>
+      </DataDriver>
+      <TestCase condition="&#34;$(processing)&#34;&lt;&gt;&#34;&#34;"
+                id="_9X-" name="compute" reportname="Compute">
+        <ProcedureCall id="_1lW+" procedure="test_histogram">
+          <variable name="prod_reader_type">envisat</variable>
+        </ProcedureCall>
+      </TestCase>
+    </TestSet>
+  </TestSet>
+  <PackageRoot id="_3"/>
+  <ExtraSequence id="_4"/>
+  <WindowList id="_5"/>
+</RootStep>

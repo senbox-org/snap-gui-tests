@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.4">
+  <include>qfs.qft</include>
+  <include>snap_components.qft</include>
+  <include>snap_main.qft</include>
+  <dependency>snap_check.qft</dependency>
+  <dependency>snap_main.qft</dependency>
+  <dependency>snap_workflow.qft</dependency>
+  <PackageRoot id="_3">
+    <Package id="_1lB5" name="placemark">
+      <Package id="_1rMO" name="pin_manager">
+        <Procedure id="_1lXf" name="open">
+          <comment>@teststep Open 'PIN Manager'.</comment>
+          <TryStep id="_1qjW">
+            <ProcedureCall id="_1qja"
+                           procedure="utility.do_click_menu_view_tool_windows"/>
+            <ProcedureCall id="_1qjb"
+                           procedure="do_click.menu.view.tool_windows.pin_manager"/>
+            <ProcedureCall disabled="true" id="_1qjY"
+                           procedure="wait.appear.dialog.dialog"/>
+            <CatchSequence exception="TestException" id="_1qjZ" maxerror="0">
+              <ProcedureCall disabled="true" id="_1ph7"
+                             procedure="do_click.main_toolbar.views.pin_manager"/>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Package id="_1rVM" name="select">
+          <Procedure id="_1lHc" name="pin_in_the_table">
+            <variable name="rec"/>
+            <comment>@teststep Select PIN in the table.</comment>
+            <TryStep id="_1rVN">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.placemarkTable.X&amp;$(rec)"
+                              event="MOUSE_MPRC" id="_1rVO" modifiers="16"/>
+              <CatchSequence exception="TestException" id="_1rVP"
+                             maxerror="0">
+                <TryStep id="_1rVQ">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="Dialog.placemarkTable.Lon&amp;$(rec)"
+                                  event="MOUSE_MPRC" id="_1lHj"
+                                  modifiers="16"/>
+                  <CatchSequence exception="TestException" id="_1rTV"
+                                 maxerror="0">
+                    <ProcedureCall id="_1rTW"
+                                   procedure="run-log.make_screensot">
+                      <variable name="iw_name">pin_manager</variable>
+                      <variable name="iw_name_example">error_dialog</variable>
+                    </ProcedureCall>
+                    <ProcedureCall id="_1rTX" procedure="run-log.logError">
+                      <variable name="message">can not select PIN $(rec)</variable>
+                      <variable name="withScreenshots"/>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
+        </Package>
+        <Package id="_1rVI" name="do_click">
+          <Procedure id="_1rUX" name="new_pin_button">
+            <comment>@teststep Do click 'Create and add new PIN' button.</comment>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="NbMainWindow.newButton"
+                            event="MOUSE_MPRC" id="_1rUY" modifiers="16"/>
+          </Procedure>
+          <Procedure disabled="true" id="_1rUI" name="new_pin_button_bkp">
+            <comment>@teststep Do click 'Create and add new PIN' button.</comment>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="NbMainWindow.newButton"
+                            event="MOUSE_MPRC" id="_1rUK" modifiers="16"/>
+            <BasicSequence id="_1rUJ" name="Aufnahme 23.09.15 11:30">
+              <CheckStringStep client="$(client)"
+                               component="NbMainWindow.copyButton"
+                               id="_1rUL"/>
+              <CheckBooleanStep checktype="visible" client="$(client)"
+                                component="NbMainWindow.tooltip" id="_1rST"/>
+              <CheckBooleanStep checktype="visible" client="$(client)"
+                                component="NbMainWindow.tooltip" id="_1rSU"/>
+              <CheckStringStep client="$(client)"
+                               component="NbMainWindow.importButton"
+                               id="_1rSV"/>
+              <CheckStringStep client="$(client)"
+                               component="NbMainWindow.exportButton"
+                               id="_1rSW"/>
+              <CheckStringStep client="$(client)"
+                               component="NbMainWindow.exportTableButton"
+                               id="_1rSX"/>
+              <CheckStringStep client="$(client)"
+                               component="NbMainWindow.filterButton"
+                               id="_1rSY"/>
+              <CheckStringStep client="$(client)"
+                               component="NbMainWindow.zoomToButton"
+                               id="_1rSZ"/>
+              <CheckStringStep client="$(client)"
+                               component="NbMainWindow.transferButton"
+                               id="_1rUM"/>
+              <CheckStringStep client="$(client)"
+                               component="NbMainWindow.helpButton"
+                               id="_1rSb"/>
+              <CheckStringStep client="$(client)"
+                               component="NbMainWindow.newButton" id="_1rSc"/>
+              <CheckStringStep client="$(client)"
+                               component="NbMainWindow.copyButton"
+                               id="_1rUN"/>
+              <CheckStringStep client="$(client)"
+                               component="NbMainWindow.editButton"
+                               id="_1rUO"/>
+              <CheckStringStep client="$(client)"
+                               component="NbMainWindow.removeButton"
+                               id="_1rUP"/>
+              <CheckStringStep client="$(client)"
+                               component="NbMainWindow.importButton"
+                               id="_1rUQ"/>
+              <CheckStringStep client="$(client)"
+                               component="NbMainWindow.exportButton"
+                               id="_1rUR"/>
+              <CheckStringStep client="$(client)"
+                               component="NbMainWindow.filterButton"
+                               id="_1rUS"/>
+              <CheckStringStep client="$(client)"
+                               component="NbMainWindow.exportTableButton"
+                               id="_1rUT"/>
+              <CheckStringStep client="$(client)"
+                               component="NbMainWindow.transferButton"
+                               id="_1rUU"/>
+              <CheckStringStep client="$(client)"
+                               component="NbMainWindow.zoomToButton"
+                               id="_1rUV"/>
+              <CheckStringStep client="$(client)"
+                               component="NbMainWindow.helpButton"
+                               id="_1rUW"/>
+            </BasicSequence>
+          </Procedure>
+        </Package>
+      </Package>
+      <Package id="_1rMP" name="new_pin">
+        <Procedure id="_1lFw" name="create_new_pin">
+          <variable name="pin_name"/>
+          <variable name="pin_label"/>
+          <variable name="lat"/>
+          <variable name="long"/>
+          <variable name="x"/>
+          <variable name="y"/>
+          <comment>@teststep Create new pin.</comment>
+          <ProcedureCall disabled="true" id="_1lGw"
+                         procedure="do_click.main_toolbar.views.pin_manager"/>
+          <ProcedureCall id="_1rS5" procedure="placemark.pin_manager.open"/>
+          <ProcedureCall disabled="true" id="_1lGY"
+                         procedure="wait.appear.dialog.dialog"/>
+          <ProcedureCall id="_1lGb"
+                         procedure="placemark.pin_manager.do_click.new_pin_button"/>
+          <ProcedureCall id="_1rS6" procedure="placemark.wait.new_pin"/>
+          <ProcedureCall id="_1lGf" procedure="placemark.new_pin.set.name">
+            <variable name="var">$(pin_name)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1lGg" procedure="placemark.new_pin.set.label">
+            <variable name="var">$(pin_label)</variable>
+          </ProcedureCall>
+          <IfSequence id="_1lGe"
+                      test="&#34;$(lat)&#34;&lt;&gt;&#34;&#34;  and &#34;$(long)&#34;&lt;&gt;&#34;&#34;">
+            <ProcedureCall id="_1lGh"
+                           procedure="placemark.new_pin.set.latitude">
+              <variable name="var">$(lat)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1lGi"
+                           procedure="placemark.new_pin.set.longitude">
+              <variable name="var">$(long)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1lGo"
+                           procedure="placemark.new_pin.do_click.ok_button"/>
+            <ElseifSequence id="_1lGl"
+                            test="(&#34;$(lat)&#34;==&#34;&#34;  and &#34;$(long)&#34;==&#34;&#34;) and (&#34;$(x)&#34;&lt;&gt;&#34;&#34;  and &#34;$(x)&#34;&lt;&gt;&#34;&#34;)">
+              <ProcedureCall id="_1lGj"
+                             procedure="placemark.new_pin.set.pixelX">
+                <variable name="var">$(x)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1lGk"
+                             procedure="placemark.new_pin.set.pixelY">
+                <variable name="var">$(y)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1rS7"
+                             procedure="placemark.new_pin.do_click.ok_button"/>
+            </ElseifSequence>
+            <ElseSequence id="_1lGm">
+              <ProcedureCall id="_1lGv" procedure="run-log.make_screensot">
+                <variable name="iw_name">new_pin_can_not_be_created</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1rS8"
+                             procedure="placemark.new_pin.do_click.cancel_button"/>
+              <ProcedureCall id="_1lGd" procedure="close.dialog"/>
+              <ProcedureCall id="_1lGu" procedure="run-log.logError">
+                <variable name="message">a new pin can not be created</variable>
+                <variable name="withScreenshots">false</variable>
+              </ProcedureCall>
+            </ElseSequence>
+          </IfSequence>
+        </Procedure>
+        <Package id="_1rVR" name="get">
+          <Procedure id="_1rYT" name="latitude">
+            <comment>@teststep Get latitude value.</comment>
+            <FetchTextStep client="$(client)" component="New_Pin.lat"
+                           id="_1rYU" varname="latitude"/>
+          </Procedure>
+          <Procedure id="_1rVS" name="longitude">
+            <comment>@teststep Get longitude value.</comment>
+            <FetchTextStep client="$(client)" component="New_Pin.lon"
+                           id="_1rYF" varname="longitude"/>
+          </Procedure>
+        </Package>
+        <Package id="_1rTU" name="do_click">
+          <Procedure id="_1rV2" name="usePixelPos">
+            <comment>@teststep Click on checkbox 'Use Pixel Pos'.</comment>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="New_Pin.usePixelPos" event="MOUSE_MPRC"
+                            id="_1rV3" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1rVA" name="ok_button">
+            <comment>@teststep Do click 'OK' button.</comment>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="New_Pin.PlacemarkDialog.ok"
+                            event="MOUSE_MPRC" id="_1rVG" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1rUw" name="cancel_button">
+            <comment>@teststep Do click 'Cancel' button.</comment>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="New_Pin.PlacemarkDialog.cancel"
+                            event="MOUSE_MPRC" id="_1rVH" modifiers="16"/>
+          </Procedure>
+        </Package>
+        <Package id="_1lHW" name="deselect">
+          <Procedure id="_1lHK" name="usePixelPos_new_pin">
+            <comment>@teststep Check out 'Use Pixel position' checkbox.</comment>
+            <ProcedureCall id="_1lHO"
+                           procedure="check.placemark_dialog.usePixelPos_new_pin_selected"/>
+            <IfSequence id="_1lHQ"
+                        test="&#34;$(usePixelPos_new_pin_selected)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1lHN"
+                             procedure="do_click.pin_manager.new_pin_dialog.usePixelPos_checkBox"/>
+            </IfSequence>
+            <ProcedureCall id="_1lHP"
+                           procedure="check.placemark_dialog.usePixelPos_new_pin_selected_status">
+              <variable name="usePixelPos_selected">false</variable>
+            </ProcedureCall>
+          </Procedure>
+        </Package>
+        <Package id="_1rVJ" name="select">
+          <Procedure id="_1lHR" name="usePixelPos_new_pin">
+            <comment>@teststep Check in 'Use Pixel position' checkbox.</comment>
+            <ProcedureCall id="_1lHS"
+                           procedure="check.placemark_dialog.usePixelPos_new_pin_selected"/>
+            <IfSequence id="_1lHT"
+                        test="&#34;$(usePixelPos_new_pin_selected)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1rVK"
+                             procedure="placemark.new_pin.do_click.usePixelPos"/>
+            </IfSequence>
+            <ProcedureCall id="_1lHV"
+                           procedure="check.placemark_dialog.usePixelPos_new_pin_selected_status">
+              <variable name="usePixelPos_selected">true</variable>
+            </ProcedureCall>
+          </Procedure>
+        </Package>
+        <Package id="_1rTN" name="set">
+          <Procedure id="_1lHp" name="name">
+            <variable name="var"/>
+            <comment>@teststep Set PIN name.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="New_Pin.name" id="_1lHr">
+              <text>$(var)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1lIT" name="label">
+            <variable name="var"/>
+            <comment>@teststep Set PIN label.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="New_Pin.label" id="_1lIa">
+              <text>$(var)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1lJ7" name="latitude">
+            <variable name="var"/>
+            <comment>@teststep Set PIN latitude.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="New_Pin.lat" id="_1lJK">
+              <text>$(var)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1lJn" name="longitude">
+            <variable name="var"/>
+            <comment>@teststep Set PIN longitude.</comment>
+            <TextInputStep clear="true" client="$(client)"
+                           component="New_Pin.lon" id="_1lK3">
+              <text>$(var)</text>
+            </TextInputStep>
+          </Procedure>
+          <Procedure id="_1lKR" name="pixelX">
+            <variable name="var"/>
+            <comment>@teststep Set PIN pixel position X.</comment>
+            <ProcedureCall id="_1lMt"
+                           procedure="check.placemark_dialog.pixelX_new_pin_enabled"/>
+            <IfSequence id="_1lMx"
+                        test="&#34;$(pixelX_new_pin_enabled)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1lMy"
+                             procedure="placemark.new_pin.select.usePixelPos_new_pin"/>
+            </IfSequence>
+            <TextInputStep clear="true" client="$(client)"
+                           component="New_Pin.pixelX" id="_1lKa">
+              <text>$(var)</text>
+            </TextInputStep>
+            <KeyEventStep client="$(client)" component="New_Pin.pixelX"
+                          event="KEY_PTR" id="_1rYc" keychar="9" keycode="9"
+                          modifiers="0"/>
+          </Procedure>
+          <Procedure id="_1lKr" name="pixelY">
+            <variable name="var"/>
+            <comment>@teststep Set PIN pixel position Y.</comment>
+            <ProcedureCall id="_1lMv"
+                           procedure="check.placemark_dialog.pixelY_new_pin_enabled"/>
+            <IfSequence id="_1lMz"
+                        test="&#34;$(pixelY_new_pin_enabled)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1lM+"
+                             procedure="placemark.new_pin.select.usePixelPos_new_pin"/>
+            </IfSequence>
+            <TextInputStep clear="true" client="$(client)"
+                           component="New_Pin.pixelY" id="_1lL3">
+              <text>$(var)</text>
+            </TextInputStep>
+            <KeyEventStep client="$(client)" component="New_Pin.pixelY"
+                          event="KEY_PTR" id="_1rYV" keychar="9" keycode="9"
+                          modifiers="0"/>
+          </Procedure>
+        </Package>
+      </Package>
+      <Package id="_1rYZ" name="utility_sequences">
+        <Procedure id="_1rTO" name="get_lat_and_long_values_for_pin_pos_x_y">
+          <variable name="x"/>
+          <variable name="y"/>
+          <comment>@teststep Get latitude and longitude values vor pixel position $(x)/$(y)</comment>
+          <ProcedureCall id="_1rTP" procedure="placemark.pin_manager.open"/>
+          <ProcedureCall id="_1rTQ"
+                         procedure="placemark.pin_manager.do_click.new_pin_button"/>
+          <ProcedureCall id="_1rTR" procedure="placemark.wait.new_pin"/>
+          <ProcedureCall id="_1rVL"
+                         procedure="placemark.new_pin.select.usePixelPos_new_pin"/>
+          <ProcedureCall id="_1rTS" procedure="placemark.new_pin.set.pixelX">
+            <variable name="var">$(x)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rTT" procedure="placemark.new_pin.set.pixelY">
+            <variable name="var">$(y)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rYX"
+                         procedure="placemark.new_pin.get.latitude"/>
+          <ProcedureCall id="_1rYY"
+                         procedure="placemark.new_pin.get.longitude"/>
+          <SetGlobalStep id="_1rYd" varname="north_lat">
+            <default>$(latitude)</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1rYe" varname="west_lon">
+            <default>$(longitude)</default>
+          </SetGlobalStep>
+        </Procedure>
+      </Package>
+      <Package id="_1rYR" name="wait">
+        <Procedure id="_1qdk" name="new_pin">
+          <comment>@teststep Wait 'New Pin' dialog appears.</comment>
+          <ComponentWaiter client="$(client)" component="New_Pin" id="_1rT0"/>
+        </Procedure>
+      </Package>
+    </Package>
+  </PackageRoot>
+  <ExtraSequence id="_4">
+    <IfSequence id="_1op7" test="${qftest:windows}">
+      <ElseifSequence id="_1op8" name="MAC?"
+                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+      <ElseSequence id="_1op9"/>
+    </IfSequence>
+    <ProcedureCall id="_1pEO" procedure="geometry.draw.line">
+      <variable name="view_name">radiance_4</variable>
+      <variable name="x0">300</variable>
+      <variable name="y0">300</variable>
+      <variable name="x1">300</variable>
+      <variable name="y1">500</variable>
+    </ProcedureCall>
+    <ProcedureCall id="_1pER" procedure="geometry.draw.ellipse">
+      <variable name="view_name">radiance_4</variable>
+      <variable name="x0">300</variable>
+      <variable name="y0">300</variable>
+      <variable name="x1">400</variable>
+      <variable name="y1">500</variable>
+    </ProcedureCall>
+    <ProcedureCall id="_1pEU" procedure="geometry.draw.polyline">
+      <variable name="view_name">radiance_4</variable>
+      <variable name="x0">300</variable>
+      <variable name="y0">300</variable>
+      <variable name="x1">350</variable>
+      <variable name="y1">370</variable>
+      <variable name="x2">400</variable>
+      <variable name="y2">500</variable>
+      <variable name="x3">330</variable>
+      <variable name="y3">400</variable>
+    </ProcedureCall>
+    <ProcedureCall id="_1pEV" procedure="geometry.draw.polygon">
+      <variable name="view_name">radiance_4</variable>
+      <variable name="x0">300</variable>
+      <variable name="y0">300</variable>
+      <variable name="x1">350</variable>
+      <variable name="y1">370</variable>
+      <variable name="x2">400</variable>
+      <variable name="y2">500</variable>
+      <variable name="x3">330</variable>
+      <variable name="y3">400</variable>
+    </ProcedureCall>
+    <ProcedureCall id="_1pEa" procedure="geometry.new_geometry_container">
+      <variable name="name">test</variable>
+    </ProcedureCall>
+  </ExtraSequence>
+  <WindowList id="_5"/>
+</RootStep>

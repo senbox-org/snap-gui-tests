@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.4">
+  <include>qfs.qft</include>
+  <include>../lib/snap_main.qft</include>
+  <include>../lib/snap_components.qft</include>
+  <dependency>correlative_plot/002_03_correlative_plot_envisat.qft</dependency>
+  <dependency>histogram/002_02_histogram_envisat.qft</dependency>
+  <dependency>histogram/002_02_histogram_sentinel3.qft</dependency>
+  <dependency>scatter_plot/002_04_scatter_plot_envisat.qft</dependency>
+  <dependency>scatter_plot/002_04_scatter_plot_sentinel3.qft</dependency>
+  <dependency>statistics/002_01_band_statistics_envisat.qft</dependency>
+  <dependency>statistics/002_01_band_statistics_sentinel3.qft</dependency>
+  <PackageRoot id="_3">
+    <Procedure id="_1opA" name="test_correlative_plot">
+      <variable name="prod_reader_type"/>
+      <ProcedureCall id="_1lXI" postdelay="2000"
+                     procedure="open.product_in_snap">
+        <variable name="prod_dir">$(dataInDir)</variable>
+        <variable name="in_out">in</variable>
+        <variable name="prod">$(fileName)</variable>
+        <variable name="product_type">$(prod_reader_type)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1l5K"
+                     procedure="test_events.analysis.open_band_compute_correlative_plot_close_all"/>
+      <ProcedureCall id="_1opS" procedure="close.dialog"/>
+    </Procedure>
+    <Procedure id="_1opB" name="test_histogram">
+      <variable name="prod_reader_type"/>
+      <ProcedureCall id="_1opC" postdelay="2000"
+                     procedure="open.product_in_snap">
+        <variable name="prod_dir">$(dataInDir)</variable>
+        <variable name="in_out">in</variable>
+        <variable name="prod">$(fileName)</variable>
+        <variable name="product_type">$(prod_reader_type)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1opN"
+                     procedure="test_events.analysis.open_band_compute_histogram_close_all"/>
+      <ProcedureCall id="_1opR" procedure="close.dialog"/>
+    </Procedure>
+    <Procedure id="_1opE" name="test_profile_plot">
+      <variable name="prod_reader_type"/>
+      <ProcedureCall id="_1opF" postdelay="2000"
+                     procedure="open.product_in_snap">
+        <variable name="prod_dir">$(dataInDir)</variable>
+        <variable name="in_out">in</variable>
+        <variable name="prod">$(fileName)</variable>
+        <variable name="product_type">$(prod_reader_type)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1opT" procedure="close.dialog"/>
+    </Procedure>
+    <Procedure id="_1opK" name="test_scatter_plot">
+      <variable name="prod_reader_type"/>
+      <ProcedureCall id="_1opL" postdelay="2000"
+                     procedure="open.product_in_snap">
+        <variable name="prod_dir">$(dataInDir)</variable>
+        <variable name="in_out">in</variable>
+        <variable name="prod">$(fileName)</variable>
+        <variable name="product_type">$(prod_reader_type)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1opO"
+                     procedure="test_events.analysis.open_band_compute_scatter_plot_close_all"/>
+      <ProcedureCall id="_1opQ" procedure="close.dialog"/>
+    </Procedure>
+    <Procedure id="_1opH" name="test_statistics">
+      <variable name="prod_reader_type"/>
+      <ProcedureCall id="_1opI" postdelay="2000"
+                     procedure="open.product_in_snap">
+        <variable name="prod_dir">$(dataInDir)</variable>
+        <variable name="in_out">in</variable>
+        <variable name="prod">$(fileName)</variable>
+        <variable name="product_type">$(prod_reader_type)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1opP"
+                     procedure="test_events.analysis.open_band_compute_statistics_close_all"/>
+      <ProcedureCall id="_1opU" procedure="close.dialog"/>
+    </Procedure>
+  </PackageRoot>
+  <ExtraSequence id="_4">
+    <IfSequence id="_1op7" test="${qftest:windows}">
+      <ElseifSequence id="_1op8" name="MAC?"
+                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+      <ElseSequence id="_1op9"/>
+    </IfSequence>
+  </ExtraSequence>
+  <WindowList id="_5"/>
+</RootStep>

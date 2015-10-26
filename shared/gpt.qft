@@ -13,60 +13,9 @@
         <variable name="application"/>
         <IfSequence id="_1p2V" postdelay="2000"
                     test="&#34;$(supported_format)&#34;==&#34;true&#34;">
-          <TestStep id="_1p1t" name="set_variables">
-            <ProcedureCall id="_1p1u"
-                           procedure="variables.variable_increase_on_1">
-              <variable name="var_int">$(sleep_time)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1p1v" procedure="utils.gpt_calling"/>
-            <ProcedureCall id="_1p1w" procedure="path.main_path"/>
-            <TestStep id="_1p1x" name="set_iput">
-              <IfSequence id="_1p1y"
-                          test="&#34;$(dataInDir)&#34;&lt;&gt;&#34;&#34;">
-                <ProcedureCall id="_1p1z"
-                               procedure="path.source_data_directory">
-                  <variable name="data_type">$(dataInDir)</variable>
-                </ProcedureCall>
-                <SetGlobalStep id="_1p1+" local="true" varname="i1">
-                  <default>$(sourceOption)$(data_source_directory)$(fileName)</default>
-                </SetGlobalStep>
-                <ElseSequence id="_1p1-">
-                  <SetGlobalStep id="_1p20" local="true" varname="i1"/>
-                </ElseSequence>
-              </IfSequence>
-              <IfSequence id="_1p21"
-                          test="&#34;$(dataInDir2)&#34;&lt;&gt;&#34;&#34;">
-                <ProcedureCall id="_1p22"
-                               procedure="path.source_data_directory">
-                  <variable name="data_type">$(dataInDir2)</variable>
-                </ProcedureCall>
-                <SetGlobalStep id="_1p23" local="true" varname="i2">
-                  <default>$(sourceOption2)$(data_source_directory)$(fileName2)</default>
-                </SetGlobalStep>
-                <ElseSequence id="_1p24">
-                  <SetGlobalStep id="_1p25" local="true" varname="i2"/>
-                </ElseSequence>
-              </IfSequence>
-              <IfSequence id="_1p26"
-                          test="&#34;$(dataInDir3)&#34;&lt;&gt;&#34;&#34;">
-                <ProcedureCall id="_1p27"
-                               procedure="path.source_data_directory">
-                  <variable name="data_type">$(dataInDir3)</variable>
-                </ProcedureCall>
-                <SetGlobalStep id="_1p28" local="true" varname="i3">
-                  <default>$(sourceOption3)$(data_source_directory)$(fileName3)</default>
-                </SetGlobalStep>
-                <ElseSequence id="_1p29">
-                  <SetGlobalStep id="_1p2A" local="true" varname="i3"/>
-                </ElseSequence>
-              </IfSequence>
-              <SetGlobalStep id="_1p2B" varname="input">
-                <default>$(i1) $(i2) $(i3)</default>
-              </SetGlobalStep>
-              <ServerScriptStep disabled="true" id="_1p2C" name="print">
-                <code>print "*** gpt_input = $(input)"  </code>
-              </ServerScriptStep>
-            </TestStep>
+          <TestStep id="_1p1t" name="set_processing_parameters">
+            <ProcedureCall id="_1qV8"
+                           procedure="utils.set_processing_parameters"/>
             <TestStep id="_1p2D"
                       name="set_graph_file_or_operator_and_parameters_file">
               <ProcedureCall id="_1p2E"
@@ -74,7 +23,7 @@
                 <variable name="output_dir">$(output_folder)</variable>
               </ProcedureCall>
               <IfSequence id="_1p2F"
-                          test="&#34;$(parameters_file)&#34;&lt;&gt;&#34;&#34;">
+                          test="&#34;$(parameters_file)&#34;&lt;&gt;&#34;&#34; and &#34;$(xml_file)&#34;==&#34;&#34;">
                 <ProcedureCall id="_1p2G" procedure="path.param_file_dir"/>
                 <SetGlobalStep id="_1p2H" varname="new_param">
                   <default>$(gpf_op) -p $(param_file_dir)$(parameters_file) $(param)</default>
@@ -91,7 +40,7 @@
                   </ElseSequence>
                 </IfSequence>
                 <ElseifSequence id="_1p2M"
-                                test="&#34;$(xml_file)&#34;&lt;&gt;&#34;&#34;">
+                                test="&#34;$(xml_file)&#34;&lt;&gt;&#34;&#34; and &#34;$(parameters_file)&#34;==&#34;&#34; ">
                   <ProcedureCall id="_1p2N" procedure="path.graph_file_dir">
                     <variable name="xml_dir">$(xml_file_dir)</variable>
                   </ProcedureCall>
@@ -110,122 +59,50 @@
                     </ElseSequence>
                   </IfSequence>
                 </ElseifSequence>
+                <ElseifSequence id="_1qZI"
+                                test="&#34;$(xml_file)&#34;&lt;&gt;&#34;&#34; and &#34;$(parameters_file)&#34;&lt;&gt;&#34;&#34;">
+                  <ProcedureCall id="_1qZJ" procedure="path.graph_file_dir">
+                    <variable name="xml_dir">$(xml_file_dir)</variable>
+                  </ProcedureCall>
+                  <ProcedureCall id="_1qZT" procedure="path.param_file_dir"/>
+                  <SetGlobalStep id="_1qZU" varname="new_param">
+                    <default>$(graph_file_dir)$(xml_file).xml  -p $(param_file_dir)$(parameters_file) $(param)</default>
+                  </SetGlobalStep>
+                  <IfSequence id="_1qZL"
+                              test="&#34;$(gpf_op)&#34;==&#34;Binning&#34;">
+                    <SetGlobalStep id="_1qZM" varname="outfn">
+                      <default>$(xml_file)</default>
+                    </SetGlobalStep>
+                    <ElseSequence id="_1qZN">
+                      <SetGlobalStep id="_1qZO" varname="outfn">
+                        <default>$(wv)_$(xml_file)</default>
+                      </SetGlobalStep>
+                    </ElseSequence>
+                  </IfSequence>
+                </ElseifSequence>
               </IfSequence>
             </TestStep>
-            <ProcedureCall id="_1p2T" procedure="utils.gpt_client_name">
-              <variable name="client_nr">$(wv)</variable>
+            <ProcedureCall id="_1qZ2" procedure="path.output_data_directory">
+              <variable name="output_dir">$(output_folder)</variable>
             </ProcedureCall>
-            <ServerScriptStep id="_1p2U" name="print">
-              <code>print "************ graph or parameters file = $(new_param)*****************"  </code>
-            </ServerScriptStep>
-          </TestStep>
-          <TestStep id="_1p2W" name="set_working_directory">
-            <IfSequence id="_1p2X"
-                        test="&#34;$(application)&#34;==&#34;s3tbx&#34;">
-              <SetGlobalStep id="_1p2Y" local="true" varname="folder">
-                <default>${path:s3tbx_bin_directory}</default>
+            <TestStep id="_1qZA" name="compose_command_line ">
+              <SetGlobalStep id="_1qZ7" varname="gpt_commando">
+                <default>$(gpt_calling) $(new_param)  $(of) -t $(output_data_directory)$(outfn).$(fr) $(input)</default>
               </SetGlobalStep>
-              <ElseifSequence id="_1p2Z"
-                              test="&#34;$(application)&#34;==&#34;snap&#34;">
-                <SetGlobalStep id="_1p2a" local="true" varname="folder">
-                  <default>${path:snap_bin_directory}</default>
-                </SetGlobalStep>
-              </ElseifSequence>
-            </IfSequence>
+              <ServerScriptStep id="_1qZ3" name="print">
+                <code>print "************ gpt_commando = $(gpt_commando)*****************"  </code>
+              </ServerScriptStep>
+            </TestStep>
           </TestStep>
-          <TestStep id="_1p2b" name="compose_command_line ">
-            <comment>@teststep Set Command Line</comment>
-            <IfSequence id="_1p2c" test="${qftest:windows}">
-              <SetGlobalStep id="_1p2d" varname="gpt_commando">
-                <default>$(gpt_calling) $(new_param) $(of) -t $(output_data_directory)$(outfn).$(fr) $(input)</default>
-              </SetGlobalStep>
-              <ElseSequence id="_1p2e">
-                <SetGlobalStep id="_1p2f" varname="gpt_commando">
-                  <default>$(folder)/$(gpt_calling) $(new_param) $(of) -t $(output_data_directory)$(outfn).$(fr) $(input)</default>
-                </SetGlobalStep>
-              </ElseSequence>
-            </IfSequence>
-          </TestStep>
-          <TestStep id="_1p2g" name="run_operator">
-            <comment>$(gpt_commando)</comment>
-            <TryStep id="_1p2h">
-              <ShellClientStarter client="$(gpt_client_name)"
-                                  command="$(gpt_commando)"
-                                  directory="$(folder)" id="_1p2i"
-                                  postdelay="20000"/>
-              <CatchSequence exception="TestException" id="_1p2j"
-                             maxerror="0">
-                <SetGlobalStep id="_1p2k" varname="gpt_client_name">
-                  <default>$(gpt_client_name)_a</default>
-                </SetGlobalStep>
-                <ShellClientStarter client="$(gpt_client_name)"
-                                    command="$(gpt_commando)"
-                                    directory="$(folder)" id="_1p2l"
-                                    postdelay="20000"/>
-              </CatchSequence>
-            </TryStep>
-            <ServerScriptStep id="_1p2m" name="print">
-              <code>print "$(gpt_commando)"  </code>
-            </ServerScriptStep>
-            <ProcedureCall id="_1p2n" postdelay="1000"
-                           procedure="run-log.log_client_output">
-              <variable name="client_name">$(gpt_client_name)</variable>
-            </ProcedureCall>
-            <ServerScriptStep id="_1p2o" name="print">
-              <code>print "*** gpt_client_name = $(gpt_client_name)"  </code>
-            </ServerScriptStep>
-          </TestStep>
-          <ProcedureCall id="_1p2p"
+          <ProcedureCall id="_1qZF" procedure="utils.run_operator"/>
+          <ProcedureCall id="_1p2p" postdelay="2000" predelay="2000"
                          procedure="utils.waiting_for_processierung_else_terminate_process">
             <variable name="client_name">$(gpt_client_name)</variable>
           </ProcedureCall>
           <ServerScriptStep disabled="true" id="_1p2q" name="print">
             <code>print "*** gpt_client_nr = $(wv)"  </code>
           </ServerScriptStep>
-          <TestStep id="_1oPY" name="check_output">
-            <TestStep id="_1oPZ" name="set_output_file">
-              <IfSequence id="_1oPa" test="${qftest:windows}">
-                <SetGlobalStep id="_1oPb" varname="outfile">
-                  <default>${path:data_directory}out\\$(output_folder)\\$(outfn).$(fr)</default>
-                </SetGlobalStep>
-                <ElseifSequence id="_1oPc" name="MAC?"
-                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                  <SetGlobalStep id="_1oPd" varname="outfile">
-                    <default>${path:data_directory}out/$(data_out_dir)/$(outfn).$(fr)</default>
-                  </SetGlobalStep>
-                </ElseifSequence>
-                <ElseSequence id="_1oPe">
-                  <SetGlobalStep id="_1oPf" varname="outfile">
-                    <default>${path:data_directory}out/$(data_out_dir)/$(outfn).$(fr)</default>
-                  </SetGlobalStep>
-                </ElseSequence>
-              </IfSequence>
-            </TestStep>
-            <ProcedureCall id="_1oPg"
-                           procedure="check_external_file.file_exists_setGlobal">
-              <variable name="fileName">$(outfile)</variable>
-            </ProcedureCall>
-            <IfSequence id="_1oPh"
-                        test="&#34;$(fileExists)&#34;==&#34;False&#34;">
-              <TestStep id="_1oPi" name="wait" postdelay="5000">
-                <ProcedureCall id="_1oQb"
-                               procedure="utils.waiting_for_processierung_else_terminate_process">
-                  <variable name="client_name">$(gpt_client_name)</variable>
-                </ProcedureCall>
-              </TestStep>
-              <ProcedureCall id="_1oPk"
-                             procedure="check_external_file.file_exists_setGlobal">
-                <variable name="fileName">$(outfile)</variable>
-              </ProcedureCall>
-              <IfSequence id="_1o-+"
-                          test="&#34;$(fileExists)&#34;==&#34;False&#34;">
-                <ProcedureCall id="_1p02" procedure="run-log.logError">
-                  <variable name="message">$(outfile) is not processed</variable>
-                  <variable name="withScreenshots">false</variable>
-                </ProcedureCall>
-              </IfSequence>
-            </IfSequence>
-          </TestStep>
+          <ProcedureCall id="_1qXO" procedure="utils.check_output"/>
           <ServerScriptStep disabled="true" id="_1o+J" name="print">
             <code>print "of = $(of)"</code>
           </ServerScriptStep>
@@ -235,81 +112,71 @@
         <variable name="application"/>
         <IfSequence id="_1qTq" postdelay="2000"
                     test="&#34;$(supported_format)&#34;==&#34;true&#34;">
-          <TestStep id="_1qR9" name="set_variables">
-            <ProcedureCall id="_1qRA"
+          <TestStep id="_1qVt" name="set_processing_parameters">
+            <ProcedureCall id="_1qZQ"
                            procedure="variables.variable_increase_on_1">
               <variable name="var_int">$(sleep_time)</variable>
             </ProcedureCall>
+            <ProcedureCall disabled="true" id="_1qXz"
+                           procedure="variables.variable_increase_on_1">
+              <variable name="var_int">100</variable>
+            </ProcedureCall>
             <ProcedureCall id="_1qST" procedure="utils.pconvert_calling"/>
-            <ProcedureCall id="_1qRC" procedure="path.main_path"/>
-            <TestStep id="_1qRD" name="set_iput">
-              <IfSequence id="_1qRE"
-                          test="&#34;$(dataInDir)&#34;&lt;&gt;&#34;&#34;">
-                <ProcedureCall id="_1qRF"
-                               procedure="path.source_data_directory">
-                  <variable name="data_type">$(dataInDir)</variable>
-                </ProcedureCall>
-                <SetGlobalStep id="_1qRG" varname="input">
-                  <default>$(data_source_directory)$(fileName)</default>
-                </SetGlobalStep>
-              </IfSequence>
+            <ProcedureCall id="_1qX-" procedure="path.main_path"/>
+            <ProcedureCall id="_1qY0"
+                           procedure="utils.set_working_directory"/>
+            <TestStep id="_1qY1" name="set_iput">
+              <ProcedureCall id="_1qYK"
+                             procedure="path.source_data_directory">
+                <variable name="data_type">$(dataInDir)</variable>
+              </ProcedureCall>
+              <SetGlobalStep id="_1qYH" varname="input">
+                <default>$(data_source_directory)$(fileName)</default>
+              </SetGlobalStep>
+              <ServerScriptStep id="_1qYI" name="print">
+                <code>print "*** gpt_input = $(input)"  </code>
+              </ServerScriptStep>
             </TestStep>
-            <ProcedureCall id="_1qRl" procedure="utils.gpt_client_name">
+            <ProcedureCall id="_1qYJ" procedure="utils.gpt_client_name">
               <variable name="client_nr">$(wv)</variable>
             </ProcedureCall>
-            <TestStep id="_1qRo" name="set_working_directory">
-              <IfSequence id="_1qRp"
-                          test="&#34;$(application)&#34;==&#34;s3tbx&#34;">
-                <SetGlobalStep id="_1qRq" local="true" varname="folder">
-                  <default>${path:s3tbx_bin_directory}</default>
-                </SetGlobalStep>
-                <ElseifSequence id="_1qRr"
-                                test="&#34;$(application)&#34;==&#34;snap&#34;">
-                  <SetGlobalStep id="_1qRs" local="true" varname="folder">
-                    <default>${path:snap_bin_directory}</default>
-                  </SetGlobalStep>
-                </ElseifSequence>
-              </IfSequence>
-            </TestStep>
             <ProcedureCall id="_1qSb" procedure="path.output_data_directory">
               <variable name="output_dir">$(output_folder)</variable>
             </ProcedureCall>
-            <TestStep id="_1qSc" name="compose_command_line ">
+            <TestStep id="_1qXk" name="compose_command_line ">
               <comment>@teststep Set Command Line</comment>
-              <SetGlobalStep id="_1qSd" varname="pconvert_commando">
+              <SetGlobalStep id="_1qXl" varname="pconvert_commando">
                 <default>$(pconvert_calling) $(of) -o $(output_data_directory) $(input)</default>
               </SetGlobalStep>
-              <IfSequence id="_1qSe" test="${qftest:windows}">
-                <ElseSequence id="_1qSf"/>
+              <SetGlobalStep disabled="true" id="_1qZ0"
+                             varname="pconvert_commando">
+                <default>$(pconvert_calling) $(of) -o $(output_pconvert_file).$(fr) $(input)</default>
+              </SetGlobalStep>
+              <IfSequence id="_1qXm" test="${qftest:windows}">
+                <ElseSequence id="_1qXn"/>
               </IfSequence>
+              <ServerScriptStep id="_1qYz" name="print">
+                <code>print "----- pconvert_commando = $(pconvert_commando)------"</code>
+              </ServerScriptStep>
             </TestStep>
           </TestStep>
-          <TestStep id="_1qRy" name="run_operator">
+          <ProcedureCall id="_1qZV" procedure="utils.terminate_process">
+            <variable name="client_name">$(gpt_client_name)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qZW" procedure="utils.terminate_process">
+            <variable name="client_name">$(gpt_client_name)</variable>
+          </ProcedureCall>
+          <TestStep id="_1qYq" name="run_operator">
             <comment>$(gpt_commando)</comment>
-            <ServerScriptStep id="_1qUZ" name="print">
-              <code>print "----- pconvert_commando = $(pconvert_commando)------"</code>
-            </ServerScriptStep>
-            <TryStep id="_1qRz">
-              <ShellClientStarter client="$(gpt_client_name)"
-                                  command="$(pconvert_commando)"
-                                  directory="$(folder)" id="_1qR+"
-                                  postdelay="20000"/>
-              <CatchSequence exception="TestException" id="_1qR-"
-                             maxerror="0">
-                <SetGlobalStep id="_1qS0" varname="gpt_client_name">
-                  <default>$(gpt_client_name)_a</default>
-                </SetGlobalStep>
-                <ShellClientStarter client="$(gpt_client_name)"
-                                    command="$(pconvert_commando)"
-                                    directory="$(folder)" id="_1qSa"
-                                    postdelay="20000"/>
-              </CatchSequence>
-            </TryStep>
-            <ProcedureCall id="_1qS3" postdelay="1000"
+            <ShellClientStarter client="$(gpt_client_name)"
+                                command="$(pconvert_commando)"
+                                directory="$(folder)" id="_1qYt"
+                                postdelay="20000"/>
+            <ProcedureCall id="_1qYx" postdelay="1000"
                            procedure="run-log.log_client_output">
               <variable name="client_name">$(gpt_client_name)</variable>
             </ProcedureCall>
-            <ProcedureCall id="_1qS5"
+            <ProcedureCall id="_1qYy"
                            procedure="utils.waiting_for_processierung_else_terminate_process">
               <variable name="client_name">$(gpt_client_name)</variable>
             </ProcedureCall>
@@ -348,62 +215,11 @@
           <code>print "of = $(of)"</code>
         </ServerScriptStep>
       </Procedure>
-      <Procedure id="_1p36" name="run_operator_no_output_option">
+      <Procedure id="_1p36" name="run_operator_no_output_product">
         <variable name="application"/>
-        <TestStep id="_1p37" name="set_variables">
-          <ProcedureCall id="_1p38"
-                         procedure="variables.variable_increase_on_1">
-            <variable name="var_int">$(sleep_time)</variable>
-          </ProcedureCall>
-          <ProcedureCall id="_1p39" procedure="utils.gpt_calling"/>
-          <ProcedureCall id="_1p3A" procedure="path.main_path"/>
-          <TestStep id="_1p3B" name="set_iput">
-            <IfSequence id="_1p3C"
-                        test="&#34;$(dataInDir)&#34;&lt;&gt;&#34;&#34;">
-              <ProcedureCall id="_1p3D"
-                             procedure="path.source_data_directory">
-                <variable name="data_type">$(dataInDir)</variable>
-              </ProcedureCall>
-              <SetGlobalStep id="_1p3E" local="true" varname="i1">
-                <default>$(sourceOption)$(data_source_directory)$(fileName)</default>
-              </SetGlobalStep>
-              <ElseSequence id="_1p3F">
-                <SetGlobalStep id="_1p3G" local="true" varname="i1"/>
-              </ElseSequence>
-            </IfSequence>
-            <IfSequence id="_1p3H"
-                        test="&#34;$(dataInDir2)&#34;&lt;&gt;&#34;&#34;">
-              <ProcedureCall id="_1p3I"
-                             procedure="path.source_data_directory">
-                <variable name="data_type">$(dataInDir2)</variable>
-              </ProcedureCall>
-              <SetGlobalStep id="_1p3J" local="true" varname="i2">
-                <default>$(sourceOption2)$(data_source_directory)$(fileName2)</default>
-              </SetGlobalStep>
-              <ElseSequence id="_1p3K">
-                <SetGlobalStep id="_1p3L" local="true" varname="i2"/>
-              </ElseSequence>
-            </IfSequence>
-            <IfSequence id="_1p3M"
-                        test="&#34;$(dataInDir3)&#34;&lt;&gt;&#34;&#34;">
-              <ProcedureCall id="_1p3N"
-                             procedure="path.source_data_directory">
-                <variable name="data_type">$(dataInDir3)</variable>
-              </ProcedureCall>
-              <SetGlobalStep id="_1p3O" local="true" varname="i3">
-                <default>$(sourceOption3)$(data_source_directory)$(fileName3)</default>
-              </SetGlobalStep>
-              <ElseSequence id="_1p3P">
-                <SetGlobalStep id="_1p3Q" local="true" varname="i3"/>
-              </ElseSequence>
-            </IfSequence>
-            <SetGlobalStep id="_1p3R" varname="input">
-              <default>$(i1) $(i2) $(i3)</default>
-            </SetGlobalStep>
-            <ServerScriptStep id="_1p3S" name="print">
-              <code>print "*** gpt_input = $(input)"  </code>
-            </ServerScriptStep>
-          </TestStep>
+        <TestStep id="_1p37" name="set_processing_parameters">
+          <ProcedureCall id="_1qV7"
+                         procedure="utils.set_processing_parameters"/>
           <TestStep id="_1p3T"
                     name="set_graph_file_or_operator_and_parameters_file">
             <ProcedureCall disabled="true" id="_1p3U"
@@ -427,78 +243,93 @@
               </ElseifSequence>
             </IfSequence>
           </TestStep>
-          <ProcedureCall id="_1p3j" procedure="utils.gpt_client_name">
-            <variable name="client_nr">$(wv)</variable>
-          </ProcedureCall>
           <ServerScriptStep id="_1p3k" name="print">
             <code>print "************ graph or parameters file = $(new_param)*****************"  </code>
           </ServerScriptStep>
         </TestStep>
-        <TestStep id="_1p3m" name="set_working_directory">
-          <IfSequence id="_1p3n"
-                      test="&#34;$(application)&#34;==&#34;s3tbx&#34;">
-            <SetGlobalStep id="_1p3o" local="true" varname="folder">
-              <default>${path:s3tbx_bin_directory}</default>
-            </SetGlobalStep>
-            <ElseifSequence id="_1p3p"
-                            test="&#34;$(application)&#34;==&#34;snap&#34;">
-              <SetGlobalStep id="_1p3q" local="true" varname="folder">
-                <default>${path:snap_bin_directory}</default>
-              </SetGlobalStep>
-            </ElseifSequence>
-          </IfSequence>
-        </TestStep>
         <TestStep id="_1p3r" name="compose_command_line ">
           <comment>@teststep Set Command Line</comment>
-          <IfSequence id="_1p3s" test="${qftest:windows}">
-            <SetGlobalStep id="_1p3t" varname="gpt_commando">
-              <default>$(gpt_calling) $(new_param) $(input)</default>
-            </SetGlobalStep>
-            <ElseSequence id="_1p3u">
-              <SetGlobalStep id="_1p3v" varname="gpt_commando">
-                <default>$(folder)/$(gpt_calling) $(new_param) $(input)</default>
-              </SetGlobalStep>
-            </ElseSequence>
-          </IfSequence>
+          <SetGlobalStep id="_1p3t" varname="gpt_commando">
+            <default>$(gpt_calling) $(new_param) $(input)</default>
+          </SetGlobalStep>
           <ServerScriptStep disabled="true" id="_1p45" name="print">
             <code>print "************ gpt_commando = $(gpt_commando)*****************"  </code>
           </ServerScriptStep>
         </TestStep>
-        <TestStep id="_1p3w" name="run_operator">
-          <comment>$(gpt_commando)</comment>
-          <TryStep id="_1p3x">
-            <ShellClientStarter client="$(gpt_client_name)"
-                                command="$(gpt_commando)"
-                                directory="$(folder)" id="_1p3y"
-                                postdelay="20000"/>
-            <CatchSequence exception="TestException" id="_1p3z" maxerror="0">
-              <SetGlobalStep id="_1p3+" varname="gpt_client_name">
-                <default>$(gpt_client_name)_a</default>
-              </SetGlobalStep>
-              <ShellClientStarter client="$(gpt_client_name)"
-                                  command="$(gpt_commando)"
-                                  directory="$(folder)" id="_1p3-"
-                                  postdelay="20000"/>
-            </CatchSequence>
-          </TryStep>
-          <ServerScriptStep disabled="true" id="_1p40" name="print">
-            <code>print "$(gpt_commando)"  </code>
-          </ServerScriptStep>
-          <ProcedureCall id="_1p41" postdelay="1000"
-                         procedure="run-log.log_client_output">
-            <variable name="client_name">$(gpt_client_name)</variable>
-          </ProcedureCall>
-          <ServerScriptStep disabled="true" id="_1p42" name="print">
-            <code>print "*** gpt_client_name = $(gpt_client_name)"  </code>
-          </ServerScriptStep>
-        </TestStep>
-        <ProcedureCall id="_1p43"
+        <ProcedureCall id="_1qWP" procedure="utils.run_operator"/>
+        <ProcedureCall id="_1p43" predelay="1000"
                        procedure="utils.waiting_for_processierung_else_terminate_process">
           <variable name="client_name">$(gpt_client_name)</variable>
         </ProcedureCall>
         <ServerScriptStep disabled="true" id="_1p44" name="print">
           <code>print "*** gpt_client_nr = $(wv)"  </code>
         </ServerScriptStep>
+      </Procedure>
+      <Procedure id="_1qWS" name="run_meris_N1_patcher">
+        <variable name="application"/>
+        <IfSequence id="_1qWT" postdelay="2000"
+                    test="&#34;$(supported_format)&#34;==&#34;true&#34;">
+          <TestStep id="_1qWU" name="set_processing_parameters">
+            <ProcedureCall id="_1qWV"
+                           procedure="utils.set_processing_parameters"/>
+            <TestStep id="_1qWW"
+                      name="set_graph_file_or_operator_and_parameters_file">
+              <ProcedureCall id="_1qWX"
+                             procedure="path.output_data_directory">
+                <variable name="output_dir">$(output_folder)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qX5"
+                             procedure="path.source_data_directory">
+                <variable name="data_type">mer_rr__1p_n1</variable>
+              </ProcedureCall>
+              <SetGlobalStep id="_1qX7" varname="template_N1_file">
+                <default>$(data_source_directory)MER_RR__1_patcher_test.N1</default>
+              </SetGlobalStep>
+              <IfSequence id="_1qWY"
+                          test="&#34;$(parameters_file)&#34;&lt;&gt;&#34;&#34;">
+                <ProcedureCall id="_1qWZ" procedure="path.param_file_dir"/>
+                <SetGlobalStep id="_1qWa" varname="new_param">
+                  <default>$(gpf_op) -p $(param_file_dir)$(parameters_file) $(param) - -PpatchedFile=$(output_data_directory)$(parameters_file).N1 -e -Sn1=$(template_N1_file)</default>
+                </SetGlobalStep>
+                <ElseifSequence id="_1qWf"
+                                test="&#34;$(xml_file)&#34;&lt;&gt;&#34;&#34;">
+                  <ProcedureCall id="_1qWg" procedure="path.graph_file_dir">
+                    <variable name="xml_dir">$(xml_file_dir)</variable>
+                  </ProcedureCall>
+                  <SetGlobalStep id="_1qWh" varname="new_param">
+                    <default>$(graph_file_dir)$(xml_file).xml $(param) -PpatchedFile=$(output_data_directory)$(xml_file).N1 -e -Sn1=$(template_N1_file)</default>
+                  </SetGlobalStep>
+                </ElseifSequence>
+              </IfSequence>
+              <SetGlobalStep id="_1qZP" varname="outfn">
+                <default>$(xml_file)</default>
+              </SetGlobalStep>
+            </TestStep>
+            <ServerScriptStep id="_1qWm" name="print">
+              <code>print "************ graph or parameters file = $(new_param)*****************"  </code>
+            </ServerScriptStep>
+          </TestStep>
+          <TestStep id="_1qZH" name="compose_command_line ">
+            <SetGlobalStep id="_1qZG" varname="gpt_commando">
+              <default>$(gpt_calling) $(new_param) $(input)</default>
+            </SetGlobalStep>
+            <ServerScriptStep id="_1qZY" name="print">
+              <code>print "*** gpt_commando = $(gpt_commando)"  </code>
+            </ServerScriptStep>
+          </TestStep>
+          <ProcedureCall id="_1qWo" procedure="utils.run_operator"/>
+          <ProcedureCall id="_1qWp"
+                         procedure="utils.waiting_for_processierung_else_terminate_process">
+            <variable name="client_name">$(gpt_client_name)</variable>
+          </ProcedureCall>
+          <ServerScriptStep disabled="true" id="_1qWq" name="print">
+            <code>print "*** gpt_client_nr = $(wv)"  </code>
+          </ServerScriptStep>
+          <ProcedureCall id="_1qXN" procedure="utils.check_output"/>
+          <ServerScriptStep disabled="true" id="_1qX4" name="print">
+            <code>print "of = $(of)"</code>
+          </ServerScriptStep>
+        </IfSequence>
       </Procedure>
     </Package>
     <Package id="_1l8Q" name="preparation">
@@ -685,6 +516,70 @@
       </Procedure>
     </Package>
     <Package id="_1lAZ" name="utils">
+      <Procedure id="_1qX8" name="check_output">
+        <comment>@teststep check_output</comment>
+        <TestStep id="_1qX9" name="set_output_file">
+          <IfSequence id="_1qXA" test="${qftest:windows}">
+            <SetGlobalStep id="_1qXB" varname="outfile">
+              <default>${path:data_directory}out\\$(output_folder)\\$(outfn).$(fr)</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1qXC" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+              <SetGlobalStep id="_1qXD" varname="outfile">
+                <default>${path:data_directory}out/$(data_out_dir)/$(outfn).$(fr)</default>
+              </SetGlobalStep>
+            </ElseifSequence>
+            <ElseSequence id="_1qXE">
+              <SetGlobalStep id="_1qXF" varname="outfile">
+                <default>${path:data_directory}out/$(data_out_dir)/$(outfn).$(fr)</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+          <ServerScriptStep id="_1qZX" name="print">
+            <code>print "outfile = $(outfile)"</code>
+          </ServerScriptStep>
+        </TestStep>
+        <ProcedureCall id="_1qXG"
+                       procedure="check_external_file.file_exists_setGlobal">
+          <variable name="fileName">$(outfile)</variable>
+        </ProcedureCall>
+        <IfSequence id="_1qXH"
+                    test="&#34;$(fileExists)&#34;==&#34;False&#34;">
+          <TestStep id="_1qZi" name="wait" postdelay="5000"/>
+          <ProcedureCall id="_1qZZ"
+                         procedure="check_external_file.file_exists_setGlobal">
+            <variable name="fileName">$(outfile)</variable>
+          </ProcedureCall>
+          <IfSequence id="_1qZa"
+                      test="&#34;$(fileExists)&#34;==&#34;False&#34;">
+            <TestStep id="_1qZb" name="wait" postdelay="6000"/>
+          </IfSequence>
+          <ProcedureCall id="_1qZg"
+                         procedure="check_external_file.file_exists_setGlobal">
+            <variable name="fileName">$(outfile)</variable>
+          </ProcedureCall>
+          <IfSequence id="_1qZh"
+                      test="&#34;$(fileExists)&#34;==&#34;False&#34;">
+            <TestStep id="_1qXI" name="wait" postdelay="12000">
+              <ProcedureCall id="_1qXJ"
+                             procedure="utils.waiting_for_processierung_else_terminate_process">
+                <variable name="client_name">$(gpt_client_name)</variable>
+              </ProcedureCall>
+            </TestStep>
+            <ProcedureCall id="_1qXK"
+                           procedure="check_external_file.file_exists_setGlobal">
+              <variable name="fileName">$(outfile)</variable>
+            </ProcedureCall>
+            <IfSequence id="_1qXL"
+                        test="&#34;$(fileExists)&#34;==&#34;False&#34;">
+              <ProcedureCall id="_1qXM" procedure="run-log.logError">
+                <variable name="message">$(outfile) is not processed</variable>
+                <variable name="withScreenshots">false</variable>
+              </ProcedureCall>
+            </IfSequence>
+          </IfSequence>
+        </IfSequence>
+      </Procedure>
       <Procedure id="_1qUO" name="set_output_pconvert_file">
         <comment>@teststep set output file name.</comment>
         <ServerScriptStep id="_1qUP" name="substring">
@@ -718,6 +613,78 @@ rc.setGlobal("outfn", pn[:index])
           <code>print "***********  output_pconvert_file = $(output_pconvert_file) ***************"</code>
         </ServerScriptStep>
       </Procedure>
+      <Procedure id="_1qUd" name="set_processing_parameters">
+        <comment>@teststep Set processing parameters</comment>
+        <ProcedureCall id="_1qUe"
+                       procedure="variables.variable_increase_on_1">
+          <variable name="var_int">$(sleep_time)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1qUg" procedure="path.main_path"/>
+        <ProcedureCall id="_1qVE" procedure="utils.set_working_directory"/>
+        <ProcedureCall id="_1qUf" procedure="utils.gpt_calling"/>
+        <TestStep id="_1qUh" name="set_iput">
+          <IfSequence id="_1qUi"
+                      test="&#34;$(dataInDir)&#34;&lt;&gt;&#34;&#34;">
+            <ProcedureCall id="_1qUj" procedure="path.source_data_directory">
+              <variable name="data_type">$(dataInDir)</variable>
+            </ProcedureCall>
+            <SetGlobalStep id="_1qUk" local="true" varname="i1">
+              <default>$(sourceOption)$(data_source_directory)$(fileName)</default>
+            </SetGlobalStep>
+            <ElseSequence id="_1qUl">
+              <SetGlobalStep id="_1qUm" local="true" varname="i1"/>
+            </ElseSequence>
+          </IfSequence>
+          <IfSequence id="_1qUn"
+                      test="&#34;$(dataInDir2)&#34;&lt;&gt;&#34;&#34;">
+            <ProcedureCall id="_1qUo" procedure="path.source_data_directory">
+              <variable name="data_type">$(dataInDir2)</variable>
+            </ProcedureCall>
+            <SetGlobalStep id="_1qUp" local="true" varname="i2">
+              <default>$(sourceOption2)$(data_source_directory)$(fileName2)</default>
+            </SetGlobalStep>
+            <ElseSequence id="_1qUq">
+              <SetGlobalStep id="_1qUr" local="true" varname="i2"/>
+            </ElseSequence>
+          </IfSequence>
+          <IfSequence id="_1qUs"
+                      test="&#34;$(dataInDir3)&#34;&lt;&gt;&#34;&#34;">
+            <ProcedureCall id="_1qUt" procedure="path.source_data_directory">
+              <variable name="data_type">$(dataInDir3)</variable>
+            </ProcedureCall>
+            <SetGlobalStep id="_1qUu" local="true" varname="i3">
+              <default>$(sourceOption3)$(data_source_directory)$(fileName3)</default>
+            </SetGlobalStep>
+            <ElseSequence id="_1qUv">
+              <SetGlobalStep id="_1qUw" local="true" varname="i3"/>
+            </ElseSequence>
+          </IfSequence>
+          <SetGlobalStep id="_1qUx" varname="input">
+            <default>$(i1) $(i2) $(i3)</default>
+          </SetGlobalStep>
+          <ServerScriptStep id="_1qUy" name="print">
+            <code>print "*** gpt_input = $(input)"  </code>
+          </ServerScriptStep>
+        </TestStep>
+        <ProcedureCall id="_1qV5" procedure="utils.gpt_client_name">
+          <variable name="client_nr">$(wv)</variable>
+        </ProcedureCall>
+      </Procedure>
+      <Procedure id="_1qV9" name="set_working_directory">
+        <comment>@teststep set_working_directory</comment>
+        <IfSequence id="_1qVA"
+                    test="&#34;$(application)&#34;==&#34;s3tbx&#34;">
+          <SetGlobalStep id="_1qVB" varname="folder">
+            <default>${path:s3tbx_bin_directory}</default>
+          </SetGlobalStep>
+          <ElseifSequence id="_1qVC"
+                          test="&#34;$(application)&#34;==&#34;snap&#34;">
+            <SetGlobalStep id="_1qVD" varname="folder">
+              <default>${path:snap_bin_directory}</default>
+            </SetGlobalStep>
+          </ElseifSequence>
+        </IfSequence>
+      </Procedure>
       <Procedure id="_1o+A" name="gpt_client_name">
         <variable name="client_nr"/>
         <SetGlobalStep id="_1o+B" varname="gpt_client_name">
@@ -739,13 +706,19 @@ rc.setGlobal("cn", vl)                       </code>
         </ServerScriptStep>
       </Procedure>
       <Procedure id="_1oHB" name="gpt_calling">
-        <IfSequence id="_5JR" test="${qftest:windows}">
+        <IfSequence id="_1qZB" test="${qftest:windows}">
           <SetGlobalStep id="_1oHC" varname="gpt_calling">
             <default>gpt</default>
           </SetGlobalStep>
-          <ElseSequence id="_5JZ">
+          <ElseifSequence id="_1qZC" name="MAC?"
+                          test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+            <SetGlobalStep id="_1qZE" varname="gpt_calling">
+              <default>$(folder)/gpt.sh</default>
+            </SetGlobalStep>
+          </ElseifSequence>
+          <ElseSequence id="_1qZD">
             <SetGlobalStep id="_1oHD" varname="gpt_calling">
-              <default>gpt.sh</default>
+              <default>$(folder)/gpt.sh</default>
             </SetGlobalStep>
           </ElseSequence>
         </IfSequence>
@@ -762,10 +735,39 @@ rc.setGlobal("cn", vl)                       </code>
           </ElseSequence>
         </IfSequence>
       </Procedure>
+      <Procedure id="_1qWG" name="run_operator">
+        <comment>@teststep run_operator
+$(gpt_commando)</comment>
+        <TryStep id="_1qWH">
+          <ShellClientStarter client="$(gpt_client_name)"
+                              command="$(gpt_commando)" directory="$(folder)"
+                              id="_1qWI" postdelay="20000"/>
+          <CatchSequence exception="TestException" id="_1qWJ" maxerror="0">
+            <SetGlobalStep id="_1qWK" varname="gpt_client_name">
+              <default>$(gpt_client_name)_a</default>
+            </SetGlobalStep>
+            <ShellClientStarter client="$(gpt_client_name)"
+                                command="$(gpt_commando)"
+                                directory="$(folder)" id="_1qWL"
+                                postdelay="20000"/>
+          </CatchSequence>
+        </TryStep>
+        <ServerScriptStep disabled="true" id="_1qWM" name="print">
+          <code>print "$(gpt_commando)"  </code>
+        </ServerScriptStep>
+        <ProcedureCall id="_1qWN" postdelay="2000"
+                       procedure="run-log.log_client_output">
+          <variable name="client_name">$(gpt_client_name)</variable>
+        </ProcedureCall>
+        <ServerScriptStep disabled="true" id="_1qWO" name="print">
+          <code>print "*** gpt_client_name = $(gpt_client_name)"  </code>
+        </ServerScriptStep>
+      </Procedure>
       <Procedure id="_1p04"
-                 name="waiting_for_processierung_else_terminate_process">
+                 name="waiting_for_processierung_else_terminate_process"
+                 predelay="2000">
         <variable name="client_name"/>
-        <TryStep id="_6d5" name="waiting_for_processierung">
+        <TryStep id="_6d5" name="waiting_for_processierung" predelay="2000">
           <ProcessWaiter client="$(client_name)" errorlevel="0" id="_1p09"
                          raise="false" timeout="60000"/>
           <CatchSequence exception="ClientNotTerminatedException" id="_6dH"
@@ -815,6 +817,11 @@ print pnv  </comment>
     </ServerScriptStep>
     <IfSequence id="_1p0L" test="${qftest:windows}">
       <ElseSequence id="_1p0N"/>
+    </IfSequence>
+    <IfSequence id="_58D" test="${qftest:windows}">
+      <ElseifSequence id="_1l3m" name="MAC?"
+                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+      <ElseSequence id="_58I"/>
     </IfSequence>
   </ExtraSequence>
   <WindowList id="_5"/>

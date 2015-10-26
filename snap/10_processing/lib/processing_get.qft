@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.4">
+  <include>qfs.qft</include>
+  <include>processing_main.qft</include>
+  <dependency>processing_main.qft</dependency>
+  <dependency>processing_do_click.qft</dependency>
+  <PackageRoot id="_3">
+    <Package id="_1qdP" name="get">
+      <Package id="_1qTv" name="aatsr_sst_processor">
+        <Procedure id="_1qWB" name="source_product_name">
+          <comment>@teststep Get source product name.</comment>
+          <FetchTextStep client="$(client)"
+                         component="dialog(A)ATSR_SST_Processor2.panelI/O_Parameters.comboThe_path_of_the_(A)ATSR_source_product"
+                         id="_1qWC" varname="source_product_name"/>
+        </Procedure>
+      </Package>
+      <Package id="_1qZf" name="collocation">
+        <Procedure id="_1qd9" name="master_product">
+          <SetGlobalStep id="_1qdD" varname="master_product"/>
+          <TryStep id="_1qdF">
+            <FetchTextStep client="$(client)"
+                           component="dialogCollocation2.combo_master_product"
+                           id="_1qdB" varname="master_product"/>
+            <CatchSequence exception="TestException" id="_1qdG" maxerror="0"/>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1qZg" name="slave_product">
+          <SetGlobalStep id="_1qdE" varname="slave_product"/>
+          <TryStep id="_1qdH">
+            <FetchTextStep client="$(client)"
+                           component="dialogCollocation2.combo_slave_product"
+                           id="_1qd8" varname="slave_product"/>
+            <CatchSequence exception="TestException" id="_1qdI" maxerror="0"/>
+          </TryStep>
+        </Procedure>
+      </Package>
+      <Package id="_1q9R" name="flh_mci_processor">
+        <Procedure id="_1qB3" name="lower_baseline_band_name">
+          <comment>@teststep Get 'lower baseline band name'</comment>
+          <FetchTextStep client="$(client)"
+                         component="dialogFLH/MCI_Processor.lowerBaselineBandName"
+                         id="_1psP" varname="lower_baseline_band_name"/>
+        </Procedure>
+      </Package>
+      <Package id="_1qH8" name="meris_radiometric_correction">
+        <Procedure id="_1qJq" name="source_product_name">
+          <comment>@teststep Get source product name.</comment>
+          <FetchTextStep client="$(client)"
+                         component="dialogMERIS_L1b_Radiometric_Correction2.panelI/O_Parameters.comboThe_source_product."
+                         id="_1qJr" varname="source_product_name"/>
+        </Procedure>
+      </Package>
+      <Package id="_1qZc" name="principle_component_analysis">
+        <Procedure id="_1qZd" name="source_product_name">
+          <comment>@teststep Get source product name.</comment>
+          <FetchTextStep client="$(client)"
+                         component="dialogPrincipal_Component_Analysis2.panelI/O_Parameters.comboThe_source_product."
+                         id="_1qZe" varname="source_product_name"/>
+        </Procedure>
+      </Package>
+      <Package id="_1qB4" name="reprojection">
+        <Procedure id="_1pXV" name="source_product_name">
+          <comment>@teststep Get source product name.</comment>
+          <FetchTextStep client="$(client)"
+                         component="dialogReprojection.panelI/O_Parameters.comboName:"
+                         id="_1pXW" varname="source_product_name"/>
+        </Procedure>
+      </Package>
+      <Package id="_1qM2" name="smac">
+        <Procedure id="_1qMh" name="source_product_name">
+          <comment>@teststep Get source product name.</comment>
+          <FetchTextStep client="$(client)"
+                         component="dialogMERIS/(A)ATSR_SMAC_Atmospheric_Correction2.panelI/O_Parameters.comboThe_source_product."
+                         id="_1qMi" varname="source_product_name"/>
+        </Procedure>
+      </Package>
+      <Package id="_1qdJ" name="spectral_unmixing">
+        <Procedure id="_1qdK" name="source_product">
+          <SetGlobalStep id="_1qdM" varname="source_product"/>
+          <TryStep id="_1qdN">
+            <FetchTextStep client="$(client)"
+                           component="dialogSpectral_Unmixing.comboName:"
+                           id="_1qdA" varname="source_product"/>
+            <CatchSequence exception="TestException" id="_1qdO" maxerror="0"/>
+          </TryStep>
+        </Procedure>
+      </Package>
+    </Package>
+  </PackageRoot>
+  <ExtraSequence id="_4">
+    <IfSequence id="_1op7" test="${qftest:windows}">
+      <ElseifSequence id="_1op8" name="MAC?"
+                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+      <ElseSequence id="_1op9"/>
+    </IfSequence>
+  </ExtraSequence>
+  <WindowList id="_5"/>
+</RootStep>

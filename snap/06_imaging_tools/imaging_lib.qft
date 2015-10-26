@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.4">
+  <include>qfs.qft</include>
+  <include>../lib/snap_main.qft</include>
+  <include>../lib/snap_components.qft</include>
+  <dependency>006_01_aquarius.qft</dependency>
+  <dependency>006_01_asar.qft</dependency>
+  <dependency>006_01_atsr.qft</dependency>
+  <dependency>006_01_avnir2.qft</dependency>
+  <dependency>006_01_chris.qft</dependency>
+  <dependency>006_01_dimap.qft</dependency>
+  <dependency>006_01_envi_reader.qft</dependency>
+  <dependency>006_01_envisat.qft</dependency>
+  <dependency>006_01_ers_atsr.qft</dependency>
+  <dependency>006_01_ers_sar.qft</dependency>
+  <dependency>006_01_geotiff.qft</dependency>
+  <dependency>006_01_hdf_eos_gridded.qft</dependency>
+  <dependency>006_01_hico_envi_format.qft</dependency>
+  <dependency>006_01_landsat_geotiff.qft</dependency>
+  <dependency>006_01_landsat_tm.qft</dependency>
+  <dependency>006_01_modis_MOD_MXD_MYD.qft</dependency>
+  <dependency>006_01_modisL1B.qft</dependency>
+  <dependency>006_01_multispectral_binned_SeaDAS.qft</dependency>
+  <dependency>006_01_netCdf_beam.qft</dependency>
+  <dependency>006_01_netCdf_cf.qft</dependency>
+  <dependency>006_01_netCdf_generic.qft</dependency>
+  <dependency>006_01_noaa_avhrr_3_L1b.qft</dependency>
+  <dependency>006_01_prism.qft</dependency>
+  <dependency>006_01_seaDAS_L1.qft</dependency>
+  <dependency>006_01_seaDAS_L2.qft</dependency>
+  <dependency>006_01_seaDAS_L3.qft</dependency>
+  <dependency>006_01_sentinel3.qft</dependency>
+  <dependency>006_01_smos.qft</dependency>
+  <dependency>006_01_spot_vgt.qft</dependency>
+  <dependency>006_01_viirs.qft</dependency>
+  <dependency>006_02_navigation.qft</dependency>
+  <dependency>006_03_uncertainty_visualisation.qft</dependency>
+  <dependency>006_04_landsat_geotiff_rgb.qft</dependency>
+  <PackageRoot id="_3">
+    <Package id="_1opA" name="rgb">
+      <Procedure id="_1r4K" name="test_sequence">
+        <ProcedureCall id="_1l52" procedure="check.product.not_opened"/>
+        <IfSequence id="_1l53"
+                    test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+          <ProcedureCall id="_1r4L" procedure="rgb.open_rgb_image_window"/>
+          <ProcedureCall id="_1r4U" procedure="rgb.click_button_ok"/>
+          <ProcedureCall id="_1r4e" postdelay="2000"
+                         procedure="rgb.wait_rgb_created"/>
+          <TestStep id="_1ri0" name="check_image_view">
+            <TryStep id="_1r4g">
+              <ProcedureCall id="_1r4f"
+                             procedure="do_click.image_view.tab_displayer"/>
+              <ProcedureCall id="_1r4i"
+                             procedure="check.image_view.button_maximize_window_visible">
+                <variable name="visible">true</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1r4h"
+                             maxerror="0">
+                <ProcedureCall id="_1r4n" predelay="5000"
+                               procedure="rgb.wait_rgb_created"/>
+              </CatchSequence>
+            </TryStep>
+            <TryStep id="_1rhy">
+              <ProcedureCall id="_1r4l"
+                             procedure="check.image_view.button_maximize_window_visible">
+                <variable name="visible">true</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1rhz"
+                             maxerror="0">
+                <ProcedureCall id="_1qdU" procedure="run-log.logError">
+                  <variable name="message">RGB image window is not appear</variable>
+                  <variable name="withScreenshots">true</variable>
+                </ProcedureCall>
+              </CatchSequence>
+            </TryStep>
+          </TestStep>
+          <ProcedureCall id="_1r4V" procedure="close.all_products"/>
+        </IfSequence>
+      </Procedure>
+      <Procedure id="_1opB" name="open_rgb_image_window">
+        <ProcedureCall id="_1opC" procedure="select.product_tree.product">
+          <variable name="prod_id">0</variable>
+        </ProcedureCall>
+        <TryStep id="_1r4M" name="open_Select_RGB-Image_Channels_dialog">
+          <ProcedureCall id="_1opD" procedure="do_click.menu.window"/>
+          <ProcedureCall id="_1opE"
+                         procedure="do_click.menu.window.open_RGB_image_window"/>
+          <ProcedureCall id="_1r3+"
+                         procedure="rgb.wait_dialogSelect_RGB-Image_Channels"/>
+          <CatchSequence exception="TestException" id="_1r4N" maxerror="0">
+            <TryStep id="_1r4O" name="open_Select_RGB-Image_Channels_dialog">
+              <ProcedureCall id="_1r4P" procedure="do_click.menu.window"/>
+              <ProcedureCall id="_1r4Q"
+                             procedure="do_click.menu.window.open_RGB_image_window"/>
+              <ProcedureCall id="_1r4R"
+                             procedure="rgb.wait_dialogSelect_RGB-Image_Channels"/>
+              <CatchSequence exception="TestException" id="_1r4S"
+                             maxerror="0">
+                <ProcedureCall id="_1r4T" procedure="run-log.logError">
+                  <variable name="message">Select RGB-Image Channels dialod does not appear</variable>
+                  <variable name="withScreenshots">true</variable>
+                </ProcedureCall>
+              </CatchSequence>
+            </TryStep>
+          </CatchSequence>
+        </TryStep>
+      </Procedure>
+      <Procedure id="_1r3y" name="wait_dialogSelect_RGB-Image_Channels">
+        <ComponentWaiter client="$(client)"
+                         component="dialogSelect_RGB-Image_Channels"
+                         id="_1r3z"/>
+      </Procedure>
+      <Procedure id="_1r3-" name="select_rgb_profile">
+        <variable name="rgb_profile"/>
+        <TryStep id="_1r40">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogSelect_RGB-Image_Channels.profileBox"
+                          event="MOUSE_MPRC" id="_1r3o" modifiers="16" x="153"
+                          y="9"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogSelect_RGB-Image_Channels.listInvokerName:_profileBox.rgb_profile"
+                          event="MOUSE_MPRC" id="_1r3p" modifiers="16"/>
+          <CatchSequence exception="TestException" id="_1r41" maxerror="0">
+            <TryStep id="_1r44">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="dialogSelect_RGB-Image_Channels.profileBox"
+                              event="MOUSE_MPRC" id="_1r45" modifiers="16"
+                              x="153" y="9"/>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="dialogSelect_RGB-Image_Channels.listInvokerName:_profileBox.rgb_profile"
+                              event="MOUSE_MPRC" id="_1r46" modifiers="16"/>
+              <CatchSequence exception="TestException" id="_1r47"
+                             maxerror="0">
+                <ProcedureCall id="_1r4A" procedure="run-log.logError">
+                  <variable name="message">$(rgb_profile) can not be selected</variable>
+                  <variable name="withScreenshots">true</variable>
+                </ProcedureCall>
+              </CatchSequence>
+            </TryStep>
+          </CatchSequence>
+        </TryStep>
+      </Procedure>
+      <Procedure id="_1r4C" name="click_button_ok">
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSelect_RGB-Image_Channels.ModalDialog.ok"
+                        event="MOUSE_MPRC" id="_1r4D" modifiers="16"/>
+      </Procedure>
+      <Procedure id="_1r4G" name="click_button_cancel">
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSelect_RGB-Image_Channels.ModalDialog.cancel"
+                        event="MOUSE_MPRC" id="_1r4I" modifiers="16"/>
+      </Procedure>
+      <Procedure id="_1r4B" name="click_button_help">
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSelect_RGB-Image_Channels.ModalDialog.help"
+                        event="MOUSE_MPRC" id="_1r3u" modifiers="16"/>
+      </Procedure>
+      <Procedure id="_1r4c" name="wait_rgb_created" predelay="2000">
+        <ComponentWaiter absence="true" client="$(client)"
+                         component="dialogSNAP_-_Creating_rgb_image_window"
+                         errorlevel="1" id="_1r4d" raise="false"
+                         timeout="150000"/>
+      </Procedure>
+    </Package>
+    <Package id="_1r4o" name="image_window">
+      <Procedure id="_1r4p" name="test">
+        <variable name="prod_reader_type"/>
+        <comment>@teststep Open image window&lt;br&gt;Open world map&lt;br&gt;Check mask mangment by select/deselect masks&lt;br&gt;Check layer mangment by select/deselect layers</comment>
+        <ProcedureCall disabled="true" id="_C" postdelay="2000"
+                       procedure="import.raster_data">
+          <variable name="import_data">$(reader)</variable>
+        </ProcedureCall>
+        <TryStep id="_1ri2" name="close_all_modal_dialogs">
+          <ProcedureCall disabled="true" id="_1oQb"
+                         procedure="run-log.make_screensot">
+            <variable name="iw_name">open_product_dialog</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ri1"
+                         procedure="qfs.swing.cleanup.closeAllModalDialogs">
+            <variable name="maxDialogs">5</variable>
+          </ProcedureCall>
+          <CatchSequence exception="TestException" id="_1ri3" maxerror="0"/>
+        </TryStep>
+        <ProcedureCall id="_1lXI" postdelay="2000"
+                       procedure="open.product_in_snap">
+          <variable name="prod_dir">$(dataInDir)</variable>
+          <variable name="in_out">in</variable>
+          <variable name="prod">$(fileName)</variable>
+          <variable name="product_type">$(prod_reader_type)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1ri4" procedure="wait.product_is_opened"/>
+        <ProcedureCall id="_1lEu"
+                       procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+      </Procedure>
+    </Package>
+  </PackageRoot>
+  <ExtraSequence id="_4">
+    <BasicSequence id="_1r4W" name="Aufnahme 08.07.15 16:35">
+      <ComponentWaiter client="$(client)"
+                       component="dialogSNAP_-_Creating_rgb_image_window"
+                       id="_1r4Y"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSNAP_-_Creating_image_for_'[1]_MERIS_L1b_-_Tristimulus_RGB'.panel"
+                      event="MOUSE_MPRC" id="_1r48" modifiers="16" x="193"
+                      y="25"/>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="dialogSNAP_-_Creating_image_for_'[1]_MERIS_L1b_-_Tristimulus_RGB'.buttonCancel"
+                      event="MOUSE_MOVED" id="_1r49" modifiers="0"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSNAP_-_Creating_image_for_'[1]_MERIS_L1b_-_Tristimulus_RGB'.buttonCancel"
+                      event="MOUSE_PRESSED" id="_1r4Z" modifiers="16"/>
+      <MouseEventStep clicks="0" client="$(client)"
+                      component="NbMainWindow.panel9" event="MOUSE_DRAGGED"
+                      id="_1r4a" modifiers="16" x="460" y="404"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="NbMainWindow.[1]_MERIS_L1b_-_Tristimulus_RGB2.panel"
+                      event="MOUSE_RELEASED" id="_1r4b" modifiers="16" x="459"
+                      y="384"/>
+    </BasicSequence>
+    <IfSequence id="_1op7" test="${qftest:windows}">
+      <ElseifSequence id="_1op8" name="MAC?"
+                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+      <ElseSequence id="_1op9"/>
+    </IfSequence>
+  </ExtraSequence>
+  <WindowList id="_5"/>
+</RootStep>

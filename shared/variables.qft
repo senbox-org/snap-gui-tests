@@ -85,10 +85,10 @@
             </SetGlobalStep>
           </ElseSequence>
         </IfSequence>
-        <ServerScriptStep id="_1oxE" name="print">
+        <ServerScriptStep disabled="true" id="_1oxE" name="print">
           <code>print "of = $(of)"</code>
         </ServerScriptStep>
-        <ServerScriptStep id="_1oxF" name="print">
+        <ServerScriptStep disabled="true" id="_1oxF" name="print">
           <code>print "fr = $(fr)"</code>
         </ServerScriptStep>
         <ServerScriptStep disabled="true" id="_1q5j" name="print">
@@ -103,7 +103,7 @@
         <SetGlobalStep id="_1o+a" varname="graph_file_dir">
           <default>${path:graph_file_dir}$(xml_dir)${path:slash}</default>
         </SetGlobalStep>
-        <ServerScriptStep disabled="true" id="_1o+w" name="print">
+        <ServerScriptStep id="_1o+w" name="print">
           <code>print "graph_file_dir = $(graph_file_dir)"</code>
         </ServerScriptStep>
       </Procedure>
@@ -180,6 +180,21 @@
             <code>print "screenshot_path2 = ${path:screenshot_path2}"  </code>
           </ServerScriptStep>
         </BasicSequence>
+      </Procedure>
+      <Procedure disabled="true" id="_1q6C"
+                 name="output_data_directory_for_gpt_tests">
+        <variable name="output_dir"/>
+        <ProcedureCall id="_1q6D" procedure="path.main_path"/>
+        <IfSequence id="_1q6E" test="&#34;$(output_dir)&#34;==&#34;&#34;">
+          <SetGlobalStep id="_1q6F" varname="output_data_directory">
+            <default>${path:output_data_directory}gpt${path:slash}</default>
+          </SetGlobalStep>
+          <ElseSequence id="_1q6G">
+            <SetGlobalStep id="_1q6H" varname="output_data_directory">
+              <default>${path:output_data_directory}gpt${path:slash}$(output_dir)${path:slash}</default>
+            </SetGlobalStep>
+          </ElseSequence>
+        </IfSequence>
       </Procedure>
       <Procedure id="_1ow4" name="output_data_directory">
         <variable name="output_dir"/>
@@ -281,15 +296,41 @@ rc.setGlobal("smos", var1[:3])
         <SetGlobalStep id="_1pTz" varname="bandName">
           <default>radiance_1</default>
         </SetGlobalStep>
-        <SetGlobalStep id="_1pT+" varname="err_band">
+        <SetGlobalStep disabled="true" id="_1pT+" varname="err_band">
           <default>radiance_2</default>
         </SetGlobalStep>
+        <SetGlobalStep id="_1q5x" varname="err_band"/>
         <SetGlobalStep id="_1pU0" varname="view_Id1">
           <default>0</default>
           <comment>
 </comment>
         </SetGlobalStep>
-        <SetGlobalStep id="_1pT-" varname="group_id1"/>
+        <SetGlobalStep id="_1pT-" varname="group_id1">
+          <default>0</default>
+        </SetGlobalStep>
+      </Procedure>
+      <Procedure id="_1q5+" name="MER_FSG_1P">
+        <SetGlobalStep id="_1q5-" varname="dataInDir">
+          <default>mer_fsg_1p_n1</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1q60" varname="fileName">
+          <default>MER_FSG_1PNMAP20050726_232437_000000782039_00216_17805_0001.N1</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1q61" varname="bandName">
+          <default>radiance_7</default>
+        </SetGlobalStep>
+        <SetGlobalStep disabled="true" id="_1q62" varname="err_band">
+          <default>radiance_2</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1q63" varname="err_band"/>
+        <SetGlobalStep id="_1q64" varname="view_Id1">
+          <default>0</default>
+          <comment>
+</comment>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1q65" varname="group_id1">
+          <default>0</default>
+        </SetGlobalStep>
       </Procedure>
       <Procedure id="_1oZG" name="MODIS_L1B">
         <SetGlobalStep id="_1oZH" varname="dataInDir">
@@ -299,13 +340,11 @@ rc.setGlobal("smos", var1[:3])
           <default>A2006302181500.L1B_LAC</default>
         </SetGlobalStep>
         <SetGlobalStep id="_1oZJ" varname="bandName">
-          <default>IWV</default>
+          <default>EV_1KM_Emissive_20</default>
         </SetGlobalStep>
-        <SetGlobalStep id="_1oZK" varname="err_band">
-          <default>IWV_err</default>
-        </SetGlobalStep>
+        <SetGlobalStep id="_1oZK" varname="err_band"/>
         <SetGlobalStep id="_1oZL" varname="group_id1">
-          <default>2</default>
+          <default>1</default>
         </SetGlobalStep>
         <SetGlobalStep id="_1oZM" varname="view_Id1">
           <default>0</default>
@@ -321,12 +360,21 @@ rc.setGlobal("smos", var1[:3])
           <default>xfdumanifest.xml</default>
         </SetGlobalStep>
         <SetGlobalStep id="_1o+Q" varname="bandName">
-          <default>Oa05_radiance</default>
+          <default>Oa01_radiance</default>
         </SetGlobalStep>
         <SetGlobalStep id="_1o+R" varname="group_id1">
           <default>0</default>
         </SetGlobalStep>
         <SetGlobalStep id="_1o+S" varname="view_Id1">
+          <default>0</default>
+          <comment>
+</comment>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1q5w" varname="err_band"/>
+        <SetGlobalStep disabled="true" id="_1q5z" varname="bandName">
+          <default>Oa05_radiance</default>
+        </SetGlobalStep>
+        <SetGlobalStep disabled="true" id="_1q5v" varname="view_Id1">
           <default>4</default>
           <comment>
 </comment>
@@ -345,19 +393,25 @@ rc.setGlobal("smos", var1[:3])
         <SetGlobalStep id="_1o+K" varname="err_band">
           <default>IWV_err</default>
         </SetGlobalStep>
-        <SetGlobalStep id="_1o+L" varname="group_id1"/>
+        <SetGlobalStep id="_1o+L" varname="group_id1">
+          <default>0</default>
+        </SetGlobalStep>
         <SetGlobalStep id="_1o+M" varname="view_Id1">
-          <default>4</default>
+          <default>0</default>
           <comment>
 </comment>
         </SetGlobalStep>
       </Procedure>
       <Procedure id="_1o+T" name="SMOS_MIR_SCLF1C">
         <SetGlobalStep id="_1o+U" varname="dataInDir">
+          <default>smos_MIR_SCLF1C</default>
+        </SetGlobalStep>
+        <SetGlobalStep disabled="true" id="_1q5u" varname="dataInDir">
           <default>smos_MIR_SCLF1C_20120704T010214</default>
+          <comment>smos_MIR_SCLF1C</comment>
         </SetGlobalStep>
         <SetGlobalStep id="_1o+V" varname="fileName">
-          <default>SM_TEST_MIR_SCLF1C_20120704T010214_20120704T015527_620_001_1.HDR</default>
+          <default>SM_TEST_MIR_SCLF1C_20120704T010214_20120704T015527_620_001_1</default>
         </SetGlobalStep>
         <SetGlobalStep id="_1o+W" varname="bandName">
           <default>BT_Value_Y</default>
@@ -368,6 +422,7 @@ rc.setGlobal("smos", var1[:3])
           <comment>
 </comment>
         </SetGlobalStep>
+        <SetGlobalStep id="_1q5y" varname="err_band"/>
       </Procedure>
       <Procedure id="_1oZN" name="SeaDAS_szcs_L2">
         <SetGlobalStep id="_1oZO" varname="dataInDir">
@@ -381,7 +436,7 @@ rc.setGlobal("smos", var1[:3])
         </SetGlobalStep>
         <SetGlobalStep id="_1oZR" varname="err_band"/>
         <SetGlobalStep id="_1oZS" varname="group_id1">
-          <default>0</default>
+          <default>2</default>
         </SetGlobalStep>
         <SetGlobalStep id="_1oZT" varname="view_Id1">
           <default>0</default>
@@ -393,6 +448,7 @@ rc.setGlobal("smos", var1[:3])
         <variable name="prod_type"/>
         <IfSequence id="_1oxH" test="&#34;$(prod_type)&#34;==&#34;&#34;">
           <SetGlobalStep id="_1oxI" varname="product_group"/>
+          <SetGlobalStep id="_1q69" varname="product_group2"/>
           <SetGlobalStep id="_1oxJ" varname="reader">
             <default>All Files</default>
           </SetGlobalStep>
@@ -418,6 +474,9 @@ rc.setGlobal("smos", var1[:3])
               <SetGlobalStep id="_1oxO" varname="product_group">
                 <default>${attribut:$(prod_type)_product_group}</default>
               </SetGlobalStep>
+              <SetGlobalStep id="_1q6A" varname="product_group2">
+                <default>${attribut:$(prod_type)_product_group2}</default>
+              </SetGlobalStep>
               <SetGlobalStep id="_1oxP" varname="reader">
                 <default>${attribut:$(prod_type)_reader}</default>
               </SetGlobalStep>
@@ -439,15 +498,20 @@ rc.setGlobal("smos", var1[:3])
             </TryStep>
           </ElseSequence>
         </IfSequence>
-        <ServerScriptStep disabled="true" id="_1o+0" name="print">
-          <code>print "product_group = $(product_group)"</code>
-        </ServerScriptStep>
-        <ServerScriptStep disabled="true" id="_1o+1" name="print">
-          <code>print "reader = $(reader)"</code>
-        </ServerScriptStep>
-        <ServerScriptStep disabled="true" id="_1o+2" name="print">
-          <code>print "menu_item = $(menu_item)"</code>
-        </ServerScriptStep>
+        <BasicSequence id="_1q68" name="print">
+          <ServerScriptStep id="_1o+0" name="print">
+            <code>print "product_group = $(product_group)"</code>
+          </ServerScriptStep>
+          <ServerScriptStep id="_1q6B" name="print">
+            <code>print "product_group2 = $(product_group2)"</code>
+          </ServerScriptStep>
+          <ServerScriptStep id="_1o+1" name="print">
+            <code>print "reader = $(reader)"</code>
+          </ServerScriptStep>
+          <ServerScriptStep id="_1o+2" name="print">
+            <code>print "menu_item = $(menu_item)"</code>
+          </ServerScriptStep>
+        </BasicSequence>
       </Procedure>
       <Procedure id="_1q5f" name="for_open_image_view">
         <SetGlobalStep id="_1pUs" varname="group_id1"/>
@@ -569,9 +633,13 @@ rc.setGlobal("smos", var1[:3])
                          id="_1q5e" name="seaDAS_multispectral_binned"
                          sheetname="listing"/>
       </Procedure>
-      <Procedure id="_1oGu" name="sentinel3">
+      <Procedure id="_1oGu" name="sentinel2">
+        <ExcelDataBinder excelfile="tables/input_data/sentinel_2.xls"
+                         id="_1oGv" name="sentinel2" sheetname="listing"/>
+      </Procedure>
+      <Procedure id="_1q66" name="sentinel3">
         <ExcelDataBinder excelfile="tables/input_data/sentinel_3.xls"
-                         id="_1oGv" name="sentinel3" sheetname="listing"/>
+                         id="_1q67" name="sentinel3" sheetname="listing"/>
       </Procedure>
       <Procedure id="_1lBZ" name="smos">
         <ExcelDataBinder excelfile="tables/input_data/smos.xls" id="_1lBa"

@@ -762,173 +762,23 @@
                            procedure="utility.open_image_view_check_it">
               <comment>@teststep Open image view and check it.</comment>
             </ProcedureCall>
-            <TestStep id="_1lXz" name="check_world_map">
-              <comment>@teststep Check World Map.</comment>
-              <ProcedureCall id="_1lHR"
-                             procedure="do_click.main_toolbar.views.worldmap">
-                <comment>@teststep Open world map.</comment>
-              </ProcedureCall>
-              <ProcedureCall disabled="true" id="_1lXt"
-                             procedure="close.dialog">
-                <comment>@teststep Close World Map.</comment>
-              </ProcedureCall>
-            </TestStep>
-            <IfSequence id="_1lY7"
-                        test="&#34;$(mask1 )&#34;&lt;&gt;&#34;&#34;">
-              <TestStep id="_1lXE" name="check_mask_manager">
-                <comment>@teststep Check Mask Managment.</comment>
-                <ProcedureCall id="_1lHS"
-                               procedure="do_click.main_toolbar.views.mask_manager">
-                  <comment>@teststep Open Mask Manager</comment>
-                </ProcedureCall>
-                <SetGlobalStep disabled="true" id="_1lY1" varname="table">
-                  <default>Dialog.maskTable</default>
-                </SetGlobalStep>
-                <SetGlobalStep id="_1ppZ" varname="table">
-                  <default>NbMainWindow.maskTable</default>
-                </SetGlobalStep>
-                <ProcedureCall id="_1lX-" procedure="get.tree.rowCount">
-                  <variable name="id">$(table)</variable>
-                  <comment>@teststep Get number of masks.</comment>
-                </ProcedureCall>
-                <ServerScriptStep disabled="true" id="_1lY2" name="print">
-                  <code>print "Masks number = $(rowCount)"  </code>
-                </ServerScriptStep>
-                <SetGlobalStep id="_1oHG" varname="masks_number">
-                  <default>$(rowCount)</default>
-                </SetGlobalStep>
-                <IfSequence id="_1lXe" test="$(masks_number)&gt;0">
-                  <comment>@teststep Select and deselect all the mask after each other.</comment>
-                  <IfSequence id="_1pxz" test="$(masks_number)&gt;200">
-                    <SetGlobalStep id="_1px+" varname="number_of_repeats">
-                      <default>200</default>
-                    </SetGlobalStep>
-                    <ElseSequence id="_1px-">
-                      <SetGlobalStep id="_1py0" varname="number_of_repeats">
-                        <default>$(masks_number)</default>
-                      </SetGlobalStep>
-                    </ElseSequence>
-                  </IfSequence>
-                  <RepeatSequence count="$(number_of_repeats)" id="_1lXf"
-                                  name="check_masks" var="m">
-                    <SetGlobalStep disabled="true" id="_1lYI" varname="table">
-                      <default>Dialog.maskTable</default>
-                    </SetGlobalStep>
-                    <SetGlobalStep id="_1ppa" varname="table">
-                      <default>NbMainWindow.maskTable</default>
-                    </SetGlobalStep>
-                    <TryStep id="_1lYJ" name="select_visible">
-                      <ProcedureCall id="_1lYK"
-                                     procedure="do_click.table.checkbox">
-                        <variable name="tableId">$(table)</variable>
-                        <variable name="column">0</variable>
-                        <variable name="row">$(m)</variable>
-                      </ProcedureCall>
-                      <CatchSequence exception="TestException" id="_1lYL"
-                                     maxerror="0">
-                        <ServerScriptStep id="_1lYM" name="error">
-                          <code>rc.logError("Mask $(m) cannot be selected.")</code>
-                        </ServerScriptStep>
-                      </CatchSequence>
-                    </TryStep>
-                    <TryStep id="_1lYN" name="deselect_visible">
-                      <ProcedureCall id="_1lYO"
-                                     procedure="do_click.table.checkbox">
-                        <variable name="tableId">$(table)</variable>
-                        <variable name="column">0</variable>
-                        <variable name="row">$(m)</variable>
-                      </ProcedureCall>
-                      <CatchSequence exception="TestException" id="_1lYP"
-                                     maxerror="0">
-                        <ServerScriptStep id="_1lYQ" name="error">
-                          <code>rc.logError("Mask $(m) cannot be selected.")</code>
-                        </ServerScriptStep>
-                      </CatchSequence>
-                    </TryStep>
-                  </RepeatSequence>
-                  <ElseSequence id="_1lXr">
-                    <ServerScriptStep id="_1lY8" name="error">
-                      <code>rc.logError("Mask manager is empty.")</code>
-                    </ServerScriptStep>
-                  </ElseSequence>
-                </IfSequence>
-                <ProcedureCall disabled="true" id="_1lXC"
-                               procedure="close.dialog">
-                  <comment>@teststep Close Mask Manager</comment>
-                </ProcedureCall>
-                <ProcedureCall disabled="true" id="_1lYR"
-                               procedure="do_click.run_the_Garbage_Collector">
-                  <comment>@teststep Force a garbage collection.</comment>
-                </ProcedureCall>
-              </TestStep>
-              <TestStep id="_1lYV" name="check_layer_manager">
-                <comment>@teststep Check Layer Managment.</comment>
-                <ProcedureCall id="_1lHT"
-                               procedure="do_click.main_toolbar.views.layer_manager">
-                  <comment>@teststep Open Layer Manager</comment>
-                </ProcedureCall>
-                <TryStep id="_1pxw">
-                  <ProcedureCall id="_1pxy"
-                                 procedure="check.opened.layer_manager"/>
-                  <ProcedureCall id="_1oH6"
-                                 procedure="get.tree.layer_node_id">
-                    <variable name="layer_name">Masks</variable>
-                    <comment>@teststep Find Masks in the layer manager</comment>
-                  </ProcedureCall>
-                  <ServerScriptStep disabled="true" id="_1lYZ" name="print">
-                    <code>print "Layer Masks id = $(layer_node_id)"  </code>
-                  </ServerScriptStep>
-                  <ProcedureCall disabled="true" id="_1oHH"
-                                 procedure="do_click.layer_manager.layer_node">
-                    <variable name="layer_node1">$(layer_node_id)</variable>
-                    <variable name="layer_node2"/>
-                    <comment>@teststep Open Masks node in the layer manager</comment>
-                  </ProcedureCall>
-                  <IfSequence id="_1oHJ" test="$(number_of_repeats)&gt;0">
-                    <comment>@teststep Select and deselect all the layer after each other.</comment>
-                    <RepeatSequence count="$(number_of_repeats)" id="_1oHK"
-                                    name="check_masks" var="m">
-                      <ProcedureCall id="_1oHA"
-                                     procedure="do_click.layer_manager.layer_checkbox">
-                        <variable name="layer_node1">$(layer_node_id)</variable>
-                        <variable name="layer_node2">$(m)</variable>
-                      </ProcedureCall>
-                    </RepeatSequence>
-                    <ProcedureCall disabled="true" id="_1oHV"
-                                   procedure="do_click.run_the_Garbage_Collector"/>
-                    <RepeatSequence count="$(masks_number)" disabled="true"
-                                    id="_1oHY" name="check_masks" var="m">
-                      <ProcedureCall id="_1oHZ"
-                                     procedure="do_click.layer_manager.layer_checkbox">
-                        <variable name="layer_node1">$(layer_node_id)</variable>
-                        <variable name="layer_node2">$(m)</variable>
-                      </ProcedureCall>
-                    </RepeatSequence>
-                    <ProcedureCall disabled="true" id="_1oHa"
-                                   procedure="do_click.run_the_Garbage_Collector">
-                      <comment>@teststep Force a garbage collection.</comment>
-                    </ProcedureCall>
-                    <ElseSequence id="_1oHW">
-                      <ServerScriptStep id="_1oHX" name="error">
-                        <code>rc.logError("Layer manager is empty.")</code>
-                      </ServerScriptStep>
-                    </ElseSequence>
-                  </IfSequence>
-                  <CatchSequence exception="TestException" id="_1pxx"
-                                 maxerror="0"/>
-                </TryStep>
-                <ProcedureCall disabled="true" id="_1lHU"
-                               procedure="close.dialog">
-                  <comment>@teststep Close Layer Manager</comment>
-                </ProcedureCall>
-              </TestStep>
-            </IfSequence>
-            <ProcedureCall disabled="true" id="_1lEt"
-                           procedure="check.product.tree_number_elements">
-              <variable name="number_elements">$(elements)</variable>
-              <comment>@teststep Check elements in product tree.</comment>
+            <ProcedureCall id="_1qes"
+                           procedure="utility.check_masks_layer_world_map"/>
+            <ProcedureCall id="_1qer" procedure="close.all_products"/>
+          </IfSequence>
+        </Procedure>
+        <Procedure id="_1qfG"
+                   name="open_image_window_in_target_product_check_masks_layers">
+          <ProcedureCall id="_1qfH" procedure="check.product.not_opened"/>
+          <IfSequence id="_1qfI"
+                      test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qfJ"
+                           procedure="utility.open_image_view_using_menu_check_it">
+              <comment>@teststep Open image view and check it.</comment>
             </ProcedureCall>
-            <ProcedureCall id="_1l33" procedure="close.all_products"/>
+            <ProcedureCall id="_1qfK"
+                           procedure="utility.check_masks_layer_world_map"/>
+            <ProcedureCall id="_1qfL" procedure="close.all_products"/>
           </IfSequence>
         </Procedure>
       </Package>
@@ -955,7 +805,26 @@
           <ProcedureCall id="_1p1T"
                          procedure="utility.open_image_view_check_it"/>
           <ProcedureCall id="_1p1U" procedure="compute.band_histogram"/>
-          <ProcedureCall id="_1p1W" procedure="close.all_products"/>
+          <TryStep id="_1qZS" name="find_error_dialog_mask_is_empty">
+            <ProcedureCall id="_1qZZ"
+                           procedure="wait.appear.error.dialog_SNAP-Error"/>
+            <ProcedureCall id="_1qZU" procedure="run-log.make_screensot">
+              <variable name="iw_name">histogram_error</variable>
+              <variable name="iw_name_example">error_dialog</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1qZX" procedure="get.error_text.snap_error"/>
+            <ProcedureCall id="_1qZQ"
+                           procedure="do_click.error_dialog.button_OK_SNAP_Error"/>
+            <IfSequence id="_1qZY"
+                        test="&#34;$(snap_error)&#34;&lt;&gt;&#34;Either the selected ROI is empty or no pixels have been found within the minimum and maximum values&#34;">
+              <ProcedureCall id="_1qZW" procedure="run-log.logError">
+                <variable name="message">Error: $(snap_error)</variable>
+                <variable name="withScreenshots"/>
+              </ProcedureCall>
+            </IfSequence>
+            <CatchSequence exception="TestException" id="_1qZT" maxerror="0"/>
+          </TryStep>
+          <ProcedureCall id="_1qZR" procedure="close.all_products"/>
           <TryStep disabled="true" id="_1p1X" name="close_histogram_dialog">
             <ProcedureCall id="_1p1Y" procedure="close.dialog"/>
             <CatchSequence exception="TestException" id="_1p1Z" maxerror="0">
@@ -971,7 +840,15 @@
                       test="&#34;$(not_opened)&#34;==&#34;false&#34;">
             <ProcedureCall id="_1poe"
                            procedure="compute.band_correlative_plot"/>
-            <ProcedureCall id="_1pof" procedure="close.all_products"/>
+            <ProcedureCall id="_1rRn" procedure="run-log.make_screensot">
+              <variable name="iw_name">import_CSV_data</variable>
+              <variable name="iw_name_example">error_dialog</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1rRo"
+                           procedure="qfs.swing.cleanup.closeAllModalDialogs">
+              <variable name="maxDialogs">5</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1rRp" procedure="close.all_products"/>
             <TryStep disabled="true" id="_1p1x"
                      name="close_correlative_plot_dialog">
               <ProcedureCall id="_1p1y" procedure="close.dialog"/>
@@ -986,8 +863,9 @@
         <Procedure id="_1pom" name="open_band_compute_scatter_plot_close_all">
           <ProcedureCall id="_1ppJ"
                          procedure="utility.open_image_view_check_it"/>
-          <ProcedureCall id="_1pon" procedure="compute.band_scatter_plot"/>
-          <ProcedureCall id="_1poo" procedure="close.all_products"/>
+          <ProcedureCall id="_1r5a" procedure="compute.band_scatter_plot"/>
+          <ProcedureCall id="_1qZb" procedure="close.modal_dialogs"/>
+          <ProcedureCall id="_1qZc" procedure="close.all_products"/>
           <TryStep disabled="true" id="_1pop"
                    name="close_scatter_plot_dialog">
             <ProcedureCall id="_1poq" procedure="close.dialog"/>
@@ -1015,9 +893,15 @@
                 <ProcedureCall id="_1pxv"
                                procedure="product_meta_data.for_open_image_view"/>
                 <ProcedureCall id="_1pbx"
-                               procedure="utility.open_image_view_check_it"/>
+                               procedure="utility.open_image_view_using_menu_check_it"/>
               </TestStep>
-              <TestStep id="_1pby"
+              <TestStep id="_1qfF" name="open_world_map_close_product">
+                <SetGlobalStep id="_1qfE" varname="mask1"/>
+                <ProcedureCall id="_1qfC"
+                               procedure="utility.check_masks_layer_world_map"/>
+                <ProcedureCall id="_1qfD" procedure="close.all_products"/>
+              </TestStep>
+              <TestStep disabled="true" id="_1pby"
                         name="open_image_view_check_masks_layers_close_product">
                 <SetGlobalStep id="_1pbz" varname="view_Id1">
                   <default>1</default>
@@ -1066,8 +950,21 @@
                              procedure="deselect.analysis.histogram_dialog.use_ROI_mask"/>
               <ProcedureCall id="_1pyP"
                              procedure="select.analysis.histogram_dialog.use_ROI_mask"/>
-              <ProcedureCall id="_1pyQ"
-                             procedure="do_click.analysis.histogram.refresh_button"/>
+              <TryStep id="_1rho">
+                <ProcedureCall id="_1pyQ"
+                               procedure="do_click.analysis.histogram.refresh_button"/>
+                <CatchSequence exception="TestException" id="_1rhp"
+                               maxerror="0">
+                  <ProcedureCall id="_1rhq"
+                                 procedure="run-log.make_screensot">
+                    <variable name="iw_name">histogram_refresh_button</variable>
+                  </ProcedureCall>
+                  <ProcedureCall id="_1rhr" procedure="run-log.logError">
+                    <variable name="message">Refresh button is disabled</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
             </CatchSequence>
           </TryStep>
           <ProcedureCall id="_1p1r"
@@ -1141,8 +1038,21 @@
                            procedure="do_click.analysis.correlative_plot.switch_to_chart_button"/>
             <IfSequence id="_1p25"
                         test="&#34;$(mask1)&#34;&lt;&gt;&#34;&#34;">
-              <ProcedureCall id="_1pog"
-                             procedure="select.analysis.correlative_plot.use_ROI_mask"/>
+              <TryStep id="_1rRd">
+                <ProcedureCall id="_1rRi"
+                               procedure="select.analysis.correlative_plot.use_ROI_mask"/>
+                <CatchSequence exception="TestException" id="_1rRe"
+                               maxerror="0">
+                  <TryStep id="_1rRg">
+                    <ProcedureCall id="_1rRf"
+                                   procedure="do_click.analysis.dialog.switch_to_chart_button"/>
+                    <CatchSequence exception="TestException" id="_1rRh"
+                                   maxerror="0"/>
+                  </TryStep>
+                  <ProcedureCall id="_1rRj"
+                                 procedure="select.analysis.correlative_plot.use_ROI_mask"/>
+                </CatchSequence>
+              </TryStep>
               <ProcedureCall id="_1p27"
                              procedure="select.analysis.correlative_plot.mask">
                 <variable name="mask">$(mask1)</variable>
@@ -1170,8 +1080,10 @@
                        procedure="select.analysis.scatter_plot.y_band">
           <variable name="y_band">$(bandName2)</variable>
         </ProcedureCall>
-        <ProcedureCall id="_1ppL"
+        <ProcedureCall id="_1ri7"
                        procedure="do_click.analysis.scatter_plot.refresh_button"/>
+        <ProcedureCall id="_1r5b"
+                       procedure="wait.disappear.computing_scatter_plot_progress monitor"/>
         <ProcedureCall disabled="true" id="_1ppV"
                        procedure="select.analysis.scatter_plot.invert_plot_colors"/>
         <IfSequence id="_1ppE" test="&#34;$(mask1)&#34;&lt;&gt;&#34;&#34;">
@@ -1188,68 +1100,7 @@
         </IfSequence>
       </Procedure>
     </Package>
-    <Package disabled="true" id="_1lFv" name="create">
-      <Procedure id="_1lFw" name="new_pin">
-        <variable name="pin_name"/>
-        <variable name="pin_label"/>
-        <variable name="lat"/>
-        <variable name="long"/>
-        <variable name="x"/>
-        <variable name="y"/>
-        <ProcedureCall id="_1lGw"
-                       procedure="do_click.main_toolbar.views.pin_manager"/>
-        <ProcedureCall id="_1lGY" procedure="wait.appear.dialog.dialog"/>
-        <ProcedureCall id="_1lGb"
-                       procedure="do_click.pin_manager.newPin_button"/>
-        <ProcedureCall id="_1lGa" procedure="wait.appear.new_pin_dialog"/>
-        <ProcedureCall id="_1lGf"
-                       procedure="set.placemark_dialog.new_pin.name">
-          <variable name="var">$(pin_name)</variable>
-        </ProcedureCall>
-        <ProcedureCall id="_1lGg"
-                       procedure="set.placemark_dialog.new_pin.label">
-          <variable name="var">$(pin_label)</variable>
-        </ProcedureCall>
-        <IfSequence id="_1lGe"
-                    test="&#34;$(lat)&#34;&lt;&gt;&#34;&#34;  and &#34;$(long)&#34;&lt;&gt;&#34;&#34;">
-          <ProcedureCall id="_1lGh"
-                         procedure="set.placemark_dialog.new_pin.latitude">
-            <variable name="var">$(lat)</variable>
-          </ProcedureCall>
-          <ProcedureCall id="_1lGi"
-                         procedure="set.placemark_dialog.new_pin.longitude">
-            <variable name="var">$(long)</variable>
-          </ProcedureCall>
-          <ProcedureCall id="_1lGo"
-                         procedure="do_click.pin_manager.new_pin_dialog.ok"/>
-          <ElseifSequence id="_1lGl"
-                          test="(&#34;$(lat)&#34;==&#34;&#34;  and &#34;$(long)&#34;==&#34;&#34;) and (&#34;$(x)&#34;&lt;&gt;&#34;&#34;  and &#34;$(x)&#34;&lt;&gt;&#34;&#34;)">
-            <ProcedureCall id="_1lGj"
-                           procedure="set.placemark_dialog.new_pin.pixelX">
-              <variable name="var">$(x)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1lGk"
-                           procedure="set.placemark_dialog.new_pin.pixelY">
-              <variable name="var">$(y)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1lGr"
-                           procedure="do_click.pin_manager.new_pin_dialog.ok"/>
-          </ElseifSequence>
-          <ElseSequence id="_1lGm">
-            <ProcedureCall id="_1lGv" procedure="run-log.make_screensot">
-              <variable name="iw_name">new_pin_can_not_be_created</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1lGc"
-                           procedure="do_click.pin_manager.new_pin_dialog.cancel"/>
-            <ProcedureCall id="_1lGd" procedure="close.dialog"/>
-            <ProcedureCall id="_1lGu" procedure="run-log.logError">
-              <variable name="message">a new pin can not be created</variable>
-              <variable name="withScreenshots">false</variable>
-            </ProcedureCall>
-          </ElseSequence>
-        </IfSequence>
-      </Procedure>
-    </Package>
+    <Package id="_1lFv" name="create"/>
     <Package id="_1l8Q" name="preparation">
       <Procedure id="_1l5e" name="application_for_test">
         <comment>@teststep Test preparation</comment>
@@ -1262,7 +1113,8 @@
 </comment>
         </ProcedureCall>
         <ProcedureCall id="_1l5h" procedure="wait.product_is_opened"/>
-        <ProcedureCall id="_1l5i" procedure="select.product_tree.band">
+        <ProcedureCall disabled="true" id="_1l5i"
+                       procedure="select.product_tree.band">
           <variable name="prod_id">0</variable>
           <variable name="group_id">$(group_id1)</variable>
           <variable name="view_id">$(view_Id1)</variable>
@@ -1277,80 +1129,6 @@
       </Procedure>
     </Package>
     <Package id="_1l2b" name="utility">
-      <Package id="_1p2v" name="vector_data">
-        <Procedure id="_1p2w" name="csv">
-          <ProcedureCall id="_1p3D" procedure="do_click.menu.file"/>
-          <ProcedureCall id="_1p3G" procedure="do_click.menu.file.import"/>
-          <ProcedureCall id="_1p3H"
-                         procedure="do_click.menu.file.import.vector_data"/>
-          <ProcedureCall id="_1p3F"
-                         procedure="do_click.menu.file.import.vector_data.csv"/>
-        </Procedure>
-        <Procedure id="_1p3I" name="esri_shapefile">
-          <ProcedureCall id="_1p3J" procedure="do_click.menu.file"/>
-          <ProcedureCall id="_1p3K" procedure="do_click.menu.file.import"/>
-          <ProcedureCall id="_1p3L"
-                         procedure="do_click.menu.file.import.vector_data"/>
-          <ProcedureCall id="_1p3M"
-                         procedure="do_click.menu.file.import.vector_data.esri_shapefile"/>
-        </Procedure>
-        <Procedure id="_1p3N" name="mermaid_extraction_file">
-          <ProcedureCall id="_1p3O" procedure="do_click.menu.file"/>
-          <ProcedureCall id="_1p3P" procedure="do_click.menu.file.import"/>
-          <ProcedureCall id="_1p3Q"
-                         procedure="do_click.menu.file.import.vector_data"/>
-          <ProcedureCall id="_1p3R"
-                         procedure="do_click.menu.file.import.vector_data.mermaid_extraction_file"/>
-        </Procedure>
-        <Procedure id="_1p3S" name="seaDAS_6x_track">
-          <ProcedureCall id="_1p3T" procedure="do_click.menu.file"/>
-          <ProcedureCall id="_1p3U" procedure="do_click.menu.file.import"/>
-          <ProcedureCall id="_1p3V"
-                         procedure="do_click.menu.file.import.vector_data"/>
-          <ProcedureCall id="_1p3W"
-                         procedure="do_click.menu.file.import.vector_data.seaDAS_6x_track"/>
-        </Procedure>
-      </Package>
-      <Package id="_1oZk" name="raster_data">
-        <Procedure id="_1oZh" name="import_multispectral">
-          <variable name="menu_item"/>
-          <ProcedureCall id="_1oZm" procedure="do_click.menu.file"/>
-          <ProcedureCall id="_1oZn"
-                         procedure="do_click.menu.file.importRasterData"/>
-          <ProcedureCall id="_1oZo"
-                         procedure="do_click.menu.file.rasterData.multispectral"/>
-          <ProcedureCall id="_1oZp"
-                         procedure="do_click.menu.file.rasterData.multispectral.$(menu_item)"/>
-        </Procedure>
-        <Procedure id="_1oZi" name="import_generic">
-          <variable name="menu_item"/>
-          <ProcedureCall id="_1oZu" procedure="do_click.menu.file"/>
-          <ProcedureCall id="_1oZv"
-                         procedure="do_click.menu.file.importRasterData"/>
-          <ProcedureCall id="_1oZw"
-                         procedure="do_click.menu.file.rasterData.generic"/>
-          <ProcedureCall id="_1oZx"
-                         procedure="do_click.menu.file.rasterData.generic.$(menu_item)"/>
-        </Procedure>
-        <Procedure id="_1oZj" name="import_sar">
-          <variable name="menu_item"/>
-          <ProcedureCall id="_1oZq" procedure="do_click.menu.file"/>
-          <ProcedureCall id="_1oZr"
-                         procedure="do_click.menu.file.importRasterData"/>
-          <ProcedureCall id="_1oZs"
-                         procedure="do_click.menu.file.rasterData.sar"/>
-          <ProcedureCall id="_1oZt"
-                         procedure="do_click.menu.file.rasterData.sar.$(menu_item)"/>
-        </Procedure>
-        <Procedure id="_1oZl" name="other_import">
-          <variable name="menu_item"/>
-          <ProcedureCall id="_1oZy" procedure="do_click.menu.file"/>
-          <ProcedureCall id="_1oZz"
-                         procedure="do_click.menu.file.importRasterData"/>
-          <ProcedureCall id="_1oZ+"
-                         procedure="do_click.menu.file.rasterData.$(menu_item)"/>
-        </Procedure>
-      </Package>
       <Procedure id="_1l38" name="open_image_view_check_it">
         <ProcedureCall id="_1l3B" procedure="check.product.not_opened"/>
         <IfSequence id="_1kk7" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
@@ -1377,7 +1155,7 @@
 </comment>
               </ProcedureCall>
               <ProcedureCall disabled="true" id="_1oQc"
-                             procedure="open.image_view"/>
+                             procedure="open.window.image_view"/>
               <ProcedureCall disabled="true" id="_1p16"
                              procedure="do_click.tree.doubleclick_product_node">
                 <variable name="prod_id">0</variable>
@@ -1385,70 +1163,375 @@
                 <variable name="view_id">$(view_Id1)</variable>
                 <variable name="band">$(bandName)</variable>
               </ProcedureCall>
-              <ProcedureCall id="_1pyH"
-                             procedure="do_click.tree.doubleclick_product_node">
-                <variable name="prod_id">0</variable>
-                <variable name="group_id">$(group_id1)</variable>
-                <variable name="view_id">$(view_Id1)</variable>
-                <variable name="band">$(bandName)</variable>
-              </ProcedureCall>
-              <ProcedureCall id="_1lFe"
-                             procedure="wait.disappear.creating_image_progress monitor">
-                <variable name="bandName">$(bandName)</variable>
-              </ProcedureCall>
-              <TryStep id="_1p19" name="handle_error">
-                <ProcedureCall id="_1p18"
-                               procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
-                <ProcedureCall id="_1p1B" procedure="run-log.make_screensot">
-                  <variable name="iw_name">open_image_view</variable>
-                  <variable name="iw_name_example">error_dialog</variable>
+              <TryStep id="_1qZd" name="doubleclick_product_node">
+                <ProcedureCall id="_1pyH"
+                               procedure="do_click.tree.doubleclick_product_node">
+                  <variable name="prod_id">0</variable>
+                  <variable name="group_id">$(group_id1)</variable>
+                  <variable name="view_id">$(view_Id1)</variable>
+                  <variable name="band">$(bandName)</variable>
                 </ProcedureCall>
-                <ProcedureCall id="_1p1D"
-                               procedure="run-log.log_client_output">
-                  <variable name="client_name">$(client)</variable>
-                </ProcedureCall>
-                <ProcedureCall id="_1p17"
-                               procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
-                <ProcedureCall id="_1p1C" procedure="run-log.logError">
-                  <variable name="message">Error by opening image view</variable>
+                <CatchSequence exception="TestException" id="_1qZe"
+                               maxerror="0">
+                  <TryStep id="_1qZf" name="doubleclick_product_node">
+                    <ProcedureCall id="_1qZg"
+                                   procedure="do_click.tree.doubleclick_product_node">
+                      <variable name="prod_id">0</variable>
+                      <variable name="group_id"/>
+                      <variable name="view_id">0</variable>
+                      <variable name="band">$(bandName)</variable>
+                    </ProcedureCall>
+                    <CatchSequence exception="TestException" id="_1qZh"
+                                   maxerror="0"/>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1qdV"
+                             procedure="utility.wait_image_created_handle_error"/>
+              <IfSequence id="_1ri5"
+                          test="&#34;$(image_window_appears)&#34;==&#34;false&#34;">
+                <ProcedureCall id="_1ri6" procedure="run-log.logError">
+                  <variable name="message">image view is not appear</variable>
                   <variable name="withScreenshots">true</variable>
                 </ProcedureCall>
-                <CatchSequence exception="TestException" id="_1p1A"
+              </IfSequence>
+            </IfSequence>
+          </ElseSequence>
+        </IfSequence>
+      </Procedure>
+      <Procedure id="_1qaC" name="wait_image_created_handle_error">
+        <ProcedureCall id="_1qcw"
+                       procedure="wait.disappear.creating_image_progress monitor">
+          <variable name="bandName">$(bandName)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1rRw"
+                       procedure="error_handling.if_any_error_make_screenshot_shoot_error_message"/>
+        <TryStep id="_1qdN" name="check_image_view">
+          <SetGlobalStep disabled="true" id="_1rh+"
+                         varname="image_window_appears">
+            <default>true</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1rhz"
+                         procedure="check.image_view.button_maximize_window_visible"/>
+          <ProcedureCall disabled="true" id="_1qdO"
+                         procedure="check.image_view.visible">
+            <variable name="visible">true</variable>
+          </ProcedureCall>
+          <ProcedureCall disabled="true" id="_1qdP"
+                         procedure="check.image_view.button_maximize_window_visible_status">
+            <variable name="visible">true</variable>
+          </ProcedureCall>
+          <ProcedureCall disabled="true" id="_1qdQ"
+                         procedure="check.image_view.button_show_opened_documents_list_visible">
+            <variable name="visible">true</variable>
+          </ProcedureCall>
+          <ProcedureCall disabled="true" id="_1qdR"
+                         procedure="check.image_view.button_scroll_documents_right_visible">
+            <variable name="visible">true</variable>
+          </ProcedureCall>
+          <ProcedureCall disabled="true" id="_1qdS"
+                         procedure="check.image_view.button_scroll_documents_left_visible">
+            <variable name="visible">true</variable>
+          </ProcedureCall>
+          <CatchSequence exception="TestException" id="_1qdT" maxerror="0">
+            <SetGlobalStep disabled="true" id="_1rhx"
+                           varname="image_window_appears">
+              <default>false</default>
+            </SetGlobalStep>
+          </CatchSequence>
+        </TryStep>
+      </Procedure>
+      <Procedure id="_1qdW" name="open_image_view_using_menu_check_it">
+        <ProcedureCall id="_1qdX" procedure="check.product.not_opened"/>
+        <IfSequence id="_1qdY" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
+          <ProcedureCall id="_1qdZ" procedure="wait.product_is_opened"/>
+        </IfSequence>
+        <ProcedureCall id="_1qda" procedure="check.product.not_opened"/>
+        <IfSequence id="_1qdb" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
+          <ProcedureCall id="_1qdc" predelay="3000"
+                         procedure="wait.product_is_opened"/>
+        </IfSequence>
+        <ProcedureCall id="_1qdd" procedure="check.product.not_opened"/>
+        <IfSequence id="_1qde" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
+          <ProcedureCall id="_1qdf" procedure="wait.product_is_opened"/>
+          <ElseSequence id="_1qdg">
+            <IfSequence id="_1qdh"
+                        test="&#34;$(view_Id1)&#34;&lt;&gt;&#34;&#34;">
+              <TryStep id="_1qdl" name="select_band">
+                <ProcedureCall id="_1qdm"
+                               procedure="select.product_tree.band">
+                  <variable name="prod_id">0</variable>
+                  <variable name="group_id">$(group_id1)</variable>
+                  <variable name="view_id">$(view_Id1)</variable>
+                  <variable name="band">$(bandName)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1qdn"
                                maxerror="0">
-                  <TryStep id="_1oUQ" name="check_image_view">
-                    <ProcedureCall id="_1oQd"
-                                   procedure="check.image_view.visible">
-                      <variable name="visible">true</variable>
+                  <TryStep id="_1qdt">
+                    <ProcedureCall id="_1qds"
+                                   procedure="select.product_tree.band">
+                      <variable name="prod_id">0</variable>
+                      <variable name="group_id">0</variable>
+                      <variable name="view_id">0</variable>
+                      <variable name="band">$(bandName)</variable>
                     </ProcedureCall>
-                    <ProcedureCall id="_1oUM"
-                                   procedure="check.image_view.button_maximize_window_visible">
-                      <variable name="visible">true</variable>
-                    </ProcedureCall>
-                    <ProcedureCall id="_1oUN"
-                                   procedure="check.image_view.button_show_opened_documents_list_visible">
-                      <variable name="visible">true</variable>
-                    </ProcedureCall>
-                    <ProcedureCall id="_1oUO"
-                                   procedure="check.image_view.button_scroll_documents_right_visible">
-                      <variable name="visible">true</variable>
-                    </ProcedureCall>
-                    <ProcedureCall id="_1oUP"
-                                   procedure="check.image_view.button_scroll_documents_left_visible">
-                      <variable name="visible">true</variable>
-                    </ProcedureCall>
-                    <CatchSequence exception="TestException" id="_1oUR"
+                    <CatchSequence exception="TestException" id="_1qdu"
                                    maxerror="0">
-                      <ProcedureCall id="_1oUS" procedure="run-log.logError">
-                        <variable name="message">image view is not appear</variable>
-                        <variable name="withScreenshots">true</variable>
+                      <ProcedureCall id="_1qdv"
+                                     procedure="select.product_tree.band">
+                        <variable name="prod_id">0</variable>
+                        <variable name="group_id"/>
+                        <variable name="view_id">0</variable>
+                        <variable name="band">$(bandName)</variable>
                       </ProcedureCall>
                     </CatchSequence>
                   </TryStep>
                 </CatchSequence>
               </TryStep>
+              <TryStep id="_1qdy" name="select_menu_opem_image_window">
+                <ProcedureCall id="_1qdw" procedure="do_click.menu.window"/>
+                <ProcedureCall id="_1qdx"
+                               procedure="do_click.menu.window.open_image_window"/>
+                <CatchSequence exception="TestException" id="_1qdz"
+                               maxerror="0">
+                  <TryStep id="_1qet">
+                    <ProcedureCall id="_1qeu"
+                                   procedure="select.product_tree.band">
+                      <variable name="prod_id">0</variable>
+                      <variable name="group_id">0</variable>
+                      <variable name="view_id">0</variable>
+                      <variable name="band">$(bandName)</variable>
+                    </ProcedureCall>
+                    <CatchSequence exception="TestException" id="_1qev"
+                                   maxerror="0">
+                      <ProcedureCall id="_1qew"
+                                     procedure="select.product_tree.band">
+                        <variable name="prod_id">0</variable>
+                        <variable name="group_id"/>
+                        <variable name="view_id">0</variable>
+                        <variable name="band">$(bandName)</variable>
+                      </ProcedureCall>
+                    </CatchSequence>
+                  </TryStep>
+                  <TryStep id="_1qex" name="select_menu_opem_image_window">
+                    <ProcedureCall id="_1qey"
+                                   procedure="do_click.menu.window"/>
+                    <ProcedureCall id="_1qez"
+                                   procedure="do_click.menu.window.open_image_window"/>
+                    <CatchSequence exception="TestException" id="_1qe+"
+                                   maxerror="0">
+                      <TryStep id="_1qf3">
+                        <ProcedureCall id="_1qfB"
+                                       procedure="select.product_tree.band">
+                          <variable name="prod_id">0</variable>
+                          <variable name="group_id"/>
+                          <variable name="view_id">0</variable>
+                          <variable name="band">$(bandName)</variable>
+                        </ProcedureCall>
+                        <CatchSequence exception="TestException" id="_1qf5"
+                                       maxerror="0"/>
+                      </TryStep>
+                      <TryStep id="_1qf7"
+                               name="select_menu_opem_image_window">
+                        <ProcedureCall id="_1qf8"
+                                       procedure="do_click.menu.window"/>
+                        <ProcedureCall id="_1qf9"
+                                       procedure="do_click.menu.window.open_image_window"/>
+                        <CatchSequence exception="TestException" id="_1qfA"
+                                       maxerror="0"/>
+                      </TryStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1qdr"
+                             procedure="utility.wait_image_created_handle_error"/>
+              <IfSequence id="_1ri3"
+                          test="&#34;$(image_window_appears)&#34;==&#34;false&#34;">
+                <ProcedureCall id="_1ri4" procedure="run-log.logError">
+                  <variable name="message">image view is not appear</variable>
+                  <variable name="withScreenshots">true</variable>
+                </ProcedureCall>
+              </IfSequence>
             </IfSequence>
           </ElseSequence>
         </IfSequence>
+      </Procedure>
+      <Procedure id="_1qd-" name="check_masks_layer_world_map">
+        <TestStep id="_1qe0" name="check_world_map">
+          <comment>@teststep Check World Map.</comment>
+          <ProcedureCall disabled="true" id="_1qe1"
+                         procedure="do_click.main_toolbar.views.worldmap">
+            <comment>@teststep Open world map.</comment>
+          </ProcedureCall>
+          <ProcedureCall id="_1r4y" procedure="open.views.worldmap"/>
+          <ProcedureCall disabled="true" id="_1qe2" procedure="close.dialog">
+            <comment>@teststep Close World Map.</comment>
+          </ProcedureCall>
+        </TestStep>
+        <IfSequence id="_1qe3" test="&#34;$(mask1 )&#34;&lt;&gt;&#34;&#34;">
+          <TestStep id="_1qe4" name="check_mask_manager">
+            <comment>@teststep Check Mask Managment.</comment>
+            <ProcedureCall disabled="true" id="_1qe5"
+                           procedure="do_click.main_toolbar.views.mask_manager">
+              <comment>@teststep Open Mask Manager</comment>
+            </ProcedureCall>
+            <ProcedureCall id="_1r4z" procedure="open.views.mask_manager"/>
+            <SetGlobalStep disabled="true" id="_1qe6" varname="table">
+              <default>Dialog.maskTable</default>
+            </SetGlobalStep>
+            <SetGlobalStep id="_1qe7" varname="table">
+              <default>NbMainWindow.maskTable</default>
+            </SetGlobalStep>
+            <TryStep id="_1qe8">
+              <ProcedureCall id="_1qe9" procedure="get.tree.rowCount">
+                <variable name="id">$(table)</variable>
+                <comment>@teststep Get number of masks.</comment>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1qeA"
+                             maxerror="0"/>
+            </TryStep>
+            <ServerScriptStep disabled="true" id="_1qeB" name="print">
+              <code>print "Masks number = $(rowCount)"  </code>
+            </ServerScriptStep>
+            <SetGlobalStep id="_1qeC" varname="masks_number">
+              <default>$(rowCount)</default>
+            </SetGlobalStep>
+            <IfSequence id="_1qeD" test="$(masks_number)&gt;0">
+              <comment>@teststep Select and deselect all the mask after each other.</comment>
+              <IfSequence id="_1qeE" test="$(masks_number)&gt;200">
+                <SetGlobalStep id="_1qeF" varname="number_of_repeats">
+                  <default>200</default>
+                </SetGlobalStep>
+                <ElseSequence id="_1qeG">
+                  <SetGlobalStep id="_1qeH" varname="number_of_repeats">
+                    <default>$(masks_number)</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+              <RepeatSequence count="$(number_of_repeats)" id="_1qeI"
+                              name="check_masks" var="m">
+                <SetGlobalStep disabled="true" id="_1qeJ" varname="table">
+                  <default>Dialog.maskTable</default>
+                </SetGlobalStep>
+                <SetGlobalStep id="_1qeK" varname="table">
+                  <default>NbMainWindow.maskTable</default>
+                </SetGlobalStep>
+                <TryStep id="_1qeL" name="select_visible">
+                  <ProcedureCall id="_1qeM"
+                                 procedure="do_click.table.checkbox">
+                    <variable name="tableId">$(table)</variable>
+                    <variable name="column">0</variable>
+                    <variable name="row">$(m)</variable>
+                  </ProcedureCall>
+                  <CatchSequence exception="TestException" id="_1qeN"
+                                 maxerror="0">
+                    <ServerScriptStep id="_1qeO" name="error">
+                      <code>rc.logError("Mask $(m) cannot be selected.")</code>
+                    </ServerScriptStep>
+                  </CatchSequence>
+                </TryStep>
+                <TryStep id="_1qeP" name="deselect_visible">
+                  <ProcedureCall id="_1qeQ"
+                                 procedure="do_click.table.checkbox">
+                    <variable name="tableId">$(table)</variable>
+                    <variable name="column">0</variable>
+                    <variable name="row">$(m)</variable>
+                  </ProcedureCall>
+                  <CatchSequence exception="TestException" id="_1qeR"
+                                 maxerror="0">
+                    <ServerScriptStep id="_1qeS" name="error">
+                      <code>rc.logError("Mask $(m) cannot be selected.")</code>
+                    </ServerScriptStep>
+                  </CatchSequence>
+                </TryStep>
+              </RepeatSequence>
+              <ElseSequence id="_1qeT">
+                <ProcedureCall id="_1qeU" procedure="run-log.make_screensot">
+                  <variable name="iw_name">mask_manager</variable>
+                  <variable name="iw_name_example">error_dialog</variable>
+                </ProcedureCall>
+                <ServerScriptStep id="_1qeV" name="error">
+                  <code>rc.logError("Mask manager is empty.")</code>
+                </ServerScriptStep>
+              </ElseSequence>
+            </IfSequence>
+            <ProcedureCall disabled="true" id="_1qeW"
+                           procedure="close.dialog">
+              <comment>@teststep Close Mask Manager</comment>
+            </ProcedureCall>
+            <ProcedureCall disabled="true" id="_1qeX"
+                           procedure="do_click.run_the_Garbage_Collector">
+              <comment>@teststep Force a garbage collection.</comment>
+            </ProcedureCall>
+          </TestStep>
+          <TestStep id="_1qeY" name="check_layer_manager">
+            <comment>@teststep Check Layer Managment.</comment>
+            <ProcedureCall disabled="true" id="_1qeZ"
+                           procedure="do_click.main_toolbar.views.layer_manager">
+              <comment>@teststep Open Layer Manager</comment>
+            </ProcedureCall>
+            <ProcedureCall id="_1r4+" procedure="open.views.layer_manager"/>
+            <TryStep id="_1qea">
+              <ProcedureCall disabled="true" id="_1qeb"
+                             procedure="check.opened.layer_manager"/>
+              <ProcedureCall id="_1qec" procedure="get.tree.layer_node_id">
+                <variable name="layer_name">Masks</variable>
+                <comment>@teststep Find Masks in the layer manager</comment>
+              </ProcedureCall>
+              <ServerScriptStep disabled="true" id="_1qed" name="print">
+                <code>print "Layer Masks id = $(layer_node_id)"  </code>
+              </ServerScriptStep>
+              <ProcedureCall disabled="true" id="_1qee"
+                             procedure="do_click.layer_manager.layer_node">
+                <variable name="layer_node1">$(layer_node_id)</variable>
+                <variable name="layer_node2"/>
+                <comment>@teststep Open Masks node in the layer manager</comment>
+              </ProcedureCall>
+              <IfSequence id="_1qef" test="$(number_of_repeats)&gt;0">
+                <comment>@teststep Select and deselect all the layer after each other.</comment>
+                <RepeatSequence count="$(number_of_repeats)" id="_1qeg"
+                                name="check_masks" var="m">
+                  <ProcedureCall id="_1qeh"
+                                 procedure="do_click.layer_manager.layer_checkbox">
+                    <variable name="layer_node1">$(layer_node_id)</variable>
+                    <variable name="layer_node2">$(m)</variable>
+                  </ProcedureCall>
+                </RepeatSequence>
+                <ProcedureCall disabled="true" id="_1qei"
+                               procedure="do_click.run_the_Garbage_Collector"/>
+                <RepeatSequence count="$(masks_number)" disabled="true"
+                                id="_1qej" name="check_masks" var="m">
+                  <ProcedureCall id="_1qek"
+                                 procedure="do_click.layer_manager.layer_checkbox">
+                    <variable name="layer_node1">$(layer_node_id)</variable>
+                    <variable name="layer_node2">$(m)</variable>
+                  </ProcedureCall>
+                </RepeatSequence>
+                <ProcedureCall disabled="true" id="_1qel"
+                               procedure="do_click.run_the_Garbage_Collector">
+                  <comment>@teststep Force a garbage collection.</comment>
+                </ProcedureCall>
+                <ElseSequence id="_1qem">
+                  <ServerScriptStep id="_1qen" name="error">
+                    <code>rc.logError("Layer manager is empty.")</code>
+                  </ServerScriptStep>
+                </ElseSequence>
+              </IfSequence>
+              <CatchSequence exception="TestException" id="_1qeo"
+                             maxerror="0"/>
+            </TryStep>
+            <ProcedureCall disabled="true" id="_1qep"
+                           procedure="close.dialog">
+              <comment>@teststep Close Layer Manager</comment>
+            </ProcedureCall>
+          </TestStep>
+        </IfSequence>
+        <ProcedureCall disabled="true" id="_1qeq"
+                       procedure="check.product.tree_number_elements">
+          <variable name="number_elements">$(elements)</variable>
+          <comment>@teststep Check elements in product tree.</comment>
+        </ProcedureCall>
       </Procedure>
     </Package>
     <Package id="_1oQf" name="pixel_geo_coding">
@@ -1578,24 +1661,49 @@
                         y="190"/>
       </Procedure>
       <Procedure id="_1obd" name="rectangle">
+        <variable name="band"/>
         <ProcedureCall id="_1ocL"
                        procedure="do_click.main_toolbar.tools.draw_rectangle"/>
-        <MouseEventStep clicks="0" client="$(client)"
-                        component="NbMainWindow.ProductSceneViewTopComponent_2.panel"
-                        event="MOUSE_MOVED" id="_1obf" modifiers="0" x="442"
-                        y="206"/>
-        <MouseEventStep clicks="1" client="$(client)"
-                        component="NbMainWindow.ProductSceneViewTopComponent_2.panel"
-                        event="MOUSE_PRESSED" id="_1obg" modifiers="16"
-                        x="442" y="206"/>
-        <MouseEventStep clicks="0" client="$(client)"
-                        component="NbMainWindow.ProductSceneViewTopComponent_2.panel"
-                        event="MOUSE_DRAGGED" id="_1obh" modifiers="16"
-                        x="632" y="293"/>
-        <MouseEventStep clicks="1" client="$(client)"
-                        component="NbMainWindow.ProductSceneViewTopComponent_2.panel"
-                        event="MOUSE_RELEASED" id="_1obi" modifiers="16"
-                        x="632" y="293"/>
+        <TryStep id="_1qZM">
+          <MouseEventStep clicks="0" client="$(client)"
+                          component="NbMainWindow.ProductSceneViewTopComponent_2.panel"
+                          event="MOUSE_MOVED" id="_1qZL" modifiers="0" x="442"
+                          y="206"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.ProductSceneViewTopComponent_2.panel"
+                          event="MOUSE_PRESSED" id="_1obg" modifiers="16"
+                          x="442" y="206"/>
+          <MouseEventStep clicks="0" client="$(client)"
+                          component="NbMainWindow.ProductSceneViewTopComponent_2.panel"
+                          event="MOUSE_DRAGGED" id="_1obh" modifiers="16"
+                          x="632" y="293"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.ProductSceneViewTopComponent_2.panel"
+                          event="MOUSE_RELEASED" id="_1obi" modifiers="16"
+                          x="632" y="293"/>
+          <CatchSequence exception="TestException" id="_1qZN" maxerror="0">
+            <TryStep id="_1qZO">
+              <MouseEventStep clicks="0" client="$(client)"
+                              component="NbMainWindow.image_view.panel"
+                              event="MOUSE_MOVED" id="_1qZH" modifiers="0"
+                              x="429" y="210"/>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.image_view.panel"
+                              event="MOUSE_PRESSED" id="_1qZI" modifiers="16"
+                              x="429" y="210"/>
+              <MouseEventStep clicks="0" client="$(client)"
+                              component="NbMainWindow.image_view.panel"
+                              event="MOUSE_DRAGGED" id="_1qZJ" modifiers="16"
+                              x="639" y="423"/>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.image_view.panel"
+                              event="MOUSE_RELEASED" id="_1qZK" modifiers="16"
+                              x="639" y="423"/>
+              <CatchSequence exception="TestException" id="_1qZP"
+                             maxerror="0"/>
+            </TryStep>
+          </CatchSequence>
+        </TryStep>
       </Procedure>
       <Procedure id="_1obj" name="ellipse">
         <ProcedureCall id="_1ocM"
@@ -1735,6 +1843,322 @@
                         event="MOUSE_MPRC" id="_1ocI" modifiers="16"/>
       </Procedure>
     </Package>
+    <Package id="_1pyR" name="error_handling">
+      <Procedure id="_1r4e" name="if_Error_shoot_error_message">
+        <TryStep id="_1rS3">
+          <ProcedureCall id="_1ri2"
+                         procedure="wait.appear.error.dialog_Error"/>
+          <ProcedureCall id="_1r4g" procedure="run-log.make_screensot">
+            <variable name="iw_name">error_dialog_Error</variable>
+            <variable name="iw_name_example">error_dialog</variable>
+          </ProcedureCall>
+          <TryStep id="_1r4h" name="get_error_text">
+            <ProcedureCall id="_1r4w"
+                           procedure="get.error_text.snap_error_open_product"/>
+            <CatchSequence exception="TestException" id="_1r4k" maxerror="0">
+              <SetGlobalStep id="_1r3P" varname="open_product_error"/>
+            </CatchSequence>
+          </TryStep>
+          <ProcedureCall id="_1r4l"
+                         procedure="do_click.error_dialog.button_OK_Error"/>
+          <ProcedureCall id="_1r4o"
+                         procedure="run-log.error_message.error_dialog_appears">
+            <variable name="dialog">Error $(open_product_error)</variable>
+          </ProcedureCall>
+          <CatchSequence exception="TestException" id="_1rS4" maxerror="0"/>
+        </TryStep>
+      </Procedure>
+      <Procedure id="_1r4S"
+                 name="if_any_error_make_screenshot_shoot_error_message">
+        <ProcedureCall id="_1rRs"
+                       procedure="error_handling.if_SNAP_Error_shoot_error_message"/>
+        <ProcedureCall id="_1r4U"
+                       procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
+          <variable name="screenshot">SNAP_SNAP_Error</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1r4X"
+                       procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
+          <variable name="screenshot">SNAP_SNAP_Error</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1r4s"
+                       procedure="error_handling.if_Error_shoot_error_message"/>
+        <ProcedureCall id="_1r4Z"
+                       procedure="qfs.swing.cleanup.closeAllModalDialogs">
+          <variable name="maxDialogs">5</variable>
+        </ProcedureCall>
+      </Procedure>
+      <Procedure id="_1r4x" name="if_SNAP_Error_shoot_error_message">
+        <TryStep id="_1pEe">
+          <ProcedureCall id="_1pEc"
+                         procedure="wait.appear.error.dialog_SNAP-Error"/>
+          <ProcedureCall id="_1pEh" procedure="run-log.make_screensot">
+            <variable name="iw_name">error_dialog</variable>
+            <variable name="iw_name_example">error_dialog</variable>
+          </ProcedureCall>
+          <TryStep id="_1rRx" name="get_error_text">
+            <comment>snap_error</comment>
+            <ProcedureCall id="_1pEd" procedure="get.error_text.snap_error"/>
+            <CatchSequence exception="TestException" id="_1rRy" maxerror="0">
+              <SetGlobalStep id="_1rS1" varname="snap_error"/>
+            </CatchSequence>
+          </TryStep>
+          <ProcedureCall id="_1pEb"
+                         procedure="do_click.error_dialog.button_OK_SNAP_Error"/>
+          <ProcedureCall id="_1pEg" procedure="run-log.logError">
+            <variable name="message">$(snap_error)</variable>
+            <variable name="withScreenshots">false</variable>
+          </ProcedureCall>
+          <CatchSequence exception="TestException" id="_1pEf" maxerror="0"/>
+        </TryStep>
+      </Procedure>
+      <Procedure id="_1pyV" name="if_SNAP_SNAP_Error_shoot_error_message">
+        <variable name="screenshot"/>
+        <TryStep id="_1qJl" name="click_OK_in_dialog_SNAP_SNAP_Error">
+          <ProcedureCall id="_1qJm"
+                         procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
+          <ProcedureCall id="_1qJq" procedure="run-log.make_screensot">
+            <variable name="iw_name">$(screenshot)</variable>
+            <variable name="iw_name_example">error_dialog</variable>
+          </ProcedureCall>
+          <TryStep id="_1rRz" name="get_error_text">
+            <comment>error_message</comment>
+            <ProcedureCall id="_1rR+"
+                           procedure="get.error_text.message_in_dialog_SNAP_SNAP_Error"/>
+            <CatchSequence exception="TestException" id="_1rR-" maxerror="0">
+              <SetGlobalStep id="_1rS0" varname="error_message"/>
+            </CatchSequence>
+          </TryStep>
+          <ProcedureCall id="_1qJn"
+                         procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
+          <ProcedureCall id="_1qJr" procedure="run-log.logError">
+            <variable name="message">SNAP_SNAP_Error $(error_message)</variable>
+            <variable name="withScreenshots">false</variable>
+          </ProcedureCall>
+          <CatchSequence exception="TestException" id="_1qJo" maxerror="0"/>
+        </TryStep>
+        <ProcedureCall id="_1qJs"
+                       procedure="error_handling.cancel_dialogException"/>
+      </Procedure>
+      <Procedure id="_1pv5" name="cancel_dialogException">
+        <TryStep id="_1pyT">
+          <ComponentWaiter client="$(client)" component="dialogException"
+                           errorlevel="0" id="_1pv6" raise="false"
+                           timeout="10"/>
+          <FetchTextStep client="$(client)" component="dialogException.editor"
+                         id="_1pvC" local="true" varname="exception_text"/>
+          <ProcedureCall id="_1pyS"
+                         procedure="do_click.error_dialog.button_cancel_dialogException"/>
+          <ProcedureCall id="_1qJu" procedure="run-log.logError">
+            <variable name="message">$(exception_text)</variable>
+            <variable name="withScreenshots">false</variable>
+          </ProcedureCall>
+          <CatchSequence exception="TestException" id="_1pyU" maxerror="0"/>
+        </TryStep>
+      </Procedure>
+    </Package>
+    <Package id="_1rS9" name="subset">
+      <Procedure id="_1rZX" name="check_subset_tool_appears">
+        <comment>@teststep Check Subset tool window appears.</comment>
+        <TryStep id="_1rZY" name="check_subset_tool_appears">
+          <ProcedureCall id="_1rZZ" procedure="check.opened.subset_dialog"/>
+          <SetGlobalStep id="_1rZa" varname="subset_tool_appears">
+            <default>true</default>
+          </SetGlobalStep>
+          <CatchSequence exception="TestException" id="_1rZb" maxerror="0">
+            <SetGlobalStep id="_1rZc" varname="subset_tool_appears">
+              <default>false</default>
+            </SetGlobalStep>
+          </CatchSequence>
+        </TryStep>
+      </Procedure>
+      <Procedure id="_1rZQ" name="define_spatial_subset_pixelpos">
+        <variable name="start_x"/>
+        <variable name="start_y"/>
+        <variable name="end_x"/>
+        <variable name="end_y"/>
+        <comment>@teststep Define spatial subset according to pixel position.</comment>
+        <ProcedureCall id="_1rZd"
+                       procedure="subset.check_subset_tool_appears"/>
+        <IfSequence id="_1rZV"
+                    test="&#34;$(subset_tool_appears)&#34;==&#34;true&#34;">
+          <TryStep id="_1rWl" name="define_spatial_subset">
+            <ProcedureCall id="_1ra5"
+                           procedure="do_click.subset_tool.tab_spatial_subset"/>
+            <ProcedureCall id="_1rWr" procedure="set.subset_tool.start_X">
+              <variable name="val">$(start_x)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1rWs" procedure="set.subset_tool.start_Y">
+              <variable name="val">$(start_y)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1rWt" procedure="set.subset_tool.end_X">
+              <variable name="val">$(end_x)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1rWu" procedure="set.subset_tool.end_Y">
+              <variable name="val">$(end_y)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1rWn" maxerror="0">
+              <ProcedureCall id="_1rWo" procedure="run-log.make_screensot">
+                <variable name="iw_name">import_product_window</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1rWp" procedure="run-log.logError">
+                <variable name="message">Subset button is disabled</variable>
+                <variable name="withScreenshots"/>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+          <ElseSequence id="_1rZW">
+            <ProcedureCall id="_1rXf" procedure="run-log.make_screensot">
+              <variable name="iw_name">subset_tool_not_appears</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1rXg" procedure="run-log.logError">
+              <variable name="message">pixel position subset failed</variable>
+              <variable name="withScreenshots">true</variable>
+            </ProcedureCall>
+          </ElseSequence>
+        </IfSequence>
+      </Procedure>
+      <Procedure id="_1rZe" name="define_band_subset">
+        <variable name="band_name"/>
+        <comment>@teststep Define band subset.</comment>
+        <ProcedureCall id="_1rZf"
+                       procedure="subset.check_subset_tool_appears"/>
+        <IfSequence id="_1rZg"
+                    test="&#34;$(subset_tool_appears)&#34;==&#34;true&#34;">
+          <TryStep id="_1rY1" name="define_band_subset">
+            <ProcedureCall id="_1rXw"
+                           procedure="do_click.subset_tool.tab_spatial_subset"/>
+            <ProcedureCall id="_1ra4"
+                           procedure="do_click.subset_tool.tab_band_subset"/>
+            <ProcedureCall id="_1rY0"
+                           procedure="select.subset_tool.select_none_band"/>
+            <TryStep id="_1rhd">
+              <ProcedureCall id="_1rhb"
+                             procedure="do_click.subset_tool.check_box_band">
+                <variable name="band_name">$(band_name)</variable>
+              </ProcedureCall>
+              <SetGlobalStep id="_1rhh" varname="band_subset">
+                <default>$(band_name)</default>
+              </SetGlobalStep>
+              <CatchSequence exception="TestException" id="_1rhe"
+                             maxerror="0">
+                <ProcedureCall id="_1rhf"
+                               procedure="get.subset_tool.the_first_band_name"/>
+                <SetGlobalStep id="_1rhg" varname="band_subset">
+                  <default>$(band_for_subset)</default>
+                </SetGlobalStep>
+                <TryStep id="_1rhi">
+                  <ProcedureCall id="_1rhc"
+                                 procedure="do_click.subset_tool.check_box_band">
+                    <variable name="band_name">$(band_subset)</variable>
+                  </ProcedureCall>
+                  <CatchSequence exception="TestException" id="_1rY6"
+                                 maxerror="0">
+                    <ProcedureCall id="_1rY7"
+                                   procedure="run-log.make_screensot">
+                      <variable name="iw_name">band_subset</variable>
+                    </ProcedureCall>
+                    <ProcedureCall id="_1rY8" procedure="run-log.logError">
+                      <variable name="message">Band subset failed</variable>
+                      <variable name="withScreenshots">true</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </TryStep>
+          <ElseSequence id="_1rZp">
+            <ProcedureCall id="_1rZq" procedure="run-log.make_screensot">
+              <variable name="iw_name">subset_tool_not_appears</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1rZr" procedure="run-log.logError">
+              <variable name="message">Subset tool is not appear</variable>
+              <variable name="withScreenshots">true</variable>
+            </ProcedureCall>
+          </ElseSequence>
+        </IfSequence>
+      </Procedure>
+      <Procedure id="_1rZs" name="define_spatial_subset_geoposition">
+        <variable name="north_lat"/>
+        <variable name="west_lon"/>
+        <variable name="south_lat"/>
+        <variable name="east_lon"/>
+        <comment>@teststep Define spatial subset according to geo position.</comment>
+        <ProcedureCall id="_1rZt"
+                       procedure="subset.check_subset_tool_appears"/>
+        <IfSequence id="_1rZu"
+                    test="&#34;$(subset_tool_appears)&#34;==&#34;true&#34;">
+          <TryStep id="_1rZv" name="define_spatial_subset">
+            <ProcedureCall id="_1ra6"
+                           procedure="do_click.subset_tool.tab_spatial_subset"/>
+            <ProcedureCall id="_1ra7"
+                           procedure="do_click.subset_tool.tab_geo_coordinates"/>
+            <ProcedureCall id="_1ra8" procedure="set.subset_tool.north_lat">
+              <variable name="val">$(north_lat)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1ra9" procedure="set.subset_tool.west_lon">
+              <variable name="val">$(west_lon)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1raA" procedure="set.subset_tool.south_lat">
+              <variable name="val">$(south_lat)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1raB" procedure="set.subset_tool.east_lon">
+              <variable name="val">$(east_lon)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1rZ+" maxerror="0">
+              <ProcedureCall id="_1rZ-" procedure="run-log.make_screensot">
+                <variable name="iw_name">import_geo_subset</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1ra0" procedure="run-log.logError">
+                <variable name="message">geo-coding subset failed</variable>
+                <variable name="withScreenshots">true</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+          <ElseSequence id="_1ra1">
+            <ProcedureCall id="_1ra2" procedure="run-log.make_screensot">
+              <variable name="iw_name">subset_tool_not_appears</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1ra3" procedure="run-log.logError">
+              <variable name="message">Subset tool is not appear</variable>
+              <variable name="withScreenshots"/>
+            </ProcedureCall>
+          </ElseSequence>
+        </IfSequence>
+      </Procedure>
+      <Procedure id="_1rSA" name="handle_incomplete_subset_definition_dialog">
+        <TryStep id="_1rht">
+          <ProcedureCall id="_1rha"
+                         procedure="do_click.subset_tool.incomplete_subset_definition.button_YES_incomplete_subset_definition"/>
+          <CatchSequence exception="TestException" id="_1rhu" maxerror="0"/>
+        </TryStep>
+        <TryStep id="_1rhv">
+          <ProcedureCall id="_1rhs"
+                         procedure="do_click.subset_tool.incomplete_subset_definition.button_YES_no_flag_dataset_selected"/>
+          <CatchSequence exception="TestException" id="_1rhw" maxerror="0"/>
+        </TryStep>
+      </Procedure>
+    </Package>
+    <Package id="_1rhj" name="help">
+      <Procedure id="_1rhk" name="check_help_appears_close">
+        <TryStep id="_1qcv" name="check_help_appears">
+          <CheckBooleanStep checktype="enabled" client="$(client)"
+                            component="frameHelp.toolbar" id="_1rhl"/>
+          <CheckBooleanStep checktype="enabled" client="$(client)"
+                            component="frameHelp.tabContents.tree"
+                            id="_1qcx"/>
+          <CatchSequence exception="TestException" id="_1qcy" maxerror="0">
+            <ServerScriptStep id="_1qcz" name="error">
+              <code>rc.logError("'Help' does not appear.")</code>
+            </ServerScriptStep>
+          </CatchSequence>
+        </TryStep>
+        <TryStep id="_1rhm" name="close_help">
+          <WindowEventStep client="$(client)" component="frameHelp"
+                           event="WINDOW_CLOSING" id="_1oaK"/>
+          <CatchSequence exception="TestException" id="_1rhn" maxerror="0"/>
+        </TryStep>
+      </Procedure>
+    </Package>
   </PackageRoot>
   <ExtraSequence id="_4">
     <IfSequence id="_58D" test="${qftest:windows}">
@@ -1772,7 +2196,7 @@
           <variable name="group_id"/>
           <variable name="metadata_id">$(additional_metadata_node_id)</variable>
         </ProcedureCall>
-        <ProcedureCall id="_1oMi" procedure="open.metadata_view"/>
+        <ProcedureCall id="_1oMi" procedure="open.window.metadata_window"/>
         <TryStep id="_1oMj" name="check_view_title">
           <ProcedureCall id="_1oMk" procedure="check.image_view.title">
             <variable name="prod_nr">1</variable>

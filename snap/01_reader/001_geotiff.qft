@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.4">
+  <include>qfs.qft</include>
+  <include>reader.qft</include>
+  <TestSet id="_1" name="001_import_geotiff_product"
+           reportname="001 Import GeoTIFF product or subset">
+    <DependencyReference id="_1lXF"
+                         reference="dependencies.start_application"/>
+    <TestSet id="_D" name="import_product_open_image_window">
+      <DataDriver id="_3y4"
+                  loopreportname="Import $(dataInDir)/$(fileName) data product"
+                  name="dataTable">
+        <ProcedureCall id="_Bt4" procedure="tables.geotiff"/>
+      </DataDriver>
+      <TestCase id="_2" name="test" reportname="$(productName)">
+        <ProcedureCall id="_1lW+" procedure="test_import">
+          <variable name="prod_reader_type">geotiff</variable>
+        </ProcedureCall>
+      </TestCase>
+    </TestSet>
+  </TestSet>
+  <PackageRoot id="_3"/>
+  <ExtraSequence id="_4"/>
+  <WindowList id="_5"/>
+</RootStep>

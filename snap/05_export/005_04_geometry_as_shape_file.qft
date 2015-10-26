@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.4">
+  <include>qfs.qft</include>
+  <include>../lib/snap_export.qft</include>
+  <variable name="output_folder">export</variable>
+  <TestSet id="_1" name="005_04_geometry_as_shape_file"
+           reportname="005-04 Export geometry as shape file">
+    <DependencyReference id="_1pO-"
+                         reference="start_application_for_processing">
+      <variable name="output_dir">$(output_folder)</variable>
+    </DependencyReference>
+    <TestCase id="_79G" name="export_geometry_as_shape_s3a_data">
+      <ProcedureCall id="_1qdi" procedure="product_meta_data.S3A_OL_1"/>
+      <ProcedureCall id="_1oXQ" procedure="open.product_in_snap">
+        <variable name="prod_dir">$(dataInDir)</variable>
+        <variable name="in_out">in</variable>
+        <variable name="prod">$(fileName)</variable>
+        <variable name="product_type"/>
+      </ProcedureCall>
+      <SetGlobalStep id="_1qdQ" varname="exp_file">
+        <default>geometry_s3a</default>
+      </SetGlobalStep>
+      <ProcedureCall id="_1qd8" procedure="test_sequence"/>
+    </TestCase>
+    <TestCase disabled="true" id="_1p0F"
+              name="export_geometry_as_shape_meris_data">
+      <ProcedureCall id="_1qdI" procedure="product_meta_data.MER_RR__1P"/>
+      <ProcedureCall id="_1qdj" procedure="open.product_in_snap">
+        <variable name="prod_dir">$(dataInDir)</variable>
+        <variable name="in_out">in</variable>
+        <variable name="prod">$(fileName)</variable>
+        <variable name="product_type"/>
+      </ProcedureCall>
+      <SetGlobalStep id="_1qdR" varname="exp_file">
+        <default>geometry_meris</default>
+      </SetGlobalStep>
+      <ProcedureCall id="_1qd9" procedure="test_sequence"/>
+    </TestCase>
+  </TestSet>
+  <PackageRoot id="_3">
+    <Procedure id="_1qck" name="test_sequence">
+      <ProcedureCall id="_1qcl" procedure="check.product.not_opened"/>
+      <IfSequence id="_1qcm" test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+        <TestStep id="_1qcn" name="open_image_view">
+          <ProcedureCall id="_1qco"
+                         procedure="utility.open_image_view_check_it"/>
+        </TestStep>
+        <ProcedureCall id="_1qdh"
+                       procedure="do_click.main_toolbar.tools.draw_rectangle"/>
+        <BasicSequence id="_1qdW" name="draw_rectangle">
+          <MouseEventStep clicks="0" client="$(client)"
+                          component="NbMainWindow.[1]_Oa01_radiance2.panel"
+                          event="MOUSE_MOVED" id="_1qdc" modifiers="0" x="462"
+                          y="231"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.[1]_Oa01_radiance2.panel"
+                          event="MOUSE_PRESSED" id="_1qdd" modifiers="16"
+                          x="462" y="231"/>
+          <MouseEventStep clicks="0" client="$(client)"
+                          component="NbMainWindow.[1]_Oa01_radiance2.panel"
+                          event="MOUSE_DRAGGED" id="_1qde" modifiers="16"
+                          x="558" y="300"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.[1]_Oa01_radiance2.panel"
+                          event="MOUSE_RELEASED" id="_1qdf" modifiers="16"
+                          x="558" y="300"/>
+        </BasicSequence>
+        <ProcedureCall id="_1qdg"
+                       procedure="do_click.main_toolbar.tools.selectTool"/>
+        <TestStep id="_1qcp" name="open_export_dialog">
+          <TryStep id="_1qcq">
+            <SetGlobalStep id="_1qdX"
+                           varname="export_geometry_as_shape_appears"/>
+            <ProcedureCall id="_1qcr"
+                           procedure="open.export.geometry_as_shape_file"/>
+            <ProcedureCall id="_1qcs"
+                           procedure="check.opened.export.geometry_as_shape_file"/>
+            <CatchSequence exception="TestException" id="_1qct" maxerror="0">
+              <ProcedureCall id="_1qdY" procedure="do_click.menubar"/>
+              <ProcedureCall id="_1qdO"
+                             procedure="select.product_tree.vector_node">
+                <variable name="prod_id">0</variable>
+                <variable name="node_id">2</variable>
+                <variable name="node_name">geometry</variable>
+              </ProcedureCall>
+              <ProcedureCall disabled="true" id="_1qcv"
+                             procedure="run-log.logError">
+                <variable name="message">menu_item export geometry as shape file is disabled</variable>
+                <variable name="withScreenshots">false</variable>
+              </ProcedureCall>
+              <TryStep id="_1qcw">
+                <ProcedureCall id="_1qdK"
+                               procedure="open.export.geometry_as_shape_file"/>
+                <ProcedureCall id="_1qdL"
+                               procedure="check.opened.export.geometry_as_shape_file"/>
+                <CatchSequence exception="TestException" id="_1qcz"
+                               maxerror="0">
+                  <ProcedureCall disabled="true" id="_1qc+"
+                                 procedure="run-log.logError">
+                    <variable name="message">menu_item export geometry as shape file is disabled</variable>
+                    <variable name="withScreenshots">false</variable>
+                  </ProcedureCall>
+                  <ProcedureCall id="_1qdZ" procedure="do_click.menubar"/>
+                  <ProcedureCall id="_1qc-"
+                                 procedure="select.product_tree.band">
+                    <variable name="prod_id">0</variable>
+                    <variable name="group_id">$(group_id1)</variable>
+                    <variable name="view_id">$(view_Id1)</variable>
+                    <variable name="band">$(bandName)</variable>
+                  </ProcedureCall>
+                  <TryStep id="_1qd0">
+                    <ProcedureCall id="_1qdM"
+                                   procedure="open.export.geometry_as_shape_file"/>
+                    <ProcedureCall id="_1qdN"
+                                   procedure="check.opened.export.geometry_as_shape_file"/>
+                    <CatchSequence exception="TestException" id="_1qd3"
+                                   maxerror="0">
+                      <ProcedureCall id="_1qd4" procedure="run-log.logError">
+                        <variable name="message">dialog SNAP - Export Geometry as shape File does not appear</variable>
+                        <variable name="withScreenshots">false</variable>
+                      </ProcedureCall>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </TestStep>
+      </IfSequence>
+      <IfSequence id="_1qd5"
+                  test="&#34;$(export_geometry_as_shape_appears)&#34;==&#34;true&#34;">
+        <ProcedureCall id="_1qd6" procedure="export.geometry_as_shape_file"/>
+      </IfSequence>
+      <ProcedureCall id="_1qd7" procedure="close.all_products"/>
+    </Procedure>
+  </PackageRoot>
+  <ExtraSequence id="_4"/>
+  <WindowList id="_5"/>
+</RootStep>

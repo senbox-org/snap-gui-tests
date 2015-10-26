@@ -1,14 +1,765 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.3">
+<RootStep id="_0" name="root" version="4.0.4">
   <include>qfs.qft</include>
   <include>snap_components.qft</include>
   <include>snap_main.qft</include>
   <dependency>snap_main.qft</dependency>
   <dependency>snap_workflow.qft</dependency>
+  <dependency>../05_export/005_01_colour_legend_as_image.qft</dependency>
+  <dependency>../05_export/005_02_colour_palette.qft</dependency>
+  <dependency>../05_export/005_03_geocoding_envi_gcp_file.qft</dependency>
+  <dependency>../05_export/005_04_geometry_as_shape_file.qft</dependency>
+  <dependency>../05_export/subset/005_05_envisat.qft</dependency>
   <PackageRoot id="_3">
-    <Package id="_1lB5" name="export"/>
+    <Package id="_1qdt" name="check_exported_file"/>
+    <Package id="_1lB5" name="export">
+      <Procedure id="_1qb2" name="colour_legend_as_image">
+        <variable name="file_name"/>
+        <ProcedureCall id="_1l3w" procedure="path.main_path"/>
+        <SetGlobalStep id="_1pxw" local="true" varname="export_directory">
+          <default>${path:output_data_directory}export${path:slash}</default>
+        </SetGlobalStep>
+        <ProcedureCall id="_1qba"
+                       procedure="utility.export_colour_legend_image_dialog">
+          <variable name="file">$(export_directory)$(file_name)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1qbb"
+                       procedure="check_external_file.file_exists_setGlobal">
+          <variable name="fileName">$(export_directory)$(file_name)</variable>
+        </ProcedureCall>
+        <IfSequence id="_1qbm"
+                    test="&#34;$(fileExists)&#34;==&#34;false&#34;">
+          <ProcedureCall id="_1qbn" procedure="run-log.logError">
+            <variable name="message">$(file_name) is not exported</variable>
+            <variable name="withScreenshots">false</variable>
+          </ProcedureCall>
+        </IfSequence>
+      </Procedure>
+      <Procedure id="_1qbo" name="colour_palette_as_file_and_check">
+        <variable name="file_name"/>
+        <ProcedureCall id="_1qbp" procedure="path.main_path"/>
+        <SetGlobalStep id="_1qbq" local="true" varname="export_directory">
+          <default>${path:output_data_directory}export${path:slash}</default>
+        </SetGlobalStep>
+        <ProcedureCall id="_1qbr"
+                       procedure="utility.export_colour_palette_dialog">
+          <variable name="file">$(export_directory)$(file_name)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1qbs"
+                       procedure="check_external_file.file_exists_setGlobal">
+          <variable name="fileName">$(export_directory)$(file_name)</variable>
+        </ProcedureCall>
+        <IfSequence id="_1qbt"
+                    test="&#34;$(fileExists)&#34;==&#34;false&#34;">
+          <ProcedureCall id="_1qbu" procedure="run-log.logError">
+            <variable name="message">$(file_name) is not exported</variable>
+            <variable name="withScreenshots">false</variable>
+          </ProcedureCall>
+          <ElseSequence id="_1qb-">
+            <ProcedureCall id="_1qb+"
+                           procedure="check_external_file.check_text_in_external_file">
+              <variable name="file">$(export_directory)$(file_name)</variable>
+              <variable name="text">Sample</variable>
+              <comment>
+</comment>
+            </ProcedureCall>
+            <ProcedureCall id="_1qc0"
+                           procedure="check_external_file.check_text_in_external_file">
+              <variable name="file">$(export_directory)$(file_name)</variable>
+              <variable name="text">Number of colors</variable>
+              <comment>
+</comment>
+            </ProcedureCall>
+          </ElseSequence>
+        </IfSequence>
+      </Procedure>
+      <Procedure id="_1qc7" name="geocoding_envi_gcp_file_and_check">
+        <variable name="file_name"/>
+        <ProcedureCall id="_1qc8" procedure="path.main_path"/>
+        <SetGlobalStep id="_1qc9" local="true" varname="export_directory">
+          <default>${path:output_data_directory}export${path:slash}</default>
+        </SetGlobalStep>
+        <ProcedureCall id="_1qcA" postdelay="1000"
+                       procedure="utility.export_geocoding_envi_gcp_file_dialog">
+          <variable name="file">$(export_directory)$(file_name)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1qcB"
+                       procedure="check_external_file.file_exists_setGlobal">
+          <variable name="fileName">$(export_directory)$(file_name)</variable>
+        </ProcedureCall>
+        <IfSequence id="_1qcC"
+                    test="&#34;$(fileExists)&#34;==&#34;false&#34;">
+          <ProcedureCall id="_1qcD" procedure="run-log.logError">
+            <variable name="message">$(file_name) is not exported</variable>
+            <variable name="withScreenshots">false</variable>
+          </ProcedureCall>
+          <ElseSequence id="_1qcE">
+            <ProcedureCall id="_1qcF" predelay="1000"
+                           procedure="check_external_file.check_text_in_external_file">
+              <variable name="file">$(export_directory)$(file_name)</variable>
+              <variable name="text">ENVI</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1qcG"
+                           procedure="check_external_file.check_text_in_external_file">
+              <variable name="file">$(export_directory)$(file_name)</variable>
+              <variable name="text">GCP</variable>
+              <comment>
+</comment>
+            </ProcedureCall>
+          </ElseSequence>
+        </IfSequence>
+      </Procedure>
+      <Procedure id="_1qbD" name="view_as_image"/>
+      <Procedure id="_1qc1" name="view_as_google_earth_KMZ"/>
+      <Procedure id="_1qcK" name="transect_pixels"/>
+      <Procedure id="_1qcP" name="mask_pixels"/>
+      <Procedure id="_1qcb" name="geometry_as_shape_file">
+        <ProcedureCall id="_1qcj" procedure="path.main_path"/>
+        <SetGlobalStep id="_1qeK" local="true" varname="output_file">
+          <default>${path:output_data_directory}export${path:slash}$(exp_file)</default>
+        </SetGlobalStep>
+        <ProcedureCall id="_1qeJ"
+                       procedure="utility.geometry_as_shape_file_dialog">
+          <variable name="file">$(output_file)</variable>
+        </ProcedureCall>
+        <TestStep id="_1qeM" name="check_exported_files">
+          <SetGlobalStep id="_1qeO" varname="file_name">
+            <default>$(output_file)_Polygon.dbf</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1qeP"
+                         procedure="check_external_file.file_exists_setGlobal">
+            <variable name="fileName">$(file_name)</variable>
+          </ProcedureCall>
+          <IfSequence id="_1qdj"
+                      test="&#34;$(fileExists)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qdk" procedure="run-log.logError">
+              <variable name="message">$(file_name) is not exported</variable>
+              <variable name="withScreenshots">false</variable>
+            </ProcedureCall>
+          </IfSequence>
+          <SetGlobalStep id="_1qdR" varname="file_name">
+            <default>$(output_file)_Polygon.fix</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1qeQ"
+                         procedure="check_external_file.file_exists_setGlobal">
+            <variable name="fileName">$(file_name)</variable>
+          </ProcedureCall>
+          <IfSequence id="_1qdl"
+                      test="&#34;$(fileExists)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qdm" procedure="run-log.logError">
+              <variable name="message">$(file_name) is not exported</variable>
+              <variable name="withScreenshots">false</variable>
+            </ProcedureCall>
+          </IfSequence>
+          <SetGlobalStep id="_1qdZ" varname="file_name">
+            <default>$(output_file)_Polygon.prj</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1qeR"
+                         procedure="check_external_file.file_exists_setGlobal">
+            <variable name="fileName">$(file_name)</variable>
+          </ProcedureCall>
+          <IfSequence id="_1qdn"
+                      test="&#34;$(fileExists)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qdo" procedure="run-log.logError">
+              <variable name="message">$(file_name) is not exported</variable>
+              <variable name="withScreenshots">false</variable>
+            </ProcedureCall>
+          </IfSequence>
+          <SetGlobalStep id="_1qdb" varname="file_name">
+            <default>$(output_file)_Polygon.qix</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1qeS"
+                         procedure="check_external_file.file_exists_setGlobal">
+            <variable name="fileName">$(file_name)</variable>
+          </ProcedureCall>
+          <IfSequence id="_1qdp"
+                      test="&#34;$(fileExists)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qdq" procedure="run-log.logError">
+              <variable name="message">$(file_name) is not exported</variable>
+              <variable name="withScreenshots">false</variable>
+            </ProcedureCall>
+          </IfSequence>
+          <SetGlobalStep id="_1qdd" varname="file_name">
+            <default>$(output_file)_Polygon.shp</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1qeT"
+                         procedure="check_external_file.file_exists_setGlobal">
+            <variable name="fileName">$(file_name)</variable>
+          </ProcedureCall>
+          <IfSequence id="_1qdr"
+                      test="&#34;$(fileExists)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qds" procedure="run-log.logError">
+              <variable name="message">$(file_name) is not exported</variable>
+              <variable name="withScreenshots">false</variable>
+            </ProcedureCall>
+          </IfSequence>
+          <SetGlobalStep id="_1qdf" varname="file_name">
+            <default>$(output_file)_Polygon.shx</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1qeU"
+                         procedure="check_external_file.file_exists_setGlobal">
+            <variable name="fileName">$(file_name)</variable>
+          </ProcedureCall>
+          <IfSequence id="_1qcn"
+                      test="&#34;$(fileExists)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qco" procedure="run-log.logError">
+              <variable name="message">$(file_name) is not exported</variable>
+              <variable name="withScreenshots">false</variable>
+            </ProcedureCall>
+          </IfSequence>
+        </TestStep>
+      </Procedure>
+      <Package id="_1r3G" name="subset">
+        <Procedure id="_1r3F" name="test_sequence">
+          <variable name="prod_reader_type"/>
+          <SetGlobalStep id="_1roS" varname="target_dir">
+            <default>export</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1rpz" procedure="cleanup.output_data_folder">
+            <variable name="directory">$(target_dir)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1lXI" postdelay="2000"
+                         procedure="open.product_in_snap">
+            <variable name="prod_dir">$(dataInDir)</variable>
+            <variable name="in_out">in</variable>
+            <variable name="prod">$(fileName)</variable>
+            <variable name="product_type">$(prod_reader_type)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1lEu"
+                         procedure="utility.open_image_view_check_it"/>
+          <TestStep id="_1rZN" name="get_geo_coordinates">
+            <ProcedureCall id="_1lF0"
+                           procedure="placemark.utility_sequences.get_lat_and_long_values_for_pin_pos_x_y">
+              <variable name="x">200</variable>
+              <variable name="y">200</variable>
+            </ProcedureCall>
+            <TestStep id="_1rZ2" name="set_geo_coordinates">
+              <SetGlobalStep id="_1rZ3" varname="north_latitude">
+                <default>$(latitude)</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1rZ4" varname="west_longitude">
+                <default>$(longitude)</default>
+              </SetGlobalStep>
+              <IfSequence id="_1rZI"
+                          test="&#34;$(north_latitude)&#34;&lt;&gt;&#34;NaN&#34; and &#34;$(west_longitude)&#34;&lt;&gt;&#34;NaN&#34;">
+                <ServerScriptStep id="_1rZ5" name="south_latitude">
+                  <code>vl = $(north_latitude)
+vl = vl - 10   
+rc.setGlobal("south_latitude", vl)                       </code>
+                </ServerScriptStep>
+                <ServerScriptStep id="_1rZ6" name="east_longitude">
+                  <code>vl = $(west_longitude)
+vl = vl + 10   
+rc.setGlobal("east_longitude", vl)                       </code>
+                </ServerScriptStep>
+                <SetGlobalStep id="_1rZJ" varname="geo_coding">
+                  <default>true</default>
+                </SetGlobalStep>
+                <ElseSequence id="_1rZK">
+                  <SetGlobalStep id="_1rZL" varname="geo_coding">
+                    <default>false</default>
+                  </SetGlobalStep>
+                </ElseSequence>
+              </IfSequence>
+              <BasicSequence disabled="true" id="_1rZ7" name="print">
+                <ServerScriptStep id="_1rZ8" name="print">
+                  <code>print "north_lat = $(north_latitude)"  </code>
+                </ServerScriptStep>
+                <ServerScriptStep id="_1rZ9" name="print">
+                  <code>print "west_lon = $(west_longitude)"  </code>
+                </ServerScriptStep>
+                <ServerScriptStep id="_1rZA" name="print">
+                  <code>print "south_lat = $(south_latitude)"  </code>
+                </ServerScriptStep>
+                <ServerScriptStep id="_1rZB" name="print">
+                  <code>print "east_lon = $(east_longitude)"  </code>
+                </ServerScriptStep>
+              </BasicSequence>
+            </TestStep>
+            <ProcedureCall id="_1rYZ"
+                           procedure="placemark.new_pin.do_click.cancel_button"/>
+          </TestStep>
+          <SetGlobalStep id="_1roP" varname="target_file">
+            <default>test</default>
+          </SetGlobalStep>
+          <TestStep id="_1rmF" name="export_beam_dimap_subset_and_check">
+            <ProcedureCall id="_1rqV" procedure="select.product_tree.product">
+              <variable name="prod_id">0</variable>
+            </ProcedureCall>
+            <SetGlobalStep id="_1roQ" varname="extension">
+              <default>dim</default>
+            </SetGlobalStep>
+            <ProcedureCall id="_1rq2" procedure="utility.menu_file_export"/>
+            <ProcedureCall id="_1rlH"
+                           procedure="do_click.menu.file.export.beam_dimap"/>
+            <ProcedureCall id="_1roN" postdelay="1000"
+                           procedure="utility.export_subset_utility">
+              <variable name="outdir">$(target_dir)</variable>
+              <variable name="ext">$(extension)</variable>
+              <variable name="target_file">$(target_file)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1roi"
+                           procedure="utility.check_exported_subset_in_SNAP"/>
+          </TestStep>
+          <TestStep id="_1rqX" name="export_geotiff_subset_and_check">
+            <ProcedureCall id="_1rqY" procedure="select.product_tree.product">
+              <variable name="prod_id">0</variable>
+            </ProcedureCall>
+            <SetGlobalStep id="_1rqZ" varname="extension">
+              <default>tif</default>
+            </SetGlobalStep>
+            <ProcedureCall id="_1rqa" procedure="utility.menu_file_export"/>
+            <ProcedureCall id="_1rqb"
+                           procedure="do_click.menu.file.export.geotiff"/>
+            <ProcedureCall id="_1rqc"
+                           procedure="utility.export_subset_utility">
+              <variable name="outdir">$(target_dir)</variable>
+              <variable name="ext">$(extension)</variable>
+              <variable name="target_file">$(target_file)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1rqd"
+                           procedure="utility.check_exported_subset_in_SNAP"/>
+          </TestStep>
+          <TestStep id="_1rn3" name="export_beam_netcdf_cf_subset_and_check">
+            <ProcedureCall id="_1rqe" procedure="select.product_tree.product">
+              <variable name="prod_id">0</variable>
+            </ProcedureCall>
+            <SetGlobalStep id="_1rpB" varname="target_file">
+              <default>test_netcdf_cf</default>
+            </SetGlobalStep>
+            <SetGlobalStep id="_1rp2" varname="extension">
+              <default>nc</default>
+            </SetGlobalStep>
+            <ProcedureCall id="_1rq5" procedure="utility.menu_file_export"/>
+            <ProcedureCall id="_1rp7"
+                           procedure="do_click.menu.file.export.netcdf_cf"/>
+            <ProcedureCall id="_1rp8"
+                           procedure="utility.export_subset_utility">
+              <variable name="outdir">$(target_dir)</variable>
+              <variable name="ext">$(extension)</variable>
+              <variable name="target_file">$(target_file)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1rpq"
+                           procedure="utility.check_exported_subset_in_SNAP"/>
+          </TestStep>
+          <TestStep id="_1rpC" name="export_beam_netcdf4_cf_subset_and_check">
+            <ProcedureCall id="_1rqf" procedure="select.product_tree.product">
+              <variable name="prod_id">0</variable>
+            </ProcedureCall>
+            <SetGlobalStep id="_1rpH" varname="target_file">
+              <default>test_netcdf4_cf</default>
+            </SetGlobalStep>
+            <SetGlobalStep id="_1rq7" varname="extension">
+              <default>nc</default>
+            </SetGlobalStep>
+            <ProcedureCall id="_1rq8" procedure="utility.menu_file_export"/>
+            <ProcedureCall id="_1rpM"
+                           procedure="do_click.menu.file.export.netcdf4_cf"/>
+            <ProcedureCall id="_1rqA"
+                           procedure="utility.export_subset_utility">
+              <variable name="outdir">$(target_dir)</variable>
+              <variable name="ext">$(extension)</variable>
+              <variable name="target_file">$(target_file)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1rqB"
+                           procedure="utility.check_exported_subset_in_SNAP"/>
+          </TestStep>
+          <TestStep id="_1rpP"
+                    name="export_beam_netcdf_beam_subset_and_check">
+            <ProcedureCall id="_1rqg" procedure="select.product_tree.product">
+              <variable name="prod_id">0</variable>
+            </ProcedureCall>
+            <SetGlobalStep id="_1rpU" varname="target_file">
+              <default>test_netcdf_beam</default>
+            </SetGlobalStep>
+            <SetGlobalStep id="_1rqD" varname="extension">
+              <default>nc</default>
+            </SetGlobalStep>
+            <ProcedureCall id="_1rqE" procedure="utility.menu_file_export"/>
+            <ProcedureCall id="_1rpZ"
+                           procedure="do_click.menu.file.export.netcdf_beam"/>
+            <ProcedureCall id="_1rqG"
+                           procedure="utility.export_subset_utility">
+              <variable name="outdir">$(target_dir)</variable>
+              <variable name="ext">$(extension)</variable>
+              <variable name="target_file">$(target_file)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1rqH"
+                           procedure="utility.check_exported_subset_in_SNAP"/>
+          </TestStep>
+          <TestStep id="_1rpc"
+                    name="export_beam_netcdf4_beam_subset_and_check">
+            <ProcedureCall id="_1rqh" procedure="select.product_tree.product">
+              <variable name="prod_id">0</variable>
+            </ProcedureCall>
+            <SetGlobalStep id="_1rph" varname="target_file">
+              <default>test_netcdf4_beam</default>
+            </SetGlobalStep>
+            <SetGlobalStep id="_1rqJ" varname="extension">
+              <default>nc</default>
+            </SetGlobalStep>
+            <ProcedureCall id="_1rqK" procedure="utility.menu_file_export"/>
+            <ProcedureCall id="_1rpm"
+                           procedure="do_click.menu.file.export.netcdf4_beam"/>
+            <ProcedureCall id="_1rqM"
+                           procedure="utility.export_subset_utility">
+              <variable name="outdir">$(target_dir)</variable>
+              <variable name="ext">$(extension)</variable>
+              <variable name="target_file">$(target_file)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1rqN"
+                           procedure="utility.check_exported_subset_in_SNAP"/>
+          </TestStep>
+          <ProcedureCall id="_1rpy" procedure="close.all_products"/>
+        </Procedure>
+      </Package>
+    </Package>
+    <Package id="_1qbK" name="utility">
+      <Procedure id="_1rp+" name="menu_file_export">
+        <ProcedureCall id="_1l3B" procedure="check.product.not_opened"/>
+        <IfSequence id="_1kk7" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
+          <ProcedureCall id="_1rns" postdelay="2000"
+                         procedure="open.product_in_snap">
+            <variable name="prod_dir">$(dataInDir)</variable>
+            <variable name="in_out">in</variable>
+            <variable name="prod">$(fileName)</variable>
+            <variable name="product_type">$(prod_reader_type)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rMh" procedure="wait.product_is_opened"/>
+        </IfSequence>
+        <ProcedureCall id="_1rp-" procedure="select.product_tree.product">
+          <variable name="prod_id">0</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1rq0" procedure="do_click.menu.file"/>
+        <ProcedureCall id="_1rq1" procedure="do_click.menu.file.export"/>
+      </Procedure>
+      <Procedure id="_1rpr" name="wait_export">
+        <TryStep id="_1rqO" predelay="500">
+          <ComponentWaiter absence="true" client="$(client)"
+                           component="dialog2.buttonCancel" id="_1ret"
+                           raise="false" timeout="1500000"/>
+          <CatchSequence exception="TestException" id="_1rqP" maxerror="0">
+            <TryStep id="_1rqi" predelay="500">
+              <ComponentWaiter absence="true" client="$(client)"
+                               component="dialog2.buttonCancel" id="_1rqj"
+                               timeout="1500000"/>
+              <CatchSequence exception="TestException" id="_1rqk"
+                             maxerror="0"/>
+            </TryStep>
+          </CatchSequence>
+        </TryStep>
+      </Procedure>
+      <Procedure id="_1rnt" name="export_subset_utility">
+        <variable name="outdir">export</variable>
+        <variable name="ext">dim</variable>
+        <variable name="target_file"/>
+        <TryStep id="_1rnv" name="open_subset_dialog">
+          <ProcedureCall id="_1rnw"
+                         procedure="do_click.export_product_dialog.button_Subset"/>
+          <ProcedureCall id="_1rnx" procedure="check.opened.subset_dialog"/>
+          <SetGlobalStep id="_1rny" varname="subset_tool_window_appears">
+            <default>true</default>
+          </SetGlobalStep>
+          <CatchSequence exception="TestException" id="_1rnz" maxerror="0">
+            <SetGlobalStep id="_1rn+" varname="subset_tool_window_appears">
+              <default>false</default>
+            </SetGlobalStep>
+            <ProcedureCall disabled="true" id="_1rn-"
+                           procedure="run-log.make_screensot">
+              <variable name="iw_name">export_product_window</variable>
+            </ProcedureCall>
+            <ProcedureCall disabled="true" id="_1ro0"
+                           procedure="run-log.logError">
+              <variable name="message">Subset button is disabled</variable>
+              <variable name="withScreenshots"/>
+            </ProcedureCall>
+            <ProcedureCall disabled="true" id="_1ro1"
+                           procedure="do_click.import_product_dialog.cancel"/>
+          </CatchSequence>
+        </TryStep>
+        <IfSequence id="_1ro2"
+                    test="&#34;$(subset_tool_window_appears)&#34;==&#34;true&#34;">
+          <IfSequence id="_1ro3"
+                      test="&#34;$(geo_coding)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1ro4"
+                           procedure="subset.define_spatial_subset_geoposition">
+              <variable name="north_lat">$(north_latitude)</variable>
+              <variable name="west_lon">$(west_longitude)</variable>
+              <variable name="south_lat">$(south_latitude)</variable>
+              <variable name="east_lon">$(east_longitude)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1ro5" procedure="subset.define_band_subset">
+              <variable name="band_name">$(bandName)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1ro6"
+                           procedure="do_click.subset_tool.button_OK"/>
+            <ProcedureCall id="_1ro7"
+                           procedure="subset.handle_incomplete_subset_definition_dialog"/>
+            <ElseSequence id="_1ro8">
+              <ProcedureCall id="_1ro9"
+                             procedure="subset.define_spatial_subset_pixelpos">
+                <variable name="start_x">200</variable>
+                <variable name="start_y">200</variable>
+                <variable name="end_x">400</variable>
+                <variable name="end_y">400</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1roA" procedure="subset.define_band_subset">
+                <variable name="band_name">$(bandName)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1roB"
+                             procedure="do_click.subset_tool.button_OK"/>
+              <ProcedureCall id="_1roC"
+                             procedure="subset.handle_incomplete_subset_definition_dialog"/>
+            </ElseSequence>
+          </IfSequence>
+          <ProcedureCall id="_1roD" procedure="path.output_data_directory">
+            <variable name="output_dir">$(outdir)</variable>
+          </ProcedureCall>
+          <SetGlobalStep id="_1roE" varname="output_file">
+            <default>$(output_data_directory)$(target_file).$(ext)</default>
+          </SetGlobalStep>
+          <ServerScriptStep disabled="true" id="_1roF" name="print">
+            <code>print "output_file =$(output_file)"  </code>
+          </ServerScriptStep>
+          <ProcedureCall id="_1roG" postdelay="500"
+                         procedure="set.export_dialog.file_name">
+            <variable name="file">$(output_file)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1roH"
+                         procedure="do_click.export_product_dialog.button_Export_Product"/>
+          <ProcedureCall id="_1rps" procedure="utility.wait_export"/>
+          <ElseSequence id="_1roI">
+            <ProcedureCall id="_1roJ" procedure="run-log.make_screensot">
+              <variable name="iw_name">subset_tool_window</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1roK"
+                           procedure="do_click.export_product_dialog.cancel"/>
+            <ProcedureCall id="_1roL" procedure="run-log.logError">
+              <variable name="message">subset_tool_window</variable>
+              <variable name="withScreenshots">true</variable>
+            </ProcedureCall>
+          </ElseSequence>
+        </IfSequence>
+      </Procedure>
+      <Procedure id="_1roT" name="check_exported_subset_in_SNAP">
+        <ProcedureCall disabled="true" id="_1roU"
+                       procedure="close.all_products"/>
+        <ProcedureCall id="_1roV"
+                       procedure="check_external_file.file_exists_setGlobal">
+          <variable name="fileName">$(output_file)</variable>
+        </ProcedureCall>
+        <IfSequence id="_1roW" test="&#34;$(fileExists)&#34;==&#34;True&#34;">
+          <ProcedureCall id="_1roX" postdelay="1000"
+                         procedure="open.product_in_snap">
+            <variable name="prod_dir">$(target_dir)</variable>
+            <variable name="in_out">out</variable>
+            <variable name="prod">$(target_file).$(extension)</variable>
+            <variable name="product_type"/>
+          </ProcedureCall>
+          <ProcedureCall disabled="true" id="_1roY"
+                         procedure="wait.product_is_opened"/>
+          <TestStep id="_1roZ" name="open_image_window">
+            <TryStep id="_1roa" name="doubleclick_product_node">
+              <ProcedureCall id="_1rob"
+                             procedure="do_click.tree.doubleclick_product_node">
+                <variable name="prod_id">1</variable>
+                <variable name="group_id">0</variable>
+                <variable name="view_id">0</variable>
+                <variable name="band">$(bandName)</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1roc"
+                             maxerror="0">
+                <TryStep id="_1rod" name="doubleclick_product_node">
+                  <ProcedureCall id="_1roe"
+                                 procedure="do_click.tree.doubleclick_product_node">
+                    <variable name="prod_id">1</variable>
+                    <variable name="group_id"/>
+                    <variable name="view_id">0</variable>
+                    <variable name="band">$(bandName)</variable>
+                  </ProcedureCall>
+                  <CatchSequence exception="TestException" id="_1rof"
+                                 maxerror="0"/>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+            <ProcedureCall id="_1rog"
+                           procedure="utility.wait_image_created_handle_error"/>
+            <IfSequence id="_1ri3"
+                        test="&#34;$(image_window_appears)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1ri4" procedure="run-log.logError">
+                <variable name="message">image view is not appear</variable>
+                <variable name="withScreenshots">true</variable>
+              </ProcedureCall>
+            </IfSequence>
+          </TestStep>
+          <TestStep disabled="true" id="_1rqT" name="close_select_product">
+            <TryStep id="_1rpt" name="select_product">
+              <ProcedureCall id="_1rox"
+                             procedure="select.product_tree.product">
+                <variable name="prod_id">1</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1rpu"
+                             maxerror="0">
+                <ProcedureCall id="_1rpv" procedure="run-log.make_screensot">
+                  <variable name="iw_name">exported_subset</variable>
+                </ProcedureCall>
+                <ProcedureCall id="_1rpx" procedure="run-log.logError">
+                  <variable name="message">exported subset is not opened in SNAP</variable>
+                  <variable name="withScreenshots">true</variable>
+                </ProcedureCall>
+              </CatchSequence>
+            </TryStep>
+            <ProcedureCall id="_1roh" procedure="close.selected_product"/>
+          </TestStep>
+          <TestStep id="_1rqU" name="close_other_products">
+            <TryStep id="_1rqR">
+              <ProcedureCall id="_1rqQ" procedure="close.other_products"/>
+              <CatchSequence exception="TestException" id="_1rqS"
+                             maxerror="0"/>
+            </TryStep>
+          </TestStep>
+        </IfSequence>
+      </Procedure>
+      <Procedure id="_1qbL" name="export_colour_legend_image_dialog">
+        <variable name="file"/>
+        <TextInputStep clear="true" client="$(client)"
+                       component="dialogSNAP_-_export_Colour_Legend_Image.textFile_name:"
+                       id="_1qaa">
+          <text>$(file)</text>
+        </TextInputStep>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSNAP_-_export_Colour_Legend_Image.buttonProperties..."
+                        event="MOUSE_MPRC" id="_1qaf" modifiers="16"/>
+        <ProcedureCall id="_1qbY"
+                       procedure="utility.colour_legend_image_property"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSNAP_-_export_Colour_Legend_Image.buttonSave"
+                        event="MOUSE_MPRC" id="_1qbZ" modifiers="16"/>
+      </Procedure>
+      <Procedure id="_1qbM" name="colour_legend_image_property">
+        <ComponentWaiter client="$(client)"
+                         component="dialogSNAP_-_Colour_Legend_Properties"
+                         id="_1qag" timeout="100"/>
+        <TestStep id="_1qbQ" name="select_using_header">
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="dialogSNAP_-_Colour_Legend_Properties.legend.usingHeader.Editor"
+                            id="_1paI" resvarname="using_header"/>
+          <IfSequence id="_1qbO"
+                      test="&#34;$(using_header)&#34;==&#34;false&#34;">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogSNAP_-_Colour_Legend_Properties.legend.usingHeader.Editor"
+                            event="MOUSE_MPRC" id="_1qah" modifiers="16"/>
+          </IfSequence>
+        </TestStep>
+        <TestStep id="_1qbR" name="set_header">
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogSNAP_-_Colour_Legend_Properties.legend.headerText.Editor"
+                         id="_1qak">
+            <text>test</text>
+          </TextInputStep>
+        </TestStep>
+        <TestStep id="_1qbP" name="select_orientation_vertical">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogSNAP_-_Colour_Legend_Properties.legend.orientation.Editor.button"
+                          event="MOUSE_MPRC" id="_1qal" modifiers="16"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogSNAP_-_Colour_Legend_Properties.listInvokerName:_legend.orientation.Editor.Vertical"
+                          event="MOUSE_MPRC" id="_1qam" modifiers="16"/>
+        </TestStep>
+        <TestStep id="_1qbS" name="fontSize">
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogSNAP_-_Colour_Legend_Properties.legend.fontSize.Editor"
+                         id="_1qat">
+            <text>12</text>
+          </TextInputStep>
+        </TestStep>
+        <TestStep id="_1qbT" name="select_antialiasing">
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="dialogSNAP_-_Colour_Legend_Properties.legend.antialiasing.Editor"
+                            id="_1qbU" resvarname="antialiasing"/>
+          <IfSequence id="_1qbV"
+                      test="&#34;$(antialiasing)&#34;==&#34;false&#34;">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogSNAP_-_Colour_Legend_Properties.legend.antialiasing.Editor"
+                            event="MOUSE_MPRC" id="_1qav" modifiers="16"/>
+          </IfSequence>
+        </TestStep>
+        <TestStep id="_1qbX" name="check_preview">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogSNAP_-_Colour_Legend_Properties.buttonPreview..."
+                          event="MOUSE_MPRC" id="_1qax" modifiers="16"/>
+          <ComponentWaiter client="$(client)"
+                           component="dialogSNAP_-_Colour_Legend_Preview"
+                           id="_1qay" timeout="100"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogSNAP_-_Colour_Legend_Preview.ModalDialog.ok"
+                          event="MOUSE_MPRC" id="_1qaz" modifiers="16"/>
+        </TestStep>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSNAP_-_Colour_Legend_Properties.ImageLegendDialog.ok"
+                        event="MOUSE_MPRC" id="_1qb0" modifiers="16"/>
+      </Procedure>
+      <Procedure id="_1qbv" name="export_colour_palette_dialog">
+        <variable name="file"/>
+        <TextInputStep clear="true" client="$(client)"
+                       component="dialogExport_Colour_Palette.textFile_name:"
+                       id="_1qY+">
+          <text>$(file)</text>
+        </TextInputStep>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogExport_Colour_Palette.buttonSave"
+                        event="MOUSE_MPRC" id="_1qY-" modifiers="16"/>
+      </Procedure>
+      <Procedure id="_1qc3" name="export_geocoding_envi_gcp_file_dialog">
+        <variable name="file"/>
+        <TextInputStep clear="true" client="$(client)"
+                       component="dialogExport_ENVI_Ground_Control_Points.textFile_name:"
+                       id="_1qcI">
+          <text>$(file)</text>
+        </TextInputStep>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogExport_ENVI_Ground_Control_Points.buttonSave"
+                        event="MOUSE_MPRC" id="_1qcJ" modifiers="16"/>
+      </Procedure>
+      <Procedure id="_1qcc" name="view_as_image"/>
+      <Procedure id="_1qcd" name="view_as_google_earth_KMZ"/>
+      <Procedure id="_1qce" name="transect_pixels"/>
+      <Procedure id="_1qcf" name="mask_pixels"/>
+      <Procedure id="_1qcg" name="geometry_as_shape_file_dialog">
+        <variable name="file"/>
+        <TextInputStep clear="true" client="$(client)"
+                       component="dialogSNAP_-_Export_Geometry_as_ESRI_Shapefile.textFile_name:"
+                       id="_1qdT">
+          <text>$(file)</text>
+        </TextInputStep>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSNAP_-_Export_Geometry_as_ESRI_Shapefile.buttonSave"
+                        event="MOUSE_MPRC" id="_1qdU" modifiers="16"/>
+        <IfSequence id="_1r3C" test="${qftest:windows}">
+          <ElseifSequence id="_1r3D" name="MAC?"
+                          test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+          <ElseSequence id="_1r3E"/>
+        </IfSequence>
+      </Procedure>
+    </Package>
   </PackageRoot>
-  <ExtraSequence id="_4"/>
+  <ExtraSequence id="_4">
+    <ProcedureCall id="_1rZG"
+                   procedure="qfs.swing.cleanup.closeAllModalDialogs">
+      <variable name="maxDialogs">5</variable>
+    </ProcedureCall>
+    <IfSequence id="_1op7" test="${qftest:windows}">
+      <ElseifSequence id="_1op8" name="MAC?"
+                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+      <ElseSequence id="_1op9"/>
+    </IfSequence>
+    <ProcedureCall id="_1oXb" procedure="select.product_tree.band">
+      <variable name="prod_id">0</variable>
+      <variable name="group_id"/>
+      <variable name="view_id">4</variable>
+      <variable name="band">Oa05_radiance</variable>
+    </ProcedureCall>
+  </ExtraSequence>
   <WindowList id="_5"/>
 </RootStep>

@@ -1,0 +1,1109 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.4">
+  <include>qfs.qft</include>
+  <include>../../lib/snap_main.qft</include>
+  <include>../lib/processing_main.qft</include>
+  <variable name="output_folder">spectral_unmixing</variable>
+  <TestSet id="_2" name="010_08_spectral_unmixing"
+           reportname="010-08 Spectral Unmixing Tool ">
+    <comment>Product generation tools. Arithmetic Expression Editor.</comment>
+    <DependencyReference id="_1pO-"
+                         reference="start_application_for_processing">
+      <variable name="output_dir">$(output_folder)</variable>
+    </DependencyReference>
+    <TestCase id="_8cc" name="01_check_ui"
+              reportname="01 Check Spectral Unmixing Tool UI">
+      <ProcedureCall id="_1pFq"
+                     procedure="open.optical.spectral_tools.spectral_unmixing"/>
+      <TestStep id="_1pM7" name="default_componets">
+        <ProcedureCall id="_1pVQ"
+                       procedure="check.spectral_unmixing.no_spectral_source_bands"/>
+        <ProcedureCall id="_1pVR"
+                       procedure="check.spectral_unmixing.no_endmembers">
+          <variable name="val"/>
+        </ProcedureCall>
+        <ProcedureCall id="_1pVS"
+                       procedure="check.spectral_unmixing.enabled.menu_file"/>
+        <ProcedureCall id="_1pVT"
+                       procedure="check.spectral_unmixing.enabled.menu_help"/>
+        <ProcedureCall id="_1pVU"
+                       procedure="check.spectral_unmixing.enabled.button_close"/>
+        <ProcedureCall id="_1pVV"
+                       procedure="check.spectral_unmixing.enabled.button_apply"/>
+        <ProcedureCall id="_1pVW"
+                       procedure="check.spectral_unmixing.enabled.button_source_product"/>
+        <ProcedureCall id="_1pVX"
+                       procedure="check.spectral_unmixing.enabled.button_directory"/>
+        <ProcedureCall id="_1pVc"
+                       procedure="check.spectral_unmixing.enabled.endmembers_add_button"/>
+        <ProcedureCall id="_1pVd"
+                       procedure="check.spectral_unmixing.enabled.endmembers_remove_button"/>
+        <ProcedureCall id="_1pVe"
+                       procedure="check.spectral_unmixing.enabled.endmembers_clear_button"/>
+        <ProcedureCall id="_1pVf"
+                       procedure="check.spectral_unmixing.enabled.endmembers_export_button"/>
+        <ProcedureCall id="_1pVg"
+                       procedure="check.spectral_unmixing.enabled.diagram"/>
+        <ProcedureCall id="_1pVh"
+                       procedure="check.spectral_unmixing.checked.save_as_selected_status">
+          <variable name="selected">true</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pVi"
+                       procedure="check.spectral_unmixing.checked.open_in_snap_selected_status">
+          <variable name="selected">true</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pVj"
+                       procedure="check.spectral_unmixing.checked.compute_error_bands_selected_status">
+          <variable name="selected">false</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pVk"
+                       procedure="check.spectral_unmixing.text.abundance_band_name_suffix">
+          <variable name="val">_abundance</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pVl"
+                       procedure="check.spectral_unmixing.text.error_band_name_suffix">
+          <variable name="val">_error</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pVm"
+                       procedure="check.spectral_unmixing.text.spectral_unmixing_model">
+          <variable name="val">Constrained LSU</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pVn"
+                       procedure="check.spectral_unmixing.text.minimum_spectral_bandwidth">
+          <variable name="val">10.0</variable>
+        </ProcedureCall>
+      </TestStep>
+      <BasicSequence disabled="true" id="_1pVp" name="todo">
+        <TestStep id="_1pM9" name="target_area"/>
+        <TestStep id="_1pM8" name="source_area">
+          <TryStep id="_1pMK" name="click_ok_in_error_dialog">
+            <ProcedureCall id="_1pMN"
+                           procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
+            <ProcedureCall id="_1pMM"
+                           procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
+            <CatchSequence exception="TestException" id="_1pML" maxerror="0">
+              <ProcedureCall id="_1pMO" procedure="run-log.logError">
+                <variable name="message">Error Message does not appear</variable>
+                <variable name="withScreenshots">true</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+        </TestStep>
+      </BasicSequence>
+      <ProcedureCall id="_1pVo"
+                     procedure="close_processing_tool.spectral_tools.spectral_unmixing"/>
+    </TestCase>
+    <TestSet id="_1pMP" name="02_processing">
+      <TestCase id="_1pMR" name="01_meris">
+        <variable name="source_data">MER_RR__1_test.N1</variable>
+        <variable name="source_dir">mer_rr__1p_n1</variable>
+        <variable name="output_file">test_01.dim</variable>
+        <ProcedureCall id="_1pMQ"
+                       procedure="open.optical.spectral_tools.spectral_unmixing"/>
+        <TestStep id="_1pOr" name="processing">
+          <ProcedureCall id="_1pMY" procedure="open_source_product">
+            <variable name="prod_dir">$(source_dir)</variable>
+            <variable name="prod_name">$(source_data)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pMa"
+                         procedure="set.spectral_unmixing.target_product_name">
+            <variable name="target_product_name">$(output_file)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pMb"
+                         procedure="deselect.spectral_unmixing.save_as"/>
+          <ProcedureCall id="_1pWp" procedure="select_all_bands">
+            <variable name="first_band">radiance_1</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pW0" procedure="add_endmembers">
+            <variable name="endmembers_file">sample-endmembers.csv</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pMd"
+                         procedure="do_click.spectral_unmixing.button_apply"/>
+          <ProcedureCall id="_1pOm"
+                         procedure="click_ok_in_product_created_dialog"/>
+        </TestStep>
+        <TestStep id="_1pOo" name="check_output_product">
+          <ProcedureCall id="_1pgG"
+                         procedure="product_meta_data.for_open_image_view"/>
+          <SetGlobalStep id="_1opW" varname="bandName">
+            <default>Forest_abundance</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1opT"
+                         procedure="utility.open_image_view_check_it"/>
+          <SetGlobalStep id="_1pOT" varname="view_Id1">
+            <default>2</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1pOU" varname="bandName">
+            <default>Cloud_abundance</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1pOS"
+                         procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+        </TestStep>
+        <ProcedureCall id="_1pOV"
+                       procedure="close_processing_tool.spectral_tools.spectral_unmixing"/>
+      </TestCase>
+      <TestCase id="_1pWq" name="02_landsat_tm">
+        <variable name="source_data">band1.dat</variable>
+        <variable name="source_dir">landsat5_tm_australia</variable>
+        <variable name="output_file">test_02.dim</variable>
+        <ProcedureCall id="_1pWr"
+                       procedure="open.optical.spectral_tools.spectral_unmixing"/>
+        <TestStep id="_1pWs" name="processing">
+          <ProcedureCall id="_1pWt" procedure="open_source_product">
+            <variable name="prod_dir">$(source_dir)</variable>
+            <variable name="prod_name">$(source_data)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pXX" procedure="get_source_product"/>
+          <IfSequence id="_1pXY"
+                      test="&#34;$(source_product)&#34;&lt;&gt;&#34;&#34;">
+            <ProcedureCall id="_1pWu"
+                           procedure="set.spectral_unmixing.target_product_name">
+              <variable name="target_product_name">$(output_file)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1pWv"
+                           procedure="deselect.spectral_unmixing.save_as"/>
+            <ProcedureCall id="_1pWw" procedure="select_all_bands">
+              <variable name="first_band">radiance_1</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1pYE"
+                           procedure="do_click.spectral_unmixing.endmembers.clear_button"/>
+            <ProcedureCall id="_1pWy" procedure="add_endmembers">
+              <variable name="endmembers_file">sample-endmembers.csv</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1pWz"
+                           procedure="do_click.spectral_unmixing.button_apply"/>
+            <ProcedureCall id="_1qXT"
+                           procedure="click_ok_in_product_created_dialog"/>
+          </IfSequence>
+        </TestStep>
+        <TestStep id="_1pW-" name="check_output_product">
+          <IfSequence id="_1pXZ"
+                      test="&#34;$(source_product)&#34;&lt;&gt;&#34;&#34;">
+            <ProcedureCall id="_1pgH"
+                           procedure="product_meta_data.for_open_image_view"/>
+            <SetGlobalStep id="_1pX2" varname="bandName">
+              <default>Forest_abundance</default>
+            </SetGlobalStep>
+            <ProcedureCall id="_1pX3"
+                           procedure="utility.open_image_view_check_it"/>
+            <SetGlobalStep id="_1pX4" varname="view_Id1">
+              <default>2</default>
+            </SetGlobalStep>
+            <SetGlobalStep id="_1pX5" varname="bandName">
+              <default>Cloud_abundance</default>
+            </SetGlobalStep>
+            <ProcedureCall id="_1pX6"
+                           procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+          </IfSequence>
+        </TestStep>
+        <ProcedureCall id="_1pX7"
+                       procedure="close_processing_tool.spectral_tools.spectral_unmixing"/>
+      </TestCase>
+      <TestCase id="_1pXg" name="03_landsat_geotiff">
+        <variable name="source_data">LM52010241984295AAA03_MTL.txt</variable>
+        <variable name="source_dir">landsat_5_mss_LM52010241984295AAA03</variable>
+        <variable name="output_file">test_03.dim</variable>
+        <ProcedureCall id="_1pXh"
+                       procedure="open.optical.spectral_tools.spectral_unmixing"/>
+        <TestStep id="_1pXi" name="processing">
+          <ProcedureCall id="_1pXj" procedure="open_source_product">
+            <variable name="prod_dir">$(source_dir)</variable>
+            <variable name="prod_name">$(source_data)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pXk" procedure="get_source_product"/>
+          <IfSequence id="_1pXl"
+                      test="&#34;$(source_product)&#34;&lt;&gt;&#34;&#34;">
+            <ProcedureCall id="_1pXm"
+                           procedure="set.spectral_unmixing.target_product_name">
+              <variable name="target_product_name">$(output_file)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1pXn"
+                           procedure="deselect.spectral_unmixing.save_as"/>
+            <ProcedureCall id="_1pXo" procedure="select_all_bands">
+              <variable name="first_band">radiance_1</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1pYF"
+                           procedure="do_click.spectral_unmixing.endmembers.clear_button"/>
+            <ProcedureCall id="_1pXp" procedure="add_endmembers">
+              <variable name="endmembers_file">sample-endmembers.csv</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1pXq"
+                           procedure="do_click.spectral_unmixing.button_apply"/>
+            <ProcedureCall id="_1pXr"
+                           procedure="click_ok_in_product_created_dialog"/>
+          </IfSequence>
+        </TestStep>
+        <TestStep id="_1pXs" name="check_output_product">
+          <IfSequence id="_1pX+"
+                      test="&#34;$(source_product)&#34;&lt;&gt;&#34;&#34;">
+            <ProcedureCall id="_1pgI"
+                           procedure="product_meta_data.for_open_image_view"/>
+            <SetGlobalStep id="_1pXv" varname="bandName">
+              <default>Forest_abundance</default>
+            </SetGlobalStep>
+            <ProcedureCall id="_1pXw"
+                           procedure="utility.open_image_view_check_it"/>
+            <SetGlobalStep id="_1pXx" varname="view_Id1">
+              <default>2</default>
+            </SetGlobalStep>
+            <SetGlobalStep id="_1pXy" varname="bandName">
+              <default>Cloud_abundance</default>
+            </SetGlobalStep>
+            <ProcedureCall id="_1pXz"
+                           procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+          </IfSequence>
+        </TestStep>
+        <ProcedureCall id="_1pX-"
+                       procedure="close_processing_tool.spectral_tools.spectral_unmixing"/>
+      </TestCase>
+      <TestCase id="_40q" name="04_store_load_display_parameters_meris">
+        <variable name="ofn">unmix_save_parameters_meris.xml</variable>
+        <variable name="output_file">test_04_save_parameters.dim</variable>
+        <variable name="source_data">MER_RR__1_test.N1</variable>
+        <variable name="source_dir">mer_rr__1p_n1</variable>
+        <variable name="abundance_suffix">_abundance_test</variable>
+        <variable name="error_suffix">_error_test</variable>
+        <variable name="min_bandwidth">15.0</variable>
+        <variable name="unmix_model">Fully Constrained LSU</variable>
+        <ProcedureCall id="_1pOs"
+                       procedure="open.optical.spectral_tools.spectral_unmixing"/>
+        <TestStep id="_1pOt" name="change_parameters">
+          <ProcedureCall id="_1pY0" procedure="open_source_product">
+            <variable name="prod_dir">$(source_dir)</variable>
+            <variable name="prod_name">$(source_data)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pY1"
+                         procedure="set.spectral_unmixing.target_product_name">
+            <variable name="target_product_name">$(output_file)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pY2"
+                         procedure="deselect.spectral_unmixing.save_as"/>
+          <ProcedureCall id="_1pY4" procedure="select_bands">
+            <variable name="band0">radiance_1</variable>
+            <variable name="band1">radiance_3</variable>
+            <variable name="band2">radiance_4</variable>
+            <variable name="band3">radiance_5</variable>
+            <variable name="band4">radiance_6</variable>
+            <variable name="band5">radiance_7</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pYG"
+                         procedure="do_click.spectral_unmixing.endmembers.clear_button"/>
+          <ProcedureCall id="_1pY5" procedure="add_endmembers">
+            <variable name="endmembers_file">sample-endmembers.csv</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pYB"
+                         procedure="select.spectral_unmixing.compute_error_bands"/>
+          <ProcedureCall id="_1pYC"
+                         procedure="select.spectral_unmixing.unmixing_model_name">
+            <variable name="unmixing_model_name">$(unmix_model)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pY8"
+                         procedure="set.spectral_unmixing.abundance_band_name_suffix">
+            <variable name="val">$(abundance_suffix)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pY9"
+                         procedure="set.spectral_unmixing.error_band_name_suffix">
+            <variable name="val">$(error_suffix)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pYA"
+                         procedure="set.spectral_unmixing.minimal_bandwidth">
+            <variable name="val">$(min_bandwidth)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <ProcedureCall id="_1pPE" procedure="store_parameters"/>
+        <TestStep id="_1pPg" name="change_parameters">
+          <ProcedureCall id="_1pPh"
+                         procedure="set.spectral_unmixing.target_directory">
+            <variable name="dir">$(output_folder)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pYN" procedure="select_all_bands">
+            <variable name="first_band">radiance_1</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pYH"
+                         procedure="do_click.spectral_unmixing.endmembers.clear_button"/>
+          <ProcedureCall id="_1pYI"
+                         procedure="deselect.spectral_unmixing.compute_error_bands"/>
+          <ProcedureCall id="_1pYJ"
+                         procedure="select.spectral_unmixing.unmixing_model_name">
+            <variable name="unmixing_model_name">Constrained LSU</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pYK"
+                         procedure="set.spectral_unmixing.abundance_band_name_suffix">
+            <variable name="val">x</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pYL"
+                         procedure="set.spectral_unmixing.error_band_name_suffix">
+            <variable name="val">y</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pYM"
+                         procedure="set.spectral_unmixing.minimal_bandwidth">
+            <variable name="val">20.0</variable>
+          </ProcedureCall>
+        </TestStep>
+        <ProcedureCall id="_1pPl" procedure="load_parameters"/>
+        <TestStep id="_1pPm" name="check_parameters">
+          <ProcedureCall id="_1pYO"
+                         procedure="check.spectral_unmixing.checked.compute_error_bands_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pYP"
+                         procedure="check.spectral_unmixing.text.abundance_band_name_suffix">
+            <variable name="val">$(abundance_suffix)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pYQ"
+                         procedure="check.spectral_unmixing.text.error_band_name_suffix">
+            <variable name="val">$(error_suffix)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pYR"
+                         procedure="check.spectral_unmixing.text.spectral_unmixing_model">
+            <variable name="val">$(unmix_model)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pYS"
+                         procedure="check.spectral_unmixing.text.minimum_spectral_bandwidth">
+            <variable name="val">$(min_bandwidth)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pYT" procedure="check_sample_endmembers"/>
+          <ProcedureCall id="_1pYW" procedure="check_selected_source_band">
+            <variable name="band_name">radiance_1</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pYX" procedure="check_selected_source_band">
+            <variable name="band_name">radiance_3</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pYY" procedure="check_selected_source_band">
+            <variable name="band_name">radiance_4</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pYZ" procedure="check_selected_source_band">
+            <variable name="band_name">radiance_5</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pYb" procedure="check_selected_source_band">
+            <variable name="band_name">radiance_6</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pYa" procedure="check_selected_source_band">
+            <variable name="band_name">radiance_7</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pYf"
+                         procedure="check_source_band_not_selected">
+            <variable name="band_name">radiance_2</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pYg"
+                         procedure="check_source_band_not_selected">
+            <variable name="band_name">radiance_8</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pV8" name="display_parameters">
+          <ProcedureCall id="_1pbW" procedure="display_parameters_and_check"/>
+        </TestStep>
+        <ProcedureCall id="_1pV7"
+                       procedure="close_processing_tool.spectral_tools.spectral_unmixing"/>
+      </TestCase>
+      <TestCase id="_1pYh" name="05_store_load_display_parameters_landsat7">
+        <variable name="ofn">unmix_save_parameters_landsat7.xml</variable>
+        <variable name="output_file">test_05_save_parameters.dim</variable>
+        <variable name="source_data">LE70290302013073EDC00_MTL.txt</variable>
+        <variable name="source_dir">landsat_7_etm_LE70290302013073EDC00</variable>
+        <variable name="abundance_suffix">_abundance_test</variable>
+        <variable name="error_suffix">_error_test</variable>
+        <variable name="min_bandwidth">15.0</variable>
+        <variable name="unmix_model">Fully Constrained LSU</variable>
+        <ProcedureCall id="_1pYi"
+                       procedure="open.optical.spectral_tools.spectral_unmixing"/>
+        <TestStep id="_1pYj" name="change_parameters">
+          <ProcedureCall id="_1pYk" procedure="open_source_product">
+            <variable name="prod_dir">$(source_dir)</variable>
+            <variable name="prod_name">$(source_data)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pYl"
+                         procedure="set.spectral_unmixing.target_product_name">
+            <variable name="target_product_name">$(output_file)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pYm"
+                         procedure="deselect.spectral_unmixing.save_as"/>
+          <ProcedureCall id="_1pYn" procedure="select_bands">
+            <variable name="band0">radiance_1</variable>
+            <variable name="band1">radiance_3</variable>
+            <variable name="band2">radiance_4</variable>
+            <variable name="band3">radiance_5</variable>
+            <variable name="band4">radiance_7</variable>
+            <variable name="band5">radiance_8</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pYo"
+                         procedure="do_click.spectral_unmixing.endmembers.clear_button"/>
+          <ProcedureCall id="_1pYp" procedure="add_endmembers">
+            <variable name="endmembers_file">sample-endmembers.csv</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pYq"
+                         procedure="select.spectral_unmixing.compute_error_bands"/>
+          <ProcedureCall id="_1pYr"
+                         procedure="select.spectral_unmixing.unmixing_model_name">
+            <variable name="unmixing_model_name">$(unmix_model)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pYs"
+                         procedure="set.spectral_unmixing.abundance_band_name_suffix">
+            <variable name="val">$(abundance_suffix)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pYt"
+                         procedure="set.spectral_unmixing.error_band_name_suffix">
+            <variable name="val">$(error_suffix)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pYu"
+                         procedure="set.spectral_unmixing.minimal_bandwidth">
+            <variable name="val">$(min_bandwidth)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <ProcedureCall id="_1pYv" procedure="store_parameters"/>
+        <TestStep id="_1pYw" name="change_parameters">
+          <ProcedureCall id="_1pYx"
+                         procedure="set.spectral_unmixing.target_directory">
+            <variable name="dir">$(output_folder)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pYy" procedure="select_all_bands">
+            <variable name="first_band">radiance_1</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pYz"
+                         procedure="do_click.spectral_unmixing.endmembers.clear_button"/>
+          <ProcedureCall id="_1pY+"
+                         procedure="deselect.spectral_unmixing.compute_error_bands"/>
+          <ProcedureCall id="_1pY-"
+                         procedure="select.spectral_unmixing.unmixing_model_name">
+            <variable name="unmixing_model_name">Constrained LSU</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pZ0"
+                         procedure="set.spectral_unmixing.abundance_band_name_suffix">
+            <variable name="val">x</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pZ1"
+                         procedure="set.spectral_unmixing.error_band_name_suffix">
+            <variable name="val">y</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pZ2"
+                         procedure="set.spectral_unmixing.minimal_bandwidth">
+            <variable name="val">20.0</variable>
+          </ProcedureCall>
+        </TestStep>
+        <ProcedureCall id="_1pZ3" procedure="load_parameters"/>
+        <TestStep id="_1pZ4" name="check_parameters">
+          <ProcedureCall id="_1pZ5"
+                         procedure="check.spectral_unmixing.checked.compute_error_bands_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pZ6"
+                         procedure="check.spectral_unmixing.text.abundance_band_name_suffix">
+            <variable name="val">$(abundance_suffix)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pZ7"
+                         procedure="check.spectral_unmixing.text.error_band_name_suffix">
+            <variable name="val">$(error_suffix)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pZ8"
+                         procedure="check.spectral_unmixing.text.spectral_unmixing_model">
+            <variable name="val">$(unmix_model)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pZ9"
+                         procedure="check.spectral_unmixing.text.minimum_spectral_bandwidth">
+            <variable name="val">$(min_bandwidth)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pZA" procedure="check_sample_endmembers"/>
+          <ProcedureCall id="_1pZB" procedure="check_selected_source_band">
+            <variable name="band_name">radiance_1</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pZC" procedure="check_selected_source_band">
+            <variable name="band_name">radiance_3</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pZD" procedure="check_selected_source_band">
+            <variable name="band_name">radiance_4</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pZE" procedure="check_selected_source_band">
+            <variable name="band_name">radiance_5</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pZG" procedure="check_selected_source_band">
+            <variable name="band_name">radiance_7</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pZF" procedure="check_selected_source_band">
+            <variable name="band_name">radiance_8</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pZH"
+                         procedure="check_source_band_not_selected">
+            <variable name="band_name">radiance_2</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pZJ" name="display_parameters">
+          <ProcedureCall id="_1pbX" procedure="display_parameters_and_check"/>
+        </TestStep>
+        <ProcedureCall id="_1pZN"
+                       procedure="close_processing_tool.spectral_tools.spectral_unmixing"/>
+      </TestCase>
+      <TestCase disabled="true" id="_1pZO" name="06_cancel_processing">
+        <variable name="output_file">test_06_cancel.dim</variable>
+        <variable name="source_data">MER_RR__1_test.N1</variable>
+        <variable name="source_dir">mer_rr__1p_n1</variable>
+        <ProcedureCall id="_1pZP"
+                       procedure="open.optical.spectral_tools.spectral_unmixing"/>
+        <TestStep id="_1pZQ" name="cancel_processing">
+          <ProcedureCall id="_1pZR" procedure="open_source_product">
+            <variable name="prod_dir">$(source_dir)</variable>
+            <variable name="prod_name">$(source_data)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pZS"
+                         procedure="set.spectral_unmixing.target_product_name">
+            <variable name="target_product_name">$(output_file)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pZT"
+                         procedure="select.spectral_unmixing.save_as"/>
+          <ProcedureCall id="_1paA"
+                         procedure="select.spectral_unmixing.open_in_snap"/>
+          <ProcedureCall id="_1pa5"
+                         procedure="set.spectral_unmixing.target_directory">
+            <variable name="dir">$(output_folder)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pa8"
+                         procedure="select.spectral_unmixing.output_format">
+            <variable name="output_format">BEAM-DIMAP</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pa6" procedure="select_all_bands">
+            <variable name="first_band">radiance_1</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pZV"
+                         procedure="do_click.spectral_unmixing.endmembers.clear_button"/>
+          <ProcedureCall id="_1pZW" procedure="add_endmembers">
+            <variable name="endmembers_file">sample-endmembers.csv</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pZY"
+                         procedure="select.spectral_unmixing.unmixing_model_name">
+            <variable name="unmixing_model_name">Fully Constrained LSU</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pa7"
+                         procedure="do_click.spectral_unmixing.button_apply"/>
+          <ProcedureCall id="_1pa9"
+                         procedure="cancel_writing_target_product"/>
+        </TestStep>
+        <TestStep id="_1pQE" name="check">
+          <ProcedureCall id="_1l3B" procedure="check.product.not_opened"/>
+          <IfSequence id="_1kk7"
+                      test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1pQV" procedure="run-log.logError">
+              <variable name="message">$(output_file) is opened in SNAP</variable>
+              <variable name="withScreenshots">true</variable>
+            </ProcedureCall>
+          </IfSequence>
+          <ProcedureCall id="_1pQe" procedure="set.target_product_with_path"/>
+          <ProcedureCall id="_1pQW"
+                         procedure="check_external_file.file_was_not_processed_else_shoot_error">
+            <variable name="fileName">$(target_product)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <ProcedureCall id="_1pa4"
+                       procedure="close_processing_tool.spectral_tools.spectral_unmixing"/>
+      </TestCase>
+      <TestCase id="_1pRE" name="07_pixel_geocoded_product">
+        <variable name="output_file">test_07_pixel_geocoding.dim</variable>
+        <variable name="source_data">MER_FSG_1PNUPA20090704_041155_000004532080_00262_38392_7000_pix.nc</variable>
+        <variable name="source_dir">collocated_pixelgeocoding</variable>
+        <ProcedureCall id="_1paB"
+                       procedure="open.optical.spectral_tools.spectral_unmixing"/>
+        <TestStep id="_1paC" name="processing">
+          <ProcedureCall id="_1paD" procedure="open_source_product">
+            <variable name="prod_dir">$(source_dir)</variable>
+            <variable name="prod_name">$(source_data)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qcw"
+                         procedure="get.spectral_unmixing.source_product"/>
+          <IfSequence id="_1qcx"
+                      test="&#34;$(source_product)&#34;&lt;&gt;&#34;&#34;">
+            <ProcedureCall id="_1paE"
+                           procedure="set.spectral_unmixing.target_product_name">
+              <variable name="target_product_name">$(output_file)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1paF"
+                           procedure="deselect.spectral_unmixing.save_as"/>
+            <ProcedureCall id="_1paG" procedure="select_all_bands">
+              <variable name="first_band">radiance_1</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1paT"
+                           procedure="do_click.spectral_unmixing.endmembers.clear_button"/>
+            <ProcedureCall id="_1paH" procedure="add_endmembers">
+              <variable name="endmembers_file">sample-endmembers.csv</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1paU"
+                           procedure="select.spectral_unmixing.unmixing_model_name">
+              <variable name="unmixing_model_name">Constrained LSU</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1paV"
+                           procedure="select.spectral_unmixing.compute_error_bands"/>
+            <ProcedureCall id="_1paI"
+                           procedure="do_click.spectral_unmixing.button_apply"/>
+            <ProcedureCall id="_1paJ"
+                           procedure="click_ok_in_product_created_dialog"/>
+          </IfSequence>
+        </TestStep>
+        <TestStep id="_1paK" name="check_output_product">
+          <ProcedureCall id="_1qcy" procedure="check.product.not_opened"/>
+          <IfSequence id="_1qcz"
+                      test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+            <TestStep id="_1paX" name="open_image_view">
+              <ProcedureCall id="_1pgJ"
+                             procedure="product_meta_data.for_open_image_view"/>
+              <SetGlobalStep id="_1paN" varname="bandName">
+                <default>Forest_abundance</default>
+              </SetGlobalStep>
+              <ProcedureCall id="_1paO"
+                             procedure="utility.open_image_view_check_it"/>
+            </TestStep>
+            <TestStep id="_1pac" name="menu_attach_detach_pixel_geocoding">
+              <ProcedureCall id="_1pad" procedure="do_click.menu.tools"/>
+              <ProcedureCall id="_1pae"
+                             procedure="check.menu.tools.menuItemAttachPixelGeoCoding_enabled_status">
+                <variable name="enabled_status">false</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1paf"
+                             procedure="check.menu.tools.menuItemDetachPixelGeoCoding_enabled_enabled_status">
+                <variable name="enabled_status">true</variable>
+              </ProcedureCall>
+            </TestStep>
+            <TestStep id="_1pag"
+                      name="open_image_view_check_masks_layers_close_product">
+              <SetGlobalStep id="_1paP" varname="view_Id1">
+                <default>2</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1paQ" varname="bandName">
+                <default>Cloud_abundance</default>
+              </SetGlobalStep>
+              <ProcedureCall id="_1paR"
+                             procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+            </TestStep>
+          </IfSequence>
+        </TestStep>
+        <ProcedureCall id="_1paS"
+                       procedure="close_processing_tool.spectral_tools.spectral_unmixing"/>
+      </TestCase>
+      <TestSet id="_1pT+" name="08_processing_in_different_formats_meris">
+        <variable name="source_data">MER_RR__1_test.N1</variable>
+        <variable name="source_dir">mer_rr__1p_n1</variable>
+        <SetupSequence id="_1pUV" name="prepare_for_the_testing">
+          <ProcedureCall id="_1pUX"
+                         procedure="open.optical.spectral_tools.spectral_unmixing"/>
+          <ProcedureCall id="_1pak" procedure="open_source_product">
+            <variable name="prod_dir">$(source_dir)</variable>
+            <variable name="prod_name">$(source_data)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pal"
+                         procedure="set.spectral_unmixing.target_product_name">
+            <variable name="target_product_name">test</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pau"
+                         procedure="select.spectral_unmixing.save_as"/>
+          <ProcedureCall id="_1pav"
+                         procedure="select.spectral_unmixing.open_in_snap"/>
+          <ProcedureCall id="_1paw"
+                         procedure="set.spectral_unmixing.target_directory">
+            <variable name="dir">$(output_folder)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pan" procedure="select_all_bands">
+            <variable name="first_band">radiance_1</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pao"
+                         procedure="do_click.spectral_unmixing.endmembers.clear_button"/>
+          <ProcedureCall id="_1pap" procedure="add_endmembers">
+            <variable name="endmembers_file">sample-endmembers.csv</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1paq"
+                         procedure="select.spectral_unmixing.unmixing_model_name">
+            <variable name="unmixing_model_name">Constrained LSU</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1par"
+                         procedure="deselect.spectral_unmixing.compute_error_bands"/>
+        </SetupSequence>
+        <TestSet id="_1pUb" name="processing">
+          <DataDriver id="_1pUc"
+                      loopreportname="spectral_unmixing, write the target product as $(output_format)"
+                      name="spectral_unmixing">
+            <ProcedureCall id="_1pUd" procedure="tables.output_formats"/>
+          </DataDriver>
+          <TestCase id="_1pUj" name="processing_in_different_formats"
+                    reportname="Processing in different formats and check output product">
+            <ServerScriptStep disabled="true" id="_1pV5" name="print">
+              <code>print "output_format = $(output_format)"</code>
+            </ServerScriptStep>
+            <ServerScriptStep disabled="true" id="_1pV6" name="print">
+              <code>print "output_file = $(output_file)"</code>
+            </ServerScriptStep>
+            <TestStep id="_1pUk" name="processing">
+              <ProcedureCall id="_1pUl"
+                             procedure="set.spectral_unmixing.target_product_name">
+                <variable name="target_product_name">$(output_file)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1pUm"
+                             procedure="select.spectral_unmixing.output_format">
+                <variable name="output_format">$(output_format)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1pUn"
+                             procedure="do_click.spectral_unmixing.button_apply"/>
+              <ProcedureCall id="_1pUo"
+                             procedure="wait.disappear.writing_target_product"/>
+              <IfSequence id="_1qct"
+                          test="&#34;$(output_format)&#34;&lt;&gt;&#34;HDF5&#34;">
+                <ProcedureCall id="_1qcm"
+                               procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
+                  <variable name="screenshot">run_spectral_unmixing_error</variable>
+                </ProcedureCall>
+              </IfSequence>
+              <ProcedureCall id="_1pax"
+                             procedure="click_ok_in_product_created_dialog"/>
+              <ProcedureCall id="_1qcu"
+                             procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
+                <variable name="screenshot">run_spectral_unmixing_error</variable>
+              </ProcedureCall>
+            </TestStep>
+            <TestStep id="_1pUq" name="check_target_product">
+              <ProcedureCall id="_1pc3"
+                             procedure="test_events.check_target_product"/>
+            </TestStep>
+          </TestCase>
+        </TestSet>
+        <CleanupSequence id="_1pUa" name="close_spectral_unmixing_tool">
+          <ProcedureCall id="_1pUP"
+                         procedure="close_processing_tool.spectral_tools.spectral_unmixing"/>
+        </CleanupSequence>
+      </TestSet>
+    </TestSet>
+    <TestCase id="_1pFr" name="03_help">
+      <ProcedureCall id="_1pVE"
+                     procedure="open.optical.spectral_tools.spectral_unmixing"/>
+      <TestStep id="_1pVG" name="check_help">
+        <ProcedureCall id="_1pVH"
+                       procedure="do_click.spectral_unmixing.menu.help"/>
+        <ProcedureCall id="_1pVI"
+                       procedure="do_click.spectral_unmixing.menu.help_menu_item"/>
+        <ProcedureCall id="_1qc+" procedure="help.check_help_appears_close"/>
+      </TestStep>
+      <TestStep id="_1pVN" name="check_help_about">
+        <ProcedureCall id="_1pVO"
+                       procedure="do_click.spectral_unmixing.menu.help"/>
+        <ProcedureCall id="_1pVP"
+                       procedure="do_click.spectral_unmixing.menu.about"/>
+        <ComponentWaiter client="$(client)" component="dialogAbout_Unmix"
+                         id="_1pPd"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogAbout_Unmix.ModalDialog.ok"
+                        event="MOUSE_MPRC" id="_1pPe" modifiers="16"/>
+      </TestStep>
+      <ProcedureCall id="_1pVF"
+                     procedure="close_processing_tool.spectral_tools.spectral_unmixing"/>
+    </TestCase>
+  </TestSet>
+  <PackageRoot id="_4">
+    <Procedure id="_1pSJ" name="add_endmembers">
+      <variable name="endmembers_file"/>
+      <ProcedureCall id="_1o-8" procedure="path.main_path"/>
+      <ProcedureCall id="_1pYD"
+                     procedure="do_click.spectral_unmixing.endmembers.add_button"/>
+      <ComponentWaiter client="$(client)" component="dialogAdd_Endmembers"
+                       id="_1pSL"/>
+      <IfSequence id="_1pbY" test="${qftest:windows}">
+        <SetGlobalStep id="_1pbg" varname="endmembers_file_dir">
+          <default>${path:input_data_directory}applications\\processing\\endmembers\\</default>
+        </SetGlobalStep>
+        <TextInputStep clear="true" client="$(client)"
+                       component="dialogAdd_Endmembers.textFile_name:"
+                       id="_1pSN">
+          <text>$(endmembers_file_dir)$(endmembers_file)</text>
+        </TextInputStep>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogAdd_Endmembers.buttonOpen"
+                        event="MOUSE_MPRC" id="_1pSP" modifiers="16"/>
+        <ElseifSequence id="_1pba" name="MAC?"
+                        test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+          <SetGlobalStep id="_1pbi" varname="endmembers_file_dir">
+            <default>${path:input_data_directory}applications/processing/endmembers/</default>
+          </SetGlobalStep>
+          <TextInputStep clear="true" client="$(client)"
+                         component="textSelection:6" id="_1pbj">
+            <text>$(endmembers_file_dir)$(endmembers_file)</text>
+          </TextInputStep>
+          <MouseEventStep clicks="1" client="$(client)" component="buttonOK3"
+                          event="MOUSE_MPRC" id="_1pbk" modifiers="16"/>
+        </ElseifSequence>
+        <ElseSequence id="_1pbc">
+          <SetGlobalStep id="_1pbh" varname="endmembers_file_dir">
+            <default>${path:input_data_directory}applications/processing/endmembers/</default>
+          </SetGlobalStep>
+          <TextInputStep clear="true" client="$(client)"
+                         component="textSelection:6" id="_1pbe">
+            <text>$(endmembers_file_dir)$(endmembers_file)</text>
+          </TextInputStep>
+          <MouseEventStep clicks="1" client="$(client)" component="buttonOK3"
+                          event="MOUSE_MPRC" id="_1pbf" modifiers="16"/>
+        </ElseSequence>
+      </IfSequence>
+    </Procedure>
+    <Procedure id="_1pP2" name="check_sample_endmembers">
+      <CheckItemsStep checktype="items" client="$(client)"
+                      component="dialogSpectral_Unmixing.panelLeft.list"
+                      id="_1pP3">
+        <item>Forrest</item>
+        <item>Cropland</item>
+        <item>Cloud</item>
+        <item>Ocean</item>
+      </CheckItemsStep>
+    </Procedure>
+    <Procedure id="_1pYd" name="check_source_band_not_selected">
+      <variable name="band_name"/>
+      <CheckBooleanStep checktype="item_selected" client="$(client)"
+                        component="dialogSpectral_Unmixing.sourceBandNames.band_name"
+                        id="_1pYe" state="false"/>
+    </Procedure>
+    <Procedure id="_1pYU" name="check_selected_source_band">
+      <variable name="band_name"/>
+      <CheckBooleanStep checktype="item_selected" client="$(client)"
+                        component="dialogSpectral_Unmixing.sourceBandNames.band_name"
+                        id="_1pYV"/>
+    </Procedure>
+    <Procedure id="_1pON" name="click_ok_in_product_created_dialog">
+      <TryStep id="_1qco">
+        <ComponentWaiter client="$(client)"
+                         component="dialogSNAP_-_Spectral_Unmixing.buttonOK"
+                         errorlevel="0" id="_1qcp" raise="false"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSNAP_-_Spectral_Unmixing.buttonOK"
+                        event="MOUSE_MPRC" id="_1qcq" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1qcr" maxerror="0"/>
+      </TryStep>
+      <TryStep id="_1pOQ">
+        <ComponentWaiter client="$(client)"
+                         component="dialogSpectral_Unmixing2.buttonOK"
+                         errorlevel="0" id="_1pOO" raise="false"
+                         timeout="10"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSpectral_Unmixing2.buttonOK"
+                        event="MOUSE_MPRC" id="_1pOP" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1pOR" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1qcn" procedure="handle_unmix_error"/>
+    </Procedure>
+    <Procedure id="_1pPv" name="display_parameters">
+      <TryStep id="_1pPw" name="select_menu_display_parameters">
+        <ProcedureCall id="_1pPx"
+                       procedure="do_click.spectral_unmixing.menu.file"/>
+        <ProcedureCall id="_1pPy"
+                       procedure="do_click.spectral_unmixing.menu.display_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPz" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1pbQ" name="display_parameters_and_check">
+      <ProcedureCall id="_1pbR" procedure="display_parameters"/>
+      <ComponentWaiter client="$(client)" component="dialogUnmix_Parameters"
+                       id="_1pbU"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogUnmix_Parameters.ModalDialog.ok"
+                      event="MOUSE_MPRC" id="_1pbV" modifiers="16"/>
+    </Procedure>
+    <Procedure id="_1pWJ" name="do_click_band">
+      <variable name="band_name"/>
+      <IfSequence id="_1pWL" test="&#34;$(band_name)&#34;&lt;&gt;&#34;&#34;">
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSpectral_Unmixing.sourceBandNames.band_name"
+                        event="MOUSE_MPRC" id="_1pWZ" modifiers="18"/>
+      </IfSequence>
+    </Procedure>
+    <Procedure id="_1pWk" name="do_press_band">
+      <variable name="band_name"/>
+      <IfSequence id="_1pWl" test="&#34;$(band_name)&#34;&lt;&gt;&#34;&#34;">
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSpectral_Unmixing.sourceBandNames.band_name"
+                        event="MOUSE_PRESSED" id="_1pWm" modifiers="18"/>
+      </IfSequence>
+    </Procedure>
+    <Procedure id="_1pTE" name="get_source_product">
+      <FetchTextStep client="$(client)"
+                     component="dialogSpectral_Unmixing.comboSelect_a_source_product."
+                     id="_1pTF" varname="source_product"/>
+    </Procedure>
+    <Procedure id="_1pP9" name="load_parameters">
+      <TryStep id="_1pPA" name="select_menu_load_parameters">
+        <ProcedureCall id="_1pPB"
+                       procedure="do_click.spectral_unmixing.menu.file"/>
+        <ProcedureCall id="_1pPC"
+                       procedure="do_click.spectral_unmixing.menu.load_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPD" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPM" procedure="utility.load_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pMT" name="open_source_product">
+      <variable name="prod_dir"/>
+      <variable name="prod_name"/>
+      <ProcedureCall id="_1oSj" procedure="path.source_data_directory">
+        <variable name="data_type">$(prod_dir)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1pMS"
+                     procedure="do_click.spectral_unmixing.button_source_product"/>
+      <ProcedureCall id="_1pHR"
+                     procedure="utility.handle_select_product_dialog">
+        <variable name="file">$(data_source_directory)$(prod_name)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qcv"
+                     procedure="error_handling.if_any_error_make_screenshot_shoot_error_message"/>
+      <TryStep disabled="true" id="_1pXT">
+        <ProcedureCall id="_1pXV" procedure="wait.appear.error.dialog_Error"/>
+        <ProcedureCall id="_1pXS"
+                       procedure="do_click.error_dialog.button_OK_Error"/>
+        <ProcedureCall id="_1pXW" procedure="run-log.logError">
+          <variable name="message">Opening of the product $(data_source_directory)$(prod_name) failed</variable>
+          <variable name="withScreenshots">false</variable>
+        </ProcedureCall>
+        <CatchSequence exception="TestException" id="_1pXU" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1pSl" name="select_all_bands">
+      <variable name="first_band"/>
+      <ProcedureCall id="_1pWo" procedure="do_click_band">
+        <variable name="band_name">$(first_band)</variable>
+      </ProcedureCall>
+      <KeyEventStep client="$(client)"
+                    component="dialogSpectral_Unmixing.sourceBandNames"
+                    event="KEY_PRESSED" id="_1pSo" keychar="65535"
+                    keycode="17" modifiers="2"/>
+      <KeyEventStep client="$(client)"
+                    component="dialogSpectral_Unmixing.sourceBandNames"
+                    event="KEY_PTR" id="_1pSp" keychar="1" keycode="65"
+                    modifiers="2"/>
+      <KeyEventStep client="$(client)"
+                    component="dialogSpectral_Unmixing.sourceBandNames"
+                    event="KEY_RELEASED" id="_1pSq" keychar="65535"
+                    keycode="17" modifiers="0"/>
+    </Procedure>
+    <Procedure id="_1pW2" name="select_bands">
+      <variable name="band0"/>
+      <variable name="band1"/>
+      <variable name="band2"/>
+      <variable name="band3"/>
+      <variable name="band4"/>
+      <variable name="band5"/>
+      <ProcedureCall id="_1pWn" procedure="do_click_band">
+        <variable name="band_name">$(band1)</variable>
+      </ProcedureCall>
+      <RepeatSequence count="6" id="_1pWb" name="s" var="i">
+        <IfSequence id="_1pWg" test="&#34;$(band$(i))&#34;&lt;&gt;&#34;&#34;">
+          <ProcedureCall id="_1pWc" procedure="do_press_band">
+            <variable name="band_name">$(band$(i))</variable>
+          </ProcedureCall>
+          <KeyEventStep client="$(client)"
+                        component="dialogSpectral_Unmixing.sourceBandNames"
+                        event="KEY_PRESSED" id="_1pWd" keychar="65535"
+                        keycode="17" modifiers="2"/>
+          <KeyEventStep client="$(client)"
+                        component="dialogSpectral_Unmixing.sourceBandNames"
+                        event="KEY_PRESSED" id="_1pWe" keychar="65535"
+                        keycode="17" modifiers="18"/>
+          <ElseSequence id="_1pWh">
+            <KeyEventStep client="$(client)"
+                          component="dialogSpectral_Unmixing.sourceBandNames"
+                          event="KEY_PRESSED" id="_1pWi" keychar="65535"
+                          keycode="17" modifiers="2"/>
+            <KeyEventStep client="$(client)"
+                          component="dialogSpectral_Unmixing.sourceBandNames"
+                          event="KEY_RELEASED" id="_1pWj" keychar="65535"
+                          keycode="17" modifiers="0"/>
+          </ElseSequence>
+        </IfSequence>
+      </RepeatSequence>
+    </Procedure>
+    <Procedure id="_1pPF" name="store_parameters">
+      <TryStep id="_1pPG" name="select_menu_store_parameters">
+        <ProcedureCall id="_1pPH"
+                       procedure="do_click.spectral_unmixing.menu.file"/>
+        <ProcedureCall id="_1pPI"
+                       procedure="do_click.spectral_unmixing.menu.save_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPJ" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPK" procedure="utility.store_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1qXN" name="handle_unmix_error">
+      <TryStep id="_1qXQ">
+        <ComponentWaiter client="$(client)"
+                         component="dialogSpectral_Unmixing2.buttonOK"
+                         errorlevel="0" id="_1qXO" raise="false"
+                         timeout="100"/>
+        <ProcedureCall id="_1qXU" procedure="run-log.make_screensot">
+          <variable name="iw_name">unmix_error</variable>
+          <variable name="iw_name_example">error_dialog</variable>
+        </ProcedureCall>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSpectral_Unmixing2.buttonOK"
+                        event="MOUSE_MPRC" id="_1qXP" modifiers="16"/>
+        <ProcedureCall id="_1qXV" procedure="run-log.logError">
+          <variable name="message">unmix_error</variable>
+          <variable name="withScreenshots">false</variable>
+        </ProcedureCall>
+        <CatchSequence exception="TestException" id="_1qXR" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+  </PackageRoot>
+  <ExtraSequence id="_5">
+    <ProcedureCall id="_1qXW" procedure="check.product.not_opened"/>
+    <IfSequence id="_1qXX" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
+      <ProcedureCall id="_1l3C" procedure="wait.product_is_opened"/>
+    </IfSequence>
+    <ProcedureCall id="_1oXV" procedure="check.product.not_opened"/>
+    <IfSequence id="_1oXW" test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+      <TestStep id="_1o+2" name="delete_band">
+        <ProcedureCall id="_1oXb" procedure="select.product_tree.band">
+          <variable name="prod_id">0</variable>
+          <variable name="group_id"/>
+          <variable name="view_id">1</variable>
+          <variable name="band">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1ozv" procedure="delete_product_tree_node"/>
+        <ProcedureCall id="_1ozx" procedure="check.product.node_not_exists">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1o+t" name="undo">
+        <ProcedureCall id="_1p0C" procedure="undo_tree"/>
+        <ProcedureCall disabled="true" id="_1o+y"
+                       procedure="do_click_menubar_undo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o+z" procedure="get.tree.get_index_of_node">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+        <ServerScriptStep disabled="true" id="_1o++" name="print">
+          <code>print "$(new_band_id)"</code>
+        </ServerScriptStep>
+      </TestStep>
+      <TestStep id="_1o-3" name="redo">
+        <ProcedureCall id="_1p0D" procedure="redo_tree"/>
+        <ProcedureCall disabled="true" id="_1o-B"
+                       procedure="do_click_menubar_redo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o-C" procedure="check.product.node_not_exists">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1o-F" name="undo">
+        <ProcedureCall id="_1p0E" procedure="undo_tree"/>
+        <ProcedureCall disabled="true" id="_1o-P"
+                       procedure="do_click_menubar_undo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o-Q" procedure="get.tree.get_index_of_node">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+    </IfSequence>
+    <ProcedureCall id="_1oXO" procedure="close.all_products"/>
+  </ExtraSequence>
+  <WindowList id="_6"/>
+</RootStep>

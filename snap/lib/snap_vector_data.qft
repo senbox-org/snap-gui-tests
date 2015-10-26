@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.3">
+<RootStep id="_0" name="root" version="4.0.4">
   <include>qfs.qft</include>
   <include>snap_components.qft</include>
   <include>snap_main.qft</include>
@@ -19,7 +19,7 @@
           <ProcedureCall id="_1pD+"
                          procedure="do_click.main_toolbar.tools.draw_line"/>
           <ProcedureCall id="_1pD-"
-                         procedure="do_click.image_view.start_point_drag_to_end_point">
+                         procedure="geometry.utility.drag_from_start_point_to_end_point">
             <variable name="view_name">$(view_name)</variable>
             <variable name="start_x">$(x0)</variable>
             <variable name="start_y">$(y0)</variable>
@@ -36,7 +36,7 @@
           <ProcedureCall id="_1o+s"
                          procedure="do_click.main_toolbar.tools.draw_rectangle"/>
           <ProcedureCall id="_1pDz"
-                         procedure="do_click.image_view.start_point_drag_to_end_point">
+                         procedure="geometry.utility.drag_from_start_point_to_end_point">
             <variable name="view_name">$(view_name)</variable>
             <variable name="start_x">$(x0)</variable>
             <variable name="start_y">$(y0)</variable>
@@ -53,7 +53,7 @@
           <ProcedureCall id="_1pEP"
                          procedure="do_click.main_toolbar.tools.draw_ellipse"/>
           <ProcedureCall id="_1pEQ"
-                         procedure="do_click.image_view.start_point_drag_to_end_point">
+                         procedure="geometry.utility.drag_from_start_point_to_end_point">
             <variable name="view_name">$(view_name)</variable>
             <variable name="start_x">$(x0)</variable>
             <variable name="start_y">$(y0)</variable>
@@ -74,7 +74,7 @@
           <ProcedureCall id="_1pET"
                          procedure="do_click.main_toolbar.tools.draw_polyline"/>
           <ProcedureCall id="_1pES"
-                         procedure="do_click.image_view.drag_polyline">
+                         procedure="geometry.utility.drag_polyline">
             <variable name="view_name">$(view_name)</variable>
             <variable name="start_x">$(x0)</variable>
             <variable name="start_y">$(y0)</variable>
@@ -99,7 +99,39 @@
           <ProcedureCall id="_1pEW"
                          procedure="do_click.main_toolbar.tools.draw_polygon"/>
           <ProcedureCall id="_1pEX"
-                         procedure="do_click.image_view.drag_polyline">
+                         procedure="geometry.utility.drag_polyline">
+            <variable name="view_name">$(view_name)</variable>
+            <variable name="start_x">$(x0)</variable>
+            <variable name="start_y">$(y0)</variable>
+            <variable name="point1_x">$(x1)</variable>
+            <variable name="point1_y">$(y1)</variable>
+            <variable name="point2_x">$(x2)</variable>
+            <variable name="point2_y">$(y2)</variable>
+            <variable name="end_x">$(x3)</variable>
+            <variable name="end_y">$(y3)</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1rM3" name="polygon_in_new_container">
+          <variable name="view_name"/>
+          <variable name="geometry_name"/>
+          <variable name="x0"/>
+          <variable name="y0"/>
+          <variable name="x1"/>
+          <variable name="y1"/>
+          <variable name="x2"/>
+          <variable name="y2"/>
+          <variable name="x3"/>
+          <variable name="y3"/>
+          <ProcedureCall id="_1rM4"
+                         procedure="do_click.main_toolbar.tools.draw_polygon"/>
+          <ProcedureCall id="_1rM8"
+                         procedure="geometry.select_geometry_container">
+            <variable name="geometry_name">$(geometry_name)</variable>
+            <variable name="x">$(x0)</variable>
+            <variable name="y">$(y0)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rM5"
+                         procedure="geometry.utility.drag_polyline">
             <variable name="view_name">$(view_name)</variable>
             <variable name="start_x">$(x0)</variable>
             <variable name="start_y">$(y0)</variable>
@@ -112,14 +144,101 @@
           </ProcedureCall>
         </Procedure>
       </Package>
+      <Package id="_1rM6" name="utility">
+        <Procedure id="_1pE2" name="drag_polyline">
+          <variable name="view_name"/>
+          <variable name="start_x"/>
+          <variable name="start_y"/>
+          <variable name="point1_x"/>
+          <variable name="point1_y"/>
+          <variable name="point2_x"/>
+          <variable name="point2_y"/>
+          <variable name="end_x"/>
+          <variable name="end_y"/>
+          <comment>@teststep Click for the start point, click the second point, click the third point and double click the last point.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.[1]_view_name.panel"
+                          event="MOUSE_MPRC" id="_1pE7" modifiers="16"
+                          x="$(start_x)" y="$(start_y)"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.[1]_view_name.panel"
+                          event="MOUSE_MPRC" id="_1pE8" modifiers="16"
+                          x="$(point1_x)" y="$(point1_y)"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.[1]_view_name.panel"
+                          event="MOUSE_MPRC" id="_1p0L" modifiers="16"
+                          x="$(point2_x)" y="$(point2_y)"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.[1]_view_name.panel"
+                          disabled="true" event="MOUSE_MPRC" id="_1p0M"
+                          modifiers="16" x="$(end_x)" y="$(end_y)"/>
+          <MouseEventStep clicks="2" client="$(client)"
+                          component="NbMainWindow.[1]_view_name.panel"
+                          event="MOUSE_MPRC" id="_1p0N" modifiers="16"
+                          x="$(end_x)" y="$(end_y)"/>
+        </Procedure>
+        <Procedure id="_1ppO" name="drag_from_start_point_to_end_point">
+          <variable name="view_name"/>
+          <variable name="start_x"/>
+          <variable name="start_y"/>
+          <variable name="end_x"/>
+          <variable name="end_y"/>
+          <comment>@teststep Click for the start point, drag to the end point and release the mouse button</comment>
+          <MouseEventStep clicks="0" client="$(client)"
+                          component="NbMainWindow.[1]_view_name.panel"
+                          event="MOUSE_MOVED" id="_1ppu" modifiers="0"
+                          x="$(start_x)" y="$(start_y)"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.[1]_view_name.panel"
+                          event="MOUSE_PRESSED" id="_1ppv" modifiers="16"
+                          x="$(start_x)" y="$(start_y)"/>
+          <MouseEventStep clicks="0" client="$(client)"
+                          component="NbMainWindow.[1]_view_name.panel"
+                          event="MOUSE_DRAGGED" id="_1ppw" modifiers="16"
+                          x="$(end_x)" y="$(end_y)"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.[1]_view_name.panel"
+                          event="MOUSE_RELEASED" id="_1ppx" modifiers="16"
+                          x="$(end_x)" y="$(end_y)"/>
+        </Procedure>
+      </Package>
       <Procedure id="_1pEY" name="new_geometry_container">
         <variable name="name"/>
         <comment>@teststep Creating a new geometry container</comment>
-        <ProcedureCall id="_1pEZ"
-                       procedure="do_click.main_toolbar.tools.create_new_vector_data_container"/>
+        <TryStep id="_1rMD">
+          <ProcedureCall id="_1pEZ"
+                         procedure="do_click.main_toolbar.tools.create_new_vector_data_container"/>
+          <CatchSequence exception="TestException" id="_1rME" maxerror="0">
+            <ProcedureCall id="_1rMF"
+                           procedure="get.tree.vector_data_node_id">
+              <variable name="prod_id">0</variable>
+            </ProcedureCall>
+            <IfSequence id="_1pE0"
+                        test="&#34;$(vector_data)&#34;==&#34;true&#34;">
+              <SetGlobalStep id="_1pE1" varname="nid">
+                <default>0/$(vector_data_node_id)</default>
+              </SetGlobalStep>
+              <ServerScriptStep id="_1pEF" name="print">
+                <code>print "Vector Node = $(nid)"</code>
+              </ServerScriptStep>
+              <ProcedureCall id="_1rMK"
+                             procedure="select.product_tree.tree_node">
+                <variable name="node_id">$(nid)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1rML"
+                             procedure="do_click.main_toolbar.tools.create_new_vector_data_container"/>
+              <ElseSequence id="_1rMI">
+                <ProcedureCall id="_1pEJ"
+                               procedure="run-log.error_message.node_does_not_exist">
+                  <variable name="node_name">Vector Data</variable>
+                </ProcedureCall>
+              </ElseSequence>
+            </IfSequence>
+          </CatchSequence>
+        </TryStep>
         <ComponentWaiter client="$(client)"
                          component="dialogNew_Vector_Data_Container"
-                         id="_1o-4"/>
+                         id="_1rMN"/>
         <TextInputStep clear="true" client="$(client)"
                        component="dialogNew_Vector_Data_Container.name"
                        id="_1o-D">
@@ -128,6 +247,27 @@
         <MouseEventStep clicks="1" client="$(client)"
                         component="dialogNew_Vector_Data_Container.MyModalDialog.ok"
                         event="MOUSE_MPRC" id="_1o-E" modifiers="16"/>
+      </Procedure>
+      <Procedure id="_1pEb" name="select_geometry_container">
+        <variable name="geometry_name"/>
+        <variable name="x"/>
+        <variable name="y"/>
+        <TryStep id="_1rM9">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.[1]_view_name.panel"
+                          event="MOUSE_MPRC" id="_1rM7" modifiers="16"
+                          x="$(x)" y="$(y)"/>
+          <CatchSequence exception="TestException" id="_1rMA" maxerror="0"/>
+        </TryStep>
+        <TryStep id="_1rMB">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogSelect_Vector_Data_Container.listPlease_select_a_vector_data_container_geometry_name"
+                          event="MOUSE_MPRC" id="_1rLz" modifiers="16"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogSelect_Vector_Data_Container.ModalDialog.ok"
+                          event="MOUSE_MPRC" id="_1rL+" modifiers="16"/>
+          <CatchSequence exception="TestException" id="_1rMC" maxerror="0"/>
+        </TryStep>
       </Procedure>
     </Package>
   </PackageRoot>

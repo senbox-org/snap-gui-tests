@@ -148,7 +148,7 @@ else: rc.logError("$(fileName) has been written!")</code>
             </TestStep>
             <ElseifSequence id="_1p1X"
                             test="&#34;$(client)&#34;==&#34;snap&#34;">
-              <TestStep id="_1p26" name="snap_cache_folder">
+              <TestStep disabled="true" id="_1p26" name="snap_cache_folder">
                 <SetGlobalStep id="_1p1Z" local="true" varname="cn_cache">
                   <default>del_cache</default>
                 </SetGlobalStep>
@@ -163,7 +163,7 @@ else: rc.logError("$(fileName) has been written!")</code>
                   <variable name="client_name">$(cn_cache)</variable>
                 </ProcedureCall>
               </TestStep>
-              <TestStep id="_1p2B" name="snap_app_folder">
+              <TestStep disabled="true" id="_1p2B" name="snap_app_folder">
                 <SetGlobalStep id="_1p1g" local="true" varname="cn_app">
                   <default>del_app</default>
                 </SetGlobalStep>
@@ -178,7 +178,7 @@ else: rc.logError("$(fileName) has been written!")</code>
                   <variable name="client_name">$(cn_app)</variable>
                 </ProcedureCall>
               </TestStep>
-              <TestStep id="_1p2I" name="snap_ui_folder">
+              <TestStep disabled="true" id="_1p2I" name="snap_ui_folder">
                 <SetGlobalStep id="_1p1q" local="true" varname="cn_ui">
                   <default>del_ui</default>
                 </SetGlobalStep>
@@ -193,122 +193,26 @@ else: rc.logError("$(fileName) has been written!")</code>
                   <variable name="client_name">$(cn_ui)</variable>
                 </ProcedureCall>
               </TestStep>
-            </ElseifSequence>
-          </IfSequence>
-          <IfSequence disabled="true" id="_1o-h"
-                      test="&#34;$(client)&#34;==&#34;s3tbx&#34;">
-            <IfSequence id="_1oNx" name="s3tbx cache folder"
-                        test="'${path:temp_s3tbx}cache'.find('$(operation_system)') !=0">
-              <SetGlobalStep id="_1o-L" local="true" varname="cn_cache">
-                <default>del_cache</default>
-              </SetGlobalStep>
-              <ShellClientStarter client="$(cn_cache)"
-                                  command="$(delete_commando) cache"
-                                  directory="${path:temp_s3tbx}" id="_1p00"/>
-              <ServerScriptStep disabled="true" id="_1o--" name="print">
-                <code>print "working_directory = ${path:temp_s3tbx}"</code>
-              </ServerScriptStep>
-              <ProcedureCall id="_1o-M" procedure="utils.exit_program">
-                <variable name="client_name">$(cn_cache)</variable>
-              </ProcedureCall>
-            </IfSequence>
-            <IfSequence id="_1oN-" name="s3tbx-app folder"
-                        test="'${path:temp_s3tbx}snap-app'.find('$(operation_system)') !=0">
-              <SetGlobalStep id="_1p03" local="true" varname="cn_app">
-                <default>del_app</default>
-              </SetGlobalStep>
-              <ShellClientStarter client="$(cn_app)"
-                                  command="$(delete_commando) s3tbx-app"
-                                  directory="${path:temp_s3tbx}" id="_1p01"/>
-              <ProcedureCall id="_1o-O" procedure="utils.exit_program">
-                <variable name="client_name">$(cn_app)</variable>
-              </ProcedureCall>
-            </IfSequence>
-            <IfSequence id="_1oO3" name="s3tbx-ui folder"
-                        test="'${path:temp_s3tbx}beam-ui'.find('$(operation_system)') !=0">
-              <SetGlobalStep id="_1o-P" local="true" varname="cn_ui">
-                <default>del_ui</default>
-              </SetGlobalStep>
-              <ShellClientStarter client="$(cn_ui)"
-                                  command="$(delete_commando) snap-ui"
-                                  directory="${path:temp_s3tbx}" id="_1oO5"/>
-              <ProcedureCall id="_1o-Q" procedure="utils.exit_program">
-                <variable name="client_name">$(cn_ui)</variable>
-              </ProcedureCall>
-            </IfSequence>
-            <ElseifSequence id="_1o-i"
-                            test="&#34;$(client)&#34;==&#34;snap&#34;">
-              <IfSequence id="_1oOR" name="snap cache folder"
-                          test="'${path:temp_snap}cache'.find('$(operation_system)') &gt;0">
-                <SetGlobalStep id="_1oNy" local="true" varname="cn_cache">
-                  <default>del_cache</default>
+              <TestStep id="_1pEX" name="snap_temporal_folder">
+                <SetGlobalStep id="_1pEc" local="true" varname="cn_cache">
+                  <default>del_temp_snap</default>
                 </SetGlobalStep>
-                <ShellClientStarter client="$(cn_cache)"
-                                    command="$(delete_commando) cache"
-                                    directory="${path:temp_snap}" id="_1p0L"/>
-                <ProcedureCall disabled="true" id="_1p0s"
-                               procedure="shellutils.removeDirectory">
-                  <variable name="directory">${path:temp_snap}cache</variable>
-                </ProcedureCall>
-                <ProcedureCall id="_1oN+" procedure="utils.exit_program">
+                <TryStep id="_1pEd">
+                  <ShellClientStarter client="$(cn_cache)"
+                                      command="$(delete_commando) ${path:temp_snap}"
+                                      directory="${path:temp_snap}"
+                                      id="_1pEZ"/>
+                  <CatchSequence exception="TestException" id="_1pEe"
+                                 maxerror="0"/>
+                </TryStep>
+                <ProcedureCall id="_1pEb" procedure="utils.exit_program">
                   <variable name="client_name">$(cn_cache)</variable>
                 </ProcedureCall>
-                <ShellClientStarter client="$(cn_cache)"
-                                    command="$(delete_commando) ${path:temp_snap}cache"
-                                    directory="${path:temp_snap}" id="_1p0B"/>
-                <ProcedureCall disabled="true" id="_1p0A"
-                               procedure="utils.exit_program">
-                  <variable name="client_name">$(cn_cache)a</variable>
-                </ProcedureCall>
-              </IfSequence>
-              <IfSequence id="_1oOT" name="snap-app folder"
-                          test="'${path:temp_snap}snap-app'.find('$(operation_system)') &gt;0">
-                <SetGlobalStep id="_1oO0" local="true" varname="cn_app">
-                  <default>del_app</default>
-                </SetGlobalStep>
-                <ShellClientStarter client="$(cn_app)"
-                                    command="$(delete_commando) snap-app"
-                                    directory="${path:temp_snap}" id="_1oOU"/>
-                <ProcedureCall disabled="true" id="_1p0v"
+                <ProcedureCall disabled="true" id="_1pEa"
                                procedure="shellutils.removeDirectory">
-                  <variable name="directory">${path:temp_snap}snap-app</variable>
+                  <variable name="directory">${path:temp_snap}</variable>
                 </ProcedureCall>
-                <ProcedureCall id="_1oO2" procedure="utils.exit_program">
-                  <variable name="client_name">$(cn_app)</variable>
-                </ProcedureCall>
-              </IfSequence>
-              <IfSequence disabled="true" id="_1p0i" name="snap-app folder"
-                          test="'${path:temp_snap}snap-app'.find('$(operation_system)') !=0">
-                <SetGlobalStep id="_1p0j" local="true" varname="cn_app">
-                  <default>del_app</default>
-                </SetGlobalStep>
-                <ShellClientStarter client="$(cn_app)"
-                                    command="$(delete_commando) snap-app"
-                                    directory="${path:temp_snap}" id="_1p0k"/>
-                <ProcedureCall disabled="true" id="_1p0u"
-                               procedure="shellutils.removeDirectory">
-                  <variable name="directory">${path:temp_snap}snap-app</variable>
-                </ProcedureCall>
-                <ProcedureCall id="_1p0o" procedure="utils.exit_program">
-                  <variable name="client_name">$(cn_app)</variable>
-                </ProcedureCall>
-              </IfSequence>
-              <IfSequence id="_1oOV" name="snap-ui folder"
-                          test="'${path:temp_snap}beam-ui'.find('$(operation_system)') !=0">
-                <SetGlobalStep id="_1oO4" local="true" varname="cn_ui">
-                  <default>del_ui</default>
-                </SetGlobalStep>
-                <ShellClientStarter client="$(cn_ui)"
-                                    command="$(delete_commando) beam-ui "
-                                    directory="${path:temp_snap}" id="_1oOW"/>
-                <ProcedureCall disabled="true" id="_1p0w"
-                               procedure="shellutils.removeDirectory">
-                  <variable name="directory">${path:temp_snap}beam-ui</variable>
-                </ProcedureCall>
-                <ProcedureCall id="_1oO6" procedure="utils.exit_program">
-                  <variable name="client_name">$(cn_ui)</variable>
-                </ProcedureCall>
-              </IfSequence>
+              </TestStep>
             </ElseifSequence>
           </IfSequence>
         </TestStep>
@@ -397,14 +301,14 @@ iw.savePng ("$(image_path)$(iw_name).png", currenScreenshot)
       </Procedure>
       <Procedure id="_1o-0" name="log_client_output">
         <variable name="client_name"/>
-        <TryStep disabled="true" id="_1o-m">
+        <TryStep id="_1o-m">
           <ServerScriptStep id="_1o-l" name="log_output">
             <code>rc.logMessage(rc.lookup("qftest", "client.output.$(client_name)", expand=False),
 dontcompactify=True, report=True, nowrap=True)</code>
           </ServerScriptStep>
           <CatchSequence exception="TestException" id="_1o-n" maxerror="0"/>
         </TryStep>
-        <ServerScriptStep id="_1o-+" name="log_output">
+        <ServerScriptStep disabled="true" id="_1o-+" name="log_output">
           <code>rc.logMessage(rc.lookup("qftest", "client.output.$(client_name)", expand=False),
 dontcompactify=True, report=True, nowrap=True)</code>
         </ServerScriptStep>
@@ -544,6 +448,25 @@ In this case we catch the exeption in this node and perform a hard close.
               <variable name="client_name">$(client_name)</variable>
             </ProcedureCall>
           </CatchSequence>
+        </TryStep>
+        <TryStep disabled="true" id="_1pEf" name="check_client_exists">
+          <ClientWaiter client="$(client_name)" errorlevel="0" id="_1oJH"
+                        raise="false" timeout="0"/>
+          <ProcessWaiter client="$(client_name)" errorlevel="0" id="_1pEg"
+                         raise="false" timeout="1000"/>
+          <TryStep id="_1pEj" name="check if really stopped">
+            <ProcessWaiter client="$(client_name)" errorlevel="0" id="_1pEk"
+                           raise="false" timeout="1000"/>
+            <CatchSequence exception="ClientNotTerminatedException" id="_1pEl"
+                           maxerror="0" name="notTerminated">
+              <comment>The Wait for client to terminate node throws an exeption if it did not stop.
+In this case we catch the exeption in this node and perform a hard close.
+</comment>
+              <ProcedureCall id="_1pEm" procedure="utils.terminate_process">
+                <variable name="client_name">$(client_name)</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
         </TryStep>
       </Procedure>
       <Procedure id="_1o+u" name="terminate_process">
