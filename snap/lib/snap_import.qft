@@ -735,6 +735,63 @@
     </Package>
   </PackageRoot>
   <ExtraSequence id="_4">
+    <ProcedureCall id="_1oXV" procedure="check.product.not_opened"/>
+    <IfSequence id="_1oXW" test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+      <TestStep id="_1o+2" name="delete_band">
+        <ProcedureCall id="_1oXb" procedure="select.product_tree.band">
+          <variable name="prod_id">0</variable>
+          <variable name="group_id"/>
+          <variable name="view_id">1</variable>
+          <variable name="band">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1ozv" procedure="delete_product_tree_node"/>
+        <ProcedureCall id="_1ozx" procedure="check.product.node_not_exists">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1o+t" name="undo">
+        <ProcedureCall id="_1p0C" procedure="undo_tree"/>
+        <ProcedureCall disabled="true" id="_1o+y"
+                       procedure="do_click_menubar_undo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o+z" procedure="get.tree.get_index_of_node">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+        <ServerScriptStep disabled="true" id="_1o++" name="print">
+          <code>print "$(new_band_id)"</code>
+        </ServerScriptStep>
+      </TestStep>
+      <TestStep id="_1o-3" name="redo">
+        <ProcedureCall id="_1p0D" procedure="redo_tree"/>
+        <ProcedureCall disabled="true" id="_1o-B"
+                       procedure="do_click_menubar_redo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o-C" procedure="check.product.node_not_exists">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1o-F" name="undo">
+        <ProcedureCall id="_1p0E" procedure="undo_tree"/>
+        <ProcedureCall disabled="true" id="_1o-P"
+                       procedure="do_click_menubar_undo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o-Q" procedure="get.tree.get_index_of_node">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+    </IfSequence>
+    <ProcedureCall id="_1oXO" procedure="close.all_products"/>
     <Procedure id="_1rVv" name="raster_data">
       <variable name="import_data"/>
       <ProcedureCall id="_1rVw"
