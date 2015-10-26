@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.4">
+<RootStep id="_0" name="root" version="4.0.7">
   <include>qfs.qft</include>
   <include>gpt.qft</include>
   <include>variables.qft</include>
@@ -437,17 +437,22 @@ if file.exists():
       <Procedure id="_9aQ" name="exit_program">
         <variable name="client_name"/>
         <TryStep id="_9aR" name="check if really stopped">
-          <ProcessWaiter client="$(client_name)" errorlevel="0" id="_1o-V"
-                         raise="false" timeout="1000"/>
-          <CatchSequence exception="ClientNotTerminatedException" id="_9aT"
-                         maxerror="0" name="notTerminated">
-            <comment>The Wait for client to terminate node throws an exeption if it did not stop.
+          <ClientWaiter client="$(client_name)" errorlevel="0" id="_1pEn"
+                        raise="false" timeout="10"/>
+          <TryStep id="_1pEo" name="wait_exit_program">
+            <ProcessWaiter client="$(client_name)" errorlevel="0" id="_1o-V"
+                           raise="false" timeout="1000"/>
+            <CatchSequence exception="ClientNotTerminatedException" id="_9aT"
+                           maxerror="0" name="notTerminated">
+              <comment>The Wait for client to terminate node throws an exeption if it did not stop.
 In this case we catch the exeption in this node and perform a hard close.
 </comment>
-            <ProcedureCall id="_1kwc" procedure="utils.terminate_process">
-              <variable name="client_name">$(client_name)</variable>
-            </ProcedureCall>
-          </CatchSequence>
+              <ProcedureCall id="_1kwc" procedure="utils.terminate_process">
+                <variable name="client_name">$(client_name)</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+          <CatchSequence exception="TestException" id="_1pEq" maxerror="0"/>
         </TryStep>
         <TryStep disabled="true" id="_1pEf" name="check_client_exists">
           <ClientWaiter client="$(client_name)" errorlevel="0" id="_1oJH"

@@ -201,13 +201,22 @@
                   <SUTClientStarter client="$(client)"
                                     directory="${path:snap_working_directory}"
                                     executable="$(start)" id="_1p0V"/>
+                  <ElseifSequence id="_1pFG" name="MAC?"
+                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                    <SetGlobalStep id="_1pFH" varname="start">
+                      <default>${path:snap_working_directory}/bin/snap</default>
+                    </SetGlobalStep>
+                    <ShellClientStarter client="$(client)" command="$(start)"
+                                        directory="${path:snap_working_directory}"
+                                        id="_1pFI"/>
+                  </ElseifSequence>
                   <ElseSequence id="_1oOD">
                     <SetGlobalStep id="_1oOE" varname="start">
                       <default>${path:snap_working_directory}/bin/snap</default>
                     </SetGlobalStep>
                     <ShellClientStarter client="$(client)" command="$(start)"
                                         directory="${path:snap_working_directory}"
-                                        id="_1mfG"/>
+                                        id="_1mfG" postdelay="1000"/>
                   </ElseSequence>
                 </IfSequence>
                 <ClientWaiter client="$(client)" id="_1p0W" postdelay="500"/>

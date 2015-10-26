@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.4">
+<RootStep id="_0" name="root" version="4.0.7">
   <include>qfs.qft</include>
   <include>snap_components.qft</include>
   <include>snap_main.qft</include>
@@ -442,9 +442,18 @@ rc.setGlobal("rowCount", rowCount)</code>
                          id="_1r3n" varname="error_message"/>
         </Procedure>
         <Procedure id="_1ptP" name="snap_error">
-          <FetchTextStep client="$(client)"
-                         component="dialogSNAP_-_Error.labelEither_the_selected_ROI_is_empty_or_no_pixels_have_been_found_within_the_minimum_and_maximum_values"
-                         id="_1qak" varname="snap_error"/>
+          <IfSequence id="_1rgE" test="${qftest:windows}">
+            <FetchTextStep client="$(client)"
+                           component="dialogSNAP_-_Error.labelEither_the_selected_ROI_is_empty_or_no_pixels_have_been_found_within_the_minimum_and_maximum_values"
+                           id="_1qak" varname="snap_error"/>
+            <ElseifSequence id="_1rgF" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+            <ElseSequence id="_1rgG">
+              <FetchTextStep client="$(client)"
+                             component="dialogSNAP_-_Error.labelEither_the_selected_ROI_is_empty_or_no_pixels_have_been_found_within_the_minimum_and_maximum_values"
+                             id="_1rgH" varname="snap_error"/>
+            </ElseSequence>
+          </IfSequence>
         </Procedure>
       </Package>
       <Package id="_1r3o" name="subset_tool">
