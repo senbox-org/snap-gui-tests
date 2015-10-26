@@ -47,22 +47,34 @@
           <ProcedureCall id="_1r4U" procedure="rgb.click_button_ok"/>
           <ProcedureCall id="_1r4e" postdelay="2000"
                          procedure="rgb.wait_rgb_created"/>
-          <TryStep id="_1r4g" name="check_image_view">
-            <ProcedureCall id="_1r4f"
-                           procedure="do_click.image_view.tab_displayer"/>
-            <ProcedureCall id="_1r4i"
-                           procedure="check.image_view.button_maximize_window_visible">
-              <variable name="visible">true</variable>
-            </ProcedureCall>
-            <CatchSequence exception="TestException" id="_1r4h" maxerror="0">
-              <ProcedureCall id="_1r4n" predelay="5000"
-                             procedure="rgb.wait_rgb_created"/>
-            </CatchSequence>
-          </TryStep>
-          <ProcedureCall id="_1r4l"
-                         procedure="check.image_view.button_maximize_window_visible">
-            <variable name="visible">true</variable>
-          </ProcedureCall>
+          <TestStep id="_1ri0" name="check_image_view">
+            <TryStep id="_1r4g">
+              <ProcedureCall id="_1r4f"
+                             procedure="do_click.image_view.tab_displayer"/>
+              <ProcedureCall id="_1r4i"
+                             procedure="check.image_view.button_maximize_window_visible">
+                <variable name="visible">true</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1r4h"
+                             maxerror="0">
+                <ProcedureCall id="_1r4n" predelay="5000"
+                               procedure="rgb.wait_rgb_created"/>
+              </CatchSequence>
+            </TryStep>
+            <TryStep id="_1rhy">
+              <ProcedureCall id="_1r4l"
+                             procedure="check.image_view.button_maximize_window_visible">
+                <variable name="visible">true</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1rhz"
+                             maxerror="0">
+                <ProcedureCall id="_1qdU" procedure="run-log.logError">
+                  <variable name="message">RGB image window is not appear</variable>
+                  <variable name="withScreenshots">true</variable>
+                </ProcedureCall>
+              </CatchSequence>
+            </TryStep>
+          </TestStep>
           <ProcedureCall id="_1r4V" procedure="close.all_products"/>
         </IfSequence>
       </Procedure>
@@ -153,12 +165,23 @@
     </Package>
     <Package id="_1r4o" name="image_window">
       <Procedure id="_1r4p" name="test">
-        <variable name="prod_reader_type"></variable>
+        <variable name="prod_reader_type"/>
         <comment>@teststep Open image window&lt;br&gt;Open world map&lt;br&gt;Check mask mangment by select/deselect masks&lt;br&gt;Check layer mangment by select/deselect layers</comment>
         <ProcedureCall disabled="true" id="_C" postdelay="2000"
                        procedure="import.raster_data">
           <variable name="import_data">$(reader)</variable>
         </ProcedureCall>
+        <TryStep id="_1ri2" name="close_all_modal_dialogs">
+          <ProcedureCall disabled="true" id="_1oQb"
+                         procedure="run-log.make_screensot">
+            <variable name="iw_name">open_product_dialog</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ri1"
+                         procedure="qfs.swing.cleanup.closeAllModalDialogs">
+            <variable name="maxDialogs">5</variable>
+          </ProcedureCall>
+          <CatchSequence exception="TestException" id="_1ri3" maxerror="0"/>
+        </TryStep>
         <ProcedureCall id="_1lXI" postdelay="2000"
                        procedure="open.product_in_snap">
           <variable name="prod_dir">$(dataInDir)</variable>
@@ -166,6 +189,7 @@
           <variable name="prod">$(fileName)</variable>
           <variable name="product_type">$(prod_reader_type)</variable>
         </ProcedureCall>
+        <ProcedureCall id="_1ri4" procedure="wait.product_is_opened"/>
         <ProcedureCall id="_1lEu"
                        procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
       </Procedure>

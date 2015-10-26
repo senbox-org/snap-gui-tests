@@ -181,6 +181,21 @@
           </ServerScriptStep>
         </BasicSequence>
       </Procedure>
+      <Procedure disabled="true" id="_1q6C"
+                 name="output_data_directory_for_gpt_tests">
+        <variable name="output_dir"/>
+        <ProcedureCall id="_1q6D" procedure="path.main_path"/>
+        <IfSequence id="_1q6E" test="&#34;$(output_dir)&#34;==&#34;&#34;">
+          <SetGlobalStep id="_1q6F" varname="output_data_directory">
+            <default>${path:output_data_directory}gpt${path:slash}</default>
+          </SetGlobalStep>
+          <ElseSequence id="_1q6G">
+            <SetGlobalStep id="_1q6H" varname="output_data_directory">
+              <default>${path:output_data_directory}gpt${path:slash}$(output_dir)${path:slash}</default>
+            </SetGlobalStep>
+          </ElseSequence>
+        </IfSequence>
+      </Procedure>
       <Procedure id="_1ow4" name="output_data_directory">
         <variable name="output_dir"/>
         <ProcedureCall id="_1ow5" procedure="path.main_path"/>
@@ -433,6 +448,7 @@ rc.setGlobal("smos", var1[:3])
         <variable name="prod_type"/>
         <IfSequence id="_1oxH" test="&#34;$(prod_type)&#34;==&#34;&#34;">
           <SetGlobalStep id="_1oxI" varname="product_group"/>
+          <SetGlobalStep id="_1q69" varname="product_group2"/>
           <SetGlobalStep id="_1oxJ" varname="reader">
             <default>All Files</default>
           </SetGlobalStep>
@@ -458,6 +474,9 @@ rc.setGlobal("smos", var1[:3])
               <SetGlobalStep id="_1oxO" varname="product_group">
                 <default>${attribut:$(prod_type)_product_group}</default>
               </SetGlobalStep>
+              <SetGlobalStep id="_1q6A" varname="product_group2">
+                <default>${attribut:$(prod_type)_product_group2}</default>
+              </SetGlobalStep>
               <SetGlobalStep id="_1oxP" varname="reader">
                 <default>${attribut:$(prod_type)_reader}</default>
               </SetGlobalStep>
@@ -482,6 +501,9 @@ rc.setGlobal("smos", var1[:3])
         <BasicSequence id="_1q68" name="print">
           <ServerScriptStep id="_1o+0" name="print">
             <code>print "product_group = $(product_group)"</code>
+          </ServerScriptStep>
+          <ServerScriptStep id="_1q6B" name="print">
+            <code>print "product_group2 = $(product_group2)"</code>
           </ServerScriptStep>
           <ServerScriptStep id="_1o+1" name="print">
             <code>print "reader = $(reader)"</code>

@@ -14,7 +14,7 @@
     <TestCase id="_8cc" name="check_components"
               reportname="Check components default">
       <TestStep id="_1lF0" name="check_menu_item_band_maths_is_disabled">
-        <ProcedureCall id="_1lE-" procedure="do_click.menu.tools"/>
+        <ProcedureCall id="_1lE-" procedure="do_click.menu.raster"/>
         <ProcedureCall id="_1lEw"
                        procedure="check.menu.tools.menuItemBandMath_enabled_status">
           <variable name="enabled_status">false</variable>
@@ -40,7 +40,7 @@
             <ProcedureCall id="_1lF4" procedure="select.product_tree.product">
               <variable name="prod_id">0</variable>
             </ProcedureCall>
-            <ProcedureCall id="_1lF2" procedure="do_click.menu.tools"/>
+            <ProcedureCall id="_1lF2" procedure="do_click.menu.raster"/>
             <ProcedureCall id="_1lF3"
                            procedure="check.menu.tools.menuItemBandMath_enabled_status">
               <variable name="enabled_status">true</variable>
@@ -50,7 +50,7 @@
           </TestStep>
           <IfSequence id="_1lF6"
                       test="&#34;$(menuItemBandMath_enabled)&#34;==&#34;true&#34;">
-            <ProcedureCall id="_1lF7" procedure="open.tools.band_maths"/>
+            <ProcedureCall id="_1lF7" procedure="open.raster.band_maths"/>
             <TestStep id="_1mj+" name="check_components">
               <ProcedureCall id="_1mjt"
                              procedure="check.tools.bandMaths.productName">
@@ -222,7 +222,7 @@
         <ProcedureCall id="_1oRh" procedure="select.product_tree.product">
           <variable name="prod_id">0</variable>
         </ProcedureCall>
-        <ProcedureCall id="_1oRi" procedure="open.tools.band_maths"/>
+        <ProcedureCall id="_1oRi" procedure="open.raster.band_maths"/>
         <ProcedureCall id="_1oRn"
                        procedure="select.tools.bandMaths.target_product">
           <variable name="target_product">[1] $(fileName)</variable>
@@ -1130,16 +1130,14 @@ Not fully resolved. The coloring of the images are still slightly different on e
         <ProcedureCall id="_1oWu" procedure="select.product_tree.product">
           <variable name="prod_id">0</variable>
         </ProcedureCall>
-        <ProcedureCall id="_1oWv" procedure="open.tools.band_maths"/>
+        <ProcedureCall id="_1oWv" procedure="open.raster.band_maths"/>
       </TestStep>
       <TestStep id="_1oWh" name="check_help">
         <ProcedureCall id="_1oWy"
                        procedure="do_click.tools.bandMaths.button_help"/>
-        <ProcedureCall id="_1oXF"
-                       procedure="check.help.help_or_error_appears"/>
         <ProcedureCall disabled="true" id="_1pik"
                        procedure="handle_invalid_input"/>
-        <ProcedureCall id="_1oXG" procedure="close.help"/>
+        <ProcedureCall id="_1qcu" procedure="help.check_help_appears_close"/>
       </TestStep>
       <ProcedureCall id="_1oWx"
                      procedure="do_click.tools.bandMaths.button_cancel"/>
@@ -1156,7 +1154,7 @@ Not fully resolved. The coloring of the images are still slightly different on e
       <ProcedureCall id="_1oWL" procedure="select.product_tree.product">
         <variable name="prod_id">0</variable>
       </ProcedureCall>
-      <ProcedureCall id="_1oWM" procedure="open.tools.band_maths"/>
+      <ProcedureCall id="_1oWM" procedure="open.raster.band_maths"/>
       <ProcedureCall id="_1oWN"
                      procedure="select.tools.bandMaths.saveExpressionOnly"/>
       <ProcedureCall id="_1oWO" procedure="check.tools.bandMaths.productName">

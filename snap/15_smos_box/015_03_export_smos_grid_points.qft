@@ -41,7 +41,11 @@
               <CheckBooleanStep checktype="enabled" client="$(client)"
                                 component="dialogExport_SMOS_Grid_Points.openFileDialog"
                                 id="_1qcD"/>
-              <ProcedureCall id="_1qcE"
+              <ProcedureCall id="_1qll"
+                             procedure="select.product_tree.product">
+                <variable name="prod_id">0</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qlm"
                              procedure="check.export_smos_grid_points.selection.use_selected_product">
                 <variable name="select">true</variable>
               </ProcedureCall>
@@ -596,16 +600,14 @@
         <ProcedureCall id="_1oWu" procedure="select.product_tree.product">
           <variable name="prod_id">0</variable>
         </ProcedureCall>
-        <ProcedureCall id="_1oWv" procedure="open.tools.band_maths"/>
+        <ProcedureCall id="_1oWv" procedure="open.raster.band_maths"/>
       </TestStep>
       <TestStep id="_1oWh" name="check_help">
         <ProcedureCall id="_1oWy"
                        procedure="do_click.tools.bandMaths.button_help"/>
-        <ProcedureCall id="_1oXF"
-                       procedure="check.help.help_or_error_appears"/>
         <ProcedureCall disabled="true" id="_1pik"
                        procedure="handle_invalid_input"/>
-        <ProcedureCall id="_1oXG" procedure="close.help"/>
+        <ProcedureCall id="_1qcu" procedure="help.check_help_appears_close"/>
       </TestStep>
       <ProcedureCall id="_1oWx"
                      procedure="do_click.tools.bandMaths.button_cancel"/>

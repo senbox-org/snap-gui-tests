@@ -110,7 +110,7 @@
           <Procedure id="_1oO8" name="menuItemBandMath_enabled">
             <comment>@teststep Check menu Item 'Create Band from Math Expression...' is enabled.</comment>
             <CheckBooleanStep checktype="enabled" client="$(client)"
-                              component="NbMainWindow.menuItemCreate_Band_from_Math_Expression..."
+                              component="NbMainWindow.menuItemBand_Maths..."
                               id="_1oOA"
                               resvarname="menuItemBandMath_enabled"/>
           </Procedure>
@@ -118,7 +118,7 @@
             <variable name="enabled_status"/>
             <comment>@teststep Check if the menu item 'Create Band from Math Expression...' is enabled.</comment>
             <CheckBooleanStep checktype="enabled" client="$(client)"
-                              component="NbMainWindow.menuItemCreate_Band_from_Math_Expression..."
+                              component="NbMainWindow.menuItemBand_Maths..."
                               id="_1oOc" state="$(enabled_status)"/>
           </Procedure>
           <Procedure id="_1oOH" name="menuItemCompareProducts_enabled">
@@ -368,6 +368,11 @@
           <ComponentWaiter client="$(client)"
                            component="dialogPoint_Data_Interpretation"
                            id="_1pp0" timeout="1000"/>
+        </Procedure>
+        <Procedure id="_1rb3" name="subset_dialog">
+          <ComponentWaiter client="$(client)"
+                           component="dialogSpecify_Product_Subset" id="_1rYo"
+                           timeout="100"/>
         </Procedure>
       </Package>
       <Package id="_1oOp" name="tools">
@@ -2975,6 +2980,12 @@ dialog.label_statistic_txt</comment>
                             state="$(visible)"/>
         </Procedure>
         <Procedure id="_1oWJ" name="button_maximize_window_visible">
+          <comment>@teststep Check button 'Maximize Window' is visible.</comment>
+          <CheckBooleanStep checktype="visible" client="$(client)"
+                            component="NbMainWindow.buttonTipMaximize_Window"
+                            id="_1riv" resvarname="image_window_appears"/>
+        </Procedure>
+        <Procedure id="_1riu" name="button_maximize_window_visible_status">
           <variable name="visible"/>
           <comment>@teststep Check button 'Maximize Window' is visible.</comment>
           <CheckBooleanStep checktype="visible" client="$(client)"
@@ -3004,31 +3015,119 @@ dialog.label_statistic_txt</comment>
                             id="_1oWf" state="$(visible)"/>
         </Procedure>
       </Package>
-      <Package id="_1qct" name="help">
-        <Procedure id="_1oWg" name="help_or_error_appears">
-          <comment>@teststep Check Help or Error appears.</comment>
-          <ProcedureCall id="_1qc-" procedure="check.help.help_appears"/>
-          <ProcedureCall id="_1px7"
-                         procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
-            <variable name="screenshot">Help error</variable>
-          </ProcedureCall>
+      <Package id="_1rb4" name="subset_tool">
+        <Package id="_1rga" name="enabled"/>
+        <Package id="_1rgg" name="checked">
+          <Procedure id="_1rgs" name="select_none_band">
+            <comment>@teststep Check 'Select none' checkbox is selected.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogSpecify_Product_Subset.SelectNone"
+                              id="_1rhA" resvarname="select_none_band"/>
+          </Procedure>
+          <Procedure id="_1rgu" name="select_all_band">
+            <comment>@teststep Check 'Select all' checkbox is selected.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogSpecify_Product_Subset.selectAll"
+                              id="_1rhC" resvarname="select_all_band"/>
+          </Procedure>
+          <Procedure id="_1rgw" name="select_none">
+            <comment>@teststep Check 'Select none' checkbox is selected.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogSpecify_Product_Subset.SelectNone2"
+                              id="_1rhD" resvarname="select_none"/>
+          </Procedure>
+          <Procedure id="_1rgy" name="select_all">
+            <comment>@teststep Check 'Select all' checkbox is selected.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogSpecify_Product_Subset.selectAll2"
+                              id="_1rhE" resvarname="select_all"/>
+          </Procedure>
+          <Procedure id="_1rg+" name="band_checkbox">
+            <variable name="band_name"/>
+            <comment>@teststep Check $(band_name) is selected.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogSpecify_Product_Subset.checkBand"
+                              id="_1rhF" resvarname="band_checkbox"/>
+          </Procedure>
+          <Procedure id="_1rh0" name="select_none_band_selection">
+            <variable name="selected"/>
+            <comment>@teststep Check 'Select none' selection.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogSpecify_Product_Subset.SelectNone"
+                              id="_1rhB" state="$(selected)"/>
+          </Procedure>
+          <Procedure id="_1rh2" name="select_all_band_selection">
+            <variable name="selected"/>
+            <comment>@teststep Check 'Select all' selection.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogSpecify_Product_Subset.selectAll"
+                              id="_1rhG" state="$(selected)"/>
+          </Procedure>
+          <Procedure id="_1rh4" name="select_none_selection">
+            <variable name="selected"/>
+            <comment>@teststep Check 'Select none' selection.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogSpecify_Product_Subset.SelectNone2"
+                              id="_1rhH" state="$(selected)"/>
+          </Procedure>
+          <Procedure id="_1rh6" name="select_all_selection">
+            <variable name="selected"/>
+            <comment>@teststep Check 'Select all' selection.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogSpecify_Product_Subset.selectAll2"
+                              id="_1rhI" state="$(selected)"/>
+          </Procedure>
+          <Procedure id="_1rh8" name="band_checkbox_selection">
+            <variable name="band_name"/>
+            <variable name="selected"/>
+            <comment>@teststep Check $(band_name) selection.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogSpecify_Product_Subset.checkBand"
+                              id="_1rhJ" state="$(selected)"/>
+          </Procedure>
+        </Package>
+        <Package id="_1rgr" name="text"/>
+        <Procedure id="_1rfo" name="select_none_band">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogSpecify_Product_Subset.SelectNone"
+                          event="MOUSE_MPRC" id="_1rfp" modifiers="16"/>
         </Procedure>
-        <Procedure id="_1qcu" name="help_appears">
-          <comment>@teststep Check Help appears.</comment>
-          <TryStep id="_1qcv">
-            <CheckBooleanStep checktype="enabled" client="$(client)"
-                              component="frameHelp.toolbar" id="_1qcw"/>
-            <CheckBooleanStep checktype="enabled" client="$(client)"
-                              component="frameHelp.tabContents.tree"
-                              id="_1qcx"/>
-            <CatchSequence exception="TestException" id="_1qcy" maxerror="0">
-              <ServerScriptStep id="_1qcz" name="error">
-                <code>rc.logError("'Help' does not appear.")</code>
-              </ServerScriptStep>
-            </CatchSequence>
-          </TryStep>
+        <Procedure id="_1rf+" name="select_all_band">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogSpecify_Product_Subset.selectAll"
+                          event="MOUSE_MPRC" id="_1rg0" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1rgA" name="select_none">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogSpecify_Product_Subset.SelectNone2"
+                          event="MOUSE_MPRC" id="_1rgE" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1rgM" name="select_all">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogSpecify_Product_Subset.selectAll2"
+                          event="MOUSE_MPRC" id="_1rgX" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1rgY" name="band">
+          <variable name="band_name"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogSpecify_Product_Subset.checkBand"
+                          event="MOUSE_MPRC" id="_1rgZ" modifiers="16"/>
         </Procedure>
       </Package>
+      <Procedure id="_1rin" name="check_if_product_is_opened">
+        <variable name="fileName"/>
+        <ProcedureCall id="_1rio" procedure="check.product.not_opened"/>
+        <IfSequence id="_1rip" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
+          <ProcedureCall id="_1riq" procedure="wait.product_is_opened"/>
+        </IfSequence>
+        <ProcedureCall id="_1rir" procedure="check.product.not_opened"/>
+        <IfSequence id="_1ris" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
+          <ProcedureCall id="_1rit" procedure="run-log.logError">
+            <variable name="message">$(fileName) did not appear</variable>
+            <variable name="withScreenshots">true</variable>
+          </ProcedureCall>
+        </IfSequence>
+      </Procedure>
     </Package>
   </PackageRoot>
   <ExtraSequence id="_4">

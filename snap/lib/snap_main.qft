@@ -6,6 +6,7 @@
   <include>snap_check.qft</include>
   <include>snap_export.qft</include>
   <include>snap_import.qft</include>
+  <include>snap_placemark.qft</include>
   <include>snap_vector_data.qft</include>
   <include>snap_get.qft</include>
   <include>snap_select.qft</include>
@@ -32,6 +33,7 @@
   <dependency>snap_get.qft</dependency>
   <dependency>snap_import.qft</dependency>
   <dependency>snap_open.qft</dependency>
+  <dependency>snap_placemark.qft</dependency>
   <dependency>snap_save.qft</dependency>
   <dependency>snap_select.qft</dependency>
   <dependency>snap_set.qft</dependency>
@@ -60,6 +62,15 @@
         <CleanupSequence id="_1lWc" name="exit">
           <ProcedureCall id="_1lEv" procedure="stop.exit_snap"/>
         </CleanupSequence>
+        <ErrorHandler id="_1pEk" name="clientNotConnectedException">
+          <comment>If client 'snap' did not connect, start SNAP.</comment>
+          <ProcedureCall id="_1pFD"
+                         procedure="start.snap.check_already_started_else_start_SNAP"/>
+        </ErrorHandler>
+        <CatchSequence exception="TestException" id="_1pEv" maxerror="0">
+          <ProcedureCall id="_1pFE"
+                         procedure="start.snap.check_already_started_else_start_SNAP"/>
+        </CatchSequence>
       </Dependency>
       <Dependency id="_1oP4" name="start_SUT_for_gpt_tests">
         <SetupSequence id="_1l4Y" name="start_snap">
@@ -151,6 +162,27 @@
     </Package>
     <Package id="_1kwL" name="start">
       <Package id="_1kwM" name="snap">
+        <Procedure id="_1pF3" name="check_already_started_else_start_SNAP">
+          <ProcedureCall id="_1pF5" procedure="set.variable.client_snap"/>
+          <TryStep id="_1pF4" name="already started?">
+            <ClientWaiter client="$(client)" id="_1pF6" timeout="0"/>
+            <CatchSequence exception="ClientNotConnectedException" id="_1pF7"
+                           maxerror="0" name="not start -&gt; start">
+              <TryStep id="_1pF8">
+                <ProcedureCall id="_1pF9" procedure="start.snap.client_snap"/>
+                <CatchSequence exception="TestException" id="_1pFA"
+                               maxerror="0">
+                  <ProcedureCall id="_1pFB"
+                                 procedure="utils.terminate_process">
+                    <variable name="client_name">$(client)</variable>
+                  </ProcedureCall>
+                  <ProcedureCall id="_1pFC"
+                                 procedure="start.snap.client_snap"/>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
         <Procedure id="_1oGf" name="client_snap">
           <comment>@teststep Start SNAP.
 </comment>
@@ -295,25 +327,8 @@
           <ProcedureCall id="_1kx8" procedure="cleanup.temp_dir">
             <variable name="client">snap</variable>
           </ProcedureCall>
-          <TryStep id="_1l9R" name="already started?">
-            <ProcedureCall id="_1oJI" procedure="set.variable.client_snap"/>
-            <ClientWaiter client="$(client)" id="_1oJH" timeout="0"/>
-            <CatchSequence exception="ClientNotConnectedException" id="_1l9T"
-                           maxerror="0" name="not start -&gt; start">
-              <TryStep id="_1oGd">
-                <ProcedureCall id="_1oGn" procedure="start.snap.client_snap"/>
-                <CatchSequence exception="TestException" id="_1oGe"
-                               maxerror="0">
-                  <ProcedureCall id="_1oGp"
-                                 procedure="utils.terminate_process">
-                    <variable name="client_name">$(client)</variable>
-                  </ProcedureCall>
-                  <ProcedureCall id="_1oGo"
-                                 procedure="start.snap.client_snap"/>
-                </CatchSequence>
-              </TryStep>
-            </CatchSequence>
-          </TryStep>
+          <ProcedureCall id="_1pFF"
+                         procedure="start.snap.check_already_started_else_start_SNAP"/>
           <TryStep id="_1oJN" name="started?">
             <ClientWaiter client="$(client)" id="_1kwQ"/>
             <ProcedureCall disabled="true" id="_1l30"

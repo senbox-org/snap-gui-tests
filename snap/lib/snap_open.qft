@@ -10,6 +10,38 @@
   <PackageRoot id="_3">
     <Package id="_1k-S" name="open">
       <Package id="_1qiG" name="raster">
+        <Procedure id="_1oRE" name="band_maths">
+          <comment>@teststep Open Band Maths tool.</comment>
+          <ProcedureCall id="_1oRe" procedure="do_click.menubar"/>
+          <ProcedureCall id="_1lF2" procedure="do_click.menu.raster"/>
+          <ProcedureCall id="_1lF5"
+                         procedure="check.menu.tools.menuItemBandMath_enabled"/>
+          <IfSequence id="_1oRY"
+                      test="&#34;$(menuItemBandMath_enabled)&#34;==&#34;true&#34;">
+            <TryStep id="_1oRN">
+              <ProcedureCall id="_1oRM" procedure="utility.bandMaths"/>
+              <CatchSequence exception="TestException" id="_1oRO"
+                             maxerror="0">
+                <TryStep id="_1oRS">
+                  <ProcedureCall id="_1oRT" procedure="utility.bandMaths"/>
+                  <CatchSequence exception="TestException" id="_1oRU"
+                                 maxerror="0">
+                    <ProcedureCall id="_1oRX"
+                                   procedure="run-log.error_message.tool_does_not_appear">
+                      <variable name="tool">Band Maths tool</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+            <ElseSequence id="_1oRZ">
+              <ProcedureCall id="_1oRb"
+                             procedure="run-log.error_message.menu_item_is_disabled">
+                <variable name="menu">Create Band from Math Expression...</variable>
+              </ProcedureCall>
+            </ElseSequence>
+          </IfSequence>
+        </Procedure>
         <Package id="_1ptq" name="image_analysis">
           <Procedure id="_1ptr" name="em_cluster_analysis">
             <comment>@teststep Open EM Cluster Analysis.</comment>
@@ -550,40 +582,7 @@
           </Procedure>
         </Package>
       </Package>
-      <Package id="_1opJ" name="tools">
-        <Procedure id="_1oRE" name="band_maths">
-          <comment>@teststep Open Band Maths tool.</comment>
-          <ProcedureCall id="_1oRe" procedure="do_click.menubar"/>
-          <ProcedureCall id="_1lF2" procedure="do_click.menu.tools"/>
-          <ProcedureCall id="_1lF5"
-                         procedure="check.menu.tools.menuItemBandMath_enabled"/>
-          <IfSequence id="_1oRY"
-                      test="&#34;$(menuItemBandMath_enabled)&#34;==&#34;true&#34;">
-            <TryStep id="_1oRN">
-              <ProcedureCall id="_1oRM" procedure="utility.bandMaths"/>
-              <CatchSequence exception="TestException" id="_1oRO"
-                             maxerror="0">
-                <TryStep id="_1oRS">
-                  <ProcedureCall id="_1oRT" procedure="utility.bandMaths"/>
-                  <CatchSequence exception="TestException" id="_1oRU"
-                                 maxerror="0">
-                    <ProcedureCall id="_1oRX"
-                                   procedure="run-log.error_message.tool_does_not_appear">
-                      <variable name="tool">Band Maths tool</variable>
-                    </ProcedureCall>
-                  </CatchSequence>
-                </TryStep>
-              </CatchSequence>
-            </TryStep>
-            <ElseSequence id="_1oRZ">
-              <ProcedureCall id="_1oRb"
-                             procedure="run-log.error_message.menu_item_is_disabled">
-                <variable name="menu">Create Band from Math Expression...</variable>
-              </ProcedureCall>
-            </ElseSequence>
-          </IfSequence>
-        </Procedure>
-      </Package>
+      <Package id="_1opJ" name="tools"/>
       <Package id="_1lOI" name="views">
         <Procedure id="_1lVn" name="colour_manipulation">
           <comment>@teststep Open 'Colour Manipulation' tool window.</comment>
@@ -711,21 +710,6 @@
             <CatchSequence exception="TestException" id="_1qjJ" maxerror="0">
               <ProcedureCall id="_1ph6"
                              procedure="do_click.main_toolbar.views.navigation"/>
-            </CatchSequence>
-          </TryStep>
-        </Procedure>
-        <Procedure id="_1lXf" name="pin_manager">
-          <comment>@teststep Open 'PIN Manager'.</comment>
-          <TryStep id="_1qjW">
-            <ProcedureCall id="_1qja"
-                           procedure="utility.do_click_menu_view_tool_windows"/>
-            <ProcedureCall id="_1qjb"
-                           procedure="do_click.menu.view.tool_windows.pin_manager"/>
-            <ProcedureCall disabled="true" id="_1qjY"
-                           procedure="wait.appear.dialog.dialog"/>
-            <CatchSequence exception="TestException" id="_1qjZ" maxerror="0">
-              <ProcedureCall disabled="true" id="_1ph7"
-                             procedure="do_click.main_toolbar.views.pin_manager"/>
             </CatchSequence>
           </TryStep>
         </Procedure>
@@ -1136,9 +1120,8 @@
         <variable name="prod"/>
         <variable name="product_type"/>
         <comment>@teststep Open data product in SNAP.</comment>
-        <ProcedureCall disabled="true" id="_1l3w" procedure="path.main_path"/>
-        <IfSequence disabled="true" id="_1oSd"
-                    test="&#34;$(in_out)&#34;==&#34;out&#34;">
+        <ProcedureCall id="_1l3w" procedure="path.main_path"/>
+        <IfSequence id="_1oSd" test="&#34;$(in_out)&#34;==&#34;out&#34;">
           <SetGlobalStep id="_1pxw" varname="data_source_directory">
             <default>${path:output_data_directory}$(prod_dir)${path:slash}</default>
           </SetGlobalStep>
@@ -1148,11 +1131,11 @@
             </ProcedureCall>
           </ElseSequence>
         </IfSequence>
-        <ProcedureCall disabled="true" id="_1oS1"
+        <ProcedureCall id="_1oS1"
                        procedure="product_meta_data.product_attributes">
           <variable name="prod_type">$(product_type)</variable>
         </ProcedureCall>
-        <TestStep id="_1oRQ" name="open_product">
+        <TestStep id="_1oRQ" name="open_product_dialog">
           <comment>@teststep Open 'Open Product' dialog.</comment>
           <SetGlobalStep id="_1oRm" varname="open_product_dialog_appears">
             <default>true</default>
@@ -1202,18 +1185,17 @@
         </TestStep>
         <IfSequence id="_1qcy"
                     test="&#34;$(open_product_dialog_appears)&#34;==&#34;true&#34;">
-          <TryStep id="_1qd1">
-            <ProcedureCall id="_1qd2" procedure="select.file_of_type">
-              <variable name="file_of_type">$(reader)</variable>
+          <ProcedureCall id="_1rMf" procedure="select.file_of_type">
+            <variable name="file_of_type">$(reader)</variable>
+          </ProcedureCall>
+          <IfSequence id="_1rMg"
+                      test="&#34;$(file_of_type_selected)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1qd4"
+                           procedure="daten_format.file_of_type_all"/>
+            <ProcedureCall id="_1qd5" procedure="select.file_of_type">
+              <variable name="file_of_type">$(file_of_type_all)</variable>
             </ProcedureCall>
-            <CatchSequence exception="TestException" id="_1qd3" maxerror="0">
-              <ProcedureCall id="_1qd4"
-                             procedure="daten_format.file_of_type_all"/>
-              <ProcedureCall id="_1qd5" procedure="select.file_of_type">
-                <variable name="file_of_type">$(file_of_type_all)</variable>
-              </ProcedureCall>
-            </CatchSequence>
-          </TryStep>
+          </IfSequence>
           <ProcedureCall id="_1rM7"
                          procedure="utility.fill_in_open_product_dialog">
             <variable name="in_out">$(in_out)</variable>
@@ -1307,7 +1289,7 @@
                          procedure="do_click.open_product_dialog.open"/>
         </IfSequence>
       </Procedure>
-      <Procedure id="_1pxx" name="all_products_in_snap">
+      <Procedure id="_1pxx" name="product_in_snap_file_of_type_all">
         <variable name="prod_dir"/>
         <comment>@teststep Open in SNAP all data products in the folder.</comment>
         <ProcedureCall id="_1pz2"
@@ -1505,63 +1487,75 @@
       </Procedure>
     </Package>
     <Package id="_1oRH" name="utility">
+      <Procedure id="_1rME" name="set_source_product_path">
+        <variable name="in_out"/>
+        <variable name="prod_dir"/>
+        <variable name="prod"/>
+        <variable name="product_type"/>
+        <ProcedureCall id="_1rMF" procedure="path.main_path"/>
+        <IfSequence id="_1rMG" test="&#34;$(in_out)&#34;==&#34;out&#34;">
+          <SetGlobalStep id="_1rMH" varname="data_source_directory">
+            <default>${path:output_data_directory}$(prod_dir)${path:slash}</default>
+          </SetGlobalStep>
+          <ElseSequence id="_1rMI">
+            <ProcedureCall id="_1rMJ" procedure="path.source_data_directory">
+              <variable name="data_type">$(prod_dir)</variable>
+            </ProcedureCall>
+          </ElseSequence>
+        </IfSequence>
+        <ProcedureCall id="_1rMK"
+                       procedure="product_meta_data.product_attributes">
+          <variable name="prod_type">$(product_type)</variable>
+        </ProcedureCall>
+        <IfSequence id="_1rML"
+                    test="&#34;$(product_type)&#34;==&#34;smos&#34;">
+          <ServerScriptStep disabled="true" id="_1rMM" name="print">
+            <code>print "$(prod)"</code>
+            <comment> </comment>
+          </ServerScriptStep>
+          <ServerScriptStep id="_1rMN" name="findInString">
+            <code>import string
+rc.setGlobal("zip_file", string.find("$(prod)", ".zip"))</code>
+            <comment> </comment>
+          </ServerScriptStep>
+          <ServerScriptStep disabled="true" id="_1rMO" name="print">
+            <code>print "$(zip_file)"</code>
+            <comment> </comment>
+          </ServerScriptStep>
+          <IfSequence id="_1rMP" test="$(zip_file)&lt;0">
+            <SetGlobalStep id="_1rMQ" varname="input_file">
+              <default>$(data_source_directory)$(prod)${path:slash}$(prod).HDR</default>
+            </SetGlobalStep>
+            <ElseSequence id="_1rMR">
+              <SetGlobalStep id="_1rMS" varname="input_file">
+                <default>$(data_source_directory)$(prod)</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+          <ElseSequence id="_1rMT">
+            <SetGlobalStep id="_1rMU" varname="input_file">
+              <default>$(data_source_directory)$(prod)</default>
+            </SetGlobalStep>
+          </ElseSequence>
+        </IfSequence>
+        <ServerScriptStep disabled="true" id="_1rLv" name="findInString">
+          <code>print "input_file = $(input_file)"</code>
+          <comment> </comment>
+        </ServerScriptStep>
+      </Procedure>
       <Procedure id="_1rLj" name="fill_in_open_product_dialog">
         <variable name="in_out"/>
         <variable name="prod_dir"/>
         <variable name="prod"/>
         <variable name="product_type"/>
-        <ProcedureCall id="_1rM8" procedure="path.main_path"/>
-        <IfSequence id="_1rM9" test="&#34;$(in_out)&#34;==&#34;out&#34;">
-          <SetGlobalStep id="_1rMA" varname="data_source_directory">
-            <default>${path:output_data_directory}$(prod_dir)${path:slash}</default>
-          </SetGlobalStep>
-          <ElseSequence id="_1rMB">
-            <ProcedureCall id="_1rMC" procedure="path.source_data_directory">
-              <variable name="data_type">$(prod_dir)</variable>
-            </ProcedureCall>
-          </ElseSequence>
-        </IfSequence>
-        <ProcedureCall id="_1rMD"
-                       procedure="product_meta_data.product_attributes">
-          <variable name="prod_type">$(product_type)</variable>
+        <ProcedureCall id="_1rMe" procedure="utility.set_source_product_path">
+          <variable name="in_out">$(in_out)</variable>
+          <variable name="prod_dir">$(prod_dir)</variable>
+          <variable name="prod">$(prod)</variable>
+          <variable name="product_type">$(product_type)</variable>
         </ProcedureCall>
         <IfSequence id="_1rLk"
                     test="&#34;$(open_product_dialog_appears)&#34;==&#34;true&#34;">
-          <IfSequence id="_1rLl"
-                      test="&#34;$(product_type)&#34;==&#34;smos&#34;">
-            <ServerScriptStep disabled="true" id="_1rLm" name="print">
-              <code>print "$(prod)"</code>
-              <comment> </comment>
-            </ServerScriptStep>
-            <ServerScriptStep id="_1rLn" name="findInString">
-              <code>import string
-rc.setGlobal("zip_file", string.find("$(prod)", ".zip"))</code>
-              <comment> </comment>
-            </ServerScriptStep>
-            <ServerScriptStep disabled="true" id="_1rLo" name="print">
-              <code>print "$(zip_file)"</code>
-              <comment> </comment>
-            </ServerScriptStep>
-            <IfSequence id="_1rLp" test="$(zip_file)&lt;0">
-              <SetGlobalStep id="_1rLq" varname="input_file">
-                <default>$(data_source_directory)$(prod)${path:slash}$(prod).HDR</default>
-              </SetGlobalStep>
-              <ElseSequence id="_1rLr">
-                <SetGlobalStep id="_1rLs" varname="input_file">
-                  <default>$(data_source_directory)$(prod)</default>
-                </SetGlobalStep>
-              </ElseSequence>
-            </IfSequence>
-            <ElseSequence id="_1rLt">
-              <SetGlobalStep id="_1rLu" varname="input_file">
-                <default>$(data_source_directory)$(prod)</default>
-              </SetGlobalStep>
-            </ElseSequence>
-          </IfSequence>
-          <ServerScriptStep disabled="true" id="_1rLv" name="findInString">
-            <code>print "input_file = $(input_file)"</code>
-            <comment> </comment>
-          </ServerScriptStep>
           <IfSequence id="_1rL-" test="${qftest:windows}">
             <TextInputStep clear="true" client="$(client)"
                            component="dialogOpen_Product.textDateiname:"

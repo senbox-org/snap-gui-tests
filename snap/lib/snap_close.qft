@@ -112,6 +112,42 @@
           </TestStep>
         </IfSequence>
       </Procedure>
+      <Procedure id="_1rev" name="other_products">
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="NbMainWindow.Product_Explorer.tree&amp;/0"
+                        event="MOUSE_MPRC" id="_1rew" modifiers="4"
+                        popup="true"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="NbMainWindow.menuItemClose_Other_Products"
+                        event="MOUSE_MPRC" id="_1rex" modifiers="16"/>
+      </Procedure>
+      <Procedure id="_1qcw" name="selected_product">
+        <comment>@teststep Close all products.</comment>
+        <TryStep id="_1qc+" name="close_all_modal_dialogs">
+          <ProcedureCall id="_1qc-"
+                         procedure="qfs.swing.cleanup.closeAllModalDialogs">
+            <variable name="maxDialogs">5</variable>
+          </ProcedureCall>
+          <CatchSequence exception="TestException" id="_1qd0" maxerror="0"/>
+        </TryStep>
+        <TryStep id="_1qd2" name="select_menu_close_session">
+          <ProcedureCall id="_1qd3" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1qd4"
+                         procedure="do_click.menu.file.close_product"/>
+          <CatchSequence exception="TestException" id="_1qd5" maxerror="0">
+            <ServerScriptStep id="_1qd6" name="error">
+              <code>rc.logError("Close Product menu item is diabled")</code>
+            </ServerScriptStep>
+          </CatchSequence>
+        </TryStep>
+        <TryStep id="_1qd8" name="click_No_in_product_modified_dialog">
+          <ProcedureCall id="_1qd9"
+                         procedure="wait.appear.dialog.product_modified"/>
+          <ProcedureCall id="_1qdA"
+                         procedure="do_click.product_modified_dialog.button_No"/>
+          <CatchSequence exception="TestException" id="_1qdB" maxerror="0"/>
+        </TryStep>
+      </Procedure>
       <Procedure disabled="true" id="_1mcS" name="session">
         <comment>@teststep Close session</comment>
         <ProcedureCall id="_1mcT" procedure="check.product.not_opened"/>
@@ -148,11 +184,6 @@
                        procedure="qfs.swing.cleanup.closeAllDialogs">
           <variable name="maxDialogs">10</variable>
         </ProcedureCall>
-      </Procedure>
-      <Procedure id="_1oaJ" name="help">
-        <comment>@teststep Close Help.</comment>
-        <WindowEventStep client="$(client)" component="frameHelp"
-                         event="WINDOW_CLOSING" id="_1oaK"/>
       </Procedure>
       <Procedure id="_1lDa" name="modal_dialogs">
         <TryStep id="_1pXc">

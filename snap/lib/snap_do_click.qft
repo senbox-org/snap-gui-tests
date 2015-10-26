@@ -1661,6 +1661,16 @@
             </ElseSequence>
           </IfSequence>
         </Procedure>
+        <Procedure id="_1rhz" name="button_Export_Product">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogSNAP_-_Export_Product.buttonExport_Product"
+                          event="MOUSE_MPRC" id="_1rh+" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1rhy" name="button_Subset">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogSNAP_-_Export_Product.buttonSubset..."
+                          event="MOUSE_MPRC" id="_1rdI" modifiers="16"/>
+        </Procedure>
       </Package>
       <Package id="_1pD+" name="image_view">
         <Procedure id="_1r4g" name="tab_displayer">
@@ -1728,16 +1738,6 @@
           <MouseEventStep clicks="1" client="$(client)"
                           component="dialogImport_CSV_Data.radioUse_target_CRS"
                           event="MOUSE_MPRC" id="_1pkt" modifiers="16"/>
-        </Procedure>
-      </Package>
-      <Package id="_1pCP" name="import_product_dialog">
-        <Procedure id="_1pCQ" name="cancel">
-          <ProcedureCall id="_1pZG"
-                         procedure="do_click.open_product_dialog.cancel"/>
-        </Procedure>
-        <Procedure id="_1pCX" name="open">
-          <ProcedureCall id="_1pZF"
-                         procedure="do_click.open_product_dialog.open"/>
         </Procedure>
       </Package>
       <Package id="_1ps5" name="layer_manager">
@@ -3381,6 +3381,27 @@
                 </IfSequence>
               </Procedure>
             </Package>
+            <Procedure id="_1rhh" name="beam_dimap">
+              <comment>@teststep Do click Menu Item 'export BEAM-DIMAP'.</comment>
+              <IfSequence id="_1rhj" test="${qftest:windows}">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.menuItemBEAM-DIMAP"
+                                event="MOUSE_MPRC" id="_1rhi" modifiers="16"/>
+                <ElseifSequence id="_1rhl" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItemBEAM-DIMAP"
+                                  event="MOUSE_MPRC" id="_1rhp"
+                                  modifiers="16"/>
+                </ElseifSequence>
+                <ElseSequence id="_1rhn">
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="NbMainWindow.menuItemBEAM-DIMAP"
+                                  event="MOUSE_MPRC" id="_1rhq"
+                                  modifiers="16"/>
+                </ElseSequence>
+              </IfSequence>
+            </Procedure>
             <Procedure id="_1oun" name="big_geotiff">
               <comment>@teststep Do click Menu Item 'export GeoTIFF / BigTIFF'.</comment>
               <IfSequence id="_1ouo" test="${qftest:windows}">
@@ -3799,7 +3820,7 @@
                 <comment>@teststep Do click Menu Item 'Landsat'.</comment>
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="NbMainWindow.Landsat"
-                                event="MOUSE_MPRC" id="_1qzq" modifiers="16"/>
+                                event="MOUSE_MPRC" id="_1rcq" modifiers="16"/>
                 <IfSequence id="_1qy-" test="${qftest:windows}">
                   <ElseifSequence id="_1qz0" name="MAC?"
                                   test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -3889,7 +3910,7 @@
                 <Procedure id="_1q+l" name="landsat_5_TM_FAST">
                   <comment>@teststep Do click Menu Item 'Landsat 5 TM (FAST)'.</comment>
                   <MouseEventStep clicks="1" client="$(client)"
-                                  component="NbMainWindow.menuItemLandsat_5_TM_(FAST)2"
+                                  component="NbMainWindow.menuItemLandsat"
                                   event="MOUSE_MPRC" id="_1r0s"
                                   modifiers="16"/>
                   <IfSequence id="_1q+m" test="${qftest:windows}">
@@ -3941,7 +3962,7 @@
                 <Procedure id="_1q-H" name="seaDAS_Browse_L1_L2">
                   <comment>@teststep Do click Menu Item 'SeaDAS Browse (L1, L2)'.</comment>
                   <MouseEventStep clicks="1" client="$(client)"
-                                  component="NbMainWindow.menuItemSeaDAS_Browse_(L1,_L2)2"
+                                  component="NbMainWindow.menuItem_seaDAS"
                                   event="MOUSE_MPRC" id="_1r0k"
                                   modifiers="16"/>
                   <IfSequence id="_1q-I" test="${qftest:windows}">
@@ -4055,7 +4076,7 @@
                 <Procedure id="_1q-x" name="sentinel_3">
                   <comment>@teststep Do click Menu Item 'Sentinel-3'.</comment>
                   <MouseEventStep clicks="1" client="$(client)"
-                                  component="NbMainWindow.menuItemSentinel-3"
+                                  component="NbMainWindow.menuItem_sentinel3"
                                   event="MOUSE_MPRC" id="_1r0c"
                                   modifiers="16"/>
                   <IfSequence id="_1q-y" test="${qftest:windows}">
@@ -4362,7 +4383,7 @@
               <Procedure id="_1k+x" name="asar">
                 <comment>@teststep Do click Menu Item 'ENVISAT ASAR'.</comment>
                 <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.menuItemENVISAT_ASAR2"
+                                component="NbMainWindow.menuItem_item_label"
                                 event="MOUSE_MPRC" id="_1piz" modifiers="16"/>
                 <IfSequence id="_1ool" test="${qftest:windows}">
                   <ElseifSequence id="_1oom" name="MAC?"
@@ -7914,7 +7935,7 @@
         </Procedure>
         <Procedure id="_1rVO" name="import_product">
           <MouseEventStep clicks="1" client="$(client)"
-                          component="dialogSNAP_-_Open_Product.buttonImport_Product"
+                          component="dialogSNAP_-_Import_Product.buttonImport_Product"
                           event="MOUSE_MPRC" id="_1rVP" modifiers="16"/>
         </Procedure>
         <Procedure id="_1rVJ" name="subset">
@@ -7923,104 +7944,28 @@
                           event="MOUSE_MPRC" id="_1rVN" modifiers="16"/>
         </Procedure>
       </Package>
-      <Package id="_1ps6" name="placemark_manager">
-        <Package id="_1rUv" name="new_pin">
-          <Procedure id="_1rV2" name="usePixelPos">
-            <comment>@teststep Click on checkbox 'Use Pixel Pos'.</comment>
+      <Package id="_1rh2" name="import_product_dialog">
+        <Procedure id="_1rh3" name="cancel">
+          <comment>@teststep Click 'Cancel' button in 'Open Product'dialog.</comment>
+          <IfSequence id="_1rh4" test="${qftest:windows}">
             <MouseEventStep clicks="1" client="$(client)"
-                            component="New_Pin.usePixelPos" event="MOUSE_MPRC"
-                            id="_1rV3" modifiers="16"/>
-          </Procedure>
-          <Procedure id="_1rVA" name="ok_button">
-            <comment>@teststep Do click 'OK' button.</comment>
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="New_Pin.PlacemarkDialog.ok"
-                            event="MOUSE_MPRC" id="_1rVG" modifiers="16"/>
-          </Procedure>
-          <Procedure id="_1rUw" name="cancel_button">
-            <comment>@teststep Do click 'Cancel' button.</comment>
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="New_Pin.PlacemarkDialog.cancel"
-                            event="MOUSE_MPRC" id="_1rVH" modifiers="16"/>
-          </Procedure>
-        </Package>
-        <Package id="_1ps8" name="gcp"/>
-        <Package id="_1ps7" name="pin">
-          <Procedure id="_1rUX" name="new_pin_button">
-            <comment>@teststep Do click 'Create and add new PIN' button.</comment>
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="NbMainWindow.newButton"
-                            event="MOUSE_MPRC" id="_1rUY" modifiers="16"/>
-          </Procedure>
-          <Procedure disabled="true" id="_1rUI" name="new_pin_button_bkp">
-            <comment>@teststep Do click 'Create and add new PIN' button.</comment>
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="NbMainWindow.newButton"
-                            event="MOUSE_MPRC" id="_1rUK" modifiers="16"/>
-            <BasicSequence id="_1rUJ" name="Aufnahme 23.09.15 11:30">
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.copyButton"
-                               id="_1rUL"/>
-              <CheckBooleanStep checktype="visible" client="$(client)"
-                                component="NbMainWindow.tooltip" id="_1rST"/>
-              <CheckBooleanStep checktype="visible" client="$(client)"
-                                component="NbMainWindow.tooltip" id="_1rSU"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.importButton"
-                               id="_1rSV"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.exportButton"
-                               id="_1rSW"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.exportTableButton"
-                               id="_1rSX"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.filterButton"
-                               id="_1rSY"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.zoomToButton"
-                               id="_1rSZ"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.transferButton"
-                               id="_1rUM"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.helpButton"
-                               id="_1rSb"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.newButton" id="_1rSc"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.copyButton"
-                               id="_1rUN"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.editButton"
-                               id="_1rUO"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.removeButton"
-                               id="_1rUP"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.importButton"
-                               id="_1rUQ"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.exportButton"
-                               id="_1rUR"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.filterButton"
-                               id="_1rUS"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.exportTableButton"
-                               id="_1rUT"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.transferButton"
-                               id="_1rUU"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.zoomToButton"
-                               id="_1rUV"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.helpButton"
-                               id="_1rUW"/>
-            </BasicSequence>
-          </Procedure>
-        </Package>
+                            component="dialogSNAP_-_Import_Product.buttonCancel"
+                            event="MOUSE_MPRC" id="_1rhM" modifiers="16"/>
+            <ElseifSequence id="_1rh6" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+            <ElseSequence id="_1rh8"/>
+          </IfSequence>
+        </Procedure>
+        <Procedure id="_1rhH" name="import_product">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogSNAP_-_Import_Product.buttonImport_Product"
+                          event="MOUSE_MPRC" id="_1rhI" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1rhJ" name="subset">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogSNAP_-_Import_Product.buttonSubset..."
+                          event="MOUSE_MPRC" id="_1rhL" modifiers="16"/>
+        </Procedure>
       </Package>
       <Package id="_1pnQ" name="point_data_interpretation_dialog">
         <Procedure id="_1poV" name="button_cance">
@@ -8158,21 +8103,25 @@
                           event="MOUSE_MPRC" id="_1rgx" modifiers="16"/>
         </Procedure>
         <Procedure id="_1reO" name="button_use_preview">
+          <comment>@teststep Click on checkbox 'Use preview' the Subset tool.</comment>
           <MouseEventStep clicks="1" client="$(client)"
                           component="dialogSpecify_Product_Subset.UsePreviewButton"
                           event="MOUSE_MPRC" id="_1reP" modifiers="16"/>
         </Procedure>
         <Procedure id="_1reg" name="button_OK">
+          <comment>@teststep Click 'OK' button in the Subset tool.</comment>
           <MouseEventStep clicks="1" client="$(client)"
                           component="dialogSpecify_Product_Subset.ProductSubsetDialog.ok"
                           event="MOUSE_MPRC" id="_1rei" modifiers="16"/>
         </Procedure>
         <Procedure id="_1rey" name="button_cancel">
+          <comment>@teststep Click 'Cancel' button in the Subset tool.</comment>
           <MouseEventStep clicks="1" client="$(client)"
                           component="dialogSpecify_Product_Subset.ProductSubsetDialog.cancel"
                           event="MOUSE_MPRC" id="_1re-" modifiers="16"/>
         </Procedure>
         <Procedure id="_1rfE" name="button_help">
+          <comment>@teststep Click 'HelpK' button in the Subset tool.</comment>
           <MouseEventStep clicks="1" client="$(client)"
                           component="dialogSpecify_Product_Subset.ProductSubsetDialog.help"
                           event="MOUSE_MPRC" id="_1rfI" modifiers="16"/>
@@ -8203,6 +8152,33 @@
                           component="dialogSpecify_Product_Subset.checkBand"
                           event="MOUSE_MPRC" id="_1rZV" modifiers="16"/>
         </Procedure>
+        <Package id="_1rhN" name="incomplete_subset_definition">
+          <Procedure id="_1rhr"
+                     name="button_YES_incomplete_subset_definition">
+            <comment>@teststep Click 'Yes' button in the 'Incomplete subset definition' dialog.</comment>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogIncomplete_Subset_Definition.buttonYes"
+                            event="MOUSE_MPRC" id="_1rht" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1rhP" name="button_YES_no_flag_dataset_selected">
+            <comment>@teststep Click 'Yes' button in the 'No Flag Dataset Selected' dialog.</comment>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogNo_Flag_Dataset_Selected.buttonYes"
+                            event="MOUSE_MPRC" id="_1rhf" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1rhV" name="button_No">
+            <comment>@teststep Click 'No' button in the 'Incomplete subset definition' dialog.</comment>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogIncomplete_Subset_Definition.buttonNo"
+                            event="MOUSE_MPRC" id="_1rhZ" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1rhO" name="button_Cancel">
+            <comment>@teststep Click 'Cancel' button in the 'Incomplete subset definition' dialog.</comment>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogIncomplete_Subset_Definition.buttonCancel"
+                            event="MOUSE_MPRC" id="_1rZP" modifiers="16"/>
+          </Procedure>
+        </Package>
       </Package>
       <Package id="_1pFd" name="select_source_product_dialog">
         <Procedure id="_1pFe" name="button_cancel">

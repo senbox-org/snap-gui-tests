@@ -348,46 +348,67 @@
             </ProcedureCall>
             <ProcedureCall id="_1pRM"
                            procedure="do_click.collocation.button_apply"/>
+            <TryStep id="_1reu" name="writing_target_product">
+              <ProcedureCall id="_1rev"
+                             procedure="wait.appear.dialog.writing_target_product"/>
+              <CatchSequence exception="TestException" id="_1rew"
+                             maxerror="0"/>
+            </TryStep>
             <ProcedureCall id="_1r4m"
                            procedure="error_handling.if_any_error_make_screenshot_shoot_error_message"/>
-            <ProcedureCall id="_1pRa"
-                           procedure="wait.appear.dialog.writing_target_product"/>
-            <ProcedureCall id="_1pRd"
-                           procedure="wait.disappear.writing_target_product"/>
+            <TryStep id="_1r4x" name="writing_target_product">
+              <ProcedureCall id="_1pRa"
+                             procedure="wait.appear.dialog.writing_target_product"/>
+              <CatchSequence exception="TestException" id="_1r4y"
+                             maxerror="0"/>
+            </TryStep>
+            <ProcedureCall id="_1r4w"
+                           procedure="error_handling.if_any_error_make_screenshot_shoot_error_message"/>
             <ProcedureCall id="_1pRb"
                            procedure="click_ok_in_product_created_dialog"/>
             <TestStep id="_1pRO" name="check_target_product">
-              <TestStep id="_1pRi" name="open_image_view">
-                <ProcedureCall id="_1pwm"
-                               procedure="product_meta_data.for_open_image_view"/>
-                <SetGlobalStep id="_1pRR" varname="bandName">
-                  <default>radiance_1_M</default>
-                </SetGlobalStep>
-                <ProcedureCall id="_1pRS"
-                               procedure="utility.open_image_view_check_it"/>
-              </TestStep>
-              <TestStep id="_1pRh" name="menu_attach_detach_pixel_geocoding">
-                <ProcedureCall id="_1pRg" procedure="do_click.menu.tools"/>
-                <ProcedureCall id="_1pRe"
-                               procedure="check.menu.tools.menuItemAttachPixelGeoCoding_enabled_status">
-                  <variable name="enabled_status">false</variable>
-                </ProcedureCall>
-                <ProcedureCall id="_1pRf"
-                               procedure="check.menu.tools.menuItemDetachPixelGeoCoding_enabled_enabled_status">
-                  <variable name="enabled_status">true</variable>
-                </ProcedureCall>
-              </TestStep>
-              <TestStep id="_1pRj"
-                        name="open_image_view_check_masks_layers_close_product">
-                <SetGlobalStep id="_1pRT" varname="view_Id1">
-                  <default>20</default>
-                </SetGlobalStep>
-                <SetGlobalStep id="_1pRU" varname="bandName">
-                  <default>radiance_1_S</default>
-                </SetGlobalStep>
-                <ProcedureCall id="_1pRV"
-                               procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
-              </TestStep>
+              <ProcedureCall id="_1l52" procedure="check.product.not_opened"/>
+              <IfSequence id="_1l53"
+                          test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+                <TestStep id="_1pRi" name="open_image_view">
+                  <ProcedureCall id="_1pwm"
+                                 procedure="product_meta_data.for_open_image_view"/>
+                  <SetGlobalStep id="_1pRR" varname="bandName">
+                    <default>radiance_1_M</default>
+                  </SetGlobalStep>
+                  <ProcedureCall id="_1pRS"
+                                 procedure="utility.open_image_view_check_it"/>
+                </TestStep>
+                <TestStep id="_1pRh"
+                          name="menu_attach_detach_pixel_geocoding">
+                  <ProcedureCall id="_1pRg" procedure="do_click.menu.tools"/>
+                  <ProcedureCall id="_1pRe"
+                                 procedure="check.menu.tools.menuItemAttachPixelGeoCoding_enabled_status">
+                    <variable name="enabled_status">false</variable>
+                  </ProcedureCall>
+                  <ProcedureCall id="_1pRf"
+                                 procedure="check.menu.tools.menuItemDetachPixelGeoCoding_enabled_enabled_status">
+                    <variable name="enabled_status">true</variable>
+                  </ProcedureCall>
+                </TestStep>
+                <TestStep id="_1pRj"
+                          name="open_image_view_check_masks_layers_close_product">
+                  <SetGlobalStep id="_1pRT" varname="view_Id1">
+                    <default>20</default>
+                  </SetGlobalStep>
+                  <SetGlobalStep id="_1pRU" varname="bandName">
+                    <default>radiance_1_S</default>
+                  </SetGlobalStep>
+                  <ProcedureCall id="_1pRV"
+                                 procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+                </TestStep>
+                <ElseSequence id="_1res">
+                  <ProcedureCall id="_1ret" procedure="run-log.logError">
+                    <variable name="message">collocated product missimg </variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </ElseSequence>
+              </IfSequence>
             </TestStep>
           </IfSequence>
         </TestStep>
@@ -481,9 +502,7 @@
         <ProcedureCall id="_1pVH" procedure="do_click.collocation.menu.help"/>
         <ProcedureCall id="_1pVI"
                        procedure="do_click.collocation.menu.help_menu_item"/>
-        <ProcedureCall id="_1pVL"
-                       procedure="check.help.help_or_error_appears"/>
-        <ProcedureCall id="_1pVM" procedure="close.help"/>
+        <ProcedureCall id="_1qcu" procedure="help.check_help_appears_close"/>
       </TestStep>
       <TestStep id="_1pVN" name="check_help_about">
         <ProcedureCall id="_1pVO" procedure="do_click.collocation.menu.help"/>

@@ -950,8 +950,21 @@
                              procedure="deselect.analysis.histogram_dialog.use_ROI_mask"/>
               <ProcedureCall id="_1pyP"
                              procedure="select.analysis.histogram_dialog.use_ROI_mask"/>
-              <ProcedureCall id="_1pyQ"
-                             procedure="do_click.analysis.histogram.refresh_button"/>
+              <TryStep id="_1rho">
+                <ProcedureCall id="_1pyQ"
+                               procedure="do_click.analysis.histogram.refresh_button"/>
+                <CatchSequence exception="TestException" id="_1rhp"
+                               maxerror="0">
+                  <ProcedureCall id="_1rhq"
+                                 procedure="run-log.make_screensot">
+                    <variable name="iw_name">histogram_refresh_button</variable>
+                  </ProcedureCall>
+                  <ProcedureCall id="_1rhr" procedure="run-log.logError">
+                    <variable name="message">Refresh button is disabled</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
             </CatchSequence>
           </TryStep>
           <ProcedureCall id="_1p1r"
@@ -1067,7 +1080,7 @@
                        procedure="select.analysis.scatter_plot.y_band">
           <variable name="y_band">$(bandName2)</variable>
         </ProcedureCall>
-        <ProcedureCall id="_1ppL"
+        <ProcedureCall id="_1ri7"
                        procedure="do_click.analysis.scatter_plot.refresh_button"/>
         <ProcedureCall id="_1r5b"
                        procedure="wait.disappear.computing_scatter_plot_progress monitor"/>
@@ -1087,70 +1100,7 @@
         </IfSequence>
       </Procedure>
     </Package>
-    <Package id="_1lFv" name="create">
-      <Procedure id="_1lFw" name="new_pin">
-        <variable name="pin_name"/>
-        <variable name="pin_label"/>
-        <variable name="lat"/>
-        <variable name="long"/>
-        <variable name="x"/>
-        <variable name="y"/>
-        <ProcedureCall disabled="true" id="_1lGw"
-                       procedure="do_click.main_toolbar.views.pin_manager"/>
-        <ProcedureCall id="_1rS5" procedure="open.views.pin_manager"/>
-        <ProcedureCall disabled="true" id="_1lGY"
-                       procedure="wait.appear.dialog.dialog"/>
-        <ProcedureCall id="_1lGb"
-                       procedure="do_click.placemark_manager.pin.new_pin_button"/>
-        <ProcedureCall id="_1rS6" procedure="wait.appear.dialog.new_pin"/>
-        <ProcedureCall id="_1lGf"
-                       procedure="set.placemark_dialog.new_pin.name">
-          <variable name="var">$(pin_name)</variable>
-        </ProcedureCall>
-        <ProcedureCall id="_1lGg"
-                       procedure="set.placemark_dialog.new_pin.label">
-          <variable name="var">$(pin_label)</variable>
-        </ProcedureCall>
-        <IfSequence id="_1lGe"
-                    test="&#34;$(lat)&#34;&lt;&gt;&#34;&#34;  and &#34;$(long)&#34;&lt;&gt;&#34;&#34;">
-          <ProcedureCall id="_1lGh"
-                         procedure="set.placemark_dialog.new_pin.latitude">
-            <variable name="var">$(lat)</variable>
-          </ProcedureCall>
-          <ProcedureCall id="_1lGi"
-                         procedure="set.placemark_dialog.new_pin.longitude">
-            <variable name="var">$(long)</variable>
-          </ProcedureCall>
-          <ProcedureCall id="_1lGo"
-                         procedure="do_click.placemark_manager.new_pin.ok_button"/>
-          <ElseifSequence id="_1lGl"
-                          test="(&#34;$(lat)&#34;==&#34;&#34;  and &#34;$(long)&#34;==&#34;&#34;) and (&#34;$(x)&#34;&lt;&gt;&#34;&#34;  and &#34;$(x)&#34;&lt;&gt;&#34;&#34;)">
-            <ProcedureCall id="_1lGj"
-                           procedure="set.placemark_dialog.new_pin.pixelX">
-              <variable name="var">$(x)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1lGk"
-                           procedure="set.placemark_dialog.new_pin.pixelY">
-              <variable name="var">$(y)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1rS7"
-                           procedure="do_click.placemark_manager.new_pin.ok_button"/>
-          </ElseifSequence>
-          <ElseSequence id="_1lGm">
-            <ProcedureCall id="_1lGv" procedure="run-log.make_screensot">
-              <variable name="iw_name">new_pin_can_not_be_created</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1rS8"
-                           procedure="do_click.placemark_manager.new_pin.cancel_button"/>
-            <ProcedureCall id="_1lGd" procedure="close.dialog"/>
-            <ProcedureCall id="_1lGu" procedure="run-log.logError">
-              <variable name="message">a new pin can not be created</variable>
-              <variable name="withScreenshots">false</variable>
-            </ProcedureCall>
-          </ElseSequence>
-        </IfSequence>
-      </Procedure>
-    </Package>
+    <Package id="_1lFv" name="create"/>
     <Package id="_1l8Q" name="preparation">
       <Procedure id="_1l5e" name="application_for_test">
         <comment>@teststep Test preparation</comment>
@@ -1238,6 +1188,13 @@
               </TryStep>
               <ProcedureCall id="_1qdV"
                              procedure="utility.wait_image_created_handle_error"/>
+              <IfSequence id="_1ri5"
+                          test="&#34;$(image_window_appears)&#34;==&#34;false&#34;">
+                <ProcedureCall id="_1ri6" procedure="run-log.logError">
+                  <variable name="message">image view is not appear</variable>
+                  <variable name="withScreenshots">true</variable>
+                </ProcedureCall>
+              </IfSequence>
             </IfSequence>
           </ElseSequence>
         </IfSequence>
@@ -1250,11 +1207,18 @@
         <ProcedureCall id="_1rRw"
                        procedure="error_handling.if_any_error_make_screenshot_shoot_error_message"/>
         <TryStep id="_1qdN" name="check_image_view">
-          <ProcedureCall id="_1qdO" procedure="check.image_view.visible">
+          <SetGlobalStep disabled="true" id="_1rh+"
+                         varname="image_window_appears">
+            <default>true</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1rhz"
+                         procedure="check.image_view.button_maximize_window_visible"/>
+          <ProcedureCall disabled="true" id="_1qdO"
+                         procedure="check.image_view.visible">
             <variable name="visible">true</variable>
           </ProcedureCall>
-          <ProcedureCall id="_1qdP"
-                         procedure="check.image_view.button_maximize_window_visible">
+          <ProcedureCall disabled="true" id="_1qdP"
+                         procedure="check.image_view.button_maximize_window_visible_status">
             <variable name="visible">true</variable>
           </ProcedureCall>
           <ProcedureCall disabled="true" id="_1qdQ"
@@ -1270,10 +1234,10 @@
             <variable name="visible">true</variable>
           </ProcedureCall>
           <CatchSequence exception="TestException" id="_1qdT" maxerror="0">
-            <ProcedureCall id="_1qdU" procedure="run-log.logError">
-              <variable name="message">image view is not appear</variable>
-              <variable name="withScreenshots">true</variable>
-            </ProcedureCall>
+            <SetGlobalStep disabled="true" id="_1rhx"
+                           varname="image_window_appears">
+              <default>false</default>
+            </SetGlobalStep>
           </CatchSequence>
         </TryStep>
       </Procedure>
@@ -1382,6 +1346,13 @@
               </TryStep>
               <ProcedureCall id="_1qdr"
                              procedure="utility.wait_image_created_handle_error"/>
+              <IfSequence id="_1ri3"
+                          test="&#34;$(image_window_appears)&#34;==&#34;false&#34;">
+                <ProcedureCall id="_1ri4" procedure="run-log.logError">
+                  <variable name="message">image view is not appear</variable>
+                  <variable name="withScreenshots">true</variable>
+                </ProcedureCall>
+              </IfSequence>
             </IfSequence>
           </ElseSequence>
         </IfSequence>
@@ -1875,7 +1846,7 @@
     <Package id="_1pyR" name="error_handling">
       <Procedure id="_1r4e" name="if_Error_shoot_error_message">
         <TryStep id="_1rS3">
-          <ProcedureCall id="_1r4f"
+          <ProcedureCall id="_1ri2"
                          procedure="wait.appear.error.dialog_Error"/>
           <ProcedureCall id="_1r4g" procedure="run-log.make_screensot">
             <variable name="iw_name">error_dialog_Error</variable>
@@ -1982,6 +1953,209 @@
             <variable name="withScreenshots">false</variable>
           </ProcedureCall>
           <CatchSequence exception="TestException" id="_1pyU" maxerror="0"/>
+        </TryStep>
+      </Procedure>
+    </Package>
+    <Package id="_1rS9" name="subset">
+      <Procedure id="_1rZX" name="check_subset_tool_appears">
+        <comment>@teststep Check Subset tool window appears.</comment>
+        <TryStep id="_1rZY" name="check_subset_tool_appears">
+          <ProcedureCall id="_1rZZ" procedure="check.opened.subset_dialog"/>
+          <SetGlobalStep id="_1rZa" varname="subset_tool_appears">
+            <default>true</default>
+          </SetGlobalStep>
+          <CatchSequence exception="TestException" id="_1rZb" maxerror="0">
+            <SetGlobalStep id="_1rZc" varname="subset_tool_appears">
+              <default>false</default>
+            </SetGlobalStep>
+          </CatchSequence>
+        </TryStep>
+      </Procedure>
+      <Procedure id="_1rZQ" name="define_spatial_subset_pixelpos">
+        <variable name="start_x"/>
+        <variable name="start_y"/>
+        <variable name="end_x"/>
+        <variable name="end_y"/>
+        <comment>@teststep Define spatial subset according to pixel position.</comment>
+        <ProcedureCall id="_1rZd"
+                       procedure="subset.check_subset_tool_appears"/>
+        <IfSequence id="_1rZV"
+                    test="&#34;$(subset_tool_appears)&#34;==&#34;true&#34;">
+          <TryStep id="_1rWl" name="define_spatial_subset">
+            <ProcedureCall id="_1ra5"
+                           procedure="do_click.subset_tool.tab_spatial_subset"/>
+            <ProcedureCall id="_1rWr" procedure="set.subset_tool.start_X">
+              <variable name="val">$(start_x)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1rWs" procedure="set.subset_tool.start_Y">
+              <variable name="val">$(start_y)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1rWt" procedure="set.subset_tool.end_X">
+              <variable name="val">$(end_x)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1rWu" procedure="set.subset_tool.end_Y">
+              <variable name="val">$(end_y)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1rWn" maxerror="0">
+              <ProcedureCall id="_1rWo" procedure="run-log.make_screensot">
+                <variable name="iw_name">import_product_window</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1rWp" procedure="run-log.logError">
+                <variable name="message">Subset button is disabled</variable>
+                <variable name="withScreenshots"/>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+          <ElseSequence id="_1rZW">
+            <ProcedureCall id="_1rXf" procedure="run-log.make_screensot">
+              <variable name="iw_name">subset_tool_not_appears</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1rXg" procedure="run-log.logError">
+              <variable name="message">pixel position subset failed</variable>
+              <variable name="withScreenshots">true</variable>
+            </ProcedureCall>
+          </ElseSequence>
+        </IfSequence>
+      </Procedure>
+      <Procedure id="_1rZe" name="define_band_subset">
+        <variable name="band_name"/>
+        <comment>@teststep Define band subset.</comment>
+        <ProcedureCall id="_1rZf"
+                       procedure="subset.check_subset_tool_appears"/>
+        <IfSequence id="_1rZg"
+                    test="&#34;$(subset_tool_appears)&#34;==&#34;true&#34;">
+          <TryStep id="_1rY1" name="define_band_subset">
+            <ProcedureCall id="_1rXw"
+                           procedure="do_click.subset_tool.tab_spatial_subset"/>
+            <ProcedureCall id="_1ra4"
+                           procedure="do_click.subset_tool.tab_band_subset"/>
+            <ProcedureCall id="_1rY0"
+                           procedure="select.subset_tool.select_none_band"/>
+            <TryStep id="_1rhd">
+              <ProcedureCall id="_1rhb"
+                             procedure="do_click.subset_tool.check_box_band">
+                <variable name="band_name">$(band_name)</variable>
+              </ProcedureCall>
+              <SetGlobalStep id="_1rhh" varname="band_subset">
+                <default>$(band_name)</default>
+              </SetGlobalStep>
+              <CatchSequence exception="TestException" id="_1rhe"
+                             maxerror="0">
+                <ProcedureCall id="_1rhf"
+                               procedure="get.subset_tool.the_first_band_name"/>
+                <SetGlobalStep id="_1rhg" varname="band_subset">
+                  <default>$(band_for_subset)</default>
+                </SetGlobalStep>
+                <TryStep id="_1rhi">
+                  <ProcedureCall id="_1rhc"
+                                 procedure="do_click.subset_tool.check_box_band">
+                    <variable name="band_name">$(band_subset)</variable>
+                  </ProcedureCall>
+                  <CatchSequence exception="TestException" id="_1rY6"
+                                 maxerror="0">
+                    <ProcedureCall id="_1rY7"
+                                   procedure="run-log.make_screensot">
+                      <variable name="iw_name">band_subset</variable>
+                    </ProcedureCall>
+                    <ProcedureCall id="_1rY8" procedure="run-log.logError">
+                      <variable name="message">Band subset failed</variable>
+                      <variable name="withScreenshots">true</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </TryStep>
+          <ElseSequence id="_1rZp">
+            <ProcedureCall id="_1rZq" procedure="run-log.make_screensot">
+              <variable name="iw_name">subset_tool_not_appears</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1rZr" procedure="run-log.logError">
+              <variable name="message">Subset tool is not appear</variable>
+              <variable name="withScreenshots">true</variable>
+            </ProcedureCall>
+          </ElseSequence>
+        </IfSequence>
+      </Procedure>
+      <Procedure id="_1rZs" name="define_spatial_subset_geoposition">
+        <variable name="north_lat"/>
+        <variable name="west_lon"/>
+        <variable name="south_lat"/>
+        <variable name="east_lon"/>
+        <comment>@teststep Define spatial subset according to geo position.</comment>
+        <ProcedureCall id="_1rZt"
+                       procedure="subset.check_subset_tool_appears"/>
+        <IfSequence id="_1rZu"
+                    test="&#34;$(subset_tool_appears)&#34;==&#34;true&#34;">
+          <TryStep id="_1rZv" name="define_spatial_subset">
+            <ProcedureCall id="_1ra6"
+                           procedure="do_click.subset_tool.tab_spatial_subset"/>
+            <ProcedureCall id="_1ra7"
+                           procedure="do_click.subset_tool.tab_geo_coordinates"/>
+            <ProcedureCall id="_1ra8" procedure="set.subset_tool.north_lat">
+              <variable name="val">$(north_lat)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1ra9" procedure="set.subset_tool.west_lon">
+              <variable name="val">$(west_lon)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1raA" procedure="set.subset_tool.south_lat">
+              <variable name="val">$(south_lat)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1raB" procedure="set.subset_tool.east_lon">
+              <variable name="val">$(east_lon)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1rZ+" maxerror="0">
+              <ProcedureCall id="_1rZ-" procedure="run-log.make_screensot">
+                <variable name="iw_name">import_geo_subset</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1ra0" procedure="run-log.logError">
+                <variable name="message">geo-coding subset failed</variable>
+                <variable name="withScreenshots">true</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+          <ElseSequence id="_1ra1">
+            <ProcedureCall id="_1ra2" procedure="run-log.make_screensot">
+              <variable name="iw_name">subset_tool_not_appears</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1ra3" procedure="run-log.logError">
+              <variable name="message">Subset tool is not appear</variable>
+              <variable name="withScreenshots"/>
+            </ProcedureCall>
+          </ElseSequence>
+        </IfSequence>
+      </Procedure>
+      <Procedure id="_1rSA" name="handle_incomplete_subset_definition_dialog">
+        <TryStep id="_1rht">
+          <ProcedureCall id="_1rha"
+                         procedure="do_click.subset_tool.incomplete_subset_definition.button_YES_incomplete_subset_definition"/>
+          <CatchSequence exception="TestException" id="_1rhu" maxerror="0"/>
+        </TryStep>
+        <TryStep id="_1rhv">
+          <ProcedureCall id="_1rhs"
+                         procedure="do_click.subset_tool.incomplete_subset_definition.button_YES_no_flag_dataset_selected"/>
+          <CatchSequence exception="TestException" id="_1rhw" maxerror="0"/>
+        </TryStep>
+      </Procedure>
+    </Package>
+    <Package id="_1rhj" name="help">
+      <Procedure id="_1rhk" name="check_help_appears_close">
+        <TryStep id="_1qcv" name="check_help_appears">
+          <CheckBooleanStep checktype="enabled" client="$(client)"
+                            component="frameHelp.toolbar" id="_1rhl"/>
+          <CheckBooleanStep checktype="enabled" client="$(client)"
+                            component="frameHelp.tabContents.tree"
+                            id="_1qcx"/>
+          <CatchSequence exception="TestException" id="_1qcy" maxerror="0">
+            <ServerScriptStep id="_1qcz" name="error">
+              <code>rc.logError("'Help' does not appear.")</code>
+            </ServerScriptStep>
+          </CatchSequence>
+        </TryStep>
+        <TryStep id="_1rhm" name="close_help">
+          <WindowEventStep client="$(client)" component="frameHelp"
+                           event="WINDOW_CLOSING" id="_1oaK"/>
+          <CatchSequence exception="TestException" id="_1rhn" maxerror="0"/>
         </TryStep>
       </Procedure>
     </Package>

@@ -255,6 +255,21 @@
           </Procedure>
         </Package>
       </Package>
+      <Package id="_1rhX" name="export_dialog">
+        <Procedure id="_1rhY" name="file_name">
+          <variable name="file"/>
+          <IfSequence id="_1rhb" test="${qftest:windows}">
+            <TextInputStep clear="true" client="$(client)"
+                           component="dialogSNAP_-_Export_Product.textFile_name:"
+                           id="_1rhZ">
+              <text>$(file)</text>
+            </TextInputStep>
+            <ElseifSequence id="_1rhd" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+            <ElseSequence id="_1rhf"/>
+          </IfSequence>
+        </Procedure>
+      </Package>
       <Package disabled="true" id="_1lBQ" name="import_dialog">
         <Procedure id="_1lBO" name="file_name">
           <ProcedureCall id="_1orz"
@@ -579,90 +594,42 @@
             <text>$(val)</text>
           </TextInputStep>
         </Procedure>
-      </Package>
-      <Package id="_1lFb" name="placemark_dialog">
-        <Package id="_1lHo" name="new_pin">
-          <Procedure id="_1lHp" name="name">
-            <variable name="var"/>
-            <TextInputStep clear="true" client="$(client)"
-                           component="New_Pin.name" id="_1lHr">
-              <text>$(var)</text>
-            </TextInputStep>
-          </Procedure>
-          <Procedure id="_1lIT" name="label">
-            <variable name="var"/>
-            <TextInputStep clear="true" client="$(client)"
-                           component="New_Pin.label" id="_1lIa">
-              <text>$(var)</text>
-            </TextInputStep>
-          </Procedure>
-          <Procedure id="_1lJ7" name="latitude">
-            <variable name="var"/>
-            <TextInputStep clear="true" client="$(client)"
-                           component="New_Pin.lat" id="_1lJK">
-              <text>$(var)</text>
-            </TextInputStep>
-          </Procedure>
-          <Procedure id="_1lJn" name="longitude">
-            <variable name="var"/>
-            <TextInputStep clear="true" client="$(client)"
-                           component="New_Pin.lon" id="_1lK3">
-              <text>$(var)</text>
-            </TextInputStep>
-          </Procedure>
-          <Procedure id="_1lKR" name="pixelX">
-            <variable name="var"/>
-            <ProcedureCall id="_1lMt"
-                           procedure="check.placemark_dialog.pixelX_new_pin_enabled"/>
-            <BasicSequence id="_1rS+" name="new_pin">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="New_Pin.usePixelPos"
-                              event="MOUSE_MPRC" id="_1rTH" modifiers="16"/>
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="New_Pin.pixelX" event="MOUSE_MPRC"
-                              id="_1rTI" modifiers="16" x="91" y="13"/>
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="New_Pin.pixelY" event="MOUSE_MPRC"
-                              id="_1rTJ" modifiers="16" x="92" y="15"/>
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="New_Pin.usePixelPos"
-                              event="MOUSE_MPRC" id="_1rTK" modifiers="16"/>
-              <CheckStringStep client="$(client)"
-                               component="New_Pin.PlacemarkDialog.ok"
-                               id="_1rTL">
-                <text>OK</text>
-              </CheckStringStep>
-              <CheckStringStep client="$(client)"
-                               component="New_Pin.PlacemarkDialog.cancel"
-                               id="_1rTM">
-                <text>Cancel</text>
-              </CheckStringStep>
-            </BasicSequence>
-            <IfSequence id="_1lMx"
-                        test="&#34;$(pixelX_new_pin_enabled)&#34;==&#34;false&#34;">
-              <ProcedureCall id="_1lMy"
-                             procedure="select.placemark_dialog.usePixelPos_new_pin"/>
-            </IfSequence>
-            <TextInputStep clear="true" client="$(client)"
-                           component="New_Pin.pixelX" id="_1lKa">
-              <text>$(var)</text>
-            </TextInputStep>
-          </Procedure>
-          <Procedure id="_1lKr" name="pixelY">
-            <variable name="var"/>
-            <ProcedureCall id="_1lMv"
-                           procedure="check.placemark_dialog.pixelY_new_pin_enabled"/>
-            <IfSequence id="_1lMz"
-                        test="&#34;$(pixelY_new_pin_enabled)&#34;==&#34;false&#34;">
-              <ProcedureCall id="_1lM+"
-                             procedure="select.placemark_dialog.usePixelPos_new_pin"/>
-            </IfSequence>
-            <TextInputStep clear="true" client="$(client)"
-                           component="New_Pin.pixelY" id="_1lL3">
-              <text>$(var)</text>
-            </TextInputStep>
-          </Procedure>
-        </Package>
+        <Procedure id="_1rhJ" name="north_lat">
+          <variable name="val"/>
+          <comment>@teststep Insert North latitude.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogSpecify_Product_Subset.geoCoordinatesPane.textNorth_latitude_bound:"
+                         id="_1rhK">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1rhO" name="west_lon">
+          <variable name="val"/>
+          <comment>@teststep Insert West_longitude.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogSpecify_Product_Subset.geoCoordinatesPane.textWest_longitude_bound:"
+                         id="_1rhQ">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1rhT" name="south_lat">
+          <variable name="val"/>
+          <comment>@teststep Insert South latitude.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogSpecify_Product_Subset.geoCoordinatesPane.textSouth_latitude_bound:"
+                         id="_1rhW">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1rhF" name="east_lon">
+          <variable name="val"/>
+          <comment>@teststep Insert East longitude.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogSpecify_Product_Subset.geoCoordinatesPane.textEast_longitude_bound:"
+                         id="_1rZf">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
       </Package>
       <Package id="_6" name="variable">
         <Procedure id="_8" name="client_snap">

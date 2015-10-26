@@ -18,12 +18,7 @@
       </ProcedureCall>
       <ProcedureCall id="_1oX0" procedure="check.product.not_opened"/>
       <IfSequence id="_1oX1" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
-        <TryStep id="_1oX2">
-          <ComponentWaiter client="VISAT"
-                           component="NbMainWindow.Product_Explorer.tree"
-                           errorlevel="0" id="_1oX3" raise="false"/>
-          <CatchSequence exception="TestException" id="_1oX4" maxerror="0"/>
-        </TryStep>
+        <ProcedureCall id="_1qfF" procedure="wait.product_is_opened"/>
       </IfSequence>
       <ProcedureCall id="_1oXV" procedure="check.product.not_opened"/>
       <IfSequence id="_1oXW" test="&#34;$(not_opened)&#34;==&#34;false&#34;">
@@ -105,12 +100,7 @@
       </ProcedureCall>
       <ProcedureCall id="_1o+H" procedure="check.product.not_opened"/>
       <IfSequence id="_1o+I" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
-        <TryStep id="_1o+J">
-          <ComponentWaiter client="VISAT"
-                           component="NbMainWindow.Product_Explorer.tree"
-                           errorlevel="0" id="_1o+K" raise="false"/>
-          <CatchSequence exception="TestException" id="_1o+L" maxerror="0"/>
-        </TryStep>
+        <ProcedureCall id="_1qfG" procedure="wait.product_is_opened"/>
       </IfSequence>
       <ProcedureCall id="_1o+M" procedure="check.product.not_opened"/>
       <IfSequence id="_1o+N" test="&#34;$(not_opened)&#34;==&#34;false&#34;">
@@ -304,12 +294,7 @@
       </ProcedureCall>
       <ProcedureCall id="_1p0N" procedure="check.product.not_opened"/>
       <IfSequence id="_1p0O" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
-        <TryStep id="_1p0P">
-          <ComponentWaiter client="VISAT"
-                           component="NbMainWindow.Product_Explorer.tree"
-                           errorlevel="0" id="_1p0Q" raise="false"/>
-          <CatchSequence exception="TestException" id="_1p0R" maxerror="0"/>
-        </TryStep>
+        <ProcedureCall id="_1qfH" procedure="wait.product_is_opened"/>
       </IfSequence>
       <ProcedureCall id="_1p0S" procedure="check.product.not_opened"/>
       <IfSequence id="_1p0T" test="&#34;$(not_opened)&#34;==&#34;false&#34;">
@@ -21370,12 +21355,7 @@ R2dVSOWNz4A//w0d2eKZ</binary>
       </ProcedureCall>
       <ProcedureCall id="_1p1R" procedure="check.product.not_opened"/>
       <IfSequence id="_1p1S" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
-        <TryStep id="_1p1T">
-          <ComponentWaiter client="VISAT"
-                           component="NbMainWindow.Product_Explorer.tree"
-                           errorlevel="0" id="_1p1U" raise="false"/>
-          <CatchSequence exception="TestException" id="_1p1V" maxerror="0"/>
-        </TryStep>
+        <ProcedureCall id="_1qfI" procedure="wait.product_is_opened"/>
       </IfSequence>
       <ProcedureCall id="_1p1W" procedure="check.product.not_opened"/>
       <IfSequence id="_1p1X" test="&#34;$(not_opened)&#34;==&#34;false&#34;">
@@ -33432,12 +33412,7 @@ YbDwLsF7oar1/x7XtVk=</binary>
       </ProcedureCall>
       <ProcedureCall id="_1p23" procedure="check.product.not_opened"/>
       <IfSequence id="_1p24" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
-        <TryStep id="_1p25">
-          <ComponentWaiter client="VISAT"
-                           component="NbMainWindow.Product_Explorer.tree"
-                           errorlevel="0" id="_1p26" raise="false"/>
-          <CatchSequence exception="TestException" id="_1p27" maxerror="0"/>
-        </TryStep>
+        <ProcedureCall id="_1qfC" procedure="wait.product_is_opened"/>
       </IfSequence>
       <ProcedureCall id="_1p28" procedure="check.product.not_opened"/>
       <IfSequence id="_1p29" test="&#34;$(not_opened)&#34;==&#34;false&#34;">
@@ -33458,6 +33433,11 @@ YbDwLsF7oar1/x7XtVk=</binary>
             <variable name="group_id">0</variable>
             <variable name="view_id">6</variable>
             <variable name="band">$(band)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qfL" procedure="open.views.navigation"/>
+          <ProcedureCall id="_1qfD"
+                         procedure="set.imaging_tools.navigation.zoom_factor">
+            <variable name="val">1 : 2</variable>
           </ProcedureCall>
         </TestStep>
         <TestStep id="_1p2i" name="draw_rectangle">
@@ -33534,12 +33514,7 @@ YbDwLsF7oar1/x7XtVk=</binary>
       </ProcedureCall>
       <ProcedureCall id="_1pEU" procedure="check.product.not_opened"/>
       <IfSequence id="_1pEV" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
-        <TryStep id="_1pEW">
-          <ComponentWaiter client="VISAT"
-                           component="NbMainWindow.Product_Explorer.tree"
-                           errorlevel="0" id="_1pEX" raise="false"/>
-          <CatchSequence exception="TestException" id="_1pEY" maxerror="0"/>
-        </TryStep>
+        <ProcedureCall id="_1qfE" procedure="wait.product_is_opened"/>
       </IfSequence>
       <ProcedureCall id="_1pEZ" procedure="check.product.not_opened"/>
       <IfSequence id="_1pEa" test="&#34;$(not_opened)&#34;==&#34;false&#34;">
@@ -33560,6 +33535,10 @@ YbDwLsF7oar1/x7XtVk=</binary>
           <ProcedureCall id="_1pEe"
                          procedure="wait.disappear.creating_image_progress monitor">
             <variable name="bandName">$(band)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qfK"
+                         procedure="set.imaging_tools.navigation.zoom_factor">
+            <variable name="val">1 : 2</variable>
           </ProcedureCall>
         </TestStep>
         <TestStep id="_1pEw" name="create_new_geometry_container">

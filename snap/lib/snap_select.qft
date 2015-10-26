@@ -321,14 +321,25 @@
         <variable name="file_of_type"/>
         <comment>@teststep Select 'File of type'.</comment>
         <TryStep id="_1oUY">
+          <SetGlobalStep id="_1rhN" varname="file_of_type_selected">
+            <default>true</default>
+          </SetGlobalStep>
           <IfSequence id="_1owN" test="${qftest:windows}">
             <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogSNAP_-_Open_Product.comboFiles_of_type:"
+                            event="MOUSE_MPRC" id="_1rd6" modifiers="16"
+                            x="148" y="12"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogSNAP_-_Open_Product.listInvokerFeature:_Label:_Files_of_type_item"
+                            event="MOUSE_MPRC" id="_1rd7" modifiers="16"/>
+            <MouseEventStep clicks="1" client="$(client)"
                             component="dialogOpen_Product.comboFiles_of_type:"
-                            event="MOUSE_MPRC" id="_1pDq" modifiers="16"
-                            x="130" y="13"/>
+                            disabled="true" event="MOUSE_MPRC" id="_1pDq"
+                            modifiers="16" x="130" y="13"/>
             <MouseEventStep clicks="1" client="$(client)"
                             component="dialogOpen_Product.popupInvokerFeature:_Label:_Files_of_type:.listFiles_of_type"
-                            event="MOUSE_MPRC" id="_1pDr" modifiers="16"/>
+                            disabled="true" event="MOUSE_MPRC" id="_1pDr"
+                            modifiers="16"/>
             <ElseifSequence id="_1owO" name="MAC?"
                             test="'${system:os.name}' .find('Mac OS X')&gt;=0">
               <MouseEventStep clicks="1" client="$(client)"
@@ -370,7 +381,13 @@
               </TryStep>
             </ElseSequence>
           </IfSequence>
+          <SetGlobalStep id="_1rhL" varname="file_of_type_selected">
+            <default>true</default>
+          </SetGlobalStep>
           <CatchSequence exception="TestException" id="_1oUZ" maxerror="0">
+            <SetGlobalStep id="_1rhM" varname="file_of_type_selected">
+              <default>false</default>
+            </SetGlobalStep>
             <ProcedureCall id="_1oUa" procedure="run-log.logError">
               <variable name="message">$(file_of_type) can not be selected</variable>
               <variable name="withScreenshots">true</variable>
@@ -378,63 +395,6 @@
           </CatchSequence>
         </TryStep>
       </Procedure>
-      <Package id="_1lFb" name="placemark_dialog">
-        <Procedure id="_1lHR" name="usePixelPos_new_pin">
-          <ProcedureCall id="_1lHS"
-                         procedure="check.placemark_dialog.usePixelPos_new_pin_selected"/>
-          <IfSequence id="_1lHT"
-                      test="&#34;$(usePixelPos_new_pin_selected)&#34;==&#34;false&#34;">
-            <ProcedureCall id="_1rTN"
-                           procedure="do_click.placemark_manager.new_pin.usePixelPos"/>
-          </IfSequence>
-          <ProcedureCall id="_1lHV"
-                         procedure="check.placemark_dialog.usePixelPos_new_pin_selected_status">
-            <variable name="usePixelPos_selected">true</variable>
-          </ProcedureCall>
-        </Procedure>
-        <Procedure id="_1lHc" name="pin_in_the_table">
-          <variable name="rec"/>
-          <TryStep id="_1rTS">
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="NbMainWindow.placemarkTable.X&amp;$(rec)"
-                            event="MOUSE_MPRC" id="_1rTR" modifiers="16"/>
-            <CatchSequence exception="TestException" id="_1rTT" maxerror="0">
-              <TryStep id="_1rTU">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="Dialog.placemarkTable.Lon&amp;$(rec)"
-                                event="MOUSE_MPRC" id="_1lHj" modifiers="16"/>
-                <CatchSequence exception="TestException" id="_1rTV"
-                               maxerror="0">
-                  <ProcedureCall id="_1rTW"
-                                 procedure="run-log.make_screensot">
-                    <variable name="iw_name">pin_manager</variable>
-                    <variable name="iw_name_example">error_dialog</variable>
-                  </ProcedureCall>
-                  <ProcedureCall id="_1rTX" procedure="run-log.logError">
-                    <variable name="message">can not select PIN $(rec)</variable>
-                    <variable name="withScreenshots"/>
-                  </ProcedureCall>
-                </CatchSequence>
-              </TryStep>
-            </CatchSequence>
-          </TryStep>
-        </Procedure>
-        <Package id="_1lHW" name="deselect">
-          <Procedure id="_1lHK" name="usePixelPos_new_pin">
-            <ProcedureCall id="_1lHO"
-                           procedure="check.placemark_dialog.usePixelPos_new_pin_selected"/>
-            <IfSequence id="_1lHQ"
-                        test="&#34;$(usePixelPos_new_pin_selected)&#34;==&#34;true&#34;">
-              <ProcedureCall id="_1lHN"
-                             procedure="do_click.pin_manager.new_pin_dialog.usePixelPos_checkBox"/>
-            </IfSequence>
-            <ProcedureCall id="_1lHP"
-                           procedure="check.placemark_dialog.usePixelPos_new_pin_selected_status">
-              <variable name="usePixelPos_selected">false</variable>
-            </ProcedureCall>
-          </Procedure>
-        </Package>
-      </Package>
       <Package disabled="true" id="_1lbo" name="smos_box">
         <Package id="_1lbx" name="grid_point_bt_chart">
           <Procedure id="_1lc4" name="snap_to_selected_pin">
@@ -1323,6 +1283,64 @@
                             event="MOUSE_MPRC" id="_1rQp" modifiers="16"/>
           </Procedure>
         </Package>
+      </Package>
+      <Package id="_1rVR" name="subset_tool">
+        <Procedure id="_1rfo" name="select_none_band">
+          <comment>@teststep Check in 'Select none'.</comment>
+          <ProcedureCall id="_1rh1"
+                         procedure="check.subset_tool.checked.select_none_band"/>
+          <IfSequence id="_1rhA"
+                      test="&#34;$(select_none_band)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1rh3"
+                           procedure="do_click.subset_tool.check_box_select_none_band"/>
+          </IfSequence>
+          <ProcedureCall id="_1rhB"
+                         procedure="check.subset_tool.checked.select_none_band_selection">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1rf+" name="select_all_band">
+          <comment>@teststep Check in 'Select all'.</comment>
+          <ProcedureCall id="_1rh2"
+                         procedure="check.subset_tool.checked.select_all_band"/>
+          <IfSequence id="_1rhF"
+                      test="&#34;$(select_all_band)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1rhG"
+                           procedure="do_click.subset_tool.check_box_select_all_band"/>
+          </IfSequence>
+          <ProcedureCall id="_1rhC"
+                         procedure="check.subset_tool.checked.select_all_band_selection">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1rgA" name="select_none">
+          <comment>@teststep Check in 'Select none'.</comment>
+          <ProcedureCall id="_1rh8"
+                         procedure="check.subset_tool.checked.select_none"/>
+          <IfSequence id="_1rhH"
+                      test="&#34;$(select_none)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1rhI"
+                           procedure="do_click.subset_tool.check_box_select_none"/>
+          </IfSequence>
+          <ProcedureCall id="_1rhD"
+                         procedure="check.subset_tool.checked.select_none_selection">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1rgM" name="select_all">
+          <comment>@teststep Check in 'Select all'.</comment>
+          <ProcedureCall id="_1rh9"
+                         procedure="check.subset_tool.checked.select_all"/>
+          <IfSequence id="_1rhJ"
+                      test="&#34;$(select_all)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1rhK"
+                           procedure="do_click.subset_tool.check_box_select_all"/>
+          </IfSequence>
+          <ProcedureCall id="_1rhE"
+                         procedure="check.subset_tool.checked.select_all_selection">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
       </Package>
       <Package disabled="true" id="_6" name="uncertainty_visualisation">
         <Procedure id="_1l6w" name="less_options">

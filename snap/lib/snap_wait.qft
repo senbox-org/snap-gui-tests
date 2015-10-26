@@ -54,8 +54,11 @@
         <Package id="_1ozK" name="error">
           <Procedure id="_1pPD" name="dialog_Error">
             <ComponentWaiter client="$(client)"
-                             component="dialogError.buttonOK" errorlevel="0"
-                             id="_1pPI" raise="false" timeout="100"/>
+                             component="dialogError.buttonOK" disabled="true"
+                             errorlevel="0" id="_1pPI" raise="false"
+                             timeout="100"/>
+            <ComponentWaiter client="$(client)" component="dialogError"
+                             id="_1res" timeout="100"/>
             <IfSequence id="_1pPE" test="${qftest:windows}">
               <ElseifSequence id="_1pPF" name="MAC?"
                               test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -126,19 +129,33 @@
                              id="_1pP0"/>
           </Procedure>
           <Procedure id="_1lK4" name="import_product">
-            <IfSequence id="_1owC" test="${qftest:windows}">
-              <ProcedureCall id="_1rT1"
-                             procedure="wait.appear.dialog.open_product"/>
-              <ElseifSequence id="_1owD" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+            <TryStep id="_1rT6">
+              <IfSequence id="_1owC" test="${qftest:windows}">
                 <ComponentWaiter client="$(client)"
-                                 component="dialogOpen_Product" id="_1owg"/>
-              </ElseifSequence>
-              <ElseSequence id="_1owE">
-                <ComponentWaiter client="$(client)"
-                                 component="dialogOpen_Product" id="_1owh"/>
-              </ElseSequence>
-            </IfSequence>
+                                 component="dialogSNAP_-_Import_Product"
+                                 id="_1rT5"/>
+                <ElseifSequence id="_1owD" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                  <ComponentWaiter client="$(client)"
+                                   component="dialogOpen_Product" id="_1owg"/>
+                </ElseifSequence>
+                <ElseSequence id="_1owE">
+                  <ComponentWaiter client="$(client)"
+                                   component="dialogOpen_Product" id="_1owh"/>
+                </ElseSequence>
+              </IfSequence>
+              <SetGlobalStep id="_1rTD"
+                             varname="import_product_dialog_appears">
+                <default>true</default>
+              </SetGlobalStep>
+              <CatchSequence exception="TestException" id="_1rTE"
+                             maxerror="0">
+                <SetGlobalStep id="_1rTF"
+                               varname="import_product_dialog_appears">
+                  <default>false</default>
+                </SetGlobalStep>
+              </CatchSequence>
+            </TryStep>
           </Procedure>
           <Procedure id="_1mQJ" name="information">
             <ComponentWaiter client="$(client)" component="dialogInformation"
@@ -235,10 +252,6 @@
             <ComponentWaiter client="$(client)"
                              component="dialogWriting_Target_Product"
                              id="_1pP2"/>
-          </Procedure>
-          <Procedure id="_1qdk" name="new_pin">
-            <ComponentWaiter client="$(client)" component="New_Pin"
-                             id="_1rT0"/>
           </Procedure>
         </Package>
         <Procedure id="_1mho" name="snap_window">
@@ -343,13 +356,39 @@
         <comment>@teststep Wait if product appears.</comment>
         <ProcedureCall id="_1l52" procedure="check.product.not_opened"/>
         <IfSequence id="_1l53" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
-          <TryStep id="_9Z6">
-            <ComponentWaiter client="VISAT"
-                             component="NbMainWindow.Product_Explorer.tree"
-                             errorlevel="0" id="_9ZA" postdelay="2000"
-                             raise="false"/>
+          <TryStep disabled="true" id="_1rej" postdelay="500">
+            <ComponentWaiter client="$(client)"
+                             component="dialogLengthy_operation_in_progress"
+                             id="_1rem" raise="false"/>
+            <FetchTextStep client="$(client)"
+                           component="dialogLengthy_operation_in_progress.labelOpen_Product"
+                           id="_1ren" local="true" varname="label"/>
+            <IfSequence id="_1reo"
+                        test="&#34;$(label)&#34;==&#34;Open Product&#34;">
+              <ComponentWaiter absence="true" client="$(client)"
+                               component="dialogLengthy_operation_in_progress"
+                               id="_1rep" raise="false"/>
+            </IfSequence>
+            <CatchSequence exception="TestException" id="_1req" maxerror="0"/>
+          </TryStep>
+          <TryStep id="_9Z6" postdelay="500">
+            <ComponentWaiter client="$(client)"
+                             component="dialogReading_Product" id="_1reE"/>
+            <FetchTextStep client="$(client)"
+                           component="dialogReading_Product.labelPlease_wait_while_the_data_product_is_being_read..."
+                           id="_1rel" local="true" varname="label"/>
+            <IfSequence id="_1rde"
+                        test="&#34;$(label)&#34;==&#34;Please wait while the data product is being read...&#34;">
+              <ComponentWaiter absence="true" client="$(client)"
+                               component="dialogReading_Product" id="_1rer"
+                               timeout="15000000"/>
+            </IfSequence>
             <CatchSequence exception="TestException" id="_9Z8" maxerror="0"/>
           </TryStep>
+        </IfSequence>
+        <ProcedureCall id="_1rdg" procedure="check.product.not_opened"/>
+        <IfSequence id="_1rdh" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
+          <TestStep id="_1rdo" name="wait" postdelay="1000"/>
         </IfSequence>
       </Procedure>
     </Package>

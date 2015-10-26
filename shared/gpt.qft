@@ -545,13 +545,14 @@
         </ProcedureCall>
         <IfSequence id="_1qXH"
                     test="&#34;$(fileExists)&#34;==&#34;False&#34;">
+          <TestStep id="_1qZi" name="wait" postdelay="5000"/>
           <ProcedureCall id="_1qZZ"
                          procedure="check_external_file.file_exists_setGlobal">
             <variable name="fileName">$(outfile)</variable>
           </ProcedureCall>
           <IfSequence id="_1qZa"
                       test="&#34;$(fileExists)&#34;==&#34;False&#34;">
-            <TestStep id="_1qZb" name="wait" postdelay="5000"/>
+            <TestStep id="_1qZb" name="wait" postdelay="6000"/>
           </IfSequence>
           <ProcedureCall id="_1qZg"
                          procedure="check_external_file.file_exists_setGlobal">
@@ -559,7 +560,7 @@
           </ProcedureCall>
           <IfSequence id="_1qZh"
                       test="&#34;$(fileExists)&#34;==&#34;False&#34;">
-            <TestStep id="_1qXI" name="wait" postdelay="5000">
+            <TestStep id="_1qXI" name="wait" postdelay="12000">
               <ProcedureCall id="_1qXJ"
                              procedure="utils.waiting_for_processierung_else_terminate_process">
                 <variable name="client_name">$(gpt_client_name)</variable>
@@ -754,7 +755,7 @@ $(gpt_commando)</comment>
         <ServerScriptStep disabled="true" id="_1qWM" name="print">
           <code>print "$(gpt_commando)"  </code>
         </ServerScriptStep>
-        <ProcedureCall id="_1qWN" postdelay="1000"
+        <ProcedureCall id="_1qWN" postdelay="2000"
                        procedure="run-log.log_client_output">
           <variable name="client_name">$(gpt_client_name)</variable>
         </ProcedureCall>
