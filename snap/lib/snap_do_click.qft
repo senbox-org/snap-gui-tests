@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.4">
+<RootStep id="_0" name="root" version="4.0.7">
   <include>qfs.qft</include>
   <include>snap_components.qft</include>
   <include>snap_main.qft</include>
@@ -4657,7 +4657,7 @@
               </ElseifSequence>
               <ElseSequence id="_1ofV">
                 <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.menuItemClose_All_Products"
+                                component="menuItemClose_All_Products"
                                 event="MOUSE_MPRC" id="_1oqC" modifiers="16"/>
               </ElseSequence>
             </IfSequence>
@@ -6532,7 +6532,7 @@
                 </ElseifSequence>
                 <ElseSequence id="_1quv">
                   <MouseEventStep clicks="1" client="$(client)"
-                                  component="NbMainWindow.menuItemPin_Manager2"
+                                  component="menuItemPin_Manager"
                                   event="MOUSE_MPRC" id="_1qv-"
                                   modifiers="16"/>
                 </ElseSequence>
@@ -7957,14 +7957,32 @@
           </IfSequence>
         </Procedure>
         <Procedure id="_1rhH" name="import_product">
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="dialogSNAP_-_Import_Product.buttonImport_Product"
-                          event="MOUSE_MPRC" id="_1rhI" modifiers="16"/>
+          <IfSequence id="_1rh-" test="${qftest:windows}">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogSNAP_-_Import_Product.buttonImport_Product"
+                            event="MOUSE_MPRC" id="_1rhI" modifiers="16"/>
+            <ElseifSequence id="_1ri0" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+            <ElseSequence id="_1ri1">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="buttonImport_Product"
+                              event="MOUSE_MPRC" id="_1ri2" modifiers="16"/>
+            </ElseSequence>
+          </IfSequence>
         </Procedure>
         <Procedure id="_1rhJ" name="subset">
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="dialogSNAP_-_Import_Product.buttonSubset..."
-                          event="MOUSE_MPRC" id="_1rhL" modifiers="16"/>
+          <IfSequence id="_1ri3" test="${qftest:windows}">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogSNAP_-_Import_Product.buttonSubset..."
+                            event="MOUSE_MPRC" id="_1rhL" modifiers="16"/>
+            <ElseifSequence id="_1ri4" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+            <ElseSequence id="_1ri5">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="buttonSubset..." event="MOUSE_MPRC"
+                              id="_1ri6" modifiers="16"/>
+            </ElseSequence>
+          </IfSequence>
         </Procedure>
       </Package>
       <Package id="_1pnQ" name="point_data_interpretation_dialog">
@@ -8023,13 +8041,17 @@
         <Procedure id="_1l3d" name="button_No">
           <comment>@teststep Click 'NO' button in the dialog 'Product gas been modified. Do you want to save it?'</comment>
           <IfSequence id="_1omA" test="${qftest:windows}">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogSNAP_-_Open_Product.buttonNo"
+                            event="MOUSE_MPRC" id="_1l9w" modifiers="16"/>
             <ElseifSequence id="_1omB" name="MAC?"
                             test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-            <ElseSequence id="_1omC"/>
+            <ElseSequence id="_1omC">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="dialogSNAP_-_Open_Product2.buttonNo"
+                              event="MOUSE_MPRC" id="_1riB" modifiers="16"/>
+            </ElseSequence>
           </IfSequence>
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="dialogSNAP_-_Open_Product.buttonNo"
-                          event="MOUSE_MPRC" id="_1l9w" modifiers="16"/>
         </Procedure>
         <Procedure id="_1l0O" name="button_Yes">
           <comment>@teststep Click 'Yes' button in the dialog 'Product gas been modified. Do you want to save it?'</comment>
@@ -8148,9 +8170,18 @@
         </Procedure>
         <Procedure id="_1rgY" name="check_box_band">
           <variable name="band_name"/>
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="dialogSpecify_Product_Subset.checkBand"
-                          event="MOUSE_MPRC" id="_1rZV" modifiers="16"/>
+          <IfSequence id="_1ri7" test="${qftest:windows}">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogSpecify_Product_Subset.checkBand"
+                            event="MOUSE_MPRC" id="_1rZV" modifiers="16"/>
+            <ElseifSequence id="_1ri8" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+            <ElseSequence id="_1ri9">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="check_band" event="MOUSE_MPRC"
+                              id="_1riF" modifiers="16"/>
+            </ElseSequence>
+          </IfSequence>
         </Procedure>
         <Package id="_1rhN" name="incomplete_subset_definition">
           <Procedure id="_1rhr"

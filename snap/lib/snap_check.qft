@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.4">
+<RootStep id="_0" name="root" version="4.0.7">
   <include>qfs.qft</include>
   <include>snap_main.qft</include>
   <include>snap_components.qft</include>
@@ -2975,15 +2975,33 @@ dialog.label_statistic_txt</comment>
         <Procedure id="_1k-k" name="visible">
           <variable name="visible"/>
           <comment>@teststep Check image view is visible.</comment>
-          <CheckBooleanStep checktype="visible" client="$(client)"
-                            component="NbMainWindow.Tab_Displayer" id="_1mhg"
-                            state="$(visible)"/>
+          <IfSequence id="_1rj2" test="${qftest:windows}">
+            <CheckBooleanStep checktype="visible" client="$(client)"
+                              component="NbMainWindow.Tab_Displayer"
+                              id="_1mhg" state="$(visible)"/>
+            <ElseifSequence id="_1rj4" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+            <ElseSequence id="_1rj5">
+              <CheckBooleanStep checktype="visible" client="$(client)"
+                                component="Tab_Displayer2" id="_1rj7"
+                                state="$(visible)"/>
+            </ElseSequence>
+          </IfSequence>
         </Procedure>
         <Procedure id="_1oWJ" name="button_maximize_window_visible">
           <comment>@teststep Check button 'Maximize Window' is visible.</comment>
-          <CheckBooleanStep checktype="visible" client="$(client)"
-                            component="NbMainWindow.buttonTipMaximize_Window"
-                            id="_1riv" resvarname="image_window_appears"/>
+          <IfSequence id="_1riw" test="${qftest:windows}">
+            <CheckBooleanStep checktype="visible" client="$(client)"
+                              component="NbMainWindow.buttonTipMaximize_Window"
+                              id="_1riv" resvarname="image_window_appears"/>
+            <ElseifSequence id="_1riy" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+            <ElseSequence id="_1ri+">
+              <CheckBooleanStep checktype="visible" client="$(client)"
+                                component="buttonTipMaximize_Window"
+                                id="_1rj1" resvarname="image_window_appears"/>
+            </ElseSequence>
+          </IfSequence>
         </Procedure>
         <Procedure id="_1riu" name="button_maximize_window_visible_status">
           <variable name="visible"/>

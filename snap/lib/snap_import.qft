@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.4">
+<RootStep id="_0" name="root" version="4.0.7">
   <include>qfs.qft</include>
   <include>snap_components.qft</include>
   <include>snap_main.qft</include>
@@ -56,10 +56,10 @@
             <variable name="end_x">400</variable>
             <variable name="end_y">400</variable>
           </ProcedureCall>
-          <ProcedureCall id="_1rYJ" procedure="subset.define_band_subset">
+          <ProcedureCall id="_1rlb" procedure="subset.define_band_subset">
             <variable name="band_name">$(bandName)</variable>
           </ProcedureCall>
-          <ProcedureCall id="_1rWv"
+          <ProcedureCall id="_1rlc"
                          procedure="do_click.subset_tool.button_OK"/>
           <ProcedureCall id="_1rYA"
                          procedure="subset.handle_incomplete_subset_definition_dialog"/>
@@ -409,7 +409,7 @@
             </ElseifSequence>
             <ElseSequence id="_1rM3">
               <TextInputStep clear="true" client="$(client)"
-                             component="textSelection:" id="_1rM4">
+                             component="textSelection:7" id="_1rlW">
                 <text>$(input_file)</text>
                 <comment>@teststep Select $(input_file).</comment>
               </TextInputStep>
@@ -564,9 +564,18 @@
           <SetGlobalStep id="_1rjT" varname="file_found">
             <default>true</default>
           </SetGlobalStep>
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="dialogSNAP_-_Import_Product.listFile_name"
-                          event="MOUSE_MPRC" id="_1rjF" modifiers="16"/>
+          <IfSequence id="_1rlX" test="${qftest:windows}">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogSNAP_-_Import_Product.listFile_name"
+                            event="MOUSE_MPRC" id="_1rjF" modifiers="16"/>
+            <ElseifSequence id="_1rlY" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+            <ElseSequence id="_1rlZ">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="listFiles@$(fileName)"
+                              event="MOUSE_MPRC" id="_1rfj" modifiers="16"/>
+            </ElseSequence>
+          </IfSequence>
           <SetGlobalStep id="_1rjV" varname="file_found">
             <default>true</default>
           </SetGlobalStep>
@@ -735,6 +744,11 @@
     </Package>
   </PackageRoot>
   <ExtraSequence id="_4">
+    <IfSequence id="_1op7" test="${qftest:windows}">
+      <ElseifSequence id="_1op8" name="MAC?"
+                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+      <ElseSequence id="_1op9"/>
+    </IfSequence>
     <ProcedureCall id="_1oXV" procedure="check.product.not_opened"/>
     <IfSequence id="_1oXW" test="&#34;$(not_opened)&#34;==&#34;false&#34;">
       <TestStep id="_1o+2" name="delete_band">

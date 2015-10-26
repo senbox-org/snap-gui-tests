@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.4">
+<RootStep id="_0" name="root" version="4.0.7">
   <include>qfs.qft</include>
   <include>shared_lib.qft</include>
   <include>gpt.qft</include>
@@ -461,12 +461,18 @@ rc.setGlobal("smos", var1[:3])
                                     resourcename="attribut"/>
                 <ElseifSequence id="_1o-3" name="MAC?"
                                 test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                  <LoadPropertiesStep id="_1o-5"
+                  <LoadPropertiesStep id="_1q6J"
+                                      propertyfile="properties/product_attributes.properties"
+                                      resourcename="attribut"/>
+                  <LoadPropertiesStep disabled="true" id="_1q6K"
                                       propertyfile="properties/product_attributes_lin.properties"
                                       resourcename="attribut"/>
                 </ElseifSequence>
                 <ElseSequence id="_1o-4">
                   <LoadPropertiesStep id="_1o-6"
+                                      propertyfile="properties/product_attributes.properties"
+                                      resourcename="attribut"/>
+                  <LoadPropertiesStep disabled="true" id="_1q6I"
                                       propertyfile="properties/product_attributes_lin.properties"
                                       resourcename="attribut"/>
                 </ElseSequence>
