@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.4">
+<RootStep id="_0" name="root" version="4.0.11">
   <include>qfs.qft</include>
   <include>snap_check.qft</include>
   <include>snap_components.qft</include>
@@ -1221,9 +1221,59 @@
             <MouseEventStep clicks="1" client="$(client)"
                             component="dialog.roiMask" event="MOUSE_MPRC"
                             id="_1rNq" modifiers="16" x="28" y="13"/>
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="dialog.listInvokerName:_roiMask.scatter_plot_mask"
-                            event="MOUSE_MPRC" id="_1rNr" modifiers="16"/>
+            <IfSequence id="_58D" test="${qftest:windows}">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="dialog.listInvokerName:_roiMask.scatter_plot_mask"
+                              event="MOUSE_MPRC" id="_1rNr" modifiers="16"/>
+              <ElseifSequence id="_1l3m" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+              <ElseSequence id="_58I">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="roiMask" event="MOUSE_MPRC"
+                                id="_1riP" modifiers="16" x="28" y="12"/>
+                <CheckStringStep checktype="value" client="$(client)"
+                                 component="roiMask" id="_1riO">
+                  <text>coastline</text>
+                </CheckStringStep>
+                <BasicSequence id="_1riM" name="Aufnahme 20.07.16 14:54">
+                  <CheckBooleanStep checktype="checked" client="$(client)"
+                                    component="useRoiMask" id="_1riN"
+                                    state="false"/>
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="roiMask" event="MOUSE_MPRC"
+                                  id="_1riQ" modifiers="16" x="41" y="10"/>
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="useRoiMask" event="MOUSE_MPRC"
+                                  id="_1riR" modifiers="16"/>
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="roiMask" event="MOUSE_MPRC"
+                                  id="_1riS" modifiers="16" x="22" y="10"/>
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="listInvokerName:_roiMask@land"
+                                  event="MOUSE_MPRC" id="_1riT"
+                                  modifiers="16"/>
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="boxSize.textBox_size:"
+                                  event="MOUSE_MPRC" id="_1riU" modifiers="16"
+                                  x="28" y="10"/>
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="pointDataSource"
+                                  event="MOUSE_MPRC" id="_1riV" modifiers="16"
+                                  x="48" y="13"/>
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="listInvokerName:_pointDataSource@ground_control_points"
+                                  event="MOUSE_MPRC" id="_1riW"
+                                  modifiers="16"/>
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="dataField" event="MOUSE_MPRC"
+                                  id="_1riX" modifiers="16" x="32" y="4"/>
+                  <MouseEventStep clicks="1" client="$(client)"
+                                  component="listInvokerName:_dataField&amp;0"
+                                  event="MOUSE_MPRC" id="_1riY"
+                                  modifiers="16"/>
+                </BasicSequence>
+              </ElseSequence>
+            </IfSequence>
           </Procedure>
           <Procedure id="_1rNv" name="x_product">
             <variable name="x_product"/>

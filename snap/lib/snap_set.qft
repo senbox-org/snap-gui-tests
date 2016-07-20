@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.4">
+<RootStep id="_0" name="root" version="4.0.11">
   <include>qfs.qft</include>
   <include>snap_components.qft</include>
   <include>snap_main.qft</include>
@@ -270,8 +270,34 @@
           </IfSequence>
         </Procedure>
       </Package>
-      <Package disabled="true" id="_1lBQ" name="import_dialog">
-        <Procedure id="_1lBO" name="file_name">
+      <Package id="_1lBQ" name="import_dialog">
+        <Package id="_1riw" name="csv_data_file">
+          <Procedure id="_1ri-" name="file_name">
+            <variable name="csv_file_with_path"/>
+            <comment>@teststep Insert file name.</comment>
+            <IfSequence id="_1rll" test="${qftest:windows}">
+              <TextInputStep clear="true" client="$(client)"
+                             component="dialogImport_CSV_file.textFile_name:"
+                             id="_1pfW">
+                <text>$(csv_file_with_path)</text>
+              </TextInputStep>
+              <ElseifSequence id="_1rlm" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+                <TextInputStep clear="true" client="$(client)"
+                               component="textSelection:8" id="_1rl-">
+                  <text>$(csv_file_with_path)</text>
+                </TextInputStep>
+              </ElseifSequence>
+              <ElseSequence id="_1rln">
+                <TextInputStep clear="true" client="$(client)"
+                               component="textSelection:8" id="_1rlz">
+                  <text>$(csv_file_with_path)</text>
+                </TextInputStep>
+              </ElseSequence>
+            </IfSequence>
+          </Procedure>
+        </Package>
+        <Procedure disabled="true" id="_1lBO" name="file_name">
           <ProcedureCall id="_1orz"
                          procedure="path.source_data_with_absolute_path"/>
           <IfSequence id="_1or+" test="${qftest:windows}">

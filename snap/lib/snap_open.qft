@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.4">
+<RootStep id="_0" name="root" version="4.0.11">
   <include>qfs.qft</include>
   <include>snap_components.qft</include>
   <include>snap_main.qft</include>
@@ -1572,11 +1572,21 @@ rc.setGlobal("zip_file", string.find("$(prod)", ".zip"))</code>
               </TextInputStep>
             </ElseifSequence>
             <ElseSequence id="_1rM3">
-              <TextInputStep clear="true" client="$(client)"
-                             component="textSelection:" id="_1rM4">
-                <text>$(input_file)</text>
-                <comment>@teststep Select $(input_file).</comment>
-              </TextInputStep>
+              <TryStep id="_1rhu">
+                <TextInputStep clear="true" client="$(client)"
+                               component="textSelection:9" id="_1rhw">
+                  <text>$(input_file)</text>
+                  <comment>@teststep Select $(input_file).</comment>
+                </TextInputStep>
+                <CatchSequence exception="TestException" id="_1rhv"
+                               maxerror="0">
+                  <TextInputStep clear="true" client="$(client)"
+                                 component="textSelection:" id="_1rM4">
+                    <text>$(input_file)</text>
+                    <comment>@teststep Select $(input_file).</comment>
+                  </TextInputStep>
+                </CatchSequence>
+              </TryStep>
             </ElseSequence>
           </IfSequence>
           <ServerScriptStep disabled="true" id="_1rM6" name="print">

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.7">
+<RootStep id="_0" name="root" version="4.0.11">
   <include>qfs.qft</include>
   <include>snap_components.qft</include>
   <include>snap_main.qft</include>
@@ -124,17 +124,15 @@
                        postdelay="1000">
                 <ProcedureCall id="_1pnl"
                                procedure="check.opened.import_CSV_file_window"/>
-                <SetGlobalStep id="_1p44" varname="csv_file_with_path">
+                <SetGlobalStep id="_1rlk" varname="csvfile">
                   <default>${path:csv_file_dir}$(csv_file).txt</default>
                 </SetGlobalStep>
-                <TextInputStep clear="true" client="$(client)"
-                               component="dialogImport_CSV_file.textFile_name:"
-                               id="_1pfW">
-                  <text>$(csv_file_with_path)</text>
-                </TextInputStep>
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="dialogImport_CSV_file.buttonOpen"
-                                event="MOUSE_MPRC" id="_1pfX" modifiers="16"/>
+                <ProcedureCall id="_1rlh"
+                               procedure="set.import_dialog.csv_data_file.file_name">
+                  <variable name="csv_file_with_path">$(csvfile)</variable>
+                </ProcedureCall>
+                <ProcedureCall id="_1rlg"
+                               procedure="do_click.import_CSV_data_file.button_open"/>
                 <CatchSequence exception="TestException" id="_1pnn"
                                maxerror="0">
                   <ProcedureCall id="_1pno"
