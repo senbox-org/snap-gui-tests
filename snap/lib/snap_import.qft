@@ -17,27 +17,44 @@
                        procedure="utility.open_import_product_window"/>
         <IfSequence id="_1qcy"
                     test="&#34;$(import_product_dialog_appears)&#34;==&#34;true&#34;">
-          <ProcedureCall id="_1rZR"
-                         procedure="utility.fill_in_import_product_dialog">
-            <variable name="prod_dir">$(dataInDir)</variable>
-            <variable name="in_out">in</variable>
-            <variable name="prod">$(fileName)</variable>
-            <variable name="product_type">$(import_data)</variable>
-          </ProcedureCall>
+          <IfSequence id="_1rll"
+                      test="&#34;$(prod_reader_type)&#34;==&#34;meris_l2_sen3&#34; or &#34;$(prod_reader_type)&#34;==&#34;meris_l1_sen3&#34;">
+            <ProcedureCall id="_1rlm"
+                           procedure="utility.fill_in_import_product_dialog">
+              <variable name="prod_dir">$(dataInDir)</variable>
+              <variable name="in_out">in</variable>
+              <variable name="prod">$(fileName)${path:slash}xfdumanifest.xml</variable>
+              <variable name="product_type">$(import_data)</variable>
+            </ProcedureCall>
+            <ElseSequence id="_1rln">
+              <ProcedureCall id="_1rlo"
+                             procedure="utility.fill_in_import_product_dialog">
+                <variable name="prod_dir">$(dataInDir)</variable>
+                <variable name="in_out">in</variable>
+                <variable name="prod">$(fileName)</variable>
+                <variable name="product_type">$(import_data)</variable>
+              </ProcedureCall>
+            </ElseSequence>
+          </IfSequence>
           <ProcedureCall id="_1rUj"
                          procedure="do_click.import_product_dialog.import_product"/>
-          <ServerScriptStep disabled="true" id="_1r4v" name="print">
-            <code>print "$(input_file)"</code>
-            <comment> </comment>
-          </ServerScriptStep>
+          <ProcedureCall id="_1rle"
+                         procedure="wait.disappear.reading_product_progress_monitor"/>
+          <ProcedureCall id="_1rld"
+                         procedure="utility.handle_SNAP_Limited_Functionality_dialog"/>
+          <ProcedureCall id="_1rlp"
+                         procedure="utility.handle_multiple_readers_dialog_default"/>
           <ElseSequence id="_1rUd">
             <ProcedureCall id="_1puB"
                            procedure="run-log.error_message.dialog_Import_Product_does_not_appear"/>
           </ElseSequence>
         </IfSequence>
+        <ProcedureCall id="_1rxG" procedure="wait.product_is_opened"/>
         <ProcedureCall id="_1riu"
                        procedure="check.check_if_product_is_opened">
-          <variable name="fileName">$(fileName)</variable>
+          <variable name="fileName">$(productName)</variable>
+          <variable name="fileName_bkp">$(fileName)</variable>
+          <comment>productNam</comment>
         </ProcedureCall>
         <ProcedureCall id="_1rZT" procedure="utility.possible_import_errors"/>
       </Procedure>
@@ -63,7 +80,9 @@
                          procedure="do_click.subset_tool.button_OK"/>
           <ProcedureCall id="_1rYA"
                          procedure="subset.handle_incomplete_subset_definition_dialog"/>
-          <ProcedureCall id="_1rYR"
+          <ProcedureCall id="_1rli"
+                         procedure="utility.handle_SNAP_Limited_Functionality_dialog"/>
+          <ProcedureCall id="_1rlj"
                          procedure="utility.possible_import_errors"/>
         </IfSequence>
       </Procedure>
@@ -94,6 +113,8 @@
                            procedure="run-log.error_message.dialog_Import_Product_does_not_appear"/>
           </ElseSequence>
         </IfSequence>
+        <ProcedureCall id="_1rlk"
+                       procedure="utility.handle_SNAP_Limited_Functionality_dialog"/>
         <ProcedureCall id="_1rZP" procedure="utility.possible_import_errors"/>
       </Procedure>
       <Package id="_1pkI" name="vector_data">
@@ -124,15 +145,17 @@
                        postdelay="1000">
                 <ProcedureCall id="_1pnl"
                                procedure="check.opened.import_CSV_file_window"/>
-                <SetGlobalStep id="_1rlk" varname="csvfile">
+                <SetGlobalStep id="_1p44" varname="csv_file_with_path">
                   <default>${path:csv_file_dir}$(csv_file).txt</default>
                 </SetGlobalStep>
-                <ProcedureCall id="_1rlh"
-                               procedure="set.import_dialog.csv_data_file.file_name">
-                  <variable name="csv_file_with_path">$(csvfile)</variable>
-                </ProcedureCall>
-                <ProcedureCall id="_1rlg"
-                               procedure="do_click.import_CSV_data_file.button_open"/>
+                <TextInputStep clear="true" client="$(client)"
+                               component="dialogImport_CSV_file.textFile_name:"
+                               id="_1pfW">
+                  <text>$(csv_file_with_path)</text>
+                </TextInputStep>
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="dialogImport_CSV_file.buttonOpen"
+                                event="MOUSE_MPRC" id="_1pfX" modifiers="16"/>
                 <CatchSequence exception="TestException" id="_1pnn"
                                maxerror="0">
                   <ProcedureCall id="_1pno"
@@ -229,6 +252,9 @@
     <Package id="_1oRH" name="utility">
       <Procedure id="_1rVS" name="open_import_product_window">
         <comment>@teststep Open 'Import Product' window.</comment>
+        <SetGlobalStep id="_1rTF" varname="import_product_dialog_appears">
+          <default>false</default>
+        </SetGlobalStep>
         <ProcedureCall id="_1rVT" procedure="check.product.not_opened"/>
         <IfSequence id="_1rVU"
                     test="&#34;$(not_opened)&#34;==&#34;false&#34;">
@@ -357,17 +383,25 @@
           <SetGlobalStep id="_1rji" varname="subset_tool_window_appears">
             <default>true</default>
           </SetGlobalStep>
+          <ProcedureCall id="_1rlh" procedure="variables.multi_size">
+            <variable name="multi_size">false</variable>
+          </ProcedureCall>
           <CatchSequence exception="TestException" id="_1rj6" maxerror="0">
             <SetGlobalStep id="_1rjj" varname="subset_tool_window_appears">
               <default>false</default>
             </SetGlobalStep>
-            <ProcedureCall id="_1rj7" procedure="run-log.make_screensot">
-              <variable name="iw_name">import_product_window</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1rj8" procedure="run-log.logError">
-              <variable name="message">Subset button is disabled</variable>
-              <variable name="withScreenshots"/>
-            </ProcedureCall>
+            <ProcedureCall id="_1rlg"
+                           procedure="subset.handle_multi_size_warning"/>
+            <IfSequence id="_1rjX"
+                        test="&#34;$(multi_size)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1rj7" procedure="run-log.make_screensot">
+                <variable name="iw_name">import_product_window</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1rj8" procedure="run-log.logError">
+                <variable name="message">Subset button is disabled</variable>
+                <variable name="withScreenshots"/>
+              </ProcedureCall>
+            </IfSequence>
             <ProcedureCall id="_1rj9"
                            procedure="do_click.import_product_dialog.cancel"/>
           </CatchSequence>
@@ -431,8 +465,11 @@
             <variable name="prod">$(fileName)</variable>
             <variable name="product_type">$(import_data)</variable>
           </ProcedureCall>
-          <ProcedureCall id="_1rjD"
+          <Test id="_1rlq" name="s"/>
+          <ProcedureCall id="_1rlr"
                          procedure="utility.select_file_in_the_dialog_SNAP_Import_Product"/>
+          <Test id="_1rls" name="s"/>
+          <Test id="_1rlt" name="s"/>
           <IfSequence id="_1rjW"
                       test="&#34;$(file_found)&#34;==&#34;false&#34;">
             <ProcedureCall id="_1rih"
@@ -480,7 +517,7 @@
             <variable name="iw_name_example">error_dialog</variable>
           </ProcedureCall>
           <ProcedureCall id="_1rYO"
-                         procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
+                         procedure="do_click.error_dialog.dialog_SNAP_SNAP_Error.button_OK"/>
           <ProcedureCall id="_1rYP" procedure="run-log.logError">
             <variable name="message">Error while import $(dataInDir)/$(fileName)</variable>
             <variable name="withScreenshots">false</variable>
@@ -558,31 +595,63 @@
       </Procedure>
       <Procedure id="_1rjC"
                  name="select_file_in_the_dialog_SNAP_Import_Product">
+        <TestStep id="_1rxE" name="set_variables">
+          <IfSequence id="_1rlX" test="${qftest:windows}">
+            <SetGlobalStep id="_1rxD" local="true" varname="id">
+              <default>dialogSNAP_-_Import_Product.tableFile_name:</default>
+            </SetGlobalStep>
+            <ElseifSequence id="_1rlY" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+            <ElseSequence id="_1rlZ"/>
+          </IfSequence>
+        </TestStep>
+        <SetGlobalStep id="_1rx4" local="true" varname="columnSeparator">
+          <default>@</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1rx5" local="true" varname="rowSeparator">
+          <default>@</default>
+          <comment>	Name
+row	ASA_IMM_1_test.N1</comment>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1rx6" local="true" varname="column">
+          <default>Name</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1rx7" local="true" varname="row">
+          <default>$(fileName)</default>
+        </SetGlobalStep>
         <TryStep id="_1rjE" name="select_file">
           <SetGlobalStep id="_1rjT" varname="file_found">
             <default>true</default>
           </SetGlobalStep>
-          <IfSequence id="_1rlX" test="${qftest:windows}">
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="dialogSNAP_-_Import_Product.listFile_name"
-                            event="MOUSE_MPRC" id="_1rjF" modifiers="16"/>
-            <ElseifSequence id="_1rlY" name="MAC?"
-                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-            <ElseSequence id="_1rlZ">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="listFiles@$(fileName)"
-                              event="MOUSE_MPRC" id="_1rfj" modifiers="16"/>
-            </ElseSequence>
-          </IfSequence>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="$(id)$(columnSeparator)$(column)$(rowSeparator)$(row)"
+                          event="MOUSE_MPRC" id="_4ot" modifiers="16"/>
           <SetGlobalStep id="_1rjV" varname="file_found">
             <default>true</default>
           </SetGlobalStep>
           <CatchSequence exception="TestException" id="_1rjG" maxerror="0">
-            <SetGlobalStep id="_1rjU" varname="file_found">
-              <default>false</default>
-            </SetGlobalStep>
+            <TryStep id="_1ryv" name="select_file">
+              <SetGlobalStep id="_1ryw" varname="file_found">
+                <default>true</default>
+              </SetGlobalStep>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="dialogSNAP_-_Import_Product.listFile_name"
+                              event="MOUSE_MPRC" id="_1ry-" modifiers="16"/>
+              <SetGlobalStep id="_1ryy" varname="file_found">
+                <default>true</default>
+              </SetGlobalStep>
+              <CatchSequence exception="TestException" id="_1ryz"
+                             maxerror="0">
+                <SetGlobalStep id="_1ry+" varname="file_found">
+                  <default>false</default>
+                </SetGlobalStep>
+              </CatchSequence>
+            </TryStep>
           </CatchSequence>
         </TryStep>
+        <ServerScriptStep disabled="true" id="_1l5A" name="print">
+          <code>print "file_found = $(file_found)"</code>
+        </ServerScriptStep>
       </Procedure>
       <Package id="_1oZk" name="raster_data">
         <Package id="_1rSV" name="optical_sensors">
@@ -742,6 +811,10 @@
     </Package>
   </PackageRoot>
   <ExtraSequence id="_4">
+    <ServerScriptStep disabled="true" id="_1r4v" name="print">
+      <code>print "$(input_file)"</code>
+      <comment> </comment>
+    </ServerScriptStep>
     <IfSequence id="_1op7" test="${qftest:windows}">
       <ElseifSequence id="_1op8" name="MAC?"
                       test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -934,7 +1007,7 @@
           <variable name="iw_name_example">error_dialog</variable>
         </ProcedureCall>
         <ProcedureCall id="_1rWb"
-                       procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
+                       procedure="do_click.error_dialog.dialog_SNAP_SNAP_Error.button_OK"/>
         <ProcedureCall id="_1rWc" procedure="run-log.logError">
           <variable name="message">Error while import $(dataInDir)/$(fileName)</variable>
           <variable name="withScreenshots">false</variable>

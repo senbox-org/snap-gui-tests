@@ -1,0 +1,994 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.11">
+  <include>qfs.qft</include>
+  <include>../../lib/snap_components.qft</include>
+  <include>processing_main.qft</include>
+  <include>../../lib/snap_main.qft</include>
+  <include>../../../shared/shared_lib.qft</include>
+  <include>../../../shared/variables.qft</include>
+  <include>../../40_gpt/gpt_main.qft</include>
+  <dependency>../preprocessing/idepix/010_22_idepix_avhrr.qft</dependency>
+  <PackageRoot id="_3">
+    <Package id="_1rsV" name="idepix">
+      <Package id="_1rqr" name="open">
+        <Procedure id="_1ubd" name="avhrr">
+          <TryStep id="_1ubo">
+            <ProcedureCall id="_1ubp"
+                           procedure="idepix.open.select_idepix_menu_item"/>
+            <ProcedureCall id="_1ubq"
+                           procedure="do_click.menu.optical.preprocessing.masking.idepix.avhrr"/>
+            <CatchSequence exception="TestException" id="_1ubr" maxerror="0">
+              <TryStep id="_1ubs">
+                <ProcedureCall id="_1ubt"
+                               procedure="idepix.open.select_idepix_menu_item"/>
+                <ProcedureCall id="_1ubu"
+                               procedure="do_click.menu.optical.preprocessing.masking.idepix.avhrr"/>
+                <CatchSequence exception="TestException" id="_1ubv"
+                               maxerror="0">
+                  <ProcedureCall id="_1ud6"
+                                 procedure="idepix.check.meris_tool_opened"/>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1ubw" name="meris">
+          <TryStep id="_1uc5">
+            <ProcedureCall id="_1uc6"
+                           procedure="idepix.open.select_idepix_menu_item"/>
+            <ProcedureCall id="_1uby"
+                           procedure="do_click.menu.optical.preprocessing.masking.idepix.meris"/>
+            <ProcedureCall id="_1ud3"
+                           procedure="idepix.check.meris_tool_opened"/>
+            <CatchSequence exception="TestException" id="_1uc8" maxerror="0">
+              <TryStep id="_1uc9">
+                <ProcedureCall id="_1ucA"
+                               procedure="idepix.open.select_idepix_menu_item"/>
+                <ProcedureCall id="_1ucW"
+                               procedure="do_click.menu.optical.preprocessing.masking.idepix.meris"/>
+                <ProcedureCall id="_1ud4"
+                               procedure="idepix.check.meris_tool_opened"/>
+                <CatchSequence exception="TestException" id="_1ucC"
+                               maxerror="0">
+                  <ProcedureCall id="_1ud5" procedure="run-log.logError">
+                    <variable name="message">Idepix tool is not appear</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1ucD" name="sentinel3_olci">
+          <TryStep id="_1ucO">
+            <ProcedureCall id="_1ucP"
+                           procedure="idepix.open.select_idepix_menu_item"/>
+            <ProcedureCall id="_1ubz"
+                           procedure="do_click.menu.optical.preprocessing.masking.idepix.sentinel3_olci"/>
+            <ProcedureCall id="_1udH"
+                           procedure="idepix.check.sentinel3_olci_tool_opened"/>
+            <CatchSequence exception="TestException" id="_1ucR" maxerror="0">
+              <TryStep id="_1ucS">
+                <ProcedureCall id="_1ucT"
+                               procedure="idepix.open.select_idepix_menu_item"/>
+                <ProcedureCall id="_1ucy"
+                               procedure="do_click.menu.optical.preprocessing.masking.idepix.sentinel3_olci"/>
+                <ProcedureCall id="_1udI"
+                               procedure="idepix.check.sentinel3_olci_tool_opened"/>
+                <CatchSequence exception="TestException" id="_1ucV"
+                               maxerror="0">
+                  <ProcedureCall id="_1ud7"
+                                 procedure="idepix.check.meris_tool_opened"/>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1ucX" name="viirs">
+          <TryStep id="_1ucY">
+            <ProcedureCall id="_1ucZ"
+                           procedure="idepix.open.select_idepix_menu_item"/>
+            <ProcedureCall id="_1ub+"
+                           procedure="do_click.menu.optical.preprocessing.masking.idepix.viirs"/>
+            <ProcedureCall id="_1udL"
+                           procedure="idepix.check.viirs_tool_opened"/>
+            <CatchSequence exception="TestException" id="_1ucb" maxerror="0">
+              <TryStep id="_1ucc">
+                <ProcedureCall id="_1ucd"
+                               procedure="idepix.open.select_idepix_menu_item"/>
+                <ProcedureCall id="_1ucz"
+                               procedure="do_click.menu.optical.preprocessing.masking.idepix.viirs"/>
+                <ProcedureCall id="_1udM"
+                               procedure="idepix.check.viirs_tool_opened"/>
+                <CatchSequence exception="TestException" id="_1ucf"
+                               maxerror="0">
+                  <ProcedureCall id="_1ud8"
+                                 procedure="idepix.check.meris_tool_opened"/>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1rqu" name="landsat8">
+          <TryStep id="_1rrE">
+            <ProcedureCall id="_1ubK"
+                           procedure="idepix.open.select_idepix_menu_item"/>
+            <ProcedureCall id="_1rrI"
+                           procedure="do_click.menu.optical.preprocessing.masking.idepix.landsat8"/>
+            <ProcedureCall id="_1udN"
+                           procedure="idepix.check.landsat8_tool_opened"/>
+            <CatchSequence exception="TestException" id="_1rrJ" maxerror="0">
+              <TryStep id="_1rrK">
+                <ProcedureCall id="_1ub9"
+                               procedure="idepix.open.select_idepix_menu_item"/>
+                <ProcedureCall id="_1rsM"
+                               procedure="do_click.menu.optical.preprocessing.masking.idepix.landsat8"/>
+                <ProcedureCall id="_1udO"
+                               procedure="idepix.check.landsat8_tool_opened"/>
+                <CatchSequence exception="TestException" id="_1rrP"
+                               maxerror="0">
+                  <ProcedureCall id="_1ud9"
+                                 procedure="idepix.check.meris_tool_opened"/>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1rqw" name="modis">
+          <TryStep id="_1rrQ">
+            <ProcedureCall id="_1ub8"
+                           procedure="idepix.open.select_idepix_menu_item"/>
+            <ProcedureCall id="_1rrU"
+                           procedure="do_click.menu.optical.preprocessing.masking.idepix.modis"/>
+            <ProcedureCall id="_1udP"
+                           procedure="idepix.check.modis_tool_opened"/>
+            <CatchSequence exception="TestException" id="_1rrV" maxerror="0">
+              <TryStep id="_1rrW">
+                <ProcedureCall id="_1ub7"
+                               procedure="idepix.open.select_idepix_menu_item"/>
+                <ProcedureCall id="_1rsN"
+                               procedure="do_click.menu.optical.preprocessing.masking.idepix.modis"/>
+                <ProcedureCall id="_1udQ"
+                               procedure="idepix.check.modis_tool_opened"/>
+                <CatchSequence exception="TestException" id="_1rrb"
+                               maxerror="0">
+                  <ProcedureCall id="_1udA"
+                                 procedure="idepix.check.meris_tool_opened"/>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1rqy" name="sentinel2">
+          <TryStep id="_1rrc">
+            <ProcedureCall id="_1ub6"
+                           procedure="idepix.open.select_idepix_menu_item"/>
+            <ProcedureCall id="_1rrg"
+                           procedure="do_click.menu.optical.preprocessing.masking.idepix.sentinel2"/>
+            <ProcedureCall id="_1udR"
+                           procedure="idepix.check.sentinel2_tool_opened"/>
+            <CatchSequence exception="TestException" id="_1rrh" maxerror="0">
+              <TryStep id="_1rri">
+                <ProcedureCall id="_1ub5"
+                               procedure="idepix.open.select_idepix_menu_item"/>
+                <ProcedureCall id="_1rsO"
+                               procedure="do_click.menu.optical.preprocessing.masking.idepix.sentinel2"/>
+                <ProcedureCall id="_1udS"
+                               procedure="idepix.check.sentinel2_tool_opened"/>
+                <CatchSequence exception="TestException" id="_1rrn"
+                               maxerror="0">
+                  <ProcedureCall id="_1udB"
+                                 procedure="idepix.check.meris_tool_opened"/>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1rq+" name="proba_V">
+          <TryStep id="_1rro">
+            <ProcedureCall id="_1ubN"
+                           procedure="idepix.open.select_idepix_menu_item"/>
+            <ProcedureCall id="_1rrs"
+                           procedure="do_click.menu.optical.preprocessing.masking.idepix.proba_V"/>
+            <ProcedureCall id="_1udX"
+                           procedure="idepix.check.proba_V_tool_opened"/>
+            <CatchSequence exception="TestException" id="_1rrt" maxerror="0">
+              <TryStep id="_1rru">
+                <ProcedureCall id="_1ubO"
+                               procedure="idepix.open.select_idepix_menu_item"/>
+                <ProcedureCall id="_1rsP"
+                               procedure="do_click.menu.optical.preprocessing.masking.idepix.proba_V"/>
+                <ProcedureCall id="_1udY"
+                               procedure="idepix.check.proba_V_tool_opened"/>
+                <CatchSequence exception="TestException" id="_1rrz"
+                               maxerror="0">
+                  <ProcedureCall id="_1udC"
+                                 procedure="idepix.check.meris_tool_opened"/>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1rr0" name="seaWiFS">
+          <TryStep id="_1rr+">
+            <ProcedureCall id="_1ubP"
+                           procedure="idepix.open.select_idepix_menu_item"/>
+            <ProcedureCall id="_1rs2"
+                           procedure="do_click.menu.optical.preprocessing.masking.idepix.seaWiFS"/>
+            <ProcedureCall id="_1uda"
+                           procedure="idepix.check.seaWiFS_tool_opened"/>
+            <CatchSequence exception="TestException" id="_1rs3" maxerror="0">
+              <TryStep id="_1rs4">
+                <ProcedureCall id="_1ubQ"
+                               procedure="idepix.open.select_idepix_menu_item"/>
+                <ProcedureCall id="_1rsQ"
+                               procedure="do_click.menu.optical.preprocessing.masking.idepix.seaWiFS"/>
+                <ProcedureCall id="_1udZ"
+                               procedure="idepix.check.seaWiFS_tool_opened"/>
+                <CatchSequence exception="TestException" id="_1rs9"
+                               maxerror="0">
+                  <ProcedureCall id="_1udD"
+                                 procedure="idepix.check.meris_tool_opened"/>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1roQ" name="vgt">
+          <TryStep id="_1rsA">
+            <ProcedureCall id="_1ubR"
+                           procedure="idepix.open.select_idepix_menu_item"/>
+            <ProcedureCall id="_1rsE"
+                           procedure="do_click.menu.optical.preprocessing.masking.idepix.vgt"/>
+            <ProcedureCall id="_1udb"
+                           procedure="idepix.check.vgt_tool_opened"/>
+            <CatchSequence exception="TestException" id="_1rsF" maxerror="0">
+              <TryStep id="_1rsG">
+                <ProcedureCall id="_1ubS"
+                               procedure="idepix.open.select_idepix_menu_item"/>
+                <ProcedureCall id="_1rsR"
+                               procedure="do_click.menu.optical.preprocessing.masking.idepix.vgt"/>
+                <ProcedureCall id="_1udc"
+                               procedure="idepix.check.vgt_tool_opened"/>
+                <CatchSequence exception="TestException" id="_1rsL"
+                               maxerror="0">
+                  <ProcedureCall id="_1udE"
+                                 procedure="idepix.check.meris_tool_opened"/>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1ub0" name="select_idepix_menu_item">
+          <ProcedureCall id="_1ub1" procedure="do_click.menu.optical"/>
+          <ProcedureCall id="_1ub2"
+                         procedure="do_click.menu.optical.preprocessing"/>
+          <ProcedureCall id="_1ub3"
+                         procedure="do_click.menu.optical.preprocessing.masking"/>
+          <ProcedureCall id="_1ub4"
+                         procedure="do_click.menu.optical.preprocessing.masking.idePix_pixel_classification"/>
+        </Procedure>
+      </Package>
+      <Package id="_1sVG" name="check">
+        <Procedure id="_1sVH" name="avhrr_tool_opened"/>
+        <Procedure id="_1uc+" name="meris_tool_opened">
+          <ComponentWaiter client="$(client)"
+                           component="dialogIdepix_(MERIS_mode)" id="_1ud2"
+                           timeout="20"/>
+        </Procedure>
+        <Procedure id="_1uc-" name="sentinel3_olci_tool_opened">
+          <ComponentWaiter client="$(client)"
+                           component="dialogIdepix_(Sentinel-3_OLCI_mode).menuFile"
+                           id="_1udG" timeout="20"/>
+        </Procedure>
+        <Procedure id="_1ud0" name="viirs_tool_opened">
+          <ComponentWaiter client="$(client)"
+                           component="dialogIdepix_(VIIRS_mode).menuFile"
+                           id="_1udK" timeout="20"/>
+        </Procedure>
+        <Procedure id="_1sVU" name="landsat8_tool_opened">
+          <ComponentWaiter client="$(client)"
+                           component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode)"
+                           id="_1sWl" timeout="20"/>
+        </Procedure>
+        <Procedure id="_1sVh" name="modis_tool_opened">
+          <ComponentWaiter client="$(client)"
+                           component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode)"
+                           id="_1sWk" timeout="20"/>
+        </Procedure>
+        <Procedure id="_1sVu" name="sentinel2_tool_opened">
+          <ComponentWaiter client="$(client)"
+                           component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode)"
+                           id="_1sWj" timeout="20"/>
+        </Procedure>
+        <Procedure id="_1sW5" name="proba_V_tool_opened">
+          <ComponentWaiter client="$(client)"
+                           component="dialogIdepix_(PROBA-V_mode)" id="_1udU"
+                           timeout="20"/>
+        </Procedure>
+        <Procedure id="_1sWI" name="seaWiFS_tool_opened">
+          <ComponentWaiter client="$(client)"
+                           component="dialogIdepix_(SeaWiFS_mode)" id="_1udV"
+                           timeout="20"/>
+        </Procedure>
+        <Procedure id="_1sWV" name="vgt_tool_opened">
+          <ComponentWaiter client="$(client)"
+                           component="dialogIdepix_(SPOT_VGT_mode)" id="_1udW"
+                           timeout="20"/>
+        </Procedure>
+        <Procedure id="_1uaw" name="target_product">
+          <variable name="product_id"/>
+          <comment>@teststep Check target product</comment>
+          <SetGlobalStep id="_1uax" varname="view_Id1">
+            <default>1</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1uay" varname="group_id1">
+            <default>0</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1uaz" varname="bandName">
+            <default>iop_apig</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1ua+"
+                         procedure="check.target_product.target_product_is_written_open_band_close_product">
+            <variable name="product_id">$(product_id)</variable>
+          </ProcedureCall>
+        </Procedure>
+      </Package>
+      <Package id="_1sWn" name="set">
+        <Procedure id="_1sWo" name="default_processing_parameters">
+          <SetGlobalStep id="_1sWp" varname="cloudBufferWidth_default">
+            <default>2</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1sWq" varname="cwThresh_default">
+            <default>0.01</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1sWr" varname="gclThresh_default">
+            <default>-0.11</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1sWs" varname="clThresh_default">
+            <default>0.01</default>
+          </SetGlobalStep>
+        </Procedure>
+        <Procedure id="_1sWt" name="processing_parameters">
+          <SetGlobalStep id="_1sWu" varname="cloudBufferWidth">
+            <default>3</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1sWv" varname="cwThresh">
+            <default>0.03</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1sWw" varname="gclThresh">
+            <default>-0.13</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1sWx" varname="clThresh">
+            <default>0.03</default>
+          </SetGlobalStep>
+        </Procedure>
+      </Package>
+    </Package>
+  </PackageRoot>
+  <ExtraSequence id="_4">
+    <BasicSequence id="_1sfa" name="meris">
+      <CheckStringStep checktype="item" client="$(client)"
+                       component="dialogIdepix_(MERIS_mode).tabbed.I/O_Parameters"
+                       id="_1sfb">
+        <text>I/O Parameters</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="item" client="$(client)"
+                       component="dialogIdepix_(MERIS_mode).tabbed.Processing_Parameters"
+                       id="_1sfc">
+        <text>Processing Parameters</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogIdepix_(MERIS_mode).panelI/O_Parameters.comboThe_MERIS_L1b_source_product."
+                       id="_1sfd"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(MERIS_mode).button..."
+                       id="_1sfe">
+        <text>...</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(MERIS_mode).productName"
+                       id="_1sff"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_(MERIS_mode).saveToFileSelected"
+                        id="_1sfg"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogIdepix_(MERIS_mode).formatName"
+                       id="_1sfh">
+        <text>BEAM-DIMAP</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(MERIS_mode).productDir"
+                       id="_1sfi">
+        <text>E:\testdata\out\tmp</text>
+      </CheckStringStep>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_(MERIS_mode).openInAppSelected"
+                        id="_1sfj"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_(MERIS_mode).tabbed.Processing_Parameters"
+                      event="MOUSE_MPRC" id="_1sfk" modifiers="16"/>
+      <CheckStringStep checktype="item" client="$(client)"
+                       component="dialogIdepix_(MERIS_mode).radianceBandsToCopy.radiance_4"
+                       id="_1sfl">
+        <text>radiance_4</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="item" client="$(client)"
+                       component="dialogIdepix_(MERIS_mode).reflBandsToCopy.reflectance_3"
+                       id="_1sfm">
+        <text>reflectance_3</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(MERIS_mode).schillerWaterNNCloudAmbiguousLowerBoundaryValue"
+                       id="_1sfn">
+        <text>2.0</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(MERIS_mode).schillerWaterNNCloudAmbiguousSureSeparationValue"
+                       id="_1sfo">
+        <text>3.7</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(MERIS_mode).schillerWaterNNCloudSureSnowSeparationValue"
+                       id="_1sfp">
+        <text>4.05</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(MERIS_mode).schillerLandNNCloudAmbiguousLowerBoundaryValue"
+                       id="_1sfq">
+        <text>1.1</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(MERIS_mode).schillerLandNNCloudAmbiguousSureSeparationValue"
+                       id="_1sfr">
+        <text>2.7</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(MERIS_mode).schillerLandNNCloudSureSnowSeparationValue"
+                       id="_1sfs">
+        <text>4.6</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(MERIS_mode).cloudBufferWidth"
+                       id="_1sft">
+        <text>2</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(MERIS_mode).DefaultSingleTargetProductDialog.apply"
+                       id="_1sfu">
+        <text>Run</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(MERIS_mode).DefaultSingleTargetProductDialog.close"
+                       id="_1sfv">
+        <text>Close</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(MERIS_mode).menuFile"
+                       id="_1sfw">
+        <text>File</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(MERIS_mode).menuHelp"
+                       id="_1sfx">
+        <text>Help</text>
+      </CheckStringStep>
+    </BasicSequence>
+    <BasicSequence id="_1sgT" name="sentinel3_olci">
+      <CheckStringStep checktype="item" client="$(client)"
+                       component="dialogIdepix_(Sentinel-3_OLCI_mode).tabbed.I/O_Parameters"
+                       id="_1sgU">
+        <text>I/O Parameters</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(Sentinel-3_OLCI_mode).menuFile"
+                       id="_1sgV">
+        <text>File</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(Sentinel-3_OLCI_mode).menuHelp"
+                       id="_1sgW">
+        <text>Help</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="item" client="$(client)"
+                       component="dialogIdepix_(Sentinel-3_OLCI_mode).tabbed.Processing_Parameters"
+                       id="_1sgX">
+        <text>Processing Parameters</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogIdepix_(Sentinel-3_OLCI_mode).panelI/O_Parameters.comboThe_OLCI_L1b_source_product."
+                       id="_1sgY"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(Sentinel-3_OLCI_mode).button..."
+                       id="_1sgZ">
+        <text>...</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(Sentinel-3_OLCI_mode).productName"
+                       id="_1sga"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogIdepix_(Sentinel-3_OLCI_mode).formatName"
+                       id="_1sgb">
+        <text>BEAM-DIMAP</text>
+      </CheckStringStep>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_(Sentinel-3_OLCI_mode).saveToFileSelected"
+                        id="_1sgc"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_(Sentinel-3_OLCI_mode).openInAppSelected"
+                        id="_1sgd"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(Sentinel-3_OLCI_mode).productDir"
+                       id="_1sge">
+        <text>E:\testdata\out\tmp</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(Sentinel-3_OLCI_mode).button...2"
+                       id="_1sgf">
+        <text>...</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_(Sentinel-3_OLCI_mode).tabbed.Processing_Parameters"
+                      event="MOUSE_MPRC" id="_1sgg" modifiers="16"/>
+      <CheckStringStep checktype="item" client="$(client)"
+                       component="dialogIdepix_(Sentinel-3_OLCI_mode).radianceBandsToCopy.Oa04_radiance"
+                       id="_1sgh">
+        <text>Oa04_radiance</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="item" client="$(client)"
+                       component="dialogIdepix_(Sentinel-3_OLCI_mode).reflBandsToCopy.Oa05_reflectance"
+                       id="_1sgi">
+        <text>Oa05_reflectance</text>
+      </CheckStringStep>
+      <CheckBooleanStep checktype="visible" client="$(client)"
+                        component="dialogIdepix_(Sentinel-3_OLCI_mode).scrollProcessing_Parameters.panel"
+                        id="_1sgj"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(Sentinel-3_OLCI_mode).schillerWaterNNCloudAmbiguousLowerBoundaryValue"
+                       id="_1sgk">
+        <text>2.0</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(Sentinel-3_OLCI_mode).schillerWaterNNCloudAmbiguousSureSeparationValue"
+                       id="_1sgl">
+        <text>3.7</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(Sentinel-3_OLCI_mode).schillerWaterNNCloudSureSnowSeparationValue"
+                       id="_1sgm">
+        <text>4.05</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(Sentinel-3_OLCI_mode).schillerLandNNCloudAmbiguousLowerBoundaryValue"
+                       id="_1sgn">
+        <text>1.1</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(Sentinel-3_OLCI_mode).schillerLandNNCloudAmbiguousSureSeparationValue"
+                       id="_1sgo">
+        <text>2.7</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(Sentinel-3_OLCI_mode).schillerLandNNCloudSureSnowSeparationValue"
+                       id="_1sgp">
+        <text>4.6</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(Sentinel-3_OLCI_mode).cloudBufferWidth"
+                       id="_1sgq">
+        <text>2</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(Sentinel-3_OLCI_mode).DefaultSingleTargetProductDialog.apply"
+                       id="_1sgr">
+        <text>Run</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_(Sentinel-3_OLCI_mode).DefaultSingleTargetProductDialog.close"
+                      event="MOUSE_MPRC" id="_1sgs" modifiers="16"/>
+    </BasicSequence>
+    <BasicSequence id="_1shE" name="viirs">
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(VIIRS_mode).menuFile"
+                       id="_1shF">
+        <text>File</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(VIIRS_mode).menuHelp"
+                       id="_1shG">
+        <text>Help</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="item" client="$(client)"
+                       component="dialogIdepix_(VIIRS_mode).tabbed.I/O_Parameters"
+                       id="_1shH">
+        <text>I/O Parameters</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogIdepix_(VIIRS_mode).panelI/O_Parameters.comboThe_source_product."
+                       id="_1shI"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(VIIRS_mode).button..."
+                       id="_1shJ">
+        <text>...</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(VIIRS_mode).productName"
+                       id="_1shK"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_(VIIRS_mode).saveToFileSelected"
+                        id="_1shL"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_(VIIRS_mode).openInAppSelected"
+                        id="_1shM"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogIdepix_(VIIRS_mode).formatName"
+                       id="_1shN">
+        <text>BEAM-DIMAP</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(VIIRS_mode).productDir"
+                       id="_1shO">
+        <text>E:\testdata\out\tmp</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(VIIRS_mode).button...2"
+                       id="_1shP">
+        <text>...</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(VIIRS_mode).DefaultSingleTargetProductDialog.apply"
+                       id="_1shQ">
+        <text>Run</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(VIIRS_mode).DefaultSingleTargetProductDialog.close"
+                       id="_1shR">
+        <text>Close</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_(VIIRS_mode).tabbed.Processing_Parameters"
+                      event="MOUSE_MPRC" id="_1shS" modifiers="16"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_(VIIRS_mode).outputViirsRhoToa"
+                        id="_1shT"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_(VIIRS_mode).outputViirsRhoToa"
+                        id="_1shU"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_(VIIRS_mode).outputDebug"
+                        id="_1shV"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(VIIRS_mode).cloudBufferWidth"
+                       id="_1shW">
+        <text>1</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogIdepix_(VIIRS_mode).waterMaskResolution"
+                       id="_1shX">
+        <text>50</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_(VIIRS_mode).DefaultSingleTargetProductDialog.close"
+                      event="MOUSE_MPRC" id="_1shY" modifiers="16"/>
+    </BasicSequence>
+    <BasicSequence id="_1si0" name="proba_v">
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(PROBA-V_mode).menuFile"
+                       id="_1si1">
+        <text>File</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(PROBA-V_mode).menuHelp"
+                       id="_1si2">
+        <text>Help</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="item" client="$(client)"
+                       component="dialogIdepix_(PROBA-V_mode).tabbed.I/O_Parameters"
+                       id="_1si3">
+        <text>I/O Parameters</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogIdepix_(PROBA-V_mode).panelI/O_Parameters.comboThe_OLCI_L1b_source_product."
+                       id="_1si4"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(PROBA-V_mode).button..."
+                       id="_1si5">
+        <text>...</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(PROBA-V_mode).productName"
+                       id="_1si6"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_(PROBA-V_mode).saveToFileSelected"
+                        id="_1si7"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_(PROBA-V_mode).openInAppSelected"
+                        id="_1si8"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogIdepix_(PROBA-V_mode).formatName"
+                       id="_1si9">
+        <text>BEAM-DIMAP</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(PROBA-V_mode).productDir"
+                       id="_1siA">
+        <text>E:\testdata\out\tmp</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(PROBA-V_mode).button...2"
+                       id="_1siB">
+        <text>...</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(PROBA-V_mode).IdepixDefaultDialog.apply"
+                       id="_1siC">
+        <text>Run</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(PROBA-V_mode).IdepixDefaultDialog.close"
+                       id="_1siD">
+        <text>Close</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(PROBA-V_mode).IdepixDefaultDialog.help"
+                       id="_1siE">
+        <text>Help</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_(PROBA-V_mode).tabbed.Processing_Parameters"
+                      event="MOUSE_MPRC" id="_1siF" modifiers="16"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_(PROBA-V_mode).copyToaReflectances"
+                        id="_1siG" state="false"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_(PROBA-V_mode).copyFeatureValues"
+                        id="_1siH" state="false"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_(PROBA-V_mode).copyAnnotations"
+                        id="_1siI" state="false"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_(PROBA-V_mode).applySchillerNN"
+                        id="_1siJ" state="false"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(PROBA-V_mode).schillerNNCloudAmbiguousLowerBoundaryValue"
+                       id="_1siK">
+        <text>1.1</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(PROBA-V_mode).schillerNNCloudAmbiguousSureSeparationValue"
+                       id="_1siL">
+        <text>2.7</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(PROBA-V_mode).schillerNNCloudSureSnowSeparationValue"
+                       id="_1siM">
+        <text>4.6</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(PROBA-V_mode).cloudBufferWidth"
+                       id="_1siN">
+        <text>2</text>
+      </CheckStringStep>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_(PROBA-V_mode).useL1bLandWaterFlag"
+                        id="_1siO" state="false"/>
+    </BasicSequence>
+    <BasicSequence id="_1siq" name="seawifs">
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(SeaWiFS_mode).menuFile"
+                       id="_1sir">
+        <text>File</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(SeaWiFS_mode).menuHelp"
+                       id="_1sis">
+        <text>Help</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="item" client="$(client)"
+                       component="dialogIdepix_(SeaWiFS_mode).tabbed.I/O_Parameters"
+                       id="_1sit">
+        <text>I/O Parameters</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogIdepix_(SeaWiFS_mode).panelI/O_Parameters.comboThe_source_product."
+                       id="_1siu"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(SeaWiFS_mode).button..."
+                       id="_1siv">
+        <text>...</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(SeaWiFS_mode).productName"
+                       id="_1siw"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_(SeaWiFS_mode).saveToFileSelected"
+                        id="_1six"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_(SeaWiFS_mode).openInAppSelected"
+                        id="_1siy"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogIdepix_(SeaWiFS_mode).formatName"
+                       id="_1siz">
+        <text>BEAM-DIMAP</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(SeaWiFS_mode).productDir"
+                       id="_1si+">
+        <text>E:\testdata\out\tmp</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(SeaWiFS_mode).button...2"
+                       id="_1si-">
+        <text>...</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(SeaWiFS_mode).IdepixDefaultDialog.apply"
+                       id="_1sj0">
+        <text>Run</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(SeaWiFS_mode).IdepixDefaultDialog.close"
+                       id="_1sj1">
+        <text>Close</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(SeaWiFS_mode).IdepixDefaultDialog.help"
+                       id="_1sj2">
+        <text>Help</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_(SeaWiFS_mode).tabbed.Processing_Parameters"
+                      event="MOUSE_MPRC" id="_1sj3" modifiers="16"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_(SeaWiFS_mode).outputRadiance"
+                        id="_1sj4" state="false"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_(SeaWiFS_mode).outputRadiance"
+                        id="_1sj5" state="false"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_(SeaWiFS_mode).outputReflectance"
+                        id="_1sj6"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_(SeaWiFS_mode).outputGeometry"
+                        id="_1sj7"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_(SeaWiFS_mode).outputDebug"
+                        id="_1sj8"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogIdepix_(SeaWiFS_mode).radianceBandPrefix"
+                       id="_1sj9">
+        <text>L_</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(SeaWiFS_mode).cloudBufferWidth"
+                       id="_1sjA">
+        <text>1</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogIdepix_(SeaWiFS_mode).waterMaskResolution"
+                       id="_1sjB">
+        <text>50</text>
+      </CheckStringStep>
+    </BasicSequence>
+    <BasicSequence id="_1sjh" name="spot_vgt">
+      <CheckStringStep checktype="item" client="$(client)"
+                       component="dialogIdepix_(SPOT_VGT_mode).tabbed.I/O_Parameters"
+                       id="_1sji">
+        <text>I/O Parameters</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(SPOT_VGT_mode).menuFile"
+                       id="_1sjj">
+        <text>File</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(SPOT_VGT_mode).menuHelp"
+                       id="_1sjk">
+        <text>Help</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogIdepix_(SPOT_VGT_mode).panelI/O_Parameters.comboThe_SPOT-VGT_L1b_product."
+                       id="_1sjl"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(SPOT_VGT_mode).button..."
+                       id="_1sjm">
+        <text>...</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(SPOT_VGT_mode).productName"
+                       id="_1sjn"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_(SPOT_VGT_mode).saveToFileSelected"
+                        id="_1sjo"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_(SPOT_VGT_mode).openInAppSelected"
+                        id="_1sjp"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogIdepix_(SPOT_VGT_mode).formatName"
+                       id="_1sjq">
+        <text>BEAM-DIMAP</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(SPOT_VGT_mode).productDir"
+                       id="_1sjr">
+        <text>E:\testdata\out\tmp</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(SPOT_VGT_mode).button...2"
+                       id="_1sjs">
+        <text>...</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(SPOT_VGT_mode).IdepixDefaultDialog.apply"
+                       id="_1sjt">
+        <text>Run</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(SPOT_VGT_mode).IdepixDefaultDialog.close"
+                       id="_1sju">
+        <text>Close</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(SPOT_VGT_mode).IdepixDefaultDialog.help"
+                       id="_1sjv">
+        <text>Help</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_(SPOT_VGT_mode).tabbed.Processing_Parameters"
+                      event="MOUSE_MPRC" id="_1sjw" modifiers="16"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_(SPOT_VGT_mode).copyToaReflectances"
+                        id="_1sjx"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_(SPOT_VGT_mode).copyAnnotations"
+                        id="_1sjy" state="false"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_(SPOT_VGT_mode).copyFeatureValues"
+                        id="_1sjz" state="false"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_(SPOT_VGT_mode).outputSchillerNNValue"
+                        id="_1sj+" state="false"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(SPOT_VGT_mode).nnCloudAmbiguousLowerBoundaryValue"
+                       id="_1sj-">
+        <text>1.1</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(SPOT_VGT_mode).nnCloudAmbiguousSureSeparationValue"
+                       id="_1sk0">
+        <text>2.7</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(SPOT_VGT_mode).nnCloudSureSnowSeparationValue"
+                       id="_1sk1">
+        <text>4.6</text>
+      </CheckStringStep>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_(SPOT_VGT_mode).computeCloudBuffer"
+                        id="_1sk2"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_(SPOT_VGT_mode).cloudBufferWidth"
+                       id="_1sk3">
+        <text>2</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogIdepix_(SPOT_VGT_mode).wmResolution"
+                       id="_1sk4">
+        <text>50</text>
+      </CheckStringStep>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_(SPOT_VGT_mode).useL1bLandWaterFlag"
+                        id="_1sk5" state="false"/>
+    </BasicSequence>
+    <ServerScriptStep disabled="true" id="_1p1N" name="print">
+      <code>print "working_directory = ${path:temp_s3tbx}"</code>
+    </ServerScriptStep>
+    <IfSequence id="_1op7" test="${qftest:windows}">
+      <ElseifSequence id="_1op8" name="MAC?"
+                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+      <ElseSequence id="_1op9"/>
+    </IfSequence>
+  </ExtraSequence>
+  <WindowList id="_5"/>
+</RootStep>

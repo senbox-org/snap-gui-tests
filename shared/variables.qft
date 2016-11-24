@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.7">
+<RootStep id="_0" name="root" version="4.0.11">
   <include>qfs.qft</include>
   <include>shared_lib.qft</include>
   <include>gpt.qft</include>
@@ -246,6 +246,12 @@
             <code>print "data_source_dir = $(data_source_directory)"</code>
           </ServerScriptStep>
           <CatchSequence exception="TestException" id="_1ory" maxerror="0">
+            <SetGlobalStep id="_1sI8" varname="data_source_directory">
+              <default>unknown</default>
+            </SetGlobalStep>
+            <ServerScriptStep disabled="true" id="_1sI7" name="print">
+              <code>print "data_source_dir = $(data_source_directory)"</code>
+            </ServerScriptStep>
             <ProcedureCall id="_1o+p" procedure="qfs.run-log.logError">
               <variable name="message">It was no property or resource called $(data_type)</variable>
               <variable name="withScreenshots">false</variable>
@@ -504,22 +510,22 @@ rc.setGlobal("smos", var1[:3])
             </TryStep>
           </ElseSequence>
         </IfSequence>
-        <BasicSequence id="_1q68" name="print">
-          <ServerScriptStep id="_1o+0" name="print">
+        <BasicSequence disabled="true" id="_1sI9" name="print">
+          <ServerScriptStep id="_1sIA" name="print">
             <code>print "product_group = $(product_group)"</code>
           </ServerScriptStep>
-          <ServerScriptStep id="_1q6B" name="print">
+          <ServerScriptStep disabled="true" id="_1sIB" name="print">
             <code>print "product_group2 = $(product_group2)"</code>
           </ServerScriptStep>
-          <ServerScriptStep id="_1o+1" name="print">
+          <ServerScriptStep id="_1sIC" name="print">
             <code>print "reader = $(reader)"</code>
           </ServerScriptStep>
-          <ServerScriptStep id="_1o+2" name="print">
+          <ServerScriptStep id="_1sID" name="print">
             <code>print "menu_item = $(menu_item)"</code>
           </ServerScriptStep>
         </BasicSequence>
       </Procedure>
-      <Procedure id="_1q5f" name="for_open_image_view">
+      <Procedure id="_1q5f" name="for_open_image_view_without_grouping">
         <SetGlobalStep id="_1pUs" varname="group_id1"/>
         <SetGlobalStep id="_1pV9" varname="bandName"/>
         <SetGlobalStep id="_1pUt" varname="view_Id1">
@@ -527,133 +533,193 @@ rc.setGlobal("smos", var1[:3])
         </SetGlobalStep>
         <SetGlobalStep id="_1piv" varname="mask1"/>
       </Procedure>
+      <Procedure id="_1s2-" name="for_open_image_view_with_grouping">
+        <ProcedureCall id="_1s34"
+                       procedure="product_meta_data.for_open_image_view_without_grouping"/>
+        <SetGlobalStep id="_1s30" varname="group_id1">
+          <default>0</default>
+        </SetGlobalStep>
+      </Procedure>
     </Package>
     <Package id="_1o+m" name="tables">
-      <Procedure id="_1o+r" name="aquarius">
-        <ExcelDataBinder excelfile="tables/input_data/aquarius.xls" id="_1o+s"
-                         name="aquarius" sheetname="listing"/>
-      </Procedure>
-      <Procedure id="_1oHL" name="asar">
-        <ExcelDataBinder excelfile="tables/input_data/asar.xls" id="_1oHM"
-                         name="asar" sheetname="listing"/>
-      </Procedure>
-      <Procedure id="_1oGw" name="atsr">
-        <ExcelDataBinder excelfile="tables/input_data/atsr.xls" id="_1oGx"
-                         name="atsr" sheetname="listing"/>
-      </Procedure>
-      <Procedure id="_1oGy" name="avnir2">
-        <ExcelDataBinder excelfile="tables/input_data/avnir2.xls" id="_1oGz"
-                         name="avnir2" sheetname="listing"/>
-      </Procedure>
-      <Procedure id="_1oG+" name="chris">
-        <ExcelDataBinder excelfile="tables/input_data/chris.xls" id="_1oG-"
-                         name="chris" sheetname="listing"/>
-      </Procedure>
-      <Procedure id="_1oH2" name="dimap">
-        <ExcelDataBinder excelfile="tables/input_data/dimap.xls" id="_1oH3"
-                         name="dimap" sheetname="listing"/>
-      </Procedure>
-      <Procedure id="_1oI4" name="envi_reader">
-        <ExcelDataBinder excelfile="tables/input_data/envi_reader.xls"
-                         id="_1oI5" name="envi_reader" sheetname="listing"/>
-      </Procedure>
-      <Procedure id="_1k-H" name="envisat_multispectral">
-        <ExcelDataBinder excelfile="tables/input_data/envisat_multispectral.xls"
-                         id="_1k-I" name="envisat" sheetname="listing"/>
-      </Procedure>
-      <Procedure id="_1oH0" name="ers_atsr">
-        <ExcelDataBinder excelfile="tables/input_data/ers_atsr.xls" id="_1oH1"
-                         name="ers_atsr" sheetname="listing"/>
-      </Procedure>
-      <Procedure id="_1oHr" name="ers_sar">
-        <ExcelDataBinder excelfile="tables/input_data/ers_sar.xls" id="_1oHs"
-                         name="ers_sar" sheetname="listing"/>
-      </Procedure>
-      <Procedure id="_1oI2" name="geotiff">
-        <ExcelDataBinder excelfile="tables/input_data/geotiff.xls" id="_1oI3"
-                         name="geotiff" sheetname="listing"/>
-      </Procedure>
-      <Procedure id="_1o+t" name="hdf_eos_gridded">
-        <ExcelDataBinder excelfile="tables/input_data/hdf_eos_gridded.xls"
-                         id="_1oHO" name="hdf_eos_gridded"
-                         sheetname="listing"/>
-      </Procedure>
-      <Procedure id="_1oHt" name="hico_envi_format">
-        <ExcelDataBinder excelfile="tables/input_data/hico_envi_format.xls"
-                         id="_1oHu" name="hico_envi_format"
-                         sheetname="listing"/>
-      </Procedure>
-      <Procedure id="_1oHP" name="landsat_geotiff">
-        <ExcelDataBinder excelfile="tables/input_data/landsat_geotiff.xls"
-                         id="_1oHQ" name="landsat_geotiff"
-                         sheetname="listing"/>
-      </Procedure>
-      <Procedure id="_1oHR" name="landsat_tm">
-        <ExcelDataBinder excelfile="tables/input_data/landsat_tm_fast.xls"
-                         id="_1oHS" name="landsat_tm" sheetname="listing"/>
-      </Procedure>
-      <Procedure id="_1o+u" name="modisL1B">
-        <ExcelDataBinder excelfile="tables/input_data/modisL1B.xls" id="_1oHW"
-                         name="modisL1B" sheetname="listing"/>
-      </Procedure>
-      <Procedure id="_1oHT" name="modis_MOD_MXD_MYD">
-        <ExcelDataBinder excelfile="tables/input_data/modis_MOD_MXD_MYD.xls"
-                         id="_1oHU" name="modis_MOD_MXD_MYD"
-                         sheetname="listing"/>
-      </Procedure>
-      <Procedure id="_1oHv" name="netCdf_beam">
-        <ExcelDataBinder excelfile="tables/input_data/netCdf_beam.xls"
-                         id="_1oHw" name="netCdf_beam" sheetname="listing"/>
-      </Procedure>
-      <Procedure id="_1oI0" name="netCdf_cf">
-        <ExcelDataBinder excelfile="tables/input_data/netCdf_cf.xls"
-                         id="_1oI1" name="netCdf_cf" sheetname="listing"/>
-      </Procedure>
-      <Procedure id="_1oHX" name="noaa_avhrr_3_L1b">
-        <ExcelDataBinder excelfile="tables/input_data/avhrr_3_L1b_noaa.xls"
-                         id="_1oHY" name="noaa_avhrr_3_L1b"
-                         sheetname="listing"/>
-      </Procedure>
+      <Package id="_1rjs" name="generic_formats">
+        <Procedure id="_1oH2" name="dimap">
+          <ExcelDataBinder excelfile="tables/input_data/dimap.xls" id="_1oH3"
+                           name="dimap" sheetname="listing"/>
+        </Procedure>
+        <Procedure id="_1oI4" name="envi_reader">
+          <ExcelDataBinder excelfile="tables/input_data/envi_reader.xls"
+                           id="_1oI5" name="envi_reader" sheetname="listing"/>
+        </Procedure>
+        <Procedure id="_1oI2" name="geotiff">
+          <ExcelDataBinder excelfile="tables/input_data/geotiff.xls"
+                           id="_1oI3" name="geotiff" sheetname="listing"/>
+        </Procedure>
+        <Procedure id="_1o+t" name="hdf_eos_gridded">
+          <ExcelDataBinder excelfile="tables/input_data/hdf_eos_gridded.xls"
+                           id="_1oHO" name="hdf_eos_gridded"
+                           sheetname="listing"/>
+        </Procedure>
+        <Procedure id="_1oHv" name="netCdf_beam">
+          <ExcelDataBinder excelfile="tables/input_data/netCdf_beam.xls"
+                           id="_1oHw" name="netCdf_beam" sheetname="listing"/>
+        </Procedure>
+        <Procedure id="_1oI0" name="netCdf_cf">
+          <ExcelDataBinder excelfile="tables/input_data/netCdf_cf.xls"
+                           id="_1oI1" name="netCdf_cf" sheetname="listing"/>
+        </Procedure>
+      </Package>
+      <Package id="_1rjk" name="optical_sensors">
+        <Package id="_1rjp" name="envisat">
+          <Procedure id="_1k-H" name="envisat_multispectral">
+            <ExcelDataBinder excelfile="tables/input_data/envisat_multispectral.xls"
+                             id="_1k-I" name="envisat" sheetname="listing"/>
+          </Procedure>
+          <Procedure id="_1rji" name="meris_level2_sen3">
+            <ExcelDataBinder excelfile="tables/input_data/envisat_multispectral.xls"
+                             id="_1rjj" name="envisat" sheetname="mer_l2_s3"/>
+          </Procedure>
+          <Procedure id="_1rju" name="meris_level1_sen3">
+            <ExcelDataBinder excelfile="tables/input_data/envisat_multispectral.xls"
+                             id="_1rjv" name="envisat" sheetname="mer_l1_s3"/>
+          </Procedure>
+        </Package>
+        <Package id="_1rjm" name="landsat">
+          <Procedure id="_1oHP" name="landsat_geotiff">
+            <ExcelDataBinder excelfile="tables/input_data/landsat_geotiff.xls"
+                             id="_1oHQ" name="landsat_geotiff"
+                             sheetname="listing"/>
+          </Procedure>
+          <Procedure id="_1oHR" name="landsat_tm">
+            <ExcelDataBinder excelfile="tables/input_data/landsat_tm_fast.xls"
+                             id="_1oHS" name="landsat_tm"
+                             sheetname="listing"/>
+          </Procedure>
+        </Package>
+        <Package id="_1rjl" name="seaDas">
+          <Procedure id="_1oHl" name="seaDAS_L1">
+            <ExcelDataBinder excelfile="tables/input_data/seaDAS_L1.xls"
+                             id="_1oHm" name="seaDAS_L1" sheetname="listing"/>
+          </Procedure>
+          <Procedure id="_1oHn" name="seaDAS_L2">
+            <ExcelDataBinder excelfile="tables/input_data/seaDAS_L2.xls"
+                             id="_1oHo" name="seaDAS_L2" sheetname="listing"/>
+          </Procedure>
+          <Procedure id="_1oHb" name="seaDAS_L3">
+            <ExcelDataBinder excelfile="tables/input_data/seaDAS_L3.xls"
+                             id="_1oHc" name="seaDAS_L3" sheetname="listing"/>
+          </Procedure>
+          <Procedure id="_1q5d" name="seaDAS_multispectral_binned">
+            <ExcelDataBinder excelfile="tables/input_data/seaDAS_binned.xls"
+                             id="_1q5e" name="seaDAS_multispectral_binned"
+                             sheetname="listing"/>
+          </Procedure>
+        </Package>
+        <Package id="_1rjn" name="sentinel_2">
+          <Procedure id="_1oGu" name="sentinel2">
+            <ExcelDataBinder excelfile="tables/input_data/sentinel_2.xls"
+                             id="_1oGv" name="sentinel2" sheetname="listing"/>
+          </Procedure>
+        </Package>
+        <Package id="_1rjo" name="sentinel_3">
+          <Procedure id="_1q66" name="sentinel3">
+            <ExcelDataBinder excelfile="tables/input_data/sentinel_3.xls"
+                             id="_1q67" name="sentinel3" sheetname="listing"/>
+          </Procedure>
+        </Package>
+        <Package id="_1rjq" name="spot"/>
+        <Procedure id="_1o+r" name="aquarius">
+          <ExcelDataBinder excelfile="tables/input_data/aquarius.xls"
+                           id="_1o+s" name="aquarius" sheetname="listing"/>
+        </Procedure>
+        <Procedure id="_1oGw" name="atsr">
+          <ExcelDataBinder excelfile="tables/input_data/atsr.xls" id="_1oGx"
+                           name="atsr" sheetname="listing"/>
+        </Procedure>
+        <Procedure id="_1oGy" name="avnir2">
+          <ExcelDataBinder excelfile="tables/input_data/avnir2.xls" id="_1oGz"
+                           name="avnir2" sheetname="listing"/>
+        </Procedure>
+        <Procedure id="_1oG+" name="chris">
+          <ExcelDataBinder excelfile="tables/input_data/chris.xls" id="_1oG-"
+                           name="chris" sheetname="listing"/>
+        </Procedure>
+        <Procedure id="_1oH0" name="ers_atsr">
+          <ExcelDataBinder excelfile="tables/input_data/ers_atsr.xls"
+                           id="_1oH1" name="ers_atsr" sheetname="listing"/>
+        </Procedure>
+        <Procedure id="_1oHt" name="hico_envi_format">
+          <ExcelDataBinder excelfile="tables/input_data/hico_envi_format.xls"
+                           id="_1oHu" name="hico_envi_format"
+                           sheetname="listing"/>
+        </Procedure>
+        <Procedure id="_1o+u" name="modisL1B">
+          <ExcelDataBinder excelfile="tables/input_data/modisL1B.xls"
+                           id="_1oHW" name="modisL1B" sheetname="listing"/>
+        </Procedure>
+        <Procedure id="_1oHT" name="modis_MOD_MXD_MYD">
+          <ExcelDataBinder excelfile="tables/input_data/modis_MOD_MXD_MYD.xls"
+                           id="_1oHU" name="modis_MOD_MXD_MYD"
+                           sheetname="listing"/>
+        </Procedure>
+        <Procedure id="_1oHX" name="noaa_avhrr_3_L1b">
+          <ExcelDataBinder excelfile="tables/input_data/avhrr_3_L1b_noaa.xls"
+                           id="_1oHY" name="noaa_avhrr_3_L1b"
+                           sheetname="listing"/>
+        </Procedure>
+        <Procedure id="_1oHZ" name="prism">
+          <ExcelDataBinder excelfile="tables/input_data/prism.xls" id="_1oHa"
+                           name="prism" sheetname="listing"/>
+        </Procedure>
+        <Procedure id="_1oHd" name="spot_vgt">
+          <ExcelDataBinder excelfile="tables/input_data/spot_vgt.xls"
+                           id="_1oHe" name="spot_vgt" sheetname="listing"/>
+        </Procedure>
+        <Procedure id="_1oHf" name="viirs">
+          <ExcelDataBinder excelfile="tables/input_data/viirs.xls" id="_1oHg"
+                           name="viirs" sheetname="listing"/>
+        </Procedure>
+      </Package>
+      <Package id="_1rjr" name="sar_sensors">
+        <Procedure id="_1oHL" name="asar">
+          <ExcelDataBinder excelfile="tables/input_data/asar.xls" id="_1oHM"
+                           name="asar" sheetname="listing"/>
+        </Procedure>
+        <Procedure id="_1oHr" name="ers_sar">
+          <ExcelDataBinder excelfile="tables/input_data/ers_sar.xls"
+                           id="_1oHs" name="ers_sar" sheetname="listing"/>
+        </Procedure>
+      </Package>
+      <Package id="_1rjt" name="smos">
+        <Procedure id="_1lBZ" name="smos">
+          <ExcelDataBinder excelfile="tables/input_data/smos.xls" id="_1lBa"
+                           name="smos" sheetname="listing"/>
+        </Procedure>
+      </Package>
       <Procedure id="_1o-D" name="output_formats">
+        <comment>pdu_stitching</comment>
         <ExcelDataBinder excelfile="tables/output_formats.xlsx" id="_1pTv"
                          name="write_formats" sheetname="format"/>
       </Procedure>
-      <Procedure id="_1oHZ" name="prism">
-        <ExcelDataBinder excelfile="tables/input_data/prism.xls" id="_1oHa"
-                         name="prism" sheetname="listing"/>
+      <Procedure id="_1rjh" name="source_data_for_processing">
+        <ExcelDataBinder excelfile="tables/source_data_for_processing.xlsx"
+                         id="_1qbb" name="source_data" sheetname="data"/>
       </Procedure>
-      <Procedure id="_1oHl" name="seaDAS_L1">
-        <ExcelDataBinder excelfile="tables/input_data/seaDAS_L1.xls"
-                         id="_1oHm" name="seaDAS_L1" sheetname="listing"/>
+      <Procedure id="_1sIE" name="source_data_mer_l1b">
+        <ExcelDataBinder excelfile="tables/mer_l1.xls" id="_1sIF"
+                         name="source_data" sheetname="data"/>
       </Procedure>
-      <Procedure id="_1oHn" name="seaDAS_L2">
-        <ExcelDataBinder excelfile="tables/input_data/seaDAS_L2.xls"
-                         id="_1oHo" name="seaDAS_L2" sheetname="listing"/>
+      <Procedure id="_1sI3" name="source_data_for_c2r_cc">
+        <ExcelDataBinder excelfile="tables/source_data_for_c2r_cc.xlsx"
+                         id="_1sI4" name="source_data" sheetname="data"/>
       </Procedure>
-      <Procedure id="_1oHb" name="seaDAS_L3">
-        <ExcelDataBinder excelfile="tables/input_data/seaDAS_L3.xls"
-                         id="_1oHc" name="seaDAS_L3" sheetname="listing"/>
+      <Procedure id="_1rk1" name="source_data_for_fu_classification">
+        <ExcelDataBinder excelfile="tables/source_data_for_fu_classification.xlsx"
+                         id="_1rk2" name="source_data" sheetname="data"/>
       </Procedure>
-      <Procedure id="_1q5d" name="seaDAS_multispectral_binned">
-        <ExcelDataBinder excelfile="tables/input_data/seaDAS_binned.xls"
-                         id="_1q5e" name="seaDAS_multispectral_binned"
-                         sheetname="listing"/>
-      </Procedure>
-      <Procedure id="_1oGu" name="sentinel2">
-        <ExcelDataBinder excelfile="tables/input_data/sentinel_2.xls"
-                         id="_1oGv" name="sentinel2" sheetname="listing"/>
-      </Procedure>
-      <Procedure id="_1q66" name="sentinel3">
-        <ExcelDataBinder excelfile="tables/input_data/sentinel_3.xls"
-                         id="_1q67" name="sentinel3" sheetname="listing"/>
-      </Procedure>
-      <Procedure id="_1lBZ" name="smos">
-        <ExcelDataBinder excelfile="tables/input_data/smos.xls" id="_1lBa"
-                         name="smos" sheetname="listing"/>
-      </Procedure>
-      <Procedure id="_1oHd" name="spot_vgt">
-        <ExcelDataBinder excelfile="tables/input_data/spot_vgt.xls" id="_1oHe"
-                         name="spot_vgt" sheetname="listing"/>
+      <Procedure id="_1s35" name="source_data_for_pdu_stitching">
+        <ExcelDataBinder excelfile="tables/source_data_for_pdu_stitching.xlsx"
+                         id="_1s36" name="source_data" sheetname="data"/>
       </Procedure>
       <Procedure id="_361" name="uncertainty_visualisation">
         <variable name="testFile">${qftest:suite.dir}/manualtester/uncertainty_visualisation.xls</variable>
@@ -664,23 +730,40 @@ rc.setGlobal("smos", var1[:3])
           <code>print "$(testFile)"</code>
         </ServerScriptStep>
       </Procedure>
-      <Procedure id="_1oHf" name="viirs">
-        <ExcelDataBinder excelfile="tables/input_data/viirs.xls" id="_1oHg"
-                         name="viirs" sheetname="listing"/>
-      </Procedure>
     </Package>
     <Package id="_1q5c" name="variables">
+      <Procedure id="_1rjw" name="mask_manager">
+        <SetGlobalStep disabled="true" id="_1qe6" varname="table">
+          <default>Dialog.maskTable</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1qe7" varname="table">
+          <default>NbMainWindow.maskTable</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1riC" varname="table2">
+          <default>dialog5.maskTable</default>
+        </SetGlobalStep>
+      </Procedure>
+      <Procedure id="_1q6L" name="multi_size">
+        <variable name="multi_size"/>
+        <SetGlobalStep id="_1q6M" varname="multi_size">
+          <default>$(multi_size)</default>
+        </SetGlobalStep>
+      </Procedure>
       <Procedure id="_1o-B" name="resampling_types">
         <LoadPropertiesStep id="_1o-C"
                             propertyfile="properties/resampling_types.properties"
                             resourcename="resampling"/>
       </Procedure>
       <Procedure id="_1oO9" name="system_and_commando">
-        <comment>@teststep set system and commando</comment>
+        <comment>@teststep set operation system</comment>
         <IfSequence id="_1oOA" test="${qftest:windows}">
           <SetGlobalStep id="_1oOB" varname="mkdir_commando">
             <default>MKDIR</default>
             <comment>MKDIR</comment>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1rjx" varname="copy_commando">
+            <default>copy</default>
+            <comment>COPY</comment>
           </SetGlobalStep>
           <SetGlobalStep id="_1o+y" varname="delete_commando">
             <default>RMDIR /S /Q</default>
@@ -700,6 +783,10 @@ rc.setGlobal("smos", var1[:3])
             <SetGlobalStep id="_1oOF" varname="operation_system">
               <default>Mac OS X</default>
             </SetGlobalStep>
+            <SetGlobalStep id="_1rjy" varname="copy_commando">
+              <default>cp</default>
+              <comment>COPY</comment>
+            </SetGlobalStep>
           </ElseifSequence>
           <ElseSequence id="_1oOG">
             <SetGlobalStep id="_1o++" varname="mkdir_commando">
@@ -711,6 +798,10 @@ rc.setGlobal("smos", var1[:3])
             </SetGlobalStep>
             <SetGlobalStep id="_1oOI" varname="operation_system">
               <default>Linux</default>
+            </SetGlobalStep>
+            <SetGlobalStep id="_1rjz" varname="copy_commando">
+              <default>cp</default>
+              <comment>COPY</comment>
             </SetGlobalStep>
           </ElseSequence>
         </IfSequence>
@@ -748,6 +839,237 @@ rc.setGlobal("wv", vl)                       </code>
         </SetGlobalStep>
         <SetGlobalStep id="_1q5Z" varname="avg">
           <default>AVG</default>
+        </SetGlobalStep>
+      </Procedure>
+      <Procedure id="_1s2v" name="fu_instruments">
+        <SetGlobalStep id="_1s2w" varname="auto">
+          <default>AUTO_DETECT</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1s2x" varname="meris">
+          <default>MERIS</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1s2y" varname="olci">
+          <default>OLCI</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1s2z" varname="modis">
+          <default>MODIS</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1s2+" varname="seawifs">
+          <default>SEAWIFS</default>
+        </SetGlobalStep>
+      </Procedure>
+      <Procedure id="_1sI5" name="operators">
+        <SetGlobalStep id="_1sI6" varname="fu">
+          <default>FuClassification</default>
+          <comment>Aatsr.SST                            Computes sea surface temperature (SST) from (A)ATSR products.
+  AdaptiveThresholding                 Detect ships using Constant False Alarm Rate detector.
+  AddElevation                         Creates a DEM band
+  AddLandCover                         Creates a land cover band
+  ALOS-Deskewing                       Deskewing ALOS product
+  Apply-Orbit-File                     Apply orbit file
+  Arc.SST                              Computes sea surface temperature (SST) from (A)ATSR products.
+  ArviOp                               Atmospherically Resistant Vegetation Index belongs to a family of indices with built-in atmospheric corrections.
+  AzimuthFilter                        Azimuth Filter
+  Back-Geocoding                       Bursts co-registration using orbit and DEM
+  BandMaths                            Create a product with one or more bands using mathematical expressions.
+  BandMerge                            Allows copying raster data from any number of source products to a specified 'master' product.
+  BandSelect                           Creates a new product with only selected bands
+  Bi2Op                                The Brightness index represents the average of the brightness of a satellite image.
+                                       This index is sensitive to the brightness of soils which is highly correlated with the humidity and the presence of salts in surface
+  Binning                              Performs spatial and temporal aggregation of pixel values into cells ('bins') of a planetary grid
+  BiOp                                 The Brightness index represents the average of the brightness of a satellite image.
+  BiophysicalOp                        The 'Biophysical Processor' operator retrieves LAI from atmospherically corrected Sentinel-2 products
+  Calibration                          Calibration of products
+  Change-Detection                     Change Detection.
+  CiOp                                 Colour Index  was developed to differentiate soils in the field.
+                                       In most cases the CI gives complementary information with the BI and the NDVI.
+                                        Used for diachronic analyses, they help for a better understanding of the evolution of soil surfaces.
+  CloudProb                            Applies a clear sky conservative cloud detection algorithm.
+  Coherence                            Estimate coherence from stack of coregistered images
+  Collocate                            Collocates two products based on their geo-codings.
+  Convert-Datatype                     Convert product data type
+  CreateStack                          Collocates two or more products based on their geo-codings.
+  Cross-Correlation                    Automatic Selection of Ground Control Points
+  CrossResampling                      Estimate Resampling Polynomial using SAR Image Geometry, and Resample Input Images
+  DeburstWSS                           Debursts an ASAR WSS product
+  DEM-Assisted-Coregistration          Orbit and DEM based co-registration
+  Double-Difference-Interferogram      Compute double difference interferogram
+  DviOp                                Difference Vegetation Index retrieves the Isovegetation lines parallel to soil line
+  EAP-Phase-Correction                 EAP Phase Correction
+  Ellipsoid-Correction-GG              GG method for orthorectification
+  Ellipsoid-Correction-RD              Ellipsoid correction with RD method and average scene height
+  EMClusterAnalysis                    Performs an expectation-maximization (EM) cluster analysis.
+  Enhanced-Spectral-Diversity          Estimate constant range and azimuth offsets for the whole image
+  Fill-DEM-Hole                        Fill holes in given DEM product file.
+  Find-Image-Pair                      DB query to find matching image pair
+  FlhMci                               Computes fluorescence line height (FLH) or maximum chlorophyll index (MCI).
+  Flip                                 flips a product horizontal/vertical
+  FuClassification                     MERIS-based ocean colour classification with the discrete Forel-Ule scale.
+  GemiOp                               This retrieves the Global Environmental Monitoring Index (GEMI).
+  GLCM                                 Extract Texture Features
+  GndviOp                              Green Normalized Difference Vegetation Index
+  GoldsteinPhaseFiltering              Phase Filtering
+  GRD-Post                             Applies GRD post-processing
+  Idepix.Landsat8                      Pixel identification and classification for Landsat 8.
+  Idepix.Modis                         Pixel identification and classification for MODIS.
+  Idepix.Sentinel2                     Pixel identification and classification for Sentinel-2.
+  Image-Filter                         Common Image Processing Filters
+  Import-Vector                        Imports a shape file into a product
+  IntegerInterferogram                 Create integer interferogram
+  Interferogram                        Compute interferograms from stack of coregistered S-1 images
+  IpviOp                               Infrared Percentage Vegetation Index retrieves the Isovegetation lines converge at origin
+  IreciOp                              Inverted red-edge chlorophyll index
+  KDTree-KNN-Classifier                KDTree KNN classifier
+  KMeansClusterAnalysis                Performs a K-Means cluster analysis.
+  KNN-Classifier                       K-Nearest Neighbour classifier
+  Land-Cover-Mask                      Perform decision tree classification
+  Land-Sea-Mask                        Creates a bitmask defining land vs ocean.
+  LandWaterMask                        Operator creating a target product with a single band containing a land/water-mask.
+  LinearToFromdB                       Converts bands to/from dB
+  Maximum-Likelihood-Classifier        Maximum Likelihood classifier
+  McariOp                              Modified Chlorophyll Absorption Ratio Index, developed to be responsive to chlorophyll variation
+  Merge                                Allows copying raster data from any number of source products to a specified 'master' product.
+  Meris.CorrectRadiometry              Performs radiometric corrections on MERIS L1b data products.
+  Meris.N1Patcher                      Copies an existing N1 file and replaces the data for the radiance bands
+  Minimum-Distance-Classifier          Minimum Distance classifier
+  MndwiOp                              Modified Normalized Difference Water Index, allowing for the measurement of surface water extent
+  Mosaic                               Creates a mosaic out of a set of source products.
+  Msavi2Op                             This retrieves the second Modified Soil Adjusted Vegetation Index (MSAVI2).
+  MsaviOp                              This retrieves the Modified Soil Adjusted Vegetation Index (MSAVI).
+  MtciOp                               The Meris Terrestrial Chlorophyll Index,  aims at estimating the Red Edge Position (REP).
+                                       This is the maximum slant point in the red and near-infrared region of the vegetal spectral reflectance.
+                                       It is useful for observing the chlorophyll contents, vegetation senescence, and stress for water and nutritional deficiencies, but it is less suitable for land classification
+  Multi-Temporal-Speckle-Filter        Speckle Reduction using Multitemporal Filtering
+  Multilook                            Averages the power across a number of lines in both the azimuth and range directions
+  Ndi45Op                              Normalized Difference Index using bands 4 and 5
+  NdpiOp                               The normalized differential pond index, combines the short-wave infrared band-I and the green band
+  NdtiOp                               Normalized difference turbidity index, allowing for the measurement of water turbidity
+  NdviOp                               The retrieves the Normalized Difference Vegetation Index (NDVI).
+  Ndwi2Op                              The Normalized Difference Water Index, allowing for the measurement of surface water extent
+  NdwiOp                               The Normalized Difference Water Index was developed for the extraction of water features
+  Object-Discrimination                Remove false alarms from the detected objects.
+  Offset-Tracking                      Create velocity vectors from offset tracking
+  Oil-Spill-Clustering                 Remove small clusters from detected area.
+  Oil-Spill-Detection                  Detect oil spill.
+  Olci.SmileCorrection                 Performs radiometric corrections on OLCI L1b data products.
+  Orientation-Angle-Correction         Perform polarization orientation angle correction for given coherency matrix
+  Oversample                           Oversample the datset
+  PCA                                  Performs a Principal Component Analysis.
+  PduStitching                         Stitches multiple SLSTR L1B product dissemination units (PDUs) of the same orbit to a single product.
+  PhaseFilter                          Interferometric phase filtering
+  PhaseToDisplacement                  Phase To Displacement Conversion along LOS
+  PhaseToElevation                     DEM Generation
+  PhaseToHeight                        Phase to Height conversion
+  PixEx                                Extracts pixels from given locations and source products.
+  Polarimetric-Classification          Perform Polarimetric classification of a given product
+  Polarimetric-Decomposition           Perform Polarimetric decomposition of a given product
+  Polarimetric-Matrices                Generates covariance or coherency matrix for given product
+  Polarimetric-Parameters              Compute general polarimetric parameters
+  Polarimetric-Speckle-Filter          Polarimetric Speckle Reduction
+  Principle-Components                 Principle Component Analysis
+  ProductSet-Reader                    Adds a list of sources
+  PssraOp                              Pigment Specific Simple Ratio, chlorophyll index
+  PviOp                                Perpendicular Vegetation Index retrieves the Isovegetation lines parallel to soil line. Soil line has an arbitrary slope and passes through origin
+  Rad2Refl                             Provides conversion from radiances to reflectances or backwards.
+  Random-Forest-Classifier             Random Forest based classifier
+  RangeFilter                          Range Filter
+  Read                                 Reads a data product from a given file location.
+  ReipOp                               The red edge inflection point index
+  Remove-GRD-Border-Noise              Mask no-value pixels for GRD product
+  RemoveAntennaPattern                 Remove Antenna Pattern
+  ReplaceMetadata                      Replace the metadata of the first product with that of the second
+  Reproject                            Reprojection of a source product to a target Coordinate Reference System.
+  Resample                             Resampling of a multi-size source product to a single-size target product.
+  RiOp                                 The Redness Index was developed to identify soil colour variations.
+  RviOp                                Ratio Vegetation Index retrieves the Isovegetation lines converge at origin
+  S2repOp                              Sentinel-2 red-edge position index
+  SAR-Mosaic                           Mosaics two or more products based on their geo-codings.
+  SAR-Simulation                       Rigorous SAR Simulation
+  SARSim-Terrain-Correction            Orthorectification with SAR simulation
+  SaviOp                               This retrieves the Soil-Adjusted Vegetation Index (SAVI).
+  SliceAssembly                        Merges Sentinel-1 slice products
+  SmacOp                               Applies the Simplified Method for Atmospheric Corrections of Envisat MERIS/(A)ATSR measurements.
+  SmosNetcdfExport                     Exports SMOS Earth Explorer products to NetCDF format.
+  SnaphuExport                         Export data and prepare conf file for SNAPHU processing
+  SnaphuImport                         Ingest SNAPHU results into InSAR product.
+  Speckle-Divergence                   Detect urban area.
+  Speckle-Filter                       Speckle Reduction
+  SRGR                                 Converts Slant Range to Ground Range
+  Stack-Averaging                      Averaging multi-temporal images
+  Stack-Split                          Writes all bands to files.
+  StatisticsOp                         Computes statistics for an arbitrary number of source products.
+  SubGraph                             Encapsulates a graph within a graph.
+  Subset                               Create a spatial and/or spectral subset of a data product.
+  Supervised-Wishart-Classification    Perform supervised Wishart classification
+  TemporalPercentile                   Computes percentiles over a given time period.
+  Terrain-Correction                   RD method for orthorectification
+  Terrain-Flattening                   Terrain Flattening
+  Terrain-Mask                         Terrain Mask Generation
+  ThermalNoiseRemoval                  Removes thermal noise from products
+  Three-passDInSAR                     Differential Interferometry
+  TileWriter                           Writes a data product to a tiles.
+  TndviOp                              Transformed Normalized Difference Vegetation Index retrieves the Isovegetation lines parallel to soil line
+  ToolAdapterOp                        Tool Adapter Operator
+  TopoPhaseRemoval                     Compute and subtract TOPO phase
+  TOPSAR-Deburst                       Debursts a Sentinel-1 TOPSAR product
+  TOPSAR-Merge                         Merge subswaths of a Sentinel-1 TOPSAR product
+  TOPSAR-Split                         Creates a new product with only the selected subswath
+  TsaviOp                              This retrieves the Transformed Soil Adjusted Vegetation Index (TSAVI).
+  Undersample                          Undersample the datset
+  Unmix                                Performs a linear spectral unmixing.
+  Update-Geo-Reference                 Update Geo Reference
+  Warp                                 Create Warp Function And Get Co-registrated Images
+  WdviOp                               Weighted Difference Vegetation Index retrieves the Isovegetation lines parallel to soil line. Soil line has an arbitrary slope and passes through origin
+  Wind-Field-Estimation                Estimate wind speed and direction
+  Write                                Writes a data product to a file.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</comment>
+        </SetGlobalStep>
+      </Procedure>
+      <Procedure id="_1s37" name="c2r_cc_sensors">
+        <SetGlobalStep id="_1sH+" varname="olci">
+          <default>olci</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1sH-" varname="msi">
+          <default>msi</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1sI0" varname="meris">
+          <default>meris</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1sI1" varname="modis">
+          <default>modis</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1sI2" varname="seawifs">
+          <default>seawifs</default>
+        </SetGlobalStep>
+      </Procedure>
+    </Package>
+    <Package id="_1q6N" name="message">
+      <Procedure id="_1q6O" name="product_has_successfully_been_created">
+        <SetGlobalStep id="_1rjg"
+                       varname="message_product_has_successfully_been_created">
+          <default>The target product has successfully been created and opened in SNAP.  Actual processing of source to target data will be performed only on demand, for example, if the target product is saved or an image view is opened.</default>
         </SetGlobalStep>
       </Procedure>
     </Package>

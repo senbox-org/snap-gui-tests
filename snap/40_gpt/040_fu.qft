@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.11">
+  <include>qfs.qft</include>
+  <include>gpt_main.qft</include>
+  <variable name="output_folder">gpt_fu</variable>
+  <variable name="sleep_time">1000</variable>
+  <variable name="gpf_op">FuClassification</variable>
+  <variable name="xml_file_dir">fu</variable>
+  <TestSet id="_5G1" name="040_fu_classification"
+           reportname="040 FuClassification operator">
+    <DependencyReference id="_1pP1" reference="start_application_for_gpt">
+      <variable name="output_dir">$(output_folder)</variable>
+    </DependencyReference>
+    <TestSet id="_9V3" name="fu_classification_using_graph" postdelay="2000"
+             reportname="run FuClassification operator using graph xml file, check target product">
+      <DataDriver id="_9V5"
+                  loopreportname="$(xml_file) $(dataInDir)/$(fileName)"
+                  name="dataTable">
+        <ProcedureCall id="_1l4d" procedure="tables.fu"/>
+      </DataDriver>
+      <TestCase id="_9Xo" name="fu_classification"
+                reportname="FuClassification $(dataInDir)/$(fileName)">
+        <ProcedureCall id="_1pP2" procedure="test_sequence"/>
+      </TestCase>
+    </TestSet>
+    <TestSet id="_D" name="fu_for_different_source_products"
+             reportname="run FuClassification operator for different source files, check target product">
+      <variable name="sourceOption">-Ssource=</variable>
+      <DataDriver id="_3y4"
+                  loopreportname="$(dataInDir)/$(fileName) data product"
+                  name="dataTable">
+        <ProcedureCall id="_Bt4"
+                       procedure="tables.source_data_for_fu_classification"/>
+      </DataDriver>
+      <TestCase condition="&#34;$(processing)&#34;==&#34;true&#34;" id="_2"
+                name="test">
+        <ProcedureCall id="_1qcw"
+                       procedure="test_sequence_fu_different_source"/>
+      </TestCase>
+    </TestSet>
+  </TestSet>
+  <PackageRoot id="_4"/>
+  <ExtraSequence id="_5"/>
+  <WindowList id="_6"/>
+</RootStep>

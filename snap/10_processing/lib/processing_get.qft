@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.4">
+<RootStep id="_0" name="root" version="4.0.11">
   <include>qfs.qft</include>
   <include>processing_main.qft</include>
   <dependency>processing_main.qft</dependency>
   <dependency>processing_do_click.qft</dependency>
   <PackageRoot id="_3">
     <Package id="_1qdP" name="get">
-      <Package id="_1qTv" name="aatsr_sst_processor">
-        <Procedure id="_1qWB" name="source_product_name">
+      <Package id="_1sZi" name="aatsr_sst_processor">
+        <Procedure id="_1saO" name="source_product_name">
           <comment>@teststep Get source product name.</comment>
           <FetchTextStep client="$(client)"
                          component="dialog(A)ATSR_SST_Processor2.panelI/O_Parameters.comboThe_path_of_the_(A)ATSR_source_product"
+                         id="_1saP" varname="source_product_name"/>
+        </Procedure>
+      </Package>
+      <Package id="_1qTv" name="arc_sst_processor">
+        <Procedure id="_1qWB" name="source_product_name">
+          <comment>@teststep Get source product name.</comment>
+          <FetchTextStep client="$(client)"
+                         component="dialogARC_SST_Processor2.panelI/O_Parameters.comboThe_path_of_the_(A)ATSR_source_product"
                          id="_1qWC" varname="source_product_name"/>
         </Procedure>
       </Package>
@@ -35,12 +43,44 @@
           </TryStep>
         </Procedure>
       </Package>
-      <Package id="_1q9R" name="flh_mci_processor">
-        <Procedure id="_1qB3" name="lower_baseline_band_name">
+      <Package id="_1sap" name="flh_mci_processor">
+        <Procedure id="_1saq" name="lower_baseline_band_name">
           <comment>@teststep Get 'lower baseline band name'</comment>
           <FetchTextStep client="$(client)"
                          component="dialogFLH/MCI_Processor.lowerBaselineBandName"
-                         id="_1psP" varname="lower_baseline_band_name"/>
+                         id="_1sar" varname="lower_baseline_band_name"/>
+        </Procedure>
+      </Package>
+      <Package id="_1q9R" name="fub_wew_processor">
+        <Procedure id="_1qB3" name="valid_expression">
+          <comment>@teststep Get 'valid expression'.</comment>
+          <FetchTextStep client="$(client)"
+                         component="dialogFUB/WeW_Water_Processor.expression"
+                         id="_1psP" varname="valid_expression"/>
+        </Procedure>
+      </Package>
+      <Package id="_2JdH" name="s2_mci_processor">
+        <Procedure id="_2Je-" name="lower_baseline_band_name">
+          <comment>@teststep Get 'lower baseline band name'</comment>
+          <FetchTextStep client="$(client)"
+                         component="dialogS2_MCI_Processor.lowerBaselineBandName"
+                         id="_2Jej" varname="lower_baseline_band_name"/>
+        </Procedure>
+      </Package>
+      <Package id="_2JdR" name="owt_classification">
+        <Procedure id="_2Jdb" name="reflectances_prefix">
+          <comment>@teststep Get Reflectances prefix.</comment>
+          <FetchTextStep client="$(client)"
+                         component="dialogOWT_Classification.reflectancesPrefix"
+                         id="_2Jdc" varname="reflectances_prefix"/>
+        </Procedure>
+      </Package>
+      <Package id="_1rjg" name="land_water_mask">
+        <Procedure id="_1rjj" name="source_product_name">
+          <comment>@teststep Get source product name.</comment>
+          <FetchTextStep client="$(client)"
+                         component="dialogLand/Water_Mask.panelI/O_Parameters.comboThe_Product_the_land/water-mask_shall_be_computed_for."
+                         id="_1rjk" varname="source_product_name"/>
         </Procedure>
       </Package>
       <Package id="_1qH8" name="meris_radiometric_correction">
@@ -59,12 +99,24 @@
                          id="_1qZe" varname="source_product_name"/>
         </Procedure>
       </Package>
+      <Package id="_1rjl" name="k_mean_cluster_analysis">
+        <Procedure id="_1rjm" name="source_product_name">
+          <comment>@teststep Get source product name.</comment>
+          <FetchTextStep client="$(client)"
+                         component="dialogK-Means_Cluster_Analysis.panelI/O_Parameters.comboThe_source_product."
+                         id="_1rjn" varname="source_product_name"/>
+        </Procedure>
+      </Package>
       <Package id="_1qB4" name="reprojection">
         <Procedure id="_1pXV" name="source_product_name">
           <comment>@teststep Get source product name.</comment>
           <FetchTextStep client="$(client)"
-                         component="dialogReprojection.panelI/O_Parameters.comboName:"
+                         component="dialogReprojection3.panelI/O_Parameters.comboSelect_a_source_product."
                          id="_1pXW" varname="source_product_name"/>
+          <FetchTextStep client="$(client)"
+                         component="dialogReprojection.panelI/O_Parameters.comboName:"
+                         disabled="true" id="_1rjf"
+                         varname="source_product_name"/>
         </Procedure>
       </Package>
       <Package id="_1qM2" name="smac">

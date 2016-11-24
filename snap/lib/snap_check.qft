@@ -1100,8 +1100,35 @@
                             component="New_Pin.usePixelPos" id="_1lF2"
                             state="$(usePixelPos_selected)"/>
         </Procedure>
+        <Procedure id="_2JTN" name="usePixelPos_enabled">
+          <CheckBooleanStep checktype="enabled" client="$(client)"
+                            component="New_Pin.usePixelPos" id="_2JTO"
+                            resvarname="usePixelPos_enabled"/>
+        </Procedure>
+        <Procedure id="_2JTM" name="s">
+          <CheckStringStep client="$(client)" component="New_Pin.lat"
+                           id="_1ruv">
+            <text>NaN</text>
+          </CheckStringStep>
+        </Procedure>
       </Package>
       <Package id="_1l35" name="product">
+        <Procedure id="_1roK" name="opened_else_shoot_error">
+          <variable name="product_name"/>
+          <ProcedureCall id="_1roL" procedure="get.tree.get_test_product_id">
+            <variable name="product">$(product_name)</variable>
+          </ProcedureCall>
+          <IfSequence id="_2JSz" test="&#34;$(product_id)&#34;==&#34;&#34;">
+            <ProcedureCall id="_2JTH" procedure="run-log.make_screensot">
+              <variable name="iw_name">product_is_not_opened</variable>
+              <variable name="iw_name_example">error_dialog</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_2JS+" procedure="run-log.logError">
+              <variable name="message">$(product_name) product is not opened</variable>
+              <variable name="withScreenshots">true</variable>
+            </ProcedureCall>
+          </IfSequence>
+        </Procedure>
         <Procedure id="_1jvQ" name="node_not_exists">
           <variable name="node"/>
           <variable name="nodeSeparator">@</variable>
@@ -1141,27 +1168,39 @@
             </FinallySequence>
           </TryStep>
         </Procedure>
-        <Procedure id="_9Kn" name="not_opened">
-          <IfSequence id="_1o+w" test="${qftest:windows}">
+        <Procedure id="_1rli" name="not_opened_utility">
+          <IfSequence id="_1rlj" test="${qftest:windows}">
             <CheckItemsStep client="$(client)"
                             component="NbMainWindow.Product_Explorer.tree"
-                            id="_9Kp" resvarname="not_opened"/>
-            <ElseifSequence id="_1o+x" name="MAC?"
+                            id="_1rlk" resvarname="not_opened"/>
+            <ElseifSequence id="_1rll" name="MAC?"
                             test="'${system:os.name}' .find('Mac OS X')&gt;=0">
               <CheckItemsStep client="$(client)"
-                              component="Product_Explorer.tree" id="_1o++"
+                              component="Product_Explorer.tree" id="_1rlm"
                               resvarname="not_opened"/>
             </ElseifSequence>
-            <ElseSequence id="_1o+y">
+            <ElseSequence id="_1rln">
               <CheckItemsStep client="$(client)"
                               component="NbMainWindow.Product_Explorer.tree"
-                              id="_1o+z" resvarname="not_opened"/>
+                              id="_1rlo" resvarname="not_opened"/>
               <CheckItemsStep client="$(client)"
                               component="Product_Explorer.tree"
-                              disabled="true" id="_1px6"
+                              disabled="true" id="_1rlp"
                               resvarname="not_opened"/>
             </ElseSequence>
           </IfSequence>
+        </Procedure>
+        <Procedure id="_9Kn" name="not_opened">
+          <TryStep id="_1rf0">
+            <ProcedureCall id="_1rls"
+                           procedure="check.product.not_opened_utility"/>
+            <CatchSequence exception="TestException" id="_1rf1" maxerror="0">
+              <ProcedureCall id="_1rlh"
+                             procedure="open.views.product_browser"/>
+              <ProcedureCall id="_1rlq"
+                             procedure="check.product.not_opened_utility"/>
+            </CatchSequence>
+          </TryStep>
         </Procedure>
         <Procedure id="_1lCP" name="tree_number_elements">
           <variable name="number_elements"/>
@@ -1401,7 +1440,7 @@
         <Package id="_1pa6" name="histogram_dialog">
           <Package id="_1pa7" name="enabled">
             <Procedure id="_1pa8" name="use_ROI_mask">
-              <comment>@teststep Check 'Use ROI Mask(s)' checkbox in the Histogram dialog is enabled.</comment>
+              <comment>@teststep Check 'Use ROI Mask(s)' checkbox in the 'Histogram' dialog is enabled.</comment>
               <TryStep id="_1rZk">
                 <ProcedureCall id="_1rZl"
                                procedure="check.analysis.dialog.enabled.use_ROI_mask"/>
@@ -1417,7 +1456,7 @@
           </Package>
           <Package id="_1paG" name="checked">
             <Procedure id="_1rZo" name="use_ROI_mask">
-              <comment>@teststep Check 'Use ROI Mask(s)' checkbox in the 'Scatter Plot' dialog is selected.</comment>
+              <comment>@teststep Check if 'Use ROI Mask(s)' checkbox in the 'Histogram' dialog is selected.</comment>
               <TryStep id="_1rZp">
                 <ProcedureCall id="_1rZq"
                                procedure="check.analysis.dialog.checked.use_ROI_mask"/>
@@ -1431,7 +1470,7 @@
             </Procedure>
             <Procedure id="_1rZt" name="use_ROI_mask_selected_status">
               <variable name="selected"/>
-              <comment>@teststep Check 'Scatter Plot' dialog ROI Mask selection.</comment>
+              <comment>@teststep Check 'Histogram' dialog ROI Mask selection is $(selected).</comment>
               <TryStep id="_1rZu">
                 <ProcedureCall id="_1rZv"
                                procedure="check.analysis.dialog.checked.use_ROI_mask_selected_status">
@@ -1451,7 +1490,7 @@
         <Package id="_1l8t" name="statistics_dialog">
           <Package id="_1pZh" name="enabled">
             <Procedure id="_1pZi" name="use_ROI_mask">
-              <comment>@teststep Check 'Use ROI Mask(s)' checkbox in the Statistics dialog is enabled.</comment>
+              <comment>@teststep Check 'Use ROI Mask(s)' checkbox in the 'Statistics' dialog is enabled.</comment>
               <TryStep id="_1raE">
                 <ProcedureCall id="_1raG"
                                procedure="check.analysis.dialog.enabled.use_ROI_mask_statistic"/>
@@ -1465,7 +1504,7 @@
               </TryStep>
             </Procedure>
             <Procedure id="_1pZm" name="select_all">
-              <comment>@teststep Check 'Select all' checkbox in the Statistics dialog is selected.</comment>
+              <comment>@teststep Check 'Select all' checkbox in the 'Statistics' dialog is enabled.</comment>
               <TryStep id="_1raC">
                 <ProcedureCall id="_1ra5"
                                procedure="check.analysis.dialog.enabled.select_all"/>
@@ -1479,7 +1518,7 @@
               </TryStep>
             </Procedure>
             <Procedure id="_1pZq" name="select_none">
-              <comment>@teststep Check 'Select none' checkbox in the Statistics dialog is selected.</comment>
+              <comment>@teststep Check 'Select none' checkbox in the 'Statistics' dialog is enabled.</comment>
               <TryStep id="_1raA">
                 <ProcedureCall id="_1ra6"
                                procedure="check.analysis.dialog.enabled.select_none"/>
@@ -1493,6 +1532,7 @@
               </TryStep>
             </Procedure>
             <Procedure id="_1pZu" name="auto_accuracy">
+              <comment>@teststep Check 'Auto accuracy' checkbox in the 'Statistics' dialog is enabled.</comment>
               <TryStep id="_1ra8">
                 <ProcedureCall id="_1ra7"
                                procedure="check.analysis.dialog.enabled.auto_accuracy"/>
@@ -1508,7 +1548,7 @@
           </Package>
           <Package id="_1pZg" name="checked">
             <Procedure id="_1lBv" name="use_ROI_mask">
-              <comment>@teststep Check 'Use ROI Mask(s)' checkbox in the Statistics dialog is selected.</comment>
+              <comment>@teststep Check 'Use ROI Mask(s)' checkbox in the 'Statistics' dialog is selected.</comment>
               <TryStep id="_1rat">
                 <ProcedureCall id="_1raX"
                                procedure="check.analysis.dialog.checked.use_ROI_mask_statistic"/>
@@ -1522,7 +1562,7 @@
             </Procedure>
             <Procedure id="_1l9X" name="use_ROI_mask_selected_status">
               <variable name="selected"/>
-              <comment>@teststep Check statistics dialog ROI Mask selection</comment>
+              <comment>@teststep Check ROI Mask selection in the 'Statistics' dialog.</comment>
               <TryStep id="_1rar">
                 <ProcedureCall id="_1raY"
                                procedure="check.analysis.dialog.checked.use_ROI_mask_selected_status_statistic">
@@ -1537,7 +1577,7 @@
               </TryStep>
             </Procedure>
             <Procedure id="_1lBx" name="select_all">
-              <comment>@teststep Check 'Select all' checkbox in the Statistics dialog is selected.</comment>
+              <comment>@teststep Check 'Select all' checkbox in the 'Statistics' dialog is selected.</comment>
               <TryStep id="_1rap">
                 <ProcedureCall id="_1raZ"
                                procedure="check.analysis.dialog.checked.select_all"/>
@@ -1551,7 +1591,7 @@
             </Procedure>
             <Procedure id="_1lA7" name="select_all_selected_status">
               <variable name="selected"/>
-              <comment>@teststep Check statistics dialog 'Select All' selection</comment>
+              <comment>@teststep Check 'Select All' selection in the 'Statistics' dialog.</comment>
               <TryStep id="_1ran">
                 <ProcedureCall id="_1raa"
                                procedure="check.analysis.dialog.checked.select_all_selected_status">
@@ -1566,7 +1606,7 @@
               </TryStep>
             </Procedure>
             <Procedure id="_1lCL" name="select_none">
-              <comment>@teststep Check 'Select none' checkbox in the Statistics dialog is selected.</comment>
+              <comment>@teststep Check 'Select none' checkbox in the 'Statistics' dialog is selected.</comment>
               <TryStep id="_1ral">
                 <ProcedureCall id="_1rab"
                                procedure="check.analysis.dialog.checked.select_none"/>
@@ -1580,7 +1620,7 @@
             </Procedure>
             <Procedure id="_1lBz" name="select_none_selected_status">
               <variable name="selected"/>
-              <comment>@teststep Check statistics dialog 'Select None' selection</comment>
+              <comment>@teststep Check 'Select None' selection in the 'Statistics' dialog.</comment>
               <TryStep id="_1raj">
                 <ProcedureCall id="_1rac"
                                procedure="check.analysis.dialog.checked.select_none_selected_status">
@@ -1595,6 +1635,7 @@
               </TryStep>
             </Procedure>
             <Procedure id="_1lCN" name="auto_accuracy">
+              <comment>@teststep Check 'Auto accuracy' checkbox in the 'Statistics' dialog is selected.</comment>
               <TryStep id="_1rah">
                 <ProcedureCall id="_1rad"
                                procedure="check.analysis.dialog.checked.auto_accuracy"/>
@@ -1608,7 +1649,7 @@
             </Procedure>
             <Procedure id="_1lC3" name="auto_accuracy_selected_status">
               <variable name="selected"/>
-              <comment>@teststep Check statistics dialog 'Auto Accuracy' selection</comment>
+              <comment>@teststep Check 'Auto Accuracy' selection in the 'Statistics' dialog.</comment>
               <TryStep id="_1raf">
                 <ProcedureCall id="_1rae"
                                procedure="check.analysis.dialog.checked.auto_accuracy_selected_status">
@@ -1625,6 +1666,7 @@
           </Package>
           <Procedure id="_1pZa" name="statistic_result">
             <variable name="statistic_txt"/>
+            <comment>@teststep Check calculated statictics.</comment>
             <TryStep id="_1raz">
               <ProcedureCall id="_1rb1"
                              procedure="check.analysis.dialog.statistic_result">
@@ -1642,7 +1684,7 @@
           </Procedure>
           <Procedure id="_1lC9" name="histogram_accuracy">
             <variable name="val"/>
-            <comment>@teststep Check statistics dialog histogram accuracy</comment>
+            <comment>@teststep Check histogram accuracy in the 'Statistics' dialog.</comment>
             <TryStep id="_1ra-">
               <ProcedureCall id="_1rb2"
                              procedure="check.analysis.dialog.histogram_accuracy">
@@ -1659,7 +1701,222 @@
             </TryStep>
           </Procedure>
         </Package>
-        <Package id="_1pab" name="profile_plot"/>
+        <Package id="_1pab" name="profile_plot">
+          <Package id="_1rlt" name="enabled">
+            <Procedure id="_1rlu" name="use_ROI_mask">
+              <comment>@teststep Check 'Use ROI Mask(s)' checkbox in the 'Profile Plot' dialog is enabled.</comment>
+              <ProcedureCall id="_1rlw"
+                             procedure="check.analysis.dialog.enabled.use_ROI_mask"/>
+            </Procedure>
+          </Package>
+          <Package id="_1rlz" name="checked">
+            <Procedure id="_1rms" name="auto_min_max_x">
+              <comment>@teststep Check 'auto min/max' checkbox X-axis in the 'Profile Plot' dialog is selected.</comment>
+              <ProcedureCall id="_1rmu"
+                             procedure="check.analysis.dialog.checked.auto_min_max_x"/>
+            </Procedure>
+            <Procedure id="_1rmx" name="auto_min_max_x_selected_status">
+              <variable name="selected"/>
+              <comment>@teststep Check 'auto min/max' X-axis selection in the 'Profile Plot' dialog.</comment>
+              <ProcedureCall id="_1rmz"
+                             procedure="check.analysis.dialog.checked.auto_min_max_x_selected_status">
+                <variable name="selected">$(selected)</variable>
+              </ProcedureCall>
+            </Procedure>
+            <Procedure id="_1rn0" name="auto_min_max_y">
+              <comment>@teststep Check 'auto min/max' checkbox Y-axis in the 'Profile Plot' dialog is selected.</comment>
+              <ProcedureCall id="_1rn2"
+                             procedure="check.analysis.dialog.checked.auto_min_max_y"/>
+            </Procedure>
+            <Procedure id="_1rn5" name="auto_min_max_y_selected_status">
+              <variable name="selected"/>
+              <comment>@teststep Check 'auto min/max' Y-axis selection in the 'Profile Plot' dialog.</comment>
+              <ProcedureCall id="_1rn7"
+                             procedure="check.analysis.dialog.checked.auto_min_max_y_selected_status">
+                <variable name="selected">$(selected)</variable>
+              </ProcedureCall>
+            </Procedure>
+            <Procedure id="_1rnr" name="compute_in_between_points">
+              <comment>@teststep Check 'Compute in-between points' checkbox in the 'Profile Plot' dialog is selected.</comment>
+              <ProcedureCall id="_1rn+"
+                             procedure="check.analysis.dialog.checked.compute_in_between_points"/>
+            </Procedure>
+            <Procedure id="_1rn-"
+                       name="compute_in_between_points_selected_status">
+              <variable name="selected"/>
+              <comment>@teststep Check 'Compute in-between points' selection in the 'Profile Plot' dialog.</comment>
+              <ProcedureCall id="_1ro0"
+                             procedure="check.analysis.dialog.checked.compute_in_between_points_selected_status">
+                <variable name="selected">$(selected)</variable>
+              </ProcedureCall>
+            </Procedure>
+            <Procedure id="_1ro1" name="log_scaled">
+              <comment>@teststep Check 'Log scaled' checkbox in the 'Profile Plot' dialog is selected.</comment>
+              <ProcedureCall id="_1ro2"
+                             procedure="check.analysis.dialog.checked.log_scaled"/>
+            </Procedure>
+            <Procedure id="_1ro3" name="log_scaled_selected_status">
+              <variable name="selected"/>
+              <comment>@teststep Check 'Log scaled' selection in the 'Profile Plot' dialog.</comment>
+              <ProcedureCall id="_1ro4"
+                             procedure="check.analysis.dialog.checked.log_scaled_selected_status">
+                <variable name="selected">$(selected)</variable>
+              </ProcedureCall>
+            </Procedure>
+            <Procedure id="_1ro5" name="mark_segments">
+              <comment>@teststep Check 'Mark segments' checkbox in the 'Profile Plot' dialog is selected.</comment>
+              <ProcedureCall id="_1ro6"
+                             procedure="check.analysis.dialog.checked.mark_segments"/>
+            </Procedure>
+            <Procedure id="_1ro7" name="mark_segments_selected_status">
+              <variable name="selected"/>
+              <comment>@teststep Check 'Mark segments' selection in the 'Profile Plot' dialog.</comment>
+              <ProcedureCall id="_1ro8"
+                             procedure="check.analysis.dialog.checked.mark_segments_selected_status">
+                <variable name="selected">$(selected)</variable>
+              </ProcedureCall>
+            </Procedure>
+            <Procedure id="_1rl+" name="use_ROI_mask">
+              <comment>@teststep Check 'Use ROI Mask(s)' checkbox in the 'Profile Plot' dialog is selected.</comment>
+              <ProcedureCall id="_1rm0"
+                             procedure="check.analysis.dialog.checked.use_ROI_mask"/>
+            </Procedure>
+            <Procedure id="_1rm3" name="use_ROI_mask_selected_status">
+              <variable name="selected"/>
+              <comment>@teststep Check ROI Mask selection in the 'Profile Plot' dialog.</comment>
+              <ProcedureCall id="_1rm5"
+                             procedure="check.analysis.dialog.checked.use_ROI_mask_selected_status">
+                <variable name="selected">$(selected)</variable>
+              </ProcedureCall>
+            </Procedure>
+            <Procedure id="_1ro9" name="use_correlative_data">
+              <comment>@teststep Check 'Use correlative data' checkbox in the 'Profile Plot' dialog is selected.</comment>
+              <ProcedureCall id="_1roA"
+                             procedure="check.analysis.dialog.checked.use_correlative_data"/>
+            </Procedure>
+            <Procedure id="_1roB" name="use_correlative_data_selected_status">
+              <variable name="selected"/>
+              <comment>@teststep Check 'Use correlative data' selection in the 'Profile Plot' dialog.</comment>
+              <ProcedureCall id="_1roC"
+                             procedure="check.analysis.dialog.checked.use_correlative_data_selected_status">
+                <variable name="selected">$(selected)</variable>
+              </ProcedureCall>
+            </Procedure>
+          </Package>
+          <Package id="_1rm8" name="text">
+            <Procedure id="_1rm9" name="x_axis_min">
+              <variable name="val"/>
+              <comment>@teststep Check X-Axis min in the 'Profile Plot' dialog.</comment>
+              <ProcedureCall id="_1rmB"
+                             procedure="check.analysis.dialog.text.x_axis_min">
+                <variable name="val">$(val)</variable>
+              </ProcedureCall>
+            </Procedure>
+            <Procedure id="_1rmE" name="x_axis_max">
+              <variable name="val"/>
+              <comment>@teststep Check X-Axis max in the 'Profile Plot' dialog.</comment>
+              <ProcedureCall id="_1rmG"
+                             procedure="check.analysis.dialog.text.x_axis_max">
+                <variable name="val">$(val)</variable>
+              </ProcedureCall>
+            </Procedure>
+            <Procedure id="_1rmJ" name="y_axis_min">
+              <variable name="val"/>
+              <comment>@teststep Check Y-Axis min in the 'Profile Plot' dialog.</comment>
+              <ProcedureCall id="_1rmL"
+                             procedure="check.analysis.dialog.text.y_axis_min">
+                <variable name="val">$(val)</variable>
+              </ProcedureCall>
+            </Procedure>
+            <Procedure id="_1rmO" name="y_axis_max">
+              <variable name="val"/>
+              <comment>@teststep Check Y-Axis max in the 'Profile Plot' dialog.</comment>
+              <ProcedureCall id="_1rmQ"
+                             procedure="check.analysis.dialog.text.y_axis_max">
+                <variable name="val">$(val)</variable>
+              </ProcedureCall>
+            </Procedure>
+            <Procedure id="_1rmT" name="selected_roi_mask">
+              <variable name="val"/>
+              <comment>@teststep Check selected ROI mask in the 'Profile Plot' dialog.</comment>
+              <ProcedureCall id="_1rmV"
+                             procedure="check.analysis.dialog.text.selected_roi_mask">
+                <variable name="val">$(val)</variable>
+              </ProcedureCall>
+            </Procedure>
+            <Procedure id="_1rnK" name="point_data_source">
+              <variable name="val"/>
+              <comment>@teststep Check 'Point data source' in the 'Profile Plot' dialog.</comment>
+              <ProcedureCall id="_1rnM"
+                             procedure="check.analysis.dialog.text.point_data_source">
+                <variable name="val">$(val)</variable>
+              </ProcedureCall>
+            </Procedure>
+            <Procedure id="_1rnP" name="data_field">
+              <variable name="val"/>
+              <comment>@teststep Check 'Data field' in the 'Profile Plot' dialog.</comment>
+              <ProcedureCall id="_1rnR"
+                             procedure="check.analysis.dialog.text.data_field">
+                <variable name="val">$(val)</variable>
+              </ProcedureCall>
+            </Procedure>
+          </Package>
+          <Procedure id="_2JTV" name="table_check">
+            <comment>@teststep Check 'Profile Plot' table.</comment>
+            <CheckStringStep checktype="item" client="$(client)"
+                             component="dialog7.Content_displayer.header.pixel_no"
+                             id="_2JTY">
+              <text>pixel_no</text>
+            </CheckStringStep>
+            <CheckStringStep checktype="item" client="$(client)"
+                             component="dialog7.Content_displayer.table.pixel_no&amp;0"
+                             id="_2JTZ">
+              <text>1</text>
+            </CheckStringStep>
+            <CheckStringStep checktype="item" client="$(client)"
+                             component="dialog7.Content_displayer.table.pixel_no&amp;1"
+                             id="_2JTa">
+              <text>2</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1roJ" name="profile_plot_table">
+            <comment>@teststep Check 'Profile Plot' table.</comment>
+            <ProcedureCall id="_2JTP" postdelay="200"
+                           procedure="do_click.analysis.profile_plot.switch_to_table_button"/>
+            <TryStep id="_2JTR" name="check">
+              <ProcedureCall id="_2JTf"
+                             procedure="check.analysis.profile_plot.table_check"/>
+              <CatchSequence exception="TestException" id="_2JTS"
+                             maxerror="0">
+                <ProcedureCall id="_2JTl"
+                               procedure="test_events.analysis.check_dialog_options_available_else_expand_options"/>
+                <IfSequence id="_1sds"
+                            test="&#34;$(use_ROI_mask_enabled)&#34;==&#34;true&#34;">
+                  <ProcedureCall id="_2JTm" postdelay="200"
+                                 procedure="do_click.analysis.profile_plot.switch_to_table_button"/>
+                  <TryStep id="_2JTg" name="check">
+                    <ProcedureCall id="_2JTh" predelay="2000"
+                                   procedure="check.analysis.profile_plot.table_check"/>
+                    <CatchSequence exception="TestException" id="_2JTi"
+                                   maxerror="0">
+                      <ProcedureCall id="_2JTj"
+                                     procedure="run-log.make_screensot">
+                        <variable name="iw_name">profile_plot_table</variable>
+                        <variable name="iw_name_example">error_dialog</variable>
+                      </ProcedureCall>
+                      <ProcedureCall id="_2JTk" procedure="run-log.logError">
+                        <variable name="message">Profile plot table is not appeared.</variable>
+                        <variable name="withScreenshots">true</variable>
+                      </ProcedureCall>
+                    </CatchSequence>
+                  </TryStep>
+                </IfSequence>
+              </CatchSequence>
+            </TryStep>
+            <ProcedureCall id="_1rkM"
+                           procedure="do_click.analysis.profile_plot.switch_to_chart_button"/>
+          </Procedure>
+        </Package>
         <Package id="_1pac" name="correlative_plot">
           <Package id="_1peX" name="enabled">
             <Procedure id="_1peY" name="use_ROI_mask">
@@ -1707,7 +1964,7 @@
             </Procedure>
             <Procedure id="_1ped" name="use_ROI_mask_selected_status">
               <variable name="selected"/>
-              <comment>@teststep Check 'Correlative Plot' dialog ROI Mask selection.</comment>
+              <comment>@teststep Check ROI Mask selection in the 'Correlative Plot' dialog.</comment>
               <TryStep id="_1rXt">
                 <ProcedureCall id="_1rYI"
                                procedure="check.analysis.dialog.checked.use_ROI_mask_selected_status">
@@ -1736,7 +1993,7 @@
             </Procedure>
             <Procedure id="_1pf2" name="auto_min_max_x_selected_status">
               <variable name="selected"/>
-              <comment>@teststep Check 'Correlative Plot' dialog  'auto min/max' X-axis selection.</comment>
+              <comment>@teststep Check 'auto min/max' X-axis selection in the 'Correlative Plot' dialog.</comment>
               <TryStep id="_1rXx">
                 <ProcedureCall id="_1rYK"
                                procedure="check.analysis.dialog.checked.auto_min_max_x_selected_status">
@@ -1766,7 +2023,7 @@
             </Procedure>
             <Procedure id="_1pf8" name="x_axis_log_scaled_selected_status">
               <variable name="selected"/>
-              <comment>@teststep Check 'Correlative Plot' dialog 'x axis Log10 scaled' selection.</comment>
+              <comment>@teststep Check 'x axis Log10 scaled' selection in the 'Correlative Plot' dialog.</comment>
               <TryStep id="_1rX-">
                 <ProcedureCall id="_1rYw"
                                procedure="check.analysis.dialog.checked.x_axis_log_scaled_selected_status">
@@ -1795,7 +2052,7 @@
             </Procedure>
             <Procedure id="_1pfA" name="auto_min_max_y_selected_status">
               <variable name="selected"/>
-              <comment>@teststep Check 'Correlative Plot' dialog  'auto min/max' Y-axis selection.</comment>
+              <comment>@teststep Check 'auto min/max' Y-axis selection in the 'Correlative Plot' dialog.</comment>
               <TryStep id="_1rY3">
                 <ProcedureCall id="_1rYM"
                                procedure="check.analysis.dialog.checked.auto_min_max_y_selected_status">
@@ -1825,7 +2082,7 @@
             </Procedure>
             <Procedure id="_1pfV" name="y_axis_log_scaled_selected_status">
               <variable name="selected"/>
-              <comment>@teststep Check 'Correlative Plot' dialog 'y axis Log10 scaled' selection.</comment>
+              <comment>@teststep Check 'y axis Log10 scaled' selection in the 'Correlative Plot' dialog.</comment>
               <TryStep id="_1rY7">
                 <ProcedureCall id="_1rYy"
                                procedure="check.analysis.dialog.checked.y_axis_log_scaled_selected_status">
@@ -1855,7 +2112,7 @@
             </Procedure>
             <Procedure id="_1pfC" name="show_tolerance_range_selected_status">
               <variable name="selected"/>
-              <comment>@teststep Check 'Correlative Plot' dialog ROI Mask selection.</comment>
+              <comment>@teststep Check ROI Mask selection in the 'Correlative Plot' dialog.</comment>
               <TryStep id="_1rYB">
                 <ProcedureCall id="_1rY+"
                                procedure="check.analysis.dialog.checked.show_tolerance_range_selected_status">
@@ -1885,7 +2142,7 @@
             </Procedure>
             <Procedure id="_1pfE" name="show_regression_line_selected_status">
               <variable name="selected"/>
-              <comment>@teststep Check 'Correlative Plot' dialog 'Show regression line' selection.</comment>
+              <comment>@teststep Check 'Show regression line' selection in the 'Correlative Plot' dialog.</comment>
               <TryStep id="_1rYF">
                 <ProcedureCall id="_1rZ0"
                                procedure="check.analysis.dialog.checked.show_regression_line_selected_status">
@@ -2181,7 +2438,7 @@
             </Procedure>
             <Procedure id="_1psE" name="use_ROI_mask_selected_status">
               <variable name="selected"/>
-              <comment>@teststep Check 'Scatter Plot' dialog ROI Mask selection.</comment>
+              <comment>@teststep Check ROI Mask selection in the 'Scatter Plot' dialog.</comment>
               <TryStep id="_1rMH">
                 <ProcedureCall id="_1rXB"
                                procedure="check.analysis.dialog.checked.use_ROI_mask_selected_status">
@@ -2210,7 +2467,7 @@
             </Procedure>
             <Procedure id="_1psI" name="auto_min_max_x_selected_status">
               <variable name="selected"/>
-              <comment>@teststep Check 'Scatter Plot' dialog  'auto min/max' X-axis selection.</comment>
+              <comment>@teststep Check 'auto min/max' X-axis selection in the 'Scatter Plot' dialog.</comment>
               <TryStep id="_1rN-">
                 <ProcedureCall id="_1rXD"
                                procedure="check.analysis.dialog.checked.auto_min_max_x_selected_status">
@@ -2239,7 +2496,7 @@
             </Procedure>
             <Procedure id="_1psQ" name="auto_min_max_y_selected_status">
               <variable name="selected"/>
-              <comment>@teststep Check 'Scatter Plot' dialog  'auto min/max' Y-axis selection.</comment>
+              <comment>@teststep Check 'auto min/max' Y-axis selection in the 'Scatter Plot' dialog.</comment>
               <TryStep id="_1rNx">
                 <ProcedureCall id="_1rXF"
                                procedure="check.analysis.dialog.checked.auto_min_max_y_selected_status">
@@ -2274,7 +2531,7 @@
             </Procedure>
             <Procedure id="_1pub" name="invert_plot_colors_selected_status">
               <variable name="selected"/>
-              <comment>@teststep Check 'Scatter Plot' dialog  'Invert plot colors' selection.</comment>
+              <comment>@teststep Check 'Invert plot colors' selection in the 'Scatter Plot' dialog.</comment>
               <TryStep id="_1rNt">
                 <ProcedureCall id="_1rXH"
                                procedure="check.analysis.dialog.checked.invert_plot_colors_selected_status">
@@ -2544,40 +2801,6 @@
             </Procedure>
           </Package>
           <Package id="_1rVG" name="checked">
-            <Procedure id="_1raH" name="use_ROI_mask_statistic">
-              <CheckBooleanStep checktype="checked" client="$(client)"
-                                component="dialog.checkUse_ROI_mask(s):"
-                                id="_1raI" resvarname="use_ROI_mask"/>
-            </Procedure>
-            <Procedure id="_1raJ"
-                       name="use_ROI_mask_selected_status_statistic">
-              <variable name="selected"/>
-              <CheckBooleanStep checktype="checked" client="$(client)"
-                                component="dialog.checkUse_ROI_mask(s):"
-                                id="_1raK" state="$(selected)"/>
-            </Procedure>
-            <Procedure id="_1raL" name="select_all">
-              <CheckBooleanStep checktype="checked" client="$(client)"
-                                component="dialog.checkSelect_all" id="_1raM"
-                                resvarname="select_all"/>
-            </Procedure>
-            <Procedure id="_1raN" name="select_all_selected_status">
-              <variable name="selected"/>
-              <CheckBooleanStep checktype="checked" client="$(client)"
-                                component="dialog.checkSelect_all" id="_1raO"
-                                state="$(selected)"/>
-            </Procedure>
-            <Procedure id="_1raP" name="select_none">
-              <CheckBooleanStep checktype="checked" client="$(client)"
-                                component="dialog.checkSelect_none" id="_1raQ"
-                                resvarname="select_none"/>
-            </Procedure>
-            <Procedure id="_1raR" name="select_none_selected_status">
-              <variable name="selected"/>
-              <CheckBooleanStep checktype="checked" client="$(client)"
-                                component="dialog.checkSelect_none" id="_1raS"
-                                state="$(selected)"/>
-            </Procedure>
             <Procedure id="_1raT" name="auto_accuracy">
               <CheckBooleanStep checktype="checked" client="$(client)"
                                 component="dialog.useAutoAccuracy" id="_1raU"
@@ -2587,61 +2810,6 @@
               <variable name="selected"/>
               <CheckBooleanStep checktype="checked" client="$(client)"
                                 component="dialog.useAutoAccuracy" id="_1raW"
-                                state="$(selected)"/>
-            </Procedure>
-            <Procedure id="_1rYP" name="x_axis_log_scaled">
-              <CheckBooleanStep checktype="checked" client="$(client)"
-                                component="dialog.xAxisLogScaled" id="_1rYS"
-                                resvarname="x_axis_log_scaled"/>
-            </Procedure>
-            <Procedure id="_1rYT" name="x_axis_log_scaled_selected_status">
-              <variable name="selected"/>
-              <CheckBooleanStep checktype="checked" client="$(client)"
-                                component="dialog.xAxisLogScaled" id="_1rYW"
-                                state="$(selected)"/>
-            </Procedure>
-            <Procedure id="_1rYX" name="y_axis_log_scaled">
-              <CheckBooleanStep checktype="checked" client="$(client)"
-                                component="dialog.yAxisLogScaled" id="_1rYa"
-                                resvarname="y_axis_log_scaled"/>
-            </Procedure>
-            <Procedure id="_1rYb" name="y_axis_log_scaled_selected_status">
-              <variable name="selected"/>
-              <CheckBooleanStep checktype="checked" client="$(client)"
-                                component="dialog.yAxisLogScaled" id="_1rYe"
-                                state="$(selected)"/>
-            </Procedure>
-            <Procedure id="_1rYf" name="show_tolerance_range">
-              <CheckBooleanStep checktype="checked" client="$(client)"
-                                component="dialog.showAcceptableDeviation"
-                                id="_1rYi" resvarname="show_tolerance_range"/>
-            </Procedure>
-            <Procedure id="_1rYj" name="show_tolerance_range_selected_status">
-              <variable name="selected"/>
-              <CheckBooleanStep checktype="checked" client="$(client)"
-                                component="dialog.showAcceptableDeviation"
-                                id="_1rYm" state="$(selected)"/>
-            </Procedure>
-            <Procedure id="_1rYn" name="show_regression_line">
-              <CheckBooleanStep checktype="checked" client="$(client)"
-                                component="dialog.showRegressionLine"
-                                id="_1rYq" resvarname="show_regression_line"/>
-            </Procedure>
-            <Procedure id="_1rYr" name="show_regression_line_selected_status">
-              <variable name="selected"/>
-              <CheckBooleanStep checktype="checked" client="$(client)"
-                                component="dialog.showRegressionLine"
-                                id="_1rYu" state="$(selected)"/>
-            </Procedure>
-            <Procedure id="_1rVH" name="use_ROI_mask">
-              <CheckBooleanStep checktype="checked" client="$(client)"
-                                component="dialog.useRoiMask" id="_1rVJ"
-                                resvarname="use_ROI_mask"/>
-            </Procedure>
-            <Procedure id="_1rVM" name="use_ROI_mask_selected_status">
-              <variable name="selected"/>
-              <CheckBooleanStep checktype="checked" client="$(client)"
-                                component="dialog.useRoiMask" id="_1rVO"
                                 state="$(selected)"/>
             </Procedure>
             <Procedure id="_1rVR" name="auto_min_max_x">
@@ -2685,6 +2853,146 @@
                                 test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
                 <ElseSequence id="_1rV+"/>
               </IfSequence>
+            </Procedure>
+            <Procedure id="_1raL" name="select_all">
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialog.checkSelect_all" id="_1raM"
+                                resvarname="select_all"/>
+            </Procedure>
+            <Procedure id="_1raN" name="select_all_selected_status">
+              <variable name="selected"/>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialog.checkSelect_all" id="_1raO"
+                                state="$(selected)"/>
+            </Procedure>
+            <Procedure id="_1raP" name="select_none">
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialog.checkSelect_none" id="_1raQ"
+                                resvarname="select_none"/>
+            </Procedure>
+            <Procedure id="_1raR" name="select_none_selected_status">
+              <variable name="selected"/>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialog.checkSelect_none" id="_1raS"
+                                state="$(selected)"/>
+            </Procedure>
+            <Procedure id="_1rYn" name="show_regression_line">
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialog.showRegressionLine"
+                                id="_1rYq" resvarname="show_regression_line"/>
+            </Procedure>
+            <Procedure id="_1rYr" name="show_regression_line_selected_status">
+              <variable name="selected"/>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialog.showRegressionLine"
+                                id="_1rYu" state="$(selected)"/>
+            </Procedure>
+            <Procedure id="_1rYf" name="show_tolerance_range">
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialog.showAcceptableDeviation"
+                                id="_1rYi" resvarname="show_tolerance_range"/>
+            </Procedure>
+            <Procedure id="_1rYj" name="show_tolerance_range_selected_status">
+              <variable name="selected"/>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialog.showAcceptableDeviation"
+                                id="_1rYm" state="$(selected)"/>
+            </Procedure>
+            <Procedure id="_1rVH" name="use_ROI_mask">
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialog.useRoiMask" id="_1rVJ"
+                                resvarname="use_ROI_mask"/>
+            </Procedure>
+            <Procedure id="_1rVM" name="use_ROI_mask_selected_status">
+              <variable name="selected"/>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialog.useRoiMask" id="_1rVO"
+                                state="$(selected)"/>
+            </Procedure>
+            <Procedure id="_1raJ"
+                       name="use_ROI_mask_selected_status_statistic">
+              <variable name="selected"/>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialog.checkUse_ROI_mask(s):"
+                                id="_1raK" state="$(selected)"/>
+            </Procedure>
+            <Procedure id="_1raH" name="use_ROI_mask_statistic">
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialog.checkUse_ROI_mask(s):"
+                                id="_1raI" resvarname="use_ROI_mask"/>
+            </Procedure>
+            <Procedure id="_1rnW" name="use_correlative_data">
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialog.useCorrelativeData"
+                                id="_1rnX" resvarname="use_correlative_data"/>
+            </Procedure>
+            <Procedure id="_1rnY" name="use_correlative_data_selected_status">
+              <variable name="selected"/>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialog.useCorrelativeData"
+                                id="_1rnZ" state="$(selected)"/>
+            </Procedure>
+            <Procedure id="_1rna" name="compute_in_between_points">
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialog.computeInBetweenPoints"
+                                id="_1rnb"
+                                resvarname="compute_in_between_points"/>
+            </Procedure>
+            <Procedure id="_1rnc"
+                       name="compute_in_between_points_selected_status">
+              <variable name="selected"/>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialog.computeInBetweenPoints"
+                                id="_1rnd" state="$(selected)"/>
+            </Procedure>
+            <Procedure id="_1rne" name="mark_segments">
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialog.markSegments" id="_1rnf"
+                                resvarname="mark_segments"/>
+            </Procedure>
+            <Procedure id="_1rng" name="mark_segments_selected_status">
+              <variable name="selected"/>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialog.markSegments" id="_1rnh"
+                                state="$(selected)"/>
+            </Procedure>
+            <Procedure id="_1rni" name="log_scaled">
+              <IfSequence id="_1rnj" test="${qftest:windows}">
+                <ElseifSequence id="_1rnk" name="MAC?"
+                                test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+                <ElseSequence id="_1rnl"/>
+              </IfSequence>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialog.logScaled" id="_1rlf"
+                                resvarname="log_scaled"/>
+            </Procedure>
+            <Procedure id="_1rnn" name="log_scaled_selected_status">
+              <variable name="selected"/>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialog.logScaled" id="_1rno"
+                                state="$(selected)"/>
+            </Procedure>
+            <Procedure id="_1rYP" name="x_axis_log_scaled">
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialog.xAxisLogScaled" id="_1rYS"
+                                resvarname="x_axis_log_scaled"/>
+            </Procedure>
+            <Procedure id="_1rYT" name="x_axis_log_scaled_selected_status">
+              <variable name="selected"/>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialog.xAxisLogScaled" id="_1rYW"
+                                state="$(selected)"/>
+            </Procedure>
+            <Procedure id="_1rYX" name="y_axis_log_scaled">
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialog.yAxisLogScaled" id="_1rYa"
+                                resvarname="y_axis_log_scaled"/>
+            </Procedure>
+            <Procedure id="_1rYb" name="y_axis_log_scaled_selected_status">
+              <variable name="selected"/>
+              <CheckBooleanStep checktype="checked" client="$(client)"
+                                component="dialog.yAxisLogScaled" id="_1rYe"
+                                state="$(selected)"/>
             </Procedure>
           </Package>
           <Package id="_1rV-" name="text">
@@ -2797,7 +3105,7 @@ dialog.label_statistic_txt</comment>
           </Procedure>
           <Procedure id="_1rax" name="histogram_accuracy">
             <variable name="val"/>
-            <comment>@teststep Check statistics dialog histogram accuracy</comment>
+            <comment>@teststep Check histogram accuracy in the 'Statistics' dialog.</comment>
             <CheckStringStep client="$(client)"
                              component="dialog.accuracy.textHistogram_accuracy:"
                              id="_1ray">
@@ -2894,7 +3202,7 @@ dialog.label_statistic_txt</comment>
               <default>Name: $(err_band)</default>
             </SetGlobalStep>
             <CheckStringStep client="$(client)"
-                             component="NbMainWindow.labelName:_OGVI_err"
+                             component="NbMainWindow.labelName_err_band_name"
                              id="_1ply">
               <text>$(name_text)</text>
             </CheckStringStep>
@@ -3005,7 +3313,6 @@ dialog.label_statistic_txt</comment>
         </Procedure>
         <Procedure id="_1riu" name="button_maximize_window_visible_status">
           <variable name="visible"/>
-          <comment>@teststep Check button 'Maximize Window' is visible.</comment>
           <CheckBooleanStep checktype="visible" client="$(client)"
                             component="NbMainWindow.buttonTipMaximize_Window"
                             id="_1oWK" state="$(visible)"/>
@@ -3137,6 +3444,8 @@ dialog.label_statistic_txt</comment>
         <ProcedureCall id="_1rio" procedure="check.product.not_opened"/>
         <IfSequence id="_1rip" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
           <ProcedureCall id="_1riq" procedure="wait.product_is_opened"/>
+          <ProcedureCall id="_1rld"
+                         procedure="utility.handle_SNAP_Limited_Functionality_dialog"/>
         </IfSequence>
         <ProcedureCall id="_1rir" procedure="check.product.not_opened"/>
         <IfSequence id="_1ris" test="&#34;$(not_opened)&#34;==&#34;true&#34;">

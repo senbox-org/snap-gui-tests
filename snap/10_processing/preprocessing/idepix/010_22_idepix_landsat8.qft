@@ -1,0 +1,1203 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.11">
+  <include>qfs.qft</include>
+  <include>../../../lib/snap_main.qft</include>
+  <include>../../lib/idepix.qft</include>
+  <variable name="output_folder">idepix</variable>
+  <variable name="xml_file_dir">idepix</variable>
+  <TestSet id="_2" name="010_22_idepix_landsat8"
+           reportname="010-22 Idepix Landsat8">
+    <DependencyReference id="_1pO-"
+                         reference="start_application_for_processing">
+      <variable name="output_dir">$(output_folder)</variable>
+    </DependencyReference>
+    <TestCase id="_8cc" name="01_check_ui"
+              reportname="01 Idepix Landsat8 Tool UI">
+      <ProcedureCall id="_1rwm" procedure="action.open.tool_window"/>
+      <TestStep id="_1pM7" name="default_componets">
+        <ProcedureCall id="_1qeu" procedure="check.enabled.menu_file"/>
+        <ProcedureCall id="_1qev" procedure="check.enabled.menu_help"/>
+        <ProcedureCall id="_1qew" procedure="check.enabled.close_button"/>
+        <ProcedureCall id="_1qex" procedure="check.enabled.run_button"/>
+        <TestStep id="_1pbB" name="io_parameters">
+          <ProcedureCall id="_1pbA" procedure="select_io_tab"/>
+          <ProcedureCall id="_1qez"
+                         procedure="check.enabled.io_parameters.open_source_product_button"/>
+          <ProcedureCall id="_1qe+"
+                         procedure="check.enabled.io_parameters.output_directory_button"/>
+          <ProcedureCall id="_1qf1"
+                         procedure="check.enabled.io_parameters.save_as_checkbox_enabled_status">
+            <variable name="enabled">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qf2"
+                         procedure="check.enabled.io_parameters.open_in_snap_checkbox_enabled_status">
+            <variable name="enabled">true</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pbG" name="processing_parameters">
+          <ProcedureCall id="_1pbF"
+                         procedure="select_processing_parameters_tab"/>
+        </TestStep>
+      </TestStep>
+      <ProcedureCall id="_1s6s" procedure="action.close_processor_tool"/>
+    </TestCase>
+    <TestSet id="_1pMP" name="02_processing">
+      <TestCase disabled="true" id="_1rtr" name="1">
+        <variable name="source_data">LC81960222013195LGN00_MTL.txt</variable>
+        <variable name="source_dir">landsat_8_oli_tirs_LC81960222013195LGN00</variable>
+        <ProcedureCall id="_1qcx"
+                       procedure="utils.copy_properties_for_idepix_landsat"/>
+        <TestStep id="_1qKN" name="preparation">
+          <ProcedureCall id="_1r+w" procedure="action.open.tool_window"/>
+          <ProcedureCall id="_1r-E" procedure="select_io_tab"/>
+          <ProcedureCall id="_1r+I" procedure="open_source_product">
+            <variable name="prod_dir">$(source_dir)</variable>
+            <variable name="prod_name">$(source_data)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1r+Z"
+                         procedure="action.select.io_parameters.deselect_save_as"/>
+          <ProcedureCall id="_1r+a"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_1r+b"
+                         procedure="action.select.processing_parameters.write-emissive-bands"/>
+        </TestStep>
+        <TestStep id="_1qKQ" name="processing">
+          <ProcedureCall id="_1r+c" postdelay="5000"
+                         procedure="action.do_click.run_button"/>
+          <ProcedureCall id="_1r-c"
+                         procedure="wait.disappear.writing_target_product"/>
+          <ProcedureCall id="_1r+s" predelay="5000"
+                         procedure="action.handle_successfully_created_and_opened"/>
+        </TestStep>
+        <TestStep id="_1qKS" name="check_output_product">
+          <ProcedureCall id="_1qKT"
+                         procedure="product_meta_data.for_open_image_view_without_grouping"/>
+          <ProcedureCall id="_1qKU"
+                         procedure="test_events.imaging_tools.open_image_window_in_target_product_check_masks_layers"/>
+        </TestStep>
+        <ProcedureCall id="_1s6t" procedure="action.close_processor_tool"/>
+      </TestCase>
+      <TestCase id="_40q" name="store_load_display_parameters">
+        <variable name="ofn">idepix_landsat8.xml</variable>
+        <variable name="output_file">save_parameter_idepix_landsat8s.dim</variable>
+        <variable name="source_data">LC81960222013195LGN00_MTL.txt</variable>
+        <variable name="source_dir">landsat_8_oli_tirs_LC81960222013195LGN00</variable>
+        <variable name="cloud_buffer">5</variable>
+        <variable name="amb_low_bound">2.0</variable>
+        <variable name="amb_sure_sep">4.0</variable>
+        <variable name="sure_snow_sep">5.0</variable>
+        <variable name="a_shimez">0.2</variable>
+        <variable name="b_shimez">0.3</variable>
+        <variable name="a_hot">0.2</variable>
+        <variable name="a_clost">0.002</variable>
+        <ProcedureCall id="_1rwq" procedure="action.open.tool_window"/>
+        <ProcedureCall id="_1rue" procedure="open_source_product">
+          <variable name="prod_dir">$(source_dir)</variable>
+          <variable name="prod_name">$(source_data)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1ruf"
+                       procedure="action.select.io_parameters.open_in_snap"/>
+        <ProcedureCall id="_1rug"
+                       procedure="action.select.io_parameters.deselect_save_as"/>
+        <TestStep id="_1pOt" name="change_parameters">
+          <ProcedureCall id="_1rt-"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_1rtw"
+                         procedure="set.processing_parameters.cloudBufferWidth">
+            <variable name="val">$(cloud_buffer)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rzU"
+                         procedure="set.processing_parameters.nn_cloud_ambiguous_lower_boundary">
+            <variable name="val">$(amb_low_bound)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rzV"
+                         procedure="set.processing_parameters.nn_cloud_ambiguous_sure_separation_value">
+            <variable name="val">$(amb_sure_sep)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rzW"
+                         procedure="set.processing_parameters.nn_cloud_sure_snow_separation_value">
+            <variable name="val">$(sure_snow_sep)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rzX"
+                         procedure="set.processing_parameters.threshold_A_for_SHIMEZ_cloud_test">
+            <variable name="val">$(a_shimez)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rzY"
+                         procedure="set.processing_parameters.threshold_B_for_SHIMEZ_cloud_test">
+            <variable name="val">$(b_shimez)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rzZ"
+                         procedure="set.processing_parameters.threshold_A_for_HOT_cloud_test">
+            <variable name="val">$(a_hot)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rza"
+                         procedure="set.processing_parameters.threshold_A_for_CLOST_cloud_test">
+            <variable name="val">$(a_clost)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <ProcedureCall id="_1pPE" procedure="store_parameters"/>
+        <TestStep id="_1pPg" name="change_parameters">
+          <ProcedureCall id="_1ru2"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_1rzr"
+                         procedure="set.processing_parameters.cloudBufferWidth">
+            <variable name="val">3</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rzs"
+                         procedure="set.processing_parameters.nn_cloud_ambiguous_lower_boundary">
+            <variable name="val">1</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rzt"
+                         procedure="set.processing_parameters.nn_cloud_ambiguous_sure_separation_value">
+            <variable name="val">3</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rzu"
+                         procedure="set.processing_parameters.nn_cloud_sure_snow_separation_value">
+            <variable name="val">4</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rzv"
+                         procedure="set.processing_parameters.threshold_A_for_SHIMEZ_cloud_test">
+            <variable name="val">0.1</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rzw"
+                         procedure="set.processing_parameters.threshold_B_for_SHIMEZ_cloud_test">
+            <variable name="val">0.2</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rzx"
+                         procedure="set.processing_parameters.threshold_A_for_HOT_cloud_test">
+            <variable name="val">0.1</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rzy"
+                         procedure="set.processing_parameters.threshold_A_for_CLOST_cloud_test">
+            <variable name="val">0.001</variable>
+          </ProcedureCall>
+        </TestStep>
+        <ProcedureCall id="_1pPl" procedure="load_parameters"/>
+        <TestStep id="_1pPm" name="check_parameters">
+          <ProcedureCall id="_1pfY"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_1rz-"
+                         procedure="check.text.processing_parameters.cloudBufferWidth">
+            <variable name="val">$(cloud_buffer)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1r+0"
+                         procedure="check.text.processing_parameters.nn_cloud_ambiguous_lower_boundary">
+            <variable name="val">$(amb_low_bound)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1r+1"
+                         procedure="check.text.processing_parameters.nn_cloud_ambiguous_sure_separation_value">
+            <variable name="val">$(amb_sure_sep)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1r+2"
+                         procedure="check.text.processing_parameters.nn_cloud_sure_snow_separation_value">
+            <variable name="val">$(sure_snow_sep)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1r+3"
+                         procedure="check.text.processing_parameters.threshold_A_for_SHIMEZ_cloud_test">
+            <variable name="val">$(a_shimez)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1r+4"
+                         procedure="check.text.processing_parameters.threshold_B_for_SHIMEZ_cloud_test">
+            <variable name="val">$(b_shimez)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1r+5"
+                         procedure="check.text.processing_parameters.threshold_A_for_HOT_cloud_test">
+            <variable name="val">$(a_hot)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1r+6"
+                         procedure="check.text.processing_parameters.threshold_A_for_CLOST_cloud_test">
+            <variable name="val">$(a_clost)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pV8" name="display_parameters">
+          <ProcedureCall id="_1rwO" procedure="action.do_click.menu.file"/>
+          <ProcedureCall id="_1rwP"
+                         procedure="action.do_click.menu.file_Display_Parameters"/>
+          <ComponentWaiter client="$(client)"
+                           component="dialogIdepix.Landsat8_Parameters"
+                           id="_1r+l"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogIdepix.Landsat8_Parameters.ModalDialog.ok"
+                          event="MOUSE_MPRC" id="_1r+m" modifiers="16"/>
+          <ProcedureCall id="_1s6u" procedure="action.close_processor_tool"/>
+        </TestStep>
+      </TestCase>
+    </TestSet>
+    <TestCase id="_1pFr" name="03_help">
+      <ProcedureCall id="_1rwr" procedure="action.open.tool_window"/>
+      <TestStep id="_1pVG" name="check_help">
+        <ProcedureCall id="_1ruZ" procedure="action.do_click.menu.help"/>
+        <ProcedureCall id="_1rua"
+                       procedure="action.do_click.menu.help_menuItemHelp"/>
+        <ProcedureCall id="_1qes" procedure="help.check_help_appears_close"/>
+      </TestStep>
+      <TestStep id="_1pVN" name="check_help_about">
+        <ProcedureCall id="_1ruc" procedure="action.do_click.menu.help"/>
+        <ProcedureCall id="_1rud"
+                       procedure="action.do_click.menu.help_about"/>
+        <ComponentWaiter client="$(client)"
+                         component="dialogAbout_Idepix.Landsat8" id="_1r+p"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogAbout_Idepix.Landsat8.ModalDialog.ok"
+                        event="MOUSE_MPRC" id="_1r+q" modifiers="16"/>
+      </TestStep>
+      <ProcedureCall id="_1s6v" procedure="action.close_processor_tool"/>
+    </TestCase>
+  </TestSet>
+  <PackageRoot id="_4">
+    <Package id="_1rsV" name="action">
+      <Procedure id="_1s6h" name="close_processor_tool">
+        <ProcedureCall id="_1s6r" procedure="action.do_click.close_button"/>
+      </Procedure>
+      <Package id="_1rsb" name="do_click">
+        <Package id="_1rsc" name="menu">
+          <Procedure id="_1rsd" name="file">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).menuFile"
+                            event="MOUSE_MPRC" id="_1rwv" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1rsh" name="file_Load_Parameters">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).menuItemLoad_Parameters..."
+                            event="MOUSE_MPRC" id="_1rsi" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1rsl" name="file_Save_Parameters">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).menuItemSave_Parameters..."
+                            event="MOUSE_MPRC" id="_1rsm" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1rsn" name="file_Display_Parameters">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).menuItemDisplay_Parameters..."
+                            event="MOUSE_MPRC" id="_1r+t" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1rsf" name="help">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).menuHelp"
+                            event="MOUSE_MPRC" id="_1rle" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1rsr" name="help_about">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).menuItemAbout..."
+                            event="MOUSE_MPRC" id="_1r+u" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1rsj" name="help_menuItemHelp">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).menuItemHelp"
+                            event="MOUSE_MPRC" id="_1rsk" modifiers="16"/>
+          </Procedure>
+        </Package>
+        <Package id="_1rtX" name="io_parameters">
+          <Procedure id="_1rt9" name="open_source_product_button">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).button..."
+                            event="MOUSE_MPRC" id="_1rqC" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1rvu" name="save_as">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).saveToFileSelected"
+                            event="MOUSE_MPRC" id="_1rvv" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1rvw" name="open_in_snap">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).openInAppSelected"
+                            event="MOUSE_MPRC" id="_1rvx" modifiers="16"/>
+          </Procedure>
+        </Package>
+        <Package id="_1rtY" name="processing_parameters"/>
+        <Procedure id="_1rtA" name="close_button">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).IdepixLandsat8Dialog.close"
+                          event="MOUSE_MPRC" id="_1rtB" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1rtC" name="run_button">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).IdepixLandsat8Dialog.apply"
+                          event="MOUSE_MPRC" id="_1rtD" modifiers="16"/>
+        </Procedure>
+      </Package>
+      <Package id="_1rqr" name="open">
+        <Procedure id="_1rwk" name="tool_window">
+          <ProcedureCall id="_1rwl" procedure="idepix.open.landsat8"/>
+        </Procedure>
+        <Package id="_1rvy" name="parameters"/>
+      </Package>
+      <Package id="_1rsS" name="select">
+        <Package id="_1rth" name="io_parameters">
+          <Procedure id="_1rw3" name="save_as">
+            <ProcedureCall id="_1rw4"
+                           procedure="check.checked.io_parameters.save_as"/>
+            <IfSequence id="_1rwA"
+                        test="&#34;$(save_as)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1rw5"
+                             procedure="action.do_click.io_parameters.save_as"/>
+            </IfSequence>
+            <ProcedureCall id="_1rw6"
+                           procedure="check.checked.io_parameters.save_as_selected_status">
+              <variable name="selected">true</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1rwB" name="open_in_snap">
+            <ProcedureCall id="_1rwC"
+                           procedure="check.checked.io_parameters.open_in_snap"/>
+            <IfSequence id="_1rwD"
+                        test="&#34;$(open_in_snap)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1rw2"
+                             procedure="action.do_click.io_parameters.open_in_snap"/>
+            </IfSequence>
+            <ProcedureCall id="_1rw0"
+                           procedure="check.checked.io_parameters.open_in_snap_selected_status">
+              <variable name="selected">true</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1rwE" name="deselect_save_as">
+            <ProcedureCall id="_1rwF"
+                           procedure="check.checked.io_parameters.save_as"/>
+            <IfSequence id="_1rwG"
+                        test="&#34;$(save_as)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1rwH"
+                             procedure="action.do_click.io_parameters.save_as"/>
+            </IfSequence>
+            <ProcedureCall id="_1rwI"
+                           procedure="check.checked.io_parameters.save_as_selected_status">
+              <variable name="selected">false</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1rwJ" name="deselect_open_in_snap">
+            <ProcedureCall id="_1rwK"
+                           procedure="check.checked.io_parameters.open_in_snap"/>
+            <IfSequence id="_1rwL"
+                        test="&#34;$(open_in_snap)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1rwM"
+                             procedure="action.do_click.io_parameters.open_in_snap"/>
+            </IfSequence>
+            <ProcedureCall id="_1rwN"
+                           procedure="check.checked.io_parameters.open_in_snap_selected_status">
+              <variable name="selected">false</variable>
+            </ProcedureCall>
+          </Procedure>
+        </Package>
+        <Package id="_1rti" name="processing_parameters"/>
+        <Procedure id="_1qCN" name="tab">
+          <variable name="tab"/>
+          <variable name="example">I/O Parameters;Processing Parameters</variable>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).tabbed.tab"
+                          event="MOUSE_MPRC" id="_1r+P" modifiers="16"/>
+        </Procedure>
+      </Package>
+    </Package>
+    <Procedure id="_1pb8" name="select_io_tab">
+      <ProcedureCall id="_1rwQ" procedure="action.select.tab">
+        <variable name="tab">I/O Parameters</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pbC" name="select_processing_parameters_tab">
+      <ProcedureCall id="_1pbE" procedure="action.select.tab">
+        <variable name="tab">Processing Parameters</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pMT" name="open_source_product">
+      <variable name="prod_dir"/>
+      <variable name="prod_name"/>
+      <ProcedureCall id="_1oSj" procedure="path.source_data_directory">
+        <variable name="data_type">$(prod_dir)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1rx0"
+                     procedure="action.do_click.io_parameters.open_source_product_button"/>
+      <ProcedureCall id="_1pHR"
+                     procedure="utility.handle_select_product_dialog">
+        <variable name="file">$(data_source_directory)$(prod_name)</variable>
+      </ProcedureCall>
+      <TryStep id="_1pXT">
+        <ProcedureCall id="_1pXV" procedure="wait.appear.error.dialog_Error"/>
+        <ProcedureCall id="_1pXS"
+                       procedure="do_click.error_dialog.button_OK_Error"/>
+        <ProcedureCall id="_1pXW" procedure="run-log.logError">
+          <variable name="message">Opening of the product $(data_source_directory)$(prod_name) failed</variable>
+          <variable name="withScreenshots">false</variable>
+        </ProcedureCall>
+        <CatchSequence exception="TestException" id="_1pXU" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1pPF" name="store_parameters">
+      <TryStep id="_1pPG" name="select_menu_store_parameters">
+        <ProcedureCall id="_1ru0" procedure="action.do_click.menu.file"/>
+        <ProcedureCall id="_1ru1"
+                       procedure="action.do_click.menu.file_Save_Parameters"/>
+        <CatchSequence exception="TestException" id="_1pPJ" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPK" procedure="utility.store_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pP9" name="load_parameters">
+      <TryStep id="_1pPA" name="select_menu_load_parameters">
+        <ProcedureCall id="_1ru8" procedure="action.do_click.menu.file"/>
+        <ProcedureCall id="_1ru9"
+                       procedure="action.do_click.menu.file_Load_Parameters"/>
+        <CatchSequence exception="TestException" id="_1pPD" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPM" procedure="utility.load_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Package id="_1rsW" name="check">
+      <Package id="_1rsX" name="enabled">
+        <Package id="_1rtb" name="io_parameters">
+          <Procedure id="_1rtO" name="open_source_product_button">
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).button..."
+                              id="_1rtQ"/>
+          </Procedure>
+          <Procedure id="_1rsa" name="output_directory_button">
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).button...2"
+                              id="_1rqR"/>
+          </Procedure>
+          <Procedure id="_1rs-" name="save_as_checkbox">
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).saveToFileSelected"
+                              id="_1rqJ" resvarname="save_as_enabled"/>
+          </Procedure>
+          <Procedure id="_1rt1" name="open_in_snap_checkbox">
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).openInAppSelected"
+                              id="_1rqK" resvarname="open_in_snap_enabled"/>
+          </Procedure>
+          <Procedure id="_1rtT" name="save_as_checkbox_enabled_status">
+            <variable name="enabled"/>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).saveToFileSelected"
+                              id="_1rtU" state="$(enabled)"/>
+          </Procedure>
+          <Procedure id="_1rtV" name="open_in_snap_checkbox_enabled_status">
+            <variable name="enabled"/>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).openInAppSelected"
+                              id="_1rtW" state="$(enabled)"/>
+          </Procedure>
+        </Package>
+        <Package id="_1rtc" name="processing_parameters"/>
+        <Procedure id="_1rsu" name="menu_file">
+          <CheckBooleanStep checktype="enabled" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).menuFile"
+                            id="_1rsy"/>
+        </Procedure>
+        <Procedure id="_1rsw" name="menu_help">
+          <CheckBooleanStep checktype="enabled" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).menuHelp"
+                            id="_1rsz"/>
+        </Procedure>
+        <Procedure id="_1rtG" name="close_button">
+          <CheckBooleanStep checktype="enabled" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).IdepixLandsat8Dialog.close"
+                            id="_1rs+"/>
+        </Procedure>
+        <Procedure id="_1rtI" name="run_button">
+          <CheckBooleanStep checktype="enabled" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).IdepixLandsat8Dialog.apply"
+                            id="_1rtM"/>
+        </Procedure>
+      </Package>
+      <Package id="_1rsY" name="checked">
+        <Package id="_1rtd" name="io_parameters">
+          <Procedure id="_1rvk" name="save_as">
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).saveToFileSelected"
+                              id="_1rlo" resvarname="save_as"/>
+          </Procedure>
+          <Procedure id="_1rvm" name="open_in_snap">
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).openInAppSelected"
+                              id="_1rlp" resvarname="open_in_snap"/>
+          </Procedure>
+          <Procedure id="_1rvq" name="save_as_selected_status">
+            <variable name="selected"/>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).saveToFileSelected"
+                              id="_1rvr" state="$(selected)"/>
+          </Procedure>
+          <Procedure id="_1rvs" name="open_in_snap_selected_status">
+            <variable name="selected"/>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).openInAppSelected"
+                              id="_1rvt" state="$(selected)"/>
+          </Procedure>
+        </Package>
+        <Package id="_1rte" name="processing_parameters"/>
+      </Package>
+      <Package id="_1rsZ" name="text">
+        <Package id="_1rtf" name="io_parameters"/>
+        <Package id="_1rtg" name="processing_parameters">
+          <Procedure id="_1rzb" name="cloudBufferWidth">
+            <variable name="val"/>
+            <comment>@teststep Check cloud buffer width.</comment>
+            <CheckStringStep client="$(client)"
+                             component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).cloudBufferWidth"
+                             id="_1rzz">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1rzd" name="nn_cloud_ambiguous_lower_boundary">
+            <variable name="val"/>
+            <comment>@teststep Check NN cloud ambiguous lower boundary.</comment>
+            <CheckStringStep client="$(client)"
+                             component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).nnCloudAmbiguousLowerBoundaryValue"
+                             id="_1rz+">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1rzf"
+                     name="nn_cloud_ambiguous_sure_separation_value">
+            <variable name="val"/>
+            <comment>@teststep Check NN cloud ambiguous/sure separation value.</comment>
+            <CheckStringStep client="$(client)"
+                             component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).nnCloudAmbiguousSureSeparationValue"
+                             id="_1rzg">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1rzh" name="nn_cloud_sure_snow_separation_value">
+            <variable name="val"/>
+            <comment>@teststep Check NN cloud sure/snow separation value.</comment>
+            <CheckStringStep client="$(client)"
+                             component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).nnCloudSureSnowSeparationValue"
+                             id="_1rzi">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1rzj" name="threshold_A_for_SHIMEZ_cloud_test">
+            <variable name="val"/>
+            <comment>@teststep Check threshold A for SHIMEZ cloud test.</comment>
+            <CheckStringStep client="$(client)"
+                             component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).shimezDiffThresh"
+                             id="_1rzk">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1rzl" name="threshold_B_for_SHIMEZ_cloud_test">
+            <variable name="val"/>
+            <comment>@teststep Check threshold B for SHIMEZ cloud test.</comment>
+            <CheckStringStep client="$(client)"
+                             component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).shimezMeanThresh"
+                             id="_1rzm">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1rzn" name="threshold_A_for_HOT_cloud_test">
+            <variable name="val"/>
+            <comment>@teststep Check threshold A for HOT cloud test.</comment>
+            <CheckStringStep client="$(client)"
+                             component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).hotThresh"
+                             id="_1rzo">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1rzp" name="threshold_A_for_CLOST_cloud_test">
+            <variable name="val"/>
+            <comment>@teststep Check threshold A for CLOST cloud test.</comment>
+            <CheckStringStep client="$(client)"
+                             component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).clostThresh"
+                             id="_1rzq">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+        </Package>
+      </Package>
+    </Package>
+    <Package id="_1rup" name="set">
+      <Package id="_1ruq" name="io_parameters"/>
+      <Package id="_1rur" name="processing_parameters">
+        <Procedure id="_1rx1" name="cloudBufferWidth">
+          <variable name="val"/>
+          <comment>@teststep Set cloud buffer width.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).cloudBufferWidth"
+                         id="_1rx2">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1ryO" name="nn_cloud_ambiguous_lower_boundary">
+          <variable name="val"/>
+          <comment>@teststep Set NN cloud ambiguous lower boundary.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).nnCloudAmbiguousLowerBoundaryValue"
+                         id="_1ryP">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1ryW" name="nn_cloud_ambiguous_sure_separation_value">
+          <variable name="val"/>
+          <comment>@teststep Set NN cloud ambiguous/sure separation value.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).nnCloudAmbiguousSureSeparationValue"
+                         id="_1ryQ">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1rye" name="nn_cloud_sure_snow_separation_value">
+          <variable name="val"/>
+          <comment>@teststep Set NN cloud sure/snow separation value.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).nnCloudSureSnowSeparationValue"
+                         id="_1ryR">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1rzO" name="threshold_A_for_SHIMEZ_cloud_test">
+          <variable name="val"/>
+          <comment>@teststep Set threshold A for SHIMEZ cloud test.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).shimezDiffThresh"
+                         id="_1ryS">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1rzP" name="threshold_B_for_SHIMEZ_cloud_test">
+          <variable name="val"/>
+          <comment>@teststep Set threshold B for SHIMEZ cloud test.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).shimezMeanThresh"
+                         id="_1ryT">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1rzQ" name="threshold_A_for_HOT_cloud_test">
+          <variable name="val"/>
+          <comment>@teststep Set threshold A for HOT cloud test.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).hotThresh"
+                         id="_1ryU">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1rzR" name="threshold_A_for_CLOST_cloud_test">
+          <variable name="val"/>
+          <comment>@teststep Set threshold A for CLOST cloud test.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).clostThresh"
+                         id="_1ryV">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+      </Package>
+    </Package>
+  </PackageRoot>
+  <ExtraSequence id="_5">
+    <ProcedureCall id="_1r+v"
+                   procedure="utils.copy_properties_for_idepix_landsat"/>
+    <TestCase disabled="true" id="_1pZO" name="cancel_processing">
+      <variable name="output_file">test_11_cancel.dim</variable>
+      <variable name="source_data">MER_FRS_1PNUPA20090707_090816_000005122080_00308_38438_7356.N1</variable>
+      <variable name="source_dir">mer_frs_1p_n1</variable>
+    </TestCase>
+    <BasicSequence id="_1ryg" name="Aufnahme 16.03.16 16:01">
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).cloudBufferWidth"
+                       id="_1ryi">
+        <text>2</text>
+      </CheckStringStep>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).refineClassificationNearCoastlines"
+                        id="_1ryj" state="false"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).nnSelector"
+                       id="_1ryk">
+        <text>ALL</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).nnCloudAmbiguousLowerBoundaryValue"
+                       id="_1ryl">
+        <text>1.95</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).nnCloudAmbiguousSureSeparationValue"
+                       id="_1rym">
+        <text>3.45</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).nnCloudSureSnowSeparationValue"
+                       id="_1ryn">
+        <text>4.3</text>
+      </CheckStringStep>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).applyShimezCloudTest"
+                        id="_1ryo"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).shimezDiffThresh"
+                       id="_1ryp">
+        <text>0.1</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).shimezMeanThresh"
+                       id="_1ryq">
+        <text>0.25</text>
+      </CheckStringStep>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).applyHotCloudTest"
+                        id="_1ryr" state="false"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).hotThresh"
+                       id="_1rys">
+        <text>0.1</text>
+      </CheckStringStep>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).applyClostCloudTest"
+                        id="_1ryt" state="false"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).clostThresh"
+                       id="_1ryu">
+        <text>0.001</text>
+      </CheckStringStep>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).applyOtsuCloudTest"
+                        id="_1ryv" state="false"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat-8_mode).outputSourceBands"
+                        id="_1ryw"/>
+    </BasicSequence>
+    <TestSet id="_1pT+" name="12_processing_in_different_formats_meris">
+      <variable name="source_data">MER_RR__1_test.N1</variable>
+      <variable name="source_dir">mer_rr__1p_n1</variable>
+      <SetupSequence id="_1pUV" name="prepare_for_the_testing">
+        <ProcedureCall id="_1qd4" procedure="cleanup.output_data_folder">
+          <variable name="directory">$(output_folder)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1rws" procedure="action.open.tool_window"/>
+      </SetupSequence>
+      <TestSet id="_1pUb" name="processing">
+        <DataDriver id="_1pUc"
+                    loopreportname="Write the target product as $(output_format)"
+                    name="output_formats">
+          <ProcedureCall id="_1pUd" procedure="tables.output_formats"/>
+        </DataDriver>
+        <TestCase id="_1pUj" name="processing_in_different_formats"
+                  reportname="Processing in $(output_format) format and check output product">
+          <ServerScriptStep disabled="true" id="_1pV5" name="print">
+            <code>print "output_format = $(output_format)"</code>
+          </ServerScriptStep>
+          <ServerScriptStep disabled="true" id="_1pV6" name="print">
+            <code>print "output_file = $(output_file)"</code>
+          </ServerScriptStep>
+          <TestStep id="_1qG-" name="processing">
+            <ProcedureCall id="_1qcm"
+                           procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
+              <variable name="screenshot">run_meris_rad_corr_error</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1qH2" procedure="select_io_tab"/>
+          </TestStep>
+          <TestStep id="_1pUq" name="check_target_product">
+            <ProcedureCall id="_1pfx"
+                           procedure="test_events.check_target_product_without_grouping"/>
+            <ProcedureCall id="_1qH5" procedure="close.all_products"/>
+          </TestStep>
+        </TestCase>
+      </TestSet>
+      <CleanupSequence id="_1pUa" name="close_processor_tool">
+        <ProcedureCall id="_1s6w" procedure="action.close_processor_tool"/>
+      </CleanupSequence>
+    </TestSet>
+    <ProcedureCall id="_1oXV" procedure="check.product.not_opened"/>
+    <IfSequence id="_1oXW" test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+      <TestStep id="_1o+2" name="delete_band">
+        <ProcedureCall id="_1oXb" procedure="select.product_tree.band">
+          <variable name="prod_id">0</variable>
+          <variable name="group_id"/>
+          <variable name="view_id">1</variable>
+          <variable name="band">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1ozv" procedure="delete_product_tree_node"/>
+        <ProcedureCall id="_1ozx" procedure="check.product.node_not_exists">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1o+t" name="undo">
+        <ProcedureCall id="_1p0C" procedure="undo_tree"/>
+        <ProcedureCall disabled="true" id="_1o+y"
+                       procedure="do_click_menubar_undo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o+z" procedure="get.tree.get_index_of_node">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+        <ServerScriptStep disabled="true" id="_1o++" name="print">
+          <code>print "$(new_band_id)"</code>
+        </ServerScriptStep>
+      </TestStep>
+      <TestStep id="_1o-3" name="redo">
+        <ProcedureCall id="_1p0D" procedure="redo_tree"/>
+        <ProcedureCall disabled="true" id="_1o-B"
+                       procedure="do_click_menubar_redo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o-C" procedure="check.product.node_not_exists">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1o-F" name="undo">
+        <ProcedureCall id="_1p0E" procedure="undo_tree"/>
+        <ProcedureCall disabled="true" id="_1o-P"
+                       procedure="do_click_menubar_undo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o-Q" procedure="get.tree.get_index_of_node">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+    </IfSequence>
+    <ProcedureCall id="_1oXO" procedure="close.all_products"/>
+    <BasicSequence id="_1rlU" name="Aufnahme 08.02.16 17:04">
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).tabbed.I/O_Parameters"
+                      event="MOUSE_MPRC" id="_1rlk" modifiers="16"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).panelI/O_Parameters.comboThe_Landsat_8_source_product."
+                       id="_1rll"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).button..."
+                       id="_1rlm">
+        <text>...</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).productName"
+                       id="_1rln"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).productDir"
+                       id="_1rlq">
+        <text>C:\Users\olga_2</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).formatName"
+                       id="_1rls">
+        <text>BEAM-DIMAP</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).formatName"
+                      event="MOUSE_MPRC" id="_1rlt" modifiers="16" x="61"
+                      y="6"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).listInvokerName:_formatName.Gamma"
+                      event="MOUSE_MPRC" id="_1rlu" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).formatName"
+                      event="MOUSE_MPRC" id="_1rlv" modifiers="16" x="51"
+                      y="6"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).listInvokerName:_formatName.BEAM-DIMAP"
+                      event="MOUSE_MPRC" id="_1rlw" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).tabbed.tab"
+                      event="MOUSE_MPRC" id="_1rlx" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).outputSourceBands"
+                      event="MOUSE_MPRC" id="_1rly" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).outputSourceBands"
+                      event="MOUSE_MPRC" id="_1rlz" modifiers="16"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).computeCloudBuffer"
+                        id="_1rl+"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).refineClassificationNearCoastlines"
+                        id="_1rl-"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).applyShimezCloudTest"
+                        id="_1rm0"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).applyHotCloudTest"
+                        id="_1rm1" state="false"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).applyClostCloudTest"
+                        id="_1rm2"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).applyOtsuCloudTest"
+                        id="_1rm3"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).outputOtsuBands"
+                        id="_1rm4" state="false"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).cloudBufferWidth"
+                       id="_1rm5">
+        <text>2</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).brightnessBandLand"
+                       id="_1rm6">
+        <text>865</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).brightnessBandLand"
+                      event="MOUSE_MPRC" id="_1rm7" modifiers="16" x="122"
+                      y="12"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).listInvokerName:_brightnessBandLand.865"
+                      event="MOUSE_MPRC" id="_1rm8" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).brightnessBandLand"
+                      event="MOUSE_MPRC" id="_1rm9" modifiers="16" x="102"
+                      y="12"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).listInvokerName:_brightnessBandLand.1610"
+                      event="MOUSE_MPRC" id="_1rmA" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).brightnessBandLand"
+                      event="MOUSE_MPRC" id="_1rmB" modifiers="16" x="80"
+                      y="12"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).listInvokerName:_brightnessBandLand.865"
+                      event="MOUSE_MPRC" id="_1rmC" modifiers="16"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).brightnessBandLand"
+                       id="_1rmD">
+        <text>865</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).brightnessThreshLand"
+                       id="_1rmE">
+        <text>0.5</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).brightnessBand1Water"
+                       id="_1rmF">
+        <text>655</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).brightnessBand1Water"
+                      event="MOUSE_MPRC" id="_1rmG" modifiers="16" x="53"
+                      y="12"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).listInvokerName:_brightnessBand1Water.865"
+                      event="MOUSE_MPRC" id="_1rmH" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).brightnessBand1Water"
+                      event="MOUSE_MPRC" id="_1rmI" modifiers="16" x="47"
+                      y="9"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).listInvokerName:_brightnessBand1Water.655"
+                      event="MOUSE_MPRC" id="_1rmJ" modifiers="16"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).brightnessWeightBand1Water"
+                       id="_1rmK">
+        <text>1.0</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).brightnessWeightBand1Water"
+                       id="_1rmL">
+        <text>1.0</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).brightnessBand2Water"
+                       id="_1rmM">
+        <text>865</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).brightnessBand2Water"
+                      event="MOUSE_MPRC" id="_1rmN" modifiers="16" x="48"
+                      y="8"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).listInvokerName:_brightnessBand2Water.655"
+                      event="MOUSE_MPRC" id="_1rmO" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).brightnessBand2Water"
+                      event="MOUSE_MPRC" id="_1rmP" modifiers="16" x="40"
+                      y="10"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).listInvokerName:_brightnessBand2Water.865"
+                      event="MOUSE_MPRC" id="_1rmQ" modifiers="16"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).brightnessWeightBand2Water"
+                       id="_1rmR">
+        <text>1.0</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).brightnessThreshWater"
+                       id="_1rmS">
+        <text>0.5</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).whitenessBand1Land"
+                       id="_1rmT">
+        <text>655</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).whitenessBand1Land"
+                      event="MOUSE_MPRC" id="_1rmU" modifiers="16" x="62"
+                      y="10"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).listInvokerName:_whitenessBand1Land.865"
+                      event="MOUSE_MPRC" id="_1rmV" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).whitenessBand1Land"
+                      event="MOUSE_MPRC" id="_1rmW" modifiers="16" x="44"
+                      y="9"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).listInvokerName:_whitenessBand1Land.655"
+                      event="MOUSE_MPRC" id="_1rmX" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).whitenessBand2Land"
+                      event="MOUSE_MPRC" id="_1rmY" modifiers="16" x="46"
+                      y="9"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).listInvokerName:_whitenessBand2Land.655"
+                      event="MOUSE_MPRC" id="_1rmZ" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).whitenessBand2Land"
+                      event="MOUSE_MPRC" id="_1rma" modifiers="16" x="41"
+                      y="13"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).listInvokerName:_whitenessBand2Land.865"
+                      event="MOUSE_MPRC" id="_1rmb" modifiers="16"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).whitenessBand2Land"
+                       id="_1rmc">
+        <text>865</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).whitenessThreshLand"
+                       id="_1rmd">
+        <text>2.0</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).whitenessBand1Water"
+                       id="_1rme">
+        <text>655</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).whitenessBand1Water"
+                      event="MOUSE_MPRC" id="_1rmf" modifiers="16" x="65"
+                      y="10"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).listInvokerName:_whitenessBand1Water.865"
+                      event="MOUSE_MPRC" id="_1rmg" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).whitenessBand1Water"
+                      event="MOUSE_MPRC" id="_1rmh" modifiers="16" x="29"
+                      y="10"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).listInvokerName:_whitenessBand1Water.655"
+                      event="MOUSE_MPRC" id="_1rmi" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).whitenessBand2Water"
+                      event="MOUSE_MPRC" id="_1rmj" modifiers="16" x="55"
+                      y="4"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).listInvokerName:_whitenessBand2Water.655"
+                      event="MOUSE_MPRC" id="_1rmk" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).whitenessBand2Water"
+                      event="MOUSE_MPRC" id="_1rml" modifiers="16" x="33"
+                      y="8"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).listInvokerName:_whitenessBand2Water.865"
+                      event="MOUSE_MPRC" id="_1rmm" modifiers="16"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).whitenessThreshWater"
+                       id="_1rmn">
+        <text>2.0</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).darkGlintThreshTest1"
+                       id="_1rmo">
+        <text>0.15</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).darkGlintThreshTest1Wavelength"
+                       id="_1rmp">
+        <text>865</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).darkGlintThreshTest1Wavelength"
+                      event="MOUSE_MPRC" id="_1rmq" modifiers="16" x="59"
+                      y="12"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).listInvokerName:_darkGlintThreshTest1Wavelength.1610"
+                      event="MOUSE_MPRC" id="_1rmr" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).darkGlintThreshTest1Wavelength"
+                      event="MOUSE_MPRC" id="_1rms" modifiers="16" x="49"
+                      y="6"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).listInvokerName:_darkGlintThreshTest1Wavelength.865"
+                      event="MOUSE_MPRC" id="_1rmt" modifiers="16"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).darkGlintThreshTest2Wavelength"
+                       id="_1rmu">
+        <text>1610</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).darkGlintThreshTest2Wavelength"
+                      event="MOUSE_MPRC" id="_1rmv" modifiers="16" x="83"
+                      y="14"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).listInvokerName:_darkGlintThreshTest2Wavelength.865"
+                      event="MOUSE_MPRC" id="_1rmw" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).darkGlintThreshTest2Wavelength"
+                      event="MOUSE_MPRC" id="_1rmx" modifiers="16" x="56"
+                      y="8"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).listInvokerName:_darkGlintThreshTest2Wavelength.1610"
+                      event="MOUSE_MPRC" id="_1rmy" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).nnSelector"
+                      event="MOUSE_MPRC" id="_1rmz" modifiers="16" x="36"
+                      y="8"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).listInvokerName:_nnSelector.LAND"
+                      event="MOUSE_MPRC" id="_1rm+" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).nnSelector"
+                      event="MOUSE_MPRC" id="_1rm-" modifiers="16" x="41"
+                      y="9"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).listInvokerName:_nnSelector.ALL"
+                      event="MOUSE_MPRC" id="_1rn0" modifiers="16"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).nnCloudAmbiguousLowerBoundaryValue"
+                       id="_1rn1">
+        <text>1.95</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).nnCloudAmbiguousSureSeparationValue"
+                       id="_1rn2">
+        <text>3.45</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).nnCloudSureSnowSeparationValue"
+                       id="_1rn3">
+        <text>4.3</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).shimezDiffThresh"
+                       id="_1rn4">
+        <text>0.1</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).shimezMeanThresh"
+                       id="_1rn5">
+        <text>0.25</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).hotThresh"
+                       id="_1rn6">
+        <text>0.1</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Landsat8_mode).clostThresh"
+                       id="_1rn7">
+        <text>0.001</text>
+      </CheckStringStep>
+    </BasicSequence>
+  </ExtraSequence>
+  <WindowList id="_6"/>
+</RootStep>

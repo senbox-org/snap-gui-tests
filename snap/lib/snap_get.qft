@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.7">
+<RootStep id="_0" name="root" version="4.0.11">
   <include>qfs.qft</include>
   <include>snap_components.qft</include>
   <include>snap_main.qft</include>
@@ -18,6 +18,54 @@
         </Procedure>
       </Package>
       <Package id="_1pjq" name="tree">
+        <Procedure id="_2JAh" name="get_index_of_node_help">
+          <variable name="id"/>
+          <variable name="node"/>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+          <comment>Return the current index of a given node.
+
+Sample usage:
+Can be used to determine the numeric index of a node like '/Root/Price'.
+
+@param id  		ID of the tree.
+@param node 		The node. like '/Root/Price' or '/0/0'.
+@param nodeSeparator 	Separator to use for the node syntax. Default is @ for text values, also available &amp; for index and % for regexp.
+@param linear		If true, return the linear index, ignoring the tree structure, otherwise return a hierarchical index like /0/1.
+@return	index   The current index of the node, which has been read by the 'Fetch Index' node of QF-Test.
+
+@author QFS,mm
+@since 3.1.1
+
+@ignoreanalyzerefcid</comment>
+          <TryStep id="_2JAi" name="override option">
+            <ClientScriptStep client="$(client)"
+                              engine="${default:guiengine:awt}" id="_2JAj"
+                              name="set legacy option">
+              <code>rc.setOption("LegacyFetchIndex", rc.getBool("linear"))</code>
+            </ClientScriptStep>
+            <FetchIndexStep client="$(client)"
+                            component="$(id)$(nodeSeparator)$(node)"
+                            id="_2JAk" local="true" varname="index"/>
+            <SetGlobalStep id="_2JDr" varname="product_id">
+              <default>$(index)</default>
+            </SetGlobalStep>
+            <ReturnStep id="_2JAl" retval="$(index)"/>
+            <CatchSequence exception="TestException" id="_2JDw" maxerror="0">
+              <SetGlobalStep id="_2JDy" varname="product_id"/>
+            </CatchSequence>
+            <FinallySequence id="_2JAm" name="reset option">
+              <ClientScriptStep client="$(client)"
+                                engine="${default:guiengine:awt}" id="_2JAn"
+                                name="unset legacy option">
+                <code>rc.unsetOption("LegacyFetchIndex")</code>
+              </ClientScriptStep>
+              <ServerScriptStep disabled="true" id="_2JSb" name="print">
+                <code>print "**** !!!  product_id  = $(product_id)"</code>
+              </ServerScriptStep>
+            </FinallySequence>
+          </TryStep>
+        </Procedure>
         <Procedure id="_1l37" name="bands_node_id">
           <variable name="prod_id"/>
           <SetGlobalStep id="_1oRe" varname="bands_group">
@@ -233,6 +281,120 @@ rc.setGlobal("nd", v)                       </code>
             </FinallySequence>
           </TryStep>
         </Procedure>
+        <Procedure id="_1rt2" name="get_test_product_id">
+          <variable name="product"/>
+          <ProcedureCall id="_2JSg"
+                         procedure="set.product_explorer_tree_component_id"/>
+          <SetGlobalStep id="_2JSh" local="true" varname="node">
+            <default>[2] $(product)</default>
+          </SetGlobalStep>
+          <ServerScriptStep disabled="true" id="_2JTJ" name="print">
+            <code>print "**** !!! node  = $(node)"</code>
+          </ServerScriptStep>
+          <ProcedureCall id="_2JSi"
+                         procedure="get.tree.get_index_of_node_help">
+            <variable name="id">$(product_explorer_tree_component_id)</variable>
+            <variable name="node">$(node)</variable>
+            <variable name="nodeSeparator">@</variable>
+            <variable name="linear">false</variable>
+          </ProcedureCall>
+          <IfSequence id="_2JSj"
+                      test="&#34;$(product_id)&#34;&lt;&gt;&#34;&#34;">
+            <ServerScriptStep id="_2JSk" name="substring">
+              <code>import string 
+pn =  "$(product_id)"
+rc.setGlobal("pid2", pn[1:])   
+            </code>
+            </ServerScriptStep>
+            <SetGlobalStep id="_2JSl" varname="pid">
+              <default>$(pid2)</default>
+            </SetGlobalStep>
+            <ElseSequence id="_2JSm">
+              <SetGlobalStep id="_2JTT" local="true" varname="node">
+                <default>$(product)</default>
+              </SetGlobalStep>
+              <ServerScriptStep disabled="true" id="_2JTL" name="print">
+                <code>print "**** !!! node  = $(node)"</code>
+              </ServerScriptStep>
+              <ProcedureCall id="_2JSo"
+                             procedure="get.tree.get_index_of_node_help">
+                <variable name="id">$(product_explorer_tree_component_id)</variable>
+                <variable name="node">$(node)</variable>
+                <variable name="nodeSeparator">@</variable>
+                <variable name="linear">false</variable>
+              </ProcedureCall>
+              <ServerScriptStep disabled="true" id="_2JSp" name="print">
+                <code>print "****  product_id  = $(product_id)"</code>
+              </ServerScriptStep>
+              <IfSequence id="_2JSq"
+                          test="&#34;$(product_id)&#34;&lt;&gt;&#34;&#34;">
+                <ServerScriptStep id="_2JSr" name="substring">
+                  <code>import string 
+pn =  "$(product_id)"
+rc.setGlobal("pid2", pn[1:])   
+            </code>
+                </ServerScriptStep>
+                <SetGlobalStep id="_2JSs" varname="pid">
+                  <default>$(pid2)</default>
+                </SetGlobalStep>
+                <ElseSequence id="_2JSt">
+                  <SetGlobalStep id="_2JSn" local="true" varname="node">
+                    <default>[3] $(product)</default>
+                  </SetGlobalStep>
+                  <ProcedureCall id="_2JSv"
+                                 procedure="get.tree.get_index_of_node_help">
+                    <variable name="id">$(product_explorer_tree_component_id)</variable>
+                    <variable name="node">$(node)</variable>
+                    <variable name="nodeSeparator">@</variable>
+                    <variable name="linear">false</variable>
+                  </ProcedureCall>
+                  <IfSequence id="_2JSw"
+                              test="&#34;$(product_id)&#34;&lt;&gt;&#34;&#34;">
+                    <ServerScriptStep id="_2JSx" name="substring">
+                      <code>import string 
+pn =  "$(product_id)"
+rc.setGlobal("pid2", pn[1:])   
+            </code>
+                    </ServerScriptStep>
+                    <SetGlobalStep id="_2JSy" varname="pid">
+                      <default>$(pid2)</default>
+                    </SetGlobalStep>
+                    <ElseSequence id="_2JSz">
+                      <SetGlobalStep id="_2JTM" local="true" varname="node">
+                        <default>[1] $(product)</default>
+                      </SetGlobalStep>
+                      <ProcedureCall id="_2JTN"
+                                     procedure="get.tree.get_index_of_node_help">
+                        <variable name="id">$(product_explorer_tree_component_id)</variable>
+                        <variable name="node">$(node)</variable>
+                        <variable name="nodeSeparator">@</variable>
+                        <variable name="linear">false</variable>
+                      </ProcedureCall>
+                      <IfSequence id="_2JTO"
+                                  test="&#34;$(product_id)&#34;&lt;&gt;&#34;&#34;">
+                        <ServerScriptStep id="_2JTP" name="substring">
+                          <code>import string 
+pn =  "$(product_id)"
+rc.setGlobal("pid2", pn[1:])   
+            </code>
+                        </ServerScriptStep>
+                        <SetGlobalStep id="_2JTQ" varname="pid">
+                          <default>$(pid2)</default>
+                        </SetGlobalStep>
+                        <ElseSequence id="_2JTR">
+                          <SetGlobalStep id="_2JTS" varname="pid"/>
+                        </ElseSequence>
+                      </IfSequence>
+                    </ElseSequence>
+                  </IfSequence>
+                </ElseSequence>
+              </IfSequence>
+            </ElseSequence>
+          </IfSequence>
+          <ServerScriptStep disabled="true" id="_2JTG" name="print">
+            <code>print "**** !!! pid  = $(pid)"</code>
+          </ServerScriptStep>
+        </Procedure>
         <Procedure id="_1r3Q" name="get_index_of_band">
           <variable name="band_name"/>
           <variable name="nodeSeparator">@</variable>
@@ -357,70 +519,100 @@ rc.setGlobal("nd", v)                       </code>
           <SetGlobalStep id="_1pjm" varname="layer_node_id">
             <default>$(idn)</default>
           </SetGlobalStep>
-          <IfSequence id="_1pjK" test="${qftest:windows}">
-            <FetchTextStep client="$(client)"
-                           component="NbMainWindow.Content_displayer.treeTransparency:3&amp;/$(idn)"
-                           id="_1pjL" varname="ln"/>
-            <ElseifSequence id="_1pjM" name="MAC?"
-                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-            <ElseSequence id="_1pjO"/>
-          </IfSequence>
-          <IfSequence id="_1pjp"
-                      test="&#34;$(ln)&#34;&lt;&gt;&#34;$(layer_name)&#34;">
-            <WhileSequence id="_1pjQ"
-                           test="&#34;$(ln)&#34;&lt;&gt;&#34;$(layer_name)&#34;">
-              <ServerScriptStep id="_1pjT" name="set_variable_increase_on_1">
-                <code>v = $(idn)+ 1   
+          <TryStep id="_2JTV">
+            <ComponentWaiter client="$(client)"
+                             component="NbMainWindow.Content_displayer.treeTransparency:3&amp;/0"
+                             id="_2JTU" timeout="10"/>
+            <IfSequence id="_1pjK" test="${qftest:windows}">
+              <FetchTextStep client="$(client)"
+                             component="NbMainWindow.Content_displayer.treeTransparency:3&amp;/$(idn)"
+                             id="_1pjL" varname="ln"/>
+              <ElseifSequence id="_1pjM" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+              <ElseSequence id="_1pjO"/>
+            </IfSequence>
+            <IfSequence id="_1pjp"
+                        test="&#34;$(ln)&#34;&lt;&gt;&#34;$(layer_name)&#34;">
+              <WhileSequence id="_1pjQ"
+                             test="&#34;$(ln)&#34;&lt;&gt;&#34;$(layer_name)&#34;">
+                <ServerScriptStep id="_1pjT"
+                                  name="set_variable_increase_on_1">
+                  <code>v = $(idn)+ 1   
 rc.setGlobal("idn", v)                       </code>
-              </ServerScriptStep>
-              <TryStep id="_1pjU">
-                <FetchTextStep client="$(client)"
-                               component="NbMainWindow.Content_displayer.treeTransparency:3&amp;/$(idn)"
-                               id="_1pjj" varname="ln"/>
-                <SetGlobalStep id="_1pjl" varname="layer_node_id">
-                  <default>$(idn)</default>
-                </SetGlobalStep>
-                <ServerScriptStep disabled="true" id="_1pjk"
-                                  name="set_layer_id">
-                  <code>lidn1 = $(idn)
+                </ServerScriptStep>
+                <TryStep id="_1pjU">
+                  <FetchTextStep client="$(client)"
+                                 component="NbMainWindow.Content_displayer.treeTransparency:3&amp;/$(idn)"
+                                 id="_1pjj" varname="ln"/>
+                  <SetGlobalStep id="_1pjl" varname="layer_node_id">
+                    <default>$(idn)</default>
+                  </SetGlobalStep>
+                  <ServerScriptStep disabled="true" id="_1pjk"
+                                    name="set_layer_id">
+                    <code>lidn1 = $(idn)
 rc.setGlobal("layer_node_id", lidn1)                       </code>
-                </ServerScriptStep>
-                <IfSequence id="_1pjV" test="${qftest:windows}">
-                  <ElseifSequence id="_1pjX" name="MAC?"
-                                  test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-                  <ElseSequence id="_1pjZ"/>
-                </IfSequence>
-                <ServerScriptStep disabled="true" id="_1pjb" name="print">
-                  <code>print "layer name = $(ln)"  </code>
-                </ServerScriptStep>
-                <CatchSequence exception="TestException" id="_1pjc"
-                               maxerror="0">
-                  <SetGlobalStep id="_1pjd" varname="idn">
-                    <default>0</default>
-                  </SetGlobalStep>
-                  <SetGlobalStep id="_1pje" varname="layer_node_found">
-                    <default>false</default>
-                  </SetGlobalStep>
-                  <ServerScriptStep disabled="true" id="_1pjf" name="error">
-                    <code>rc.logError("'Layer' node can not be found.")</code>
                   </ServerScriptStep>
-                  <BreakStep id="_1pjg"/>
-                </CatchSequence>
-              </TryStep>
-            </WhileSequence>
-            <ServerScriptStep disabled="true" id="_1pjh" name="print">
-              <code>print "Layer = $(ln)"  </code>
-            </ServerScriptStep>
-            <ServerScriptStep disabled="true" id="_1pji" name="print">
-              <code>print "Node Index = $(layer_node_id)"  </code>
-            </ServerScriptStep>
-          </IfSequence>
+                  <IfSequence id="_1pjV" test="${qftest:windows}">
+                    <ElseifSequence id="_1pjX" name="MAC?"
+                                    test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+                    <ElseSequence id="_1pjZ"/>
+                  </IfSequence>
+                  <ServerScriptStep disabled="true" id="_1pjb" name="print">
+                    <code>print "layer name = $(ln)"  </code>
+                  </ServerScriptStep>
+                  <CatchSequence exception="TestException" id="_1pjc"
+                                 maxerror="0">
+                    <SetGlobalStep id="_1pjd" varname="idn">
+                      <default>0</default>
+                    </SetGlobalStep>
+                    <SetGlobalStep id="_1pje" varname="layer_node_found">
+                      <default>false</default>
+                    </SetGlobalStep>
+                    <ServerScriptStep disabled="true" id="_1pjf" name="error">
+                      <code>rc.logError("'Layer' node can not be found.")</code>
+                    </ServerScriptStep>
+                    <BreakStep id="_1pjg"/>
+                  </CatchSequence>
+                </TryStep>
+              </WhileSequence>
+              <ServerScriptStep disabled="true" id="_1pjh" name="print">
+                <code>print "Layer = $(ln)"  </code>
+              </ServerScriptStep>
+              <ServerScriptStep disabled="true" id="_1pji" name="print">
+                <code>print "Node Index = $(layer_node_id)"  </code>
+              </ServerScriptStep>
+            </IfSequence>
+            <CatchSequence exception="TestException" id="_2JTW" maxerror="0">
+              <ProcedureCall id="_2JTa" procedure="run-log.make_screensot">
+                <variable name="iw_name">layer_manager</variable>
+                <variable name="iw_name_example">error_dialog</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_2JTb" procedure="run-log.logError">
+                <variable name="message">Layer Manager is not appear</variable>
+                <variable name="withScreenshots">true</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
         </Procedure>
         <Procedure id="_3EP" name="rowCount">
-          <variable name="id">tableId</variable>
+          <variable name="id"/>
           <comment>Return rowCount
+id	tableId
 </comment>
           <ClientScriptStep client="$(client)" id="_3EQ">
+            <code>table = rc.getComponent(rc.lookup("id"))
+
+rowCount = table.getRowCount()
+
+rc.setGlobal("rowCount", rowCount)</code>
+          </ClientScriptStep>
+        </Procedure>
+        <Procedure id="_1rgI" name="rowCount_dialog">
+          <variable name="id">tableId</variable>
+          <comment>Return rowCount
+id	tableId
+</comment>
+          <ClientScriptStep client="$(client)" id="_1rgJ">
             <code>table = rc.getComponent(rc.lookup("id"))
 
 rowCount = table.getRowCount()
@@ -440,6 +632,35 @@ rc.setGlobal("rowCount", rowCount)</code>
           <FetchTextStep client="$(client)"
                          component="dialogSNAP_-_SNAP_-_Error.labelMessage"
                          id="_1r3n" varname="error_message"/>
+        </Procedure>
+        <Procedure id="_1rmM"
+                   name="message_in_dialog_SNAP_Error_multi-size_subset">
+          <IfSequence id="_1rmP" test="${qftest:windows}">
+            <FetchTextStep client="$(client)"
+                           component="dialogSNAP_-_Error.label_multi-size_subset"
+                           id="_1rmQ" varname="snap_error"/>
+            <ElseifSequence id="_1rmR" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+            <ElseSequence id="_1rmS">
+              <FetchTextStep client="$(client)"
+                             component="dialogSNAP_-_Error.labelEither_the_selected_ROI_is_empty_or_no_pixels_have_been_found_within_the_minimum_and_maximum_values"
+                             id="_1rmT" varname="snap_error"/>
+            </ElseSequence>
+          </IfSequence>
+        </Procedure>
+        <Procedure id="_1rmU" name="message_in_dialog_SNAP_Error">
+          <IfSequence id="_1rmV" test="${qftest:windows}">
+            <FetchTextStep client="$(client)"
+                           component="dialogSNAP_-_Error.labelMessage"
+                           id="_1rmW" varname="snap_error"/>
+            <ElseifSequence id="_1rmX" name="MAC?"
+                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+            <ElseSequence id="_1rmY">
+              <FetchTextStep client="$(client)"
+                             component="dialogSNAP_-_Error.labelEither_the_selected_ROI_is_empty_or_no_pixels_have_been_found_within_the_minimum_and_maximum_values"
+                             id="_1rmZ" varname="snap_error"/>
+            </ElseSequence>
+          </IfSequence>
         </Procedure>
         <Procedure id="_1ptP" name="snap_error">
           <IfSequence id="_1rgE" test="${qftest:windows}">
@@ -461,6 +682,51 @@ rc.setGlobal("rowCount", rowCount)</code>
           <FetchTextStep client="$(client)"
                          component="dialogSpecify_Product_Subset.checkEV_1KM_RefSB_8"
                          id="_1rcz" varname="band_for_subset"/>
+        </Procedure>
+      </Package>
+      <Package id="_1pZj" name="analysis">
+        <Package id="_1pab" name="histogram_dialog"/>
+        <Package id="_1l8t" name="statistics_dialog"/>
+        <Package id="_1pbK" name="correlative_plot"/>
+        <Package id="_1pbJ" name="profile_plot"/>
+        <Package id="_1pbL" name="scatter_plot"/>
+        <Package id="_1rNe" name="dialog">
+          <Procedure id="_1rQ+" name="selected_mask">
+            <variable name="mask"/>
+            <comment>@teststep Check_selected mask</comment>
+            <TryStep id="_1rQ-">
+              <FetchTextStep client="$(client)" component="dialog.roiMask"
+                             id="_1rjq" varname="selected_mask"/>
+              <CatchSequence exception="TestException" id="_1rR1"
+                             maxerror="0"/>
+            </TryStep>
+          </Procedure>
+        </Package>
+      </Package>
+      <Package id="_1rma" name="mask_manager">
+        <Procedure id="_1rmb" name="number_of_masks">
+          <comment>@teststep Get number of masks.</comment>
+          <ProcedureCall id="_1rt1" procedure="variables.mask_manager"/>
+          <TryStep id="_1qe8">
+            <ProcedureCall id="_1qe9" procedure="get.tree.rowCount">
+              <variable name="id">$(table2)</variable>
+              <comment>@teststep Get number of masks.</comment>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1qeA" maxerror="0">
+              <TryStep id="_1riP">
+                <ProcedureCall id="_1riQ" procedure="get.tree.rowCount">
+                  <variable name="id">$(table)</variable>
+                  <comment>@teststep Get number of masks.</comment>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1riR"
+                               maxerror="0">
+                  <SetGlobalStep id="_1riS" varname="rowCount">
+                    <default>0</default>
+                  </SetGlobalStep>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
         </Procedure>
       </Package>
       <Procedure id="_1oaR" name="text_error_dialog_SNAP_Open_Product">

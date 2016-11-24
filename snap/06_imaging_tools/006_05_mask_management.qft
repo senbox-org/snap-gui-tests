@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.9">
+  <include>qfs.qft</include>
+  <include>imaging_lib.qft</include>
+  <TestSet id="_1" name="006_05_mask_management"
+           reportname="006-05 Mask Management">
+    <DependencyReference id="_1lXF"
+                         reference="dependencies.start_application"/>
+    <TestSet id="_1rtB" name="mask_management">
+      <TestCase id="_1rtC" name="transfer_mask_pixels_to_other_products">
+        <ProcedureCall id="_1rtt"
+                       procedure="create_new_mask_via_math_expression"/>
+        <TestStep id="_1rtk" name="set_meta_data">
+          <SetGlobalStep id="_1pTx" varname="dataInDir">
+            <default>mer_rr__1p_n1</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1pTy" varname="fileName">
+            <default>MER_RR__1PPBCM20030313_013337_000001012014_00332_05396_0000.N1</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1pTz" varname="bandName">
+            <default>radiance_2</default>
+          </SetGlobalStep>
+          <SetGlobalStep disabled="true" id="_1pT+" varname="err_band">
+            <default>radiance_2</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1q5x" varname="err_band"/>
+          <SetGlobalStep id="_1pU0" varname="view_Id1">
+            <default>0</default>
+            <comment>
+</comment>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1pT-" varname="group_id1">
+            <default>0</default>
+          </SetGlobalStep>
+        </TestStep>
+        <ProcedureCall id="_1rtE" procedure="open.product_in_snap">
+          <variable name="prod_dir">$(dataInDir)</variable>
+          <variable name="prod">$(fileName)</variable>
+          <variable name="in_out"/>
+          <variable name="product_type"/>
+          <comment> 	 
+</comment>
+        </ProcedureCall>
+        <ProcedureCall id="_1rtF" procedure="wait.product_is_opened"/>
+        <ProcedureCall id="_1pyH"
+                       procedure="do_click.tree.doubleclick_product_node">
+          <variable name="prod_id">1</variable>
+          <variable name="group_id">$(group_id1)</variable>
+          <variable name="view_id">$(view_Id1)</variable>
+          <variable name="band">$(bandName)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1rtR"
+                       procedure="do_click.tree.doubleclick_product_node">
+          <variable name="prod_id">0</variable>
+          <variable name="group_id">0</variable>
+          <variable name="view_id">0</variable>
+          <variable name="band">radiance_1</variable>
+        </ProcedureCall>
+        <ProcedureCall disabled="true" id="_1rtG"
+                       procedure="select.product_tree.band">
+          <variable name="prod_id">0</variable>
+          <variable name="group_id">0</variable>
+          <variable name="view_id">0</variable>
+          <variable name="band">radiance_1</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1rtH" procedure="open.views.mask_manager"/>
+        <ProcedureCall id="_1rtI"
+                       procedure="get.mask_manager.number_of_masks"/>
+        <ServerScriptStep id="_9VA" name="set_number_of_new_mask">
+          <code>vl = $(rowCount)
+vl = vl - 1   
+rc.setGlobal("nmask", vl)                       </code>
+        </ServerScriptStep>
+        <ProcedureCall id="_1rtJ" procedure="mask_manager.select.mask">
+          <variable name="row">$(nmask)</variable>
+        </ProcedureCall>
+        <RepeatSequence count="5" id="_1rtK"
+                        name="transfer_selected_mask_to_other_products"
+                        var="m">
+          <ProcedureCall id="_1rtL"
+                         procedure="mask_manager.do_click.transfer_button"/>
+          <SetGlobalStep disabled="true" id="_1rtM" varname="masks_number">
+            <default>$(rowCount)</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1rtN"
+                         procedure="mask_manager.transfer_dialog.wait_dialogTransfer_Mask"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogTransfer_Mask(s)_to_other_product.check[2]_MER_RR__1PPBCM20030313_013337_000001012014_00332_05396_0000.N1"
+                          event="MOUSE_MPRC" id="_1rtO" modifiers="16"/>
+          <ProcedureCall id="_1rtP"
+                         procedure="mask_manager.transfer_dialog.do_click_ok"/>
+        </RepeatSequence>
+        <ProcedureCall id="_1rtQ" procedure="close.all_products"/>
+      </TestCase>
+      <TestCase id="_1rtS" name="transfer_mask_definition_to_other_products">
+        <ProcedureCall id="_1rtu"
+                       procedure="create_new_mask_via_math_expression"/>
+        <ProcedureCall id="_1rtT" procedure="product_meta_data.MER_FSG_1P"/>
+        <ProcedureCall id="_1rtU" procedure="open.product_in_snap">
+          <variable name="prod_dir">$(dataInDir)</variable>
+          <variable name="prod">$(fileName)</variable>
+          <variable name="in_out"/>
+          <variable name="product_type"/>
+          <comment> 	 
+</comment>
+        </ProcedureCall>
+        <ProcedureCall id="_1rtV" procedure="wait.product_is_opened"/>
+        <ProcedureCall id="_1rtW"
+                       procedure="do_click.tree.doubleclick_product_node">
+          <variable name="prod_id">1</variable>
+          <variable name="group_id">$(group_id1)</variable>
+          <variable name="view_id">$(view_Id1)</variable>
+          <variable name="band">$(bandName)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1rtX"
+                       procedure="do_click.tree.doubleclick_product_node">
+          <variable name="prod_id">0</variable>
+          <variable name="group_id">0</variable>
+          <variable name="view_id">0</variable>
+          <variable name="band">radiance_1</variable>
+        </ProcedureCall>
+        <ProcedureCall disabled="true" id="_1rtY"
+                       procedure="select.product_tree.band">
+          <variable name="prod_id">0</variable>
+          <variable name="group_id">0</variable>
+          <variable name="view_id">0</variable>
+          <variable name="band">radiance_1</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1rtZ" procedure="open.views.mask_manager"/>
+        <ProcedureCall id="_1rta"
+                       procedure="get.mask_manager.number_of_masks"/>
+        <ServerScriptStep id="_1rtb" name="set_number_of_new_mask">
+          <code>vl = $(rowCount)
+vl = vl - 1   
+rc.setGlobal("nmask", vl)                       </code>
+        </ServerScriptStep>
+        <ProcedureCall id="_1rtc" procedure="mask_manager.select.mask">
+          <variable name="row">$(nmask)</variable>
+        </ProcedureCall>
+        <RepeatSequence count="5" id="_1rtd"
+                        name="transfer_selected_mask_to_other_products"
+                        var="m">
+          <TryStep id="_1rtz">
+            <ProcedureCall id="_1rt-"
+                           procedure="mask_manager.do_click.transfer_button"/>
+            <SetGlobalStep disabled="true" id="_1rtf" varname="masks_number">
+              <default>$(rowCount)</default>
+            </SetGlobalStep>
+            <ProcedureCall id="_1rtg"
+                           procedure="mask_manager.transfer_dialog.wait_dialogTransfer_Mask"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogTransfer_Mask(s)_to_other_product.check[2]_MER_FSG_1PNMAP20050726_232437_000000782039_00216_17805_0001.N1"
+                            event="MOUSE_MPRC" id="_1rth" modifiers="16"/>
+            <ProcedureCall id="_1rti"
+                           procedure="mask_manager.transfer_dialog.do_click_ok"/>
+            <CatchSequence exception="TestException" id="_1rt+" maxerror="0">
+              <ProcedureCall id="_1ru0" procedure="utils.terminate_process">
+                <variable name="client_name">$(client)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1ru1" procedure="run-log.logError">
+                <variable name="message">SNAP-386. Copying 3 masks with the same name, e.g. from 3 different product, into one target product leads to a frozen application</variable>
+                <variable name="withScreenshots">true</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+        </RepeatSequence>
+        <ProcedureCall id="_1rtj" procedure="close.all_products"/>
+      </TestCase>
+      <CleanupSequence disabled="true" id="_1rtv" name="kill_snap_if_stalled">
+        <ProcedureCall id="_1ru3" procedure="deadlock.handle_deadlock"/>
+      </CleanupSequence>
+    </TestSet>
+  </TestSet>
+  <PackageRoot id="_3">
+    <Procedure id="_1rtl" name="create_new_mask_via_math_expression">
+      <ProcedureCall id="_1rtm" procedure="product_meta_data.MER_RR__1P"/>
+      <ProcedureCall id="_1rtn" procedure="preparation.application_for_test"/>
+      <ProcedureCall id="_1rto" procedure="open.views.mask_manager"/>
+      <ProcedureCall id="_1rtp"
+                     procedure="mask_manager.add_mask_band_based_on_maths_expression">
+        <variable name="expression">$(bandName)&lt;150</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1rtq" procedure="get.mask_manager.number_of_masks"/>
+      <SetGlobalStep id="_1rtr" varname="masks_number">
+        <default>$(rowCount)</default>
+      </SetGlobalStep>
+    </Procedure>
+  </PackageRoot>
+  <ExtraSequence id="_4"/>
+  <WindowList id="_5"/>
+</RootStep>

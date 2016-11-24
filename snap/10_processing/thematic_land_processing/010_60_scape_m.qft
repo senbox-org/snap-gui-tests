@@ -1,0 +1,713 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.11">
+  <include>qfs.qft</include>
+  <include>../../lib/snap_main.qft</include>
+  <include>../lib/processing_main.qft</include>
+  <variable name="output_folder">scape_m</variable>
+  <variable name="thickness_of_coast_def">20.0</variable>
+  <variable name="refl_water_threshold_def">0.08</variable>
+  <variable name="min_ocean_size_def">1600.0</variable>
+  <TestSet disabled="true" id="_2" name="010_60_scape_m"
+           reportname="010-60 SCAPE-M">
+    <DependencyReference id="_1pO-"
+                         reference="start_application_for_processing">
+      <variable name="output_dir">$(output_folder)</variable>
+    </DependencyReference>
+    <TestCase id="_8cc" name="01_check_ui"
+              reportname="01 Check SCAPE-M Tool UI">
+      <ProcedureCall id="_1s6N" procedure="open_tool_window"/>
+      <TestStep id="_1pM7" name="default_componets">
+        <ProcedureCall id="_1s7c"
+                       procedure="check.scape_m.enabled.button_apply"/>
+        <ProcedureCall id="_1s7d"
+                       procedure="check.scape_m.enabled.button_close"/>
+        <ProcedureCall id="_1s7g"
+                       procedure="check.scape_m.enabled.menu_file"/>
+        <ProcedureCall id="_1s7h"
+                       procedure="check.scape_m.enabled.menu_help"/>
+        <TestStep id="_1pbB" name="io_parameters">
+          <ProcedureCall id="_1pbA" procedure="select_io_tab"/>
+          <ProcedureCall id="_1s7e"
+                         procedure="check.scape_m.enabled.button_directory"/>
+          <ProcedureCall id="_1s7f"
+                         procedure="check.scape_m.enabled.button_source_product"/>
+          <ProcedureCall id="_1s7i"
+                         procedure="check.scape_m.enabled.open_in_snap_enabled_status">
+            <variable name="enabled">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s7a"
+                         procedure="check.scape_m.checked.open_in_snap_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s7j"
+                         procedure="check.scape_m.enabled.save_as_enabled_status">
+            <variable name="enabled">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s7b"
+                         procedure="check.scape_m.checked.save_as_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pbG" name="processing_parameters">
+          <ProcedureCall id="_1pbF"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_1s7k"
+                         procedure="check.scape_m.checked.use_getasse_DEM_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s7l"
+                         procedure="check.scape_m.checked.skip_gap_filling_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s7m"
+                         procedure="check.scape_m.checked.skip_visibility_smoothing_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s7n"
+                         procedure="check.scape_m.checked.write_rho_toa_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s7o"
+                         procedure="check.scape_m.checked.write_443nm_reflec_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s7p"
+                         procedure="check.scape_m.checked.calculate_lakes_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s7X"
+                         procedure="check.scape_m.text.reflectance_water_threshold">
+            <variable name="val">$(refl_water_threshold_def)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s7Y"
+                         procedure="check.scape_m.text.thickness_of_coast">
+            <variable name="val">$(thickness_of_coast_def)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s7Z"
+                         procedure="check.scape_m.text.minimum_ocean_size">
+            <variable name="val">$(min_ocean_size_def)</variable>
+          </ProcedureCall>
+        </TestStep>
+      </TestStep>
+      <ProcedureCall id="_1s6d" procedure="close_processor_tool"/>
+    </TestCase>
+    <TestSet id="_1pMP" name="02_processing">
+      <TestCase id="_40q" name="store_load_display_parameters">
+        <variable name="ofn">scape_m_processor_save_parameters.xml</variable>
+        <variable name="output_file">scape_m_processor_save_parameters.dim</variable>
+        <variable name="source_data">MER_RR__1_test.N1</variable>
+        <variable name="source_dir">mer_rr__1p_n1</variable>
+        <variable name="thickness_of_coast">25.0</variable>
+        <variable name="refl_water_threshold">0.09</variable>
+        <variable name="min_ocean_size">1700.0</variable>
+        <ProcedureCall id="_1s6P" procedure="open_tool_window"/>
+        <TestStep id="_1pOt" name="change_parameters">
+          <ProcedureCall id="_1qGC"
+                         procedure="preparation_for_test_without_save"/>
+          <ProcedureCall id="_1qCW"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_1s8Q"
+                         procedure="select.scape_m.use_getasse_DEM"/>
+          <ProcedureCall id="_1s8R"
+                         procedure="select.scape_m.skip_gap_filling"/>
+          <ProcedureCall id="_1s8S"
+                         procedure="select.scape_m.skip_visibility_smoothing"/>
+          <ProcedureCall id="_1s8T" procedure="select.scape_m.write_rho_toa"/>
+          <ProcedureCall id="_1s8U"
+                         procedure="select.scape_m.write_443nm_reflec"/>
+          <ProcedureCall id="_1s8P"
+                         procedure="deselect.scape_m.calculate_lakes"/>
+          <ProcedureCall id="_1s8e"
+                         procedure="set.scape_m.reflectance_water_threshold">
+            <variable name="val">$(thickness_of_coast)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s8f"
+                         procedure="set.scape_m.thickness_of_coast">
+            <variable name="val">$(refl_water_threshold)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s8g"
+                         procedure="set.scape_m.minimum_ocean_size">
+            <variable name="val">$(min_ocean_size)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <ProcedureCall id="_1pPE" procedure="store_parameters"/>
+        <TestStep id="_1pPg" name="change_parameters">
+          <ProcedureCall id="_1pfT"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_1s8Y"
+                         procedure="deselect.scape_m.use_getasse_DEM"/>
+          <ProcedureCall id="_1s8Z"
+                         procedure="deselect.scape_m.skip_gap_filling"/>
+          <ProcedureCall id="_1s8a"
+                         procedure="deselect.scape_m.skip_visibility_smoothing"/>
+          <ProcedureCall id="_1s8b"
+                         procedure="deselect.scape_m.write_rho_toa"/>
+          <ProcedureCall id="_1s8c"
+                         procedure="deselect.scape_m.write_443nm_reflec"/>
+          <ProcedureCall id="_1s8d"
+                         procedure="select.scape_m.calculate_lakes"/>
+          <ProcedureCall id="_1s8h"
+                         procedure="set.scape_m.reflectance_water_threshold">
+            <variable name="val">$(thickness_of_coast_def)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s8i"
+                         procedure="set.scape_m.thickness_of_coast">
+            <variable name="val">$(refl_water_threshold_def)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s8j"
+                         procedure="set.scape_m.minimum_ocean_size">
+            <variable name="val">$(min_ocean_size_def)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <ProcedureCall id="_1pPl" procedure="load_parameters"/>
+        <TestStep id="_1pPm" name="check_parameters">
+          <ProcedureCall id="_1pfY"
+                         procedure="select_processing_parameters_tab"/>
+        </TestStep>
+        <TestStep id="_1pV8" name="display_parameters">
+          <ProcedureCall id="_1pbU" procedure="display_parameters_and_check"/>
+          <ProcedureCall id="_1s6f" procedure="close_processor_tool"/>
+        </TestStep>
+      </TestCase>
+      <TestCase id="_1pZO" name="cancel_processing">
+        <variable name="output_file">test_scape_m_cancel.dim</variable>
+        <variable name="source_data">MER_FRS_2PNMAP20090815_085614_000001912081_00365_38996_0001.N1</variable>
+        <variable name="source_dir">mer_frs_2p_n1</variable>
+        <ProcedureCall id="_1s6Q" procedure="open_tool_window"/>
+        <SetGlobalStep id="_1s5X" varname="valid_pixel_expression"/>
+        <ProcedureCall id="_1qGx"
+                       procedure="preparation_for_test_save_output_product"/>
+        <TestStep id="_1pZQ" name="cancel_processing">
+          <ProcedureCall id="_1qGy"
+                         procedure="do_click.scape_m.button_apply"/>
+          <ProcedureCall id="_1pa9" procedure="cancel_operators"/>
+        </TestStep>
+        <ProcedureCall id="_1s8m"
+                       procedure="utility.check_if_processing_is_really_canceled"/>
+        <ProcedureCall id="_1s6g" procedure="close_processor_tool"/>
+      </TestCase>
+      <TestSet id="_1pT+" name="processing_in_different_formats_meris">
+        <variable name="source_data">MER_RR__1_test.N1</variable>
+        <variable name="source_dir">mer_rr__1p_n1</variable>
+        <SetupSequence id="_1pUV" name="prepare_for_the_testing">
+          <ProcedureCall id="_1s6R" procedure="open_tool_window"/>
+          <ProcedureCall id="_1qG+"
+                         procedure="preparation_for_test_save_output_product">
+            <variable name="output_file">test</variable>
+          </ProcedureCall>
+        </SetupSequence>
+        <TestSet id="_1pUb" name="processing">
+          <DataDriver id="_1pUc"
+                      loopreportname="Write the target product as $(output_format)"
+                      name="output_formats">
+            <ProcedureCall id="_1pUd" procedure="tables.output_formats"/>
+          </DataDriver>
+          <TestCase id="_1pUj" name="processing_in_different_formats"
+                    reportname="Processing in $(output_format) format and check output product">
+            <ServerScriptStep disabled="true" id="_1pV5" name="print">
+              <code>print "output_format = $(output_format)"</code>
+            </ServerScriptStep>
+            <ServerScriptStep disabled="true" id="_1pV6" name="print">
+              <code>print "output_file = $(output_file)"</code>
+            </ServerScriptStep>
+            <TryStep id="_1s3Z"
+                     name="check_scape_m_processor_tool_is_opened_else_open">
+              <ProcedureCall id="_1s3Y"
+                             procedure="check.scape_m.scape_m_processor_opened"/>
+              <CatchSequence exception="TestException" id="_1s3a"
+                             maxerror="0">
+                <ProcedureCall id="_1s6S" procedure="open_tool_window"/>
+                <ProcedureCall id="_1s8k"
+                               procedure="preparation_for_test_save_output_product">
+                  <variable name="output_file">test</variable>
+                </ProcedureCall>
+              </CatchSequence>
+            </TryStep>
+            <TestStep id="_1s42" name="processing">
+              <ProcedureCall disabled="true" id="_1s43"
+                             procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
+                <variable name="screenshot">flh_mci_error</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1s44" procedure="select_io_tab"/>
+              <ProcedureCall id="_1s45"
+                             procedure="set.scape_m.target_product_name">
+                <variable name="target_product_name">$(output_file)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1s46"
+                             procedure="select.scape_m.output_format">
+                <variable name="output_format">$(output_format)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1s5P" procedure="running"/>
+            </TestStep>
+            <TestStep id="_1pUq" name="check_target_product">
+              <ProcedureCall id="_1pfx"
+                             procedure="test_events.check_target_product_without_grouping"/>
+              <ProcedureCall id="_1qH5" procedure="close.all_products"/>
+            </TestStep>
+          </TestCase>
+        </TestSet>
+        <CleanupSequence id="_1pUa" name="close_processor_tool">
+          <ProcedureCall id="_1s6h" procedure="close_processor_tool"/>
+          <ProcedureCall id="_1p08" procedure="cleanup.output_data_folder">
+            <variable name="directory">$(output_folder)</variable>
+          </ProcedureCall>
+        </CleanupSequence>
+      </TestSet>
+    </TestSet>
+    <TestCase id="_1pFr" name="03_help">
+      <ProcedureCall id="_1s6b" procedure="open_tool_window"/>
+      <TestStep id="_1pVG" name="check_help">
+        <ProcedureCall id="_1pVH" procedure="do_click.scape_m.menu.help"/>
+        <ProcedureCall id="_1qBp"
+                       procedure="do_click.scape_m.menu.help_menu_item"/>
+        <ProcedureCall id="_1qcu" procedure="help.check_help_appears_close"/>
+      </TestStep>
+      <TestStep id="_1pVN" name="check_help_about">
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSCAPE-M.menubar" event="MOUSE_MPRC"
+                        id="_1s08" modifiers="16" x="221" y="15"/>
+        <ProcedureCall id="_1qBq" procedure="do_click.scape_m.menu.help"/>
+        <ProcedureCall id="_1qBr" procedure="do_click.scape_m.menu.about"/>
+        <ComponentWaiter client="$(client)"
+                         component="dialogAbout_snap.scapeM" id="_1s7V"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogAbout_snap.scapeM.ModalDialog.ok"
+                        event="MOUSE_MPRC" id="_1s7W" modifiers="16"/>
+      </TestStep>
+      <ProcedureCall id="_1s6m" procedure="close_processor_tool"/>
+    </TestCase>
+  </TestSet>
+  <PackageRoot id="_4">
+    <Procedure id="_1s6c" name="close_processor_tool">
+      <ProcedureCall id="_1s6n" procedure="do_click.scape_m.button_close"/>
+    </Procedure>
+    <Procedure id="_1s6L" name="open_tool_window">
+      <ProcedureCall id="_1s6M"
+                     procedure="open.optical.thematic_land_processing.scape_m"/>
+    </Procedure>
+    <Procedure id="_1pb8" name="select_io_tab">
+      <ProcedureCall id="_1pb9" procedure="select.scape_m.tab">
+        <variable name="tab">I/O Parameters</variable>
+        <variable name="example">I/O Parameters;Processing Parameters</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pbC" name="select_processing_parameters_tab">
+      <ProcedureCall id="_1pbE" procedure="select.scape_m.tab">
+        <variable name="tab">Processing Parameters</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pbQ" name="display_parameters_and_check">
+      <ProcedureCall id="_1pbR" procedure="display_parameters"/>
+      <ComponentWaiter client="$(client)"
+                       component="dialogSnap.scapeM_Parameters" id="_1s6x"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSnap.scapeM_Parameters.ModalDialog.ok"
+                      event="MOUSE_MPRC" id="_1s6+" modifiers="16"/>
+    </Procedure>
+    <Procedure id="_1pMT" name="open_source_product">
+      <variable name="prod_dir"/>
+      <variable name="prod_name"/>
+      <ProcedureCall id="_1oSj" procedure="path.source_data_directory">
+        <variable name="data_type">$(prod_dir)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1pMS"
+                     procedure="do_click.scape_m.button_source_product"/>
+      <ProcedureCall id="_1pHR"
+                     procedure="utility.handle_select_product_dialog">
+        <variable name="file">$(data_source_directory)$(prod_name)</variable>
+      </ProcedureCall>
+      <TryStep id="_1pXT">
+        <ProcedureCall id="_1pXV" procedure="wait.appear.error.dialog_Error"/>
+        <ProcedureCall id="_1pXS"
+                       procedure="do_click.error_dialog.button_OK_Error"/>
+        <ProcedureCall id="_1pXW" procedure="run-log.logError">
+          <variable name="message">Opening of the product $(data_source_directory)$(prod_name) failed</variable>
+          <variable name="withScreenshots">false</variable>
+        </ProcedureCall>
+        <CatchSequence exception="TestException" id="_1pXU" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1pON" name="click_ok_in_product_created_dialog">
+      <TryStep id="_1qXT">
+        <ComponentWaiter client="$(client)"
+                         component="dialogSNAP_-_scope_m_processor"
+                         errorlevel="0" id="_1qXS" raise="false"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSNAP_-_scope_m_processor.buttonOK"
+                        event="MOUSE_MPRC" id="_1qXR" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1qXW" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1s5a" name="click_yes_in_overwrite_existing_file_dialog">
+      <TryStep id="_1s5b">
+        <ComponentWaiter client="$(client)"
+                         component="dialogscope_m_processor2.buttonYes"
+                         errorlevel="0" id="_1s5c" raise="false"
+                         timeout="20"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogscope_m_processor2.buttonYes"
+                        event="MOUSE_MPRC" id="_1s5d" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1s5e" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1s5y" name="click_ok_in_error_dialog">
+      <ProcedureCall id="_1s63"
+                     procedure="error_handling.if_SNAP_Error_shoot_error_message"/>
+    </Procedure>
+    <Procedure id="_1qCR" name="preparation_for_test_without_save">
+      <comment>@teststep preparation</comment>
+      <ProcedureCall id="_1qCS" procedure="select_io_tab"/>
+      <ProcedureCall id="_1qCT" procedure="open_source_product">
+        <variable name="prod_dir">$(source_dir)</variable>
+        <variable name="prod_name">$(source_data)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qCU" procedure="set.scape_m.target_product_name">
+        <variable name="target_product_name">$(output_file)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1pfn" procedure="get_source_product"/>
+      <ProcedureCall id="_1qCV" procedure="deselect.scape_m.save_as"/>
+      <ProcedureCall id="_1s58" procedure="select_processing_parameters_tab"/>
+    </Procedure>
+    <Procedure id="_1qGm" name="preparation_for_test_save_output_product">
+      <comment>@teststep preparation</comment>
+      <ProcedureCall id="_1s3H" procedure="select_io_tab"/>
+      <ProcedureCall id="_1s3I" procedure="open_source_product">
+        <variable name="prod_dir">$(source_dir)</variable>
+        <variable name="prod_name">$(source_data)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1s3J" procedure="set.scape_m.target_product_name">
+        <variable name="target_product_name">$(output_file)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qH6" procedure="set.scape_m.target_directory">
+        <variable name="dir">$(output_folder)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1s8O" procedure="select.scape_m.save_as"/>
+      <ProcedureCall id="_1s3N" procedure="select.scape_m.open_in_snap"/>
+      <ProcedureCall id="_1s3O" procedure="daten_format.beam_dimap"/>
+      <ProcedureCall id="_1s3P" procedure="select.scape_m.output_format">
+        <variable name="output_format">$(beam_dimap)</variable>
+      </ProcedureCall>
+      <ProcedureCall disabled="true" id="_1qGs"
+                     procedure="select_processing_parameters_tab"/>
+    </Procedure>
+    <Procedure id="_1pPF" name="store_parameters">
+      <TryStep id="_1pPG" name="select_menu_store_parameters">
+        <ProcedureCall id="_1pPH" procedure="do_click.scape_m.menu.file"/>
+        <ProcedureCall id="_1qGM"
+                       procedure="do_click.scape_m.menu.save_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPJ" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPK" procedure="utility.store_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pTE" name="get_source_product">
+      <FetchTextStep client="$(client)"
+                     component="dialogSCAPE-M.panelI/O_Parameters.comboMERIS_L1B_product"
+                     id="_1pTF" varname="source_product"/>
+    </Procedure>
+    <Procedure id="_1pPv" name="display_parameters">
+      <TryStep id="_1pPw" name="select_menu_display_parameters">
+        <ProcedureCall id="_1qGN" procedure="do_click.scape_m.menu.file"/>
+        <ProcedureCall id="_1qGO"
+                       procedure="do_click.scape_m.menu.display_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPz" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1pP9" name="load_parameters">
+      <TryStep id="_1pPA" name="select_menu_load_parameters">
+        <ProcedureCall id="_1qGP" procedure="do_click.scape_m.menu.file"/>
+        <ProcedureCall id="_1qGQ"
+                       procedure="do_click.scape_m.menu.load_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPD" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPM" procedure="utility.load_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1s5K" name="running">
+      <ProcedureCall id="_1s5L" procedure="do_click.scape_m.button_apply"/>
+      <ProcedureCall id="_1s5f"
+                     procedure="click_yes_in_overwrite_existing_file_dialog"/>
+      <ProcedureCall id="_1s5M"
+                     procedure="wait.disappear.writing_target_product"/>
+      <ProcedureCall id="_1s5N"
+                     procedure="click_ok_in_product_created_dialog"/>
+      <ProcedureCall id="_1s6J" procedure="click_ok_in_error_dialog"/>
+      <ProcedureCall id="_1s64" procedure="click_ok_in_error_dialog"/>
+      <ProcedureCall disabled="true" id="_1s5O"
+                     procedure="error_handling.if_any_error_make_screenshot_shoot_error_message"/>
+    </Procedure>
+  </PackageRoot>
+  <ExtraSequence id="_5">
+    <BasicSequence id="_1s7q" name="Aufnahme 21.04.16 15:40">
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSCAPE-M.useDEM" event="MOUSE_MPRC"
+                      id="_1s7r" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSCAPE-M.skipGapFilling"
+                      event="MOUSE_MPRC" id="_1s7u" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSCAPE-M.skipVisibilitySmoothing"
+                      event="MOUSE_MPRC" id="_1s7w" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSCAPE-M.outputRhoToa"
+                      event="MOUSE_MPRC" id="_1s7y" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSCAPE-M.outputReflBand2"
+                      event="MOUSE_MPRC" id="_1s7+" modifiers="16"/>
+      <ProcedureCall id="_1s8A"
+                     procedure="check.scape_m.checked.use_getasse_DEM"/>
+      <ProcedureCall id="_1s8B"
+                     procedure="check.scape_m.checked.skip_gap_filling"/>
+      <ProcedureCall id="_1s8C"
+                     procedure="check.scape_m.checked.skip_visibility_smoothing"/>
+      <ProcedureCall id="_1s8D"
+                     procedure="check.scape_m.checked.write_rho_toa"/>
+      <ProcedureCall id="_1s8E"
+                     procedure="check.scape_m.checked.write_443nm_reflec"/>
+      <ProcedureCall id="_1s8F"
+                     procedure="check.scape_m.checked.calculate_lakes"/>
+      <ProcedureCall id="_1s8G"
+                     procedure="check.scape_m.text.reflectance_water_threshold">
+        <variable name="val"/>
+      </ProcedureCall>
+      <ProcedureCall id="_1s8H"
+                     procedure="check.scape_m.text.thickness_of_coast">
+        <variable name="val"/>
+      </ProcedureCall>
+      <ProcedureCall id="_1s8I"
+                     procedure="check.scape_m.text.minimum_ocean_size">
+        <variable name="val"/>
+      </ProcedureCall>
+      <CheckBooleanStep checktype="enabled" client="$(client)"
+                        component="dialogSCAPE-M.calculateLakes" id="_1s8K"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogSCAPE-M.reflectance_water_threshold"
+                       id="_1s8L">
+        <text>0.08</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogSCAPE-M.thicknessOfCoast" id="_1s8M">
+        <text>20.0</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogSCAPE-M.minimumOceanSize" id="_1s8N">
+        <text>1600.0</text>
+      </CheckStringStep>
+    </BasicSequence>
+    <BasicSequence id="_1s6o" name="Aufnahme 21.04.16 15:40">
+      <CheckStringStep client="$(client)"
+                       component="NbMainWindow2.menuItemSCAPE-M" id="_1s6p">
+        <text>SCAPE-M</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="NbMainWindow2.menuItemSCAPE-M" id="_1s6q">
+        <text>SCAPE-M</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="item" client="$(client)"
+                       component="dialogSCAPE-M.tabbed.I/O_Parameters"
+                       id="_1s6r">
+        <text>I/O Parameters</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)" component="dialogSCAPE-M.menuFile"
+                       id="_1s6s">
+        <text>File</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSCAPE-M.menuFile" event="MOUSE_MPRC"
+                      id="_1s6t" modifiers="16"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogSCAPE-M.menuItemLoad_Parameters..."
+                       id="_1s6u">
+        <text>Load Parameters...</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogSCAPE-M.menuItemSave_Parameters..."
+                       id="_1s6v">
+        <text>Save Parameters...</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSCAPE-M.menuItemDisplay_Parameters..."
+                      event="MOUSE_MPRC" id="_1s6w" modifiers="16"/>
+      <CheckStringStep checktype="item" client="$(client)"
+                       component="dialogSnap.scapeM_Parameters.text@&lt;parameters&gt;"
+                       id="_1s6y">
+        <text>&lt;parameters&gt;</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="item" client="$(client)"
+                       component="dialogSnap.scapeM_Parameters.text@&lt;parameters&gt;"
+                       id="_1s6z">
+        <text>&lt;parameters&gt;</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogSCAPE-M.panelI/O_Parameters.comboMERIS_L1B_product"
+                       id="_1s6-"/>
+      <CheckBooleanStep checktype="enabled" client="$(client)"
+                        component="dialogSCAPE-M.button..." id="_1s70"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogSCAPE-M.productName" id="_1s3Q"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogSCAPE-M.saveToFileSelected"
+                        id="_1s71"/>
+      <CheckBooleanStep checktype="enabled" client="$(client)"
+                        component="dialogSCAPE-M.saveToFileSelected"
+                        id="_1s72"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogSCAPE-M.formatName" id="_1s73">
+        <text>BEAM-DIMAP</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)" component="dialogSCAPE-M.productDir"
+                       id="_1s74">
+        <text>E:\testdata\out\scope_m_processor</text>
+      </CheckStringStep>
+      <CheckBooleanStep checktype="enabled" client="$(client)"
+                        component="dialogSCAPE-M.button...2" id="_1s75"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogSCAPE-M.openInAppSelected"
+                        id="_1s76"/>
+      <CheckBooleanStep checktype="enabled" client="$(client)"
+                        component="dialogSCAPE-M.openInAppSelected"
+                        id="_1s77"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogSCAPE-M.DefaultSingleTargetProductDialog.apply"
+                       id="_1s78">
+        <text>Run</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogSCAPE-M.DefaultSingleTargetProductDialog.close"
+                       id="_1s79">
+        <text>Close</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogSCAPE-M.DefaultSingleTargetProductDialog.apply"
+                       id="_1s7A">
+        <text>Run</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogSCAPE-M.DefaultSingleTargetProductDialog.close"
+                       id="_1s7B">
+        <text>Close</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSCAPE-M.tabbed.tab" event="MOUSE_MPRC"
+                      id="_1s7C" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSCAPE-M.useDEM" event="MOUSE_MPRC"
+                      id="_1s7D" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSCAPE-M.useDEM" event="MOUSE_MPRC"
+                      id="_1s7E" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSCAPE-M.skipGapFilling"
+                      event="MOUSE_MPRC" id="_1s7F" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSCAPE-M.skipGapFilling"
+                      event="MOUSE_MPRC" id="_1s7G" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSCAPE-M.skipVisibilitySmoothing"
+                      event="MOUSE_MPRC" id="_1s7H" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSCAPE-M.skipVisibilitySmoothing"
+                      event="MOUSE_MPRC" id="_1s7I" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSCAPE-M.outputRhoToa"
+                      event="MOUSE_MPRC" id="_1s7J" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSCAPE-M.outputRhoToa"
+                      event="MOUSE_MPRC" id="_1s7K" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSCAPE-M.outputReflBand2"
+                      event="MOUSE_MPRC" id="_1s7L" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSCAPE-M.outputReflBand2"
+                      event="MOUSE_MPRC" id="_1s7M" modifiers="16"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogSCAPE-M.reflectance_water_threshold"
+                       id="_1s7N">
+        <text>0.08</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogSCAPE-M.thicknessOfCoast" id="_1s7O">
+        <text>20.0</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogSCAPE-M.minimumOceanSize" id="_1s7P">
+        <text>1600.0</text>
+      </CheckStringStep>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogSCAPE-M.calculateLakes" id="_1s7Q"/>
+      <CheckBooleanStep checktype="enabled" client="$(client)"
+                        component="dialogSCAPE-M.calculateLakes" id="_1s7R"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSCAPE-M.menuHelp" event="MOUSE_MPRC"
+                      id="_1s7S" modifiers="16"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogSCAPE-M.menuItemHelp" id="_1s7T">
+        <text>Help</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSCAPE-M.menuItemAbout..."
+                      event="MOUSE_MPRC" id="_1s7U" modifiers="16"/>
+    </BasicSequence>
+    <ProcedureCall id="_1s8l" procedure="check.product.not_opened"/>
+    <IfSequence id="_1oXW" test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+      <TestStep id="_1o+2" name="delete_band">
+        <ProcedureCall id="_1oXb" procedure="select.product_tree.band">
+          <variable name="prod_id">0</variable>
+          <variable name="group_id"/>
+          <variable name="view_id">1</variable>
+          <variable name="band">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1ozv" procedure="delete_product_tree_node"/>
+        <ProcedureCall id="_1ozx" procedure="check.product.node_not_exists">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1o+t" name="undo">
+        <ProcedureCall id="_1p0C" procedure="undo_tree"/>
+        <ProcedureCall disabled="true" id="_1o+y"
+                       procedure="do_click_menubar_undo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o+z" procedure="get.tree.get_index_of_node">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+        <ServerScriptStep disabled="true" id="_1o++" name="print">
+          <code>print "$(new_band_id)"</code>
+        </ServerScriptStep>
+      </TestStep>
+      <TestStep id="_1o-3" name="redo">
+        <ProcedureCall id="_1p0D" procedure="redo_tree"/>
+        <ProcedureCall disabled="true" id="_1o-B"
+                       procedure="do_click_menubar_redo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o-C" procedure="check.product.node_not_exists">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1o-F" name="undo">
+        <ProcedureCall id="_1p0E" procedure="undo_tree"/>
+        <ProcedureCall disabled="true" id="_1o-P"
+                       procedure="do_click_menubar_undo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o-Q" procedure="get.tree.get_index_of_node">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+    </IfSequence>
+    <ProcedureCall id="_1oXO" procedure="close.all_products"/>
+  </ExtraSequence>
+  <WindowList id="_6"/>
+</RootStep>

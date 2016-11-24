@@ -50,6 +50,10 @@
             <ComponentWaiter client="$(client)"
                              component="dialogTemplate_Manager" id="_1mOp"/>
           </Procedure>
+          <Procedure id="_1rgY" name="dialogResampling">
+            <ComponentWaiter client="$(client)" component="dialogResampling"
+                             id="_1rsl"/>
+          </Procedure>
         </Package>
         <Package id="_1ozK" name="error">
           <Procedure id="_1pPD" name="dialog_Error">
@@ -63,6 +67,16 @@
               <ElseifSequence id="_1pPF" name="MAC?"
                               test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
               <ElseSequence id="_1pPG"/>
+            </IfSequence>
+          </Procedure>
+          <Procedure id="_1rgT" name="dialog_Invalid_Input_exception">
+            <ComponentWaiter client="$(client)"
+                             component="dialogInvalid_Input" errorlevel="0"
+                             id="_1rgU" timeout="100"/>
+            <IfSequence id="_1rgV" test="${qftest:windows}">
+              <ElseifSequence id="_1rgW" name="MAC?"
+                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+              <ElseSequence id="_1rgX"/>
             </IfSequence>
           </Procedure>
           <Procedure id="_1pxO" name="dialog_Invalid_Input">
@@ -176,7 +190,11 @@
             <TryStep id="_1rT2">
               <IfSequence id="_1ok3" test="${qftest:windows}">
                 <ComponentWaiter client="$(client)"
-                                 component="dialogOpen_Product" id="_1mhH"/>
+                                 component="dialogSNAP_-_Open_Product"
+                                 id="_1mhH"/>
+                <ComponentWaiter client="$(client)"
+                                 component="dialogOpen_Product"
+                                 disabled="true" id="_1s7A"/>
                 <ElseifSequence id="_1ok4" name="MAC?"
                                 test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                   <ComponentWaiter client="$(client)"
@@ -259,6 +277,15 @@
           <ComponentWaiter client="$(client)" component="NbMainWindow"
                            id="_1mhp" timeout="500"/>
         </Procedure>
+        <Procedure id="_1rgP" name="reading_product_progress_monitor">
+          <ComponentWaiter client="$(client)"
+                           component="dialogReading_Product" id="_1rgR"/>
+        </Procedure>
+        <Procedure id="_1rsp" name="dialog_multiple_readers_available">
+          <ComponentWaiter client="$(client)"
+                           component="dialogSNAP_-_Multiple_Readers_Available"
+                           id="_1s72" timeout="10"/>
+        </Procedure>
         <Procedure disabled="true" id="_1k-o" name="view">
           <variable name="prod_nr"/>
           <variable name="band_name"/>
@@ -272,9 +299,16 @@
       </Package>
       <Package id="_1lBA" name="disappear">
         <Procedure id="_1pP4" name="writing_target_product">
-          <ComponentWaiter absence="true" client="$(client)"
-                           component="dialogWriting_Target_Product" id="_1pP5"
-                           timeout="150000000"/>
+          <TryStep id="_1s73">
+            <ComponentWaiter absence="true" client="$(client)"
+                             component="dialogWriting_Target_Product"
+                             id="_1pP5" timeout="15000000"/>
+            <CatchSequence exception="TestException" id="_1s74" maxerror="0">
+              <ComponentWaiter absence="true" client="$(client)"
+                               component="dialogWriting_Target_Product"
+                               id="_1s75" timeout="36000000"/>
+            </CatchSequence>
+          </TryStep>
         </Procedure>
         <Procedure id="_1k-h" name="creating_image_progress monitor">
           <variable name="bandName"/>
@@ -352,10 +386,54 @@
                            component="dialogSave_Product" errorlevel="0"
                            id="_1qdj" raise="false" timeout="1500000"/>
         </Procedure>
+        <Procedure id="_1rgM" name="reading_product_progress_monitor">
+          <TryStep id="_1rsn">
+            <ComponentWaiter absence="true" client="$(client)"
+                             component="dialogReading_Product" id="_1rgN"
+                             timeout="15000000"/>
+            <CatchSequence exception="TestException" id="_1rso" maxerror="0">
+              <TryStep id="_1s76">
+                <ComponentWaiter absence="true" client="$(client)"
+                                 component="dialogReading_Product" id="_1s77"
+                                 timeout="15000000"/>
+                <CatchSequence exception="TestException" id="_1s78"
+                               maxerror="0">
+                  <ComponentWaiter absence="true" client="$(client)"
+                                   component="dialogReading_Product"
+                                   id="_1s79" timeout="36000000"/>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+          <TryStep id="_1s7C">
+            <ComponentWaiter client="$(client)"
+                             component="NbMainWindow.statusLine.progress1_task_running._Click_for_details."
+                             id="_1s7B" timeout="10"/>
+            <ComponentWaiter absence="true" client="$(client)"
+                             component="NbMainWindow.statusLine.progress1_task_running._Click_for_details."
+                             id="_1s7H" timeout="2000"/>
+            <CatchSequence exception="TestException" id="_1s7D" maxerror="0">
+              <TryStep id="_1s7E">
+                <ComponentWaiter client="$(client)"
+                                 component="NbMainWindow.statusLine.progress1_task_running._Click_for_details."
+                                 id="_1s7J" timeout="1000"/>
+                <ComponentWaiter absence="true" client="$(client)"
+                                 component="NbMainWindow.statusLine.progress1_task_running._Click_for_details."
+                                 id="_1s7F" timeout="15000000"/>
+                <CatchSequence exception="TestException" id="_1s7G"
+                               maxerror="0">
+                  <ComponentWaiter absence="true" client="$(client)"
+                                   component="NbMainWindow.statusLine.progress1_task_running._Click_for_details."
+                                   id="_1s7I" timeout="36000000"/>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
       </Package>
       <Procedure id="_9Z5" name="product_is_opened">
         <comment>@teststep Wait if product appears.</comment>
-        <ProcedureCall id="_1l52" procedure="check.product.not_opened"/>
+        <ProcedureCall id="_1l3B" procedure="check.product.not_opened"/>
         <IfSequence id="_1l53" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
           <TryStep disabled="true" id="_1rej" postdelay="500">
             <ComponentWaiter client="$(client)"
@@ -373,16 +451,15 @@
             <CatchSequence exception="TestException" id="_1req" maxerror="0"/>
           </TryStep>
           <TryStep id="_9Z6" postdelay="500">
-            <ComponentWaiter client="$(client)"
-                             component="dialogReading_Product" id="_1reE"/>
+            <ProcedureCall id="_1rgS"
+                           procedure="wait.appear.reading_product_progress_monitor"/>
             <FetchTextStep client="$(client)"
                            component="dialogReading_Product.labelPlease_wait_while_the_data_product_is_being_read..."
                            id="_1rel" local="true" varname="label"/>
             <IfSequence id="_1rde"
                         test="&#34;$(label)&#34;==&#34;Please wait while the data product is being read...&#34;">
-              <ComponentWaiter absence="true" client="$(client)"
-                               component="dialogReading_Product" id="_1rer"
-                               timeout="15000000"/>
+              <ProcedureCall id="_1rgO"
+                             procedure="wait.disappear.reading_product_progress_monitor"/>
             </IfSequence>
             <CatchSequence exception="TestException" id="_9Z8" maxerror="0"/>
           </TryStep>

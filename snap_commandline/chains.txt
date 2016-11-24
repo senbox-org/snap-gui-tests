@@ -1,0 +1,67 @@
+-f BEAM-DIMAP
+-f NetCDF-CF
+-f NetCDF4-CF
+-f NetCDF4-BEAM
+-f NetCDF-BEAM
+-f geoTIFF
+-f HDF5
+Meris.CorrectRadiometry
+chains
+=======
+time
+
+gpt  E:\testdata\in\applications\processing\gpf_files\graph_builder\meris_correct_rad.xml -f BEAM-DIMAP -e -t E:\testdata\out\tmp\meris_correct_rad.dim E:\testdata\in\sensors_platforms\MERIS\MER_RR__1P\N1\MER_RR__1_test.N1 -e 
+time
+gpt  E:\testdata\in\applications\processing\gpf_files\chain\chain_MERIS_bandMaths_reprojection_subset.xml -f BEAM-DIMAP -e -t E:\testdata\out\tmp\chain_MERIS_bandMaths_reprojection_subset.dim E:\testdata\in\sensors_platforms\MERIS\MER_RR__1P\N1\MER_RR__1_test.N1
+gpt  E:\testdata\in\applications\processing\gpf_files\chain\chain_MERIS_subset_bandMaths_reprojection.xml -f BEAM-DIMAP -e -t E:\testdata\out\tmp\chain_MERIS_subset_bandMaths_reprojection.dim -Ssource=E:\testdata\in\sensors_platforms\MERIS\MER_RR__1P\N1\MER_RR__1_test.N1
+gpt  E:\testdata\in\applications\processing\gpf_files\chain\chain_MERIS_reprojection_and_export_to_GeoTIFF.xml
+
+================
+roundRobin
+.........
+gpt  E:\testdata\in\applications\processing\gpf_files\chain\chain_roundRobin.xml  -f NetCDF-CF -t E:\testdata\out\tmp\01_roundRobin_netcdf_cf.nc  -Ssource=E:\testdata\in\sensors_platforms\MERIS\MER_RR__1P\N1\MER_RR__1_test.N1 -e
+gpt  E:\testdata\in\applications\processing\gpf_files\chain\chain_roundRobin.xml  -f NetCDF-BEAM -t E:\testdata\out\tmp\02_roundRobin_netcdf_beam.nc  -Ssource=E:\testdata\in\sensors_platforms\MERIS\MER_RR__1P\N1\MER_RR__1_test.N1 -e
+
+gpt  E:\testdata\in\applications\processing\gpf_files\chain\chain_roundRobin.xml  -f NetCDF-CF -t E:\testdata\out\tmp\03_roundRobin_netcdf_cf.nc  -Ssource=E:\testdata\in\sensors_platforms\MERIS\MER_RR__1P\N1\MER_RR__1_test.N1 -e
+
+================
+scaling_and_netcdf
+......................
+# gpt  E:\testdata\in\applications\processing\gpf_files\chain\scaling_and_netcdf_MERISfinal_netcdf_cf.xml  -f NetCDF-CF -t E:\testdata\out\tmp\scaling_and_netcdf_01.nc  -SmasterProduct=E:\testdata\out\tmp\MER_RR__1PQBCM_test.dim -Ssource=E:\testdata\in\sensors_platforms\MERIS\MER_FR__2P\N1\MER_FR__2_test.N1 -e
+
+gpt E:\testdata\in\applications\processing\gpf_files\chain\scaling_and_netcdf_MERISfinal_netcdf_beam.xml -e -f NetCDF-BEAM -Ssource=E:\testdata\in\applications\data_cover_the_same_region\merge\MER_RR__2PNMAP20070729_022449_000000652060_00175_28285_0001.N1 -Pfile=E:\testdata\out\tmp\scaling_and_netcdf_MERISfinal_netcdf_beam.nc
+gpt E:\testdata\in\applications\processing\gpf_files\chain\scaling_and_netcdf_MERISfinal_dim.xml -e -Ssource=E:\testdata\in\applications\data_cover_the_same_region\merge\MER_RR__2PNMAP20070729_022449_000000652060_00175_28285_0001.N1 -Pfile=E:\testdata\out\tmp\scaling_and_netcdf_MERISfinal_dim.dim
+
+================
+mutliple targets
+..................
+gpt E:\testdata\in\applications\processing\gpf_files\chain\mutliple_targets.xml -e -t E:\testdata\out\gpt_chain\mutliple_targets.dim E:\testdata\in\sensors_platforms\MERIS\MER_FSG_1P\N1\MER_FSG_1PNMAP20050726_232437_000000782039_00216_17805_0001.N1
+
+# gpt E:\testdata\in\applications\processing\gpf_files\chain\mutliple_targets.xml -e -TcloudNode=E:\testdata\out\gpt_chain\cloudNode.dim -TreprojNode=E:\testdata\out\gpt_chain\reprojNode.dim -t E:\testdata\out\gpt_chain\mutliple_targets.dim E:\testdata\in\MERIS\MER_FSG_1PNMAP20050726_232437_000000782039_00216_17805_0001.N1
+
+# gpt E:\testdata\in\applications\processing\gpf_files\chain\mutliple_targets.xml -e -TcloudNode=E:\testdata\out\gpt_chain\cloudNode.dim -t E:\testdata\out\gpt_chain\mutliple_targets.dim E:\testdata\in\MERIS\MER_FSG_1PNMAP20050726_232437_000000782039_00216_17805_0001.N1
+
+================
+read-write
+..............
+gpt E:\testdata\in\applications\processing\gpf_files\chain\chain_read_write.xml  -f BEAM-DIMAP -Pfile=E:\testdata\out\tmp\chain_read_write_01.dim  -Pfile=E:\testdata\in\sensors_platforms\sentinel-3\slstr\L1\S3A_SL_1_RBT____20130621T100932_20130621T101146_20140612T070359_0133_001_002______LN1_D_NR____.SEN3\xfdumanifest.xml
+
+================
+JIRA
+
+jira_SNAP_450.xml
+
+gpt  E:\testdata\in\applications\processing\gpf_files\chain\jira_SNAP_450.xml -f BEAM-DIMAP -e -t E:\testdata\out\tmp\jira_SNAP_450.dim E:\testdata\in\sensors_platforms\MERIS\MER_RR__1P\N1\MER_RR__1_test.N1
+gpt  E:\testdata\in\applications\processing\gpf_files\chain\chain_MERIS_subset_bandMaths_reprojection.xml -f BEAM-DIMAP -e -t E:\testdata\out\tmp\chain_MERIS_subset_bandMaths_reprojection.dim -Ssource=E:\testdata\in\sensors_platforms\MERIS\MER_RR__1P\N1\MER_RR__1_test.N1
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.7">
+<RootStep id="_0" name="root" version="4.0.11">
   <include>qfs.qft</include>
   <include>snap_do_click.qft</include>
   <include>snap_check.qft</include>
@@ -23,6 +23,7 @@
   <include>../04_edit/edit_lib.qft</include>
   <include>../06_imaging_tools/imaging_lib.qft</include>
   <include>../10_processing/lib/processing_main.qft</include>
+  <include>../10_processing/lib/c2r_cc_lib.qft</include>
   <include>../15_smos_box/smosbox_lib.qft</include>
   <include>../16_time_series/snap_time_series_lib.qft</include>
   <include>../40_gpt/gpt_main.qft</include>
@@ -48,6 +49,7 @@
   <dependency>../04_edit/edit_lib.qft</dependency>
   <dependency>../06_imaging_tools/imaging_lib.qft</dependency>
   <dependency>../10_processing/lib/processing_main.qft</dependency>
+  <dependency>../10_processing/lib/c2r_cc_lib.qft</dependency>
   <dependency>../15_smos_box/smosbox_lib.qft</dependency>
   <dependency>../16_time_series/snap_time_series_lib.qft</dependency>
   <dependency>../40_gpt/gpt_main.qft</dependency>
@@ -146,6 +148,22 @@
       </Dependency>
     </Package>
     <Package id="_1lBD" name="resize">
+      <Procedure id="_1pFJ" name="dialog">
+        <IfSequence id="_1pFK" test="${qftest:windows}">
+          <TryStep id="_1rlZ">
+            <ComponentEventStep client="$(client)" component="dialog"
+                                event="COMPONENT_RESIZED" id="_1rlH"
+                                param1="1000" param2="390"/>
+            <ComponentEventStep client="$(client)" component="dialog"
+                                event="COMPONENT_RESIZED" id="_1rlY"
+                                param1="1000" param2="726"/>
+            <CatchSequence exception="TestException" id="_1rla" maxerror="0"/>
+          </TryStep>
+          <ElseifSequence id="_1pFL" name="MAC?"
+                          test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+          <ElseSequence id="_1pFM"/>
+        </IfSequence>
+      </Procedure>
       <Procedure id="_1l6h" name="product_view_panel">
         <IfSequence id="_1opA" test="${qftest:windows}">
           <ElseifSequence id="_1opB" name="MAC?"
@@ -333,7 +351,8 @@
           <ProcedureCall id="_1kyB" procedure="cleanup.global_variables"/>
           <ProcedureCall id="_1kwS" procedure="set.variable.client_snap"/>
           <ProcedureCall id="_1kwT" procedure="path.main_path"/>
-          <ProcedureCall id="_1kx8" procedure="cleanup.temp_dir">
+          <ProcedureCall disabled="true" id="_1kx8"
+                         procedure="cleanup.temp_dir">
             <variable name="client">snap</variable>
           </ProcedureCall>
           <ProcedureCall id="_1pFF"
@@ -389,6 +408,47 @@
               </ServerScriptStep>
             </CatchSequence>
           </TryStep>
+          <TryStep id="_1rv4" name="constructed gui?">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="NbMainWindow.Tab_Displayer"
+                            event="MOUSE_MPRC" id="_1rxz" modifiers="16"
+                            x="67" y="8"/>
+            <CatchSequence exception="TestException" id="_1rvP" maxerror="0">
+              <TryStep id="_1rx-" name="constructed gui?" predelay="2000">
+                <ComponentWaiter client="$(client)"
+                                 component="NbMainWindow.Tab_Displayer"
+                                 errorlevel="0" id="_1ry5" predelay="2000"
+                                 raise="false"/>
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.Tab_Displayer"
+                                event="MOUSE_MPRC" id="_1ry0" modifiers="16"
+                                x="67" y="8"/>
+                <CatchSequence exception="TestException" id="_1ry2"
+                               maxerror="0">
+                  <TryStep id="_1ry6" name="constructed gui?" predelay="2000">
+                    <ComponentWaiter client="$(client)"
+                                     component="NbMainWindow.Tab_Displayer"
+                                     errorlevel="0" id="_1ry7" raise="false"/>
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="NbMainWindow.Tab_Displayer"
+                                    event="MOUSE_MPRC" id="_1ry8"
+                                    modifiers="16" x="67" y="8"/>
+                    <CatchSequence exception="TestException" id="_1ry9"
+                                   maxerror="0">
+                      <ProcedureCall id="_1ryA"
+                                     procedure="run-log.make_screensot">
+                        <variable name="iw_name">GUI_is_not_constructed</variable>
+                        <variable name="iw_name_example">error_dialog</variable>
+                      </ProcedureCall>
+                      <ServerScriptStep id="_1ryB" name="error">
+                        <code>rc.logError("GUI is not constructed")</code>
+                      </ServerScriptStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
         </Procedure>
       </Package>
     </Package>
@@ -425,8 +485,58 @@
         </ProcedureCall>
       </Procedure>
     </Package>
+    <Package id="_1rlb" name="deadlock">
+      <Procedure id="_1ruS" name="handle_deadlock">
+        <comment>@teststep Check if SNAP went into a deadlock, else restart.</comment>
+        <TryStep id="_1ru8">
+          <ProcedureCall id="_1ruQ" procedure="do_click.menu.help"/>
+          <ProcedureCall id="_1ru+" procedure="do_click.menu.help.about"/>
+          <ComponentWaiter client="$(client)" component="dialogAbout_SNAP"
+                           id="_1rtk" timeout="1000"/>
+          <WindowEventStep client="$(client)" component="dialogAbout_SNAP"
+                           event="WINDOW_CLOSING" id="_1rrs"/>
+          <CatchSequence exception="TestException" id="_1ruA" maxerror="0">
+            <ProcedureCall id="_1ruB" procedure="utils.terminate_process">
+              <variable name="client_name">$(client)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1ruC" procedure="run-log.make_screensot">
+              <variable name="iw_name">SNAP_went_into_deadlock</variable>
+            </ProcedureCall>
+            <ProcedureCall disabled="true" id="_1rv2"
+                           procedure="run-log.logError">
+              <variable name="message">'SNAP' went into a deadlock.</variable>
+              <variable name="withScreenshots">true</variable>
+            </ProcedureCall>
+          </CatchSequence>
+        </TryStep>
+        <ProcedureCall id="_1rv1"
+                       procedure="start.snap.check_already_started_else_start_SNAP"/>
+      </Procedure>
+    </Package>
   </PackageRoot>
   <ExtraSequence id="_4">
+    <Procedure id="_7lO" name="copy_dem_properties_beam">
+      <comment>copy dem.properties</comment>
+      <IfSequence id="_7lP" test="${qftest:windows}">
+        <ShellClientStarter client="copy_dem_properties"
+                            command="copy $(dataPath_win)in\applications\dem\dem.properties dem.properties"
+                            directory="$(userHome_win).beam\beam-core\auxdata\dem\GETASSE30"
+                            id="_7lS">
+          <comment>copy dem.properties into  $(userHome_win).beam\beam-core\auxdata\dem\GETASSE30</comment>
+        </ShellClientStarter>
+        <ElseSequence id="_7lZ">
+          <ShellClientStarter client="copy_dem_properties"
+                              command="cp $(test_path)SUT/dem.properties ."
+                              directory="$(userHome).beam/beam-core/auxdata/dem/GETASSE30"
+                              id="_7lj">
+            <comment>copy dem.properties into $(userHome).beam/beam-core/auxdata/dem/GETASSE30</comment>
+          </ShellClientStarter>
+        </ElseSequence>
+      </IfSequence>
+    </Procedure>
+    <ProcedureCall id="_1ru-" procedure="do_click.menu.help.about"/>
+    <ProcedureCall id="_1ruP"
+                   procedure="click_ok_in_display_parameter_dialog"/>
     <SetupSequence id="_1p0R"
                    name="Java Anwendung starten als Skript oder ausführbares Programm">
       <SetGlobalStep id="_1p0S" varname="client">
@@ -526,6 +636,11 @@ dontcompactify=True, report=True, nowrap=True)</code>
 vl = math.fabs($(x1)-$(x2))
 rc.setGlobal("abs_diff", vl)                       </code>
       </ServerScriptStep>
+      <ServerScriptStep id="_1rv3" name="rundung_set_variable">
+        <code>import math
+vl = math.round($(x), 2)
+rc.setGlobal("new_val", vl)                       </code>
+      </ServerScriptStep>
       <Test id="_9hi" name="scripting_beispiel">
         <ServerScriptStep id="_9hj">
           <code>import string
@@ -605,6 +720,18 @@ fh.close()</code>
       <ServerScriptStep id="_3GJ" name="check">
         <code>rc.check('$(userHome).beam/beam-core/auxdata/rgb_profiles'.find('Windows')&gt;0, "OK", int level rc.error))</code>
       </ServerScriptStep>
+      <ServerScriptStep id="_9pM" name="substring">
+        <code>import string 
+pn = "emnj_jgj.nat"
+index = string.find(pn, ".nat")
+rc.setGlobal("pnv", pn[:index])   
+              </code>
+        <comment>(pr_name_in_grabber)
+pnv =   
+rc.setGlobal("pnv", 0)   
+pnv = pn[:index]
+print pnv  </comment>
+      </ServerScriptStep>
       <ServerScriptStep id="_CuW" name="findInString">
         <code>import string 
 trafic = "$(down_trafic)"
@@ -637,18 +764,6 @@ rc.setGlobal("w", vl)                       </code>
 pn = "$(productName)"
 pn = pn.replace(".", "_")
 rc.setGlobal("productName2", pn.replace(" ", "_"))      </code>
-      </ServerScriptStep>
-      <ServerScriptStep id="_9pM" name="substring">
-        <code>import string 
-pn = "emnj_jgj.nat"
-index = string.find(pn, ".nat")
-rc.setGlobal("pnv", pn[:index])   
-              </code>
-        <comment>(pr_name_in_grabber)
-pnv =   
-rc.setGlobal("pnv", 0)   
-pnv = pn[:index]
-print pnv  </comment>
       </ServerScriptStep>
       <ServerScriptStep id="_9pN" name="substring">
         <code>import string 

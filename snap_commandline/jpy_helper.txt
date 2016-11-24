@@ -1,0 +1,248 @@
+SET PATH=%JAVA_HOME%\bin;%JDK_HOME%\jre\bin\server;%PYTHON_HOME%;C:\Program Files\Common Files\Microsoft Shared\Windows Live;C:\Program Files (x86)\Common Files\Microsoft Shared\Windows Live;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;%M2_HOME%\bin;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Git\cmd;C:\Python33;C:\Python27;C:\Program Files (x86)\Windows Live\Shared;C:\Program Files (x86)\7-Zip;C:\Program Files\MySQL\MySQL Server 5.6\bin;C:\Program Files\Microsoft Windows Performance Toolkit\;C:\Program Files\Java\apache-maven\bin;C:\Program Files (x86)\smartmontools\bin
+
+==============
+||32 bit
+==============
+
+SET VS90COMNTOOLS=%VS100COMNTOOLS%
+SET JDK_HOME=%JDK32_HOME%
+SET JAVA_HOME=%JDK32_HOME%
+#SET PATH=%JDK_HOME%\jre\bin\server;%PATH%
+
+"C:\Program Files\Microsoft SDKs\Windows\v7.1\bin\setenv" /x86 /release
+
+cd C:\Users\olga\Projects\jpy
+C:\Python27\python.exe setup.py install
+#C:\Python32\python.exe setup.py install
+
+SET DISTUTILS_USE_SDK=1
+
+SET BEAM_HOME=C:\Users\olga\programms\BEAM\BEAM 5.0-32bit
+cd %BEAM_HOME%\modules\beam-python-5.0.2\beampy
+
+SET BEAM_HOME=C:\Users\olga\Projects\Testing\SUT\beam-u-testing
+cd %BEAM_HOME%\modules\beam-python-5.0.2\beampy
+    
+C:\Python27\python.exe setup.py install
+#C:\Python32\python.exe setup.py install
+
+=========================================
+für VISAT:
+
+cp beampy-operator-example aus %BEAM_HOME%\modules\beam-python-5.0.2 in %BEAM_HOME%\modules
+==========================================
+
+Tests
+
+muss man anpassen:
+C:\Python27\python.exe .\beampy_mem_test.py
+C:\Python27\python.exe .\beampy_perf_test.py
+C:\Python27\python.exe .\beampy_product_test.py
+
+
+C:\Python27\python.exe C:\Users\olga\Projects\Testing\SUT\beam-u-testing\modules\beam-python-5.0.2\beampy\beampy_mem_test.py
+C:\Python27\python.exe C:\Users\olga\Projects\Testing\SUT\beam-u-testing\modules\beam-python-5.0.2\beampy\beampy_perf_test.py
+C:\Python27\python.exe C:\Users\olga\Projects\Testing\SUT\beam-u-testing\modules\beam-python-5.0.2\beampy\beampy_product_test.py
+
+C:\Python27\python.exe C:\Users\olga\Projects\Testing\SUT\beam-u-testing\modules\beam-python-5.0.2\beampy-examples\beampy_bmaths.py E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1
+C:\Python27\python.exe C:\Users\olga\Projects\Testing\SUT\beam-u-testing\modules\beam-python-5.0.2\beampy-examples\beampy_flh.py E:\testdata\in\MERIS\RR\2\MER_RR__2_test.N1
+C:\Python27\python.exe C:\Users\olga\Projects\Testing\SUT\beam-u-testing\modules\beam-python-5.0.2\beampy-examples\beampy_ndvi.py E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1
+C:\Python27\python.exe C:\Users\olga\Projects\Testing\SUT\beam-u-testing\modules\beam-python-5.0.2\beampy-examples\beampy_ndvi_with_masks.py E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1
+
+C:\Python27\python.exe C:\Users\olga\Projects\Testing\SUT\beam-u-testing\modules\beam-python-5.0.2\beampy-examples\beampy_subset.py
+
+Angepasst:
+
+C:\Python27\python.exe C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\examples\beampy_mem_test.py
+C:\Python27\python.exe C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\examples\beampy_perf_test.py
+C:\Python27\python.exe C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\examples\beampy_product_test.py
+
+
+BEAM-DIMAP
+C:\Python27\python.exe C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\examples\beampy_flh.py E:\testdata\in\MERIS\RR\2\MER_RR__2_test.N1
+C:\Python27\python.exe C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\examples\beampy_ndvi_with_masks.py E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1
+C:\Python27\python.exe C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\examples\beampy_ndvi.py E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1
+C:\Python27\python.exe C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\examples\beampy_subset.py E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1 "POLYGON ((139.9 48.6, 142.9 47.9, 142.4 47.0, 139.5 47.7, 139.9 48.6))"
+C:\Python27\python.exe C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\examples\beampy_bmaths.py E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1
+geoTIFF
+C:\Python27\python.exe C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\examples\beampy_flh_geotiff.py E:\testdata\in\MERIS\RR\2\MER_RR__2_test.N1
+C:\Python27\python.exe C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\examples\beampy_ndvi_with_masks_geotiff.py E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1
+C:\Python27\python.exe C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\examples\beampy_subset_geotiff.py E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1 "POLYGON ((139.9 48.6, 142.9 47.9, 142.4 47.0, 139.5 47.7, 139.9 48.6))"
+C:\Python27\python.exe C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\examples\beampy_bmaths_geotiff.py E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1
+
+
+==============
+|| 64 bit
+==============
+
+SET JDK_HOME=%JDK_HOME%
+SET JAVA_HOME=%JDK_HOME%
+SET PATH=%JDK_HOME%\jre\bin\server;%PATH%
+"C:\Program Files\Microsoft SDKs\Windows\v7.1\bin\setenv" /x64 /release
+
+cd C:\Users\olga\Projects\jpy
+C:\Python33\python.exe setup.py install
+#python setup.py install
+
+SET DISTUTILS_USE_SDK=1
+SET BEAM_HOME=C:\Users\olga\Projects\Testing\SUT\beam-u-testing
+cd %BEAM_HOME%\modules\beam-python-5.0.4\beampy
+
+C:\Python33\python.exe setup.py install
+
+
+Tests:
+
+test_product_file = 'E:/testdata/in/MERIS/RR/1b/MER_RR__1_test.N1'
+
+zuerst anpassen!!!!!
+C:\Python33\python.exe .\beampy_perf_test.py
+C:\Python33\python.exe .\beampy_product_test.py
+C:\Python33\python.exe .\beampy_mem_test.py
+
+
+C:\Python33\python.exe C:\Users\olga\Projects\Testing\SUT\beam-u-testing\modules\beam-python-5.0.4\beampy\beampy_mem_test.py
+C:\Python33\python.exe C:\Users\olga\Projects\Testing\SUT\beam-u-testing\modules\beam-python-5.0.4\beampy\beampy_perf_test.py
+C:\Python33\python.exe C:\Users\olga\Projects\Testing\SUT\beam-u-testing\modules\beam-python-5.0.4\beampy\beampy_product_test.py
+
+C:\Python33\python.exe C:\Users\olga\Projects\Testing\SUT\beam-u-testing\modules\beam-python-5.0.2\beampy-examples\beampy_bmaths.py E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1
+
+C:\Python33\python.exe C:\Users\olga\Projects\Testing\SUT\beam-u-testing\modules\beam-python-5.0.2\beampy-examples\beampy_flh.py E:\testdata\in\MERIS\RR\2\MER_RR__2_test.N1
+C:\Python33\python.exe C:\Users\olga\Projects\Testing\SUT\beam-u-testing\modules\beam-python-5.0.2\beampy-examples\beampy_flh.py E:\testdata\in\MERIS\RR\2\MER_RR__2PQBCM_test.N1
+
+C:\Python33\python.exe C:\Users\olga\Projects\Testing\SUT\beam-u-testing\modules\beam-python-5.0.2\beampy-examples\beampy_ndvi.py E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1
+C:\Python33\python.exe C:\Users\olga\Projects\Testing\SUT\beam-u-testing\modules\beam-python-5.0.2\beampy-examples\beampy_ndvi_with_masks.py E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1
+
+C:\Python33\python.exe C:\Users\olga\Projects\Testing\SUT\beam-u-testing\modules\beam-python-5.0.2\beampy_subset.py
+
+***********************
+angepasste, aber eventuell veraltet (jedes mal prüfen!!)
+
+C:\Python33\python.exe C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\examples\beampy_mem_test.py
+C:\Python33\python.exe C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\examples\beampy_perf_test.py
+C:\Python33\python.exe C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\examples\beampy_product_test.py
+
+
+BEAM-DIMAP
+C:\Python33\python.exe C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\examples\beampy_flh.py E:\testdata\in\MERIS\RR\2\MER_RR__2_test.N1
+
+C:\Python33\python.exe C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\examples\beampy_ndvi_with_masks.py E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1
+
+C:\Python33\python.exe C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\examples\beampy_ndvi.py E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1
+
+C:\Python33\python.exe C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\examples\beampy_subset.py E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1 "POLYGON ((139.9 48.6, 142.9 47.9, 142.4 47.0, 139.5 47.7, 139.9 48.6))"
+C:\Python33\python.exe C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\examples\beampy_bmaths.py E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1
+
+geoTIFF
+C:\Python33\python.exe C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\examples\beampy_flh_geotiff.py E:\testdata\in\MERIS\RR\2\MER_RR__2_test.N1
+C:\Python33\python.exe C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\examples\beampy_ndvi_with_masks_geotiff.py E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1
+C:\Python33\python.exe C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\examples\beampy_subset_geotiff.py E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1 "POLYGON ((139.9 48.6, 142.9 47.9, 142.4 47.0, 139.5 47.7, 139.9 48.6))"
+C:\Python33\python.exe C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\examples\beampy_bmaths_geotiff.py E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1
+
+
+
+
+
+-f NetCDF-CF
+-f NetCDF4-CF
+-f NetCDF4-BEAM
+-f NetCDF-BEAM
+
+-f HDF5
+
+
+############alt################################
+#
+#"C:\Program Files\Microsoft SDKs\Windows\v7.1\bin\setenv" /x64 /release
+#SET DISTUTILS_USE_SDK=1
+#
+#SET JDK_HOME=%JDK_HOME%
+#SET JAVA_HOME=%JDK_HOME%
+#SET PATH=%JDK_HOME%\jre\bin\server;%PATH%
+#
+#
+#cd C:\Users\olga\Projects\jpy
+#python setup.py install
+#python setup.py bdist_wininst
+#
+#################################
+
+cd C:\Users\olga\Projects\Testing\SUT\beam-u-testing\modules\beam-python-5.0.2\beampy
+python setup.py install
+
+
+set BEAM_HOME=C:\Users\olga\Projects\Testing\SUT\beam-u-testing
+python import beampy
+    
+#python setup.py bdist_wininst
+
+#python C:\Users\olga\Projects\Testing\SUT\beam-u-testing\modules\beam-python-5.0.2\beampy\setup.py install
+#python C:\Users\olga\Projects\Testing\SUT\beam-u-testing\modules\beam-python-5.0.2\beampy\setup.py bdist_wininst
+
+**********************
+OK:
+C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\examples\beampy_flh.py E:\testdata\in\MERIS\RR\2\MER_RR__2_test.N1
+C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\examples\beampy_ndvi_with_masks.py E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1
+C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\examples\beampy_ndvi.py E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1
+C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\examples\beampy_subset.py E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1 "POLYGON ((139.9 48.6, 142.9 47.9, 142.4 47.0, 139.5 47.7, 139.9 48.6))"
+C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\examples\beampy_bmaths.py E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1 "POLYGON ((139.9 48.6, 142.9 47.9, 142.4 47.0, 139.5 47.7, 139.9 48.6))"
+
+******
+
+C:\Python27\python import beampy
+
+
+beampy_bmaths.py
+beampy_flh.py
+beampy_ndvi.py
+beampy_ndvi_with_masks.py
+beampy_subset.py
+
+C:\Users\olga\Projects\Testing\SUT\beam-u-testing\modules\beam-python-5.0-SNAPSHOT\beampy-examples\beampy_ndvi_with_masks.py E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1
+C:\Users\olga\Projects\Testing\SUT\beam-u-testing\modules\beam-python-5.0-SNAPSHOT\beampy-examples\beampy_ndvi.py E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1
+C:\Users\olga\Projects\Testing\SUT\beam-u-testing\modules\beam-python-5.0-SNAPSHOT\beampy-examples\beampy_flh.py E:\testdata\in\MERIS\RR\2\MER_RR__2_test.N1
+C:\Users\olga\Projects\Testing\SUT\beam-u-testing\modules\beam-python-5.0-SNAPSHOT\beampy-examples\beampy_subset.py E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1 "POLYGON ((139.9 48.6, 142.9 47.9, 142.4 47.0, 139.5 47.7, 139.9 48.6))"
+
+C:\Users\olga\Projects\Testing\SUT\beam-u-testing\modules\beam-python-5.0-SNAPSHOT\beampy-examples\beampy_bmaths.py E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1
+
+*********************************
+
+C:\Users\olga\Projects\jpy\beampy\examples\beampy_bmaths.py E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1
+C:\Users\olga\Projects\jpy\beampy\examples\beampy_flh.py E:\testdata\in\MERIS\RR\2\MER_RR__2_test.N1
+
+
+C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\examples\beampy_flh.py E:\testdata\in\MERIS\RR\2\MER_RR__2_test.N1 -t E:\testdata\out\beampy\beampy_flh_py.dim 
+
+C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\examples\beampy_ndvi_with_masks.py -t E:\testdata\out\beampy_ndvi_with_masks.dim E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1
+
+C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\myNdvi\NDVIOp.py
+C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\myNdvi\NDVIOp.py E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1
+C:\Users\olga\Projects\Testing\test_suite\beam\020_beampy\myNdvi\NDVIOp_olga.py E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1
+
+********************+
+
+python import sys
+python import numpy
+python import beampy
+python from beampy import String
+python from beampy import Product
+python from beampy import ProductData
+python from beampy import ProductIO
+python from beampy import ProductUtils
+
+
+LINUX
+=====
+sudo apt-get upgrade
+sudo apt-get update gcc bison flex
+
+
+
+====================================================
+
+SET PATH=%JAVA_HOME%\bin;%JDK_HOME%\jre\bin\server;%PYTHON_HOME%;C:\Program Files\Common Files\Microsoft Shared\Windows Live;C:\Program Files (x86)\Common Files\Microsoft Shared\Windows Live;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;%M2_HOME%\bin;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Git\cmd;C:\Python33;C:\Python27;C:\Program Files (x86)\Windows Live\Shared;C:\Program Files (x86)\7-Zip;C:\Program Files\MySQL\MySQL Server 5.6\bin;C:\Program Files\Microsoft Windows Performance Toolkit\;C:\Program Files\Java\apache-maven\bin;C:\Program Files (x86)\smartmontools\bin
+
+
+
+
+

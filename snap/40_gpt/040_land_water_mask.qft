@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.11">
+  <include>qfs.qft</include>
+  <include>gpt_main.qft</include>
+  <variable name="output_folder">gpt_landwatermask</variable>
+  <variable name="sleep_time">5000</variable>
+  <variable name="gpf_op">LandWaterMask</variable>
+  <variable name="xml_file_dir">land_water_mask</variable>
+  <TestSet id="_5G1" name="land_water_mask"
+           reportname="040 LandWaterMask operator">
+    <DependencyReference id="_1pP1" reference="start_application_for_gpt">
+      <variable name="output_dir">$(output_folder)</variable>
+    </DependencyReference>
+    <TestSet id="_9V3" name="land_water_mask" postdelay="2000"
+             reportname="run LandWaterMask operator, check target product">
+      <DataDriver id="_9V5"
+                  loopreportname="$(xml_file) $(dataInDir)/$(fileName)"
+                  name="dataTable">
+        <ProcedureCall id="_1l4d" procedure="tables.land_water_mask"/>
+      </DataDriver>
+      <TestCase id="_9Xo" name="land_water_mask"
+                reportname="LandWaterMask $(dataInDir)/$(fileName)">
+        <ProcedureCall id="_1pP2" procedure="test_sequence"/>
+      </TestCase>
+    </TestSet>
+    <TestSet id="_1pP3" name="land_water_mask_different_sources"
+             postdelay="2000"
+             reportname="run LandWaterMask operator for different source data, check target product">
+      <variable name="xml_file">land_water_mask_1</variable>
+      <comment>
+</comment>
+      <DataDriver id="_1pP4"
+                  loopreportname="$(xml_file) $(dataInDir)/$(fileName)"
+                  name="dataTable">
+        <ProcedureCall id="_1qcw"
+                       procedure="tables.source_data_for_processing"/>
+      </DataDriver>
+      <TestCase id="_1pP6" name="land_water_mask"
+                reportname="LandWaterMask $(dataInDir)/$(fileName)">
+        <SetGlobalStep id="_1qcx" varname="sourceOption">
+          <default>-Ssource=</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1qcy" varname="other_formats">
+          <default>false</default>
+        </SetGlobalStep>
+        <ProcedureCall id="_1oPr" procedure="close.all_products"/>
+        <ProcedureCall id="_1oQX" procedure="daten_format.output_format">
+          <variable name="out_form">dimap</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1qKx"
+                       procedure="gpt.run_operator_check_output_file">
+          <variable name="application">snap</variable>
+        </ProcedureCall>
+        <TestStep id="_1qbM" name="check_target_product">
+          <ProcedureCall id="_1rk7" procedure="check.product.not_opened"/>
+          <IfSequence id="_1rk8"
+                      test="&#34;$(fileExists)&#34;==&#34;True&#34;">
+            <ProcedureCall id="_1qKX" procedure="check.product.not_opened"/>
+            <IfSequence id="_1qKY"
+                        test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1qKh" procedure="close.all_products"/>
+              <ElseSequence id="_1qKf">
+                <ProcedureCall id="_1qKp" procedure="open.product_in_snap">
+                  <variable name="prod_dir">$(output_folder)</variable>
+                  <variable name="in_out">out</variable>
+                  <variable name="prod">$(outfn).dim</variable>
+                  <variable name="product_type"/>
+                  <comment>
+</comment>
+                </ProcedureCall>
+                <ProcedureCall id="_1po3"
+                               procedure="check.product.not_opened"/>
+                <IfSequence id="_1po4"
+                            test="&#34;$(not_opened)&#34;==&#34;true&#34;">
+                  <ProcedureCall id="_1po6"
+                                 procedure="wait.product_is_opened"/>
+                </IfSequence>
+                <ProcedureCall id="_1oap"
+                               procedure="check.product.not_opened"/>
+                <IfSequence id="_1oaq"
+                            test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+                  <ProcedureCall id="_1qVC"
+                                 procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
+                    <variable name="screenshot">error_while_open_target_product</variable>
+                  </ProcedureCall>
+                  <ProcedureCall id="_1rk9"
+                                 procedure="product_meta_data.for_open_image_view_without_grouping"/>
+                  <SetGlobalStep id="_1qcz" varname="mask1"/>
+                  <SetGlobalStep id="_1qc+" varname="mask2"/>
+                  <ProcedureCall id="_1l39"
+                                 procedure="utility.open_image_view_check_it">
+                    <comment>@teststep Open image view and check it.</comment>
+                  </ProcedureCall>
+                  <ProcedureCall id="_1l33" procedure="close.all_products"/>
+                  <ElseSequence id="_1qKs">
+                    <ProcedureCall id="_1oao" procedure="run-log.logError">
+                      <variable name="message">Target product is not opened in SNAP</variable>
+                      <variable name="withScreenshots">true</variable>
+                    </ProcedureCall>
+                  </ElseSequence>
+                </IfSequence>
+              </ElseSequence>
+            </IfSequence>
+            <ElseSequence id="_1rkB">
+              <ProcedureCall disabled="true" id="_1rkG"
+                             procedure="run-log.logError">
+                <variable name="message">not processed</variable>
+                <variable name="withScreenshots">false</variable>
+              </ProcedureCall>
+            </ElseSequence>
+          </IfSequence>
+        </TestStep>
+      </TestCase>
+    </TestSet>
+  </TestSet>
+  <PackageRoot id="_4"/>
+  <ExtraSequence id="_5"/>
+  <WindowList id="_6"/>
+</RootStep>

@@ -1,0 +1,243 @@
+-f BEAM-DIMAP
+-f NetCDF-CF
+-f NetCDF4-CF
+-f NetCDF4-BEAM
+-f NetCDF-BEAM
+-f geoTIFF
+-f HDF5
+
+LC-CCI
+======
+gpt.bat  E:\gpf_files\lc_cci\lc_cci_1.xml -SsourceProduct=E:\testdata\in\cci\lc\example_input\lc_classif_lccs_v2_small.tif
+gpt.bat  E:\gpf_files\lc_cci\lc_cci_2.xml -SsourceProduct=E:\testdata\in\cci\lc\example_input\lc_classif_lccs_v2_small.tif
+gpt.bat  E:\gpf_files\lc_cci\lc_cci_3.xml -x -c 1024M -e -SsourceProduct=E:\testdata\in\cci\lc\example_input\lc_classif_lccs_v2_small.tif
+
+gpt.bat  E:\gpf_files\lc_cci\lc_cci_1.xml -t E:\testdata\out\gpt_lccci\lc_cci_1.nc -SsourceProduct=E:\testdata\in\cci\lc\example_input\lc_classif_lccs_v2_small.tif
+gpt.bat  E:\gpf_files\lc_cci\lc_cci_2.xml -t E:\testdata\out\gpt_lccci\lc_cci_2.nc -SsourceProduct=E:\testdata\in\cci\lc\example_input\lc_classif_lccs_v2_small.tif
+gpt.bat  E:\gpf_files\lc_cci\lc_cci_3.xml -x -c 1024M -e -t E:\testdata\out\gpt_lccci\lc_cci_3.nc -SsourceProduct=E:\testdata\in\cci\lc\example_input\lc_classif_lccs_v2_small.tif
+
+gpt.bat  E:\gpf_files\lc_cci\lc_cci_1.xml  -f BEAM-DIMAP -t E:\testdata\out\gpt_lccci\lc_cci_1 -SsourceProduct=E:\testdata\in\cci\lc\example_input\lc_classif_lccs_v2_small.tif
+
+CC-CCI
+======
+CoastColour.L1P
+***************
+gpt.bat  E:\gpf_files\cc_cci\cc_cci_L1P_1.xml  -f BEAM-DIMAP -t E:\testdata\out\gpt_cc_cci\cc_cci_L1P_1.dim -SmerisL1B=E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1
+
+
+
+CoastColour.L1P.Icol
+********************
+gpt.bat  E:\gpf_files\cc_cci\cc_cci_L1P_Icol_1.xml  -f BEAM-DIMAP -t E:\testdata\out\gpt_cc_cci\cc_cci_L1P_Icol_1.dim -SmerisL1B=E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1
+
+
+CoastColour.L2R
+***************
+gpt.bat  E:\gpf_files\cc_cci\cc_cci_L2R_1.xml -f BEAM-DIMAP -t E:\testdata\out\gpt_cc_cci\cc_cci_L2R_1.dim  -SccL1P=E:\testdata\in\MERIS\RR\1b\MER_RR__1_test.N1
+
+
+
+
+CoastColour.L2W
+***************
+
+
+
+
+Usage:
+  gpt CoastColour.L1P [options]
+
+Description:
+  Computes a refinement of top of atmosphere radiance and pixel characterization information.
+
+
+Source Options:
+  -SmerisL1B=<file>    The MERIS L1B input product
+                       This is a mandatory source.
+
+Parameter Options:
+  -PccCloudBufferWidth=<int>                          The width of a cloud 'safety buffer' around a pixel which was classified as cloudy.
+                                                      Valid interval is [0,100].
+                                                      Default value is '2'.
+  -PccCloudScreeningAmbiguous=<double>                Threshold of Cloud Probability Feature Value above which cloud is regarded as still ambiguous (i.e. a higher value results in fewer ambiguous clouds).
+                                                      Default value is '1.4'.
+  -PccCloudScreeningSure=<double>                     Threshold of Cloud Probability Feature Value above which cloud is regarded as sure (i.e. a higher value results in fewer sure clouds).
+                                                      Default value is '1.8'.
+  -PccIgnoreSeaIceClimatology=<boolean>               Check for sea/lake ice also outside Sea Ice Climatology area.
+                                                      Default value is 'false'.
+  -PccOutputCloudProbabilityFeatureValue=<boolean>    Write Cloud Probability Feature Value to the  CC L1P target product.
+                                                      Default value is 'false'.
+  -PdoCalibration=<boolean>                           Applies correction from MERIS 2nd to 3rd reprocessing quality.
+                                                      Default value is 'false'.
+  -PdoEqualization=<boolean>                          Perform removal of detector-to-detector systematic radiometric differences in MERIS L1b data products.
+                                                      Default value is 'true'.
+  -PdoIcol=<boolean>                                  Whether to perform ICOL correction (NOTE: This step can be very time- and memory-consuming! Please see help documentation for more details).
+                                                      Default value is 'false'.
+  -PdoSmile=<boolean>                                 Whether to perform MERIS Smile-effect correction.
+                                                      Default value is 'true'.
+
+Graph XML Format:
+  <graph id="someGraphId">
+    <version>1.0</version>
+    <node id="someNodeId">
+      <operator>CoastColour.L1P</operator>
+      <sources>
+        <merisL1B>${merisL1B}</merisL1B>
+      </sources>
+      <parameters>
+        <doIcol>boolean</doIcol>
+        <doCalibration>boolean</doCalibration>
+        <doSmile>boolean</doSmile>
+        <doEqualization>boolean</doEqualization>
+        <ccIgnoreSeaIceClimatology>boolean</ccIgnoreSeaIceClimatology>
+        <ccCloudBufferWidth>int</ccCloudBufferWidth>
+        <ccCloudScreeningAmbiguous>double</ccCloudScreeningAmbiguous>
+        <ccCloudScreeningSure>double</ccCloudScreeningSure>
+        <ccOutputCloudProbabilityFeatureValue>boolean</ccOutputCloudProbabilityFeatureValue>
+      </parameters>
+    </node>
+  </graph>
+
+*******************************************************
+*Usage:
+  gpt CoastColour.L1P.Icol [options]
+
+Description:
+  Wrapper operator to apply ICOL correction to L1P product.
+
+
+Source Options:
+  -SmerisL1B=<file>    The MERIS L1B input product
+                       This is a mandatory source.
+
+Parameter Options:
+  -PccCloudBufferWidth=<int>                          The width of a cloud 'safety buffer' around a pixel which was classified as cloudy.
+                                                      Valid interval is [0,100].
+                                                      Default value is '2'.
+  -PccCloudScreeningAmbiguous=<double>                Threshold of Cloud Probability Feature Value above which cloud is regarded as still ambiguous (i.e. a higher value results in fewer ambiguous clouds).
+                                                      Default value is '1.4'.
+  -PccCloudScreeningSure=<double>                     Threshold of Cloud Probability Feature Value above which cloud is regarded as sure (i.e. a higher value results in fewer sure clouds).
+                                                      Default value is '1.8'.
+  -PccIgnoreSeaIceClimatology=<boolean>               Check for sea/lake ice also outside Sea Ice Climatology area.
+                                                      Default value is 'false'.
+  -PccOutputCloudProbabilityFeatureValue=<boolean>    Write Cloud Probability Feature Value to the  CC L1P target product.
+                                                      Default value is 'false'.
+  -PdoCalibration=<boolean>                           Applies correction from MERIS 2nd to 3rd reprocessing quality.
+                                                      Default value is 'false'.
+  -PdoEqualization=<boolean>                          Perform removal of detector-to-detector systematic radiometric differences in MERIS L1b data products.
+                                                      Default value is 'true'.
+  -PdoIcol=<boolean>                                  Whether to perform ICOL correction (NOTE: This step can be very time- and memory-consuming in case of large products!).
+                                                      Default value is 'false'.
+  -PdoSmile=<boolean>                                 Whether to perform MERIS Smile-effect correction.
+                                                      Default value is 'true'.
+
+Graph XML Format:
+  <graph id="someGraphId">
+    <version>1.0</version>
+    <node id="someNodeId">
+      <operator>CoastColour.L1P.Icol</operator>
+      <sources>
+        <merisL1B>${merisL1B}</merisL1B>
+      </sources>
+      <parameters>
+        <doIcol>boolean</doIcol>
+        <doCalibration>boolean</doCalibration>
+        <doSmile>boolean</doSmile>
+        <doEqualization>boolean</doEqualization>
+        <ccIgnoreSeaIceClimatology>boolean</ccIgnoreSeaIceClimatology>
+        <ccCloudBufferWidth>int</ccCloudBufferWidth>
+        <ccCloudScreeningAmbiguous>double</ccCloudScreeningAmbiguous>
+        <ccCloudScreeningSure>double</ccCloudScreeningSure>
+        <ccOutputCloudProbabilityFeatureValue>boolean</ccOutputCloudProbabilityFeatureValue>
+      </parameters>
+    </node>
+  </graph>
+***********************************************************************************************
+*Usage:
+  gpt CoastColour.L2R [options]
+
+Description:
+  Performs an atmospheric correction. The result contains (normalised) water leaving reflectance and information about atmosp
+heric properties
+
+
+Source Options:
+  -SccL1P=<file>    The CC L1P or MERIS L1B input product
+                    This is a mandatory source.
+
+Parameter Options:
+  -PaverageSalinity=<double>                          If no climatology is used, the average salinity of the water in the region to be processed is taken.
+                                                      Default value is '35'.
+                                                      Parameter unit is 'PSU'.
+  -PaverageTemperature=<double>                       If no climatology is used, the average temperature of the water in theregion to be processed is taken.
+                                                      Default value is '15'.
+                                                      Parameter unit is 'C'.
+  -PccCloudBufferWidth=<int>                          The width of a cloud 'safety buffer' around a pixel which was classified as cloudy. 
+                                                      This is a L1P option and has only effect if the source product is a MERIS L1b product.
+                                                      Valid interval is [0,100].
+                                                      Default value is '2'.
+  -PccCloudScreeningAmbiguous=<double>                Threshold of Cloud Probability Feature Value above which cloud is regarded as still ambiguous 
+                                                      (i.e. a higher value results in fewer ambiguous clouds). This is a L1P option and has only effect if the source product is a MERIS L1b product.
+                                                      Default value is '1.4'.
+  -PccCloudScreeningSure=<double>                     Threshold of Cloud Probability Feature Value above which cloud is regarded as sure 
+                                                      (i.e. a higher value results in fewer sure clouds). 
+                                                      This is a L1P option and has only effectt if the source product is a MERIS L1b product.
+                                                      Default value is '1.8'.
+  -PccIgnoreSeaIceClimatology=<boolean>               Check for sea/lake ice also outside Sea Ice Climatology area.This is aL1P option and has only effect if the source product is a MERIS L1b product.
+                                                      Default value is 'false'.
+  -PccOutputCloudProbabilityFeatureValue=<boolean>    Write Cloud Probability Feature Value to the target product. This is aL1P option and has only effect if the source product is a MERIS L1b product.
+                                                      Default value is 'false'.
+  -PcloudIceExpression=<string>                       The arithmetic expression used for cloud/ice masking.
+                                                      Default value is '(l1p_flags.CC_CLOUD && not l1p_flags.CC_CLOUD_AMBIGUOUS) || l1p_flags.CC_SNOW_ICE'.
+                                                      This is a mandatory parameter.
+                                                      Value must not be empty.
+  -PdoCalibration=<boolean>                           Applies correction from MERIS 2nd to 3rd reprocessing quality. This isa L1P option and has only effect if the source product is a MERIS L1b product.
+                                                      Default value is 'false'.
+  -PdoEqualization=<boolean>                          Perform removal of detector-to-detector systematic radiometric differences in MERIS L1b data products. This is a L1P option and has only effect if the source product is a MERIS L1b product.
+                                                      Default value is 'true'.
+  -PdoSmile=<boolean>                                 Whether to perform MERIS Smile-effect correction. This is a L1P optionand has only effect if the source product is a MERIS L1b product.
+                                                      Default value is 'true'.
+  -PlandExpression=<string>                           The arithmetic expression used for land masking.
+                                                      Default value is 'l1p_flags.CC_LAND'.
+                                                      This is a mandatory parameter.
+                                                      Value must not be empty.
+  -PoutputL2RReflecAs=<reflectanceEnum>               Select if all output reflectances shall be written as radiances or irradiances. The irradiances ( = radiances multiplied by PI) are compatible with the standard MERIS product.
+                                                      Value must be one of 'RADIANCE_REFLECTANCES', 'IRRADIANCE_REFLECTANCES'
+.
+                                                      Default value is 'RADIANCE_REFLECTANCES'.
+  -PoutputL2RToa=<boolean>                            Writes the Top of Atmosphere reflectances to the CC L2R target product.
+
+                                                      Default value is 'false'.
+  -PuseExtremeCaseMode=<boolean>                      If selected a neural network for maximum range of concentrations and IOPs is used. If deselected a neural net with limited ranges but less noisy for low concentration ranges is used.
+                                                      Default value is 'true'.
+  -PuseSnTMap=<boolean>                               By default a climatology map is used. If set to 'false' the specified average values are used for the whole scene.
+                                                      Default value is 'true'.
+
+Graph XML Format:
+  <graph id="someGraphId">
+    <version>1.0</version>
+    <node id="someNodeId">
+      <operator>CoastColour.L2R</operator>
+      <sources>
+        <ccL1P>${ccL1P}</ccL1P>
+      </sources>
+      <parameters>
+        <doCalibration>boolean</doCalibration>
+        <doSmile>boolean</doSmile>
+        <doEqualization>boolean</doEqualization>
+        <ccIgnoreSeaIceClimatology>boolean</ccIgnoreSeaIceClimatology>
+        <ccCloudBufferWidth>int</ccCloudBufferWidth>
+        <ccCloudScreeningAmbiguous>double</ccCloudScreeningAmbiguous>
+        <ccCloudScreeningSure>double</ccCloudScreeningSure>
+        <ccOutputCloudProbabilityFeatureValue>boolean</ccOutputCloudProbabilityFeatureValue>
+        <useSnTMap>boolean</useSnTMap>
+        <averageSalinity>double</averageSalinity>
+        <averageTemperature>double</averageTemperature>
+        <useExtremeCaseMode>boolean</useExtremeCaseMode>
+        <landExpression>string</landExpression>
+        <cloudIceExpression>string</cloudIceExpression>
+        <outputL2RToa>boolean</outputL2RToa>
+        <outputL2RReflecAs>reflectanceEnum</outputL2RReflecAs>
+      </parameters>
+    </node>
+  </graph>

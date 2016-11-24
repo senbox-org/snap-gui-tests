@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.4">
+<RootStep id="_0" name="root" version="4.0.11">
   <include>qfs.qft</include>
   <include>tools_lib.qft</include>
   <reference>../010_Data_Processors/02_ImageAnalysis/010_Data_Processors_02_ImageAnalysis_03_K_Means_Cluster.qft</reference>
@@ -154,7 +154,7 @@
       </IfSequence>
     </TestCase>
     <TestCase id="_8fb" name="create_virtual_band_save_session"
-              reportname="Create virtual band, save session">
+              reportname="Create virtual band and save session">
       <variable name="valid_expr">(!l1_flags.INVALID)</variable>
       <variable name="newBand">test_session</variable>
       <variable name="expr">radiance_7&lt;radiance_1 ? radiance_13 : 999.0</variable>
@@ -198,7 +198,7 @@
       <ProcedureCall id="_1mkK" procedure="close.all_products"/>
     </TestCase>
     <TestCase id="_8gA" name="virtual_collocated_products_save_session"
-              reportname="Virtual collocated products save session">
+              reportname="Create virtual band from two collocated products and save session">
       <variable name="fileName">MER_RR__1PNMAP20070729_022435_000000792060_00175_28285_0001.N1</variable>
       <variable name="newBand">test_coll_session</variable>
       <variable name="expr">$2.reflec_2&lt;0.5 ? radiance_2 : 999.0</variable>
@@ -226,6 +226,7 @@
         <ProcedureCall id="_1oRn"
                        procedure="select.tools.bandMaths.target_product">
           <variable name="target_product">[1] $(fileName)</variable>
+          <variable name="target_product_example_old">[1]_MER_RR__1PNMAP20070729_022435_000000792060_00175_28285_0001.N1</variable>
         </ProcedureCall>
         <ProcedureCall id="_1oRj"
                        procedure="check.tools.bandMaths.productName">
@@ -310,7 +311,8 @@
         <variable name="ofn">test</variable>
         <ProcedureCall id="_1phv"
                        procedure="open.raster.geometric_operations.reprojection"/>
-        <ProcedureCall id="_1pgy" procedure="select_io_tab"/>
+        <ProcedureCall id="_1pgy"
+                       procedure="select_io_tab_reprojection_tool"/>
         <ProcedureCall id="_1pbb"
                        procedure="set.reprojection.target_product_name">
           <variable name="target_product_name">test</variable>
@@ -369,10 +371,10 @@
     <TestCase id="_9BZ" name="band_math_in_reproj_product"
               reportname="Create band in the reprojected product">
       <variable name="fileName">proj_geo_NN_MER_FR__2_test</variable>
-      <variable name="valid_expr">(!l1_flags.INVALID)</variable>
       <variable name="newBand">test</variable>
       <variable name="expr">reflec_2&gt;0.5 ? reflec_2 : 999.0</variable>
-      <variable name="valid_expr">fneq(reflec_2,-1.5259254723787308E-5)</variable>
+      <comment>valid_expr	(!l1_flags.INVALID)
+valid_expr	fneq(reflec_2,-1.5259254723787308E-5)</comment>
       <ProcedureCall id="_1oSg" procedure="open.product_in_snap">
         <variable name="prod_dir">dim_reproj</variable>
         <variable name="in_out">in</variable>
@@ -406,42 +408,16 @@
           </ProcedureCall>
           <CatchSequence exception="TestException" id="_1oTN" maxerror="0"/>
         </TryStep>
-        <TestStep id="_1px-" name="handle_cancel_by_user_dialog"
-                  predelay="1000">
-          <TryStep id="_1oTQ" name="click_Yes_in_SNAP_SNAP_error_dialog">
-            <ProcedureCall id="_1oTO"
-                           procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
-            <ProcedureCall id="_1oTP"
-                           procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
-            <CatchSequence exception="TestException" id="_1oTR" maxerror="0"/>
-          </TryStep>
-          <TryStep id="_1pxx" name="click_Yes_in_SNAP_error_dialog">
-            <ProcedureCall id="_1pxy"
-                           procedure="wait.appear.error.dialog_SNAP-Error"/>
-            <ProcedureCall id="_1pxz"
-                           procedure="do_click.error_dialog.button_Yes_SNAP_Error"/>
-            <CatchSequence exception="TestException" id="_1px+" maxerror="0"/>
-          </TryStep>
-          <TryStep id="_1qdO" name="click_Yes_in_SNAP_SNAP_error_dialog">
-            <ProcedureCall id="_1qdP"
-                           procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
-            <ProcedureCall id="_1qdQ"
-                           procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
-            <CatchSequence exception="TestException" id="_1qdR" maxerror="0"/>
-          </TryStep>
-          <TryStep id="_1qdS" name="click_Yes_in_SNAP_error_dialog">
-            <ProcedureCall id="_1qdT"
-                           procedure="wait.appear.error.dialog_SNAP-Error"/>
-            <ProcedureCall id="_1qdU"
-                           procedure="do_click.error_dialog.button_Yes_SNAP_Error"/>
-            <CatchSequence exception="TestException" id="_1qdV" maxerror="0"/>
-          </TryStep>
-          <ProcedureCall id="_1qdt" procedure="close.modal_dialogs"/>
-        </TestStep>
+        <ProcedureCall id="_1rkY" predelay="5000"
+                       procedure="handle_error_dialogs"/>
         <TestStep id="_1oT2" name="check">
           <ProcedureCall disabled="true" id="_1oT3"
                          procedure="check.image_view.visible">
             <variable name="visible">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rl8"
+                         procedure="qfs.swing.cleanup.closeAllModalDialogs">
+            <variable name="maxDialogs">5</variable>
           </ProcedureCall>
           <ProcedureCall id="_1oT5" procedure="select.product_tree.band">
             <variable name="prod_id">0</variable>
@@ -470,37 +446,8 @@
           </ProcedureCall>
           <CatchSequence exception="TestException" id="_1oTr" maxerror="0"/>
         </TryStep>
-        <TestStep id="_1qdW" name="handle_cancel_by_user_dialog"
-                  predelay="1000">
-          <TryStep id="_1qdX" name="click_Yes_in_SNAP_SNAP_error_dialog">
-            <ProcedureCall id="_1qdY"
-                           procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
-            <ProcedureCall id="_1qdZ"
-                           procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
-            <CatchSequence exception="TestException" id="_1qda" maxerror="0"/>
-          </TryStep>
-          <TryStep id="_1qdb" name="click_Yes_in_SNAP_error_dialog">
-            <ProcedureCall id="_1qdc"
-                           procedure="wait.appear.error.dialog_SNAP-Error"/>
-            <ProcedureCall id="_1qdd"
-                           procedure="do_click.error_dialog.button_Yes_SNAP_Error"/>
-            <CatchSequence exception="TestException" id="_1qde" maxerror="0"/>
-          </TryStep>
-          <TryStep id="_1qdf" name="click_Yes_in_SNAP_SNAP_error_dialog">
-            <ProcedureCall id="_1qdg"
-                           procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
-            <ProcedureCall id="_1qdh"
-                           procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
-            <CatchSequence exception="TestException" id="_1qdi" maxerror="0"/>
-          </TryStep>
-          <TryStep id="_1qdj" name="click_Yes_in_SNAP_error_dialog">
-            <ProcedureCall id="_1qdk"
-                           procedure="wait.appear.error.dialog_SNAP-Error"/>
-            <ProcedureCall id="_1qdl"
-                           procedure="do_click.error_dialog.button_Yes_SNAP_Error"/>
-            <CatchSequence exception="TestException" id="_1qdm" maxerror="0"/>
-          </TryStep>
-        </TestStep>
+        <ProcedureCall id="_1rkX" predelay="5000"
+                       procedure="handle_error_dialogs"/>
         <TestStep id="_1oTw" name="check">
           <ProcedureCall disabled="true" id="_1oTx"
                          procedure="check.image_view.visible">
@@ -527,6 +474,7 @@
       <variable name="valid_expr">(!l1_flags.INVALID)</variable>
       <variable name="newBand">test</variable>
       <variable name="expr">radiance_7&lt;radiance_1 ? radiance_13 : 999.0</variable>
+      <ProcedureCall id="_1rkZ" procedure="close.all_products"/>
       <TestStep id="_9DP" name="openProduct">
         <ProcedureCall id="_1qdn" procedure="product_meta_data.MER_RR__1P"/>
         <ProcedureCall id="_1qdo" procedure="open.product_in_snap">
@@ -541,39 +489,28 @@
         <ProcedureCall id="_1oUV" procedure="check_new_band"/>
       </TestStep>
       <TestStep id="_9Dm" name="try_to_create_band_name_duplicate">
-        <TryStep id="_1oUq" name="try_to_create_band">
-          <ProcedureCall id="_1qdq" procedure="create_virtual_band"/>
-          <ProcedureCall disabled="true" id="_1qdp"
-                         procedure="bandMaths_dialog_preparation"/>
-          <CatchSequence exception="TestException" id="_1oUr" maxerror="0"/>
-        </TryStep>
-        <ProcedureCall id="_1pih" procedure="handle_invalid_input"/>
+        <ProcedureCall id="_1rk+"
+                       procedure="create_virtual_band_handle_invalid_input"/>
       </TestStep>
       <TestStep id="_1oUs" name="try_to_create_band_name_with_space">
         <variable name="newBand">new Band</variable>
-        <ProcedureCall id="_1oUu" procedure="create_virtual_band"/>
+        <ProcedureCall id="_1rkm" procedure="create_virtual_band"/>
         <ProcedureCall id="_1oUw" procedure="check_new_band"/>
       </TestStep>
       <TestStep id="_1oUx" name="try_to_create_band_name_with_point">
         <variable name="newBand">new.Band</variable>
-        <ProcedureCall id="_1oUy" procedure="create_virtual_band"/>
+        <ProcedureCall id="_1rk-" procedure="create_virtual_band"/>
         <ProcedureCall id="_1oUz" procedure="check_new_band"/>
       </TestStep>
       <TestStep id="_1oU+" name="try_to_create_band_name_with_slash">
         <variable name="newBand">new/Band</variable>
-        <TryStep id="_1oX0" name="try_to_create_band">
-          <ProcedureCall id="_1oU-" procedure="create_virtual_band"/>
-          <CatchSequence exception="TestException" id="_1oX1" maxerror="0"/>
-        </TryStep>
-        <ProcedureCall id="_1pii" procedure="handle_invalid_input"/>
+        <ProcedureCall id="_1rl6"
+                       procedure="create_virtual_band_handle_invalid_input"/>
       </TestStep>
       <TestStep id="_1oV9" name="try_to_create_band_name_null">
         <variable name="newBand"/>
-        <TryStep id="_1oVJ" name="try_to_create_band">
-          <ProcedureCall id="_1oVA" procedure="create_virtual_band"/>
-          <CatchSequence exception="TestException" id="_1oVK" maxerror="0"/>
-        </TryStep>
-        <ProcedureCall id="_1pij" procedure="handle_invalid_input"/>
+        <ProcedureCall id="_1rl7"
+                       procedure="create_virtual_band_handle_invalid_input"/>
       </TestStep>
       <ProcedureCall id="_1qez" procedure="close.modal_dialogs"/>
       <ProcedureCall id="_1oVL" procedure="close.all_products"/>
@@ -594,9 +531,9 @@
         <ProcedureCall id="_1oX9" procedure="create_virtual_band"/>
         <CatchSequence exception="TestException" id="_1oXA" maxerror="0"/>
       </TryStep>
-      <TryStep id="_1oVT" name="Click_Cancel_dialog_SNAP_SNAP_Error">
+      <TryStep id="_1oVT" name="click_Cancel_dialog_SNAP_SNAP_Error">
         <ProcedureCall id="_1oXB"
-                       procedure="do_click.error_dialog.button_Cancel_SNAP_SNAP_Error"/>
+                       procedure="do_click.error_dialog.dialog_SNAP_SNAP_Error.button_Cancel"/>
         <CatchSequence exception="TestException" id="_1oVU" maxerror="0">
           <ProcedureCall id="_1oVV"
                          procedure="run-log.error_message.dialog_does_not_appear">
@@ -1145,6 +1082,30 @@ Not fully resolved. The coloring of the images are still slightly different on e
     </TestCase>
   </TestSet>
   <PackageRoot id="_4">
+    <Procedure id="_1rkc" name="create_virtual_band_handle_invalid_input">
+      <TryStep id="_1rl0" name="try_to_create_band">
+        <ProcedureCall id="_1rl1" procedure="create_virtual_band"/>
+        <ProcedureCall disabled="true" id="_1rl2"
+                       procedure="bandMaths_dialog_preparation"/>
+        <CatchSequence exception="TestException" id="_1rl3" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1rl4" procedure="handle_invalid_input"/>
+      <ProcedureCall id="_1rl5"
+                     procedure="qfs.swing.cleanup.closeAllModalDialogs">
+        <variable name="maxDialogs">5</variable>
+      </ProcedureCall>
+      <TryStep disabled="true" id="_1rkg">
+        <ProcedureCall id="_1rkd" procedure="bandMaths_dialog_preparation"/>
+        <ProcedureCall id="_1rkl"
+                       procedure="wait.appear.error.dialog_Invalid_Input_exception"/>
+        <ProcedureCall id="_1rki" procedure="handle_invalid_input"/>
+        <CatchSequence exception="TestException" id="_1rkh" maxerror="0">
+          <ProcedureCall id="_1rkf"
+                         procedure="do_click.tools.bandMaths.button_ok"/>
+          <ProcedureCall id="_1rkj" procedure="handle_invalid_input"/>
+        </CatchSequence>
+      </TryStep>
+    </Procedure>
     <Procedure id="_1oU5" name="create_virtual_band">
       <ProcedureCall id="_1oWS" procedure="bandMaths_dialog_preparation"/>
       <ProcedureCall id="_1oUC"
@@ -1164,7 +1125,7 @@ Not fully resolved. The coloring of the images are still slightly different on e
         <ProcedureCall id="_1opM"
                        procedure="wait.appear.error.dialog_Band_Maths_error"/>
         <ProcedureCall id="_1opN"
-                       procedure="do_click.error_dialog.button_OK_dialog_Band_Maths_error"/>
+                       procedure="do_click.error_dialog.band_maths.button_OK_error"/>
         <CatchSequence exception="TestException" id="_1opP" maxerror="0">
           <ProcedureCall id="_1opQ" procedure="run-log.logError">
             <variable name="message">error dialog appears</variable>
@@ -1197,9 +1158,9 @@ Not fully resolved. The coloring of the images are still slightly different on e
     </Procedure>
     <Procedure id="_1oSc" name="double_band_name">
       <ProcedureCall id="_1oSd"
-                     procedure="do_click.error_dialog.button_OK_Invalid_Input"/>
+                     procedure="do_click.error_dialog.invalid_input.button_OK"/>
       <ProcedureCall id="_1oSe"
-                     procedure="do_click.error_dialog.button_OK_dialog_Band_Maths"/>
+                     procedure="do_click.error_dialog.band_maths.button_OK"/>
       <ProcedureCall id="_1oUh" procedure="close.modal_dialogs"/>
     </Procedure>
     <Procedure id="_1piX" name="handle_invalid_input">
@@ -1208,7 +1169,7 @@ Not fully resolved. The coloring of the images are still slightly different on e
         <ProcedureCall id="_1piZ"
                        procedure="wait.appear.error.dialog_Invalid_Input"/>
         <ProcedureCall id="_1pia"
-                       procedure="do_click.error_dialog.button_OK_Invalid_Input"/>
+                       procedure="do_click.error_dialog.invalid_input.button_OK"/>
         <CatchSequence exception="TestException" id="_1pib" maxerror="0">
           <ProcedureCall id="_1pic" procedure="run-log.make_screensot">
             <variable name="iw_name">invalid_input_error_dialog</variable>
@@ -1220,34 +1181,54 @@ Not fully resolved. The coloring of the images are still slightly different on e
           </ProcedureCall>
         </CatchSequence>
       </TryStep>
-      <BasicSequence id="_1pie" name="todo_if_snap_will_work_stably">
+      <BasicSequence disabled="true" id="_1pie"
+                     name="todo_if_snap_will_work_stably">
         <ProcedureCall id="_1pif" postdelay="500"
-                       procedure="do_click.error_dialog.button_OK_dialog_Band_Maths"/>
+                       procedure="do_click.error_dialog.band_maths.button_OK"/>
         <ProcedureCall id="_1pig" procedure="close.modal_dialogs"/>
       </BasicSequence>
     </Procedure>
     <Procedure id="_1qeT" name="handle_error_dialogs">
-      <TryStep id="_1qeU" name="click_Yes_in_SNAP_SNAP_error_dialog">
-        <ProcedureCall id="_1qeV"
-                       procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
-        <ProcedureCall id="_1qel"
-                       procedure="get.error_text.message_in_dialog_SNAP_SNAP_Error"/>
-        <ProcedureCall id="_1qeW"
-                       procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
-        <ProcedureCall id="_1qem" procedure="run-log.logError">
-          <variable name="message">$(error_message)</variable>
-          <variable name="withScreenshots">true</variable>
-        </ProcedureCall>
-        <CatchSequence exception="TestException" id="_1qeX" maxerror="0"/>
-      </TryStep>
-      <TryStep id="_1qeY" name="click_Yes_in_SNAP_error_dialog">
-        <ProcedureCall id="_1qeZ"
+      <TryStep id="_1rkS" name="click_OK_in_SNAP_error_dialog">
+        <ProcedureCall id="_1rkT"
                        procedure="wait.appear.error.dialog_SNAP-Error"/>
-        <ProcedureCall id="_1qea"
-                       procedure="do_click.error_dialog.button_Yes_SNAP_Error"/>
-        <CatchSequence exception="TestException" id="_1qeb" maxerror="0"/>
+        <ProcedureCall id="_1rkW"
+                       procedure="do_click.error_dialog.dialog_SNAP_Error.button_OK"/>
+        <CatchSequence exception="TestException" id="_1rkV" maxerror="0"/>
+      </TryStep>
+      <TryStep id="_1rkC" name="click_Yes_in_SNAP_SNAP_error_dialog">
+        <ProcedureCall id="_1rkD"
+                       procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
+        <ProcedureCall id="_1rkE"
+                       procedure="do_click.error_dialog.dialog_SNAP_SNAP_Error.button_OK"/>
+        <CatchSequence exception="TestException" id="_1rkF" maxerror="0"/>
+      </TryStep>
+      <TryStep id="_1rkG" name="click_Yes_in_SNAP_error_dialog">
+        <ProcedureCall id="_1rkH"
+                       procedure="wait.appear.error.dialog_SNAP-Error"/>
+        <ProcedureCall id="_1rkI"
+                       procedure="do_click.error_dialog.dialog_SNAP_Error.button_Yes"/>
+        <CatchSequence exception="TestException" id="_1rkJ" maxerror="0"/>
+      </TryStep>
+      <TryStep id="_1rkK" name="click_Yes_in_SNAP_SNAP_error_dialog">
+        <ProcedureCall id="_1rkL"
+                       procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
+        <ProcedureCall id="_1rkM"
+                       procedure="do_click.error_dialog.dialog_SNAP_SNAP_Error.button_OK"/>
+        <CatchSequence exception="TestException" id="_1rkN" maxerror="0"/>
+      </TryStep>
+      <TryStep id="_1rkO" name="click_Yes_in_SNAP_error_dialog">
+        <ProcedureCall id="_1rkP"
+                       procedure="wait.appear.error.dialog_SNAP-Error"/>
+        <ProcedureCall id="_1rkQ"
+                       procedure="do_click.error_dialog.dialog_SNAP_Error.button_Yes"/>
+        <CatchSequence exception="TestException" id="_1rkR" maxerror="0"/>
       </TryStep>
       <ProcedureCall id="_1qek" procedure="close.modal_dialogs"/>
+      <ProcedureCall id="_1lDc"
+                     procedure="qfs.swing.cleanup.closeAllModalDialogs">
+        <variable name="maxDialogs">5</variable>
+      </ProcedureCall>
     </Procedure>
     <Procedure disabled="true" id="_Dju" name="select_pin_in_the_table">
       <ProcedureCall id="_Djv" procedure="opens.openPinDialog"/>
@@ -1267,44 +1248,13 @@ Not fully resolved. The coloring of the images are still slightly different on e
     </Procedure>
   </PackageRoot>
   <ExtraSequence id="_5">
-    <Procedure id="_1qeB" name="handle_error_dialogs">
-      <TryStep id="_1qeC" name="click_Yes_in_SNAP_SNAP_error_dialog">
-        <ProcedureCall id="_1qeD"
-                       procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
-        <ProcedureCall id="_1qeE"
-                       procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
-        <CatchSequence exception="TestException" id="_1qeF" maxerror="0"/>
-      </TryStep>
-      <TryStep id="_1qeG" name="click_Yes_in_SNAP_error_dialog">
-        <ProcedureCall id="_1qeH"
-                       procedure="wait.appear.error.dialog_SNAP-Error"/>
-        <ProcedureCall id="_1qeI"
-                       procedure="do_click.error_dialog.button_Yes_SNAP_Error"/>
-        <CatchSequence exception="TestException" id="_1qeJ" maxerror="0"/>
-      </TryStep>
-      <TryStep id="_1qeK" name="click_Yes_in_SNAP_SNAP_error_dialog">
-        <ProcedureCall id="_1qeL"
-                       procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
-        <ProcedureCall id="_1qeM"
-                       procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
-        <CatchSequence exception="TestException" id="_1qeN" maxerror="0"/>
-      </TryStep>
-      <TryStep id="_1qeO" name="click_Yes_in_SNAP_error_dialog">
-        <ProcedureCall id="_1qeP"
-                       procedure="wait.appear.error.dialog_SNAP-Error"/>
-        <ProcedureCall id="_1qeQ"
-                       procedure="do_click.error_dialog.button_Yes_SNAP_Error"/>
-        <CatchSequence exception="TestException" id="_1qeR" maxerror="0"/>
-      </TryStep>
-      <ProcedureCall id="_1qeS" procedure="close.modal_dialogs"/>
-    </Procedure>
     <Procedure id="_1piN" name="handle_invalid_input">
       <comment>@teststep handle_invalid_input</comment>
       <TryStep id="_1piO" postdelay="2000">
         <ProcedureCall id="_1piP"
                        procedure="wait.appear.error.dialog_Invalid_Input"/>
         <ProcedureCall id="_1piQ"
-                       procedure="do_click.error_dialog.button_OK_Invalid_Input"/>
+                       procedure="do_click.error_dialog.invalid_input.button_OK"/>
         <CatchSequence exception="TestException" id="_1piR" maxerror="0">
           <ProcedureCall id="_1piS" procedure="run-log.make_screensot">
             <variable name="iw_name">03_02_band_Math_double_band_name</variable>
@@ -1318,7 +1268,7 @@ Not fully resolved. The coloring of the images are still slightly different on e
       </TryStep>
       <BasicSequence id="_1piU" name="todo_if_snap_will_work_stably">
         <ProcedureCall id="_1piV" postdelay="500"
-                       procedure="do_click.error_dialog.button_OK_dialog_Band_Maths"/>
+                       procedure="do_click.error_dialog.band_maths.button_OK"/>
         <ProcedureCall id="_1piW" procedure="close.modal_dialogs"/>
       </BasicSequence>
     </Procedure>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.4">
+<RootStep id="_0" name="root" version="4.0.11">
   <include>qfs.qft</include>
   <include>processing_main.qft</include>
   <include>processing_components.qft</include>
@@ -40,12 +40,14 @@
                       test="&#34;$(source_product_opened)&#34;==&#34;true&#34;">
             <ProcedureCall id="_1phG"
                            procedure="test_sequence.preparation_geo_lat_long"/>
-            <ProcedureCall id="_1phF" procedure="utility.run_reprojection"/>
+            <ProcedureCall id="_1phF" postdelay="2000"
+                           procedure="utility.run_reprojection"/>
             <ProcedureCall id="_1r3P"
                            procedure="test_events.imaging_tools.open_image_window_in_target_product_check_masks_layers"/>
             <ProcedureCall id="_1phM"
                            procedure="test_sequence.preparation_utm_automatic"/>
-            <ProcedureCall id="_1phN" procedure="utility.run_reprojection"/>
+            <ProcedureCall id="_1phN" postdelay="2000"
+                           procedure="utility.run_reprojection"/>
             <ProcedureCall id="_1r3Q"
                            procedure="test_events.imaging_tools.open_image_window_in_target_product_check_masks_layers"/>
           </IfSequence>
@@ -70,14 +72,51 @@
         <ProcedureCall disabled="true" id="_1piH"
                        procedure="close_processing_tool.geometric_operations.reprojection"/>
       </Procedure>
+      <Procedure id="_1r4V" name="preparation_io_orthorectification">
+        <variable name="prod_dir"/>
+        <variable name="prod_name"/>
+        <variable name="output_file"/>
+        <ProcedureCall id="_1r4W"
+                       procedure="open.optical.geometric.orthorectification"/>
+        <ProcedureCall id="_1r4X"
+                       procedure="select_io_tab_reprojection_tool"/>
+        <ProcedureCall id="_1r4Y" postdelay="2000"
+                       procedure="utility.open_source_product">
+          <variable name="prod_dir">$(prod_dir)</variable>
+          <variable name="prod_name">$(prod_name)</variable>
+        </ProcedureCall>
+        <IfSequence id="_1r4Z"
+                    test="&#34;$(source_product_opened)&#34;==&#34;true&#34;">
+          <ProcedureCall id="_1r4a"
+                         procedure="set.reprojection.target_directory">
+            <variable name="dir">$(output_folder)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1r4b"
+                         procedure="select.reprojection.save_as_reprojection_tool"/>
+          <ProcedureCall id="_1r4c"
+                         procedure="select.reprojection.output_format_reprojection_tool">
+            <variable name="output_format">BEAM-DIMAP</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1r4d"
+                         procedure="select.reprojection.open_in_snap_reprojection_tool"/>
+          <ProcedureCall id="_1r4e"
+                         procedure="set.reprojection.target_product_name">
+            <variable name="target_product_name">$(output_file)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1r4f"
+                         procedure="deselect.reprojection.save_as"/>
+        </IfSequence>
+      </Procedure>
       <Procedure id="_1pdL" name="preparation_io">
         <variable name="prod_dir"/>
         <variable name="prod_name"/>
         <variable name="output_file"/>
         <ProcedureCall id="_1phv"
                        procedure="open.raster.geometric_operations.reprojection"/>
-        <ProcedureCall id="_1pgy" procedure="select_io_tab"/>
-        <ProcedureCall id="_1pg-" procedure="utility.open_source_product">
+        <ProcedureCall id="_1pgy"
+                       procedure="select_io_tab_reprojection_tool"/>
+        <ProcedureCall id="_1pg-" postdelay="2000"
+                       procedure="utility.open_source_product">
           <variable name="prod_dir">$(prod_dir)</variable>
           <variable name="prod_name">$(prod_name)</variable>
         </ProcedureCall>
@@ -87,13 +126,14 @@
                          procedure="set.reprojection.target_directory">
             <variable name="dir">$(output_folder)</variable>
           </ProcedureCall>
-          <ProcedureCall id="_1pj0" procedure="select.reprojection.save_as"/>
+          <ProcedureCall id="_1pj0"
+                         procedure="select.reprojection.save_as_reprojection_tool"/>
           <ProcedureCall id="_1pj1"
-                         procedure="select.reprojection.output_format">
+                         procedure="select.reprojection.output_format_reprojection_tool">
             <variable name="output_format">BEAM-DIMAP</variable>
           </ProcedureCall>
           <ProcedureCall id="_1pj2"
-                         procedure="select.reprojection.open_in_snap"/>
+                         procedure="select.reprojection.open_in_snap_reprojection_tool"/>
           <ProcedureCall id="_1pbb"
                          procedure="set.reprojection.target_product_name">
             <variable name="target_product_name">$(output_file)</variable>
@@ -149,7 +189,7 @@
                        procedure="utility.handle_select_product_dialog">
           <variable name="file">$(data_source_directory)$(prod_name)</variable>
         </ProcedureCall>
-        <TryStep id="_1pXT">
+        <TryStep id="_1pXT" name="handle_possible_errors">
           <ProcedureCall id="_1pXV"
                          procedure="wait.appear.error.dialog_Error"/>
           <TryStep id="_1r3N" name="get_error_text">
@@ -181,31 +221,69 @@
             </SetGlobalStep>
           </CatchSequence>
         </TryStep>
-        <ProcedureCall id="_1pju"
-                       procedure="get.reprojection.source_product_name"/>
-        <IfSequence id="_1pjv"
-                    test="&#34;$(source_product_name)&#34;&lt;&gt;&#34;&#34;">
-          <SetGlobalStep id="_1pk2" varname="source_product_opened">
-            <default>true</default>
-          </SetGlobalStep>
-          <ElseSequence id="_1pk0">
-            <SetGlobalStep id="_1pk3" varname="source_product_opened">
-              <default>false</default>
-            </SetGlobalStep>
-            <ProcedureCall id="_1pk1" procedure="run-log.logError">
-              <variable name="message">$(prod_dir)/$(prod_name) cann't be opened</variable>
-              <variable name="withScreenshots">true</variable>
-            </ProcedureCall>
+        <TestStep id="_1s2I" name="wait_until_the_product_is_opened">
+          <ProcedureCall id="_1s27" predelay="2000"
+                         procedure="get.reprojection.source_product_name"/>
+          <IfSequence id="_1s28"
+                      test="&#34;$(source_product_name)&#34;==&#34;&#34;">
+            <ProcedureCall id="_1s29" predelay="5000"
+                           procedure="get.reprojection.source_product_name"/>
+            <IfSequence id="_1s2A"
+                        test="&#34;$(source_product_name)&#34;&lt;&gt;&#34;&#34;">
+              <SetGlobalStep id="_1s2B" varname="source_product_opened">
+                <default>true</default>
+              </SetGlobalStep>
+              <ElseSequence id="_1s2C">
+                <SetGlobalStep id="_1s2D" varname="source_product_opened">
+                  <default>false</default>
+                </SetGlobalStep>
+                <ProcedureCall id="_1s2E" procedure="run-log.logError">
+                  <variable name="message">$(prod_dir)/$(prod_name) cann't be opened</variable>
+                  <variable name="withScreenshots">true</variable>
+                </ProcedureCall>
+              </ElseSequence>
+            </IfSequence>
+            <ElseSequence id="_1s2F">
+              <SetGlobalStep id="_1s2G" varname="source_product_opened">
+                <default>true</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </TestStep>
+      </Procedure>
+      <Procedure id="_1s1f" name="run_orthorectification">
+        <ProcedureCall id="_1s1g"
+                       procedure="do_click.reprojection.button_apply"/>
+        <ProcedureCall id="_1s1h"
+                       procedure="click_yes_in_product_already_exists_orthorectification_dialog"/>
+        <ProcedureCall id="_1s1i"
+                       procedure="click_ok_in_product_created_orthorectification_dialog"/>
+        <ProcedureCall id="_1s1j"
+                       procedure="wait.disappear.writing_target_product"/>
+        <IfSequence id="_1s1k"
+                    test="&#34;$(output_format)&#34;&lt;&gt;&#34;HDF5&#34;">
+          <ProcedureCall id="_1s1l"
+                         procedure="error_handling.if_any_error_make_screenshot_shoot_error_message"/>
+          <ElseSequence id="_1s1m">
+            <TryStep id="_1s1n" name="click_buttonOK_dialogSNAP_Reprojection">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="dialogSNAP_-_Reprojection.buttonOK"
+                              event="MOUSE_MPRC" id="_1s1o" modifiers="16"/>
+              <CatchSequence exception="TestException" id="_1s1p"
+                             maxerror="0"/>
+            </TryStep>
           </ElseSequence>
         </IfSequence>
+        <ProcedureCall id="_1s1q"
+                       procedure="click_ok_in_product_created_orthorectification_dialog"/>
       </Procedure>
       <Procedure id="_1phE" name="run_reprojection">
         <ProcedureCall id="_1pgi"
                        procedure="do_click.reprojection.button_apply"/>
         <ProcedureCall id="_1r4T"
-                       procedure="click_yes_in_product_already_exists_dialog"/>
+                       procedure="click_yes_in_product_already_exists_reprojection_dialog"/>
         <ProcedureCall id="_1pkB"
-                       procedure="click_ok_in_product_created_dialog"/>
+                       procedure="click_ok_in_product_created_reprojection_dialog"/>
         <ProcedureCall id="_1pkC"
                        procedure="wait.disappear.writing_target_product"/>
         <IfSequence id="_1pbq"
@@ -223,10 +301,11 @@
           </ElseSequence>
         </IfSequence>
         <ProcedureCall id="_1pg+"
-                       procedure="click_ok_in_product_created_dialog"/>
+                       procedure="click_ok_in_product_created_reprojection_dialog"/>
       </Procedure>
     </Package>
-    <Procedure id="_1pON" name="click_ok_in_product_created_dialog">
+    <Procedure id="_1pON"
+               name="click_ok_in_product_created_reprojection_dialog">
       <TryStep id="_1pOQ">
         <ComponentWaiter client="$(client)" component="dialogReprojection2"
                          id="_1pdG" timeout="10"/>
@@ -236,32 +315,62 @@
         <CatchSequence exception="TestException" id="_1pOR" maxerror="0"/>
       </TryStep>
     </Procedure>
-    <Procedure id="_1r4N" name="click_yes_in_product_already_exists_dialog">
-      <TryStep id="_1r4O">
+    <Procedure id="_1s1a"
+               name="click_ok_in_product_created_orthorectification_dialog">
+      <TryStep id="_1s1b">
         <ComponentWaiter client="$(client)"
-                         component="dialogReprojection2.buttonYes" id="_1r4P"
+                         component="dialogSNAP_-_Orthorectification"
+                         id="_1s1c" timeout="10"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSNAP_-_Orthorectification.buttonOK"
+                        event="MOUSE_MPRC" id="_1s1d" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1s1e" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1s1u"
+               name="click_yes_in_product_already_exists_reprojection_dialog">
+      <TryStep id="_1s1y">
+        <ComponentWaiter client="$(client)"
+                         component="dialogReprojection2.buttonYes" id="_1s1z"
                          timeout="10"/>
         <MouseEventStep clicks="1" client="$(client)"
                         component="dialogReprojection2.buttonYes"
+                        event="MOUSE_MPRC" id="_1s1+" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1s1-" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1r4N"
+               name="click_yes_in_product_already_exists_orthorectification_dialog">
+      <TryStep id="_1r4O">
+        <ComponentWaiter client="$(client)"
+                         component="dialogOrthorectification3.buttonYes"
+                         id="_1r4P" timeout="10"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogOrthorectification3.buttonYes"
                         event="MOUSE_MPRC" id="_1r4S" modifiers="16"/>
         <CatchSequence exception="TestException" id="_1r4R" maxerror="0"/>
       </TryStep>
     </Procedure>
-    <Procedure id="_1pb8" name="select_io_tab">
-      <ProcedureCall id="_1pb9" procedure="select.reprojection.tab">
+    <Procedure id="_1pb8" name="select_io_tab_reprojection_tool">
+      <ProcedureCall id="_1pb9"
+                     procedure="select.reprojection.tab_reprojection_tool">
         <variable name="tab">I/O Parameters</variable>
       </ProcedureCall>
     </Procedure>
     <Procedure id="_1pbC" name="select_projection_parameters_tab">
-      <ProcedureCall id="_1pbE" procedure="select.reprojection.tab">
+      <ProcedureCall id="_1pbE"
+                     procedure="select.reprojection.tab_reprojection_tool">
         <variable name="tab">Reprojection Parameters</variable>
       </ProcedureCall>
     </Procedure>
     <Procedure disabled="true" id="_1pTE"
                name="get_selected_source_product_todo">
       <FetchTextStep client="$(client)"
+                     component="dialogReprojection3.panelI/O_Parameters.comboSelect_a_source_product."
+                     id="_1r4U" varname="source_product_name"/>
+      <FetchTextStep client="$(client)"
                      component="dialogReprojection.panelI/O_Parameters.comboName:"
-                     id="_1pTF" varname="source_product"/>
+                     disabled="true" id="_1pTF" varname="source_product"/>
       <ServerScriptStep id="_1phn" name="print">
         <code>print "$(source_product)"</code>
       </ServerScriptStep>
@@ -293,9 +402,9 @@
                       test="&#34;$(not_opened)&#34;==&#34;false&#34;">
             <TestStep id="_1pbt" name="open_image_view">
               <ProcedureCall id="_1pxv"
-                             procedure="product_meta_data.for_open_image_view"/>
+                             procedure="product_meta_data.for_open_image_view_without_grouping"/>
               <ProcedureCall id="_1pbx"
-                             procedure="utility.open_image_view_using_menu_check_it"/>
+                             procedure="utility.open_image_view_check_it"/>
             </TestStep>
             <TestStep id="_1pby"
                       name="open_image_view_check_masks_layers_close_product">

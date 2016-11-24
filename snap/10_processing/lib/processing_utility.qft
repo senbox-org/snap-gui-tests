@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.11">
+  <include>qfs.qft</include>
+  <include>../../lib/snap_components.qft</include>
+  <include>../../lib/snap_main.qft</include>
+  <include>../../../shared/shared_lib.qft</include>
+  <include>../../../shared/variables.qft</include>
+  <include>processing_components.qft</include>
+  <PackageRoot id="_3">
+    <Package id="_1lB5" name="utility">
+      <Procedure id="_1s20" name="resample">
+        <ProcedureCall id="_1s13" procedure="open.raster.resampling"/>
+        <ProcedureCall id="_1s8h"
+                       procedure="set.resampling.target_product_name">
+          <variable name="target_product_name">resample</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1s8m" postdelay="1000"
+                       procedure="do_click.resampling.button_apply"/>
+        <ProcedureCall id="_1s8n"
+                       procedure="wait.disappear.writing_target_product"/>
+        <ProcedureCall id="_1s8o"
+                       procedure="do_click.resampling.click_ok_in_product_created_dialog"/>
+        <ProcedureCall id="_1s8q"
+                       procedure="qfs.swing.cleanup.closeAllModalDialogs">
+          <variable name="maxDialogs">5</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1s8p"
+                       procedure="close_processing_tool.geometric_operations.resampling"/>
+      </Procedure>
+    </Package>
+  </PackageRoot>
+  <ExtraSequence id="_4">
+    <IfSequence id="_1op7" test="${qftest:windows}">
+      <ElseifSequence id="_1op8" name="MAC?"
+                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
+      <ElseSequence id="_1op9"/>
+    </IfSequence>
+  </ExtraSequence>
+  <WindowList id="_5"/>
+</RootStep>

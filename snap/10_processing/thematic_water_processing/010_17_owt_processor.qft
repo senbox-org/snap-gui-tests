@@ -1,0 +1,937 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.11">
+  <include>qfs.qft</include>
+  <include>../../lib/snap_main.qft</include>
+  <include>../lib/processing_main.qft</include>
+  <variable name="output_folder">owt</variable>
+  <TestSet id="_2" name="010_17_owt_processor"
+           reportname="010-17 OWT Classification">
+    <DependencyReference id="_1pO-"
+                         reference="start_application_for_processing">
+      <variable name="output_dir">$(output_folder)</variable>
+    </DependencyReference>
+    <TestCase id="_8cc" name="01_check_ui"
+              reportname="01 Check OWT Classification Processor UI">
+      <ProcedureCall id="_1s6P" procedure="open_tool_window"/>
+      <TestStep id="_1pM7" name="default_componets">
+        <TestStep id="_1pbB" name="io_parameters">
+          <ProcedureCall id="_1pbA" procedure="select_io_tab"/>
+          <ProcedureCall id="_1pt7"
+                         procedure="check.owt_classification.enabled.menu_file"/>
+          <ProcedureCall id="_1pt8"
+                         procedure="check.owt_classification.enabled.menu_help"/>
+          <ProcedureCall id="_1pt9"
+                         procedure="check.owt_classification.enabled.button_close"/>
+          <ProcedureCall id="_1ptA"
+                         procedure="check.owt_classification.enabled.button_apply"/>
+          <ProcedureCall id="_1ptB"
+                         procedure="check.owt_classification.enabled.button_source_product"/>
+          <ProcedureCall id="_1ptC"
+                         procedure="check.owt_classification.enabled.button_directory"/>
+          <ProcedureCall id="_1ptD"
+                         procedure="check.owt_classification.enabled.save_as"/>
+          <ProcedureCall id="_1ptE"
+                         procedure="check.owt_classification.enabled.open_in_snap"/>
+          <ProcedureCall id="_1ptF"
+                         procedure="check.owt_classification.enabled.save_as_enabled_status">
+            <variable name="enabled">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptG"
+                         procedure="check.owt_classification.enabled.open_in_snap_enabled_status">
+            <variable name="enabled">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptH"
+                         procedure="check.owt_classification.checked.save_as_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptI"
+                         procedure="check.owt_classification.checked.open_in_snap_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pbG" name="processing_parameters">
+          <ProcedureCall id="_2Jdv"
+                         procedure="default_processind_parameters"/>
+        </TestStep>
+      </TestStep>
+      <ProcedureCall id="_1s6k" procedure="close_processor_tool"/>
+    </TestCase>
+    <TestSet id="_1pMP" name="02_processing">
+      <TestSet id="_2JYR" name="different_source_products">
+        <TestSet disabled="true" id="_2JYV" name="processing">
+          <DataDriver id="_2JYW"
+                      loopreportname="source product = $(source_data)"
+                      name="source_products">
+            <ProcedureCall id="_2JYX" procedure="tables.source_data_mer_l1b"/>
+          </DataDriver>
+          <TestCase id="_2JYY" name="test_sequence"
+                    reportname="Processing $(source_data) and check output product">
+            <ProcedureCall id="_2JYp" procedure="open_tool_window"/>
+            <TestStep id="_2JYq" name="preparation">
+              <ProcedureCall id="_2JYr"
+                             procedure="preparation_for_test_without_save"/>
+            </TestStep>
+            <TestStep id="_2JYs" name="processing">
+              <ProcedureCall id="_2JYt"
+                             procedure="do_click.owt_classification.button_apply"/>
+              <ProcedureCall id="_2JYu"
+                             procedure="click_ok_in_product_created_dialog"/>
+            </TestStep>
+            <TestStep id="_2JYv" name="check_output_product">
+              <ProcedureCall id="_2JYw"
+                             procedure="product_meta_data.for_open_image_view_without_grouping"/>
+              <ProcedureCall id="_2JYx"
+                             procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+            </TestStep>
+            <ProcedureCall id="_2JYy" procedure="close_processor_tool"/>
+          </TestCase>
+        </TestSet>
+        <CleanupSequence id="_2JYn" name="close_processor_tool">
+          <ProcedureCall id="_2JYo" procedure="close_processor_tool"/>
+        </CleanupSequence>
+      </TestSet>
+      <TestCase id="_40q" name="store_load_display_parameters">
+        <variable name="ofn">owt_save_parameters.xml</variable>
+        <variable name="output_file">test_owt_save_parameters.dim</variable>
+        <variable name="source_data">MER_RR__1_test.N1</variable>
+        <variable name="source_dir">mer_rr__1p_n1</variable>
+        <variable name="valid_expr">not l1_flags.BRIGHT</variable>
+        <ProcedureCall id="_1s6d" procedure="open_tool_window"/>
+        <ProcedureCall id="_2Jdq"
+                       procedure="set.owt_classification.possible_values"/>
+        <TestStep id="_1pOt" name="change_parameters">
+          <ProcedureCall id="_1qGC"
+                         procedure="preparation_for_test_without_save"/>
+          <ProcedureCall id="_2JZH"
+                         procedure="select_processing_parameters_tab"/>
+        </TestStep>
+        <ProcedureCall id="_1pPE" procedure="store_parameters"/>
+        <TestStep id="_1pPg" name="change_parameters">
+          <ProcedureCall id="_1pfT"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_2Jdx"
+                         procedure="select.owt_classification.write_input_reflectances"/>
+          <ProcedureCall id="_2Jdr"
+                         procedure="select.owt_classification.owt_type">
+            <variable name="owt_type">$(owt_type_glass6c)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2Jds"
+                         procedure="select.owt_classification.input_reflectance_is">
+            <variable name="input_reflec">$(input_irrad_refl_esa)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2Jdt"
+                         procedure="set.owt_classification.reflectances_prefix">
+            <variable name="val">test</variable>
+          </ProcedureCall>
+        </TestStep>
+        <ProcedureCall id="_1pPl" procedure="load_parameters"/>
+        <TestStep id="_1pPm" name="check_parameters">
+          <ProcedureCall id="_2Jdw"
+                         procedure="default_processind_parameters"/>
+        </TestStep>
+        <TestStep id="_1pV8" name="display_parameters">
+          <ProcedureCall id="_1pbU" procedure="display_parameters_and_check"/>
+          <ProcedureCall id="_1s6y" procedure="close_processor_tool"/>
+        </TestStep>
+      </TestCase>
+      <TestCase id="_1pZO" name="cancel_processing">
+        <variable name="output_file">test_owt_cancel.dim</variable>
+        <variable name="source_data">MER_RR__2_test.N1</variable>
+        <variable name="source_dir">mer_rr__2p_n1</variable>
+        <ProcedureCall id="_1s6e" procedure="open_tool_window"/>
+        <ProcedureCall id="_1qGx"
+                       procedure="preparation_for_test_save_output_product"/>
+        <TestStep id="_1pZQ" name="cancel_processing">
+          <ProcedureCall id="_1qGy"
+                         procedure="do_click.owt_classification.button_apply"/>
+          <ProcedureCall id="_1pa9" procedure="cancel_operators"/>
+        </TestStep>
+        <ProcedureCall id="_1s70"
+                       procedure="utility.check_if_processing_is_really_canceled"/>
+        <ProcedureCall id="_1s6z" procedure="close_processor_tool"/>
+      </TestCase>
+      <TestSet id="_1pT+" name="processing_in_different_formats">
+        <variable name="source_data">MER_RR__2_test.N1</variable>
+        <variable name="source_dir">mer_rr__2p_n1</variable>
+        <SetupSequence id="_1pUV" name="prepare_for_the_testing">
+          <ProcedureCall id="_1s6f" procedure="open_tool_window"/>
+          <ProcedureCall id="_1qG+"
+                         procedure="preparation_for_test_save_output_product">
+            <variable name="output_file">test</variable>
+          </ProcedureCall>
+        </SetupSequence>
+        <TestSet id="_1pUb" name="processing">
+          <DataDriver id="_1pUc"
+                      loopreportname="Write the target product as $(output_format)"
+                      name="output_formats">
+            <ProcedureCall id="_1pUd" procedure="tables.output_formats"/>
+          </DataDriver>
+          <TestCase id="_1pUj" name="processing_in_different_formats"
+                    reportname="Processing in $(output_format) format and check output product">
+            <ServerScriptStep disabled="true" id="_1pV5" name="print">
+              <code>print "output_format = $(output_format)"</code>
+            </ServerScriptStep>
+            <ServerScriptStep disabled="true" id="_1pV6" name="print">
+              <code>print "output_file = $(output_file)"</code>
+            </ServerScriptStep>
+            <TestStep id="_1qG-" name="processing">
+              <ProcedureCall id="_1qcm"
+                             procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
+                <variable name="screenshot">owt_error</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qH2" procedure="select_io_tab"/>
+              <ProcedureCall id="_1qH3"
+                             procedure="set.owt_classification.target_product_name">
+                <variable name="target_product_name">$(output_file)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qH4"
+                             procedure="select.owt_classification.output_format">
+                <variable name="output_format">$(output_format)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qH0"
+                             procedure="do_click.owt_classification.button_apply"/>
+              <ProcedureCall disabled="true" id="_1qcn"
+                             procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
+                <variable name="screenshot">run_owt_error</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_2JeC"
+                             procedure="click_yes_in_product_exists_dialog"/>
+              <ProcedureCall id="_1pUo"
+                             procedure="wait.disappear.writing_target_product"/>
+              <ProcedureCall id="_1qH1"
+                             procedure="click_ok_in_product_created_dialog"/>
+            </TestStep>
+            <TestStep id="_1pUq" name="check_target_product">
+              <ProcedureCall id="_1pfx"
+                             procedure="test_events.check_target_product_with_grouping"/>
+              <ProcedureCall id="_1qH5" procedure="close.all_products"/>
+            </TestStep>
+          </TestCase>
+        </TestSet>
+        <CleanupSequence id="_1pUa" name="close_processor_tool">
+          <ProcedureCall id="_1s6+" procedure="close_processor_tool"/>
+        </CleanupSequence>
+      </TestSet>
+    </TestSet>
+    <TestCase id="_1pFr" name="03_help">
+      <ProcedureCall id="_1s6g" procedure="open_tool_window"/>
+      <TestStep id="_1pVG" name="check_help">
+        <ProcedureCall id="_1pVH"
+                       procedure="do_click.owt_classification.menu.help"/>
+        <ProcedureCall id="_1qBp"
+                       procedure="do_click.owt_classification.menu.help_menu_item"/>
+        <ProcedureCall id="_1qcu" procedure="help.check_help_appears_close"/>
+      </TestStep>
+      <TestStep id="_1pVN" name="check_help_about">
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogOWT_Classification.menubar"
+                        event="MOUSE_MPRC" id="_1sde" modifiers="16" x="169"
+                        y="16"/>
+        <ProcedureCall id="_1qBq"
+                       procedure="do_click.owt_classification.menu.help"/>
+        <ProcedureCall id="_1qBr"
+                       procedure="do_click.owt_classification.menu.about"/>
+        <ComponentWaiter client="$(client)"
+                         component="dialogAbout_OWTClassification"
+                         id="_2Jc+"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogAbout_OWTClassification.ModalDialog.ok"
+                        event="MOUSE_MPRC" id="_2Jc-" modifiers="16"/>
+      </TestStep>
+      <ProcedureCall id="_1s6-" procedure="close_processor_tool"/>
+    </TestCase>
+  </TestSet>
+  <PackageRoot id="_4">
+    <Procedure id="_2Jdu" name="default_processind_parameters">
+      <ProcedureCall id="_2JeD" procedure="select_processing_parameters_tab"/>
+      <ProcedureCall id="_2Je0"
+                     procedure="set.owt_classification.possible_values"/>
+      <ProcedureCall id="_2Jd-"
+                     procedure="check.owt_classification.checked.write_input_reflectances_selected_status">
+        <variable name="selected">false</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_2Jdy"
+                     procedure="check.owt_classification.text.owt_type">
+        <variable name="val">$(owt_type_coastal)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_2Jdz"
+                     procedure="check.owt_classification.text.input_reflectance_is">
+        <variable name="val">$(input_rad_refl)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_2Jd+"
+                     procedure="check.owt_classification.text.reflectances_prefix">
+        <variable name="val">$(refl_prefix)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_2JYG" name="test_sequence">
+      <ProcedureCall id="_2JYH" procedure="open_tool_window"/>
+      <TestStep id="_2JYI" name="preparation">
+        <ProcedureCall id="_2JYJ"
+                       procedure="preparation_for_test_without_save"/>
+      </TestStep>
+      <TestStep id="_2JYK" name="processing">
+        <ProcedureCall id="_2JYL"
+                       procedure="do_click.owt_classification.button_apply"/>
+        <ProcedureCall id="_2JYM"
+                       procedure="click_ok_in_product_created_dialog"/>
+      </TestStep>
+      <TestStep id="_2JYN" name="check_output_product">
+        <ProcedureCall id="_2JYO"
+                       procedure="product_meta_data.for_open_image_view_without_grouping"/>
+        <ProcedureCall id="_2JYP"
+                       procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+      </TestStep>
+      <ProcedureCall id="_2JYQ" procedure="close_processor_tool"/>
+    </Procedure>
+    <Procedure id="_1s6h" name="close_processor_tool">
+      <ProcedureCall id="_1s6j"
+                     procedure="close_processing_tool.thematic_water_processing.owt_classification"/>
+    </Procedure>
+    <Procedure id="_1s6L" name="open_tool_window">
+      <ProcedureCall id="_1s6O"
+                     procedure="open.optical.thematic_water_processing.owt_classification_processor"/>
+    </Procedure>
+    <Procedure id="_1pb8" name="select_io_tab">
+      <ProcedureCall id="_1pb9" procedure="select.owt_classification.tab">
+        <variable name="tab">I/O Parameters</variable>
+        <variable name="example">I/O Parameters;Processing Parameters</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pbC" name="select_processing_parameters_tab">
+      <ProcedureCall id="_1pbE" procedure="select.owt_classification.tab">
+        <variable name="tab">Processing Parameters</variable>
+        <variable name="example">I/O Parameters;Processing Parameters</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pbQ" name="display_parameters_and_check">
+      <ProcedureCall id="_1pbR" procedure="display_parameters"/>
+      <ComponentWaiter client="$(client)"
+                       component="dialogOWTClassification_Parameters"
+                       id="_2Jcu"/>
+      <CheckStringStep checktype="item" client="$(client)"
+                       component="dialogOWTClassification_Parameters.text@&lt;parameters&gt;"
+                       id="_2Jcv">
+        <text>&lt;parameters&gt;</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogOWTClassification_Parameters.ModalDialog.ok"
+                      event="MOUSE_MPRC" id="_2Jcw" modifiers="16"/>
+    </Procedure>
+    <Procedure id="_1pMT" name="open_source_product">
+      <variable name="prod_dir"/>
+      <variable name="prod_name"/>
+      <ProcedureCall id="_1oSj" procedure="path.source_data_directory">
+        <variable name="data_type">$(prod_dir)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1pMS"
+                     procedure="do_click.owt_classification.button_source_product"/>
+      <ProcedureCall id="_1pHR"
+                     procedure="utility.handle_select_product_dialog">
+        <variable name="file">$(data_source_directory)$(prod_name)</variable>
+      </ProcedureCall>
+      <TryStep id="_1pXT">
+        <ProcedureCall id="_1pXV" procedure="wait.appear.error.dialog_Error"/>
+        <ProcedureCall id="_1pXS"
+                       procedure="do_click.error_dialog.button_OK_Error"/>
+        <ProcedureCall id="_1pXW" procedure="run-log.logError">
+          <variable name="message">Opening of the product $(data_source_directory)$(prod_name) failed</variable>
+          <variable name="withScreenshots">false</variable>
+        </ProcedureCall>
+        <CatchSequence exception="TestException" id="_1pXU" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1pON" name="click_ok_in_product_created_dialog">
+      <TryStep id="_1qXT">
+        <ComponentWaiter client="$(client)"
+                         component="dialogSNAP_-_OWT_Classification"
+                         id="_2Jdn"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSNAP_-_OWT_Classification.buttonOK"
+                        event="MOUSE_MPRC" id="_2Jdo" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1qXW" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_2Je2" name="click_yes_in_product_exists_dialog">
+      <TryStep id="_2Je3">
+        <ComponentWaiter client="$(client)"
+                         component="dialogOWT_Classification2.buttonYes"
+                         id="_2Je4" timeout="100"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogOWT_Classification2.buttonYes"
+                        event="MOUSE_MPRC" id="_2Je5" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_2Je6" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_2Je7" name="click_no_in_product_exists_dialog">
+      <TryStep id="_2Je8">
+        <ComponentWaiter client="$(client)"
+                         component="dialogOWT_Classification2.buttonNo"
+                         id="_2Je9" timeout="10"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogOWT_Classification2.buttonNo"
+                        event="MOUSE_MPRC" id="_2JeA" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_2JeB" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1qCR" name="preparation_for_test_without_save">
+      <comment>@teststep preparation</comment>
+      <ProcedureCall id="_2JZG"
+                     procedure="qfs.swing.cleanup.closeAllModalDialogs">
+        <variable name="maxDialogs">5</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qCS" procedure="select_io_tab"/>
+      <ProcedureCall id="_1qCT" postdelay="2000"
+                     procedure="open_source_product">
+        <variable name="prod_dir">$(source_dir)</variable>
+        <variable name="prod_name">$(source_data)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qCU"
+                     procedure="set.owt_classification.target_product_name">
+        <variable name="target_product_name">$(output_file)</variable>
+      </ProcedureCall>
+      <ProcedureCall disabled="true" id="_1pfn"
+                     procedure="get_source_product"/>
+      <ProcedureCall id="_1qCV"
+                     procedure="deselect.owt_classification.save_as"/>
+    </Procedure>
+    <Procedure id="_1qGm" name="preparation_for_test_save_output_product">
+      <comment>@teststep preparation</comment>
+      <ProcedureCall id="_1qGn" procedure="select_io_tab"/>
+      <ProcedureCall id="_1qGo" procedure="open_source_product">
+        <variable name="prod_dir">$(source_dir)</variable>
+        <variable name="prod_name">$(source_data)</variable>
+      </ProcedureCall>
+      <ProcedureCall disabled="true" id="_1qGq"
+                     procedure="get_source_product"/>
+      <ProcedureCall id="_1qGr"
+                     procedure="select.owt_classification.save_as"/>
+      <ProcedureCall id="_1qGu"
+                     procedure="select.owt_classification.open_in_snap"/>
+      <ProcedureCall id="_1qGw" procedure="daten_format.beam_dimap"/>
+      <ProcedureCall id="_1qGv"
+                     procedure="select.owt_classification.output_format">
+        <variable name="output_format">$(beam_dimap)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qH6"
+                     procedure="set.owt_classification.target_directory">
+        <variable name="dir">$(output_folder)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qGp"
+                     procedure="set.owt_classification.target_product_name">
+        <variable name="target_product_name">$(output_file)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pPF" name="store_parameters">
+      <TryStep id="_1pPG" name="select_menu_store_parameters">
+        <ProcedureCall id="_1pPH"
+                       procedure="do_click.owt_classification.menu.file"/>
+        <ProcedureCall id="_1qGM"
+                       procedure="do_click.owt_classification.menu.save_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPJ" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPK" procedure="utility.store_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pTE" name="get_source_product">
+      <FetchTextStep client="$(client)"
+                     component="dialogOWT_Classification.panelI/O_Parameters.comboSource:"
+                     id="_1pTF" varname="source_product"/>
+    </Procedure>
+    <Procedure id="_1pPv" name="display_parameters">
+      <TryStep id="_1pPw" name="select_menu_display_parameters">
+        <ProcedureCall id="_1qGN"
+                       procedure="do_click.owt_classification.menu.file"/>
+        <ProcedureCall id="_1qGO"
+                       procedure="do_click.owt_classification.menu.display_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPz" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1pP9" name="load_parameters">
+      <TryStep id="_1pPA" name="select_menu_load_parameters">
+        <ProcedureCall id="_1qGP"
+                       procedure="do_click.owt_classification.menu.file"/>
+        <ProcedureCall id="_1qGQ"
+                       procedure="do_click.owt_classification.menu.load_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPD" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPM" procedure="utility.load_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+  </PackageRoot>
+  <ExtraSequence id="_5">
+    <BasicSequence id="_1sel" name="Aufnahme 06.10.16 14:36">
+      <CheckStringStep client="$(client)"
+                       component="dialogOWT_Classification2.buttonYes"
+                       id="_1sem">
+        <text>Yes</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogOWT_Classification2.buttonNo"
+                       id="_1sen">
+        <text>No</text>
+      </CheckStringStep>
+    </BasicSequence>
+    <SetGlobalStep id="_2Jdc" varname="owt_type_coastal">
+      <default>COASTAL</default>
+    </SetGlobalStep>
+    <SetGlobalStep id="_2Jdd" varname="owt_type_inland">
+      <default>INLAND</default>
+    </SetGlobalStep>
+    <SetGlobalStep id="_2Jde" varname="owt_type_inland_no_blue">
+      <default>INLAND_NO_BLUE_BAND</default>
+    </SetGlobalStep>
+    <SetGlobalStep id="_2Jdf" varname="owt_type_glass5c">
+      <default>GLASS_5C</default>
+    </SetGlobalStep>
+    <SetGlobalStep id="_2Jdg" varname="owt_type_glass6c">
+      <default>GLASS_6C</default>
+    </SetGlobalStep>
+    <SetGlobalStep id="_2Jdj" varname="owt_type_glass6c_norm">
+      <default>GLASS_6C_NORMALISED</default>
+    </SetGlobalStep>
+    <SetGlobalStep id="_2Jdh" varname="owt_type_calimnos">
+      <default>CALIMNOS</default>
+    </SetGlobalStep>
+    <SetGlobalStep id="_2Jdi" varname="refl_prefix">
+      <default>reflec</default>
+    </SetGlobalStep>
+    <SetGlobalStep id="_2Jdk" varname="input_rad_refl">
+      <default>RADIANCE_REFLECTANCES</default>
+    </SetGlobalStep>
+    <SetGlobalStep id="_2Jdm" varname="input_irrad_refl_esa">
+      <default>IRRADIANCE_REFLECTANCES (ESA compatible)</default>
+    </SetGlobalStep>
+    <Procedure id="_1sWA" name="s">
+      <BasicSequence id="_1sdj" name="Aufnahme 05.10.16 16:57">
+        <ComponentWaiter client="$(client)"
+                         component="dialogOWT_Classification2" id="_1sds"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogOWT_Classification2.buttonOK"
+                        event="MOUSE_MPRC" id="_1sdt" modifiers="16"/>
+      </BasicSequence>
+      <BasicSequence id="_1sd-" name="Aufnahme 05.10.16 16:58">
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogOWT_Classification.DefaultSingleTargetProductDialog.apply"
+                        event="MOUSE_MPRC" id="_1se0" modifiers="16"/>
+        <ComponentWaiter client="$(client)"
+                         component="dialogOWT_Classification2" id="_1se1"/>
+        <MouseEventStep clicks="0" client="$(client)"
+                        component="dialogOWT_Classification2.buttonOK"
+                        event="MOUSE_MOVED" id="_1se2" modifiers="0"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogOWT_Classification2.buttonOK"
+                        event="MOUSE_PRESSED" id="_1se3" modifiers="16"/>
+        <MouseEventStep clicks="0" client="$(client)"
+                        component="dialogOWT_Classification2"
+                        event="MOUSE_DRAGGED" id="_1se4" modifiers="16"
+                        x="222" y="198"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogOWT_Classification2"
+                        event="MOUSE_RELEASED" id="_1se5" modifiers="16"
+                        x="222" y="198"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogOWT_Classification2.buttonOK"
+                        event="MOUSE_MPRC" id="_1se6" modifiers="16"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogOWT_Classification.DefaultSingleTargetProductDialog.apply"
+                        event="MOUSE_MPRC" id="_1seI" modifiers="16"/>
+        <ComponentWaiter client="$(client)"
+                         component="dialogSNAP_-_OWT_Classification"
+                         id="_1seJ"/>
+        <CheckStringStep client="$(client)"
+                         component="dialogSNAP_-_OWT_Classification.buttonCancel"
+                         id="_1seK">
+          <text>Cancel</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="dialogSNAP_-_OWT_Classification.buttonOK"
+                         id="_1seL">
+          <text>OK</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="dialogSNAP_-_OWT_Classification.buttonOK"
+                         id="_1seM">
+          <text>OK</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="dialogSNAP_-_OWT_Classification.buttonOK"
+                         id="_1seN">
+          <text>OK</text>
+        </CheckStringStep>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSNAP_-_OWT_Classification.buttonOK"
+                        event="MOUSE_MPRC" id="_1seO" modifiers="16"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogOWT_Classification.DefaultSingleTargetProductDialog.apply"
+                        event="MOUSE_MPRC" id="_1seP" modifiers="16"/>
+        <ComponentWaiter client="$(client)"
+                         component="dialogOWT_Classification2" id="_1seQ"/>
+        <CheckStringStep client="$(client)"
+                         component="dialogOWT_Classification2.buttonNo"
+                         id="_1seR">
+          <text>No</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="dialogOWT_Classification2.buttonYes"
+                         id="_1seS">
+          <text>Yes</text>
+        </CheckStringStep>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogOWT_Classification2.buttonNo"
+                        event="MOUSE_MPRC" id="_1seT" modifiers="16"/>
+      </BasicSequence>
+      <BasicSequence id="_2Jcd" name="Aufnahme 05.10.16 15:10">
+        <CheckStringStep checktype="value" client="$(client)"
+                         component="dialogOWT_Classification.panelI/O_Parameters.comboSource:"
+                         id="_2Jce"/>
+        <CheckStringStep client="$(client)"
+                         component="dialogOWT_Classification.productName"
+                         id="_2Jcf"/>
+        <CheckStringStep client="$(client)"
+                         component="dialogOWT_Classification.productDir"
+                         id="_2Jcg">
+          <text>C:\Users\olga_2</text>
+        </CheckStringStep>
+        <CheckBooleanStep checktype="checked" client="$(client)"
+                          component="dialogOWT_Classification.saveToFileSelected"
+                          id="_2Jcj"/>
+        <CheckBooleanStep checktype="checked" client="$(client)"
+                          component="dialogOWT_Classification.openInAppSelected"
+                          id="_2Jck"/>
+        <CheckStringStep checktype="value" client="$(client)"
+                         component="dialogOWT_Classification.formatName"
+                         id="_2Jcl">
+          <text>BEAM-DIMAP</text>
+        </CheckStringStep>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogOWT_Classification.formatName"
+                        event="MOUSE_MPRC" id="_2Jcm" modifiers="16" x="33"
+                        y="7"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogOWT_Classification.listInvokerName:_formatName.output_format_name"
+                        event="MOUSE_MPRC" id="_2Jcn" modifiers="16"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogOWT_Classification.formatName"
+                        event="MOUSE_MPRC" id="_2Jco" modifiers="16" x="36"
+                        y="11"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogOWT_Classification.listInvokerName:_formatName.NetCDF-BEAM"
+                        event="MOUSE_MPRC" id="_2Jcp" modifiers="16"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogOWT_Classification.menuFile"
+                        event="MOUSE_MPRC" id="_2Jcq" modifiers="16"/>
+        <CheckStringStep client="$(client)"
+                         component="dialogOWT_Classification.menuItemLoad_Parameters..."
+                         id="_2Jcr">
+          <text>Load Parameters...</text>
+        </CheckStringStep>
+        <CheckStringStep client="$(client)"
+                         component="dialogOWT_Classification.menuItemSave_Parameters..."
+                         id="_2Jcs">
+          <text>Save Parameters...</text>
+        </CheckStringStep>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogOWT_Classification.menuItemDisplay_Parameters..."
+                        event="MOUSE_MPRC" id="_2Jct" modifiers="16"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogOWT_Classification.menuHelp"
+                        event="MOUSE_MPRC" id="_2Jcx" modifiers="16"/>
+        <CheckStringStep client="$(client)"
+                         component="dialogOWT_Classification.menuItemHelp"
+                         id="_2Jcy">
+          <text>Help</text>
+        </CheckStringStep>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogOWT_Classification.menuItemAbout..."
+                        event="MOUSE_MPRC" id="_2Jcz" modifiers="16"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogOWT_Classification.tabbed.tab"
+                        event="MOUSE_MPRC" id="_2Jd0" modifiers="16"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogOWT_Classification.tabbed.I/O_Parameters"
+                        event="MOUSE_MPRC" id="_2Jd1" modifiers="16"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogOWT_Classification.tabbed.tab"
+                        event="MOUSE_MPRC" id="_2Jd2" modifiers="16"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogOWT_Classification.owtType"
+                        event="MOUSE_MPRC" id="_2Jd3" modifiers="16" x="198"
+                        y="13"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogOWT_Classification.listInvokerName:_owtType.INLAND"
+                        event="MOUSE_MPRC" id="_2Jd4" modifiers="16"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogOWT_Classification.owtType"
+                        event="MOUSE_MPRC" id="_2Jd5" modifiers="16" x="168"
+                        y="7"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogOWT_Classification.listInvokerName:_owtType.owt_type"
+                        event="MOUSE_MPRC" id="_2Jd6" modifiers="16"/>
+        <CheckItemsStep checktype="items" client="$(client)"
+                        component="dialogOWT_Classification.owtType"
+                        id="_2Jd7">
+          <item>COASTAL</item>
+          <item>INLAND</item>
+          <item>INLAND_NO_BLUE_BAND</item>
+          <item>GLASS_5C</item>
+          <item>GLASS_6C</item>
+          <item>GLASS_6C_NORMALISED</item>
+          <item>CALIMNOS</item>
+        </CheckItemsStep>
+        <CheckStringStep client="$(client)"
+                         component="dialogOWT_Classification.reflectancesPrefix"
+                         id="_2Jd8">
+          <text>reflec</text>
+        </CheckStringStep>
+        <CheckStringStep checktype="value" client="$(client)"
+                         component="dialogOWT_Classification.inputReflectanceIs"
+                         id="_2Jd9">
+          <text>RADIANCE_REFLECTANCES</text>
+        </CheckStringStep>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogOWT_Classification.inputReflectanceIs"
+                        event="MOUSE_MPRC" id="_2JdA" modifiers="16" x="93"
+                        y="6"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogOWT_Classification.listInvokerName:_inputReflectanceIs.IRRADIANCE_REFLECTANCES_(ESA_compatible)"
+                        event="MOUSE_MPRC" id="_2JdB" modifiers="16"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogOWT_Classification.inputReflectanceIs"
+                        event="MOUSE_MPRC" id="_2JdC" modifiers="16" x="89"
+                        y="12"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogOWT_Classification.listInvokerName:_inputReflectanceIs.input_reflec"
+                        event="MOUSE_MPRC" id="_2JdD" modifiers="16"/>
+        <CheckItemsStep checktype="items" client="$(client)"
+                        component="dialogOWT_Classification.inputReflectanceIs"
+                        id="_2JdE">
+          <item>RADIANCE_REFLECTANCES</item>
+          <item>IRRADIANCE_REFLECTANCES (ESA compatible)</item>
+        </CheckItemsStep>
+        <CheckBooleanStep checktype="checked" client="$(client)"
+                          component="dialogOWT_Classification.writeInputReflectances"
+                          id="_2JdF" state="false"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogOWT_Classification.writeInputReflectances"
+                        event="MOUSE_MPRC" id="_2JdG" modifiers="16"/>
+      </BasicSequence>
+    </Procedure>
+    <BasicSequence id="_2JZI" name="Aufnahme 05.10.16 15:10">
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogOWT_Classification.panelI/O_Parameters.comboSource:"
+                       id="_2JZJ"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogOWT_Classification.productName"
+                       id="_2JZK"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogOWT_Classification.productDir"
+                       id="_2JZL">
+        <text>C:\Users\olga_2</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogOWT_Classification.button..."
+                       id="_2JZM">
+        <text>...</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogOWT_Classification.button...2"
+                       id="_2JZN">
+        <text>...</text>
+      </CheckStringStep>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogOWT_Classification.saveToFileSelected"
+                        id="_2JZO"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogOWT_Classification.openInAppSelected"
+                        id="_2JZP"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogOWT_Classification.formatName"
+                       id="_2JZQ">
+        <text>BEAM-DIMAP</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogOWT_Classification.formatName"
+                      event="MOUSE_MPRC" id="_2JZR" modifiers="16" x="33"
+                      y="7"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogOWT_Classification.listInvokerName:_formatName.output_format_name"
+                      event="MOUSE_MPRC" id="_2JZS" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogOWT_Classification.formatName"
+                      event="MOUSE_MPRC" id="_2JZT" modifiers="16" x="36"
+                      y="11"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogOWT_Classification.listInvokerName:_formatName.NetCDF-BEAM"
+                      event="MOUSE_MPRC" id="_2JZU" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogOWT_Classification.menuFile"
+                      event="MOUSE_MPRC" id="_2JZV" modifiers="16"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogOWT_Classification.menuItemLoad_Parameters..."
+                       id="_2JZW">
+        <text>Load Parameters...</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogOWT_Classification.menuItemSave_Parameters..."
+                       id="_2JZX">
+        <text>Save Parameters...</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogOWT_Classification.menuItemDisplay_Parameters..."
+                      event="MOUSE_MPRC" id="_2JZY" modifiers="16"/>
+      <ComponentWaiter client="$(client)"
+                       component="dialogOWTClassification_Parameters"
+                       id="_2JZZ"/>
+      <CheckStringStep checktype="item" client="$(client)"
+                       component="dialogOWTClassification_Parameters.text@&lt;parameters&gt;"
+                       id="_2JZa">
+        <text>&lt;parameters&gt;</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogOWTClassification_Parameters.ModalDialog.ok"
+                      event="MOUSE_MPRC" id="_2JZb" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogOWT_Classification.menuHelp"
+                      event="MOUSE_MPRC" id="_2JZc" modifiers="16"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogOWT_Classification.menuItemHelp"
+                       id="_2JZd">
+        <text>Help</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogOWT_Classification.menuItemAbout..."
+                      event="MOUSE_MPRC" id="_2JZe" modifiers="16"/>
+      <ComponentWaiter client="$(client)"
+                       component="dialogAbout_OWTClassification" id="_2JZf"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogAbout_OWTClassification.ModalDialog.ok"
+                      event="MOUSE_MPRC" id="_2JZg" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogOWT_Classification.tabbed.tab"
+                      event="MOUSE_MPRC" id="_2JZh" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogOWT_Classification.tabbed.I/O_Parameters"
+                      event="MOUSE_MPRC" id="_2JZi" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogOWT_Classification.tabbed.tab"
+                      event="MOUSE_MPRC" id="_2JZj" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogOWT_Classification.owtType"
+                      event="MOUSE_MPRC" id="_2JZk" modifiers="16" x="198"
+                      y="13"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogOWT_Classification.listInvokerName:_owtType.INLAND"
+                      event="MOUSE_MPRC" id="_2JZl" modifiers="16"/>
+      <CheckItemsStep checktype="items" client="$(client)"
+                      component="dialogOWT_Classification.owtType" id="_2JZo">
+        <item>COASTAL</item>
+        <item>INLAND</item>
+        <item>INLAND_NO_BLUE_BAND</item>
+        <item>GLASS_5C</item>
+        <item>GLASS_6C</item>
+        <item>GLASS_6C_NORMALISED</item>
+        <item>CALIMNOS</item>
+      </CheckItemsStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogOWT_Classification.reflectancesPrefix"
+                       id="_2JZp">
+        <text>reflec</text>
+      </CheckStringStep>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogOWT_Classification.inputReflectanceIs"
+                       id="_2JZq">
+        <text>RADIANCE_REFLECTANCES</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogOWT_Classification.inputReflectanceIs"
+                      event="MOUSE_MPRC" id="_2JZr" modifiers="16" x="93"
+                      y="6"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogOWT_Classification.listInvokerName:_inputReflectanceIs.IRRADIANCE_REFLECTANCES_(ESA_compatible)"
+                      event="MOUSE_MPRC" id="_2JZs" modifiers="16"/>
+      <CheckItemsStep checktype="items" client="$(client)"
+                      component="dialogOWT_Classification.inputReflectanceIs"
+                      id="_2JZv">
+        <item>RADIANCE_REFLECTANCES</item>
+        <item>IRRADIANCE_REFLECTANCES (ESA compatible)</item>
+      </CheckItemsStep>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogOWT_Classification.writeInputReflectances"
+                        id="_2JZw" state="false"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogOWT_Classification.writeInputReflectances"
+                      event="MOUSE_MPRC" id="_2JZx" modifiers="16"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogOWT_Classification.DefaultSingleTargetProductDialog.apply"
+                       id="_2JZy">
+        <text>Run</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogOWT_Classification.DefaultSingleTargetProductDialog.close"
+                       id="_2JZz">
+        <text>Close</text>
+      </CheckStringStep>
+    </BasicSequence>
+    <ProcedureCall id="_1oXV" procedure="check.product.not_opened"/>
+    <IfSequence id="_1oXW" test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+      <TestStep id="_1o+2" name="delete_band">
+        <ProcedureCall id="_1oXb" procedure="select.product_tree.band">
+          <variable name="prod_id">0</variable>
+          <variable name="group_id"/>
+          <variable name="view_id">1</variable>
+          <variable name="band">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1ozv" procedure="delete_product_tree_node"/>
+        <ProcedureCall id="_1ozx" procedure="check.product.node_not_exists">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1o+t" name="undo">
+        <ProcedureCall id="_1p0C" procedure="undo_tree"/>
+        <ProcedureCall disabled="true" id="_1o+y"
+                       procedure="do_click_menubar_undo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o+z" procedure="get.tree.get_index_of_node">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+        <ServerScriptStep disabled="true" id="_1o++" name="print">
+          <code>print "$(new_band_id)"</code>
+        </ServerScriptStep>
+      </TestStep>
+      <TestStep id="_1o-3" name="redo">
+        <ProcedureCall id="_1p0D" procedure="redo_tree"/>
+        <ProcedureCall disabled="true" id="_1o-B"
+                       procedure="do_click_menubar_redo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o-C" procedure="check.product.node_not_exists">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1o-F" name="undo">
+        <ProcedureCall id="_1p0E" procedure="undo_tree"/>
+        <ProcedureCall disabled="true" id="_1o-P"
+                       procedure="do_click_menubar_undo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o-Q" procedure="get.tree.get_index_of_node">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+    </IfSequence>
+    <ProcedureCall id="_1oXO" procedure="close.all_products"/>
+  </ExtraSequence>
+  <WindowList id="_6"/>
+</RootStep>

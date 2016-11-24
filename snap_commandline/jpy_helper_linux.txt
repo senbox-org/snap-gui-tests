@@ -1,0 +1,292 @@
+UBUNTU
+
+bit?
+====
+uname -a
+Linux olga-ubuntu-9-10 3.2.0-60-generic #91-Ubuntu SMP Wed Feb 19 03:54:44 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux
+
+--->
+
+x86_64 GNU/Linux indicates that you've a 64bit Linux kernel running. If you use see i386/i486/i586/i686 it is a 32 bit kernel.
+
+version?
+========
+lsb_release -a
+
+How to Upgrade Ubuntu 12.04 LTS to Ubuntu 14.04 LTS
+===================================================
+sudo update-manager -d
+
+=============
+
+I)
+***Getting the Sources
+
+======================
+
+
+git clone https://github.com/bcdev/jpy.git
+
+
+
+If you don’t want to use git, you can also download stable source releases from the jpy releases page on GitHub:
+
+https://github.com/bcdev/jpy
+
+tar zxvf /home/olga/Downloads/
+
+
+II)
+***Python
+==========
+
+
+ ---Python 2.7 or 3.3 or higher (2.6 and 3.2 may work as well but are not tested)
+
+
+[
+Ist das ein 32bit oder ein 64bit Python?
+
+>>> 
+import sys,platform
+platform.architecture()[0]
+>>> 
+'64bit'
+
+Import.struct
+struct.calcsize("P") * 8
+
+*****
+INSTALL
+=======
+Compile Python from source
+
+This is very easy and allows you to have multiple Python versions without messing with system python interpreter (which is used by a lot of Ubuntu own programs). On my dev machine I have literally dozens of different Python versions from 2.4 to 3.2 living happily in /opt.
+
+we need C compiler and other stuff to compile Python
+
+sudo apt-get install build-essential
+
+SQLite libs need to be installed in order for Python to have SQLite support.
+
+sudo apt-get install libsqlite3-dev
+sudo apt-get install sqlite3 # for the command-line client
+sudo apt-get install bzip2 libbz2-dev
+
+Download and compile Python:
+vom Web 
+(oder, wenn es geht
+wget http://www.python.org/ftp/python/3.3.5/Python-3.3.5.tar.xz)
+tar xJf ./Python-3.3.5.tar.xz
+cd ./Python-3.3.5
+./configure --prefix=/opt/python3.3
+make && sudo make install
+
+Some nice touches to install a py command by creating a symlink:
+
+mkdir ~/bin
+ln -s /opt/python3.3/bin/python3.3 ~/bin/py
+
+sudo apt-get install python3.3-dev
+
+Alternatively, you can install a bash alias named py instead:
+
+echo 'alias py="/opt/python3.3/bin/python3.3"' >> .bashrc
+]
+
+III)
+***Java7
+========
+ ---Oracle JDK 7 or higher (JDK 6 may work as well)
+ 
+sudo update-java-alternatives -l (listing) 
+sudo update-java-alternatives -s java-7-openjdk-amd64
+sudo update-java-alternatives -s java-1.7.0-openjdk-amd64
+
+
+
+IV)
+***Maven 3 or higher
+====================
+
+
+
+export M2_HOME=/usr/local/apache-maven/apache-maven-3.2.2
+
+export M2=$M2_HOME/bin
+
+(optional)export MAVEN_OPTS="-Xms256m -Xmx512m"
+
+export PATH=$M2:$PATH
+export JAVA_HOME=/usr/lib/jvm/java-1.7.0-openjdk-amd64
+
+#export JAVA_HOME=/usr/java/jdk1.7.0_51
+
+PATH=$JAVA_HOME/bin:$PATH
+
+
+V)
+***gcc
+======
+gcc -v
+
+Install
+sudo apt-get install python-software-properties
+sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+sudo apt-get update
+sudo apt-get install gcc-4.8
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 50
+sudo apt-get install python3.3-dev
+
+-I/usr/include/python3.3 -lpython3.3
+
+In other words your compile command ought to be:
+
+gcc -Wall -I/usr/include/python3.3 -lpython3.3  utilsmodule.c -o Utilc 
+
+[
+
+The above c++ code compiles into a module with
+
+
+
+This compile command adds -lboost_python3, and -shared, and also the naming convention for python extension modules. You should also install the python3-dev package, and configure/build/install boost with python3, if you haven't already.
+
+
+
+gcc -I/usr/include/python3.3 -I/usr/local/include/boost/python -lboost_python3.3 -lpython3.3mu -shared
+
+
+
+
+ls -la /usr/bin/gcc
+export CC=/usr/bin/gcc-4.8
+PATH=$CC/bin:$PATH
+]
+
+VI)
+numpy
+=====
+Install
+
+cd /opt
+tar zxvf /home/olga/Downloads/numpy-1.8.0.tar.gz
+cd numpy-1.8.0/ 
+./setup.py 
+
+sudo apt-get install python3-numpy
+sudo apt-get install python-numpy
+
+sudo pip-3.2 install python3-numpy
+
+sudo apt-get install python3-pip
+
+sudo apt-get install python3-pip
+sudo pip-3.2 install numpy
+=============================
+
+
+===================================
+
+
+
+
+************************************************************ 
+
+***To build and test the jpy Python module use the following commands:
+
+
+
+(
+
+useradd -G {group-name} username
+
+useradd -G staff olga
+
+)
+
+
+Step1
+======
+sudo su - root
+(env)
+
+cd /home/olga/Testing/jpy/
+
+
+export JAVA_HOME=/usr/java/jdk1.7.0_51
+
+export JDK_HOME=/usr/java/jdk1.7.0_51
+
+export LD_LIBRARY_PATH=/usr/java/jdk1.7.0_51/jre/lib/amd64/server
+
+
+
+#export JAVA_HOME=/usr/lib/jvm/java-1.7.0-openjdk-amd64
+
+#export JDK_HOME=/usr/lib/jvm/java-1.7.0-openjdk-amd64
+
+#export LD_LIBRARY_PATH=/usr/lib/jvm/java-1.7.0-openjdk-amd64/jre/lib/amd64/server/
+
+
+export BEAM_HOME=/home/olga/Testing/SUT/beam_u_testing
+
+
+python3.3 setup.py install
+
+ls -la /usr/local/lib/python3.3/dist-packages
+
+
+(
+
+mvn install -DskipTests=true
+mvn org.apache.maven.plugins:maven-compiler-plugin:compile
+mvn org.apache.maven.plugins:maven-compiler-plugin:2.0.2:compile
+
+Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:2.12.4:test
+
+t looks like aspectjweaver 1.7.2 is missing from the maven repo.  I was able to download it and install it into the \.m2\repository\org\aspectj\aspectjweaver\1.7.2 directory and successfully compile.
+aspectjweaver 1.7.2
+
+
+
+
+then you can try adding its containing directory to the LD_LIBRARY_PATH environment variable, e.g.:
+
+
+
+export LD_LIBRARY_PATH=$JDK_HOME/jre/lib/server:$LD_LIBRARY_PATH
+
+
+
+Step2
+=====
+export BEAM_HOME=/home/olga/Testing/SUT/beam_u_testing
+cd $BEAM_HOME/modules/beam-python-5.0.4/beampy
+python3.3 setup.py install --user
+
+
+
+**************************************************************
+
+
+Tests
+
+1)
+python3.3
+>>> import beampy
+exit()
+
+2)
+
+Testproduct:
+/home/olga/Testing/testdata/in/MER_RR__1_test.N1 
+
+
+python3.3 /home/olga/Testing/beampy_tests/beampy_mem_test.py
+python3.3 /home/olga/Testing/beampy_tests/beampy_perf_test.py
+
+python3.3 /home/olga/Testing/beampy_tests/beampy_product_test.py
+
+
+

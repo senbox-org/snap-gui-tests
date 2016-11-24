@@ -1,38 +1,48 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.4">
+<RootStep id="_0" name="root" version="4.0.11">
   <include>qfs.qft</include>
   <include>../../lib/reprojection_lib.qft</include>
   <TestSet id="_2" name="010_02_reprojection_netcdf"
            reportname="010-02 Reproject data in NetCDF format">
     <DependencyReference id="_1ph1"
                          reference="start_application_for_reprojection"/>
-    <TestSet id="_1pMP" name="processing_netcdf_beam">
+    <TestSet id="_1pMP" name="open_product_reproject_check_netcdf_beam">
       <DataDriver id="_3y4"
-                  loopreportname="Open image view of $(dataInDir)/$(fileName) data product"
+                  loopreportname="Reprojection of the $(dataInDir)/$(fileName) data product"
                   name="dataTable">
-        <ProcedureCall id="_Bt4" procedure="tables.netCdf_beam"/>
+        <ProcedureCall id="_Bt4"
+                       procedure="tables.generic_formats.netCdf_beam"/>
       </DataDriver>
       <TestCase condition="&#34;$(processing)&#34;&lt;&gt;&#34;&#34;"
                 id="_1pgW" name="test_sequence"
-                reportname="Reprojection of the $(productName)">
+                reportname="Reprojection of the $(dataInDir)/$(fileName)">
         <ProcedureCall id="_1ph0"
                        procedure="test_sequence.reprojection_check_target_product"/>
       </TestCase>
     </TestSet>
-    <TestSet id="_1ph2" name="processing_netcdf_cf">
+    <TestSet id="_1ph2" name="open_product_reproject_check_netcdf_cf">
       <DataDriver id="_1ph3"
-                  loopreportname="Open image view of $(dataInDir)/$(fileName) data product"
+                  loopreportname="Reprojection of the $(dataInDir)/$(fileName) data product"
                   name="dataTable">
-        <ProcedureCall id="_1ph4" procedure="tables.netCdf_cf"/>
+        <ProcedureCall id="_1ph4"
+                       procedure="tables.generic_formats.netCdf_cf"/>
       </DataDriver>
       <TestCase condition="&#34;$(processing)&#34;&lt;&gt;&#34;&#34;"
                 id="_1ph5" name="test_sequence"
-                reportname="Reprojection of the $(productName)">
+                reportname="Reprojection of the $(dataInDir)/$(fileName)">
+        <ProcedureCall id="_1ph7"
+                       procedure="qfs.swing.cleanup.closeAllModalDialogs">
+          <variable name="maxDialogs">5</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1ph8" procedure="close.all_products"/>
         <ProcedureCall id="_1ph6"
                        procedure="test_sequence.reprojection_check_target_product"/>
       </TestCase>
     </TestSet>
+    <CleanupSequence id="_1ph9" name="exit_snap">
+      <ProcedureCall id="_1phA" procedure="stop.exit_snap"/>
+    </CleanupSequence>
   </TestSet>
   <PackageRoot id="_4"/>
   <ExtraSequence id="_5"/>

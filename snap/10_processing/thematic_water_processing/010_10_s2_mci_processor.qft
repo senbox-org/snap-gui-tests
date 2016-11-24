@@ -1,0 +1,888 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.11">
+  <include>qfs.qft</include>
+  <include>../../lib/snap_main.qft</include>
+  <include>../lib/processing_main.qft</include>
+  <variable name="output_folder">s2_mci</variable>
+  <TestSet id="_2" name="010_10_s2_mci_processor"
+           reportname="010-10 S2 MCI Processor">
+    <DependencyReference id="_1pO-"
+                         reference="start_application_for_processing">
+      <variable name="output_dir">$(output_folder)</variable>
+    </DependencyReference>
+    <TestCase id="_8cc" name="01_check_ui"
+              reportname="01 Check S2 MCI Processor UI">
+      <ProcedureCall id="_1s6P" procedure="open_tool_window"/>
+      <TestStep id="_1pM7" name="default_componets">
+        <TestStep id="_1pbB" name="io_parameters">
+          <ProcedureCall id="_1pbA" procedure="select_io_tab"/>
+          <ProcedureCall id="_1pt7"
+                         procedure="check.s2_mci_processor.enabled.menu_file"/>
+          <ProcedureCall id="_1pt8"
+                         procedure="check.s2_mci_processor.enabled.menu_help"/>
+          <ProcedureCall id="_1pt9"
+                         procedure="check.s2_mci_processor.enabled.button_close"/>
+          <ProcedureCall id="_1ptA"
+                         procedure="check.s2_mci_processor.enabled.button_apply"/>
+          <ProcedureCall id="_1ptB"
+                         procedure="check.s2_mci_processor.enabled.button_source_product"/>
+          <ProcedureCall id="_1ptC"
+                         procedure="check.s2_mci_processor.enabled.button_directory"/>
+          <ProcedureCall id="_1ptD"
+                         procedure="check.s2_mci_processor.enabled.save_as"/>
+          <ProcedureCall id="_1ptE"
+                         procedure="check.s2_mci_processor.enabled.open_in_snap"/>
+          <ProcedureCall id="_1ptF"
+                         procedure="check.s2_mci_processor.enabled.save_as_enabled_status">
+            <variable name="enabled">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptG"
+                         procedure="check.s2_mci_processor.enabled.open_in_snap_enabled_status">
+            <variable name="enabled">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptH"
+                         procedure="check.s2_mci_processor.checked.save_as_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptI"
+                         procedure="check.s2_mci_processor.checked.open_in_snap_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pbG" name="processing_parameters">
+          <ProcedureCall id="_2JfJ"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_1ptK"
+                         procedure="check.s2_mci_processor.text.preset">
+            <variable name="val">None</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptL"
+                         procedure="check.s2_mci_processor.text.lower_baseline_band_name">
+            <variable name="val"/>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptM"
+                         procedure="check.s2_mci_processor.text.upper_baseline_band_name">
+            <variable name="val"/>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptN"
+                         procedure="check.s2_mci_processor.text.signal_band_name">
+            <variable name="val"/>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptO"
+                         procedure="check.s2_mci_processor.text.line_height_band_name">
+            <variable name="val"/>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptP"
+                         procedure="check.s2_mci_processor.text.slope_band_name">
+            <variable name="val"/>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptQ"
+                         procedure="check.s2_mci_processor.text.mask_expression">
+            <variable name="val"/>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptR"
+                         procedure="check.s2_mci_processor.text.cloud_correction_factor">
+            <variable name="val">1.005</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptS"
+                         procedure="check.s2_mci_processor.text.invalid_mci_value">
+            <variable name="val">NaN</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptJ"
+                         procedure="check.s2_mci_processor.checked.generate_slope_parameter_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </TestStep>
+      </TestStep>
+      <ProcedureCall id="_1s6k" procedure="close_processor_tool"/>
+    </TestCase>
+    <TestSet id="_1pMP" name="02_processing">
+      <TestCase id="_2Jgv" name="store_load_display_parameters">
+        <variable name="line_height_band">test_MCI</variable>
+        <variable name="slope_band">test_slope_MCI</variable>
+        <variable name="mask_expression">B11&lt;0.01 &amp;&amp; B8&lt;B4</variable>
+        <variable name="invalid_value">-999.0</variable>
+        <variable name="cloud_corr">1.01</variable>
+        <variable name="ofn">s2_mci_save_parameters.xml</variable>
+        <variable name="output_file">test_s2_mci_save_parameters.dim</variable>
+        <variable name="source_data">S2A_OPER_MTD_SAFL1C_PDMC_20160427T113628_R135_V20160427T080740_20160427T080740_T36MVB.xml</variable>
+        <variable name="source_dir">sentinel2_S2A_OPER_PRD_MSIL1C_PDMC_20160427T113628_small</variable>
+        <ProcedureCall id="_2Jgw" procedure="open_tool_window"/>
+        <TestStep id="_2Jgx" name="change_parameters">
+          <ProcedureCall id="_2Jgy"
+                         procedure="preparation_for_test_without_save"/>
+          <ProcedureCall id="_2Jh-"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_2Ji0"
+                         procedure="set.s2_mci_processor.presets_list_S2"/>
+          <ProcedureCall id="_2Jgz"
+                         procedure="select.s2_mci_processor.preset">
+            <variable name="preset">$(s2_l1b_mci)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2Jg+"
+                         procedure="select.s2_mci_processor.generate_slope_band"/>
+          <ProcedureCall id="_2Jg-"
+                         procedure="set.s2_mci_processor.line_height_band_name">
+            <variable name="val">$(line_height_band)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2Jh0"
+                         procedure="set.s2_mci_processor.slope_band_name">
+            <variable name="val">$(slope_band)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2Jh1"
+                         procedure="set.s2_mci_processor.mask_expression">
+            <variable name="val">$(mask_expression)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2Jh2"
+                         procedure="set.s2_mci_processor.cloud_correction_factor">
+            <variable name="val">$(cloud_corr)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2Jh3"
+                         procedure="set.s2_mci_processor.invalid_mci_value">
+            <variable name="val">$(invalid_value)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <ProcedureCall id="_2Jh4" procedure="store_parameters"/>
+        <TestStep id="_2Jh5" name="change_parameters">
+          <ProcedureCall id="_2Jh6"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_2Ji1"
+                         procedure="select.s2_mci_processor.preset">
+            <variable name="preset">$(none)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2Jh9"
+                         procedure="set.s2_mci_processor.line_height_band_name">
+            <variable name="val">test</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2JhA"
+                         procedure="set.s2_mci_processor.slope_band_name">
+            <variable name="val">test</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2JhB"
+                         procedure="set.s2_mci_processor.mask_expression">
+            <variable name="val"/>
+          </ProcedureCall>
+          <ProcedureCall id="_2JhC"
+                         procedure="set.s2_mci_processor.cloud_correction_factor">
+            <variable name="val">1.002</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2JhD"
+                         procedure="set.s2_mci_processor.invalid_mci_value">
+            <variable name="val">0.0</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2JhE"
+                         procedure="deselect.s2_mci_processor.generate_slope_band"/>
+        </TestStep>
+        <ProcedureCall id="_2JhF" procedure="load_parameters"/>
+        <TestStep id="_2JhG" name="check_parameters">
+          <ProcedureCall id="_2JhH"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_2JhI"
+                         procedure="check.s2_mci_processor.text.preset">
+            <variable name="val">$(s2_l1b_mci)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2JhJ"
+                         procedure="check.s2_mci_processor.text.lower_baseline_band_name">
+            <variable name="val">B6</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2JhK"
+                         procedure="check.s2_mci_processor.text.upper_baseline_band_name">
+            <variable name="val">B4</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2JhL"
+                         procedure="check.s2_mci_processor.text.signal_band_name">
+            <variable name="val">B5</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2JhM"
+                         procedure="check.s2_mci_processor.text.line_height_band_name">
+            <variable name="val">$(line_height_band)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2JhN"
+                         procedure="check.s2_mci_processor.checked.generate_slope_parameter_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2JhO"
+                         procedure="check.s2_mci_processor.text.slope_band_name">
+            <variable name="val">$(slope_band)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2JhP"
+                         procedure="check.s2_mci_processor.text.mask_expression">
+            <variable name="val">$(mask_expression)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2JhQ"
+                         procedure="check.s2_mci_processor.text.cloud_correction_factor">
+            <variable name="val">$(cloud_corr)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2JhR"
+                         procedure="check.s2_mci_processor.text.invalid_mci_value">
+            <variable name="val">$(invalid_value)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_2JhS" name="display_parameters">
+          <ProcedureCall id="_2JhT" procedure="display_parameters_and_check"/>
+          <ProcedureCall id="_2JhU" procedure="close_processor_tool"/>
+        </TestStep>
+      </TestCase>
+      <TestCase id="_1pZO" name="cancel_processing">
+        <variable name="output_file">test_s2_mci_cancel.dim</variable>
+        <variable name="source_data">S2A_OPER_MTD_SAFL1C_PDMC_20160427T113628_R135_V20160427T080740_20160427T080740_T36MVB_resampled.dim</variable>
+        <variable name="source_dir">sentinel2_subset</variable>
+        <ProcedureCall id="_1s6e" procedure="open_tool_window"/>
+        <ProcedureCall id="_1qGx"
+                       procedure="preparation_for_test_save_output_product"/>
+        <ProcedureCall id="_2JiB" procedure="select_s2_l1b_mci_preset"/>
+        <TestStep id="_1pZQ" name="cancel_processing">
+          <ProcedureCall id="_1qGy"
+                         procedure="do_click.s2_mci_processor.button_apply"/>
+          <ProcedureCall id="_1pa9" procedure="cancel_operators"/>
+        </TestStep>
+        <ProcedureCall id="_1s70"
+                       procedure="utility.check_if_processing_is_really_canceled"/>
+        <ProcedureCall id="_1s6z" procedure="close_processor_tool"/>
+      </TestCase>
+      <TestSet id="_1pT+" name="processing_in_different_formats">
+        <variable name="source_data">S2A_OPER_MTD_SAFL1C_PDMC_20160427T113628_R135_V20160427T080740_20160427T080740_T36MVB_resampled.dim</variable>
+        <variable name="source_dir">sentinel2_subset</variable>
+        <comment>	
+</comment>
+        <SetupSequence id="_1pUV" name="prepare_for_the_testing">
+          <ProcedureCall id="_1s6f" procedure="open_tool_window"/>
+          <ProcedureCall id="_1qG+"
+                         procedure="preparation_for_test_save_output_product">
+            <variable name="output_file">test</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2JiC" procedure="select_s2_l1b_mci_preset"/>
+        </SetupSequence>
+        <TestSet id="_1pUb" name="processing">
+          <DataDriver id="_1pUc"
+                      loopreportname="Write the target product as $(output_format)"
+                      name="output_formats">
+            <ProcedureCall id="_1pUd" procedure="tables.output_formats"/>
+          </DataDriver>
+          <TestCase id="_1pUj" name="processing_in_different_formats"
+                    reportname="Processing in $(output_format) format and check output product">
+            <ProcedureCall id="_2Jia" procedure="close.all_products"/>
+            <ServerScriptStep disabled="true" id="_1pV5" name="print">
+              <code>print "output_format = $(output_format)"</code>
+            </ServerScriptStep>
+            <ServerScriptStep disabled="true" id="_1pV6" name="print">
+              <code>print "output_file = $(output_file)"</code>
+            </ServerScriptStep>
+            <TestStep id="_1qG-" name="processing">
+              <ProcedureCall id="_1qcm"
+                             procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
+                <variable name="screenshot">s2_mci_error</variable>
+              </ProcedureCall>
+              <TestStep id="_2JiE" name="s2_mci_processor_opened_else_open">
+                <TryStep id="_2JiF">
+                  <ProcedureCall id="_2JiD"
+                                 procedure="check.s2_mci_processor.s2_mci_processor_opened"/>
+                  <CatchSequence exception="TestException" id="_2JiG"
+                                 maxerror="0">
+                    <ProcedureCall id="_2JiH" procedure="open_tool_window"/>
+                    <ProcedureCall id="_2JiI"
+                                   procedure="preparation_for_test_save_output_product">
+                      <variable name="output_file">test</variable>
+                    </ProcedureCall>
+                    <ProcedureCall id="_2JiJ"
+                                   procedure="select_s2_l1b_mci_preset"/>
+                  </CatchSequence>
+                </TryStep>
+              </TestStep>
+              <ProcedureCall id="_2JiK" procedure="select_io_tab"/>
+              <ProcedureCall id="_1qH3"
+                             procedure="set.s2_mci_processor.target_product_name">
+                <variable name="target_product_name">$(output_file)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qH4"
+                             procedure="select.s2_mci_processor.output_format">
+                <variable name="output_format">$(output_format)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qH0"
+                             procedure="do_click.s2_mci_processor.button_apply"/>
+              <ProcedureCall disabled="true" id="_1qcn"
+                             procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
+                <variable name="screenshot">run_s2_mci_error</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_2JiX"
+                             procedure="click_yes_in_product_exists_dialog"/>
+              <ProcedureCall id="_1pUo"
+                             procedure="wait.disappear.writing_target_product"/>
+              <ProcedureCall id="_1qH1"
+                             procedure="click_ok_in_product_created_dialog"/>
+            </TestStep>
+            <TestStep id="_1pUq" name="check_target_product">
+              <ProcedureCall id="_1pfx"
+                             procedure="test_events.check_target_product_without_grouping"/>
+            </TestStep>
+          </TestCase>
+        </TestSet>
+        <CleanupSequence id="_1pUa" name="close_processor_tool">
+          <ProcedureCall id="_1s6+" procedure="close_processor_tool"/>
+        </CleanupSequence>
+      </TestSet>
+    </TestSet>
+    <TestCase id="_1pFr" name="03_help">
+      <ProcedureCall id="_1s6g" procedure="open_tool_window"/>
+      <TestStep id="_1pVG" name="check_help">
+        <ProcedureCall id="_1pVH"
+                       procedure="do_click.s2_mci_processor.menu.help"/>
+        <ProcedureCall id="_1qBp"
+                       procedure="do_click.s2_mci_processor.menu.help_menu_item"/>
+        <ProcedureCall id="_1qcu" procedure="help.check_help_appears_close"/>
+      </TestStep>
+      <TestStep id="_1pVN" name="check_help_about">
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogS2_MCI_Processor.menubar"
+                        event="MOUSE_MPRC" id="_1sep" modifiers="16" x="111"
+                        y="15"/>
+        <ProcedureCall id="_1qBq"
+                       procedure="do_click.s2_mci_processor.menu.help"/>
+        <ProcedureCall id="_1qBr"
+                       procedure="do_click.s2_mci_processor.menu.about"/>
+        <ComponentWaiter client="$(client)" component="dialogAbout_Mci.s2"
+                         id="_2JeV"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogAbout_Mci.s2.ModalDialog.ok"
+                        event="MOUSE_MPRC" id="_2JeW" modifiers="16"/>
+      </TestStep>
+      <ProcedureCall id="_1s6-" procedure="close_processor_tool"/>
+    </TestCase>
+  </TestSet>
+  <PackageRoot id="_4">
+    <Procedure disabled="true" id="_2JYG" name="test_sequence">
+      <ProcedureCall id="_2JYH" procedure="open_tool_window"/>
+      <TestStep id="_2JYI" name="preparation">
+        <ProcedureCall id="_2JYJ"
+                       procedure="preparation_for_test_without_save"/>
+        <ProcedureCall id="_2JiA" procedure="select_s2_l1b_mci_preset"/>
+      </TestStep>
+      <TestStep id="_2JYK" name="processing">
+        <ProcedureCall id="_2JYL"
+                       procedure="do_click.s2_mci_processor.button_apply"/>
+        <ProcedureCall id="_2JYM"
+                       procedure="click_ok_in_product_created_dialog"/>
+      </TestStep>
+      <TestStep id="_2JYN" name="check_output_product">
+        <ProcedureCall id="_2JYO"
+                       procedure="product_meta_data.for_open_image_view_without_grouping"/>
+        <ProcedureCall id="_2JYP"
+                       procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+      </TestStep>
+      <ProcedureCall id="_2JYQ" procedure="close_processor_tool"/>
+    </Procedure>
+    <Procedure id="_1s6h" name="close_processor_tool">
+      <ProcedureCall id="_1s6j"
+                     procedure="close_processing_tool.thematic_water_processing.s2_mci_processor"/>
+    </Procedure>
+    <Procedure id="_1s6L" name="open_tool_window">
+      <ProcedureCall id="_1s6O"
+                     procedure="open.optical.thematic_water_processing.s2_mci_processor"/>
+    </Procedure>
+    <Procedure id="_1pb8" name="select_io_tab">
+      <ProcedureCall id="_1pb9" procedure="select.s2_mci_processor.tab">
+        <variable name="tab">I/O Parameters</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pbC" name="select_processing_parameters_tab">
+      <ProcedureCall id="_1pbE" procedure="select.s2_mci_processor.tab">
+        <variable name="tab">Processing Parameters</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_2Ji6" name="select_s2_l1b_mci_preset">
+      <ProcedureCall id="_2Ji7" procedure="select_processing_parameters_tab"/>
+      <ProcedureCall id="_2Ji8"
+                     procedure="set.s2_mci_processor.presets_list_S2"/>
+      <ProcedureCall id="_2Ji9" procedure="select.s2_mci_processor.preset">
+        <variable name="preset">$(s2_l1b_mci)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pbQ" name="display_parameters_and_check">
+      <ProcedureCall id="_1pbR" procedure="display_parameters"/>
+      <ComponentWaiter client="$(client)" component="dialogMci.s2_Parameters"
+                       id="_2JeS"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogMci.s2_Parameters.ModalDialog.ok"
+                      event="MOUSE_MPRC" id="_2JeT" modifiers="16"/>
+    </Procedure>
+    <Procedure id="_1pMT" name="open_source_product">
+      <variable name="prod_dir"/>
+      <variable name="prod_name"/>
+      <ProcedureCall id="_1oSj" procedure="path.source_data_directory">
+        <variable name="data_type">$(prod_dir)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1pMS"
+                     procedure="do_click.s2_mci_processor.button_source_product"/>
+      <ProcedureCall id="_1pHR"
+                     procedure="utility.handle_select_product_dialog">
+        <variable name="file">$(data_source_directory)$(prod_name)</variable>
+      </ProcedureCall>
+      <TryStep id="_1pXT">
+        <ProcedureCall id="_1pXV" procedure="wait.appear.error.dialog_Error"/>
+        <ProcedureCall id="_1pXS"
+                       procedure="do_click.error_dialog.button_OK_Error"/>
+        <ProcedureCall id="_1pXW" procedure="run-log.logError">
+          <variable name="message">Opening of the product $(data_source_directory)$(prod_name) failed</variable>
+          <variable name="withScreenshots">false</variable>
+        </ProcedureCall>
+        <CatchSequence exception="TestException" id="_1pXU" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_2JiL" name="click_ok_in_product_created_dialog">
+      <TryStep id="_2JiT">
+        <ComponentWaiter client="$(client)"
+                         component="dialogSNAP_-_S2_MCI_Processor" id="_2JiU"
+                         raise="false"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSNAP_-_S2_MCI_Processor.buttonOK"
+                        event="MOUSE_MPRC" id="_2JiV" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_2JiW" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1pON" name="click_yes_in_product_exists_dialog">
+      <TryStep id="_1qXT">
+        <ComponentWaiter client="$(client)"
+                         component="dialogS2_MCI_Processor2.buttonYes"
+                         id="_1qXS" timeout="10"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogS2_MCI_Processor2.buttonYes"
+                        event="MOUSE_MPRC" id="_1qXR" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1qXW" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1qCR" name="preparation_for_test_without_save">
+      <comment>@teststep preparation</comment>
+      <ProcedureCall id="_2JZG"
+                     procedure="qfs.swing.cleanup.closeAllModalDialogs">
+        <variable name="maxDialogs">5</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qCS" procedure="select_io_tab"/>
+      <ProcedureCall id="_1qCT" postdelay="2000"
+                     procedure="open_source_product">
+        <variable name="prod_dir">$(source_dir)</variable>
+        <variable name="prod_name">$(source_data)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qCU"
+                     procedure="set.s2_mci_processor.target_product_name">
+        <variable name="target_product_name">$(output_file)</variable>
+      </ProcedureCall>
+      <ProcedureCall disabled="true" id="_1pfn"
+                     procedure="get_source_product"/>
+      <ProcedureCall id="_1qCV"
+                     procedure="deselect.s2_mci_processor.save_as"/>
+    </Procedure>
+    <Procedure id="_1qGm" name="preparation_for_test_save_output_product">
+      <comment>@teststep preparation</comment>
+      <ProcedureCall id="_1qGn" procedure="select_io_tab"/>
+      <ProcedureCall id="_1qGo" procedure="open_source_product">
+        <variable name="prod_dir">$(source_dir)</variable>
+        <variable name="prod_name">$(source_data)</variable>
+      </ProcedureCall>
+      <ProcedureCall disabled="true" id="_1qGq"
+                     procedure="get_source_product"/>
+      <ProcedureCall id="_1qGr" procedure="select.s2_mci_processor.save_as"/>
+      <ProcedureCall id="_1qGu"
+                     procedure="select.s2_mci_processor.open_in_snap"/>
+      <ProcedureCall id="_1qGw" procedure="daten_format.beam_dimap"/>
+      <ProcedureCall id="_1qGv"
+                     procedure="select.s2_mci_processor.output_format">
+        <variable name="output_format">$(beam_dimap)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qH6"
+                     procedure="set.s2_mci_processor.target_directory">
+        <variable name="dir">$(output_folder)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qGp"
+                     procedure="set.s2_mci_processor.target_product_name">
+        <variable name="target_product_name">$(output_file)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pPF" name="store_parameters">
+      <TryStep id="_1pPG" name="select_menu_store_parameters">
+        <ProcedureCall id="_1pPH"
+                       procedure="do_click.s2_mci_processor.menu.file"/>
+        <ProcedureCall id="_1qGM"
+                       procedure="do_click.s2_mci_processor.menu.save_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPJ" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPK" procedure="utility.store_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pTE" name="get_source_product">
+      <FetchTextStep client="$(client)"
+                     component="dialogS2_MCI_Processor.panelI/O_Parameters.comboThe_source_product."
+                     id="_1pTF" varname="source_product"/>
+    </Procedure>
+    <Procedure id="_1pPv" name="display_parameters">
+      <TryStep id="_1pPw" name="select_menu_display_parameters">
+        <ProcedureCall id="_1qGN"
+                       procedure="do_click.s2_mci_processor.menu.file"/>
+        <ProcedureCall id="_1qGO"
+                       procedure="do_click.s2_mci_processor.menu.display_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPz" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1pP9" name="load_parameters">
+      <TryStep id="_1pPA" name="select_menu_load_parameters">
+        <ProcedureCall id="_1qGP"
+                       procedure="do_click.s2_mci_processor.menu.file"/>
+        <ProcedureCall id="_1qGQ"
+                       procedure="do_click.s2_mci_processor.menu.load_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPD" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPM" procedure="utility.load_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+  </PackageRoot>
+  <ExtraSequence id="_5">
+    <TestSet id="_2Je-" name="010_11_flh_mci_processor"
+             reportname="010-11 FLH/MCI Processor">
+      <TestSet id="_2JfL" name="02_processing">
+        <TestSet id="_2JfM" name="different_source_products">
+          <TestSet id="_2JfN" name="processing">
+            <DataDriver id="_2JfO"
+                        loopreportname="source product = $(source_data)"
+                        name="source_products">
+              <ProcedureCall id="_2JfP"
+                             procedure="tables.source_data_mer_l1b"/>
+            </DataDriver>
+            <TestCase id="_2JfQ" name="test_sequence"
+                      reportname="Processing $(source_data) and check output product">
+              <ProcedureCall id="_2JfR" procedure="open_tool_window"/>
+              <TestStep id="_2JfS" name="preparation">
+                <ProcedureCall id="_2JfT"
+                               procedure="preparation_for_test_without_save"/>
+                <ProcedureCall id="_2JfU" procedure="preset_selection">
+                  <variable name="preset">$(meris_l1b_mci)</variable>
+                </ProcedureCall>
+              </TestStep>
+              <TestStep id="_2JfV" name="processing">
+                <ProcedureCall id="_2JfW"
+                               procedure="do_click.flh_mci_processor.button_apply"/>
+                <ProcedureCall id="_2JfX"
+                               procedure="click_ok_in_product_created_dialog"/>
+              </TestStep>
+              <TestStep id="_2JfY" name="check_output_product">
+                <ProcedureCall id="_2JfZ"
+                               procedure="product_meta_data.for_open_image_view_without_grouping"/>
+                <ProcedureCall id="_2Jfa"
+                               procedure="utility.open_image_view_check_it"/>
+                <SetGlobalStep id="_2Jfb" varname="view_Id1">
+                  <default>2</default>
+                </SetGlobalStep>
+                <SetGlobalStep id="_2Jfc" varname="bandName">
+                  <default>ndvi_flags</default>
+                </SetGlobalStep>
+                <ProcedureCall id="_2Jfd"
+                               procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+              </TestStep>
+              <ProcedureCall id="_2Jfe" procedure="close_processor_tool"/>
+            </TestCase>
+          </TestSet>
+          <CleanupSequence id="_2Jff" name="close_processor_tool">
+            <ProcedureCall id="_2Jfg" procedure="close_processor_tool"/>
+          </CleanupSequence>
+        </TestSet>
+      </TestSet>
+    </TestSet>
+    <Procedure id="_2JeN" name="Aufnahme 05_10_16 14:58">
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogS2_MCI_Processor.panelI/O_Parameters.comboThe_source_product."
+                       id="_2JeO"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.menuItemDisplay_Parameters..."
+                      event="MOUSE_MPRC" id="_2JeR" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.formatName"
+                      event="MOUSE_MPRC" id="_2Jea" modifiers="16" x="29"
+                      y="13"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.listInvokerName:_formatName.GeoTIFF-BigTIFF"
+                      event="MOUSE_MPRC" id="_2Jeb" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.formatName"
+                      event="MOUSE_MPRC" id="_2Jec" modifiers="16" x="35"
+                      y="12"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.listInvokerName:_formatName.output_format_name"
+                      event="MOUSE_MPRC" id="_2Jed" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.preset"
+                      event="MOUSE_MPRC" id="_2Jef" modifiers="16" x="28"
+                      y="7"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.listInvokerName:_preset.S2MSI_L1b_MCI"
+                      event="MOUSE_MPRC" id="_2Jeg" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.preset"
+                      event="MOUSE_MPRC" id="_2Jeh" modifiers="16" x="40"
+                      y="9"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.listInvokerName:_preset.preset"
+                      event="MOUSE_MPRC" id="_2Jei" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.lowerBaselineBandName"
+                      event="MOUSE_MPRC" id="_2Jek" modifiers="16" x="38"
+                      y="7"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogS2_MCI_Processor.lowerBaselineBandName"
+                       id="_2Jel"/>
+      <CheckItemsStep checktype="items" client="$(client)"
+                      component="dialogS2_MCI_Processor.preset" id="_2Jem">
+        <item>None</item>
+        <item>S2MSI L1b MCI</item>
+        <item>S2MSI L2 MCI</item>
+      </CheckItemsStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.upperBaselineBandName"
+                      event="MOUSE_MPRC" id="_2Jen" modifiers="16" x="58"
+                      y="10"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.upperBaselineBandName"
+                      event="MOUSE_MPRC" id="_2Jeo" modifiers="16" x="55"
+                      y="5"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.signalBandName"
+                      event="MOUSE_MPRC" id="_2Jep" modifiers="16" x="51"
+                      y="8"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.signalBandName"
+                      event="MOUSE_MPRC" id="_2Jeq" modifiers="16" x="51"
+                      y="8"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogS2_MCI_Processor.DefaultSingleTargetProductDialog.apply"
+                       id="_2Jez">
+        <text>Run</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogS2_MCI_Processor.DefaultSingleTargetProductDialog.close"
+                       id="_2Je+">
+        <text>Close</text>
+      </CheckStringStep>
+    </Procedure>
+    <Procedure id="_1sb9" name="Aufnahme 05_10_16 14:58">
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogS2_MCI_Processor.panelI/O_Parameters.comboThe_source_product."
+                       id="_1sbA"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogS2_MCI_Processor.productName"
+                       id="_1sbB"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogS2_MCI_Processor.productDir"
+                       id="_1sbC">
+        <text>C:\Users\olga_2</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogS2_MCI_Processor.button..."
+                       id="_1sbD">
+        <text>...</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogS2_MCI_Processor.button...2"
+                       id="_1sbE">
+        <text>...</text>
+      </CheckStringStep>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogS2_MCI_Processor.saveToFileSelected"
+                        id="_1sbF"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogS2_MCI_Processor.openInAppSelected"
+                        id="_1sbG"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogS2_MCI_Processor.formatName"
+                       id="_1sbH">
+        <text>BEAM-DIMAP</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogS2_MCI_Processor.menuFile" id="_1sbI">
+        <text>File</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.menuFile"
+                      event="MOUSE_MPRC" id="_1sbJ" modifiers="16"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogS2_MCI_Processor.menuItemLoad_Parameters..."
+                       id="_1sbK">
+        <text>Load Parameters...</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogS2_MCI_Processor.menuItemSave_Parameters..."
+                       id="_1sbL">
+        <text>Save Parameters...</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.menuItemDisplay_Parameters..."
+                      event="MOUSE_MPRC" id="_1sbM" modifiers="16"/>
+      <ComponentWaiter client="$(client)" component="dialogMci.s2_Parameters"
+                       id="_1sbN"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogMci.s2_Parameters.ModalDialog.ok"
+                      event="MOUSE_MPRC" id="_1sbO" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.menuHelp"
+                      event="MOUSE_MPRC" id="_1sbP" modifiers="16"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogS2_MCI_Processor.menuItemHelp"
+                       id="_1sbQ">
+        <text>Help</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.menuItemAbout..."
+                      event="MOUSE_MPRC" id="_1sbR" modifiers="16"/>
+      <ComponentWaiter client="$(client)" component="dialogAbout_Mci.s2"
+                       id="_1sbS"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogAbout_Mci.s2.ModalDialog.ok"
+                      event="MOUSE_MPRC" id="_1sbT" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.tabbed.I/O_Parameters"
+                      event="MOUSE_MPRC" id="_1sbU" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.tabbed.tab"
+                      event="MOUSE_MPRC" id="_1sbV" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.tabbed.I/O_Parameters"
+                      event="MOUSE_MPRC" id="_1sbW" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.formatName"
+                      event="MOUSE_MPRC" id="_1sbX" modifiers="16" x="29"
+                      y="13"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.listInvokerName:_formatName.GeoTIFF-BigTIFF"
+                      event="MOUSE_MPRC" id="_1sbY" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.formatName"
+                      event="MOUSE_MPRC" id="_1sbZ" modifiers="16" x="35"
+                      y="12"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.listInvokerName:_formatName.output_format_name"
+                      event="MOUSE_MPRC" id="_1sba" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.tabbed.tab"
+                      event="MOUSE_MPRC" id="_1sbb" modifiers="16"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogS2_MCI_Processor.preset" id="_1sbc">
+        <text>None</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.preset"
+                      event="MOUSE_MPRC" id="_1sbd" modifiers="16" x="28"
+                      y="7"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.listInvokerName:_preset.S2MSI_L1b_MCI"
+                      event="MOUSE_MPRC" id="_1sbe" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.preset"
+                      event="MOUSE_MPRC" id="_1sbf" modifiers="16" x="40"
+                      y="9"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.listInvokerName:_preset.preset"
+                      event="MOUSE_MPRC" id="_1sbg" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.lowerBaselineBandName"
+                      event="MOUSE_MPRC" id="_1sbh" modifiers="16" x="38"
+                      y="7"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.lowerBaselineBandName"
+                      event="MOUSE_MPRC" id="_1sbi" modifiers="16" x="38"
+                      y="7"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogS2_MCI_Processor.lowerBaselineBandName"
+                       id="_1sbj"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogS2_MCI_Processor.lowerBaselineBandName"
+                       id="_1sbk"/>
+      <CheckItemsStep checktype="items" client="$(client)"
+                      component="dialogS2_MCI_Processor.preset" id="_1sbl">
+        <item>None</item>
+        <item>S2MSI L1b MCI</item>
+        <item>S2MSI L2 MCI</item>
+      </CheckItemsStep>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogS2_MCI_Processor.upperBaselineBandName"
+                       id="_1sbm"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.upperBaselineBandName"
+                      event="MOUSE_MPRC" id="_1sbn" modifiers="16" x="58"
+                      y="10"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.upperBaselineBandName"
+                      event="MOUSE_MPRC" id="_1sbo" modifiers="16" x="55"
+                      y="5"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.signalBandName"
+                      event="MOUSE_MPRC" id="_1sbp" modifiers="16" x="51"
+                      y="8"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.signalBandName"
+                      event="MOUSE_MPRC" id="_1sbq" modifiers="16" x="51"
+                      y="8"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogS2_MCI_Processor.signalBandName"
+                       id="_1sbr"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.lineHeightBandName"
+                      event="MOUSE_MPRC" id="_1sbs" modifiers="16" x="42"
+                      y="7"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.lineHeightBandName"
+                      event="MOUSE_MPRC" id="_1sbt" modifiers="4" popup="true"
+                      x="42" y="7"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogS2_MCI_Processor.lineHeightBandName"
+                       id="_1sbu">
+        <text>MCI</text>
+      </CheckStringStep>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogS2_MCI_Processor.slope" id="_1sbv"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.slope"
+                      event="MOUSE_MPRC" id="_1sbw" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogS2_MCI_Processor.slope"
+                      event="MOUSE_MPRC" id="_1sbx" modifiers="16"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogS2_MCI_Processor.slopeBandName"
+                       id="_1sby">
+        <text>MCI_slope</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogS2_MCI_Processor.maskExpression"
+                       id="_1sbz">
+        <text>B11&lt;0.01 &amp;&amp; B8&lt;B4</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogS2_MCI_Processor.button...3"
+                       id="_1sb+">
+        <text>...</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogS2_MCI_Processor.cloudCorrectionFactor"
+                       id="_1sb-">
+        <text>1.005</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogS2_MCI_Processor.invalidMciValue"
+                       id="_1sc0">
+        <text>NaN</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogS2_MCI_Processor.DefaultSingleTargetProductDialog.apply"
+                       id="_1sc1">
+        <text>Run</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogS2_MCI_Processor.DefaultSingleTargetProductDialog.close"
+                       id="_1sc2">
+        <text>Close</text>
+      </CheckStringStep>
+    </Procedure>
+    <ProcedureCall id="_1oXV" procedure="check.product.not_opened"/>
+    <IfSequence id="_1oXW" test="&#34;$(not_opened)&#34;==&#34;false&#34;"/>
+    <ProcedureCall id="_1oXO" procedure="close.all_products"/>
+  </ExtraSequence>
+  <WindowList id="_6"/>
+</RootStep>

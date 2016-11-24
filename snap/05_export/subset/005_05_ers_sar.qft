@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.4">
+<RootStep id="_0" name="root" version="4.0.9">
   <include>qfs.qft</include>
   <include>../../lib/snap_export.qft</include>
-  <TestSet id="_1" name="005_05_export_ers_atsr_product"
+  <TestSet id="_1" name="005_05_export_subset_of_the_ers_atsr_product"
            reportname="005-05 Export ERS 1 / 2 ATSR (.E1, .E2) product or subset">
     <DependencyReference id="_1lWz"
                          reference="dependencies.start_application"/>
-    <TestSet id="_D" name="import_product_open_image_window">
+    <TestSet id="_D" name="open_product_open_image_window_export_subset">
       <DataDriver id="_3y4"
-                  loopreportname="Import $(dataInDir)/$(fileName) data product"
+                  loopreportname="Export subset of the $(dataInDir)/$(fileName) data product"
                   name="dataTable">
-        <ProcedureCall id="_1lX0" procedure="tables.ers_sar"/>
+        <ProcedureCall id="_1lX0" procedure="tables.sar_sensors.ers_sar"/>
       </DataDriver>
       <TestCase condition="&#34;$(processing)&#34;&lt;&gt;&#34;&#34;" id="_2"
-                name="test" reportname="$(productName)">
+                name="test"
+                reportname="Export subset of the $(dataInDir)/$(fileName) data product">
         <ProcedureCall id="_1lW-" procedure="export.subset.test_sequence">
           <variable name="prod_reader_type">sar_ers</variable>
         </ProcedureCall>

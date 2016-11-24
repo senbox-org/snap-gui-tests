@@ -1,0 +1,440 @@
+-f BEAM-DIMAP
+-f NetCDF-CF
+-f NetCDF4-CF
+-f NetCDF4-BEAM
+-f NetCDF-BEAM
+-f geoTIFF
+-f HDF5
+-f CSV
+2016
+#idepix.avhrr                         Pixel identification and classification for AVHRR.
+
+Idepix.Landsat8                      Pixel identification and classification for Landsat 8.
+Idepix.Modis                         Pixel identification and classification for MODIS.
+Idepix.Sentinel2                           Pixel identification and classification for S2-MSI.
+
+#idepix.probav                        Pixel identification and classification for PROBA-V.
+#idepix.seawifs                       Pixel identification and classification for SeaWiFS.
+#idepix.vgt
+
+
+NPE
+
+gpt E:\testdata\in\applications\processing\gpf_files\idepix\resampling_idepix_sentinel2.xml -e  -f BEAM-DIMAP -t E:\testdata\out\gpt_idepix\resampling_idepix_sentinel2.dim -SsourceProduct=E:\testdata\in\s2\S2A_OPER_PRD_MSIL1C_PDMC_20160427T113628_R135_V20160427T080740_20160427T080740_T36MVB.SAFE\S2A_OPER_MTD_SAFL1C_PDMC_20160427T113628_R135_V20160427T080740_20160427T080740_T36MVB.xml
+gpt E:\testdata\in\applications\processing\gpf_files\idepix\resampling_subset_idepix_sentinel2.xml -e  -f BEAM-DIMAP -t E:\testdata\out\gpt_idepix\resampling_subset_idepix_sentinel2.dim -SsourceProduct=E:\testdata\in\s2\S2A_OPER_PRD_MSIL1C_PDMC_20160427T113628_R135_V20160427T080740_20160427T080740_T36MVB.SAFE\S2A_OPER_MTD_SAFL1C_PDMC_20160427T113628_R135_V20160427T080740_20160427T080740_T36MVB.xml
+
+*************
+
+modis
+
+gpt E:\testdata\in\applications\processing\gpf_files\idepix\idepix_modis.xml -e  -f BEAM-DIMAP -t E:\testdata\out\gpt_idepix\idepix_modis_01.dim -Ssource=E:\testdata\in\sensors_platforms\MODIS\L1B\A2003001000000.L1B_LAC
+gpt E:\testdata\in\applications\processing\gpf_files\idepix\idepix_modis.xml -e  -f BEAM-DIMAP -t E:\testdata\out\gpt_idepix\idepix_modis_02.dim -Ssource=E:\testdata\in\applications\SeaDAS\MODIS\L1\A2006302181500.L1B_LAC 
+
+NPE
+gpt E:\testdata\in\applications\processing\gpf_files\idepix\idepix_modis.xml -e  -f BEAM-DIMAP -t E:\testdata\out\gpt_idepix\idepix_modis_03.dim -Ssource=E:\testdata\in\sensors_platforms\MODIS\L1B\MOD021KM\MOD021KM.A2012144.0045.005.2012144075646.hdf
+
+*************
+
+landsat8
+
+gpt E:\testdata\in\applications\processing\gpf_files\idepix\idepix_landsat8.xml -e  -f BEAM-DIMAP -t E:\testdata\out\gpt_idepix\idepix_landsat8.dim -SsourceProduct=E:\testdata\in\sensors_platforms\LANDSAT\LANDSAT_8_OLI_TIRS\geotiff\LC81960222013195LGN00\LC81960222013195LGN00_MTL.txt
+gpt E:\testdata\in\applications\processing\gpf_files\idepix\read_landsat8_idepix.xml -e  -f BEAM-DIMAP -t E:\testdata\out\gpt_idepix\read_landsat8_idepix.dim -Pfile=E:\testdata\in\sensors_platforms\LANDSAT\LANDSAT_8_OLI_TIRS\geotiff\LC81960222013195LGN00\LC81960222013195LGN00_MTL.txt
+
+*************
+
+sentinel2
+
+gpt E:\testdata\in\applications\processing\gpf_files\idepix\idepix_sentinel2.xml -e  -f BEAM-DIMAP -t E:\testdata\out\gpt_idepix\idepix_sentinel2_01.dim -Sl1cProduct=E:\testdata\in\s2\DIMAP\subset_of_S2A_OPER_MTD_SAFL1C_PDMC_20150820T085706_R051_V20150815T110427_20150815T110427.dim
+gpt E:\testdata\in\applications\processing\gpf_files\idepix\idepix_sentinel2.xml -e  -f BEAM-DIMAP -t E:\testdata\out\gpt_idepix\idepix_sentinel2_02.dim -Sl1cProduct=E:\testdata\in\s2\DIMAP\S2A_OPER_MTD_SAFL1C_PDMC_20160427T113628_R135_V20160427T080740_20160427T080740_T36MVB_resampled_B1.dim
+gpt E:\testdata\in\applications\processing\gpf_files\idepix\idepix_sentinel2.xml -e  -f BEAM-DIMAP -t E:\testdata\out\gpt_idepix\idepix_sentinel2_03.dim -Sl1cProduct=E:\testdata\in\s2\DIMAP\S2A_OPER_MTD_SAFL1C_PDMC_20160427T113628_R135_V20160427T080740_20160427T080740_T36MVB_resampled_B3.dim
+gpt E:\testdata\in\applications\processing\gpf_files\idepix\idepix_sentinel2.xml -e  -f BEAM-DIMAP -t E:\testdata\out\gpt_idepix\idepix_sentinel2_04.dim -Sl1cProduct=E:\testdata\in\s2\DIMAP\S2A_OPER_MTD_SAFL1C_PDMC_20160427T113628_R135_V20160427T080740_20160427T080740_T36MVB_resampled.dim
+
+gpt E:\testdata\in\applications\processing\gpf_files\idepix\resampling_idepix_sentinel2.xml -e  -f BEAM-DIMAP -t E:\testdata\out\gpt_idepix\resampling_idepix_sentinel2.dim -SsourceProduct=E:\testdata\in\s2\S2A_OPER_PRD_MSIL1C_PDMC_20160427T113628_R135_V20160427T080740_20160427T080740_T36MVB.SAFE\S2A_OPER_MTD_SAFL1C_PDMC_20160427T113628_R135_V20160427T080740_20160427T080740_T36MVB.xml
+gpt E:\testdata\in\applications\processing\gpf_files\idepix\resampling_subset_idepix_sentinel2.xml -e  -f BEAM-DIMAP -t E:\testdata\out\gpt_idepix\resampling_subset_idepix_sentinel2.dim -SsourceProduct=E:\testdata\in\s2\S2A_OPER_PRD_MSIL1C_PDMC_20160427T113628_R135_V20160427T080740_20160427T080740_T36MVB.SAFE\S2A_OPER_MTD_SAFL1C_PDMC_20160427T113628_R135_V20160427T080740_20160427T080740_T36MVB.xml
+*************
+
+
+gpt E:\testdata\in\applications\processing\gpf_files\idepix\idepix_avhrr.xml -t E:\testdata\out\gpt_idepix -SsourceProduct=E:\testdata\in\sensors_platforms\AVHRR_3_L1B\NOAA\NOAA-16\NSS.LHRR.NM.D05102.S1053.E1104.B1454949.WI
+
+gpt E:\testdata\in\applications\processing\gpf_files\idepix\idepix_seawifs.xml -t E:\testdata\out\gpt_idepix -SsourceProduct=E:\testdata\in\applications\SeaDAS\SeaWiFS\L1\S2005010073611.L1A_GAC
+
+gpt E:\testdata\in\applications\processing\gpf_files\idepix\idepix_probav.xml -t E:\testdata\out\gpt_idepix -SsourceProduct=E:\testdata\in\sensors_platforms\Proba-V\1km\S1_TOA\PROBAV_S1_TOA_X19Y09_20140707_1KM_V001.HDF5
+
+gpt E:\testdata\in\applications\processing\gpf_files\idepix\idepix_vgt.xml -t E:\testdata\out\gpt_idepix -SsourceProduct=E:\testdata\in\sensors_platforms\SPOT_VGT\V2\V2KRNP____20040101F003.zip
+
+*********************************************************************************
+Usage:
+  gpt idepix.landsat8 [options]
+
+Description:
+  Pixel identification for Landsat 8.
+
+
+Source Options:
+  -SsourceProduct=<file>    The Landsat 8 source product.
+                            This is a mandatory source.
+
+Parameter Options:
+  -PapplyClostCloudTest=<boolean>                   Sets parameter 'applyClostCloudTest' to <boolean>.
+                                                    Default value is 'true'.
+  -PapplyHotCloudTest=<boolean>                     Sets parameter 'applyHotCloudTest' to <boolean>.
+                                                    Default value is 'false'.
+  -PapplyOtsuCloudTest=<boolean>                    Sets parameter 'applyOtsuCloudTest' to <boolean>.
+                                                    Default value is 'true'.
+  -PapplyShimezCloudTest=<boolean>                  Sets parameter 'applyShimezCloudTest' to <boolean>.
+                                                    Default value is 'true'.
+  -PbrightnessBand1Water=<int>                      Wavelength 1 for brightness computation over water.
+                                                    Value must be one of '440', '480', '560', '655', '865', '1610', '2200', '590', '1370', '10895', '12005'.
+                                                    Default value is '655'.
+  -PbrightnessBand2Water=<int>                      Wavelength 2 for brightness computation over water.
+                                                    Value must be one of '440', '480', '560', '655', '865', '1610', '2200', '590', '1370', '10895', '12005'.
+                                                    Default value is '865'.
+  -PbrightnessBandLand=<int>                        Wavelength for brightness computation br = R(wvl) over land.
+                                                    Value must be one of '440', '480', '560', '655', '865', '1610', '2200', '590', '1370', '10895', '12005'.
+                                                    Default value is '865'.
+  -PbrightnessThreshLand=<float>                    Threshold T for brightness classification over land: bright if br[reflectance] > T.
+                                                    Default value is '0.5'.
+  -PbrightnessThreshWater=<float>                   Threshold T for brightness classification over water: bright if br[reflectance] > T.
+                                                    Default value is '0.5'.
+  -PbrightnessWeightBand1Water=<float>              Weight A for wavelength 1 for brightness computation (br[reflectance] = A*R(wvl_1) + B*R(wvl_2)) over water.
+                                                    Default value is '1.0'.
+  -PbrightnessWeightBand2Water=<float>              Weight B for wavelength 2 for brightness computation (br[reflectance] = A*R(wvl_1) + B*R(wvl_2)) over water.
+                                                    Default value is '1.0'.
+  -PclostThresh=<double>                            Threshold A for CLOST cloud test: cloud if coastal_aerosol*blue*panchromatic*cirrus > A.
+                                                    Default value is '0.001'.
+  -PcloudBufferWidth=<int>                          The width of a cloud 'safety buffer' around a pixel which was classified as cloudy.
+                                                    Valid interval is [0,100].
+                                                    Default value is '2'.
+  -PcomputeCloudBuffer=<boolean>                    Sets parameter 'computeCloudBuffer' to <boolean>.
+                                                    Default value is 'true'.
+  -PdarkGlintThreshTest1=<double>                   'Dark glint' threshold: Cloud possible only if refl > THRESH.
+                                                    Default value is '0.15'.
+  -PdarkGlintThreshTest1Wavelength=<int>            Wavelength 2 for whiteness computation (wh = R(wvl_1) / R(wvl_2)) over water.
+                                                    Value must be one of '440', '480', '560', '655', '865', '1610', '2200', '590', '1370', '10895', '12005'.
+                                                    Default value is '865'.
+  -PdarkGlintThreshTest2=<double>                   'Dark glint' threshold: Cloud possible only if refl > THRESH.
+                                                    Default value is '0.15'.
+  -PdarkGlintThreshTest2Wavelength=<int>            Wavelength 2 for whiteness computation (wh = R(wvl_1) / R(wvl_2)) over water.
+                                                    Value must be one of '440', '480', '560', '655', '865', '1610', '2200', '590', '1370', '10895', '12005'.
+                                                    Default value is '1610'.
+  -PhotThresh=<float>                               Threshold A for HOT cloud test: cloud if blue - 0.5*red > A.
+                                                    Default value is '0.1'.
+  -PnnCloudAmbiguousLowerBoundaryValue=<double>     Sets parameter 'nnCloudAmbiguousLowerBoundaryValue' to <double>.
+                                                    Default value is '1.95'.
+  -PnnCloudAmbiguousSureSeparationValue=<double>    Sets parameter 'nnCloudAmbiguousSureSeparationValue' to <double>.
+                                                    Default value is '3.45'.
+  -PnnCloudSureSnowSeparationValue=<double>         Sets parameter 'nnCloudSureSnowSeparationValue' to <double>.
+                                                    Default value is '4.3'.
+  -PnnSelector=<nNSelector>                         The Neural Net which will be applied.
+                                                    Value must be one of 'ALL', 'LAND', 'LAND_USE_THERMAL', 'WATER', 'WATER_NOTIDAL', 'WATER_USE_THERMAL', 'WATER_NOTIDAL_USE_THERMAL'.
+                                                    Default value is 'ALL'.
+  -PoutputOtsuBands=<boolean>                       If computed, write OTSU bands (Clost and binary) to the target product.
+                                                    Default value is 'false'.
+  -PoutputSourceBands=<boolean>                     Write source bands to the target product.
+                                                    Default value is 'true'.
+  -PrefineClassificationNearCoastlines=<boolean>    Refine pixel classification near coastlines.
+                                                    Default value is 'true'.
+  -PshimezDiffThresh=<float>                        Threshold A for SHIMEZ cloud test: cloud if mean > B AND diff < A.
+                                                    Default value is '0.1'.
+  -PshimezMeanThresh=<float>                        Threshold B for SHIMEZ cloud test: cloud if mean > B AND diff < A.
+                                                    Default value is '0.25'.
+  -PwhitenessBand1Land=<int>                        Wavelength 1 for whiteness computation (wh = R(wvl_1) / R(wvl_2)) over land.
+                                                    Value must be one of '440', '480', '560', '655', '865', '1610', '2200', '590', '1370', '10895', '12005'.
+                                                    Default value is '655'.
+  -PwhitenessBand1Water=<int>                       Wavelength 1 for whiteness computation (wh = R(wvl_1) / R(wvl_2)) over water.
+                                                    Value must be one of '440', '480', '560', '655', '865', '1610', '2200', '590', '1370', '10895', '12005'.
+                                                    Default value is '655'.
+  -PwhitenessBand2Land=<int>                        Wavelength 2 for whiteness computation (wh = R(wvl_1) / R(wvl_2)) over land.
+                                                    Value must be one of '440', '480', '560', '655', '865', '1610', '2200', '590', '1370', '10895', '12005'.
+                                                    Default value is '865'.
+  -PwhitenessBand2Water=<int>                       Wavelength 2 for whiteness computation (wh = R(wvl_1) / R(wvl_2)) over water.
+                                                    Value must be one of '440', '480', '560', '655', '865', '1610', '2200', '590', '1370', '10895', '12005'.
+                                                    Default value is '865'.
+  -PwhitenessThreshLand=<float>                     Threshold T for whiteness classification over land: white if wh < T.
+                                                    Default value is '2.0'.
+  -PwhitenessThreshWater=<float>                    Threshold T for whiteness classification over water: white if wh < T.
+                                                    Default value is '2.0'.
+
+Graph XML Format:
+  <graph id="someGraphId">
+    <version>1.0</version>
+    <node id="someNodeId">
+      <operator>idepix.landsat8</operator>
+      <sources>
+        <sourceProduct>${sourceProduct}</sourceProduct>
+      </sources>
+      <parameters>
+        <outputSourceBands>boolean</outputSourceBands>
+        <computeCloudBuffer>boolean</computeCloudBuffer>
+        <cloudBufferWidth>int</cloudBufferWidth>
+        <refineClassificationNearCoastlines>boolean</refineClassificationNearCoastlines>
+        <brightnessBandLand>int</brightnessBandLand>
+        <brightnessThreshLand>float</brightnessThreshLand>
+        <brightnessBand1Water>int</brightnessBand1Water>
+        <brightnessWeightBand1Water>float</brightnessWeightBand1Water>
+        <brightnessBand2Water>int</brightnessBand2Water>
+        <brightnessWeightBand2Water>float</brightnessWeightBand2Water>
+        <brightnessThreshWater>float</brightnessThreshWater>
+        <whitenessBand1Land>int</whitenessBand1Land>
+        <whitenessBand2Land>int</whitenessBand2Land>
+        <whitenessThreshLand>float</whitenessThreshLand>
+        <whitenessBand1Water>int</whitenessBand1Water>
+        <whitenessBand2Water>int</whitenessBand2Water>
+        <whitenessThreshWater>float</whitenessThreshWater>
+        <darkGlintThreshTest1>double</darkGlintThreshTest1>
+        <darkGlintThreshTest1Wavelength>int</darkGlintThreshTest1Wavelength>
+        <darkGlintThreshTest2>double</darkGlintThreshTest2>
+        <darkGlintThreshTest2Wavelength>int</darkGlintThreshTest2Wavelength>
+        <nnSelector>nNSelector</nnSelector>
+        <nnCloudAmbiguousLowerBoundaryValue>double</nnCloudAmbiguousLowerBoundaryValue>
+        <nnCloudAmbiguousSureSeparationValue>double</nnCloudAmbiguousSureSeparationValue>
+        <nnCloudSureSnowSeparationValue>double</nnCloudSureSnowSeparationValue>
+        <applyShimezCloudTest>boolean</applyShimezCloudTest>
+        <shimezDiffThresh>float</shimezDiffThresh>
+        <shimezMeanThresh>float</shimezMeanThresh>
+        <applyHotCloudTest>boolean</applyHotCloudTest>
+        <hotThresh>float</hotThresh>
+        <applyClostCloudTest>boolean</applyClostCloudTest>
+        <clostThresh>double</clostThresh>
+        <applyOtsuCloudTest>boolean</applyOtsuCloudTest>
+        <outputOtsuBands>boolean</outputOtsuBands>
+      </parameters>
+    </node>
+  </graph>
+
+*********************************************************************************
+Usage:
+  gpt idepix.avhrr [options]
+
+Description:
+  Pixel identification and classification for AVHRR.
+
+
+Source Options:
+  -SsourceProduct=<file>    The Landsat 8 source product.
+                            This is a mandatory source.
+
+Parameter Options:
+  -PaacCopyRadiances=<boolean>                                     Sets parameter 'aacCopyRadiances' to <boolean>.
+                                                                   Default value is 'false'.
+  -PavhrracSchillerNNCloudAmbiguousLowerBoundaryValue=<double>      Schiller NN cloud ambiguous lower boundary
+                                                                   Default value is '2.15'.
+  -PavhrracSchillerNNCloudAmbiguousSureSeparationValue=<double>     Schiller NN cloud ambiguous cloud ambiguous/sure separation value
+                                                                   Default value is '3.45'.
+  -PavhrracSchillerNNCloudSureSnowSeparationValue=<double>          Schiller NN cloud ambiguous cloud sure/snow separation value
+                                                                   Default value is '4.45'.
+  -PcloudBufferWidth=<int>                                         Sets parameter 'cloudBufferWidth' to <int>.
+                                                                   Default value is '2'.
+  -PcomputeCloudBuffer=<boolean>                                   Sets parameter 'computeCloudBuffer' to <boolean>.
+                                                                   Default value is 'true'.
+  -PrefineClassificationNearCoastlines=<boolean>                   Refine pixel classification near coastlines.
+                                                                   Default value is 'true'.
+
+Graph XML Format:
+  <graph id="someGraphId">
+    <version>1.0</version>
+    <node id="someNodeId">
+      <operator>idepix.avhrr</operator>
+      <sources>
+        <sourceProduct>${sourceProduct}</sourceProduct>
+      </sources>
+      <parameters>
+        <aacCopyRadiances>boolean</aacCopyRadiances>
+        <computeCloudBuffer>boolean</computeCloudBuffer>
+        <cloudBufferWidth>int</cloudBufferWidth>
+        <refineClassificationNearCoastlines>boolean</refineClassificationNearCoastlines>
+        <avhrracSchillerNNCloudAmbiguousLowerBoundaryValue>double</avhrracSchillerNNCloudAmbiguousLowerBoundaryValue>
+        <avhrracSchillerNNCloudAmbiguousSureSeparationValue>double</avhrracSchillerNNCloudAmbiguousSureSeparationValue>
+        <avhrracSchillerNNCloudSureSnowSeparationValue>double</avhrracSchillerNNCloudSureSnowSeparationValue>
+      </parameters>
+    </node>
+  </graph>
+
+*********************************************************************************
+Usage:
+  gpt idepix.modis [options]
+
+Description:
+  Pixel identification and classification for MODIS.
+
+
+Source Options:
+  -Ssource=<file>    The source product.
+                     This is a mandatory source.
+
+Parameter Options:
+  -PapplyBrightnessTest=<boolean>        Apply brightness test: EV_250_Aggr1km_RefSB_1 > THRESH (MODIS).
+                                         Default value is 'true'.
+  -PapplyOrLogicInCloudTest=<boolean>    Apply 'OR' logic instead of 'AND' logic in cloud test (MODIS).
+                                         Default value is 'true'.
+  -PcloudBufferWidth=<int>               Sets parameter 'cloudBufferWidth' to <int>.
+                                         Default value is '1'.
+  -PglintThresh859=<double>              'Dark glint' threshold: Cloud possible only if EV_250_Aggr1km_RefSB_2 > THRESH.
+                                         Default value is '0.15'.
+  -PoutputEmissive=<boolean>             Write 'Emissive' bands to target product (MODIS).
+                                         Default value is 'false'.
+  -PoutputRad2Refl=<boolean>             Write TOA reflective solar bands (RefSB) to target product (MODIS).
+                                         Default value is 'true'.
+  -PwaterMaskResolution=<int>            Resolution in m/pixel
+                                         Value must be one of '50', '150'.
+                                         Default value is '50'.
+
+Graph XML Format:
+  <graph id="someGraphId">
+    <version>1.0</version>
+    <node id="someNodeId">
+      <operator>idepix.modis</operator>
+      <sources>
+        <source>${source}</source>
+      </sources>
+      <parameters>
+        <outputRad2Refl>boolean</outputRad2Refl>
+        <outputEmissive>boolean</outputEmissive>
+        <glintThresh859>double</glintThresh859>
+        <applyBrightnessTest>boolean</applyBrightnessTest>
+        <applyOrLogicInCloudTest>boolean</applyOrLogicInCloudTest>
+        <cloudBufferWidth>int</cloudBufferWidth>
+        <waterMaskResolution>int</waterMaskResolution>
+      </parameters>
+    </node>
+  </graph>
+*********************************************************************************
+Usage:
+  gpt Idepix.Sentinel2 [options]
+
+Description:
+  Pixel identification and classification for Sentinel-2.
+
+
+Source Options:
+  -Sl1cProduct=<file>    The Sentinel-2 MSI L1C product.
+                         This is a mandatory source.
+
+Parameter Options:
+  -PcloudBufferWidth=<int>            The width of the 'safety buffer' around a pixel identified as cloudy.
+                                     Valid interval is [0,100].
+                                     Default value is '2'.
+  -PclThresh=<double>                 Threshold CL_THRESH
+                                     Default value is '0.01'.
+  -PcomputeCloudBuffer=<boolean>     Sets parameter 'computeCloudBuffer' to <boolean>.
+                                     Default value is 'true'.
+  -PcopyFeatureValues=<boolean>       Write all Feature Values to the target product
+                                     Default value is 'true'.
+  -PcopyToaReflectances=<boolean>     Write TOA Reflectances to the target product
+                                     Default value is 'true'.
+  -PcwThresh=<double>                 Threshold CW_THRESH
+                                     Default value is '0.01'.
+  -PgclThresh=<double>                Threshold GCL_THRESH
+                                     Default value is '-0.11'.
+
+Graph XML Format:
+  <graph id="someGraphId">
+    <version>1.0</version>
+    <node id="someNodeId">
+      <operator>Idepix.Sentinel2</operator>
+      <sources>
+        <l1cProduct>${l1cProduct}</l1cProduct>
+      </sources>
+      <parameters>
+        <copyToaReflectances>boolean</copyToaReflectances>
+        <copyFeatureValues>boolean</copyFeatureValues>
+        <computeCloudBuffer>boolean</computeCloudBuffer>
+        <cloudBufferWidth>int</cloudBufferWidth>
+        <cwThresh>double</cwThresh>
+        <gclThresh>double</gclThresh>
+        <clThresh>double</clThresh>
+      </parameters>
+    </node>
+  </graph>
+
+
+*********************************************************************************
+Usage:
+  gpt idepix.probav [options]
+
+Description:
+  Pixel identification and classification for PROBA-V.
+
+
+Graph XML Format:
+  <graph id="someGraphId">
+    <version>1.0</version>
+    <node id="someNodeId">
+      <operator>idepix.probav</operator>
+      <sources/>
+      <parameters/>
+    </node>
+  </graph>
+
+*********************************************************************************
+Usage:
+  gpt idepix.seawifs [options]
+
+Description:
+  Pixel identification and classification for SeaWiFS.
+
+
+Source Options:
+  -Ssource=<file>    The source product.
+                     This is a mandatory source.
+
+Parameter Options:
+  -PcloudBufferWidth=<int>                  Sets parameter 'cloudBufferWidth' to <int>.
+                                            Default value is '1'.
+  -PocOutputGeometry=<boolean>              Write geometry bands to target product (SeaWiFS).
+                                            Default value is 'true'.
+  -PocOutputSeawifsRadiance=<boolean>       Write TOA radiance bands to target product (SeaWiFS).
+                                            Default value is 'false'.
+  -PocOutputSeawifsRefl=<boolean>           Write TOA reflectance bands to target product (SeaWiFS).
+                                            Default value is 'true'.
+  -PocSeawifsRadianceBandPrefix=<string>    Prefix of input radiance or reflectance bands (SeaWiFS)
+                                            Value must be one of 'L_', 'Lt_', 'rhot_'.
+                                            Default value is 'L_'.
+  -PproductTypeString=<string>              Defines the product type to use. If the parameter is not set, the product type defined by the input file is used.
+  -PwaterMaskResolution=<int>               Resolution in m/pixel
+                                            Value must be one of '50', '150'.
+                                            Default value is '50'.
+
+Graph XML Format:
+  <graph id="someGraphId">
+    <version>1.0</version>
+    <node id="someNodeId">
+      <operator>idepix.seawifs</operator>
+      <sources>
+        <source>${source}</source>
+      </sources>
+      <parameters>
+        <ocOutputSeawifsRadiance>boolean</ocOutputSeawifsRadiance>
+        <ocOutputSeawifsRefl>boolean</ocOutputSeawifsRefl>
+        <ocOutputGeometry>boolean</ocOutputGeometry>
+        <ocSeawifsRadianceBandPrefix>string</ocSeawifsRadianceBandPrefix>
+        <productTypeString>string</productTypeString>
+        <cloudBufferWidth>int</cloudBufferWidth>
+        <waterMaskResolution>int</waterMaskResolution>
+      </parameters>
+    </node>
+  </graph>
+*********************************************************************************
+Usage:
+  gpt idepix.vgt [options]
+
+Description:
+  Pixel identification and classification for SPOT-VGT.
+
+
+Graph XML Format:
+  <graph id="someGraphId">
+    <version>1.0</version>
+    <node id="someNodeId">
+      <operator>idepix.vgt</operator>
+      <sources/>
+      <parameters/>
+    </node>
+  </graph>
+
+*********************************************************************************
+
+POLYGON((long1 lat1, long2 lat2, long3 lat3, ...., long1 lat1))
+
+ -x -c 2048M -q 8 -e
+

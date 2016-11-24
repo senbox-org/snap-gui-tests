@@ -1,0 +1,1059 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.11">
+  <include>qfs.qft</include>
+  <include>../../lib/snap_main.qft</include>
+  <include>../lib/processing_main.qft</include>
+  <variable name="output_folder">fub_wew</variable>
+  <TestSet id="_2" name="010_16_ fub_wew_processor"
+           reportname="010-16 FUB/WeW Processor">
+    <DependencyReference id="_1pO-"
+                         reference="start_application_for_processing">
+      <variable name="output_dir">$(output_folder)</variable>
+    </DependencyReference>
+    <TestCase id="_8cc" name="01_check_ui"
+              reportname="01 Check FLH/MCI Processor UI">
+      <ProcedureCall id="_1s6P" procedure="open_tool_window"/>
+      <TestStep id="_1pM7" name="default_componets">
+        <TestStep id="_1pbB" name="io_parameters">
+          <ProcedureCall id="_1pbA" procedure="select_io_tab"/>
+          <ProcedureCall id="_1pt7"
+                         procedure="check.fub_wew_processor.enabled.menu_file"/>
+          <ProcedureCall id="_1pt8"
+                         procedure="check.fub_wew_processor.enabled.menu_help"/>
+          <ProcedureCall id="_1pt9"
+                         procedure="check.fub_wew_processor.enabled.button_close"/>
+          <ProcedureCall id="_1ptA"
+                         procedure="check.fub_wew_processor.enabled.button_apply"/>
+          <ProcedureCall id="_1ptB"
+                         procedure="check.fub_wew_processor.enabled.button_source_product"/>
+          <ProcedureCall id="_1ptC"
+                         procedure="check.fub_wew_processor.enabled.button_directory"/>
+          <ProcedureCall id="_1ptD"
+                         procedure="check.fub_wew_processor.enabled.save_as"/>
+          <ProcedureCall id="_1ptE"
+                         procedure="check.fub_wew_processor.enabled.open_in_snap"/>
+          <ProcedureCall id="_1ptF"
+                         procedure="check.fub_wew_processor.enabled.save_as_enabled_status">
+            <variable name="enabled">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptG"
+                         procedure="check.fub_wew_processor.enabled.open_in_snap_enabled_status">
+            <variable name="enabled">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptH"
+                         procedure="check.fub_wew_processor.checked.save_as_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptI"
+                         procedure="check.fub_wew_processor.checked.open_in_snap_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pbG" name="processing_parameters">
+          <ProcedureCall id="_1pbF"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_2JY6"
+                         procedure="set.fub_wew_processor.default_values"/>
+          <ProcedureCall id="_2JY7"
+                         procedure="check.fub_wew_processor.text.valid_expression">
+            <variable name="val">$(valid_expr_default)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2JY1"
+                         procedure="check.fub_wew_processor.checked.compute_chl_band_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2JY2"
+                         procedure="check.fub_wew_processor.checked.compute_tsm_band_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2JY3"
+                         procedure="check.fub_wew_processor.checked.compute_ys_band_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2JY4"
+                         procedure="check.fub_wew_processor.checked.compute_aot_band_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2JY5"
+                         procedure="check.fub_wew_processor.checked.check_whether_suspectIs_valid_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </TestStep>
+      </TestStep>
+      <ProcedureCall id="_1s6k" procedure="close_processor_tool"/>
+    </TestCase>
+    <TestSet id="_1pMP" name="02_processing">
+      <TestSet id="_2JYR" name="different_source_products">
+        <TestSet id="_2JYV" name="processing">
+          <DataDriver id="_2JYW"
+                      loopreportname="source product = $(source_data)"
+                      name="source_products">
+            <ProcedureCall id="_2JYX" procedure="tables.source_data_mer_l1b"/>
+          </DataDriver>
+          <TestCase id="_2JYY" name="test_sequence"
+                    reportname="Processing $(source_data) and check output product">
+            <ProcedureCall id="_2JYp" procedure="open_tool_window"/>
+            <TestStep id="_2JYq" name="preparation">
+              <ProcedureCall id="_2JYr"
+                             procedure="preparation_for_test_without_save"/>
+            </TestStep>
+            <TestStep id="_2JYs" name="processing">
+              <ProcedureCall id="_2JYt"
+                             procedure="do_click.fub_wew_processor.button_apply"/>
+              <ProcedureCall id="_2JYu"
+                             procedure="click_ok_in_product_created_dialog"/>
+            </TestStep>
+            <TestStep id="_2JYv" name="check_output_product">
+              <ProcedureCall id="_2JYw"
+                             procedure="product_meta_data.for_open_image_view_without_grouping"/>
+              <ProcedureCall id="_2JYx"
+                             procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+            </TestStep>
+            <ProcedureCall id="_2JYy" procedure="close_processor_tool"/>
+          </TestCase>
+        </TestSet>
+        <CleanupSequence id="_2JYn" name="close_processor_tool">
+          <ProcedureCall id="_2JYo" procedure="close_processor_tool"/>
+        </CleanupSequence>
+      </TestSet>
+      <TestCase id="_40q" name="store_load_display_parameters">
+        <variable name="ofn">fub_wew_save_parameters.xml</variable>
+        <variable name="output_file">test_fub_wew_save_parameters.dim</variable>
+        <variable name="source_data">MER_RR__1_test.N1</variable>
+        <variable name="source_dir">mer_rr__1p_n1</variable>
+        <variable name="valid_expr">not l1_flags.BRIGHT</variable>
+        <ProcedureCall id="_1s6d" procedure="open_tool_window"/>
+        <TestStep id="_1pOt" name="change_parameters">
+          <ProcedureCall id="_1qGC"
+                         procedure="preparation_for_test_without_save"/>
+          <ProcedureCall id="_2JZH"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_2JYz"
+                         procedure="deselect.fub_wew_processor.compute_chl_band"/>
+          <ProcedureCall id="_2JY+"
+                         procedure="deselect.fub_wew_processor.compute_tsm_band"/>
+          <ProcedureCall id="_2JY-"
+                         procedure="select.fub_wew_processor.compute_ys_band"/>
+          <ProcedureCall id="_2JZ0"
+                         procedure="deselect.fub_wew_processor.compute_aot_band"/>
+          <ProcedureCall id="_2JZ1"
+                         procedure="deselect.fub_wew_processor.check_whether_suspectIs_valid"/>
+          <ProcedureCall id="_1qGK"
+                         procedure="set.fub_wew_processor.valid_expression">
+            <variable name="val">$(valid_expr)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <ProcedureCall id="_1pPE" procedure="store_parameters"/>
+        <TestStep id="_1pPg" name="change_parameters">
+          <ProcedureCall id="_1pfT"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_2JZ2"
+                         procedure="select.fub_wew_processor.compute_chl_band"/>
+          <ProcedureCall id="_2JZ3"
+                         procedure="select.fub_wew_processor.compute_tsm_band"/>
+          <ProcedureCall id="_2JZ4"
+                         procedure="deselect.fub_wew_processor.compute_ys_band"/>
+          <ProcedureCall id="_2JZ5"
+                         procedure="select.fub_wew_processor.compute_aot_band"/>
+          <ProcedureCall id="_2JZ6"
+                         procedure="select.fub_wew_processor.check_whether_suspectIs_valid"/>
+          <ProcedureCall id="_2JZ8"
+                         procedure="set.fub_wew_processor.default_values"/>
+          <ProcedureCall id="_2JZ7"
+                         procedure="set.fub_wew_processor.valid_expression">
+            <variable name="val">$(valid_expr_default)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <ProcedureCall id="_1pPl" procedure="load_parameters"/>
+        <TestStep id="_1pPm" name="check_parameters">
+          <ProcedureCall id="_1pfY"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_2JZA"
+                         procedure="check.fub_wew_processor.text.valid_expression">
+            <variable name="val">$(valid_expr)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2JZB"
+                         procedure="check.fub_wew_processor.checked.compute_chl_band_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2JZC"
+                         procedure="check.fub_wew_processor.checked.compute_tsm_band_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2JZD"
+                         procedure="check.fub_wew_processor.checked.compute_ys_band_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2JZE"
+                         procedure="check.fub_wew_processor.checked.compute_aot_band_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2JZF"
+                         procedure="check.fub_wew_processor.checked.check_whether_suspectIs_valid_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pV8" name="display_parameters">
+          <ProcedureCall id="_1pbU" procedure="display_parameters_and_check"/>
+          <ProcedureCall id="_1s6y" procedure="close_processor_tool"/>
+        </TestStep>
+      </TestCase>
+      <TestCase id="_1pZO" name="cancel_processing">
+        <variable name="output_file">test_fub_wew_cancel.dim</variable>
+        <variable name="source_data">MER_FRS_1PNUPA20090707_090816_000005122080_00308_38438_7356.N1</variable>
+        <variable name="source_dir">mer_frs_1p_n1</variable>
+        <ProcedureCall id="_1s6e" procedure="open_tool_window"/>
+        <ProcedureCall id="_1qGx"
+                       procedure="preparation_for_test_save_output_product"/>
+        <TestStep id="_1pZQ" name="cancel_processing">
+          <ProcedureCall id="_1qGy"
+                         procedure="do_click.fub_wew_processor.button_apply"/>
+          <ProcedureCall id="_1pa9" procedure="cancel_operators"/>
+        </TestStep>
+        <ProcedureCall id="_1s70"
+                       procedure="utility.check_if_processing_is_really_canceled"/>
+        <ProcedureCall id="_1s6z" procedure="close_processor_tool"/>
+      </TestCase>
+      <TestSet id="_1pT+" name="processing_in_different_formats">
+        <variable name="source_data">MER_RR__1_test.N1</variable>
+        <variable name="source_dir">mer_rr__1p_n1</variable>
+        <SetupSequence id="_1pUV" name="prepare_for_the_testing">
+          <ProcedureCall id="_1s6f" procedure="open_tool_window"/>
+          <ProcedureCall id="_1qG+"
+                         procedure="preparation_for_test_save_output_product">
+            <variable name="output_file">test</variable>
+          </ProcedureCall>
+        </SetupSequence>
+        <TestSet id="_1pUb" name="processing">
+          <DataDriver id="_1pUc"
+                      loopreportname="Write the target product as $(output_format)"
+                      name="output_formats">
+            <ProcedureCall id="_1pUd" procedure="tables.output_formats"/>
+          </DataDriver>
+          <TestCase id="_1pUj" name="processing_in_different_formats"
+                    reportname="Processing in $(output_format) format and check output product">
+            <ServerScriptStep disabled="true" id="_1pV5" name="print">
+              <code>print "output_format = $(output_format)"</code>
+            </ServerScriptStep>
+            <ServerScriptStep disabled="true" id="_1pV6" name="print">
+              <code>print "output_file = $(output_file)"</code>
+            </ServerScriptStep>
+            <TestStep id="_1qG-" name="processing">
+              <ProcedureCall id="_1qcm"
+                             procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
+                <variable name="screenshot">fub_wew_error</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qH2" procedure="select_io_tab"/>
+              <ProcedureCall id="_1qH3"
+                             procedure="set.fub_wew_processor.target_product_name">
+                <variable name="target_product_name">$(output_file)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qH4"
+                             procedure="select.fub_wew_processor.output_format">
+                <variable name="output_format">$(output_format)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qH0"
+                             procedure="do_click.fub_wew_processor.button_apply"/>
+              <ProcedureCall id="_1qcn"
+                             procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
+                <variable name="screenshot">run_fub_wew_error</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1pUo"
+                             procedure="wait.disappear.writing_target_product"/>
+              <ProcedureCall id="_1qH1"
+                             procedure="click_ok_in_product_created_dialog"/>
+            </TestStep>
+            <TestStep id="_1pUq" name="check_target_product">
+              <ProcedureCall id="_1pfx"
+                             procedure="test_events.check_target_product_without_grouping"/>
+              <ProcedureCall id="_1qH5" procedure="close.all_products"/>
+            </TestStep>
+          </TestCase>
+        </TestSet>
+        <CleanupSequence id="_1pUa" name="close_processor_tool">
+          <ProcedureCall id="_1s6+" procedure="close_processor_tool"/>
+        </CleanupSequence>
+      </TestSet>
+    </TestSet>
+    <TestCase id="_1pFr" name="03_help">
+      <ProcedureCall id="_1s6g" procedure="open_tool_window"/>
+      <TestStep id="_1pVG" name="check_help">
+        <ProcedureCall id="_1pVH"
+                       procedure="do_click.fub_wew_processor.menu.help"/>
+        <ProcedureCall id="_1qBp"
+                       procedure="do_click.fub_wew_processor.menu.help_menu_item"/>
+        <ProcedureCall id="_1qcu" procedure="help.check_help_appears_close"/>
+      </TestStep>
+      <TestStep id="_1pVN" name="check_help_about">
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogFUB/WeW_Water_Processor.menubar"
+                        event="MOUSE_MPRC" id="_2JYA" modifiers="16" x="132"
+                        y="13"/>
+        <ProcedureCall id="_1qBq"
+                       procedure="do_click.fub_wew_processor.menu.help"/>
+        <ProcedureCall id="_1qBr"
+                       procedure="do_click.fub_wew_processor.menu.about"/>
+        <ComponentWaiter client="$(client)" component="dialogAbout_FUB.Water"
+                         id="_1sZY"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogAbout_FUB.Water.ModalDialog.ok"
+                        event="MOUSE_MPRC" id="_1sZZ" modifiers="16"/>
+      </TestStep>
+      <ProcedureCall id="_1s6-" procedure="close_processor_tool"/>
+    </TestCase>
+  </TestSet>
+  <PackageRoot id="_4">
+    <Procedure id="_2JYG" name="test_sequence">
+      <ProcedureCall id="_2JYH" procedure="open_tool_window"/>
+      <TestStep id="_2JYI" name="preparation">
+        <ProcedureCall id="_2JYJ"
+                       procedure="preparation_for_test_without_save"/>
+      </TestStep>
+      <TestStep id="_2JYK" name="processing">
+        <ProcedureCall id="_2JYL"
+                       procedure="do_click.fub_wew_processor.button_apply"/>
+        <ProcedureCall id="_2JYM"
+                       procedure="click_ok_in_product_created_dialog"/>
+      </TestStep>
+      <TestStep id="_2JYN" name="check_output_product">
+        <ProcedureCall id="_2JYO"
+                       procedure="product_meta_data.for_open_image_view_without_grouping"/>
+        <ProcedureCall id="_2JYP"
+                       procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
+      </TestStep>
+      <ProcedureCall id="_2JYQ" procedure="close_processor_tool"/>
+    </Procedure>
+    <Procedure id="_1s6h" name="close_processor_tool">
+      <ProcedureCall id="_1s6j"
+                     procedure="close_processing_tool.thematic_water_processing.fub_wew_processor"/>
+    </Procedure>
+    <Procedure id="_1s6L" name="open_tool_window">
+      <ProcedureCall id="_1s6O"
+                     procedure="open.optical.thematic_water_processing.fub_wew_processor"/>
+    </Procedure>
+    <Procedure id="_1pb8" name="select_io_tab">
+      <ProcedureCall id="_1pb9" procedure="select.fub_wew_processor.tab">
+        <variable name="tab">I/O Parameters</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pbC" name="select_processing_parameters_tab">
+      <ProcedureCall id="_1pbE" procedure="select.fub_wew_processor.tab">
+        <variable name="tab">Processing Parameters</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pbQ" name="display_parameters_and_check">
+      <ProcedureCall id="_1pbR" procedure="display_parameters"/>
+      <ComponentWaiter client="$(client)"
+                       component="dialogFUB.Water_Parameters" id="_1sZS"/>
+      <CheckStringStep checktype="item" client="$(client)"
+                       component="dialogFUB.Water_Parameters.text@&lt;parameters&gt;"
+                       disabled="true" id="_1sZT">
+        <text>&lt;parameters&gt;</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB.Water_Parameters.ModalDialog.ok"
+                      event="MOUSE_MPRC" id="_1sZU" modifiers="16"/>
+    </Procedure>
+    <Procedure id="_1pMT" name="open_source_product">
+      <variable name="prod_dir"/>
+      <variable name="prod_name"/>
+      <ProcedureCall id="_1oSj" procedure="path.source_data_directory">
+        <variable name="data_type">$(prod_dir)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1pMS"
+                     procedure="do_click.fub_wew_processor.button_source_product"/>
+      <ProcedureCall id="_1pHR"
+                     procedure="utility.handle_select_product_dialog">
+        <variable name="file">$(data_source_directory)$(prod_name)</variable>
+      </ProcedureCall>
+      <TryStep id="_1pXT">
+        <ProcedureCall id="_1pXV" procedure="wait.appear.error.dialog_Error"/>
+        <ProcedureCall id="_1pXS"
+                       procedure="do_click.error_dialog.button_OK_Error"/>
+        <ProcedureCall id="_1pXW" procedure="run-log.logError">
+          <variable name="message">Opening of the product $(data_source_directory)$(prod_name) failed</variable>
+          <variable name="withScreenshots">false</variable>
+        </ProcedureCall>
+        <CatchSequence exception="TestException" id="_1pXU" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1pON" name="click_ok_in_product_created_dialog">
+      <TryStep id="_1qXT">
+        <ComponentWaiter client="$(client)"
+                         component="dialogSNAP_-_FUB/WeW_Water_Processor"
+                         id="_1qXS" raise="false"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSNAP_-_FUB/WeW_Water_Processor.buttonOK"
+                        event="MOUSE_MPRC" id="_1qXR" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1qXW" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1qCR" name="preparation_for_test_without_save">
+      <comment>@teststep preparation</comment>
+      <ProcedureCall id="_2JZG"
+                     procedure="qfs.swing.cleanup.closeAllModalDialogs">
+        <variable name="maxDialogs">5</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qCS" procedure="select_io_tab"/>
+      <ProcedureCall id="_1qCT" postdelay="2000"
+                     procedure="open_source_product">
+        <variable name="prod_dir">$(source_dir)</variable>
+        <variable name="prod_name">$(source_data)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qCU"
+                     procedure="set.fub_wew_processor.target_product_name">
+        <variable name="target_product_name">$(output_file)</variable>
+      </ProcedureCall>
+      <ProcedureCall disabled="true" id="_1pfn"
+                     procedure="get_source_product"/>
+      <ProcedureCall id="_1qCV"
+                     procedure="deselect.fub_wew_processor.save_as"/>
+    </Procedure>
+    <Procedure id="_1qGm" name="preparation_for_test_save_output_product">
+      <comment>@teststep preparation</comment>
+      <ProcedureCall id="_1qGn" procedure="select_io_tab"/>
+      <ProcedureCall id="_1qGo" procedure="open_source_product">
+        <variable name="prod_dir">$(source_dir)</variable>
+        <variable name="prod_name">$(source_data)</variable>
+      </ProcedureCall>
+      <ProcedureCall disabled="true" id="_1qGq"
+                     procedure="get_source_product"/>
+      <ProcedureCall id="_1qGr" procedure="select.fub_wew_processor.save_as"/>
+      <ProcedureCall id="_1qGu"
+                     procedure="select.fub_wew_processor.open_in_snap"/>
+      <ProcedureCall id="_1qGw" procedure="daten_format.beam_dimap"/>
+      <ProcedureCall id="_1qGv"
+                     procedure="select.fub_wew_processor.output_format">
+        <variable name="output_format">$(beam_dimap)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qH6"
+                     procedure="set.fub_wew_processor.target_directory">
+        <variable name="dir">$(output_folder)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qGp"
+                     procedure="set.fub_wew_processor.target_product_name">
+        <variable name="target_product_name">$(output_file)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pPF" name="store_parameters">
+      <TryStep id="_1pPG" name="select_menu_store_parameters">
+        <ProcedureCall id="_1pPH"
+                       procedure="do_click.fub_wew_processor.menu.file"/>
+        <ProcedureCall id="_1qGM"
+                       procedure="do_click.fub_wew_processor.menu.save_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPJ" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPK" procedure="utility.store_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pTE" name="get_source_product">
+      <FetchTextStep client="$(client)"
+                     component="dialogFUB/WeW_Water_Processor.panelI/O_Parameters.combo_source_product_used_for_the_processing."
+                     id="_1pTF" varname="source_product"/>
+    </Procedure>
+    <Procedure id="_1pPv" name="display_parameters">
+      <TryStep id="_1pPw" name="select_menu_display_parameters">
+        <ProcedureCall id="_1qGN"
+                       procedure="do_click.fub_wew_processor.menu.file"/>
+        <ProcedureCall id="_1qGO"
+                       procedure="do_click.fub_wew_processor.menu.display_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPz" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1pP9" name="load_parameters">
+      <TryStep id="_1pPA" name="select_menu_load_parameters">
+        <ProcedureCall id="_1qGP"
+                       procedure="do_click.fub_wew_processor.menu.file"/>
+        <ProcedureCall id="_1qGQ"
+                       procedure="do_click.fub_wew_processor.menu.load_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPD" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPM" procedure="utility.load_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+  </PackageRoot>
+  <ExtraSequence id="_5">
+    <Package id="_1sas" name="tmp">
+      <Package id="_2JVh" name="fub_wew_processor">
+        <Package id="_2JVi" name="checked">
+          <Procedure id="_2JWv" name="compute_chl_band">
+            <comment>@teststep Check 'Compute chlorophill-a concentration band' checkbox is selected.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogFUB/WeW_Water_Processor.computeCHL"
+                              id="_2JW-" resvarname="compute_chl_band"/>
+          </Procedure>
+          <Procedure id="_2JX0" name="compute_chl_band_selected_status">
+            <variable name="selected"/>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogFUB/WeW_Water_Processor.computeCHL"
+                              id="_2JX6" state="$(selected)"/>
+          </Procedure>
+          <Procedure id="_2JX7" name="compute_tsm_band">
+            <comment>@teststep Check 'Compute total suspended matter band' checkbox is selected.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogFUB/WeW_Water_Processor.computeTSM"
+                              id="_2JXD" resvarname="compute_tsm_band"/>
+          </Procedure>
+          <Procedure id="_2JXE" name="compute_tsm_band_selected_status">
+            <variable name="selected"/>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogFUB/WeW_Water_Processor.computeTSM"
+                              id="_2JXK" state="$(selected)"/>
+          </Procedure>
+          <Procedure id="_2JXL" name="compute_ys_band">
+            <comment>@teststep Check 'Compute yellow substances band' checkbox is selected.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogFUB/WeW_Water_Processor.computeYS"
+                              id="_2JXR" resvarname="compute_ys_band"/>
+          </Procedure>
+          <Procedure id="_2JXn" name="compute_ys_band_selected_status">
+            <variable name="selected"/>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogFUB/WeW_Water_Processor.computeYS"
+                              id="_2JXo" state="$(selected)"/>
+          </Procedure>
+          <Procedure id="_2JXZ" name="compute_aot_band">
+            <comment>@teststep Check 'Compute water leaving reflectances and AOT bands' checkbox is selected.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogFUB/WeW_Water_Processor.computeAtmCorr"
+                              id="_2JXf" resvarname="compute_aot_band"/>
+          </Procedure>
+          <Procedure id="_2JXp" name="compute_aot_band_selected_status">
+            <variable name="selected"/>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogFUB/WeW_Water_Processor.computeAtmCorr"
+                              id="_2JXq" state="$(selected)"/>
+          </Procedure>
+          <Procedure id="_2JVj" name="check_whether_suspectIs_valid">
+            <comment>@teststep Check 'Check whether l1_flags.SUSPECT is valid' checkbox is selected.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogFUB/WeW_Water_Processor.checkWhetherSuspectIsValid"
+                              id="_2JVk"
+                              resvarname="check_whether_suspectIs_valid"/>
+          </Procedure>
+          <Procedure id="_2JXr"
+                     name="check_whether_suspectIs_valid_selected_status">
+            <variable name="selected"/>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogFUB/WeW_Water_Processor.checkWhetherSuspectIsValid"
+                              id="_2JXs" state="$(selected)"/>
+          </Procedure>
+          <Procedure id="_2JVn" name="open_in_snap">
+            <comment>@teststep Check 'Open in SNAP' checkbox is selected.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogFUB/WeW_Water_Processor.openInAppSelected"
+                              id="_2JVo" resvarname="open_in_snap"/>
+          </Procedure>
+          <Procedure id="_2JVp" name="open_in_snap_selected_status">
+            <variable name="selected"/>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogFUB/WeW_Water_Processor.openInAppSelected"
+                              id="_2JVq" state="$(selected)"/>
+          </Procedure>
+          <Procedure id="_2JVr" name="save_as">
+            <comment>@teststep Check 'Save as' checkbox is selected.</comment>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogFUB/WeW_Water_Processor.saveToFileSelected"
+                              id="_2JVs" resvarname="save_as"/>
+          </Procedure>
+          <Procedure id="_2JVt" name="save_as_selected_status">
+            <variable name="selected"/>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogFUB/WeW_Water_Processor.saveToFileSelected"
+                              id="_2JVu" state="$(selected)"/>
+          </Procedure>
+        </Package>
+        <Package id="_2JVv" name="enabled">
+          <Procedure id="_2JVw" name="button_apply">
+            <comment>@teststep Check  'Apply' button enabled.</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogFUB/WeW_Water_Processor.WaterProcessorDialog.apply"
+                              id="_2JVx"/>
+          </Procedure>
+          <Procedure id="_2JVy" name="button_close">
+            <comment>@teststep Check  'Close' button enabled.</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogFUB/WeW_Water_Processor.WaterProcessorDialog.close"
+                              id="_2JVz"/>
+          </Procedure>
+          <Procedure id="_2JV+" name="button_directory">
+            <comment>@teststep Check  'directory' button enabled.</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogFUB/WeW_Water_Processor.button...2"
+                              id="_2JV-"/>
+          </Procedure>
+          <Procedure id="_2JW0" name="button_source_product">
+            <comment>@teststep Check  'source product' button enabled.</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogFUB/WeW_Water_Processor.button..."
+                              id="_2JW1"/>
+          </Procedure>
+          <Procedure id="_2JW2" name="menu_file">
+            <comment>@teststep Check menu 'File' is enabled.</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogFUB/WeW_Water_Processor.menuFile"
+                              id="_2JW3"/>
+          </Procedure>
+          <Procedure id="_2JW4" name="menu_help">
+            <comment>@teststep Check menu 'Help' is enabled.</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogFUB/WeW_Water_Processor.menuHelp"
+                              id="_2JW5"/>
+          </Procedure>
+          <Procedure id="_2JW6" name="open_in_snap">
+            <comment>@teststep Check 'Open in SNAP' checkbox is enabled.</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogFUB/WeW_Water_Processor.openInAppSelected"
+                              id="_2JW7" resvarname="open_in_snap_en"/>
+          </Procedure>
+          <Procedure id="_2JW8" name="open_in_snap_enabled_status">
+            <variable name="enabled"/>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogFUB/WeW_Water_Processor.openInAppSelected"
+                              id="_2JW9" state="$(enabled)"/>
+          </Procedure>
+          <Procedure id="_2JWA" name="save_as">
+            <comment>@teststep Check 'Save as' checkbox is enabled.</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogFUB/WeW_Water_Processor.saveToFileSelected"
+                              id="_2JWB" resvarname="save_as_en"/>
+          </Procedure>
+          <Procedure id="_2JWC" name="save_as_enabled_status">
+            <variable name="enabled"/>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogFUB/WeW_Water_Processor.saveToFileSelected"
+                              id="_2JWD" state="$(enabled)"/>
+          </Procedure>
+          <Procedure id="_2JWo" name="button_valid_expression">
+            <comment>@teststep Check  'valid expression' button enabled.</comment>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogFUB/WeW_Water_Processor.button...3"
+                              id="_2JWp"/>
+          </Procedure>
+        </Package>
+        <Package id="_2JWE" name="text">
+          <Procedure id="_2JWN" name="valid_expression">
+            <variable name="val"/>
+            <comment>@teststep Check 'valid expression'.</comment>
+            <CheckStringStep client="$(client)"
+                             component="dialogFUB/WeW_Water_Processor.expression"
+                             id="_2JWO">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_2JWP" name="output_format_name">
+            <variable name="val"/>
+            <comment>@teststep Check selected outpur format.</comment>
+            <CheckStringStep checktype="value" client="$(client)"
+                             component="dialogFUB/WeW_Water_Processor.formatName"
+                             id="_2JWQ">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_2JWX" name="source_product_name">
+            <variable name="val"/>
+            <comment>@teststep Check source product name.</comment>
+            <CheckStringStep checktype="value" client="$(client)"
+                             component="dialogFUB/WeW_Water_Processor.panelI/O_Parameters.combo_source_product_used_for_the_processing."
+                             id="_2JWj">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_2JWZ" name="target_product_name">
+            <variable name="val"/>
+            <comment>@teststep Check target product name.</comment>
+            <CheckStringStep client="$(client)"
+                             component="dialogFUB/WeW_Water_Processor.productName"
+                             id="_2JWa">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_2JWm" name="target_folder">
+            <variable name="val"/>
+            <comment>@teststep Check target folder.</comment>
+            <CheckStringStep client="$(client)"
+                             component="dialogFUB/WeW_Water_Processor.productDir"
+                             id="_2JWn">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+        </Package>
+        <Procedure id="_2JWd" name="fub_wew_tool_opened">
+          <ComponentWaiter client="$(client)"
+                           component="dialogFUB/WeW_Water_Processor"
+                           id="_2JWe" timeout="10"/>
+        </Procedure>
+      </Package>
+      <Procedure id="_2JXt" name="Aufnahme 21_09_16 10:20">
+        <CheckStringStep checktype="value" client="$(client)"
+                         component="dialogFUB/WeW_Water_Processor.panelI/O_Parameters.combo_source_product_used_for_the_processing."
+                         id="_2JXu"/>
+        <CheckStringStep client="$(client)"
+                         component="dialogFUB/WeW_Water_Processor.productName"
+                         id="_2JXv"/>
+        <CheckStringStep checktype="value" client="$(client)"
+                         component="dialogFUB/WeW_Water_Processor.formatName"
+                         id="_2JXw">
+          <text>BEAM-DIMAP</text>
+        </CheckStringStep>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogFUB/WeW_Water_Processor.formatName"
+                        event="MOUSE_MPRC" id="_2JXx" modifiers="16" x="56"
+                        y="9"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogFUB/WeW_Water_Processor.listInvokerName:_formatName.BEAM-DIMAP"
+                        event="MOUSE_MPRC" id="_2JXy" modifiers="16"/>
+        <CheckStringStep client="$(client)"
+                         component="dialogFUB/WeW_Water_Processor.productDir"
+                         id="_2JXz">
+          <text>E:\testdata\out\tmp</text>
+        </CheckStringStep>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogFUB/WeW_Water_Processor.tabbed.Processing_Parameters"
+                        event="MOUSE_MPRC" id="_2JX+" modifiers="16"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogFUB/WeW_Water_Processor.tabbed.Processing_Parameters"
+                        event="MOUSE_MPRC" id="_2JX-" modifiers="16"/>
+        <CheckStringStep client="$(client)"
+                         component="dialogFUB/WeW_Water_Processor.expression"
+                         id="_2JY0">
+          <text>not l1_flags.GLINT_RISK and not l1_flags.BRIGHT and not l1_flags.INVALID and not l1_flags.SUSPECT</text>
+        </CheckStringStep>
+      </Procedure>
+    </Package>
+    <Procedure id="_1sYq" name="Aufnahme 21_09_16 10:20">
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogFUB/WeW_Water_Processor.panelI/O_Parameters.combo_source_product_used_for_the_processing."
+                       id="_1sYr"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogFUB/WeW_Water_Processor.button..."
+                       id="_1sYs">
+        <text>...</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogFUB/WeW_Water_Processor.productName"
+                       id="_1sYt"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogFUB/WeW_Water_Processor.saveToFileSelected"
+                        id="_1sYu"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.saveToFileSelected"
+                      event="MOUSE_MPRC" id="_1sYv" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.saveToFileSelected"
+                      event="MOUSE_MPRC" id="_1sYw" modifiers="16"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogFUB/WeW_Water_Processor.openInAppSelected"
+                        id="_1sYx"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogFUB/WeW_Water_Processor.openInAppSelected"
+                        id="_1sYy"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.openInAppSelected"
+                      event="MOUSE_MPRC" id="_1sYz" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.openInAppSelected"
+                      event="MOUSE_MPRC" id="_1sY+" modifiers="16"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogFUB/WeW_Water_Processor.formatName"
+                       id="_1sY-">
+        <text>BEAM-DIMAP</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.formatName"
+                      event="MOUSE_MPRC" id="_1sZ0" modifiers="16" x="60"
+                      y="12"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.listInvokerName:_formatName.output_format_name"
+                      event="MOUSE_MPRC" id="_1sZ1" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.formatName"
+                      event="MOUSE_MPRC" id="_1sZ2" modifiers="16" x="56"
+                      y="9"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.listInvokerName:_formatName.BEAM-DIMAP"
+                      event="MOUSE_MPRC" id="_1sZ3" modifiers="16"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogFUB/WeW_Water_Processor.productDir"
+                       id="_1sZ4">
+        <text>E:\testdata\out\tmp</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogFUB/WeW_Water_Processor.button...2"
+                       id="_1sZ5">
+        <text>...</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogFUB/WeW_Water_Processor.WaterProcessorDialog.apply"
+                       id="_1sZ6">
+        <text>Run</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogFUB/WeW_Water_Processor.WaterProcessorDialog.close"
+                       id="_1sZ7">
+        <text>Close</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.tabbed.Processing_Parameters"
+                      event="MOUSE_MPRC" id="_1sZ8" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.tabbed.tab"
+                      event="MOUSE_MPRC" id="_1sZ9" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.tabbed.Processing_Parameters"
+                      event="MOUSE_MPRC" id="_1sZA" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.computeCHL"
+                      event="MOUSE_MPRC" id="_1sZB" modifiers="16"/>
+      <MouseEventStep clicks="2" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.computeCHL"
+                      event="MOUSE_MPRC" id="_1sZC" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.computeTSM"
+                      event="MOUSE_MPRC" id="_1sZD" modifiers="16"/>
+      <MouseEventStep clicks="2" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.computeTSM"
+                      event="MOUSE_MPRC" id="_1sZE" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.computeYS"
+                      event="MOUSE_MPRC" id="_1sZF" modifiers="16"/>
+      <MouseEventStep clicks="2" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.computeYS"
+                      event="MOUSE_MPRC" id="_1sZG" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.computeAtmCorr"
+                      event="MOUSE_MPRC" id="_1sZH" modifiers="16"/>
+      <MouseEventStep clicks="2" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.computeAtmCorr"
+                      event="MOUSE_MPRC" id="_1sZI" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.checkWhetherSuspectIsValid"
+                      event="MOUSE_MPRC" id="_1sZJ" modifiers="16"/>
+      <MouseEventStep clicks="2" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.checkWhetherSuspectIsValid"
+                      event="MOUSE_MPRC" id="_1sZK" modifiers="16"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogFUB/WeW_Water_Processor.expression"
+                       id="_1sZL">
+        <text>not l1_flags.GLINT_RISK and not l1_flags.BRIGHT and not l1_flags.INVALID and not l1_flags.SUSPECT</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogFUB/WeW_Water_Processor.button...3"
+                       id="_1sZM">
+        <text>...</text>
+      </CheckStringStep>
+    </Procedure>
+    <Procedure id="_1sZN" name="Aufnahme 21_09_16 10:27">
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.menuFile"
+                      event="MOUSE_MPRC" id="_1sZO" modifiers="16"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogFUB/WeW_Water_Processor.menuItemLoad_Parameters..."
+                       id="_1sZP">
+        <text>Load Parameters...</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogFUB/WeW_Water_Processor.menuItemSave_Parameters..."
+                       id="_1sZQ">
+        <text>Save Parameters...</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.menuItemDisplay_Parameters..."
+                      event="MOUSE_MPRC" id="_1sZR" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.menuHelp"
+                      event="MOUSE_MPRC" id="_1sZV" modifiers="16"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogFUB/WeW_Water_Processor.menuItemHelp"
+                       id="_1sZW">
+        <text>Help</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.menuItemAbout..."
+                      event="MOUSE_MPRC" id="_1sZX" modifiers="16"/>
+    </Procedure>
+    <BasicSequence id="_1sYH" name="Aufnahme 21.09.16 10:20">
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogFUB/WeW_Water_Processor.panelI/O_Parameters.combo_source_product_used_for_the_processing."
+                       id="_1sYI"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogFUB/WeW_Water_Processor.button..."
+                       id="_1sYJ">
+        <text>...</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogFUB/WeW_Water_Processor.productName"
+                       id="_1sYK"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogFUB/WeW_Water_Processor.saveToFileSelected"
+                        id="_1sYL"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.saveToFileSelected"
+                      event="MOUSE_MPRC" id="_1sYM" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.saveToFileSelected"
+                      event="MOUSE_MPRC" id="_1sYN" modifiers="16"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogFUB/WeW_Water_Processor.openInAppSelected"
+                        id="_1sYO"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogFUB/WeW_Water_Processor.openInAppSelected"
+                        id="_1sYP"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.openInAppSelected"
+                      event="MOUSE_MPRC" id="_1sYQ" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.openInAppSelected"
+                      event="MOUSE_MPRC" id="_1sYR" modifiers="16"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogFUB/WeW_Water_Processor.formatName"
+                       id="_1sYS">
+        <text>BEAM-DIMAP</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.formatName"
+                      event="MOUSE_MPRC" id="_1sYT" modifiers="16" x="60"
+                      y="12"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.listInvokerName:_formatName.output_format_name"
+                      event="MOUSE_MPRC" id="_1sYU" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.formatName"
+                      event="MOUSE_MPRC" id="_1sYV" modifiers="16" x="56"
+                      y="9"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.listInvokerName:_formatName.BEAM-DIMAP"
+                      event="MOUSE_MPRC" id="_1sYW" modifiers="16"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogFUB/WeW_Water_Processor.productDir"
+                       id="_1sYX">
+        <text>E:\testdata\out\tmp</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogFUB/WeW_Water_Processor.button...2"
+                       id="_1sYY">
+        <text>...</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogFUB/WeW_Water_Processor.WaterProcessorDialog.apply"
+                       id="_1sYZ">
+        <text>Run</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogFUB/WeW_Water_Processor.WaterProcessorDialog.close"
+                       id="_1sYa">
+        <text>Close</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.tabbed.Processing_Parameters"
+                      event="MOUSE_MPRC" id="_1sYb" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.tabbed.tab"
+                      event="MOUSE_MPRC" id="_1sYc" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.tabbed.Processing_Parameters"
+                      event="MOUSE_MPRC" id="_1sYd" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.computeCHL"
+                      event="MOUSE_MPRC" id="_1sYe" modifiers="16"/>
+      <MouseEventStep clicks="2" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.computeCHL"
+                      event="MOUSE_MPRC" id="_1sYf" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.computeTSM"
+                      event="MOUSE_MPRC" id="_1sYg" modifiers="16"/>
+      <MouseEventStep clicks="2" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.computeTSM"
+                      event="MOUSE_MPRC" id="_1sYh" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.computeYS"
+                      event="MOUSE_MPRC" id="_1sYi" modifiers="16"/>
+      <MouseEventStep clicks="2" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.computeYS"
+                      event="MOUSE_MPRC" id="_1sYj" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.computeAtmCorr"
+                      event="MOUSE_MPRC" id="_1sYk" modifiers="16"/>
+      <MouseEventStep clicks="2" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.computeAtmCorr"
+                      event="MOUSE_MPRC" id="_1sYl" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.checkWhetherSuspectIsValid"
+                      event="MOUSE_MPRC" id="_1sYm" modifiers="16"/>
+      <MouseEventStep clicks="2" client="$(client)"
+                      component="dialogFUB/WeW_Water_Processor.checkWhetherSuspectIsValid"
+                      event="MOUSE_MPRC" id="_1sYn" modifiers="16"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogFUB/WeW_Water_Processor.expression"
+                       id="_1sYo">
+        <text>not l1_flags.GLINT_RISK and not l1_flags.BRIGHT and not l1_flags.INVALID and not l1_flags.SUSPECT</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogFUB/WeW_Water_Processor.button...3"
+                       id="_1sYp">
+        <text>...</text>
+      </CheckStringStep>
+    </BasicSequence>
+    <ProcedureCall id="_1oXV" procedure="check.product.not_opened"/>
+    <IfSequence id="_1oXW" test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+      <TestStep id="_1o+2" name="delete_band">
+        <ProcedureCall id="_1oXb" procedure="select.product_tree.band">
+          <variable name="prod_id">0</variable>
+          <variable name="group_id"/>
+          <variable name="view_id">1</variable>
+          <variable name="band">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1ozv" procedure="delete_product_tree_node"/>
+        <ProcedureCall id="_1ozx" procedure="check.product.node_not_exists">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1o+t" name="undo">
+        <ProcedureCall id="_1p0C" procedure="undo_tree"/>
+        <ProcedureCall disabled="true" id="_1o+y"
+                       procedure="do_click_menubar_undo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o+z" procedure="get.tree.get_index_of_node">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+        <ServerScriptStep disabled="true" id="_1o++" name="print">
+          <code>print "$(new_band_id)"</code>
+        </ServerScriptStep>
+      </TestStep>
+      <TestStep id="_1o-3" name="redo">
+        <ProcedureCall id="_1p0D" procedure="redo_tree"/>
+        <ProcedureCall disabled="true" id="_1o-B"
+                       procedure="do_click_menubar_redo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o-C" procedure="check.product.node_not_exists">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1o-F" name="undo">
+        <ProcedureCall id="_1p0E" procedure="undo_tree"/>
+        <ProcedureCall disabled="true" id="_1o-P"
+                       procedure="do_click_menubar_undo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o-Q" procedure="get.tree.get_index_of_node">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+    </IfSequence>
+    <ProcedureCall id="_1oXO" procedure="close.all_products"/>
+  </ExtraSequence>
+  <WindowList id="_6"/>
+</RootStep>

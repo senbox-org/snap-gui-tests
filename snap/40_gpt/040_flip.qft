@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.11">
+  <include>qfs.qft</include>
+  <include>gpt_main.qft</include>
+  <variable name="output_folder">gpt_flip</variable>
+  <variable name="sleep_time">1000</variable>
+  <variable name="gpf_op">Flip</variable>
+  <variable name="xml_file_dir">flip</variable>
+  <TestSet disabled="true" id="_5G1" name="040_flip"
+           reportname="040 Flip operator">
+    <DependencyReference id="_1pP1" reference="start_application_for_gpt">
+      <variable name="output_dir">$(output_folder)</variable>
+    </DependencyReference>
+    <TestSet id="_9V3" name="flip" postdelay="2000"
+             reportname="run Flip operator, check target product">
+      <DataDriver id="_9V5" loopreportname="flip $(dataInDir)/$(fileName)"
+                  name="dataTable">
+        <ProcedureCall id="_1rkE"
+                       procedure="tables.source_data_for_processing"/>
+      </DataDriver>
+      <TestCase condition="&#34;$(processing)&#34;&lt;&gt;&#34;&#34;"
+                id="_9Xo" name="flip"
+                reportname="Flip $(dataInDir)/$(fileName)">
+        <ProcedureCall id="_1rl-" procedure="set_variables"/>
+        <ProcedureCall id="_1pP2" procedure="test_sequence"/>
+      </TestCase>
+    </TestSet>
+  </TestSet>
+  <PackageRoot id="_4">
+    <Procedure id="_1rkG" name="set_variables">
+      <SetGlobalStep id="_1rkH" varname="xml_file">
+        <default>flip</default>
+      </SetGlobalStep>
+      <SetGlobalStep id="_1rm0" varname="sourceOption">
+        <default>-Ssource=</default>
+      </SetGlobalStep>
+      <SetGlobalStep id="_1rm2" varname="param">
+        <default>-e</default>
+      </SetGlobalStep>
+    </Procedure>
+  </PackageRoot>
+  <ExtraSequence id="_5">
+    <Procedure id="_1rlh" name="set_variables">
+      <SetGlobalStep id="_1rli" varname="xml_file">
+        <default>flip</default>
+      </SetGlobalStep>
+      <SetGlobalStep id="_1rlj" varname="parameters_file"/>
+      <SetGlobalStep id="_1rlk" varname="param">
+        <default>
+
+
+
+
+
+
+
+
+
+
+
+
+</default>
+      </SetGlobalStep>
+      <SetGlobalStep id="_1rll" varname="dataInDir2"/>
+      <SetGlobalStep id="_1rlm" varname="fileName2"/>
+      <SetGlobalStep id="_1rln" varname="sourceOption">
+        <default>-Ssource=</default>
+      </SetGlobalStep>
+      <SetGlobalStep id="_1rlo" varname="sourceOption2"/>
+      <SetGlobalStep id="_1rlp" varname="group_id1"/>
+      <SetGlobalStep id="_1rlq" varname="view_Id1"/>
+      <SetGlobalStep id="_1rlr" varname="group_id2"/>
+      <SetGlobalStep id="_1rls" varname="view_Id2"/>
+      <SetGlobalStep id="_1rlt" varname="bandName2"/>
+      <SetGlobalStep id="_1rlu" varname="mask2"/>
+      <SetGlobalStep id="_1rlv" varname="unit2"/>
+      <SetGlobalStep id="_1rlw" varname="invalid_pixel_val"/>
+      <SetGlobalStep id="_1rlx" varname="dataInDir3"/>
+      <SetGlobalStep id="_1rly" varname="fileName3"/>
+      <SetGlobalStep id="_1rlz" varname="elements"/>
+      <SetGlobalStep id="_1rl+" varname="sourceOption3"/>
+    </Procedure>
+  </ExtraSequence>
+  <WindowList id="_6"/>
+</RootStep>

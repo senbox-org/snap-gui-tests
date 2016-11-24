@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.11">
+  <include>qfs.qft</include>
+  <include>../../lib/snap_main.qft</include>
+  <include>../lib/processing_main.qft</include>
+  <include>../lib/c2r_cc_lib.qft</include>
+  <variable name="output_folder">c2r_cc</variable>
+  <variable name="valid_pix_expr_def">B8 &gt; 0 &amp;&amp; B8 &lt; 0.1</variable>
+  <TestSet id="_2" name="010_15_05_c2r_cc_sentinel2_msi_processor"
+           reportname="010-15-05 C2R-CC MSI Processor">
+    <DependencyReference id="_1pO-"
+                         reference="start_application_for_processing">
+      <variable name="output_dir">$(output_folder)</variable>
+    </DependencyReference>
+    <TestCase id="_8cc" name="01_check_ui"
+              reportname="Check C2R-CC MSI Processor UI">
+      <variable name="source_dir">sentinel2_subset</variable>
+      <variable name="source_data">subset_0_of_S2A_OPER_MTD_SAFL1C_PDMC_20150812T125301_R006_V20150812T073229_20150812T073229.dim</variable>
+      <variable name="output_file">test</variable>
+      <ProcedureCall id="_1s6O" procedure="open_tool_window"/>
+      <ProcedureCall id="_1taA"
+                     procedure="check_c2rcc_msi_processor_tool_is_opened_else_open"/>
+      <ProcedureCall id="_1tGV"
+                     procedure="c2r_cc.workflow.check.default_io_parameters_meris_msi_olci"/>
+      <ProcedureCall id="_1tQJ"
+                     procedure="c2r_cc.workflow.check.default_processing_parameters_meris_msi_olci"/>
+      <ProcedureCall id="_1tJ9"
+                     procedure="c2r_cc.workflow.preparation_io_parameters_for_test">
+        <variable name="source_dir">$(source_dir)</variable>
+        <variable name="source_data">$(source_data)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1tKQ"
+                     procedure="c2r_cc.deselect.io_parameters.save_as"/>
+      <ProcedureCall id="_1tKO"
+                     procedure="c2r_cc.workflow.validation.textFields_meris_msi_olci"/>
+      <ProcedureCall id="_1tXu"
+                     procedure="c2r_cc.check_components.checked.use_ecmwf_aux_data_selected_status">
+        <variable name="selected">false</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1tXt"
+                     procedure="c2r_cc.check_components.text.valid_pixel_expression">
+        <variable name="val">$(valid_pix_expr_def)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1s6e" procedure="close_processor_tool"/>
+    </TestCase>
+    <TestSet id="_1pMP" name="02_processing"
+             reportname="C2R-CC MSI processing">
+      <variable name="source_dir">sentinel2_subset</variable>
+      <variable name="source_data">subset_0_of_S2A_OPER_MTD_SAFL1C_PDMC_20150812T125301_R006_V20150812T073229_20150812T073229.dim</variable>
+      <TestCase id="_40q" name="store_load_display_parameters">
+        <variable name="ofn">c2r_cc_msi_processor_save_parameters.xml</variable>
+        <variable name="output_file">c2r_cc_msi_processor_save_parameters.dim</variable>
+        <variable name="valid_pixel_expression"/>
+        <TestStep id="_1tZH" name="preparation">
+          <ProcedureCall id="_1s6P" procedure="open_tool_window"/>
+          <ProcedureCall id="_1qGC"
+                         procedure="c2r_cc.workflow.preparation_io_parameters_for_test">
+            <variable name="source_dir">$(source_dir)</variable>
+            <variable name="source_data">$(source_data)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1tKR"
+                         procedure="c2r_cc.deselect.io_parameters.save_as"/>
+        </TestStep>
+        <TestStep id="_1tZI" name="change_parameters">
+          <ProcedureCall id="_1tKS"
+                         procedure="c2r_cc.workflow.change_parameters.meris_msi_olci"/>
+          <ProcedureCall id="_1tPV"
+                         procedure="c2r_cc.set.processing_parameters.valid_pixel_expression">
+            <variable name="val">$(valid_pixel_expression)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <ProcedureCall id="_1pPE"
+                       procedure="c2r_cc.workflow.store_parameters"/>
+        <TestStep id="_1tZJ" name="change_parameters">
+          <ProcedureCall id="_1tKT"
+                         procedure="c2r_cc.workflow.change_parameters.to_default_meris_msi_olci"/>
+          <ProcedureCall id="_1tZE"
+                         procedure="c2r_cc.set.processing_parameters.valid_pixel_expression">
+            <variable name="val">$(valid_pix_expr_def)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <ProcedureCall id="_1pPl"
+                       procedure="c2r_cc.workflow.load_parameters"/>
+        <TestStep id="_1tZK" name="check">
+          <ProcedureCall id="_1tKU"
+                         procedure="c2r_cc.workflow.check.after_load_parameters_meris_msi_olci"/>
+          <ProcedureCall id="_1tQ7"
+                         procedure="c2r_cc.check_components.text.valid_pixel_expression">
+            <variable name="val">$(valid_pixel_expression)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pV8" name="display_parameters">
+          <ProcedureCall id="_1pbR"
+                         procedure="c2r_cc.workflow.display_parameters"/>
+          <ComponentWaiter client="$(client)"
+                           component="dialogMsi.c2rcc_Parameters" id="_1t9P"/>
+          <CheckStringStep checktype="item" client="$(client)"
+                           component="dialogMsi.c2rcc_Parameters.text@&lt;parameters&gt;"
+                           disabled="true" id="_1t9Q">
+            <text>&lt;parameters&gt;</text>
+          </CheckStringStep>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogMsi.c2rcc_Parameters.ModalDialog.ok"
+                          event="MOUSE_MPRC" id="_1t9R" modifiers="16"/>
+        </TestStep>
+        <TestStep id="_1tZL" name="change_parameters_to_default">
+          <ProcedureCall id="_1tbn"
+                         procedure="c2r_cc.workflow.change_parameters.to_default_meris_msi_olci"/>
+          <ProcedureCall id="_1tZF"
+                         procedure="c2r_cc.set.processing_parameters.valid_pixel_expression">
+            <variable name="val">$(valid_pix_expr_def)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <ProcedureCall id="_1tbl"
+                       procedure="c2r_cc.workflow.store_parameters"/>
+        <ProcedureCall id="_1tbm"
+                       procedure="c2r_cc.workflow.load_parameters"/>
+        <ProcedureCall id="_1s6f" procedure="close_processor_tool"/>
+      </TestCase>
+      <TestCase id="_1pZO" name="cancel_processing">
+        <variable name="output_file">c2r_cc_msi_processor_cancel.dim</variable>
+        <ProcedureCall id="_1tbq"
+                       procedure="error_handling.check_error_appears_shoot_message"/>
+        <ProcedureCall id="_1s6Q" procedure="open_tool_window"/>
+        <ProcedureCall id="_1tKV"
+                       procedure="c2r_cc.workflow.preparation_io_parameters_for_test">
+          <variable name="source_dir">$(source_dir)</variable>
+          <variable name="source_data">$(source_data)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1tQ8"
+                       procedure="c2r_cc.workflow.cancel_processing_check"/>
+        <ProcedureCall id="_1s6g" procedure="close_processor_tool"/>
+      </TestCase>
+      <TestSet id="_1shU" name="processing_in_different_formats">
+        <SetupSequence id="_1pUV" name="prepare_for_the_testing">
+          <ProcedureCall id="_1s6R" procedure="open_tool_window"/>
+          <BasicSequence disabled="true" id="_1si1" name="print">
+            <ServerScriptStep id="_1si2" name="print">
+              <code>print "source_data = $(source_data)"</code>
+            </ServerScriptStep>
+            <ServerScriptStep id="_1si3" name="print">
+              <code>print "source_dir = $(source_dir)"</code>
+            </ServerScriptStep>
+            <ServerScriptStep id="_1si4" name="print">
+              <code>print "sensor = $(sensor)"</code>
+            </ServerScriptStep>
+          </BasicSequence>
+          <ProcedureCall id="_1sfQ"
+                         procedure="c2r_cc.workflow.preparation_io_parameters_for_test">
+            <variable name="output_file">test</variable>
+            <variable name="source_dir">$(source_dir)</variable>
+            <variable name="source_data">$(source_data)</variable>
+          </ProcedureCall>
+        </SetupSequence>
+        <TestSet id="_1pUb" name="processing">
+          <DataDriver id="_1pUc"
+                      loopreportname="Write the target product as $(output_format)"
+                      name="output_formats">
+            <ProcedureCall id="_1pUd" procedure="tables.output_formats"/>
+          </DataDriver>
+          <TestCase id="_1pUj" name="processing_in_different_formats"
+                    reportname="Processing in $(output_format) format and check output product">
+            <ProcedureCall id="_1tbr"
+                           procedure="error_handling.check_error_appears_shoot_message"/>
+            <ProcedureCall id="_1ta8"
+                           procedure="check_c2rcc_msi_processor_tool_is_opened_else_open"/>
+            <TestStep id="_1s42" name="processing">
+              <ProcedureCall id="_1s44"
+                             procedure="c2r_cc.select.io_parameters.io_tab"/>
+              <ProcedureCall id="_1tQH"
+                             procedure="c2r_cc.workflow.processing"/>
+              <ProcedureCall id="_1tQB"
+                             procedure="click_yes_in_overwrite_existing_file_dialog"/>
+              <ProcedureCall id="_1tQC" predelay="2000"
+                             procedure="wait.disappear.writing_target_product"/>
+              <ProcedureCall id="_1tQD"
+                             procedure="click_ok_in_product_created_dialog"/>
+              <ProcedureCall id="_1tbt"
+                             procedure="error_handling.check_error_appears_shoot_message"/>
+            </TestStep>
+            <ProcedureCall id="_1sfN"
+                           procedure="c2r_cc.workflow.check.target_product"/>
+            <ProcedureCall id="_1tbu"
+                           procedure="error_handling.check_error_appears_shoot_message"/>
+          </TestCase>
+        </TestSet>
+        <CleanupSequence id="_1pUa" name="close_processor_tool">
+          <ProcedureCall id="_1s6h" procedure="close_processor_tool"/>
+          <ProcedureCall id="_1p08" procedure="cleanup.output_data_folder">
+            <variable name="directory">$(output_folder)</variable>
+          </ProcedureCall>
+        </CleanupSequence>
+      </TestSet>
+    </TestSet>
+    <TestSet id="_1tYO" name="03_processing_different_products"
+             reportname="C2R-CC MSI for different source data">
+      <SetupSequence id="_1tYP" name="prepare_for_the_testing">
+        <TryStep id="_1tYQ" name="check_is_SNAP_is_already_started">
+          <ProcedureCall id="_1tYR" procedure="set.variable.client_snap"/>
+          <ClientWaiter client="$(client)" id="_1tYS" timeout="0"/>
+          <CatchSequence exception="ClientNotConnectedException" id="_1tYT"
+                         maxerror="0" name="not start -&gt; start">
+            <ProcedureCall id="_1tYU" procedure="start.snap.application"/>
+          </CatchSequence>
+        </TryStep>
+        <ProcedureCall id="_1tbv"
+                       procedure="error_handling.check_error_appears_shoot_message"/>
+        <ProcedureCall id="_1tYV" procedure="open_tool_window"/>
+      </SetupSequence>
+      <TestSet id="_1tYW" name="processing">
+        <DataDriver id="_1tYX"
+                    loopreportname="C2R-CC $(dataInDir)/$(fileName)"
+                    name="source_data">
+          <ProcedureCall id="_1tYY"
+                         procedure="tables.source_data_for_c2r_cc"/>
+        </DataDriver>
+        <TestCase condition="&#34;$(sensor)&#34;==&#34;msi&#34;" id="_1tYZ"
+                  name="processing" reportname="$(dataInDir)/$(fileName)">
+          <ProcedureCall id="_1tbw"
+                         procedure="error_handling.check_error_appears_shoot_message"/>
+          <ProcedureCall id="_1ta9"
+                         procedure="check_c2rcc_msi_processor_tool_is_opened_else_open"/>
+          <ProcedureCall id="_1tZr"
+                         procedure="c2r_cc.workflow.preparation_io_parameters_for_test">
+            <variable name="output_file">$(output_file)</variable>
+            <variable name="source_dir">$(dataInDir)</variable>
+            <variable name="source_data">$(fileName)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1tZs" procedure="c2r_cc.workflow.processing">
+            <variable name="output_format">BEAM-DIMAP</variable>
+          </ProcedureCall>
+          <ProcedureCall disabled="true" id="_1tZd"
+                         procedure="click_yes_in_overwrite_existing_file_dialog"/>
+          <ProcedureCall id="_1tZZ" predelay="2000"
+                         procedure="wait.disappear.writing_target_product"/>
+          <ProcedureCall id="_1tZa"
+                         procedure="click_ok_in_product_created_dialog"/>
+          <ProcedureCall id="_1tbx"
+                         procedure="error_handling.check_error_appears_shoot_message"/>
+          <TestStep id="_1tZi" name="check_target_product">
+            <ProcedureCall id="_1sfE" procedure="check.product.not_opened"/>
+            <IfSequence id="_1sfF"
+                        test="&#34;$(not_opened)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1sfG" procedure="wait.product_is_opened"/>
+              <ElseSequence id="_1sfH">
+                <IfSequence id="_1sfm"
+                            test="&#34;$(view_Id1)&#34;&lt;&gt;&#34;&#34;">
+                  <ProcedureCall id="_1sfn"
+                                 procedure="utility.open_image_view_by_doubleclick_check_image_else_shoot_error"/>
+                </IfSequence>
+              </ElseSequence>
+            </IfSequence>
+          </TestStep>
+          <ProcedureCall id="_1sfL" procedure="close.all_products"/>
+        </TestCase>
+      </TestSet>
+      <CleanupSequence id="_1tYn" name="close_processor_tool">
+        <ProcedureCall id="_1tYo" procedure="close_processor_tool"/>
+      </CleanupSequence>
+    </TestSet>
+    <TestCase id="_1pFr" name="04_help" reportname="Check Help">
+      <ProcedureCall id="_1s6b" procedure="open_tool_window"/>
+      <TestStep id="_1pVG" name="check_help">
+        <ProcedureCall id="_1tZP"
+                       procedure="c2r_cc.workflow.check.help_available"/>
+      </TestStep>
+      <TestStep id="_1pVN" name="check_help_about">
+        <ProcedureCall id="_1tZR"
+                       procedure="c2r_cc.workflow.open.dialog_about"/>
+        <ComponentWaiter client="$(client)" component="dialogAbout_msi.c2rcc"
+                         id="_1t9Y"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogAbout_msi.c2rcc.ModalDialog.ok"
+                        event="MOUSE_MPRC" id="_1t9Z" modifiers="16"/>
+      </TestStep>
+      <ProcedureCall id="_1s6l" procedure="close_processor_tool"/>
+    </TestCase>
+  </TestSet>
+  <PackageRoot id="_4">
+    <Procedure id="_1ta2"
+               name="check_c2rcc_msi_processor_tool_is_opened_else_open">
+      <TryStep id="_1ta3">
+        <ProcedureCall id="_1ta4"
+                       procedure="c2r_cc.check_components.opened.c2r_cc_msi_processor"/>
+        <CatchSequence exception="TestException" id="_1ta5" maxerror="0">
+          <ProcedureCall id="_1ta6" procedure="open_tool_window"/>
+          <ProcedureCall id="_1ta7"
+                         procedure="c2r_cc.workflow.preparation_io_parameters_for_test">
+            <variable name="output_file">test</variable>
+            <variable name="source_dir">$(source_dir)</variable>
+            <variable name="source_data">$(source_data)</variable>
+          </ProcedureCall>
+        </CatchSequence>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1pON" name="click_ok_in_product_created_dialog">
+      <TryStep id="_1qXT">
+        <ComponentWaiter client="$(client)"
+                         component="dialogSNAP_-_C2R/CC_MSI_Processor.buttonOK"
+                         errorlevel="0" id="_1qXS" raise="false"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSNAP_-_C2R/CC_MSI_Processor.buttonOK"
+                        event="MOUSE_MPRC" id="_1seA" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1qXW" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1s5a" name="click_yes_in_overwrite_existing_file_dialog">
+      <TryStep id="_1s5b">
+        <ComponentWaiter client="$(client)"
+                         component="dialogC2R/CC_MSI_Processor2.buttonYes"
+                         errorlevel="0" id="_1s5c" raise="false"
+                         timeout="20"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogC2R/CC_MSI_Processor2.buttonYes"
+                        event="MOUSE_MPRC" id="_1s5d" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1s5e" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1s6c" name="close_processor_tool">
+      <ProcedureCall id="_1sHd"
+                     procedure="c2r_cc.close.c2r_cc_msi_processor"/>
+    </Procedure>
+    <Procedure id="_1s6L" name="open_tool_window">
+      <ProcedureCall id="_1s6N"
+                     procedure="open.optical.thematic_water_processing.c2r_cc_msi_processor"/>
+    </Procedure>
+    <Procedure id="_1pTE" name="get_source_product">
+      <FetchTextStep client="$(client)"
+                     component="dialogC2R/CC_MSI_Processor.panelI/O_Parameters.comboMSI_L1C_source_product."
+                     id="_1pTF" varname="source_product"/>
+    </Procedure>
+  </PackageRoot>
+  <ExtraSequence id="_5">
+    <ProcedureCall id="_1s6n" procedure="check.product.not_opened"/>
+    <IfSequence id="_1oXW" test="&#34;$(not_opened)&#34;==&#34;false&#34;"/>
+    <ProcedureCall id="_1oXO" procedure="close.all_products"/>
+  </ExtraSequence>
+  <WindowList id="_6"/>
+</RootStep>

@@ -1,0 +1,638 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.11">
+  <include>qfs.qft</include>
+  <include>../lib/processing_main.qft</include>
+  <variable name="output_folder">resampling</variable>
+  <variable name="res_method_nearest">Nearest</variable>
+  <variable name="res_method_nearest_old">NearestNeighbour</variable>
+  <variable name="res_method_bilinear">Bilinear</variable>
+  <variable name="res_method_bicubic">Bicubic</variable>
+  <TestSet id="_2" name="010_06_resampling" reportname="010-06 Resampling">
+    <DependencyReference id="_1pO-"
+                         reference="start_application_for_processing">
+      <variable name="output_dir">$(output_folder)</variable>
+    </DependencyReference>
+    <TestCase id="_8cc" name="01_check_ui"
+              reportname="Check Resampling Tool UI">
+      <ProcedureCall id="_1s14" procedure="open_tool_window"/>
+      <TestStep id="_1pM7" name="default_componets">
+        <ProcedureCall id="_1pLq"
+                       procedure="check.resampling.enabled.menu_file"/>
+        <ProcedureCall id="_1pLr"
+                       procedure="check.resampling.enabled.menu_help"/>
+        <ProcedureCall id="_1pLs"
+                       procedure="check.resampling.enabled.button_close"/>
+        <ProcedureCall id="_1pLt"
+                       procedure="check.resampling.enabled.button_apply"/>
+      </TestStep>
+      <TestStep id="_1rvr" name="io_parameters">
+        <ProcedureCall id="_1pbA" procedure="select_io_tab_resampling_tool"/>
+        <ProcedureCall id="_1pLu"
+                       procedure="check.resampling.enabled.button_source_product"/>
+        <ProcedureCall disabled="true" id="_1pLw"
+                       procedure="check.resampling.enabled.button_directory"/>
+        <ProcedureCall id="_1pLx"
+                       procedure="check.resampling.enabled.save_as"/>
+        <ProcedureCall id="_1pLy"
+                       procedure="check.resampling.enabled.open_in_snap"/>
+        <ProcedureCall id="_1pLz"
+                       procedure="check.resampling.enabled.save_as_enabled_status">
+          <variable name="enabled">true</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pL+"
+                       procedure="check.resampling.enabled.open_in_snap_enabled_status">
+          <variable name="enabled">true</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pM1"
+                       procedure="check.resampling.checked.save_as_selected_status">
+          <variable name="selected">false</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1pM2"
+                       procedure="check.resampling.checked.open_in_snap_selected_status">
+          <variable name="selected">true</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1rw4" name="processing_parameters">
+        <ProcedureCall id="_1r-j"
+                       procedure="select_resampling_parameters_tab"/>
+        <ProcedureCall id="_1r-o"
+                       procedure="check.resampling.text.reference_band_name">
+          <variable name="val"/>
+        </ProcedureCall>
+        <ProcedureCall id="_1r-p"
+                       procedure="check.resampling.text.upsampling_method">
+          <variable name="val">$(res_method_nearest)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1r-q"
+                       procedure="check.resampling.text.downsampling_method">
+          <variable name="val">First</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1r-r"
+                       procedure="check.resampling.text.flag_downsampling_method">
+          <variable name="val">First</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1s9H"
+                       procedure="check.resampling.checked.radio_by_reference_band_from_source_product">
+          <variable name="selected">true</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1s9I"
+                       procedure="check.resampling.checked.resample_on_pyramid_levels_selected_status">
+          <variable name="selected">true</variable>
+        </ProcedureCall>
+        <ProcedureCall disabled="true" id="_1s0q"
+                       procedure="check.resampling.text.target_width">
+          <variable name="val">100</variable>
+        </ProcedureCall>
+        <ProcedureCall disabled="true" id="_1s0r"
+                       procedure="check.resampling.text.target_height">
+          <variable name="val">100</variable>
+        </ProcedureCall>
+        <ProcedureCall disabled="true" id="_1s0s"
+                       procedure="check.resampling.text.pixel_resolution">
+          <variable name="val">1</variable>
+        </ProcedureCall>
+      </TestStep>
+      <ProcedureCall id="_1s6-" procedure="close_resampling_tool"/>
+    </TestCase>
+    <TestSet id="_1pMP" name="02_processing" reportname="Processing">
+      <TestCase id="_1pMR" name="sentinel_2">
+        <variable name="output_file">test_sentinel_2.dim</variable>
+        <variable name="source_data">S2A_OPER_MTD_SAFL1C_PDMC_20160427T113628_R135_V20160427T080740_20160427T080740_T36MVB.xml</variable>
+        <variable name="source_dir">sentinel2_S2A_OPER_PRD_MSIL1C_PDMC_20160427T113628_small</variable>
+        <variable name="bandName">B5</variable>
+        <comment>	
+</comment>
+        <ProcedureCall id="_1s15" procedure="open_tool_window"/>
+        <ProcedureCall id="_1s8p"
+                       procedure="insert_parameters_run_resampling"/>
+        <ProcedureCall id="_1qKT"
+                       procedure="product_meta_data.for_open_image_view_without_grouping"/>
+        <SetGlobalStep id="_1pOT" varname="view_Id1">
+          <default>2</default>
+        </SetGlobalStep>
+        <ProcedureCall id="_1s8+" procedure="check_target_product"/>
+      </TestCase>
+      <TestCase id="_1s7M" name="sentinel_3">
+        <variable name="bandName">F1_BT_in</variable>
+        <variable name="output_file">test_sentinel_3.dim</variable>
+        <variable name="source_data">xfdumanifest.xml</variable>
+        <variable name="source_dir">sentinel3_S3A_SL_1_RBT_20160329T084522</variable>
+        <comment>	
+</comment>
+        <ProcedureCall id="_1s8q"
+                       procedure="insert_parameters_run_resampling"/>
+        <ProcedureCall id="_1s7c"
+                       procedure="product_meta_data.for_open_image_view_with_grouping"/>
+        <ProcedureCall id="_1s8z" procedure="check_target_product"/>
+      </TestCase>
+      <TestCase id="_1s7w" name="landsat">
+        <variable name="output_file">test_landsat.dim</variable>
+        <variable name="source_data">LC81970222013122LGN01_MTL.txt</variable>
+        <variable name="source_dir">landsat_8_oli_tirs_LC81970222013122LGN01</variable>
+        <variable name="bandName">panchromatic</variable>
+        <ProcedureCall id="_1s8r"
+                       procedure="insert_parameters_run_resampling"/>
+        <ProcedureCall id="_1s8A"
+                       procedure="product_meta_data.for_open_image_view_without_grouping"/>
+        <ProcedureCall id="_1s8y" procedure="check_target_product"/>
+        <ProcedureCall id="_1s8P" procedure="close_resampling_tool"/>
+      </TestCase>
+      <TestCase id="_40q" name="store_load_display_parameters">
+        <variable name="ofn">save_parameters.xml</variable>
+        <variable name="output_file">save_parameters.dim</variable>
+        <variable name="source_data">S2A_OPER_MTD_SAFL1C_PDMC_20160427T113628_R135_V20160427T080740_20160427T080740_T36MVB.xml</variable>
+        <variable name="source_dir">sentinel2_S2A_OPER_PRD_MSIL1C_PDMC_20160427T113628_small</variable>
+        <variable name="downsampling">Mean</variable>
+        <variable name="flag_downsampling">FlagOr</variable>
+        <variable name="bandName">B2</variable>
+        <variable name="width">150</variable>
+        <variable name="height">286</variable>
+        <ProcedureCall id="_1s16" procedure="open_tool_window"/>
+        <TestStep id="_1pOt" name="change_parameters">
+          <ProcedureCall id="_1s8Q"
+                         procedure="select_io_tab_resampling_tool"/>
+          <ProcedureCall id="_1s8R" postdelay="2000"
+                         procedure="select_source_product">
+            <variable name="prod_dir">$(source_dir)</variable>
+            <variable name="prod_name">$(source_data)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s8S"
+                         procedure="set.resampling.target_product_name">
+            <variable name="target_product_name">$(output_file)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s8T" procedure="deselect.resampling.save_as"/>
+          <ProcedureCall id="_1s8U"
+                         procedure="select_resampling_parameters_tab"/>
+          <ProcedureCall id="_1s9P"
+                         procedure="do_click.resampling.radio_by_reference_band_from_source_product"/>
+          <ProcedureCall id="_1s8V"
+                         procedure="select.resampling.reference_band_name">
+            <variable name="band_name">$(bandName)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s8-"
+                         procedure="do_click.resampling.radio_by_target_width_and_height"/>
+          <ProcedureCall id="_1s90"
+                         procedure="set.resampling.target_width_height">
+            <variable name="val">$(width)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s8W"
+                         procedure="select.resampling.upsampling_method">
+            <variable name="upsampling_method">$(res_method_bilinear)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s8X"
+                         procedure="select.resampling.downsampling_method">
+            <variable name="downsampling_method">$(downsampling)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s8Y"
+                         procedure="select.resampling.flag_downsampling_method">
+            <variable name="flag_downsampling_method">$(flag_downsampling)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <ProcedureCall id="_1pPE" procedure="store_parameters"/>
+        <TestStep id="_1pPg" name="change_parameters">
+          <ProcedureCall id="_1s91"
+                         procedure="select_resampling_parameters_tab"/>
+          <ProcedureCall id="_1s96"
+                         procedure="do_click.resampling.radio_by_reference_band_from_source_product"/>
+          <ProcedureCall id="_1s92"
+                         procedure="select.resampling.reference_band_name">
+            <variable name="band_name">B4</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s9M"
+                         procedure="do_click.resampling.radio_by_target_width_and_height"/>
+          <ProcedureCall id="_1s9N"
+                         procedure="set.resampling.target_width_height">
+            <variable name="val">100</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s9O"
+                         procedure="do_click.resampling.radio_by_reference_band_from_source_product"/>
+          <ProcedureCall id="_1s93"
+                         procedure="select.resampling.upsampling_method">
+            <variable name="upsampling_method">$(res_method_nearest)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s94"
+                         procedure="select.resampling.downsampling_method">
+            <variable name="downsampling_method">First</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s95"
+                         procedure="select.resampling.flag_downsampling_method">
+            <variable name="flag_downsampling_method">First</variable>
+          </ProcedureCall>
+        </TestStep>
+        <ProcedureCall id="_1pPl" procedure="load_parameters"/>
+        <TestStep id="_1pPm" name="check_parameters">
+          <ProcedureCall id="_1s97"
+                         procedure="select_resampling_parameters_tab"/>
+          <ProcedureCall id="_1s98"
+                         procedure="check.resampling.text.reference_band_name">
+            <variable name="val">$(bandName)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s99"
+                         procedure="check.resampling.text.upsampling_method">
+            <variable name="val">$(res_method_bilinear)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s9A"
+                         procedure="check.resampling.text.downsampling_method">
+            <variable name="val">$(downsampling)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s9B"
+                         procedure="check.resampling.text.flag_downsampling_method">
+            <variable name="val">$(flag_downsampling)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s9F"
+                         procedure="check.resampling.checked.radio_by_reference_band_from_source_product">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s9J"
+                         procedure="check.resampling.checked.radio_by_target_width_and_height">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s9G"
+                         procedure="check.resampling.checked.resample_on_pyramid_levels_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s9K"
+                         procedure="check.resampling.enabled.target_width_enabled"/>
+          <IfSequence id="_1s9L"
+                      test="&#34;$(target_width_enabled)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1s9C"
+                           procedure="check.resampling.text.target_width">
+              <variable name="val">$(width)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1s9D"
+                           procedure="check.resampling.text.target_height">
+              <variable name="val">$(height)</variable>
+            </ProcedureCall>
+            <ElseSequence id="_1s9Q">
+              <ProcedureCall id="_1s9T"
+                             procedure="do_click.resampling.radio_by_target_width_and_height"/>
+              <ProcedureCall id="_1s9R"
+                             procedure="check.resampling.text.target_width">
+                <variable name="val">$(width)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1s9S"
+                             procedure="check.resampling.text.target_height">
+                <variable name="val">$(height)</variable>
+              </ProcedureCall>
+            </ElseSequence>
+          </IfSequence>
+        </TestStep>
+        <TestStep id="_1pV8" name="display_parameters">
+          <ProcedureCall id="_1pP-" procedure="display_parameters"/>
+          <ComponentWaiter client="$(client)"
+                           component="dialogResample_Parameters" id="_1s1l"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogResample_Parameters.ModalDialog.ok"
+                          event="MOUSE_MPRC" id="_1s1n" modifiers="16"/>
+        </TestStep>
+        <ProcedureCall id="_1s6l" procedure="close_resampling_tool"/>
+      </TestCase>
+      <TestSet disabled="true" id="_1s9U"
+               name="processing_in_different_formats">
+        <variable name="output_file">test</variable>
+        <variable name="source_data">S2A_OPER_MTD_SAFL1C_PDMC_20150704T101229_R062_V20150627T103515_20150627T103515.xml</variable>
+        <variable name="source_dir">sentinel2_S2A_OPER_PRD_MSIL1C_PDMC_20150704T101229</variable>
+        <variable name="bandName">B5</variable>
+        <SetupSequence id="_1s9V" name="prepare_for_the_testing">
+          <ProcedureCall id="_1sAB" procedure="open_tool_window"/>
+          <ProcedureCall id="_1sAX" procedure="prepare_for_the_testing"/>
+        </SetupSequence>
+        <TestSet id="_1s9a" name="processing_in_different_formats">
+          <DataDriver id="_1s9b"
+                      loopreportname="Resampling, write the target product as $(output_format)"
+                      name="resampling">
+            <ProcedureCall id="_1s9c" procedure="tables.output_formats"/>
+          </DataDriver>
+          <TestCase id="_1s9d" name="processing_in_different_formats"
+                    reportname="Processing in $(output_format) format and check output product">
+            <ServerScriptStep disabled="true" id="_1s9e" name="print">
+              <code>print "output_format = $(output_format)"</code>
+            </ServerScriptStep>
+            <ServerScriptStep disabled="true" id="_1s9f" name="print">
+              <code>print "output_file = $(output_file)"</code>
+            </ServerScriptStep>
+            <TestStep id="_1sAG" name="processing">
+              <TryStep id="_1sAH" name="check_resampling_tool_opened">
+                <ProcedureCall id="_1qcp"
+                               procedure="check.resampling.resampling_tool_opened"/>
+                <CatchSequence exception="TestException" id="_1qcr"
+                               maxerror="0">
+                  <ProcedureCall id="_1sAY" procedure="open_tool_window"/>
+                  <ProcedureCall id="_1sAZ"
+                                 procedure="prepare_for_the_testing"/>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1qTx"
+                             procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
+                <variable name="screenshot">run_reprojection_error</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1phP"
+                             procedure="select_io_tab_resampling_tool"/>
+              <ProcedureCall id="_1sAa"
+                             procedure="select.resampling.output_format">
+                <variable name="output_format">$(output_format)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1sAb"
+                             procedure="set.resampling.target_product_name">
+                <variable name="target_product_name">$(output_file)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1sAe" procedure="run_resampling"/>
+            </TestStep>
+            <TestStep id="_1sAK" name="check_target_product">
+              <ProcedureCall id="_1pc3"
+                             procedure="test_events.check_target_product_with_grouping"/>
+            </TestStep>
+          </TestCase>
+        </TestSet>
+        <CleanupSequence id="_1sA9" name="close_tool">
+          <ProcedureCall id="_1sAf" procedure="close_resampling_tool"/>
+        </CleanupSequence>
+      </TestSet>
+    </TestSet>
+    <TestCase id="_1pFr" name="help" reportname="Check Help">
+      <ProcedureCall id="_1s70" procedure="open_tool_window"/>
+      <TestStep id="_1pVG" name="check_help">
+        <ProcedureCall id="_1sAh" procedure="do_click.resampling.menu.help"/>
+        <ProcedureCall id="_1sAi"
+                       procedure="do_click.resampling.menu.help_menu_item"/>
+        <ProcedureCall id="_1qcu" procedure="help.check_help_appears_close"/>
+      </TestStep>
+      <TestStep id="_1pVN" name="check_help_about">
+        <ProcedureCall id="_1sAk" procedure="do_click.resampling.menu.help"/>
+        <ProcedureCall id="_1sAj" procedure="do_click.resampling.menu.about"/>
+        <ComponentWaiter client="$(client)" component="dialogAbout_Resample"
+                         id="_1s1r"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogAbout_Resample.ModalDialog.ok"
+                        event="MOUSE_MPRC" id="_1s1s" modifiers="16"/>
+      </TestStep>
+      <ProcedureCall id="_1s6m" procedure="close_resampling_tool"/>
+    </TestCase>
+  </TestSet>
+  <PackageRoot id="_4">
+    <Procedure id="_1ua-" name="error_specify_target_product_name">
+      <TryStep id="_1ub2">
+        <SetGlobalStep id="_1ub9" varname="error_specify_target_product_name">
+          <default>false</default>
+        </SetGlobalStep>
+        <ComponentWaiter client="$(client)"
+                         component="dialogResampling3.buttonOK" id="_1ub1"
+                         timeout="10"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogResampling3.buttonOK"
+                        event="MOUSE_MPRC" id="_1ub4" modifiers="16"/>
+        <SetGlobalStep id="_1ubB" varname="error_specify_target_product_name">
+          <default>true</default>
+        </SetGlobalStep>
+        <ProcedureCall id="_1ub6"
+                       procedure="set.resampling.target_product_name">
+          <variable name="target_product_name">test</variable>
+        </ProcedureCall>
+        <CatchSequence exception="TestException" id="_1ub3" maxerror="0">
+          <SetGlobalStep id="_1ubA"
+                         varname="error_specify_target_product_name">
+            <default>false</default>
+          </SetGlobalStep>
+        </CatchSequence>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1s8s" name="check_target_product">
+      <ProcedureCall id="_1s8t" procedure="check.product.not_opened"/>
+      <IfSequence id="_1s8u" test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+        <ProcedureCall id="_1s8v"
+                       procedure="utility.open_image_view_check_it">
+          <comment>@teststep Open image view and check it.</comment>
+        </ProcedureCall>
+        <ProcedureCall id="_1s8w"
+                       procedure="utility.check_masks_layer_world_map"/>
+        <ProcedureCall id="_1s8x" procedure="close.all_products"/>
+      </IfSequence>
+    </Procedure>
+    <Procedure id="_1s6c" name="close_resampling_tool">
+      <ProcedureCall id="_1s6h"
+                     procedure="close_processing_tool.geometric_operations.resampling"/>
+    </Procedure>
+    <Procedure id="_1pPv" name="display_parameters">
+      <TryStep id="_1pPw" name="select_menu_display_parameters">
+        <ProcedureCall id="_1pPx" procedure="do_click.resampling.menu.file"/>
+        <ProcedureCall id="_1pPy"
+                       procedure="do_click.resampling.menu.display_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPz" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1pP9" name="load_parameters">
+      <TryStep id="_1pPA" name="select_menu_load_parameters">
+        <ProcedureCall id="_1pPB" procedure="do_click.resampling.menu.file"/>
+        <ProcedureCall id="_1pPC"
+                       procedure="do_click.resampling.menu.load_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPD" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPM" procedure="utility.load_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1rwk" name="open_tool_window">
+      <ProcedureCall id="_1s13" procedure="open.raster.resampling"/>
+    </Procedure>
+    <Procedure id="_1sAL" name="prepare_for_the_testing">
+      <ProcedureCall id="_1sAM" procedure="select_io_tab_resampling_tool"/>
+      <ProcedureCall id="_1sAP" postdelay="2000"
+                     procedure="select_source_product">
+        <variable name="prod_dir">$(source_dir)</variable>
+        <variable name="prod_name">$(source_data)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1sAW" procedure="set.resampling.target_directory">
+        <variable name="dir">$(output_folder)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1sAV" procedure="daten_format.beam_dimap"/>
+      <ProcedureCall id="_1sAU" procedure="select.resampling.output_format">
+        <variable name="output_format">$(beam_dimap)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1sAR"
+                     procedure="set.resampling.target_product_name">
+        <variable name="target_product_name">$(output_file)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1sAS" procedure="select.resampling.save_as"/>
+      <ProcedureCall id="_1sAT" procedure="select.resampling.open_in_snap"/>
+    </Procedure>
+    <Procedure id="_1sAc" name="run_resampling">
+      <ProcedureCall id="_1s8m" postdelay="1000"
+                     procedure="do_click.resampling.button_apply"/>
+      <ProcedureCall id="_1ub8"
+                     procedure="error_specify_target_product_name"/>
+      <IfSequence id="_1ubC"
+                  test="&#34;$(error_specify_target_product_name)&#34;==&#34;true&#34;">
+        <ProcedureCall id="_1ubD" postdelay="1000"
+                       procedure="do_click.resampling.button_apply"/>
+      </IfSequence>
+      <ProcedureCall id="_1s8n"
+                     procedure="wait.disappear.writing_target_product"/>
+      <ProcedureCall id="_1s8o"
+                     procedure="do_click.resampling.click_ok_in_product_created_dialog"/>
+    </Procedure>
+    <Procedure id="_1uau" name="resampling_default">
+      <comment>@teststep Insert parameters and resample.</comment>
+      <ProcedureCall id="_1uav" procedure="select_io_tab_resampling_tool"/>
+      <ProcedureCall id="_1uaw" postdelay="2000"
+                     procedure="select_source_product">
+        <variable name="prod_dir">$(source_dir)</variable>
+        <variable name="prod_name">$(source_data)</variable>
+      </ProcedureCall>
+      <ProcedureCall disabled="true" id="_1uax"
+                     procedure="set.resampling.target_product_name">
+        <variable name="target_product_name">$(output_file)</variable>
+      </ProcedureCall>
+      <FetchTextStep client="$(client)"
+                     component="dialogResampling2.panelI/O_Parameters.comboE:_testdata_in_source_data"
+                     id="_1ubE" local="true" varname="sp"/>
+      <IfSequence id="_1ubF" test="&#34;$(sp)&#34;==&#34;&#34;">
+        <TestStep id="_1ubG" name="wait" postdelay="2000"/>
+      </IfSequence>
+      <FetchTextStep client="$(client)"
+                     component="dialogResampling2.panelI/O_Parameters.comboE:_testdata_in_source_data"
+                     id="_1ubH" local="true" varname="sp"/>
+      <IfSequence id="_1ubI" test="&#34;$(sp)&#34;==&#34;&#34;">
+        <TestStep id="_1ubJ" name="wait" postdelay="5000"/>
+      </IfSequence>
+      <ProcedureCall id="_1uay" procedure="deselect.resampling.save_as"/>
+      <ProcedureCall id="_1ub7"
+                     procedure="error_specify_target_product_name"/>
+      <ProcedureCall id="_1uaz" procedure="run_resampling"/>
+      <ProcedureCall id="_1ua+" procedure="close_resampling_tool"/>
+    </Procedure>
+    <Procedure id="_1s8c" name="insert_parameters_run_resampling">
+      <comment>@teststep Insert parameters and resample.</comment>
+      <ProcedureCall id="_1uat" procedure="select_io_tab_resampling_tool"/>
+      <ProcedureCall id="_1s8e" postdelay="3000"
+                     procedure="select_source_product">
+        <variable name="prod_dir">$(source_dir)</variable>
+        <variable name="prod_name">$(source_data)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1s8f"
+                     procedure="set.resampling.target_product_name">
+        <variable name="target_product_name">$(output_file)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1s8g" procedure="deselect.resampling.save_as"/>
+      <ProcedureCall id="_1s8h" procedure="select_resampling_parameters_tab"/>
+      <ProcedureCall id="_1s8i"
+                     procedure="select.resampling.reference_band_name">
+        <variable name="band_name">$(bandName)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1s8j"
+                     procedure="select.resampling.upsampling_method">
+        <variable name="upsampling_method">$(res_method_nearest)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1s8k"
+                     procedure="select.resampling.downsampling_method">
+        <variable name="downsampling_method">First</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1s8l"
+                     procedure="select.resampling.flag_downsampling_method">
+        <variable name="flag_downsampling_method">First</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1sAd" procedure="run_resampling"/>
+    </Procedure>
+    <Procedure id="_1pb8" name="select_io_tab_resampling_tool">
+      <ProcedureCall id="_1rwQ" procedure="select.resampling.tab">
+        <variable name="tab">I/O Parameters</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pbC" name="select_resampling_parameters_tab">
+      <ProcedureCall id="_1pbE" procedure="select.resampling.tab">
+        <variable name="tab">Resampling Parameters</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pMT" name="select_source_product">
+      <variable name="prod_dir"/>
+      <variable name="prod_name"/>
+      <ProcedureCall id="_1oSj" procedure="path.source_data_directory">
+        <variable name="data_type">$(prod_dir)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1pMS"
+                     procedure="do_click.resampling.button_source_product"/>
+      <ProcedureCall id="_1pHR"
+                     procedure="utility.handle_select_product_dialog">
+        <variable name="file">$(data_source_directory)$(prod_name)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pPF" name="store_parameters">
+      <TryStep id="_1pPG" name="select_menu_store_parameters">
+        <ProcedureCall id="_1pPH" procedure="do_click.resampling.menu.file"/>
+        <ProcedureCall id="_1pPI"
+                       procedure="do_click.resampling.menu.save_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPJ" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPK" procedure="utility.store_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+  </PackageRoot>
+  <ExtraSequence id="_5">
+    <BasicSequence id="_1saJ" name="Aufnahme 27.09.16 12:23">
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogResampling2.panelI/O_Parameters.comboE:_testdata_in_source_data"
+                       id="_1saK">
+        <text>S2A_OPER_MTD_SAFL1C_PDMC_20160427T113628_R135_V20160427T080740_20160427T080740_T36MVB</text>
+      </CheckStringStep>
+    </BasicSequence>
+    <ProcedureCall id="_1oXV" procedure="check.product.not_opened"/>
+    <IfSequence id="_1oXW" test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+      <TestStep id="_1o+2" name="delete_band">
+        <ProcedureCall id="_1oXb" procedure="select.product_tree.band">
+          <variable name="prod_id">0</variable>
+          <variable name="group_id"/>
+          <variable name="view_id">1</variable>
+          <variable name="band">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1ozv" procedure="delete_product_tree_node"/>
+        <ProcedureCall id="_1ozx" procedure="check.product.node_not_exists">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1o+t" name="undo">
+        <ProcedureCall id="_1p0C" procedure="undo_tree"/>
+        <ProcedureCall disabled="true" id="_1o+y"
+                       procedure="do_click_menubar_undo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o+z" procedure="get.tree.get_index_of_node">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+        <ServerScriptStep disabled="true" id="_1o++" name="print">
+          <code>print "$(new_band_id)"</code>
+        </ServerScriptStep>
+      </TestStep>
+      <TestStep id="_1o-3" name="redo">
+        <ProcedureCall id="_1p0D" procedure="redo_tree"/>
+        <ProcedureCall disabled="true" id="_1o-B"
+                       procedure="do_click_menubar_redo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o-C" procedure="check.product.node_not_exists">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1o-F" name="undo">
+        <ProcedureCall id="_1p0E" procedure="undo_tree"/>
+        <ProcedureCall disabled="true" id="_1o-P"
+                       procedure="do_click_menubar_undo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o-Q" procedure="get.tree.get_index_of_node">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+    </IfSequence>
+    <ProcedureCall id="_1oXO" procedure="close.all_products"/>
+  </ExtraSequence>
+  <WindowList id="_6"/>
+</RootStep>

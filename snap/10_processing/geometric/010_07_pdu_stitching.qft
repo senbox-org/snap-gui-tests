@@ -1,0 +1,672 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.11">
+  <include>qfs.qft</include>
+  <include>../lib/processing_main.qft</include>
+  <variable name="output_folder">pdu_stitching</variable>
+  <variable name="fileName">xfdumanifest.xml</variable>
+  <TestSet id="_2" name="010_07_pdu_stitching"
+           reportname="010-07 SLSTR L1B PDU Stitching">
+    <DependencyReference id="_1pO-"
+                         reference="start_application_for_processing">
+      <variable name="output_dir">$(output_folder)</variable>
+    </DependencyReference>
+    <TestCase id="_8cc" name="check_pdu_stitching_ui"
+              reportname="Check SLSTR L1B PDU Stitching Tool UI">
+      <ProcedureCall id="_1s6O" procedure="open_tool_window"/>
+      <ProcedureCall id="_1p-V"
+                     procedure="check.pdu_stitching.enabled.menu_file"/>
+      <ProcedureCall id="_1s6l"
+                     procedure="check.pdu_stitching.enabled.menu_help"/>
+      <ProcedureCall id="_1s6m"
+                     procedure="check.pdu_stitching.enabled.button_directory"/>
+      <ProcedureCall id="_1s6n"
+                     procedure="check.pdu_stitching.enabled.button_plus"/>
+      <ProcedureCall id="_1s6o"
+                     procedure="check.pdu_stitching.enabled.button_minus"/>
+      <ProcedureCall id="_1s6p"
+                     procedure="check.pdu_stitching.enabled.button_apply"/>
+      <ProcedureCall id="_1s6q"
+                     procedure="check.pdu_stitching.enabled.button_close"/>
+      <ProcedureCall id="_1s6r"
+                     procedure="check.pdu_stitching.checked.open_in_snap_selected_status">
+        <variable name="selected">false</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1s6k"
+                     procedure="check.pdu_stitching.text.source_products_empty"/>
+    </TestCase>
+    <TestSet id="_1pMP" name="pdu_stitching">
+      <DataDriver id="_1s9b"
+                  loopreportname="Stitching $(dataInDir) $(dataInDir2) $(dataInDir3)"
+                  name="input_for_test">
+        <ProcedureCall id="_1sAi"
+                       procedure="tables.source_data_for_pdu_stitching"/>
+      </DataDriver>
+      <TestCase id="_1sIJ" name="stitching"
+                reportname="Stitching and check output product">
+        <ProcedureCall id="_1sIK" procedure="open_tool_window"/>
+        <ProcedureCall id="_1sIL" procedure="add_products"/>
+        <ProcedureCall id="_1sIM"
+                       procedure="set.pdu_stitching.target_directory">
+          <variable name="dir">$(output_folder)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1sIN"
+                       procedure="select.pdu_stitching.open_in_snap"/>
+        <TryStep id="_1ub9" name="do_click_button_apply">
+          <ProcedureCall id="_1ubA" postdelay="2000"
+                         procedure="do_click.pdu_stitching.button_apply"/>
+          <CatchSequence exception="TestException" id="_1ubB" maxerror="0"/>
+        </TryStep>
+        <ProcedureCall id="_1ubC"
+                       procedure="click_ok_in_product_created_dialog"/>
+        <ProcedureCall id="_1ubD" procedure="handle_error"/>
+        <TryStep id="_1sIj" name="open_image_view_by_doubleclick"
+                 predelay="200">
+          <ProcedureCall id="_1sIk"
+                         procedure="do_click.tree.doubleclick_product_node">
+            <variable name="prod_id">3</variable>
+            <variable name="group_id">$(group_id1)</variable>
+            <variable name="view_id">$(view_Id1)</variable>
+            <variable name="band">$(bandName)</variable>
+          </ProcedureCall>
+          <CatchSequence exception="TestException" id="_1sIl" maxerror="0">
+            <TryStep id="_1sIm" name="doubleclick_product_node">
+              <ProcedureCall id="_1sIn"
+                             procedure="do_click.tree.doubleclick_product_node">
+                <variable name="prod_id">0</variable>
+                <variable name="group_id"/>
+                <variable name="view_id">0</variable>
+                <variable name="band">$(bandName)</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1sIo"
+                             maxerror="0">
+                <ProcedureCall id="_1s5y" procedure="run-log.make_screensot">
+                  <variable name="iw_name">open_image_vew</variable>
+                </ProcedureCall>
+                <ProcedureCall id="_1s5z"
+                               procedure="run-log.error_message.dialog_does_not_appear">
+                  <variable name="dialog">faild to open image view</variable>
+                </ProcedureCall>
+              </CatchSequence>
+            </TryStep>
+          </CatchSequence>
+        </TryStep>
+        <ProcedureCall id="_1rtE"
+                       procedure="utility.wait_image_created_handle_error"/>
+        <TryStep id="_1qdN" name="check_image_view">
+          <ProcedureCall id="_1rhz"
+                         procedure="check.image_view.button_maximize_window_visible"/>
+          <CatchSequence exception="TestException" id="_1qdT" maxerror="0">
+            <ProcedureCall id="_1sIv" procedure="run-log.logError">
+              <variable name="message">Image windows has not been opened</variable>
+              <variable name="withScreenshots">true</variable>
+            </ProcedureCall>
+          </CatchSequence>
+        </TryStep>
+        <ProcedureCall id="_1sIb" procedure="close.all_products"/>
+        <ProcedureCall id="_1sIe"
+                       procedure="check.pdu_stitching.text.source_products_empty"/>
+        <IfSequence id="_1sIf"
+                    test="&#34;$(source_products_empty)&#34;==&#34;false&#34;">
+          <ProcedureCall id="_1sJ8" procedure="remove_all_source_products"/>
+        </IfSequence>
+        <ProcedureCall id="_1sIh" procedure="close_processor_tool"/>
+        <ProcedureCall id="_1sIi" procedure="close.all_products"/>
+      </TestCase>
+    </TestSet>
+    <TestCase id="_40q" name="store_load_display_parameters">
+      <variable name="dataInDir">sentinel3_S3A_SL_1_RBT_for_stitching11</variable>
+      <variable name="dataInDir2">sentinel3_S3A_SL_1_RBT_for_stitching12</variable>
+      <variable name="dataInDir3">sentinel3_S3A_SL_1_RBT_for_stitching13</variable>
+      <variable name="ofn">save_parameters.xml</variable>
+      <comment>
+</comment>
+      <ProcedureCall id="_1s16" procedure="open_tool_window"/>
+      <ProcedureCall id="_1sJz" procedure="add_directory_recursively"/>
+      <ProcedureCall id="_1sJg"
+                     procedure="set.pdu_stitching.target_directory">
+        <variable name="dir">$(output_folder)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1sJh"
+                     procedure="select.pdu_stitching.open_in_snap"/>
+      <ProcedureCall id="_1pPE" procedure="store_parameters"/>
+      <ProcedureCall id="_1sJi"
+                     procedure="check.pdu_stitching.text.source_products_empty"/>
+      <IfSequence id="_1sJj"
+                  test="&#34;$(source_products_empty)&#34;==&#34;false&#34;">
+        <ProcedureCall id="_1sJk" procedure="remove_all_source_products"/>
+      </IfSequence>
+      <ProcedureCall id="_1pPl" procedure="load_parameters"/>
+      <CheckItemsStep checktype="items" client="$(client)"
+                      component="dialogSLSTR_L1B_Stitching.sourceProductPaths.listSelection_of_Product_Dissemination_Units_is_valid"
+                      id="_1s8Y">
+        <item>E:\testdata\in\sensors_platforms\sentinel-3\SLSTR_L1_for_Stitching_test\20160419T000833_20160419T001133\S3A_SL_1_RBT____20160419T000833_20160419T001133_20160420T180712_0179_003_144_5400_LN2_O_NT_001.SEN3</item>
+        <item>E:\testdata\in\sensors_platforms\sentinel-3\SLSTR_L1_for_Stitching_test\20160419T000833_20160419T001133\S3A_SL_1_RBT____20160419T001133_20160419T001433_20160420T180925_0179_003_144_5580_LN2_O_NT_001.SEN3</item>
+      </CheckItemsStep>
+      <ProcedureCall id="_1pP-" procedure="display_parameters"/>
+      <ProcedureCall id="_1sD4"
+                     procedure="check.pdu_stitching.text.source_products_empty"/>
+      <IfSequence id="_1sD5"
+                  test="&#34;$(source_products_empty)&#34;==&#34;true&#34;">
+        <ProcedureCall id="_1sD6" procedure="run-log.logError">
+          <variable name="message">Parameters was not loaded.</variable>
+          <variable name="withScreenshots">true</variable>
+        </ProcedureCall>
+        <ElseSequence id="_1sK3">
+          <ProcedureCall id="_1sK5" procedure="remove_all_source_products"/>
+        </ElseSequence>
+      </IfSequence>
+      <ProcedureCall id="_1sCy" procedure="close_processor_tool"/>
+    </TestCase>
+    <TestCase id="_1pFr" name="help">
+      <ProcedureCall id="_1s6S" procedure="open_tool_window"/>
+      <TestStep id="_1pVG" name="check_help">
+        <ProcedureCall id="_1qCF"
+                       procedure="do_click.pdu_stitching.menu.help"/>
+        <ProcedureCall id="_1s6s"
+                       procedure="do_click.pdu_stitching.menu.help_menu_item"/>
+        <ProcedureCall id="_1qcu" procedure="help.check_help_appears_close"/>
+      </TestStep>
+      <TestStep id="_1pVN" name="check_help_about">
+        <ProcedureCall id="_1s6t"
+                       procedure="do_click.pdu_stitching.menu.help"/>
+        <ProcedureCall id="_1s6u"
+                       procedure="do_click.pdu_stitching.menu.about"/>
+        <ComponentWaiter client="$(client)"
+                         component="dialogAbout_PduStitching" id="_1s3a"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogAbout_PduStitching.ModalDialog.ok"
+                        event="MOUSE_MPRC" id="_1s3b" modifiers="16"/>
+      </TestStep>
+      <ProcedureCall id="_1s6j" procedure="close_processor_tool"/>
+    </TestCase>
+  </TestSet>
+  <PackageRoot id="_4">
+    <Package id="_1sDw" name="add_products_directories">
+      <Package id="_1sDx" name="add_product_popup">
+        <Procedure id="_1sDy" name="click_menuItemAdd_products">
+          <comment>@teststep  Click on the menu item 'Add_product(s)...'.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogSLSTR_L1B_Stitching.menuItemAdd_product(s)..."
+                          event="MOUSE_MPRC" id="_1sD+" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1sEM" name="click_menuItemAdd_product_files">
+          <comment>@teststep  Click on the menu item 'Add product file(s)...'.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogSLSTR_L1B_Stitching.menuItemAdd_product_file(s)..."
+                          event="MOUSE_MPRC" id="_1sEN" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1sEO" name="click_menuItemAdd_directorys">
+          <comment>@teststep  Click on the menu item 'Add directory(s)...'.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogSLSTR_L1B_Stitching.menuItemAdd_directory(s)..."
+                          event="MOUSE_MPRC" id="_1sEP" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1sEQ" name="click_menuItemAdd_directory_recursively">
+          <comment>@teststep  Click on the menu item 'Add directory recursively...'.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogSLSTR_L1B_Stitching.menuItemAdd_directory_recursively..."
+                          event="MOUSE_MPRC" id="_1sER" modifiers="16"/>
+        </Procedure>
+      </Package>
+      <Package id="_1sEZ" name="add_product_dialog">
+        <Procedure id="_1sF2" name="check_dialog_add_product_appears">
+          <ComponentWaiter client="$(client)" component="dialogAdd_product"
+                           id="_1sF5" timeout="10"/>
+        </Procedure>
+        <Procedure id="_1sEd" name="check_select_all_selected">
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="dialogAdd_product.checkSelect_all"
+                            id="_1sEh" resvarname="select_all_selected"/>
+        </Procedure>
+        <Procedure id="_1sFG" name="check_select_all_selected_status">
+          <variable name="selected"/>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="dialogAdd_product.checkSelect_all"
+                            id="_1sFH" state="$(selected)"/>
+        </Procedure>
+        <Procedure id="_1sFI" name="check_select_none_selected">
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="dialogAdd_product.checkSelect_none"
+                            id="_1sFJ" resvarname="select_none_selected"/>
+        </Procedure>
+        <Procedure id="_1sFK" name="check_select_none_selected_status">
+          <variable name="selected"/>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="dialogAdd_product.checkSelect_none"
+                            id="_1sFL" state="$(selected)"/>
+        </Procedure>
+        <Procedure id="_1sFM" name="select_all">
+          <ProcedureCall id="_1sFO"
+                         procedure="add_products_directories.add_product_dialog.check_select_all_selected"/>
+          <IfSequence id="_1sFP"
+                      test="&#34;$(select_all_selected)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1sG7"
+                           procedure="add_products_directories.add_product_dialog.click_select_all"/>
+          </IfSequence>
+          <ProcedureCall id="_1sFU"
+                         procedure="add_products_directories.add_product_dialog.check_select_all_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1sFQ" name="select_none">
+          <ProcedureCall id="_1sFT"
+                         procedure="add_products_directories.add_product_dialog.check_select_none_selected"/>
+          <IfSequence id="_1sFS"
+                      test="&#34;$(select_none_selected)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1sG8"
+                           procedure="add_products_directories.add_product_dialog.click_select_none"/>
+          </IfSequence>
+          <ProcedureCall id="_1sFV"
+                         procedure="add_products_directories.add_product_dialog.check_select_none_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1sG9" name="deselect_all">
+          <ProcedureCall id="_1sGA"
+                         procedure="add_products_directories.add_product_dialog.check_select_all_selected"/>
+          <IfSequence id="_1sGB"
+                      test="&#34;$(select_all_selected)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1sGC"
+                           procedure="add_products_directories.add_product_dialog.click_select_all"/>
+          </IfSequence>
+          <ProcedureCall id="_1sGD"
+                         procedure="add_products_directories.add_product_dialog.check_select_all_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1sGE" name="deselect_none">
+          <ProcedureCall id="_1sGF"
+                         procedure="add_products_directories.add_product_dialog.check_select_none_selected"/>
+          <IfSequence id="_1sGG"
+                      test="&#34;$(select_none_selected)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1sGH"
+                           procedure="add_products_directories.add_product_dialog.click_select_none"/>
+          </IfSequence>
+          <ProcedureCall id="_1sGI"
+                         procedure="add_products_directories.add_product_dialog.check_select_none_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1sE9" name="click_select_all">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogAdd_product.checkSelect_all"
+                          event="MOUSE_MPRC" id="_1sFb" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1sFw" name="click_select_none">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogAdd_product.checkSelect_none"
+                          event="MOUSE_MPRC" id="_1sFf" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1sGK" name="do_click_cancel">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogAdd_product.ProductChooser.cancel"
+                          event="MOUSE_MPRC" id="_1sGL" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1sFW" name="do_click_ok">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogAdd_product.ProductChooser.ok"
+                          event="MOUSE_MPRC" id="_1sFi" modifiers="16"/>
+        </Procedure>
+      </Package>
+    </Package>
+    <Procedure id="_1s6c" name="close_processor_tool">
+      <ProcedureCall id="_1s6f"
+                     procedure="close_processing_tool.geometric_operations.pdu_stitching"/>
+    </Procedure>
+    <Procedure id="_1s6L" name="open_tool_window">
+      <ProcedureCall id="_1s6N"
+                     procedure="open.optical.geometric.pdu_stitching"/>
+    </Procedure>
+    <Procedure id="_1sDW" name="open_product_in_snap">
+      <variable name="dir"/>
+      <comment>file	</comment>
+      <ProcedureCall disabled="true" id="_1lXI" postdelay="2000"
+                     procedure="open.product_in_snap">
+        <variable name="prod_dir">$(dataInDir)</variable>
+        <variable name="in_out">in</variable>
+        <variable name="prod">$(fileName)</variable>
+        <variable name="product_type"/>
+      </ProcedureCall>
+      <ProcedureCall disabled="true" id="_1sDi" postdelay="2000"
+                     procedure="open.product_in_snap">
+        <variable name="prod_dir">$(dir)</variable>
+        <variable name="in_out">in</variable>
+        <variable name="prod">$(file)</variable>
+        <variable name="product_type"/>
+      </ProcedureCall>
+      <ProcedureCall id="_1sDl" postdelay="2000"
+                     procedure="open.s3_multispectral_product_in_snap">
+        <variable name="prod_dir">$(dir)</variable>
+        <variable name="in_out">in</variable>
+        <variable name="prod">xfdumanifest.xml</variable>
+        <variable name="product_type"/>
+      </ProcedureCall>
+      <ProcedureCall disabled="true" id="_1rlj"
+                     procedure="utility.handle_SNAP_Limited_Functionality_dialog"/>
+    </Procedure>
+    <Procedure id="_1sDc" name="add_products">
+      <comment>@teststep  Add products.</comment>
+      <ProcedureCall id="_1sDm" procedure="open_product_in_snap">
+        <variable name="dir">$(dataInDir)</variable>
+      </ProcedureCall>
+      <IfSequence id="_1sDn" test="&#34;$(dataInDir2)&#34;&lt;&gt;&#34;&#34;">
+        <ProcedureCall id="_1sDo" procedure="open_product_in_snap">
+          <variable name="dir">$(dataInDir2)</variable>
+        </ProcedureCall>
+      </IfSequence>
+      <IfSequence id="_1sDp" test="&#34;$(dataInDir3)&#34;&lt;&gt;&#34;&#34;">
+        <ProcedureCall id="_1sDq" procedure="open_product_in_snap">
+          <variable name="dir">$(dataInDir3)</variable>
+        </ProcedureCall>
+      </IfSequence>
+      <ProcedureCall id="_1sEb"
+                     procedure="do_click.pdu_stitching.button_plus"/>
+      <ProcedureCall id="_1sEa"
+                     procedure="add_products_directories.add_product_popup.click_menuItemAdd_products"/>
+      <ProcedureCall id="_1sFF"
+                     procedure="add_products_directories.add_product_dialog.check_dialog_add_product_appears"/>
+      <ProcedureCall id="_1sGJ"
+                     procedure="add_products_directories.add_product_dialog.select_all"/>
+      <ProcedureCall id="_1sGO"
+                     procedure="add_products_directories.add_product_dialog.do_click_ok"/>
+    </Procedure>
+    <Procedure id="_1s3w" name="handle_error">
+      <TryStep id="_1sA-">
+        <SetGlobalStep id="_1sCZ" varname="stitching_failed">
+          <default>true</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1sCm" varname="successfully">
+          <default>Stitched SLSTR L1B product has been successfully created in the target directory.</default>
+        </SetGlobalStep>
+        <ComponentWaiter client="$(client)"
+                         component="dialogSNAP_-_SLSTR_L1B_PDU_Stitching.buttonOK"
+                         errorlevel="0" id="_1sA+" raise="false"
+                         timeout="100"/>
+        <ProcedureCall id="_1sB1" procedure="run-log.make_screensot">
+          <variable name="iw_name">pdu_stitching_error</variable>
+        </ProcedureCall>
+        <FetchTextStep client="$(client)"
+                       component="dialogSNAP_-_SLSTR_L1B_PDU_Stitching.labelCould_not_create_stitched_SLSTR_L1B_product:_null"
+                       id="_1s3z" local="true" varname="error_label"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSNAP_-_SLSTR_L1B_PDU_Stitching.buttonOK"
+                        event="MOUSE_MPRC" id="_1s3x" modifiers="16"/>
+        <IfSequence id="_1sCl"
+                    test="&#34;$(error_label)&#34;&lt;&gt;&#34;$(successfully)&#34;">
+          <ProcedureCall id="_1sB2" procedure="run-log.logError">
+            <variable name="message">$(error_label)</variable>
+            <variable name="withScreenshots">false</variable>
+          </ProcedureCall>
+          <ElseSequence id="_1sCn">
+            <SetGlobalStep id="_1sCo" varname="stitching_failed">
+              <default>true</default>
+            </SetGlobalStep>
+          </ElseSequence>
+        </IfSequence>
+        <CatchSequence exception="TestException" id="_1sB0" maxerror="0">
+          <SetGlobalStep id="_1sCa" varname="stitching_failed">
+            <default>false</default>
+          </SetGlobalStep>
+        </CatchSequence>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1sBd" name="remove_all_source_products">
+      <TryStep id="_1sHf" name="select_source_file">
+        <ComponentWaiter client="$(client)"
+                         component="dialogSLSTR_L1B_Stitching.sourceProductPaths.listSelection_of_Product_Dissemination_Units_is_valid.[1]_S3A_SL_1_RBT____20071229T103136_20071229T103436_20150630T164752_0179_064_366______LN2_D_NT_001"
+                         id="_1sJb" timeout="10"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSLSTR_L1B_Stitching.sourceProductPaths.listSelection_of_Product_Dissemination_Units_is_valid.[1]_S3A_SL_1_RBT____20071229T103136_20071229T103436_20150630T164752_0179_064_366______LN2_D_NT_001"
+                        event="MOUSE_MPRC" id="_1sJc" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1sHi" maxerror="0">
+          <TryStep id="_1sJB" name="select_source_file">
+            <ComponentWaiter client="$(client)"
+                             component="dialogSLSTR_L1B_Stitching.sourceProductPaths.listSelection_of_Product_Dissemination_Units_is_valid.[1]_S3A_SL_1_RBT____20160419T002232_20160419T002532_20160420T181754_0179_003_144_6239_LN2_O_NT_001"
+                             id="_1sJd" timeout="10"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogSLSTR_L1B_Stitching.sourceProductPaths.listSelection_of_Product_Dissemination_Units_is_valid.[1]_S3A_SL_1_RBT____20160419T002232_20160419T002532_20160420T181754_0179_003_144_6239_LN2_O_NT_001"
+                            event="MOUSE_MPRC" id="_1sJe" modifiers="16"/>
+            <CatchSequence exception="TestException" id="_1sJE" maxerror="0">
+              <TryStep id="_1sJN" name="select_source_file">
+                <ComponentWaiter client="$(client)"
+                                 component="dialogSLSTR_L1B_Stitching.sourceProductPaths.listSelection_of_Product_Dissemination_Units_is_valid.S3A_SL_1_RBT____20071229T103136_20071229T103436_20150630T164752_0179_064_366______LN2_D_NT_001"
+                                 id="_1sJO" timeout="10"/>
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="dialogSLSTR_L1B_Stitching.sourceProductPaths.listSelection_of_Product_Dissemination_Units_is_valid.S3A_SL_1_RBT____20071229T103136_20071229T103436_20150630T164752_0179_064_366______LN2_D_NT_001"
+                                event="MOUSE_MPRC" id="_1sJP" modifiers="16"/>
+                <CatchSequence exception="TestException" id="_1sJQ"
+                               maxerror="0">
+                  <TryStep id="_1sJR" name="select_source_file">
+                    <ComponentWaiter client="$(client)"
+                                     component="dialogSLSTR_L1B_Stitching.sourceProductPaths.listSelection_of_Product_Dissemination_Units_is_valid.[1]_S3A_SL_1_RBT____20160419T114928_20160419T115227_20160421T025410_0179_003_151_5040_LN2_O_NT_001"
+                                     id="_1sJZ" timeout="10"/>
+                    <MouseEventStep clicks="1" client="$(client)"
+                                    component="dialogSLSTR_L1B_Stitching.sourceProductPaths.listSelection_of_Product_Dissemination_Units_is_valid.[1]_S3A_SL_1_RBT____20160419T114928_20160419T115227_20160421T025410_0179_003_151_5040_LN2_O_NT_001"
+                                    event="MOUSE_MPRC" id="_1sJa"
+                                    modifiers="16"/>
+                    <CatchSequence exception="TestException" id="_1sJU"
+                                   maxerror="0">
+                      <TryStep id="_1sJV" name="select all source files">
+                        <ComponentWaiter client="$(client)"
+                                         component="dialogSLSTR_L1B_Stitching.sourceProductPaths.listSelection_of_Product_Dissemination_Units_is_valid.E:__testdata__in__sensors_platforms__sentinel-3__SLSTR_L1_for_Stitching_test__20160419T000833_20160419T001133__S3A_SL_1_RBT____20160419T000833_20160419T001133_20160420T180712_0179_003_144_5400_LN2_O_NT_001.SEN3"
+                                         id="_1s8Z" timeout="10"/>
+                        <MouseEventStep clicks="1" client="$(client)"
+                                        component="dialogSLSTR_L1B_Stitching.sourceProductPaths.listSelection_of_Product_Dissemination_Units_is_valid.E:__testdata__in__sensors_platforms__sentinel-3__SLSTR_L1_for_Stitching_test__20160419T000833_20160419T001133__S3A_SL_1_RBT____20160419T000833_20160419T001133_20160420T180712_0179_003_144_5400_LN2_O_NT_001.SEN3"
+                                        event="MOUSE_MPRC" id="_1sK2"
+                                        modifiers="16"/>
+                        <CatchSequence exception="TestException" id="_1sJY"
+                                       maxerror="0">
+                          <TryStep id="_1sJ+" name="select all source files">
+                            <ComponentWaiter client="$(client)"
+                                             component="dialogSLSTR_L1B_Stitching.sourceProductPaths.listSelection_of_Product_Dissemination_Units_is_valid.S3A_SL_1_RBT____20071229T103136_20071229T103436_20150630T164752_0179_064_366______LN2_D_NT_001_1km"
+                                             id="_1sJ-" timeout="10"/>
+                            <MouseEventStep clicks="1" client="$(client)"
+                                            component="dialogSLSTR_L1B_Stitching.sourceProductPaths.listSelection_of_Product_Dissemination_Units_is_valid.S3A_SL_1_RBT____20071229T103136_20071229T103436_20150630T164752_0179_064_366______LN2_D_NT_001_1km"
+                                            event="MOUSE_MPRC" id="_1sK0"
+                                            modifiers="16"/>
+                            <CatchSequence exception="TestException"
+                                           id="_1sK1" maxerror="0"/>
+                          </TryStep>
+                        </CatchSequence>
+                      </TryStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </CatchSequence>
+      </TryStep>
+      <KeyEventStep client="$(client)"
+                    component="dialogSLSTR_L1B_Stitching.sourceProductPaths.listSelection_of_Product_Dissemination_Units_is_valid"
+                    event="KEY_PRESSED" id="_1sHk" keychar="65535"
+                    keycode="17" modifiers="2"/>
+      <KeyEventStep client="$(client)"
+                    component="dialogSLSTR_L1B_Stitching.sourceProductPaths.listSelection_of_Product_Dissemination_Units_is_valid"
+                    event="KEY_PTR" id="_1sHl" keychar="1" keycode="65"
+                    modifiers="2"/>
+      <KeyEventStep client="$(client)"
+                    component="dialogSLSTR_L1B_Stitching.sourceProductPaths.listSelection_of_Product_Dissemination_Units_is_valid"
+                    event="KEY_RELEASED" id="_1sHm" keychar="65535"
+                    keycode="17" modifiers="0"/>
+      <ProcedureCall id="_1sBw"
+                     procedure="do_click.pdu_stitching.button_minus"/>
+    </Procedure>
+    <Procedure id="_1pPv" name="display_parameters">
+      <TryStep id="_1pPw" name="select_menu_display_parameters">
+        <ProcedureCall id="_1qBF"
+                       procedure="do_click.pdu_stitching.menu.file"/>
+        <ProcedureCall id="_1sC-"
+                       procedure="do_click.pdu_stitching.menu.display_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPz" maxerror="0"/>
+      </TryStep>
+      <TryStep id="_1sK8" name="find_displayed_parameters">
+        <ComponentWaiter client="$(client)"
+                         component="dialogPduStitching_Parameters" id="_1sK7"
+                         timeout="10"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogPduStitching_Parameters.ModalDialog.ok"
+                        event="MOUSE_MPRC" id="_1s8b" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1sK9" maxerror="0">
+          <ProcedureCall id="_1sKA" procedure="run-log.logError">
+            <variable name="message">Display Parameters dialog did not appear</variable>
+            <variable name="withScreenshots"/>
+          </ProcedureCall>
+        </CatchSequence>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1pP9" name="load_parameters">
+      <TryStep id="_1pPA" name="select_menu_load_parameters">
+        <ProcedureCall id="_1sD0"
+                       procedure="do_click.pdu_stitching.menu.file"/>
+        <ProcedureCall id="_1sD1"
+                       procedure="do_click.pdu_stitching.menu.load_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPD" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPM" procedure="utility.load_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pPF" name="store_parameters">
+      <TryStep id="_1pPG" name="select_menu_store_parameters">
+        <ProcedureCall id="_1sD2"
+                       procedure="do_click.pdu_stitching.menu.file"/>
+        <ProcedureCall id="_1sD3"
+                       procedure="do_click.pdu_stitching.menu.save_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPJ" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPK" procedure="utility.store_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1sJn" name="click_ok_directory_selection_pattern_dialog">
+      <ComponentWaiter client="$(client)"
+                       component="dialogFile/Directory_Selection_Pattern"
+                       id="_1sJw"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFile/Directory_Selection_Pattern.FileSelectionPatternDialog.ok"
+                      event="MOUSE_MPRC" id="_1sJx" modifiers="16"/>
+    </Procedure>
+    <Procedure id="_1ub1" name="product_created_dialog_utility">
+      <ComponentWaiter client="$(client)"
+                       component="dialogSNAP_-_SLSTR_L1B_PDU_Stitching"
+                       id="_1ub2"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSNAP_-_SLSTR_L1B_PDU_Stitching.buttonOK"
+                      event="MOUSE_MPRC" id="_1ub3" modifiers="16"/>
+    </Procedure>
+    <Procedure id="_1sKB" name="click_ok_in_product_created_dialog">
+      <TryStep id="_1ub5">
+        <ProcedureCall id="_1ub4" procedure="product_created_dialog_utility"/>
+        <CatchSequence exception="TestException" id="_1ub6" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1s8L" name="add_directory_recursively">
+      <ProcedureCall id="_1sJl"
+                     procedure="do_click.pdu_stitching.button_plus"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSLSTR_L1B_Stitching.menuItemAdd_directory_recursively..."
+                      event="MOUSE_MPRC" id="_1s8N" modifiers="16"/>
+      <ComponentWaiter client="$(client)" component="dialogOpen2" id="_1s8O"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogOpen2.treeRecent:./Desktop/Dieser_PC/big4_(E:)/testdata/in/sensors_platforms/sentinel-3/SLSTR_L1_for_Stitching_test/20160419T000833_20160419T001133"
+                      event="MOUSE_MPRC" id="_1s8P" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogOpen2.treeRecent:./Desktop/Dieser_PC/big4_(E:)/testdata/in/sensors_platforms/sentinel-3/SLSTR_L1_for_Stitching_test/20160419T000833_20160419T001133"
+                      event="MOUSE_MPRC" id="_1s8Q" modifiers="16"/>
+      <MouseEventStep clicks="2" client="$(client)"
+                      component="dialogOpen2.treeRecent:./Desktop/Dieser_PC/big4_(E:)/testdata/in/sensors_platforms/sentinel-3/SLSTR_L1_for_Stitching_test/20160419T000833_20160419T001133"
+                      event="MOUSE_MPRC" id="_1s8R" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogOpen2.treeRecent:./Desktop/Dieser_PC/big4_(E:)/testdata/in/sensors_platforms/sentinel-3/SLSTR_L1_for_Stitching_test/20160419T000833_20160419T001133"
+                      event="MOUSE_MPRC" id="_1s8S" modifiers="16"/>
+      <ProcedureCall id="_1sJm" procedure="do_click.open_dialog.button_open"/>
+      <ProcedureCall id="_1sJy"
+                     procedure="click_ok_directory_selection_pattern_dialog"/>
+    </Procedure>
+  </PackageRoot>
+  <ExtraSequence id="_5">
+    <TestCase id="_1sGR" name="store_load_display_parameters">
+      <variable name="dataInDir">sentinel3_S3A_SL_1_RBT_20130707T153252</variable>
+      <variable name="dataInDir2">sentinel3_S3A_SL_1_RBT_20130707T153752</variable>
+      <variable name="dataInDir3">sentinel3_S3A_SL_1_RBT_20130707T154252</variable>
+      <variable name="ofn">save_parameters.xml</variable>
+      <ProcedureCall id="_1sGS" procedure="open_tool_window"/>
+      <ProcedureCall id="_1sGT" procedure="add_product_files"/>
+      <ProcedureCall id="_1sGU" procedure="store_parameters"/>
+      <ProcedureCall id="_1sGV" procedure="remove_all_source_products"/>
+      <ProcedureCall id="_1sGW" procedure="load_parameters"/>
+      <ProcedureCall id="_1sGX"
+                     procedure="check.pdu_stitching.text.source_products_empty"/>
+      <IfSequence id="_1sGY"
+                  test="&#34;$(source_products_empty)&#34;==&#34;true&#34;">
+        <ProcedureCall id="_1sGZ" procedure="run-log.logError">
+          <variable name="message">Parameters was not loaded.</variable>
+          <variable name="withScreenshots">true</variable>
+        </ProcedureCall>
+      </IfSequence>
+      <ProcedureCall id="_1sGa" procedure="display_parameters"/>
+      <ComponentWaiter client="$(client)"
+                       component="dialogPduStitching_Parameters" id="_1sGb"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogPduStitching_Parameters.ModalDialog.ok"
+                      event="MOUSE_MPRC" id="_1sGc" modifiers="16"/>
+      <ProcedureCall id="_1sGd" procedure="close_processor_tool"/>
+    </TestCase>
+    <TestSet id="_1sD8" name="pdu_stitching_old">
+      <DataDriver id="_1sD9"
+                  loopreportname="Stitching $(dataInDir) $(dataInDir2) $(dataInDir3)"
+                  name="input_for_test">
+        <ProcedureCall id="_1sDA"
+                       procedure="tables.source_data_for_pdu_stitching"/>
+      </DataDriver>
+      <TestCase id="_1sDB" name="stitching"
+                reportname="Stitching and check output product">
+        <ProcedureCall id="_1sDC" procedure="open_tool_window"/>
+        <ProcedureCall id="_1sDD"
+                       procedure="check.pdu_stitching.text.source_products_empty"/>
+        <IfSequence id="_1sDE"
+                    test="&#34;$(source_products_empty)&#34;==&#34;false&#34;">
+          <ProcedureCall id="_1sDF" procedure="remove_all_source_products"/>
+        </IfSequence>
+        <ProcedureCall id="_1sDG" procedure="add_product_files"/>
+        <ProcedureCall id="_1sDH"
+                       procedure="set.pdu_stitching.target_directory">
+          <variable name="dir">$(output_folder)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1sDI"
+                       procedure="select.pdu_stitching.open_in_snap"/>
+        <TryStep id="_1sDJ" name="do_click_button_apply">
+          <ProcedureCall id="_1sDK"
+                         procedure="do_click.pdu_stitching.button_apply"/>
+          <CatchSequence exception="TestException" id="_1sDL" maxerror="0"/>
+        </TryStep>
+        <ProcedureCall id="_1sDM" procedure="handle_error"/>
+        <IfSequence id="_1sDN"
+                    test="&#34;$(stitching_failed)&#34;==&#34;false&#34;">
+          <ProcedureCall id="_1sDO"
+                         procedure="click_ok_in_product_created_dialog"/>
+        </IfSequence>
+        <ProcedureCall id="_1sDP" procedure="check.product.not_opened"/>
+        <IfSequence id="_1sDQ"
+                    test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+          <ProcedureCall id="_1sDR"
+                         procedure="utility.open_image_view_check_it"/>
+          <ProcedureCall id="_1sDS" procedure="close.all_products"/>
+        </IfSequence>
+        <ProcedureCall id="_1sDT" procedure="remove_all_source_products"/>
+        <ProcedureCall id="_1sDU" procedure="close_processor_tool"/>
+        <ProcedureCall id="_1sDV" procedure="close.all_products"/>
+      </TestCase>
+    </TestSet>
+    <TestStep id="_1sBH" name="check_target_product">
+      <ProcedureCall id="_1sBI"
+                     procedure="test_events.check_target_product_with_grouping"/>
+    </TestStep>
+    <ProcedureCall id="_1oXV" procedure="check.product.not_opened"/>
+    <IfSequence id="_1oXW" test="&#34;$(not_opened)&#34;==&#34;false&#34;"/>
+    <ProcedureCall id="_1oXO" procedure="close.all_products"/>
+  </ExtraSequence>
+  <WindowList id="_6"/>
+</RootStep>

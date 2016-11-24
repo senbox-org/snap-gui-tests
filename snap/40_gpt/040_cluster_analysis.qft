@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.9">
+  <include>qfs.qft</include>
+  <include>gpt_main.qft</include>
+  <variable name="xml_file_dir">image_analysis</variable>
+  <variable name="sleep_time">1000</variable>
+  <variable name="output_folder">gpt_cluster_analysis</variable>
+  <TestSet id="_2" name="040_cluster_analysis"
+           reportname="040 KMeansClusterAnalysis and EMeansClusterAnalysis Operator">
+    <DependencyReference id="_1pP1" reference="start_application_for_gpt">
+      <variable name="output_dir">$(output_folder)</variable>
+    </DependencyReference>
+    <TestSet id="_2rH" name="test_km_cluster_analysis_operator"
+             reportname="run KMeansClusterAnalysis Operator using xml, properties file or commandline parameters">
+      <DataDriver id="_1l4f" loopreportname="$(xml_file)$(parameters_file)"
+                  name="dataTable">
+        <ProcedureCall id="_1l4d" procedure="tables.km_cluster_analysis"/>
+      </DataDriver>
+      <TestCase id="_9Xo" name="km_cluster_analysis"
+                reportname="run KMeansClusterAnalysis operator $(xml_file)$(parameters_file)">
+        <SetGlobalStep id="_1pXa" varname="gpf_op">
+          <default>KMeansClusterAnalysis</default>
+        </SetGlobalStep>
+        <ProcedureCall id="_1pP2" procedure="test_sequence"/>
+      </TestCase>
+    </TestSet>
+    <TestSet id="_1pXV" name="test_em_cluster_analysis_operator"
+             reportname="run EMClusterAnalysis Operator using xml, properties file or commandline parameters">
+      <DataDriver id="_1pXW" loopreportname="$(xml_file)$(parameters_file)"
+                  name="dataTable">
+        <ProcedureCall id="_1pXX" procedure="tables.em_cluster_analysis"/>
+      </DataDriver>
+      <TestCase id="_1pXY" name="em_cluster_analysis"
+                reportname="run EMClusterAnalysis operator $(xml_file)$(parameters_file)">
+        <SetGlobalStep id="_1pXb" varname="gpf_op">
+          <default>EMClusterAnalysis</default>
+        </SetGlobalStep>
+        <ProcedureCall id="_1pXZ" procedure="test_sequence"/>
+      </TestCase>
+    </TestSet>
+  </TestSet>
+  <PackageRoot id="_4"/>
+  <ExtraSequence id="_5"/>
+  <WindowList id="_6"/>
+</RootStep>

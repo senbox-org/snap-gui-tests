@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.4">
+<RootStep id="_0" name="root" version="4.0.11">
   <include>qfs.qft</include>
   <include>imaging_lib.qft</include>
   <TestSet id="_1" name="006_01_netCdf_beam_imaging_tools"
-           reportname="001-01 Imaging tools NetCDF-BEAM">
+           reportname="006-01 Imaging tools NetCDF-BEAM">
     <DependencyReference id="_1lXP"
                          reference="dependencies.start_application"/>
     <TestSet id="_D" name="open_product_open_image_view">
       <DataDriver id="_3y4"
                   loopreportname="Open image view of $(dataInDir)/$(fileName) data product"
                   name="dataTable">
-        <ProcedureCall id="_Bt4" procedure="tables.netCdf_beam"/>
+        <ProcedureCall id="_Bt4"
+                       procedure="tables.generic_formats.netCdf_beam"/>
       </DataDriver>
       <TestCase id="_2" name="test" reportname="$(productName)">
         <ProcedureCall id="_1qcw" procedure="image_window.test">

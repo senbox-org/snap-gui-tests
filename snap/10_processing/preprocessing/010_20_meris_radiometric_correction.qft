@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.4">
+<RootStep id="_0" name="root" version="4.0.11">
   <include>qfs.qft</include>
   <include>../../lib/snap_main.qft</include>
   <include>../lib/processing_main.qft</include>
   <variable name="output_folder">meris_radiometric_correction</variable>
   <TestSet id="_2" name="010_20_meris_radiometric_correction"
            reportname="010-20 MERIS Radiometric Correction">
-    <comment>Product generation tools. Arithmetic Expression Editor.</comment>
     <DependencyReference id="_1pO-"
                          reference="start_application_for_processing">
       <variable name="output_dir">$(output_folder)</variable>
     </DependencyReference>
     <TestCase id="_8cc" name="01_check_ui"
               reportname="01 MERIS Radiometric Correction Tool UI">
-      <ProcedureCall id="_1pFq"
-                     procedure="open.optical.preprocessing.meris_radiometric_correction_processor"/>
+      <ProcedureCall id="_1s6P" procedure="open_tool_window"/>
       <TestStep id="_1pM7" name="default_componets">
         <TestStep id="_1pbB" name="io_parameters">
           <ProcedureCall id="_1pbA" procedure="select_io_tab"/>
@@ -77,46 +75,44 @@
           </ProcedureCall>
         </TestStep>
       </TestStep>
-      <ProcedureCall id="_1qH7"
-                     procedure="close_processing_tool.preprocessing.meris_radiometric_correction_processor"/>
+      <ProcedureCall id="_1s6r" procedure="close_processor_tool"/>
     </TestCase>
     <TestSet id="_1pMP" name="02_processing">
       <TestCase id="_1pMR" name="01_meris_rr_l1b_n1">
         <variable name="source_data">MER_RR__1_test.N1</variable>
         <variable name="source_dir">mer_rr__1p_n1</variable>
-        <variable name="output_file">test_01.dim</variable>
+        <variable name="output_file">test_meris_rr_l1b_n1.dim</variable>
         <ProcedureCall id="_1qKh" procedure="test_sequence_2"/>
       </TestCase>
       <TestCase id="_1pbi" name="02_meris_fr_l1b_n1">
         <variable name="source_data">MER_FR__1_test.N1</variable>
         <variable name="source_dir">mer_fr__1p_n1</variable>
-        <variable name="output_file">test_02.dim</variable>
+        <variable name="output_file">test_meris_fr_l1b_n1.dim</variable>
         <ProcedureCall id="_1qKj" procedure="test_sequence_2"/>
       </TestCase>
       <TestCase id="_1pcI" name="03_meris_frs_l1b_n1">
         <variable name="source_data">MER_FRS_1P_test.N1</variable>
         <variable name="source_dir">mer_frs_1p_n1</variable>
-        <variable name="output_file">test_03.dim</variable>
+        <variable name="output_file">test_meris_frs_l1b_n1.dim</variable>
         <ProcedureCall id="_1qKm" procedure="test_sequence_3"/>
       </TestCase>
       <TestCase id="_1pb-" name="04_meris_fsg_l1b_n1">
         <variable name="source_data">MER_FSG_1PNMAP20050726_232437_000000782039_00216_17805_0001.N1</variable>
         <variable name="source_dir">mer_fsg_1p_n1</variable>
-        <variable name="output_file">test_04.dim</variable>
+        <variable name="output_file">test_meris_fsg_l1b_n1.dim</variable>
         <ProcedureCall id="_1qKo" procedure="test_sequence_3"/>
       </TestCase>
       <TestCase id="_1pcb" name="05_meris_rrg_l_1bn1">
         <variable name="source_data">MER_RRG_1PQBCM20050504_080734_000003972037_00021_16608_0005.N1</variable>
         <variable name="source_dir">mer_rrg_1p_n1</variable>
-        <variable name="output_file">test_05.dim</variable>
+        <variable name="output_file">test_05_meris_rrg_l_1bn1.dim</variable>
         <ProcedureCall id="_1qKp" procedure="test_sequence_2"/>
       </TestCase>
       <TestCase id="_1pcu" name="06_meris_pixel_geocoding">
         <variable name="source_data">subset_MER_FSG_1PNUPA20050515_104058_000001852037_00180_16767_pixel_geocod.dim</variable>
         <variable name="source_dir">dim_pixelgeocoding</variable>
-        <variable name="output_file">test_06.dim</variable>
-        <ProcedureCall id="_1qBg"
-                       procedure="open.optical.preprocessing.meris_radiometric_correction_processor"/>
+        <variable name="output_file">test_meris_pixel_geocoding.dim</variable>
+        <ProcedureCall id="_1s6Q" procedure="open_tool_window"/>
         <TestStep id="_1pcw" name="preparation">
           <ProcedureCall id="_1qKq"
                          procedure="preparation_for_test_without_save"/>
@@ -130,10 +126,9 @@
         </TestStep>
         <TestStep id="_1pd2" name="check_output_product">
           <TestStep id="_1peN" name="open_image_view">
-            <ProcedureCall id="_1pgL"
-                           procedure="product_meta_data.for_open_image_view"/>
+            <ProcedureCall id="_1s7G" procedure="set_product_meta_data"/>
             <ProcedureCall id="_1peR"
-                           procedure="utility.open_image_view_using_menu_check_it"/>
+                           procedure="utility.open_image_view_check_it"/>
           </TestStep>
           <TestStep id="_1peS" name="menu_attach_detach_pixel_geocoding">
             <ProcedureCall id="_1peT" procedure="do_click.menu.tools"/>
@@ -148,25 +143,24 @@
           </TestStep>
         </TestStep>
         <ProcedureCall id="_1qer" procedure="close.all_products"/>
-        <ProcedureCall id="_1qBS"
-                       procedure="close_processing_tool.preprocessing.meris_radiometric_correction_processor"/>
+        <ProcedureCall id="_1s6s" procedure="close_processor_tool"/>
       </TestCase>
       <TestCase id="_1pe4" name="07_meris_small_subset">
         <variable name="source_data">MER_RR__1PQBCM20030502_221113_000002002016_00058_06124_0743_middle_16pixels.dim</variable>
         <variable name="source_dir">dim_subset</variable>
-        <variable name="output_file">test_07.dim</variable>
+        <variable name="output_file">test_meris_small_subset.dim</variable>
         <ProcedureCall id="_1qKs" procedure="test_sequence_2"/>
       </TestCase>
       <TestCase disabled="true" id="_1pdU" name="08_meris_reprojection">
         <variable name="source_data">reproj_geo_lat_long_MER_RR__1_test.dim</variable>
         <variable name="source_dir">dim_reproj</variable>
-        <variable name="output_file">test_08.dim</variable>
+        <variable name="output_file">test_meris_reprojection.dim</variable>
         <ProcedureCall id="_1qKt" procedure="test_sequence_3"/>
       </TestCase>
       <TestCase id="_1pdn" name="09_meris_netcdf_beam">
         <variable name="source_data">MER_FRS_1PNACR20040515_101402_000002112026_00466_11542_ncbeam.nc</variable>
         <variable name="source_dir">netCdf_beam</variable>
-        <variable name="output_file">test_09.dim</variable>
+        <variable name="output_file">test_meris_netcdf_beam.dim</variable>
         <ProcedureCall id="_1qKu" procedure="test_sequence_3"/>
       </TestCase>
       <TestCase id="_40q" name="10_store_load_display_parameters">
@@ -174,8 +168,7 @@
         <variable name="output_file">test_10_save_parameters.dim</variable>
         <variable name="source_data">MER_RR__1_test.N1</variable>
         <variable name="source_dir">mer_rr__1p_n1</variable>
-        <ProcedureCall id="_1qBl"
-                       procedure="open.optical.preprocessing.meris_radiometric_correction_processor"/>
+        <ProcedureCall id="_1s6R" procedure="open_tool_window"/>
         <TestStep id="_1pOt" name="change_parameters">
           <ProcedureCall id="_1qGC"
                          procedure="preparation_for_test_without_save"/>
@@ -236,16 +229,14 @@
         </TestStep>
         <TestStep id="_1pV8" name="display_parameters">
           <ProcedureCall id="_1pbU" procedure="display_parameters_and_check"/>
-          <ProcedureCall id="_1qBX"
-                         procedure="close_processing_tool.preprocessing.meris_radiometric_correction_processor"/>
+          <ProcedureCall id="_1s6t" procedure="close_processor_tool"/>
         </TestStep>
       </TestCase>
-      <TestCase disabled="true" id="_1pZO" name="11_cancel_processing">
-        <variable name="output_file">test_11_cancel.dim</variable>
+      <TestCase id="_1pZO" name="11_cancel_processing">
+        <variable name="output_file">test_meris_radiometric_correction_cancel.dim</variable>
         <variable name="source_data">MER_FRS_1PNUPA20090707_090816_000005122080_00308_38438_7356.N1</variable>
         <variable name="source_dir">mer_frs_1p_n1</variable>
-        <ProcedureCall id="_1qBm"
-                       procedure="open.optical.preprocessing.meris_radiometric_correction_processor"/>
+        <ProcedureCall id="_1s6S" procedure="open_tool_window"/>
         <ProcedureCall id="_1qGx"
                        procedure="preparation_for_test_save_output_product"/>
         <ProcedureCall id="_1qLF"
@@ -255,26 +246,11 @@
         <TestStep id="_1pZQ" name="cancel_processing">
           <ProcedureCall id="_1qGy"
                          procedure="do_click.meris_radiometric_correction.button_apply"/>
-          <ProcedureCall id="_1pa9"
-                         procedure="cancel_writing_target_product"/>
+          <ProcedureCall id="_1pa9" procedure="cancel_operators"/>
         </TestStep>
-        <TestStep id="_1pQE" name="check">
-          <ProcedureCall id="_1l3B" procedure="check.product.not_opened"/>
-          <IfSequence id="_1kk7"
-                      test="&#34;$(not_opened)&#34;==&#34;false&#34;">
-            <ProcedureCall id="_1pQV" procedure="run-log.logError">
-              <variable name="message">$(output_file) is opened in SNAP</variable>
-              <variable name="withScreenshots">true</variable>
-            </ProcedureCall>
-          </IfSequence>
-          <ProcedureCall id="_1pQe" procedure="set.target_product_with_path"/>
-          <ProcedureCall id="_1pQW"
-                         procedure="check_external_file.file_was_not_processed_else_shoot_error">
-            <variable name="fileName">$(target_product)</variable>
-          </ProcedureCall>
-        </TestStep>
-        <ProcedureCall id="_1qBY"
-                       procedure="close_processing_tool.preprocessing.meris_radiometric_correction_processor"/>
+        <ProcedureCall id="_1s75"
+                       procedure="utility.check_if_processing_is_really_canceled"/>
+        <ProcedureCall id="_1s6u" procedure="close_processor_tool"/>
       </TestCase>
       <TestSet id="_1pT+" name="12_processing_in_different_formats_meris">
         <variable name="source_data">MER_RR__1_test.N1</variable>
@@ -283,8 +259,7 @@
           <ProcedureCall id="_1qd4" procedure="cleanup.output_data_folder">
             <variable name="directory">$(output_folder)</variable>
           </ProcedureCall>
-          <ProcedureCall id="_1qBn"
-                         procedure="open.optical.preprocessing.meris_radiometric_correction_processor"/>
+          <ProcedureCall id="_1s6T" procedure="open_tool_window"/>
           <ProcedureCall id="_1qG+"
                          procedure="preparation_for_test_save_output_product">
             <variable name="output_file">test</variable>
@@ -301,7 +276,7 @@
             <ProcedureCall id="_1pUd" procedure="tables.output_formats"/>
           </DataDriver>
           <TestCase id="_1pUj" name="processing_in_different_formats"
-                    reportname="Processing in different formats and check output product">
+                    reportname="Processing in $(output_format) format and check output product">
             <ServerScriptStep disabled="true" id="_1pV5" name="print">
               <code>print "output_format = $(output_format)"</code>
             </ServerScriptStep>
@@ -325,21 +300,19 @@
               <ProcedureCall id="_1qKC" procedure="processing"/>
             </TestStep>
             <TestStep id="_1pUq" name="check_target_product">
-              <ProcedureCall id="_1pfx"
-                             procedure="test_events.check_target_product"/>
-              <ProcedureCall id="_1qH5" procedure="close.all_products"/>
+              <ProcedureCall id="_1s73"
+                             procedure="test_events.check_target_product_with_grouping"/>
+              <ProcedureCall id="_1s74" procedure="close.all_products"/>
             </TestStep>
           </TestCase>
         </TestSet>
         <CleanupSequence id="_1pUa" name="close_processor_tool">
-          <ProcedureCall id="_1qBZ"
-                         procedure="close_processing_tool.preprocessing.meris_radiometric_correction_processor"/>
+          <ProcedureCall id="_1s6v" procedure="close_processor_tool"/>
         </CleanupSequence>
       </TestSet>
     </TestSet>
     <TestCase id="_1pFr" name="03_help">
-      <ProcedureCall id="_1qBo"
-                     procedure="open.optical.preprocessing.meris_radiometric_correction_processor"/>
+      <ProcedureCall id="_1s6U" procedure="open_tool_window"/>
       <TestStep id="_1pVG" name="check_help">
         <ProcedureCall id="_1qJw"
                        procedure="do_click.meris_radiometric_correction.menu.help"/>
@@ -363,14 +336,26 @@
                         component="dialogAbout_Meris.CorrectRadiometry.ModalDialog.ok"
                         event="MOUSE_MPRC" id="_1ptT" modifiers="16"/>
       </TestStep>
-      <ProcedureCall id="_1qBa"
-                     procedure="close_processing_tool.preprocessing.meris_radiometric_correction_processor"/>
+      <ProcedureCall id="_1s6w" procedure="close_processor_tool"/>
     </TestCase>
   </TestSet>
   <PackageRoot id="_4">
-    <Procedure id="_1qKL" name="test_sequence_2">
-      <ProcedureCall id="_1qKM"
+    <Procedure id="_1s6h" name="close_processor_tool">
+      <ProcedureCall id="_1s6q"
+                     procedure="close_processing_tool.preprocessing.meris_radiometric_correction_processor"/>
+    </Procedure>
+    <Procedure id="_1s79" name="set_product_meta_data">
+      <ProcedureCall disabled="true" id="_1s7A"
+                     procedure="product_meta_data.for_open_image_view_without_grouping"/>
+      <ProcedureCall id="_1s7B"
+                     procedure="product_meta_data.for_open_image_view_with_grouping"/>
+    </Procedure>
+    <Procedure id="_1s6L" name="open_tool_window">
+      <ProcedureCall id="_1s6O"
                      procedure="open.optical.preprocessing.meris_radiometric_correction_processor"/>
+    </Procedure>
+    <Procedure id="_1qKL" name="test_sequence_2">
+      <ProcedureCall id="_1s6V" procedure="open_tool_window"/>
       <TestStep id="_1qKN" name="preparation">
         <ProcedureCall id="_1qKO"
                        procedure="preparation_for_test_without_save"/>
@@ -383,17 +368,14 @@
         <ProcedureCall id="_1qKR" procedure="processing"/>
       </TestStep>
       <TestStep id="_1qKS" name="check_output_product">
-        <ProcedureCall id="_1qKT"
-                       procedure="product_meta_data.for_open_image_view"/>
-        <ProcedureCall id="_1qKU"
+        <ProcedureCall id="_1s7D" procedure="set_product_meta_data"/>
+        <ProcedureCall id="_1s7C"
                        procedure="test_events.imaging_tools.open_image_window_in_target_product_check_masks_layers"/>
       </TestStep>
-      <ProcedureCall id="_1qKV"
-                     procedure="close_processing_tool.preprocessing.meris_radiometric_correction_processor"/>
+      <ProcedureCall id="_1s6x" procedure="close_processor_tool"/>
     </Procedure>
     <Procedure id="_1qKW" name="test_sequence_3">
-      <ProcedureCall id="_1qKX"
-                     procedure="open.optical.preprocessing.meris_radiometric_correction_processor"/>
+      <ProcedureCall id="_1s6W" procedure="open_tool_window"/>
       <TestStep id="_1qKY" name="preparation">
         <ProcedureCall id="_1qKZ"
                        procedure="preparation_for_test_without_save"/>
@@ -406,13 +388,11 @@
         <ProcedureCall id="_1qKc" procedure="processing"/>
       </TestStep>
       <TestStep id="_1qKd" name="check_output_product">
-        <ProcedureCall id="_1qKe"
-                       procedure="product_meta_data.for_open_image_view"/>
-        <ProcedureCall id="_1qKf"
+        <ProcedureCall id="_1s7E" procedure="set_product_meta_data"/>
+        <ProcedureCall id="_1s7F"
                        procedure="test_events.imaging_tools.open_image_window_in_target_product_check_masks_layers"/>
       </TestStep>
-      <ProcedureCall id="_1qKg"
-                     procedure="close_processing_tool.preprocessing.meris_radiometric_correction_processor"/>
+      <ProcedureCall id="_1s6y" procedure="close_processor_tool"/>
     </Procedure>
     <Procedure id="_1pb8" name="select_io_tab">
       <ProcedureCall id="_1pb9"

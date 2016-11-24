@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.11">
+  <include>qfs.qft</include>
+  <include>gpt_main.qft</include>
+  <variable name="output_folder">gpt_idepix</variable>
+  <variable name="sleep_time">5000</variable>
+  <variable name="gpf_op">idepix.avhrr</variable>
+  <variable name="xml_file_dir">idepix</variable>
+  <comment>Idepix.Avhrr
+Idepix.Landsat8
+Idepix.Modis
+Idepix.Probav
+Idepix.Seawifs
+Idepix.Vgt</comment>
+  <TestSet id="_5G1" name="040_idepix" reportname="040 idepix operator">
+    <DependencyReference id="_1pP1" reference="start_application_for_gpt">
+      <variable name="output_dir">$(output_folder)</variable>
+    </DependencyReference>
+    <TestSet id="_9V3" name="idepix" postdelay="2000"
+             reportname="run idepix operator, check target product">
+      <DataDriver id="_9V5"
+                  loopreportname="$(xml_file) $(dataInDir)/$(fileName)"
+                  name="dataTable">
+        <ProcedureCall id="_1l4d" procedure="tables.idepix"/>
+      </DataDriver>
+      <TestCase id="_9Xo" name="idepix"
+                reportname="$(xml_file) $(dataInDir)/$(fileName)">
+        <ProcedureCall id="_1qcx"
+                       procedure="utils.copy_properties_for_idepix_landsat"/>
+        <ProcedureCall id="_1qcy" procedure="test_sequence"/>
+      </TestCase>
+    </TestSet>
+  </TestSet>
+  <PackageRoot id="_4"/>
+  <ExtraSequence id="_5"/>
+  <WindowList id="_6"/>
+</RootStep>

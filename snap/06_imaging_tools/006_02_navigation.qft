@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.4">
+<RootStep id="_0" name="root" version="4.0.9">
   <include>qfs.qft</include>
   <include>imaging_lib.qft</include>
   <TestSet id="_1" name="006_02_navigation" reportname="006-02 Navigation">
@@ -53,12 +53,12 @@
         <ProcedureCall id="_1ocB"
                        procedure="do_click.tools.imaging.navigation.zoomIn_button"/>
       </RepeatSequence>
-      <TestStep id="_1ocz" name="check_components">
-        <ProcedureCall id="_1oc+"
+      <TestStep id="_1r4f" name="check_components">
+        <ProcedureCall id="_1r4g"
                        procedure="check.tools.imaging.navigation.zoom_factor">
           <variable name="val">15.41 : 1</variable>
         </ProcedureCall>
-        <ProcedureCall id="_1oc-"
+        <ProcedureCall id="_1r4h"
                        procedure="check.tools.imaging.navigation.rotation">
           <variable name="val">0°</variable>
         </ProcedureCall>
@@ -83,23 +83,31 @@
                         event="MOUSE_RELEASED" id="_1pVK" modifiers="16"
                         x="434" y="378"/>
       </BasicSequence>
-      <TestStep id="_1pVL" name="check_components">
-        <ProcedureCall id="_1pVV" procedure="get.navigation.zoom_factor"/>
-        <ProcedureCall id="_1pVN"
+      <TestStep id="_1r4i" name="check_components">
+        <ProcedureCall id="_1r4j" procedure="get.navigation.zoom_factor"/>
+        <ProcedureCall id="_1r4k"
                        procedure="check.tools.imaging.navigation.rotation">
           <variable name="val">0°</variable>
         </ProcedureCall>
       </TestStep>
+      <ProcedureCall id="_1r4o"
+                     procedure="qfs.swing.cleanup.closeAllModalDialogs">
+        <variable name="maxDialogs">5</variable>
+      </ProcedureCall>
       <ProcedureCall id="_1ocQ"
                      procedure="do_click.main_toolbar.tools.selectTool"/>
+      <ProcedureCall id="_1r4p"
+                     procedure="qfs.swing.cleanup.closeAllModalDialogs">
+        <variable name="maxDialogs">5</variable>
+      </ProcedureCall>
       <ProcedureCall id="_1ocR"
                      procedure="do_click.tools.imaging.navigation.zoomAll_button"/>
-      <TestStep id="_1ocS" name="check_components">
-        <ProcedureCall id="_1pVO"
+      <TestStep id="_1r4l" name="check_components">
+        <ProcedureCall id="_1r4m"
                        procedure="check.tools.imaging.navigation.zoom_factor">
           <variable name="val">$(def_zoom_factor)</variable>
         </ProcedureCall>
-        <ProcedureCall id="_1ocU"
+        <ProcedureCall id="_1r4n"
                        procedure="check.tools.imaging.navigation.rotation">
           <variable name="val">0°</variable>
         </ProcedureCall>

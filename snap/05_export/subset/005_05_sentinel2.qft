@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.11">
+  <include>qfs.qft</include>
+  <include>../../lib/snap_export.qft</include>
+  <TestSet id="_1" name="005_05_export_subset_of_the_sentinel2_product"
+           reportname="005-05 Export SENTINEL-2 product or subset">
+    <DependencyReference id="_1lWz"
+                         reference="dependencies.start_application"/>
+    <TestSet id="_D" name="open_product_open_image_window_export_subset">
+      <DataDriver id="_3y4"
+                  loopreportname="Export subset of the $(dataInDir)/$(fileName) data product"
+                  name="dataTable">
+        <ProcedureCall id="_Bt4"
+                       procedure="tables.optical_sensors.sentinel_2.sentinel2"/>
+      </DataDriver>
+      <TestCase id="_2" name="test"
+                reportname="Export subset of the $(dataInDir)/$(fileName) data product">
+        <comment>"$(processing)"&lt;&gt;""</comment>
+        <ProcedureCall id="_1rsk" procedure="set.variable.client_snap"/>
+        <ProcedureCall id="_1qWN" procedure="run-log.log_client_output">
+          <variable name="client_name">$(client)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1lW-"
+                       procedure="export.subset.test_sequence_multiresolution">
+          <variable name="prod_reader_type">sentinel2_msi_l1c</variable>
+        </ProcedureCall>
+      </TestCase>
+    </TestSet>
+  </TestSet>
+  <PackageRoot id="_3"/>
+  <ExtraSequence id="_4"/>
+  <WindowList id="_5"/>
+</RootStep>

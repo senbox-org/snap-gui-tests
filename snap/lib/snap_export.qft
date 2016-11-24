@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.4">
+<RootStep id="_0" name="root" version="4.0.11">
   <include>qfs.qft</include>
   <include>snap_components.qft</include>
   <include>snap_main.qft</include>
@@ -13,6 +13,68 @@
   <dependency>../05_export/subset/005_05_envisat.qft</dependency>
   <PackageRoot id="_3">
     <Package id="_1qdt" name="check_exported_file"/>
+    <Package id="_2Jbq" name="open_export_dialog">
+      <Procedure id="_2Jbv" name="dimap">
+        <variable name="prod_id"/>
+        <ProcedureCall id="_2Jbx"
+                       procedure="utility.select_product_select_menu_file_export">
+          <variable name="prod_id">$(prod_id)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_2Jby"
+                       procedure="do_click.menu.file.export.beam_dimap"/>
+        <TestStep disabled="true" id="_1rtB" name="open_export_dimap_dialog">
+          <ProcedureCall id="_1s97" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1s98" procedure="do_click.menu.file.export"/>
+          <ProcedureCall id="_1rtD"
+                         procedure="do_click.menu.file.export.beam_dimap"/>
+        </TestStep>
+      </Procedure>
+      <Procedure id="_2Jbz" name="geotiff">
+        <variable name="prod_id"/>
+        <ProcedureCall id="_2Jdv"
+                       procedure="utility.select_product_select_menu_file_export">
+          <variable name="prod_id">$(prod_id)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_2JcL"
+                       procedure="do_click.menu.file.export.geotiff"/>
+      </Procedure>
+      <Procedure id="_2Jc1" name="netcdf_cf">
+        <variable name="prod_id"/>
+        <ProcedureCall id="_2Jdw"
+                       procedure="utility.select_product_select_menu_file_export">
+          <variable name="prod_id">$(prod_id)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_2JcQ"
+                       procedure="do_click.menu.file.export.netcdf_cf"/>
+      </Procedure>
+      <Procedure id="_2Jc5" name="netcdf4_cf">
+        <variable name="prod_id"/>
+        <ProcedureCall id="_2Jdx"
+                       procedure="utility.select_product_select_menu_file_export">
+          <variable name="prod_id">$(prod_id)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_2JcV"
+                       procedure="do_click.menu.file.export.netcdf4_cf"/>
+      </Procedure>
+      <Procedure id="_2Jc9" name="netcdf_beam">
+        <variable name="prod_id"/>
+        <ProcedureCall id="_2Jdy"
+                       procedure="utility.select_product_select_menu_file_export">
+          <variable name="prod_id">$(prod_id)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_2Jca"
+                       procedure="do_click.menu.file.export.netcdf_beam"/>
+      </Procedure>
+      <Procedure id="_2JcD" name="netcdf4_beam">
+        <variable name="prod_id"/>
+        <ProcedureCall id="_2Jdz"
+                       procedure="utility.select_product_select_menu_file_export">
+          <variable name="prod_id">$(prod_id)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_2Jcf"
+                       procedure="do_click.menu.file.export.netcdf4_beam"/>
+      </Procedure>
+    </Package>
     <Package id="_1lB5" name="export">
       <Procedure id="_1qb2" name="colour_legend_as_image">
         <variable name="file_name"/>
@@ -211,6 +273,234 @@
         </TestStep>
       </Procedure>
       <Package id="_1r3G" name="subset">
+        <Procedure id="_1rsk" name="test_sequence_multiresolution">
+          <variable name="prod_reader_type"/>
+          <SetGlobalStep id="_1rsl" varname="target_dir">
+            <default>export</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1rt7" varname="target_file">
+            <default>test</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1rsm" procedure="cleanup.output_data_folder">
+            <variable name="directory">$(target_dir)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rsn" postdelay="2000"
+                         procedure="open.product_in_snap">
+            <variable name="prod_dir">$(dataInDir)</variable>
+            <variable name="in_out">in</variable>
+            <variable name="prod">$(fileName)</variable>
+            <variable name="product_type">$(prod_reader_type)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2JGl" procedure="check.product.not_opened"/>
+          <IfSequence id="_2JGm"
+                      test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+            <SetGlobalStep id="_2JHB" varname="target_file">
+              <default>test</default>
+            </SetGlobalStep>
+            <SetGlobalStep id="_2JHC" varname="resampled_file">
+              <default>resample</default>
+            </SetGlobalStep>
+            <ProcedureCall id="_2JGn" procedure="utility.resample"/>
+            <ProcedureCall id="_2Jd+"
+                           procedure="check.product.opened_else_shoot_error">
+              <variable name="product_name">$(resampled_file)</variable>
+            </ProcedureCall>
+            <SetGlobalStep id="_2Jd-" varname="resampled_id">
+              <default>$(product_id)</default>
+            </SetGlobalStep>
+            <ServerScriptStep disabled="true" id="_1l5A" name="print">
+              <code>print "!!!!  resampled_id = $(resampled_id)"</code>
+            </ServerScriptStep>
+            <IfSequence id="_2JH7"
+                        test="&#34;$(resampled_id)&#34;&lt;&gt;&#34;&#34;">
+              <TestStep id="_2JHE" name="open_image_window">
+                <ServerScriptStep disabled="true" id="_2Jdu" name="print">
+                  <code>print "!!!!  pid 0 = $(pid)"</code>
+                </ServerScriptStep>
+                <TryStep id="_2JHF" name="doubleclick_product_node">
+                  <ProcedureCall id="_2JHG"
+                                 procedure="do_click.tree.doubleclick_product_node">
+                    <variable name="prod_id">$(pid)</variable>
+                    <variable name="group_id">0</variable>
+                    <variable name="view_id">0</variable>
+                    <variable name="band">$(bandName)</variable>
+                  </ProcedureCall>
+                  <CatchSequence exception="TestException" id="_2JHH"
+                                 maxerror="0">
+                    <TryStep id="_2JHI" name="doubleclick_product_node">
+                      <ProcedureCall id="_2JHJ"
+                                     procedure="do_click.tree.doubleclick_product_node">
+                        <variable name="prod_id">$(pid)</variable>
+                        <variable name="group_id"/>
+                        <variable name="view_id">0</variable>
+                        <variable name="band">$(bandName)</variable>
+                      </ProcedureCall>
+                      <CatchSequence exception="TestException" id="_2JHK"
+                                     maxerror="0">
+                        <ProcedureCall id="_2JHL"
+                                       procedure="wait.disappear.reading_product_progress_monitor"/>
+                        <TryStep id="_2JHM" name="doubleclick_product_node">
+                          <ProcedureCall id="_2JHN"
+                                         procedure="do_click.tree.doubleclick_product_node">
+                            <variable name="prod_id">$(pid)</variable>
+                            <variable name="group_id">0</variable>
+                            <variable name="view_id">0</variable>
+                            <variable name="band">$(bandName)</variable>
+                          </ProcedureCall>
+                          <CatchSequence exception="TestException" id="_2JHO"
+                                         maxerror="0">
+                            <TryStep id="_2JHP"
+                                     name="doubleclick_product_node">
+                              <ProcedureCall id="_2JHQ"
+                                             procedure="do_click.tree.doubleclick_product_node">
+                                <variable name="prod_id">$(pid)</variable>
+                                <variable name="group_id"/>
+                                <variable name="view_id">0</variable>
+                                <variable name="band">$(bandName)</variable>
+                              </ProcedureCall>
+                              <CatchSequence exception="TestException"
+                                             id="_2JHR" maxerror="0"/>
+                            </TryStep>
+                          </CatchSequence>
+                        </TryStep>
+                      </CatchSequence>
+                    </TryStep>
+                  </CatchSequence>
+                </TryStep>
+                <ProcedureCall id="_2JHS"
+                               procedure="utility.wait_image_created_handle_error"/>
+                <IfSequence id="_2JHT"
+                            test="&#34;$(image_window_appears)&#34;==&#34;false&#34;">
+                  <ProcedureCall id="_2JHU" procedure="run-log.logError">
+                    <variable name="message">image view is not appear</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </IfSequence>
+              </TestStep>
+              <ProcedureCall id="_2JHZ"
+                             procedure="placemark.utility_sequences.get_geo_coordinates_for_subset"/>
+              <TestStep id="_1rt8" name="export_beam_dimap_subset_and_check">
+                <ServerScriptStep disabled="true" id="_2Jdr" name="print">
+                  <code>print "!!!!  pid 1 = $(pid)"</code>
+                </ServerScriptStep>
+                <ProcedureCall disabled="true" id="_2Jdt"
+                               procedure="select.product_tree.product">
+                  <variable name="prod_id">$(pid)</variable>
+                </ProcedureCall>
+                <SetGlobalStep id="_1rtA" varname="extension">
+                  <default>dim</default>
+                </SetGlobalStep>
+                <ProcedureCall id="_2JcH"
+                               procedure="open_export_dialog.dimap">
+                  <variable name="prod_id">$(pid)</variable>
+                </ProcedureCall>
+                <ProcedureCall id="_2JZ6"
+                               procedure="utility.export_subset_check_subset_multires"/>
+              </TestStep>
+              <TestStep id="_2JYl" name="export_geotiff_subset_and_check">
+                <ProcedureCall id="_2JZI"
+                               procedure="utility.check_resampled_product_is_opened"/>
+                <IfSequence id="_2JWm"
+                            test="&#34;$(resampled_id)&#34;&lt;&gt;&#34;&#34;">
+                  <SetGlobalStep id="_2JZ9" varname="extension">
+                    <default>tif</default>
+                  </SetGlobalStep>
+                  <ProcedureCall id="_2JcM"
+                                 procedure="open_export_dialog.geotiff">
+                    <variable name="prod_id">$(pid)</variable>
+                  </ProcedureCall>
+                  <ProcedureCall id="_2JZE"
+                                 procedure="utility.export_subset_check_subset_multires"/>
+                </IfSequence>
+              </TestStep>
+              <TestStep id="_2JYm"
+                        name="export_beam_netcdf_cf_subset_and_check">
+                <ProcedureCall id="_2JZJ"
+                               procedure="utility.check_resampled_product_is_opened"/>
+                <IfSequence id="_2JXx"
+                            test="&#34;$(resampled_id)&#34;&lt;&gt;&#34;&#34;">
+                  <SetGlobalStep id="_2JYd" varname="target_file">
+                    <default>test_netcdf_cf</default>
+                  </SetGlobalStep>
+                  <SetGlobalStep id="_2JYe" varname="extension">
+                    <default>nc</default>
+                  </SetGlobalStep>
+                  <ProcedureCall id="_2JcR"
+                                 procedure="open_export_dialog.netcdf_cf">
+                    <variable name="prod_id">$(pid)</variable>
+                  </ProcedureCall>
+                  <ProcedureCall id="_2JZK"
+                                 procedure="utility.export_subset_check_subset_multires"/>
+                </IfSequence>
+              </TestStep>
+              <TestStep id="_2JZM"
+                        name="export_beam_netcdf4_cf_subset_and_check">
+                <ProcedureCall id="_2JZX"
+                               procedure="utility.check_resampled_product_is_opened"/>
+                <IfSequence id="_2JZa"
+                            test="&#34;$(resampled_id)&#34;&lt;&gt;&#34;&#34;">
+                  <SetGlobalStep id="_2JZO" varname="target_file">
+                    <default>test_netcdf4_cf</default>
+                  </SetGlobalStep>
+                  <SetGlobalStep id="_2JZP" varname="extension">
+                    <default>nc</default>
+                  </SetGlobalStep>
+                  <ProcedureCall id="_2JcW"
+                                 procedure="open_export_dialog.netcdf4_cf">
+                    <variable name="prod_id">$(pid)</variable>
+                  </ProcedureCall>
+                  <ProcedureCall id="_2JZi"
+                                 procedure="utility.export_subset_check_subset_multires"/>
+                </IfSequence>
+              </TestStep>
+              <TestStep id="_2JaH"
+                        name="export_beam_netcdf_beam_subset_and_check">
+                <ProcedureCall id="_2Jab"
+                               procedure="utility.check_resampled_product_is_opened"/>
+                <IfSequence id="_2Jae"
+                            test="&#34;$(resampled_id)&#34;&lt;&gt;&#34;&#34;">
+                  <SetGlobalStep id="_2JaJ" varname="target_file">
+                    <default>test_netcdf_beam</default>
+                  </SetGlobalStep>
+                  <SetGlobalStep id="_2JaK" varname="extension">
+                    <default>nc</default>
+                  </SetGlobalStep>
+                  <ProcedureCall id="_2Jcb"
+                                 procedure="open_export_dialog.netcdf_beam">
+                    <variable name="prod_id">$(pid)</variable>
+                  </ProcedureCall>
+                  <ProcedureCall id="_2Jal"
+                                 procedure="utility.export_subset_check_subset_multires"/>
+                </IfSequence>
+              </TestStep>
+              <TestStep id="_2JaR"
+                        name="export_beam_netcdf4_beam_subset_and_check">
+                <ProcedureCall id="_2Jb0"
+                               procedure="utility.check_resampled_product_is_opened"/>
+                <IfSequence id="_2Jb1"
+                            test="&#34;$(resampled_id)&#34;&lt;&gt;&#34;&#34;">
+                  <ProcedureCall disabled="true" id="_2Jb2"
+                                 procedure="select.product_tree.product">
+                    <variable name="prod_id">$(pid)</variable>
+                  </ProcedureCall>
+                  <SetGlobalStep id="_2JaT" varname="target_file">
+                    <default>test_netcdf4_beam</default>
+                  </SetGlobalStep>
+                  <SetGlobalStep id="_2JaU" varname="extension">
+                    <default>nc</default>
+                  </SetGlobalStep>
+                  <ProcedureCall id="_2Jcg"
+                                 procedure="open_export_dialog.netcdf4_beam">
+                    <variable name="prod_id">$(pid)</variable>
+                  </ProcedureCall>
+                  <ProcedureCall id="_2Jb9"
+                                 procedure="utility.export_subset_check_subset_multires"/>
+                </IfSequence>
+              </TestStep>
+            </IfSequence>
+            <ProcedureCall id="_1rty" procedure="close.all_products"/>
+          </IfSequence>
+        </Procedure>
         <Procedure id="_1r3F" name="test_sequence">
           <variable name="prod_reader_type"/>
           <SetGlobalStep id="_1roS" varname="target_dir">
@@ -226,197 +516,198 @@
             <variable name="prod">$(fileName)</variable>
             <variable name="product_type">$(prod_reader_type)</variable>
           </ProcedureCall>
-          <ProcedureCall id="_1lEu"
+          <ProcedureCall id="_2JdG"
                          procedure="utility.open_image_view_check_it"/>
-          <TestStep id="_1rZN" name="get_geo_coordinates">
-            <ProcedureCall id="_1lF0"
-                           procedure="placemark.utility_sequences.get_lat_and_long_values_for_pin_pos_x_y">
-              <variable name="x">200</variable>
-              <variable name="y">200</variable>
-            </ProcedureCall>
-            <TestStep id="_1rZ2" name="set_geo_coordinates">
-              <SetGlobalStep id="_1rZ3" varname="north_latitude">
-                <default>$(latitude)</default>
+          <ProcedureCall id="_2Je0" procedure="check.product.not_opened"/>
+          <IfSequence id="_2Je1"
+                      test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_2JdH"
+                           procedure="placemark.utility_sequences.get_geo_coordinates_for_subset"/>
+            <SetGlobalStep id="_2JdI" varname="target_file">
+              <default>test</default>
+            </SetGlobalStep>
+            <TestStep id="_2JdJ" name="export_beam_dimap_subset_and_check">
+              <ProcedureCall id="_2JdK"
+                             procedure="select.product_tree.product">
+                <variable name="prod_id">0</variable>
+              </ProcedureCall>
+              <SetGlobalStep id="_2JdL" varname="extension">
+                <default>dim</default>
               </SetGlobalStep>
-              <SetGlobalStep id="_1rZ4" varname="west_longitude">
-                <default>$(longitude)</default>
-              </SetGlobalStep>
-              <IfSequence id="_1rZI"
-                          test="&#34;$(north_latitude)&#34;&lt;&gt;&#34;NaN&#34; and &#34;$(west_longitude)&#34;&lt;&gt;&#34;NaN&#34;">
-                <ServerScriptStep id="_1rZ5" name="south_latitude">
-                  <code>vl = $(north_latitude)
-vl = vl - 10   
-rc.setGlobal("south_latitude", vl)                       </code>
-                </ServerScriptStep>
-                <ServerScriptStep id="_1rZ6" name="east_longitude">
-                  <code>vl = $(west_longitude)
-vl = vl + 10   
-rc.setGlobal("east_longitude", vl)                       </code>
-                </ServerScriptStep>
-                <SetGlobalStep id="_1rZJ" varname="geo_coding">
-                  <default>true</default>
-                </SetGlobalStep>
-                <ElseSequence id="_1rZK">
-                  <SetGlobalStep id="_1rZL" varname="geo_coding">
-                    <default>false</default>
-                  </SetGlobalStep>
-                </ElseSequence>
-              </IfSequence>
-              <BasicSequence disabled="true" id="_1rZ7" name="print">
-                <ServerScriptStep id="_1rZ8" name="print">
-                  <code>print "north_lat = $(north_latitude)"  </code>
-                </ServerScriptStep>
-                <ServerScriptStep id="_1rZ9" name="print">
-                  <code>print "west_lon = $(west_longitude)"  </code>
-                </ServerScriptStep>
-                <ServerScriptStep id="_1rZA" name="print">
-                  <code>print "south_lat = $(south_latitude)"  </code>
-                </ServerScriptStep>
-                <ServerScriptStep id="_1rZB" name="print">
-                  <code>print "east_lon = $(east_longitude)"  </code>
-                </ServerScriptStep>
-              </BasicSequence>
+              <ProcedureCall id="_2JdM" procedure="open_export_dialog.dimap">
+                <variable name="prod_id">0</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_2JdN"
+                             procedure="utility.export_subset_check_subset"/>
             </TestStep>
-            <ProcedureCall id="_1rYZ"
-                           procedure="placemark.new_pin.do_click.cancel_button"/>
-          </TestStep>
-          <SetGlobalStep id="_1roP" varname="target_file">
-            <default>test</default>
-          </SetGlobalStep>
-          <TestStep id="_1rmF" name="export_beam_dimap_subset_and_check">
-            <ProcedureCall id="_1rqV" procedure="select.product_tree.product">
-              <variable name="prod_id">0</variable>
-            </ProcedureCall>
-            <SetGlobalStep id="_1roQ" varname="extension">
-              <default>dim</default>
-            </SetGlobalStep>
-            <ProcedureCall id="_1rq2" procedure="utility.menu_file_export"/>
-            <ProcedureCall id="_1rlH"
-                           procedure="do_click.menu.file.export.beam_dimap"/>
-            <ProcedureCall id="_1roN" postdelay="1000"
-                           procedure="utility.export_subset_utility">
-              <variable name="outdir">$(target_dir)</variable>
-              <variable name="ext">$(extension)</variable>
-              <variable name="target_file">$(target_file)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1roi"
-                           procedure="utility.check_exported_subset_in_SNAP"/>
-          </TestStep>
-          <TestStep id="_1rqX" name="export_geotiff_subset_and_check">
-            <ProcedureCall id="_1rqY" procedure="select.product_tree.product">
-              <variable name="prod_id">0</variable>
-            </ProcedureCall>
-            <SetGlobalStep id="_1rqZ" varname="extension">
-              <default>tif</default>
-            </SetGlobalStep>
-            <ProcedureCall id="_1rqa" procedure="utility.menu_file_export"/>
-            <ProcedureCall id="_1rqb"
-                           procedure="do_click.menu.file.export.geotiff"/>
-            <ProcedureCall id="_1rqc"
-                           procedure="utility.export_subset_utility">
-              <variable name="outdir">$(target_dir)</variable>
-              <variable name="ext">$(extension)</variable>
-              <variable name="target_file">$(target_file)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1rqd"
-                           procedure="utility.check_exported_subset_in_SNAP"/>
-          </TestStep>
-          <TestStep id="_1rn3" name="export_beam_netcdf_cf_subset_and_check">
-            <ProcedureCall id="_1rqe" procedure="select.product_tree.product">
-              <variable name="prod_id">0</variable>
-            </ProcedureCall>
-            <SetGlobalStep id="_1rpB" varname="target_file">
-              <default>test_netcdf_cf</default>
-            </SetGlobalStep>
-            <SetGlobalStep id="_1rp2" varname="extension">
-              <default>nc</default>
-            </SetGlobalStep>
-            <ProcedureCall id="_1rq5" procedure="utility.menu_file_export"/>
-            <ProcedureCall id="_1rp7"
-                           procedure="do_click.menu.file.export.netcdf_cf"/>
-            <ProcedureCall id="_1rp8"
-                           procedure="utility.export_subset_utility">
-              <variable name="outdir">$(target_dir)</variable>
-              <variable name="ext">$(extension)</variable>
-              <variable name="target_file">$(target_file)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1rpq"
-                           procedure="utility.check_exported_subset_in_SNAP"/>
-          </TestStep>
-          <TestStep id="_1rpC" name="export_beam_netcdf4_cf_subset_and_check">
-            <ProcedureCall id="_1rqf" procedure="select.product_tree.product">
-              <variable name="prod_id">0</variable>
-            </ProcedureCall>
-            <SetGlobalStep id="_1rpH" varname="target_file">
-              <default>test_netcdf4_cf</default>
-            </SetGlobalStep>
-            <SetGlobalStep id="_1rq7" varname="extension">
-              <default>nc</default>
-            </SetGlobalStep>
-            <ProcedureCall id="_1rq8" procedure="utility.menu_file_export"/>
-            <ProcedureCall id="_1rpM"
-                           procedure="do_click.menu.file.export.netcdf4_cf"/>
-            <ProcedureCall id="_1rqA"
-                           procedure="utility.export_subset_utility">
-              <variable name="outdir">$(target_dir)</variable>
-              <variable name="ext">$(extension)</variable>
-              <variable name="target_file">$(target_file)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1rqB"
-                           procedure="utility.check_exported_subset_in_SNAP"/>
-          </TestStep>
-          <TestStep id="_1rpP"
-                    name="export_beam_netcdf_beam_subset_and_check">
-            <ProcedureCall id="_1rqg" procedure="select.product_tree.product">
-              <variable name="prod_id">0</variable>
-            </ProcedureCall>
-            <SetGlobalStep id="_1rpU" varname="target_file">
-              <default>test_netcdf_beam</default>
-            </SetGlobalStep>
-            <SetGlobalStep id="_1rqD" varname="extension">
-              <default>nc</default>
-            </SetGlobalStep>
-            <ProcedureCall id="_1rqE" procedure="utility.menu_file_export"/>
-            <ProcedureCall id="_1rpZ"
-                           procedure="do_click.menu.file.export.netcdf_beam"/>
-            <ProcedureCall id="_1rqG"
-                           procedure="utility.export_subset_utility">
-              <variable name="outdir">$(target_dir)</variable>
-              <variable name="ext">$(extension)</variable>
-              <variable name="target_file">$(target_file)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1rqH"
-                           procedure="utility.check_exported_subset_in_SNAP"/>
-          </TestStep>
-          <TestStep id="_1rpc"
-                    name="export_beam_netcdf4_beam_subset_and_check">
-            <ProcedureCall id="_1rqh" procedure="select.product_tree.product">
-              <variable name="prod_id">0</variable>
-            </ProcedureCall>
-            <SetGlobalStep id="_1rph" varname="target_file">
-              <default>test_netcdf4_beam</default>
-            </SetGlobalStep>
-            <SetGlobalStep id="_1rqJ" varname="extension">
-              <default>nc</default>
-            </SetGlobalStep>
-            <ProcedureCall id="_1rqK" procedure="utility.menu_file_export"/>
-            <ProcedureCall id="_1rpm"
-                           procedure="do_click.menu.file.export.netcdf4_beam"/>
-            <ProcedureCall id="_1rqM"
-                           procedure="utility.export_subset_utility">
-              <variable name="outdir">$(target_dir)</variable>
-              <variable name="ext">$(extension)</variable>
-              <variable name="target_file">$(target_file)</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1rqN"
-                           procedure="utility.check_exported_subset_in_SNAP"/>
-          </TestStep>
+            <TestStep id="_2JdO" name="export_geotiff_subset_and_check">
+              <ProcedureCall id="_2JdP"
+                             procedure="select.product_tree.product">
+                <variable name="prod_id">0</variable>
+              </ProcedureCall>
+              <SetGlobalStep id="_2JdQ" varname="extension">
+                <default>tif</default>
+              </SetGlobalStep>
+              <ProcedureCall id="_2JdR"
+                             procedure="open_export_dialog.geotiff">
+                <variable name="prod_id">0</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_2JdS"
+                             procedure="utility.export_subset_check_subset"/>
+            </TestStep>
+            <TestStep id="_2JdT"
+                      name="export_beam_netcdf_cf_subset_and_check">
+              <ProcedureCall id="_2JdU"
+                             procedure="select.product_tree.product">
+                <variable name="prod_id">0</variable>
+              </ProcedureCall>
+              <SetGlobalStep id="_2JdV" varname="target_file">
+                <default>test_netcdf_cf</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_2JdW" varname="extension">
+                <default>nc</default>
+              </SetGlobalStep>
+              <ProcedureCall id="_2JdX"
+                             procedure="open_export_dialog.netcdf_cf">
+                <variable name="prod_id">0</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_2JdY"
+                             procedure="utility.export_subset_check_subset"/>
+            </TestStep>
+            <TestStep id="_2JdZ"
+                      name="export_beam_netcdf4_cf_subset_and_check">
+              <ProcedureCall id="_2Jda"
+                             procedure="select.product_tree.product">
+                <variable name="prod_id">0</variable>
+              </ProcedureCall>
+              <SetGlobalStep id="_2Jdb" varname="target_file">
+                <default>test_netcdf4_cf</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_2Jdc" varname="extension">
+                <default>nc</default>
+              </SetGlobalStep>
+              <ProcedureCall id="_2Jdd"
+                             procedure="open_export_dialog.netcdf4_cf">
+                <variable name="prod_id">0</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_2Jde"
+                             procedure="utility.export_subset_check_subset"/>
+            </TestStep>
+            <TestStep id="_2Jdf"
+                      name="export_beam_netcdf_beam_subset_and_check">
+              <ProcedureCall id="_2Jdg"
+                             procedure="select.product_tree.product">
+                <variable name="prod_id">0</variable>
+              </ProcedureCall>
+              <SetGlobalStep id="_2Jdh" varname="target_file">
+                <default>test_netcdf_beam</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_2Jdi" varname="extension">
+                <default>nc</default>
+              </SetGlobalStep>
+              <ProcedureCall id="_2Jdj"
+                             procedure="open_export_dialog.netcdf_beam">
+                <variable name="prod_id">0</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_2Jdk"
+                             procedure="utility.export_subset_check_subset"/>
+            </TestStep>
+            <TestStep id="_2Jdl"
+                      name="export_beam_netcdf4_beam_subset_and_check">
+              <ProcedureCall id="_2Jdm"
+                             procedure="select.product_tree.product">
+                <variable name="prod_id">0</variable>
+              </ProcedureCall>
+              <SetGlobalStep id="_2Jdn" varname="target_file">
+                <default>test_netcdf4_beam</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_2Jdo" varname="extension">
+                <default>nc</default>
+              </SetGlobalStep>
+              <ProcedureCall id="_2Jdp"
+                             procedure="open_export_dialog.netcdf4_beam">
+                <variable name="prod_id">0</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_2Jdq"
+                             procedure="utility.export_subset_check_subset"/>
+            </TestStep>
+            <ElseSequence id="_2Je2">
+              <ProcedureCall id="_2Je3" procedure="run-log.make_screensot">
+                <variable name="iw_name">product_is_not_opened</variable>
+                <variable name="iw_name_example">error_dialog</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_2Je4" procedure="run-log.logError">
+                <variable name="message">$(fileName) is not opened, the test is terminated</variable>
+                <variable name="withScreenshots"/>
+              </ProcedureCall>
+            </ElseSequence>
+          </IfSequence>
           <ProcedureCall id="_1rpy" procedure="close.all_products"/>
         </Procedure>
       </Package>
     </Package>
     <Package id="_1qbK" name="utility">
-      <Procedure id="_1rp+" name="menu_file_export">
+      <Procedure id="_2JZF" name="check_resampled_product_is_opened">
+        <ProcedureCall id="_2JZG"
+                       procedure="check.product.opened_else_shoot_error">
+          <variable name="product_name">$(resampled_file)</variable>
+        </ProcedureCall>
+        <SetGlobalStep id="_2JZH" varname="resampled_id">
+          <default>$(product_id)</default>
+        </SetGlobalStep>
+      </Procedure>
+      <Procedure id="_2JYx" name="export_subset_check_subset_help">
+        <ProcedureCall id="_2JYy" postdelay="1000"
+                       procedure="utility.export_subset_utility">
+          <variable name="outdir">$(target_dir)</variable>
+          <variable name="ext">$(extension)</variable>
+          <variable name="target_file">$(target_file)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_2JYz"
+                       procedure="utility.check_exported_subset_in_SNAP">
+          <variable name="subset_name">$(target_file)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_2JY+" procedure="get.tree.get_test_product_id">
+          <variable name="product">$(target_file)</variable>
+        </ProcedureCall>
+      </Procedure>
+      <Procedure id="_2JYn" name="export_subset_check_subset">
+        <ProcedureCall id="_2JZ5"
+                       procedure="utility.export_subset_check_subset_help"/>
+        <IfSequence id="_2Jbj"
+                    test="&#34;$(product_id)&#34;&lt;&gt;&#34;&#34;">
+          <ProcedureCall id="_2Jbk" procedure="close.all_products"/>
+          <ProcedureCall id="_2Jbl" postdelay="2000"
+                         procedure="open.product_in_snap">
+            <variable name="prod_dir">$(dataInDir)</variable>
+            <variable name="in_out">in</variable>
+            <variable name="prod">$(fileName)</variable>
+            <variable name="product_type">$(prod_reader_type)</variable>
+          </ProcedureCall>
+        </IfSequence>
+      </Procedure>
+      <Procedure id="_2Jcj" name="export_subset_check_subset_multires">
+        <ProcedureCall id="_2Jck"
+                       procedure="utility.export_subset_check_subset_help"/>
+        <IfSequence id="_2Jcl"
+                    test="&#34;$(product_id)&#34;&lt;&gt;&#34;&#34;">
+          <ProcedureCall id="_2Jcu" procedure="close.all_products"/>
+          <ProcedureCall id="_2Jcv" postdelay="2000"
+                         procedure="open.product_in_snap">
+            <variable name="prod_dir">$(dataInDir)</variable>
+            <variable name="in_out">in</variable>
+            <variable name="prod">$(fileName)</variable>
+            <variable name="product_type">$(prod_reader_type)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_2Jcw" procedure="check.product.not_opened"/>
+          <IfSequence id="_2Jcx"
+                      test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_2Jcy" procedure="utility.resample"/>
+          </IfSequence>
+        </IfSequence>
+      </Procedure>
+      <Procedure id="_1rp+" name="select_product_select_menu_file_export">
+        <variable name="prod_id"/>
         <ProcedureCall id="_1l3B" procedure="check.product.not_opened"/>
         <IfSequence id="_1kk7" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
           <ProcedureCall id="_1rns" postdelay="2000"
@@ -429,7 +720,7 @@ rc.setGlobal("east_longitude", vl)                       </code>
           <ProcedureCall id="_1rMh" procedure="wait.product_is_opened"/>
         </IfSequence>
         <ProcedureCall id="_1rp-" procedure="select.product_tree.product">
-          <variable name="prod_id">0</variable>
+          <variable name="prod_id">$(prod_id)</variable>
         </ProcedureCall>
         <ProcedureCall id="_1rq0" procedure="do_click.menu.file"/>
         <ProcedureCall id="_1rq1" procedure="do_click.menu.file.export"/>
@@ -442,7 +733,7 @@ rc.setGlobal("east_longitude", vl)                       </code>
           <CatchSequence exception="TestException" id="_1rqP" maxerror="0">
             <TryStep id="_1rqi" predelay="500">
               <ComponentWaiter absence="true" client="$(client)"
-                               component="dialog2.buttonCancel" id="_1rqj"
+                               component="dialog9.buttonCancel" id="_1rqj"
                                timeout="1500000"/>
               <CatchSequence exception="TestException" id="_1rqk"
                              maxerror="0"/>
@@ -454,95 +745,146 @@ rc.setGlobal("east_longitude", vl)                       </code>
         <variable name="outdir">export</variable>
         <variable name="ext">dim</variable>
         <variable name="target_file"/>
-        <TryStep id="_1rnv" name="open_subset_dialog">
-          <ProcedureCall id="_1rnw"
+        <TestStep id="_1rsR" name="set_target_file_name">
+          <ProcedureCall id="_1rra" procedure="path.output_data_directory">
+            <variable name="output_dir">$(outdir)</variable>
+          </ProcedureCall>
+          <SetGlobalStep id="_1rsS" varname="output_file">
+            <default>$(output_data_directory)$(target_file).$(ext)</default>
+          </SetGlobalStep>
+          <ServerScriptStep disabled="true" id="_1rrc" name="print">
+            <code>print "output_file =$(output_file)"  </code>
+          </ServerScriptStep>
+          <TryStep id="_2JdC" name="set_file_name">
+            <ProcedureCall id="_2Jd7" postdelay="500"
+                           procedure="set.export_dialog.file_name">
+              <variable name="file">$(output_file)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_2JdD" maxerror="0"/>
+          </TryStep>
+        </TestStep>
+        <TryStep id="_1rrG" name="open_subset_dialog">
+          <ProcedureCall id="_1rrH"
                          procedure="do_click.export_product_dialog.button_Subset"/>
-          <ProcedureCall id="_1rnx" procedure="check.opened.subset_dialog"/>
-          <SetGlobalStep id="_1rny" varname="subset_tool_window_appears">
+          <ProcedureCall id="_1rrI" procedure="check.opened.subset_dialog"/>
+          <SetGlobalStep id="_1rrJ" varname="subset_tool_window_appears">
             <default>true</default>
           </SetGlobalStep>
-          <CatchSequence exception="TestException" id="_1rnz" maxerror="0">
-            <SetGlobalStep id="_1rn+" varname="subset_tool_window_appears">
+          <CatchSequence exception="TestException" id="_1rrK" maxerror="0">
+            <SetGlobalStep id="_1rrL" varname="subset_tool_window_appears">
               <default>false</default>
             </SetGlobalStep>
-            <ProcedureCall disabled="true" id="_1rn-"
+            <ProcedureCall disabled="true" id="_1rrM"
                            procedure="run-log.make_screensot">
               <variable name="iw_name">export_product_window</variable>
             </ProcedureCall>
-            <ProcedureCall disabled="true" id="_1ro0"
+            <ProcedureCall disabled="true" id="_1rrN"
                            procedure="run-log.logError">
               <variable name="message">Subset button is disabled</variable>
               <variable name="withScreenshots"/>
             </ProcedureCall>
-            <ProcedureCall disabled="true" id="_1ro1"
+            <ProcedureCall disabled="true" id="_1rrO"
                            procedure="do_click.import_product_dialog.cancel"/>
           </CatchSequence>
         </TryStep>
-        <IfSequence id="_1ro2"
+        <IfSequence id="_1rrP"
                     test="&#34;$(subset_tool_window_appears)&#34;==&#34;true&#34;">
-          <IfSequence id="_1ro3"
+          <IfSequence id="_2Jes"
                       test="&#34;$(geo_coding)&#34;==&#34;true&#34;">
-            <ProcedureCall id="_1ro4"
+            <ProcedureCall id="_2Jet"
                            procedure="subset.define_spatial_subset_geoposition">
               <variable name="north_lat">$(north_latitude)</variable>
               <variable name="west_lon">$(west_longitude)</variable>
               <variable name="south_lat">$(south_latitude)</variable>
               <variable name="east_lon">$(east_longitude)</variable>
             </ProcedureCall>
-            <ProcedureCall id="_1ro5" procedure="subset.define_band_subset">
+            <ProcedureCall id="_2Jeu" procedure="subset.define_band_subset">
               <variable name="band_name">$(bandName)</variable>
             </ProcedureCall>
-            <ProcedureCall id="_1ro6"
+            <ProcedureCall id="_2Jev"
                            procedure="do_click.subset_tool.button_OK"/>
-            <ProcedureCall id="_1ro7"
+            <ProcedureCall id="_2Jew"
                            procedure="subset.handle_incomplete_subset_definition_dialog"/>
-            <ElseSequence id="_1ro8">
-              <ProcedureCall id="_1ro9"
+            <ElseSequence id="_2Jex">
+              <ProcedureCall id="_2Jey"
                              procedure="subset.define_spatial_subset_pixelpos">
                 <variable name="start_x">200</variable>
                 <variable name="start_y">200</variable>
                 <variable name="end_x">400</variable>
                 <variable name="end_y">400</variable>
               </ProcedureCall>
-              <ProcedureCall id="_1roA" procedure="subset.define_band_subset">
+              <ProcedureCall id="_2Jez" procedure="subset.define_band_subset">
                 <variable name="band_name">$(bandName)</variable>
               </ProcedureCall>
-              <ProcedureCall id="_1roB"
+              <ProcedureCall id="_2Je+"
                              procedure="do_click.subset_tool.button_OK"/>
-              <ProcedureCall id="_1roC"
+              <ProcedureCall id="_2Je-"
                              procedure="subset.handle_incomplete_subset_definition_dialog"/>
             </ElseSequence>
           </IfSequence>
-          <ProcedureCall id="_1roD" procedure="path.output_data_directory">
-            <variable name="output_dir">$(outdir)</variable>
-          </ProcedureCall>
-          <SetGlobalStep id="_1roE" varname="output_file">
-            <default>$(output_data_directory)$(target_file).$(ext)</default>
-          </SetGlobalStep>
-          <ServerScriptStep disabled="true" id="_1roF" name="print">
-            <code>print "output_file =$(output_file)"  </code>
-          </ServerScriptStep>
-          <ProcedureCall id="_1roG" postdelay="500"
-                         procedure="set.export_dialog.file_name">
-            <variable name="file">$(output_file)</variable>
-          </ProcedureCall>
-          <ProcedureCall id="_1roH"
+          <TestStep id="_2JeV" name="set_target_file_name">
+            <ProcedureCall id="_2JeW" procedure="path.output_data_directory">
+              <variable name="output_dir">$(outdir)</variable>
+            </ProcedureCall>
+            <SetGlobalStep id="_2JeX" varname="output_file">
+              <default>$(output_data_directory)$(target_file).$(ext)</default>
+            </SetGlobalStep>
+            <ServerScriptStep disabled="true" id="_2JeY" name="print">
+              <code>print "output_file =$(output_file)"  </code>
+            </ServerScriptStep>
+            <ProcedureCall id="_2JeZ" postdelay="500"
+                           procedure="set.export_dialog.file_name">
+              <variable name="file">$(output_file)</variable>
+            </ProcedureCall>
+          </TestStep>
+          <ProcedureCall id="_1rre" postdelay="500"
                          procedure="do_click.export_product_dialog.button_Export_Product"/>
-          <ProcedureCall id="_1rps" procedure="utility.wait_export"/>
-          <ElseSequence id="_1roI">
-            <ProcedureCall id="_1roJ" procedure="run-log.make_screensot">
+          <ProcedureCall id="_1rrf" procedure="utility.wait_export"/>
+          <ElseSequence id="_1rrg">
+            <ProcedureCall id="_1rrh" procedure="run-log.make_screensot">
               <variable name="iw_name">subset_tool_window</variable>
             </ProcedureCall>
-            <ProcedureCall id="_1roK"
-                           procedure="do_click.export_product_dialog.cancel"/>
-            <ProcedureCall id="_1roL" procedure="run-log.logError">
-              <variable name="message">subset_tool_window</variable>
-              <variable name="withScreenshots">true</variable>
-            </ProcedureCall>
+            <TryStep id="_1rsG">
+              <SetGlobalStep id="_1rsK" varname="snap_error"/>
+              <ProcedureCall id="_1rsE"
+                             procedure="get.error_text.message_in_dialog_SNAP_Error_multi-size_subset"/>
+              <CatchSequence exception="TestException" id="_1rsH"
+                             maxerror="0">
+                <SetGlobalStep id="_1rsJ" varname="snap_error"/>
+              </CatchSequence>
+            </TryStep>
+            <IfSequence id="_1rsI"
+                        test="&#34;$(snap_error)&#34;==&#34;No subset can be created of a multi-size products.&#34;">
+              <ProcedureCall id="_1rsF"
+                             procedure="do_click.error_dialog.dialog_SNAP_Error.button_OK"/>
+              <ProcedureCall id="_1rsN"
+                             procedure="do_click.export_product_dialog.cancel"/>
+              <ProcedureCall id="_1rsQ"
+                             procedure="qfs.swing.cleanup.closeAllModalDialogs">
+                <variable name="maxDialogs">5</variable>
+              </ProcedureCall>
+              <ElseSequence id="_1rsL">
+                <ProcedureCall disabled="true" id="_1rri"
+                               procedure="do_click.export_product_dialog.cancel"/>
+                <ProcedureCall id="_2JdF"
+                               procedure="qfs.swing.cleanup.closeAllModalDialogs">
+                  <variable name="maxDialogs">5</variable>
+                </ProcedureCall>
+                <ProcedureCall id="_1rrj" procedure="run-log.logError">
+                  <variable name="message">subset_tool_window</variable>
+                  <variable name="withScreenshots">true</variable>
+                </ProcedureCall>
+              </ElseSequence>
+            </IfSequence>
           </ElseSequence>
         </IfSequence>
+        <ProcedureCall id="_2JdE"
+                       procedure="qfs.swing.cleanup.closeAllModalDialogs">
+          <variable name="maxDialogs">5</variable>
+        </ProcedureCall>
       </Procedure>
       <Procedure id="_1roT" name="check_exported_subset_in_SNAP">
+        <variable name="subset_name"/>
         <ProcedureCall disabled="true" id="_1roU"
                        procedure="close.all_products"/>
         <ProcedureCall id="_1roV"
@@ -559,66 +901,95 @@ rc.setGlobal("east_longitude", vl)                       </code>
           </ProcedureCall>
           <ProcedureCall disabled="true" id="_1roY"
                          procedure="wait.product_is_opened"/>
-          <TestStep id="_1roZ" name="open_image_window">
-            <TryStep id="_1roa" name="doubleclick_product_node">
-              <ProcedureCall id="_1rob"
-                             procedure="do_click.tree.doubleclick_product_node">
-                <variable name="prod_id">1</variable>
-                <variable name="group_id">0</variable>
-                <variable name="view_id">0</variable>
-                <variable name="band">$(bandName)</variable>
-              </ProcedureCall>
-              <CatchSequence exception="TestException" id="_1roc"
-                             maxerror="0">
-                <TryStep id="_1rod" name="doubleclick_product_node">
-                  <ProcedureCall id="_1roe"
-                                 procedure="do_click.tree.doubleclick_product_node">
-                    <variable name="prod_id">1</variable>
-                    <variable name="group_id"/>
-                    <variable name="view_id">0</variable>
-                    <variable name="band">$(bandName)</variable>
-                  </ProcedureCall>
-                  <CatchSequence exception="TestException" id="_1rof"
-                                 maxerror="0"/>
-                </TryStep>
-              </CatchSequence>
-            </TryStep>
-            <ProcedureCall id="_1rog"
-                           procedure="utility.wait_image_created_handle_error"/>
-            <IfSequence id="_1ri3"
-                        test="&#34;$(image_window_appears)&#34;==&#34;false&#34;">
-              <ProcedureCall id="_1ri4" procedure="run-log.logError">
-                <variable name="message">image view is not appear</variable>
-                <variable name="withScreenshots">true</variable>
-              </ProcedureCall>
-            </IfSequence>
-          </TestStep>
-          <TestStep disabled="true" id="_1rqT" name="close_select_product">
-            <TryStep id="_1rpt" name="select_product">
-              <ProcedureCall id="_1rox"
-                             procedure="select.product_tree.product">
-                <variable name="prod_id">1</variable>
-              </ProcedureCall>
-              <CatchSequence exception="TestException" id="_1rpu"
-                             maxerror="0">
-                <ProcedureCall id="_1rpv" procedure="run-log.make_screensot">
-                  <variable name="iw_name">exported_subset</variable>
+          <ProcedureCall id="_2JGN"
+                         procedure="wait.disappear.reading_product_progress_monitor"/>
+          <ProcedureCall id="_2JGP"
+                         procedure="check.product.opened_else_shoot_error">
+            <variable name="product_name">$(subset_name)</variable>
+          </ProcedureCall>
+          <IfSequence id="_2JS-"
+                      test="&#34;$(product_id)&#34;&lt;&gt;&#34;&#34;">
+            <TestStep id="_2JT0" name="open_image_window">
+              <TryStep id="_2JT1" name="doubleclick_product_node">
+                <ProcedureCall id="_2JT2"
+                               procedure="do_click.tree.doubleclick_product_node">
+                  <variable name="prod_id">$(pid)</variable>
+                  <variable name="group_id">0</variable>
+                  <variable name="view_id">0</variable>
+                  <variable name="band">$(bandName)</variable>
                 </ProcedureCall>
-                <ProcedureCall id="_1rpx" procedure="run-log.logError">
-                  <variable name="message">exported subset is not opened in SNAP</variable>
+                <CatchSequence exception="TestException" id="_2JT3"
+                               maxerror="0">
+                  <TryStep id="_2JT4" name="doubleclick_product_node">
+                    <ProcedureCall id="_2JT5"
+                                   procedure="do_click.tree.doubleclick_product_node">
+                      <variable name="prod_id">$(pid)</variable>
+                      <variable name="group_id"/>
+                      <variable name="view_id">0</variable>
+                      <variable name="band">$(bandName)</variable>
+                    </ProcedureCall>
+                    <CatchSequence exception="TestException" id="_2JT6"
+                                   maxerror="0">
+                      <ProcedureCall id="_2JT7"
+                                     procedure="wait.disappear.reading_product_progress_monitor"/>
+                      <TryStep id="_2JT8" name="doubleclick_product_node">
+                        <ProcedureCall id="_2JT9"
+                                       procedure="do_click.tree.doubleclick_product_node">
+                          <variable name="prod_id">$(pid)</variable>
+                          <variable name="group_id">0</variable>
+                          <variable name="view_id">0</variable>
+                          <variable name="band">$(bandName)</variable>
+                        </ProcedureCall>
+                        <CatchSequence exception="TestException" id="_2JTA"
+                                       maxerror="0">
+                          <TryStep id="_2JTB" name="doubleclick_product_node">
+                            <ProcedureCall id="_2JTC"
+                                           procedure="do_click.tree.doubleclick_product_node">
+                              <variable name="prod_id">$(pid)</variable>
+                              <variable name="group_id"/>
+                              <variable name="view_id">0</variable>
+                              <variable name="band">$(bandName)</variable>
+                            </ProcedureCall>
+                            <CatchSequence exception="TestException"
+                                           id="_2JTD" maxerror="0"/>
+                          </TryStep>
+                        </CatchSequence>
+                      </TryStep>
+                    </CatchSequence>
+                  </TryStep>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_2JTE"
+                             procedure="utility.wait_image_created_handle_error"/>
+              <IfSequence id="_2JTF"
+                          test="&#34;$(image_window_appears)&#34;==&#34;false&#34;">
+                <ProcedureCall id="_2JTG" procedure="run-log.logError">
+                  <variable name="message">image view is not appear</variable>
                   <variable name="withScreenshots">true</variable>
                 </ProcedureCall>
-              </CatchSequence>
-            </TryStep>
-            <ProcedureCall id="_1roh" procedure="close.selected_product"/>
-          </TestStep>
-          <TestStep id="_1rqU" name="close_other_products">
-            <TryStep id="_1rqR">
-              <ProcedureCall id="_1rqQ" procedure="close.other_products"/>
-              <CatchSequence exception="TestException" id="_1rqS"
-                             maxerror="0"/>
-            </TryStep>
-          </TestStep>
+              </IfSequence>
+            </TestStep>
+            <TestStep id="_1s9e" name="close_selected_product">
+              <TryStep id="_1s9f" name="select_product">
+                <ProcedureCall id="_1s9g"
+                               procedure="select.product_tree.product">
+                  <variable name="prod_id">$(pid)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1s9h"
+                               maxerror="0">
+                  <ProcedureCall id="_1s9i"
+                                 procedure="run-log.make_screensot">
+                    <variable name="iw_name">exported_subset</variable>
+                  </ProcedureCall>
+                  <ProcedureCall id="_1s9j" procedure="run-log.logError">
+                    <variable name="message">exported subset is not opened in SNAP</variable>
+                    <variable name="withScreenshots">true</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+              <ProcedureCall id="_1s9k" procedure="close.selected_product"/>
+            </TestStep>
+          </IfSequence>
         </IfSequence>
       </Procedure>
       <Procedure id="_1qbL" name="export_colour_legend_image_dialog">

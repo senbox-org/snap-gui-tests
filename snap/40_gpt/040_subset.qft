@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.4">
+<RootStep id="_0" name="root" version="4.0.11">
   <include>qfs.qft</include>
   <include>gpt_main.qft</include>
   <variable name="xml_file_dir">subset</variable>
@@ -19,8 +19,27 @@
         <ProcedureCall id="_1l4d" procedure="tables.subset"/>
       </DataDriver>
       <TestCase id="_9Xo" name="create_subset"
-                reportname="run Subset operator using xml file ">
+                reportname="run Subset operator $(xml_file)$(parameters_file) $(dataInDir)/$(fileName) ">
         <ProcedureCall id="_1pP2" procedure="test_sequence"/>
+      </TestCase>
+    </TestSet>
+    <TestSet id="_1pP4" name="jira_issues" postdelay="2000"
+             reportname="run Subset Operator, check if target product">
+      <DataDriver id="_1pP5"
+                  loopreportname="$(xml_file)$(parameters_file) $(dataInDir)/$(fileName) "
+                  name="dataTable">
+        <ProcedureCall id="_1pP6" procedure="tables.subset_jira"/>
+      </DataDriver>
+      <TestCase id="_1pP7" name="create_subset"
+                reportname="run Subset operator $(xml_file)$(parameters_file) $(dataInDir)/$(fileName) ">
+        <IfSequence id="_1pPC"
+                    test="&#34;$(target_file)&#34;==&#34;false&#34;">
+          <ProcedureCall id="_1pP8"
+                         procedure="test_sequence_should_not_be_processed"/>
+          <ElseSequence id="_1pPD">
+            <ProcedureCall id="_1pPF" procedure="test_sequence"/>
+          </ElseSequence>
+        </IfSequence>
       </TestCase>
     </TestSet>
   </TestSet>

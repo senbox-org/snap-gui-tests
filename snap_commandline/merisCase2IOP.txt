@@ -1,0 +1,115 @@
+Usage:
+  gpt Meris.Case2IOP [options]
+
+Description:
+  Performs IOP retrieval on L1b MERIS products, including radiometric correction and atmospheric correction.
+
+
+Source Options:
+  -Ssource=<file>    The source product.
+                     This is a mandatory source.
+
+Parameter Options:
+  -Palgorithm=<case2AlgorithmEnum>          The algorithm used for IOP computation.
+                                            Value must be one of 'REGIONAL', 'BOREAL', 'EUTROPHIC'.
+                                            Default value is 'REGIONAL'.
+  -PchlConversionExponent=<double>          Exponent for conversion from A_PIG to CHL_CONC (optional). Defaults: Regional=1.04, Boreal=not used, Eutro
+phic=1.0
+  -PchlConversionFactor=<double>            Factor for conversion from A_PIG to CHL_CONC (optional). Defaults: Regional=21.0, Boreal=not used, Eutroph
+ic=0.0318
+  -PcloudIceExpression=<string>             The arithmetic expression used for cloud/ice detection.
+                                            Default value is 'toa_reflec_14 > 0.2'.
+                                            This is a mandatory parameter.
+                                            Value must not be empty.
+  -PdoAtmosphericCorrection=<boolean>       Whether or not to perform atmospheric correction.
+                                            Default value is 'true'.
+  -PdoSmileCorrection=<boolean>             Whether to perform SMILE correction.
+                                            Default value is 'true'.
+  -PforwardWaterNnFile=<file>               The file of the forward water neural net to be used instead of the default.
+  -PinvalidPixelExpression=<string>         Expression defining pixels not considered for processing.
+                                            Default value is 'agc_flags.INVALID'.
+  -PinverseWaterNnFile=<file>               The file of the inverse water neural net to be used instead of the default.
+  -PlandExpression=<string>                 The arithmetic expression used for land detection.
+                                            Default value is 'toa_reflec_10 > toa_reflec_6 AND toa_reflec_13 > 0.0475'.
+                                            This is a mandatory parameter.
+                                            Value must not be empty.
+  -PoutputPath=<boolean>                    Toggles the output of water leaving path reflectance.
+                                            Default value is 'true'.
+  -PoutputReflec=<boolean>                  Toggles the output of water leaving irradiance reflectance.
+                                            Default value is 'true'.
+  -PoutputTosa=<boolean>                    Toggles the output of TOSA reflectance.
+                                            Default value is 'true'.
+  -PoutputTransmittance=<boolean>           Toggles the output of downwelling irradiance transmittance.
+                                            Default value is 'true'.
+  -PperformChiSquareFit=<boolean>           Whether or not to perform the Chi-Square fitting.
+                                            Default value is 'false'.
+  -PspectrumOutOfScopeThreshold=<double>    Threshold to indicate Spectrum is Out of Scope.
+                                            Default value is '4.0'.
+  -PtsmConversionExponent=<double>          Exponent for conversion from TSM to B_TSM (optional). Defaults: Regional=1.0, Boreal=not used, Eutrophic=1
+.0
+  -PtsmConversionFactor=<double>            Factor for conversion from TSM to B_TSM (optional). Defaults: Regional=1.73, Boreal=not used, Eutrophic=1.
+73
+
+Graph XML Format:
+  <graph id="someGraphId">
+    <version>1.0</version>
+    <node id="someNodeId">
+      <operator>Meris.Case2IOP</operator>
+      <sources>
+        <source>${source}</source>
+      </sources>
+      <parameters>
+        <doAtmosphericCorrection>boolean</doAtmosphericCorrection>
+        <doSmileCorrection>boolean</doSmileCorrection>
+        <outputTosa>boolean</outputTosa>
+        <outputPath>boolean</outputPath>
+        <outputTransmittance>boolean</outputTransmittance>
+        <landExpression>string</landExpression>
+        <cloudIceExpression>string</cloudIceExpression>
+        <algorithm>case2AlgorithmEnum</algorithm>
+        <outputReflec>boolean</outputReflec>
+        <tsmConversionExponent>double</tsmConversionExponent>
+        <tsmConversionFactor>double</tsmConversionFactor>
+        <chlConversionExponent>double</chlConversionExponent>
+        <chlConversionFactor>double</chlConversionFactor>
+        <spectrumOutOfScopeThreshold>double</spectrumOutOfScopeThreshold>
+        <invalidPixelExpression>string</invalidPixelExpression>
+        <inverseWaterNnFile>file</inverseWaterNnFile>
+        <forwardWaterNnFile>file</forwardWaterNnFile>
+        <performChiSquareFit>boolean</performChiSquareFit>
+      </parameters>
+    </node>
+  </graph>
+
+C:\Projects\Testing\SUT\beam-u-testing\bin>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

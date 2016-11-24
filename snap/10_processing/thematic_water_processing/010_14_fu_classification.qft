@@ -1,0 +1,852 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.11">
+  <include>qfs.qft</include>
+  <include>../../lib/snap_main.qft</include>
+  <include>../lib/processing_main.qft</include>
+  <variable name="output_folder">fu_classification</variable>
+  <TestSet id="_2" name="010_14_fu_classification"
+           reportname="010-14 FU Classification Processor">
+    <DependencyReference id="_1pO-"
+                         reference="start_application_for_processing">
+      <variable name="output_dir">$(output_folder)</variable>
+    </DependencyReference>
+    <TestCase id="_8cc" name="01_check_ui"
+              reportname="01 Check FU Classification Processor UI">
+      <ProcedureCall id="_1s6O" procedure="open_tool_window"/>
+      <TestStep id="_1pM7" name="default_componets">
+        <TestStep id="_1pbB" name="io_parameters">
+          <ProcedureCall id="_1pbA" procedure="select_io_tab"/>
+          <ProcedureCall id="_1pt7"
+                         procedure="check.fu_classification.enabled.menu_file">
+            <comment>fu_classification</comment>
+          </ProcedureCall>
+          <ProcedureCall id="_1pt8"
+                         procedure="check.fu_classification.enabled.menu_help"/>
+          <ProcedureCall id="_1pt9"
+                         procedure="check.fu_classification.enabled.button_close"/>
+          <ProcedureCall id="_1ptA"
+                         procedure="check.fu_classification.enabled.button_apply"/>
+          <ProcedureCall id="_1ptB"
+                         procedure="check.fu_classification.enabled.button_source_product"/>
+          <ProcedureCall id="_1ptC"
+                         procedure="check.fu_classification.enabled.button_directory"/>
+          <ProcedureCall id="_1ptD"
+                         procedure="check.fu_classification.enabled.save_as"/>
+          <ProcedureCall id="_1ptE"
+                         procedure="check.fu_classification.enabled.open_in_snap"/>
+          <ProcedureCall id="_1ptF"
+                         procedure="check.fu_classification.enabled.save_as_enabled_status">
+            <variable name="enabled">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptG"
+                         procedure="check.fu_classification.enabled.open_in_snap_enabled_status">
+            <variable name="enabled">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptH"
+                         procedure="check.fu_classification.checked.save_as_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptI"
+                         procedure="check.fu_classification.checked.open_in_snap_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pbG" name="processing_parameters">
+          <ProcedureCall id="_1pbF"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_1s2s"
+                         procedure="check.fu_classification.checked.copy_all_source_bands_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s2r"
+                         procedure="check.fu_classification.checked.input_is_irradiance_reflectance_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1sU+"
+                         procedure="check.fu_classification.checked.include_intermediate_results_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ptQ"
+                         procedure="check.fu_classification.text.valid_pixel_expression">
+            <variable name="val"/>
+          </ProcedureCall>
+          <ProcedureCall id="_1s2t"
+                         procedure="check.fu_classification.enabled.valid_pixel_expession_button_enabled_status">
+            <variable name="enabled">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s30" procedure="variables.fu_instruments"/>
+          <ProcedureCall id="_1s2u"
+                         procedure="check.fu_classification.text.instrument">
+            <variable name="val">$(auto)</variable>
+          </ProcedureCall>
+        </TestStep>
+      </TestStep>
+      <ProcedureCall id="_1s6e" procedure="close_processor_tool"/>
+    </TestCase>
+    <TestSet id="_1pMP" name="02_processing">
+      <TestCase id="_40q" name="store_load_display_parameters">
+        <variable name="ofn">fu_classification_save_parameters.xml</variable>
+        <variable name="output_file">fu_classification_save_parameters.dim</variable>
+        <variable name="source_data">MER_RR__2_test.N1</variable>
+        <variable name="source_dir">mer_rr__2p_n1</variable>
+        <variable name="valid_pixel_expression">l2_flags.WATER</variable>
+        <ProcedureCall id="_1s6P" procedure="open_tool_window"/>
+        <TestStep id="_1pOt" name="change_parameters">
+          <ProcedureCall id="_1qGC"
+                         procedure="preparation_for_test_without_save"/>
+          <ProcedureCall id="_1qCW"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_1s35" procedure="variables.fu_instruments"/>
+          <ProcedureCall id="_1s32"
+                         procedure="select.fu_classification.copy_all_source_bands"/>
+          <ProcedureCall id="_1s33"
+                         procedure="select.fu_classification.input_is_irradiance_reflectance"/>
+          <ProcedureCall id="_1sU-"
+                         procedure="deselect.fu_classification.include_intermediate_results"/>
+          <ProcedureCall id="_1s34"
+                         procedure="select.fu_classification.instrument">
+            <variable name="instrument">$(meris)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s36"
+                         procedure="set.fu_classification.valid_pixel_expression">
+            <variable name="val">$(valid_pixel_expression)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <ProcedureCall id="_1pPE" procedure="store_parameters"/>
+        <TestStep id="_1pPg" name="change_parameters">
+          <ProcedureCall id="_1pfT"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_1s37"
+                         procedure="deselect.fu_classification.copy_all_source_bands"/>
+          <ProcedureCall id="_1s38"
+                         procedure="deselect.fu_classification.input_is_irradiance_reflectance"/>
+          <ProcedureCall id="_1sV0"
+                         procedure="select.fu_classification.include_intermediate_results"/>
+          <ProcedureCall id="_1s39"
+                         procedure="select.fu_classification.instrument">
+            <variable name="instrument">$(olci)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s3A"
+                         procedure="set.fu_classification.valid_pixel_expression">
+            <variable name="val">l2_flags.CLOUD</variable>
+          </ProcedureCall>
+        </TestStep>
+        <ProcedureCall id="_1pPl" procedure="load_parameters"/>
+        <TestStep id="_1pPm" name="check_parameters">
+          <ProcedureCall id="_1pfY"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_1s3C"
+                         procedure="check.fu_classification.checked.copy_all_source_bands_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s3B"
+                         procedure="check.fu_classification.checked.input_is_irradiance_reflectance_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1sV1"
+                         procedure="check.fu_classification.checked.include_intermediate_results_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s3D"
+                         procedure="check.fu_classification.text.valid_pixel_expression">
+            <variable name="val">$(valid_pixel_expression)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s3E"
+                         procedure="check.fu_classification.text.instrument">
+            <variable name="val">$(meris)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pV8" name="display_parameters">
+          <ProcedureCall id="_1pbU" procedure="display_parameters_and_check"/>
+          <ProcedureCall id="_1s6f" procedure="close_processor_tool"/>
+        </TestStep>
+      </TestCase>
+      <TestCase id="_1pZO" name="cancel_processing">
+        <variable name="output_file">test_fu_cancel.dim</variable>
+        <variable name="source_data">MER_FRS_2PNMAP20090815_085614_000001912081_00365_38996_0001.N1</variable>
+        <variable name="source_dir">mer_frs_2p_n1</variable>
+        <ProcedureCall id="_1s6Q" procedure="open_tool_window"/>
+        <SetGlobalStep id="_1s5X" varname="valid_pixel_expression"/>
+        <ProcedureCall id="_1qGx"
+                       procedure="preparation_for_test_save_output_product"/>
+        <TestStep id="_1pZQ" name="cancel_processing">
+          <ProcedureCall id="_1qGy"
+                         procedure="do_click.fu_classification.button_apply"/>
+          <ProcedureCall id="_1pa9" procedure="cancel_operators"/>
+        </TestStep>
+        <ProcedureCall id="_1sV2"
+                       procedure="utility.check_if_processing_is_really_canceled"/>
+        <ProcedureCall id="_1s6g" procedure="close_processor_tool"/>
+      </TestCase>
+      <TestSet id="_1pT+" name="processing_in_different_formats_meris">
+        <variable name="source_data">MER_RR__2_test.N1</variable>
+        <variable name="source_dir">mer_rr__2p_n1</variable>
+        <SetupSequence id="_1pUV" name="prepare_for_the_testing">
+          <ProcedureCall id="_1s6R" procedure="open_tool_window"/>
+          <ProcedureCall id="_1qG+"
+                         procedure="preparation_for_test_save_output_product">
+            <variable name="output_file">test</variable>
+          </ProcedureCall>
+        </SetupSequence>
+        <TestSet id="_1pUb" name="processing">
+          <DataDriver id="_1pUc"
+                      loopreportname="Write the target product as $(output_format)"
+                      name="output_formats">
+            <ProcedureCall id="_1pUd" procedure="tables.output_formats"/>
+          </DataDriver>
+          <TestCase id="_1pUj" name="processing_in_different_formats"
+                    reportname="Processing in $(output_format) format and check output product">
+            <ServerScriptStep disabled="true" id="_1pV5" name="print">
+              <code>print "output_format = $(output_format)"</code>
+            </ServerScriptStep>
+            <ServerScriptStep disabled="true" id="_1pV6" name="print">
+              <code>print "output_file = $(output_file)"</code>
+            </ServerScriptStep>
+            <TryStep id="_1s3Z"
+                     name="check_fu_classification_tool_is_opened_else_open">
+              <ProcedureCall id="_1s3Y"
+                             procedure="check.fu_classification.fu_classification_tool_opened"/>
+              <CatchSequence exception="TestException" id="_1s3a"
+                             maxerror="0">
+                <ProcedureCall id="_1s6S" procedure="open_tool_window"/>
+              </CatchSequence>
+            </TryStep>
+            <TestStep id="_1s42" name="processing">
+              <ProcedureCall disabled="true" id="_1s43"
+                             procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
+                <variable name="screenshot">flh_mci_error</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1s44" procedure="select_io_tab"/>
+              <ProcedureCall id="_1s45"
+                             procedure="set.fu_classification.target_product_name">
+                <variable name="target_product_name">$(output_file)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1s46"
+                             procedure="select.fu_classification.output_format">
+                <variable name="output_format">$(output_format)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1s5P" procedure="running"/>
+            </TestStep>
+            <TestStep id="_1pUq" name="check_target_product">
+              <ProcedureCall id="_1pfx"
+                             procedure="test_events.check_target_product_without_grouping"/>
+              <ProcedureCall id="_1qH5" procedure="close.all_products"/>
+            </TestStep>
+          </TestCase>
+        </TestSet>
+        <CleanupSequence id="_1pUa" name="close_processor_tool">
+          <ProcedureCall id="_1s6h" procedure="close_processor_tool"/>
+          <ProcedureCall id="_1p08" procedure="cleanup.output_data_folder">
+            <variable name="directory">$(output_folder)</variable>
+          </ProcedureCall>
+        </CleanupSequence>
+      </TestSet>
+      <TestSet id="_1s3c" name="processing_in_different_formats_olci">
+        <variable name="source_data">xfdumanifest.xml</variable>
+        <variable name="source_dir">sentinel3_S3A_OL_2_WRR_20070910T095130</variable>
+        <SetupSequence id="_1s3d" name="prepare_for_the_testing">
+          <ProcedureCall id="_1s6T" procedure="open_tool_window"/>
+          <ProcedureCall id="_1s3f"
+                         procedure="preparation_for_test_save_output_product">
+            <variable name="output_file">test</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1sWv" procedure="variables.fu_instruments"/>
+          <ProcedureCall id="_1sWw"
+                         procedure="select.fu_classification.instrument">
+            <variable name="instrument">$(olci)</variable>
+          </ProcedureCall>
+        </SetupSequence>
+        <TestSet id="_1s3g" name="processing">
+          <DataDriver id="_1s3h"
+                      loopreportname="Write the target product as $(output_format)"
+                      name="output_formats">
+            <ProcedureCall id="_1s3i" procedure="tables.output_formats"/>
+          </DataDriver>
+          <TestCase id="_1s3j" name="processing_in_different_formats"
+                    reportname="Processing in $(output_format) format and check output product">
+            <ServerScriptStep disabled="true" id="_1s3k" name="print">
+              <code>print "output_format = $(output_format)"</code>
+            </ServerScriptStep>
+            <ServerScriptStep disabled="true" id="_1s3l" name="print">
+              <code>print "output_file = $(output_file)"</code>
+            </ServerScriptStep>
+            <TryStep id="_1s3m"
+                     name="check_fu_classification_tool_is_opened_else_open">
+              <ProcedureCall id="_1s3n"
+                             procedure="check.fu_classification.fu_classification_tool_opened"/>
+              <CatchSequence exception="TestException" id="_1s3o"
+                             maxerror="0">
+                <ProcedureCall id="_1s6U" procedure="open_tool_window"/>
+              </CatchSequence>
+            </TryStep>
+            <TestStep id="_1s3q" name="processing">
+              <ProcedureCall disabled="true" id="_1s3r"
+                             procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
+                <variable name="screenshot">flh_mci_error</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1s3s" procedure="select_io_tab"/>
+              <ProcedureCall id="_1s3t"
+                             procedure="set.fu_classification.target_product_name">
+                <variable name="target_product_name">$(output_file)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1s3u"
+                             procedure="select.fu_classification.output_format">
+                <variable name="output_format">$(output_format)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1s5Q" procedure="running"/>
+            </TestStep>
+            <TestStep id="_1s3z" name="check_target_product">
+              <ProcedureCall id="_1s3+"
+                             procedure="test_events.check_target_product_without_grouping"/>
+              <ProcedureCall id="_1s3-" procedure="close.all_products"/>
+            </TestStep>
+          </TestCase>
+        </TestSet>
+        <CleanupSequence id="_1s40" name="close_processor_tool">
+          <ProcedureCall id="_1s6i" procedure="close_processor_tool"/>
+          <ProcedureCall id="_1s5g" procedure="cleanup.output_data_folder">
+            <variable name="directory">$(output_folder)</variable>
+          </ProcedureCall>
+        </CleanupSequence>
+      </TestSet>
+      <TestSet id="_1s4B" name="processing_in_different_formats_modis">
+        <variable name="source_data">A2016087192000.L2_LAC_OC.nc</variable>
+        <variable name="source_dir">modis_l2_LAC</variable>
+        <SetupSequence id="_1s4C" name="prepare_for_the_testing">
+          <ProcedureCall id="_1s6V" procedure="open_tool_window"/>
+          <ProcedureCall id="_1s4E"
+                         procedure="preparation_for_test_save_output_product">
+            <variable name="output_file">test</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s5j" procedure="variables.fu_instruments"/>
+          <ProcedureCall id="_1s5k"
+                         procedure="select.fu_classification.instrument">
+            <variable name="instrument">$(modis)</variable>
+          </ProcedureCall>
+        </SetupSequence>
+        <TestSet id="_1s4F" name="processing">
+          <DataDriver id="_1s4G"
+                      loopreportname="Write the target product as $(output_format)"
+                      name="output_formats">
+            <ProcedureCall id="_1s4H" procedure="tables.output_formats"/>
+          </DataDriver>
+          <TestCase id="_1s4I" name="processing_in_different_formats"
+                    reportname="Processing in $(output_format) format and check output product">
+            <ServerScriptStep disabled="true" id="_1s4J" name="print">
+              <code>print "output_format = $(output_format)"</code>
+            </ServerScriptStep>
+            <ServerScriptStep disabled="true" id="_1s4K" name="print">
+              <code>print "output_file = $(output_file)"</code>
+            </ServerScriptStep>
+            <TryStep id="_1s4L"
+                     name="check_fu_classification_tool_is_opened_else_open">
+              <ProcedureCall id="_1s4M"
+                             procedure="check.fu_classification.fu_classification_tool_opened"/>
+              <CatchSequence exception="TestException" id="_1s4N"
+                             maxerror="0">
+                <ProcedureCall id="_1s6W" procedure="open_tool_window"/>
+              </CatchSequence>
+            </TryStep>
+            <TestStep id="_1s4P" name="processing">
+              <ProcedureCall disabled="true" id="_1s4Q"
+                             procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
+                <variable name="screenshot">flh_mci_error</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1s4R" procedure="select_io_tab"/>
+              <ProcedureCall id="_1s4S"
+                             procedure="set.fu_classification.target_product_name">
+                <variable name="target_product_name">$(output_file)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1s4T"
+                             procedure="select.fu_classification.output_format">
+                <variable name="output_format">$(output_format)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1s5R" procedure="running"/>
+            </TestStep>
+            <TestStep id="_1s4Y" name="check_target_product">
+              <ProcedureCall id="_1s4Z"
+                             procedure="test_events.check_target_product_without_grouping"/>
+              <ProcedureCall id="_1s4a" procedure="close.all_products"/>
+            </TestStep>
+          </TestCase>
+        </TestSet>
+        <CleanupSequence id="_1s4b" name="close_processor_tool">
+          <ProcedureCall id="_1s6j" procedure="close_processor_tool"/>
+          <ProcedureCall id="_1s5h" procedure="cleanup.output_data_folder">
+            <variable name="directory">$(output_folder)</variable>
+          </ProcedureCall>
+        </CleanupSequence>
+      </TestSet>
+      <TestSet id="_1s4d" name="processing_in_different_formats_seawifs">
+        <variable name="source_data">S2000195102745.L2_MLAC.x.hdf</variable>
+        <variable name="source_dir">seadas_seawifs_l2</variable>
+        <SetupSequence id="_1s4e" name="prepare_for_the_testing">
+          <ProcedureCall id="_1s6X" procedure="open_tool_window"/>
+          <ProcedureCall id="_1s4g"
+                         procedure="preparation_for_test_save_output_product">
+            <variable name="output_file">test</variable>
+          </ProcedureCall>
+        </SetupSequence>
+        <TestSet id="_1s4h" name="processing">
+          <DataDriver id="_1s4i"
+                      loopreportname="Write the target product as $(output_format)"
+                      name="output_formats">
+            <ProcedureCall id="_1s4j" procedure="tables.output_formats"/>
+          </DataDriver>
+          <TestCase id="_1s4k" name="processing_in_different_formats"
+                    reportname="Processing in $(output_format) format and check output product">
+            <ServerScriptStep id="_1s4l" name="print">
+              <code>print "output_format = $(output_format)"</code>
+            </ServerScriptStep>
+            <ServerScriptStep id="_1s4m" name="print">
+              <code>print "output_file = $(output_file)"</code>
+            </ServerScriptStep>
+            <TryStep id="_1s4n"
+                     name="check_fu_classification_tool_is_opened_else_open">
+              <ProcedureCall id="_1s4o"
+                             procedure="check.fu_classification.fu_classification_tool_opened"/>
+              <CatchSequence exception="TestException" id="_1s4p"
+                             maxerror="0">
+                <ProcedureCall id="_1s6Y" procedure="open_tool_window"/>
+              </CatchSequence>
+            </TryStep>
+            <TestStep id="_1s4r" name="processing">
+              <ProcedureCall disabled="true" id="_1s4s"
+                             procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
+                <variable name="screenshot">flh_mci_error</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1s4t" procedure="select_io_tab"/>
+              <ProcedureCall id="_1s4u"
+                             procedure="set.fu_classification.target_product_name">
+                <variable name="target_product_name">$(output_file)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1s4v"
+                             procedure="select.fu_classification.output_format">
+                <variable name="output_format">$(output_format)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1s5S" procedure="running"/>
+            </TestStep>
+            <TestStep id="_1s4+" name="check_target_product">
+              <ProcedureCall id="_1s4-"
+                             procedure="test_events.check_target_product_without_grouping"/>
+              <ProcedureCall id="_1s50" procedure="close.all_products"/>
+            </TestStep>
+          </TestCase>
+        </TestSet>
+        <CleanupSequence id="_1s51" name="close_processor_tool">
+          <ProcedureCall id="_1s6k" procedure="close_processor_tool"/>
+          <ProcedureCall id="_1s5i" procedure="cleanup.output_data_folder">
+            <variable name="directory">$(output_folder)</variable>
+          </ProcedureCall>
+        </CleanupSequence>
+      </TestSet>
+      <TestSet id="_1qax" name="processing_different_products"
+               reportname="FU Classification for different source data">
+        <variable name="output_file_x">test</variable>
+        <SetupSequence id="_1qay" name="prepare_for_the_testing">
+          <TryStep id="_1l9R" name="check_is_SNAP_is_already_started">
+            <ProcedureCall id="_1oJI" procedure="set.variable.client_snap"/>
+            <ClientWaiter client="$(client)" id="_1oJH" timeout="0"/>
+            <CatchSequence exception="ClientNotConnectedException" id="_1l9T"
+                           maxerror="0" name="not start -&gt; start">
+              <ProcedureCall id="_1p05" procedure="start.snap.application"/>
+            </CatchSequence>
+          </TryStep>
+          <ProcedureCall id="_1s6Z" procedure="open_tool_window"/>
+          <SetGlobalStep disabled="true" id="_1s5V" varname="source_data">
+            <default>MER_RR__2_test.N1</default>
+          </SetGlobalStep>
+          <SetGlobalStep disabled="true" id="_1s5W" varname="source_dir">
+            <default>mer_rr__2p_n1</default>
+          </SetGlobalStep>
+          <ProcedureCall disabled="true" id="_1s5C"
+                         procedure="preparation_for_test_without_save"/>
+        </SetupSequence>
+        <TestSet id="_1qa-" name="processing">
+          <DataDriver id="_1qb0"
+                      loopreportname="FU Classification $(dataInDir)/$(fileName)"
+                      name="source_data">
+            <ProcedureCall id="_1rkE"
+                           procedure="tables.source_data_for_fu_classification"/>
+          </DataDriver>
+          <TestCase id="_1qb2" name="processing"
+                    reportname="$(dataInDir)/$(fileName)">
+            <ServerScriptStep disabled="true" id="_1orx" name="print">
+              <code>print "data_source_dir = $(dataInDir)"</code>
+            </ServerScriptStep>
+            <ServerScriptStep disabled="true" id="_1s67" name="print">
+              <code>print "source_data = $(fileName)"</code>
+            </ServerScriptStep>
+            <ProcedureCall id="_1qcy"
+                           procedure="qfs.swing.cleanup.closeAllModalDialogs">
+              <variable name="maxDialogs">5</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1qd2" procedure="close.all_products"/>
+            <TryStep id="_1s5D"
+                     name="check_fu_classification_tool_is_opened_else_open">
+              <ProcedureCall id="_1s5E"
+                             procedure="check.fu_classification.fu_classification_tool_opened"/>
+              <CatchSequence exception="TestException" id="_1s5F"
+                             maxerror="0">
+                <ProcedureCall id="_1s6a" procedure="open_tool_window"/>
+                <ProcedureCall disabled="true" id="_1s5H"
+                               procedure="preparation_for_test_without_save"/>
+              </CatchSequence>
+            </TryStep>
+            <ProcedureCall id="_1s5U" procedure="select_io_tab"/>
+            <ProcedureCall id="_1s5I" procedure="open_source_product">
+              <variable name="prod_dir">$(dataInDir)</variable>
+              <variable name="prod_name">$(fileName)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1s5J"
+                           procedure="set.fu_classification.target_product_name">
+              <variable name="target_product_name">$(output_file)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1s6E"
+                           procedure="deselect.fu_classification.save_as"/>
+            <ProcedureCall id="_1s5l"
+                           procedure="select_processing_parameters_tab"/>
+            <ProcedureCall id="_1s5m" procedure="variables.fu_instruments"/>
+            <IfSequence id="_1s5p"
+                        test="&#34;$(instrument_name)&#34;&lt;&gt;&#34;&#34;">
+              <ProcedureCall id="_1s5n"
+                             procedure="select.fu_classification.instrument">
+                <variable name="instrument_1">$(instrument_name)</variable>
+                <variable name="instrument">$($(instrument_name))</variable>
+              </ProcedureCall>
+              <ElseSequence id="_1s5v">
+                <ProcedureCall id="_1s5x"
+                               procedure="select.fu_classification.instrument">
+                  <variable name="instrument">$(auto)</variable>
+                </ProcedureCall>
+              </ElseSequence>
+            </IfSequence>
+            <IfSequence id="_1s5q"
+                        test="&#34;$(mask_expr)&#34;&lt;&gt;&#34;&#34;">
+              <ProcedureCall id="_1s5o"
+                             procedure="set.fu_classification.valid_pixel_expression">
+                <variable name="val">$(mask_expr)</variable>
+                <comment>
+</comment>
+              </ProcedureCall>
+              <ElseSequence id="_1s5r">
+                <ProcedureCall id="_1s5s"
+                               procedure="set.fu_classification.valid_pixel_expression">
+                  <variable name="val"/>
+                </ProcedureCall>
+              </ElseSequence>
+            </IfSequence>
+            <ProcedureCall id="_1s5T" procedure="running"/>
+            <TestStep id="_1qbM" name="check_target_product">
+              <ProcedureCall id="_1rqI"
+                             procedure="check.target_product.open_image_view_check"/>
+            </TestStep>
+          </TestCase>
+        </TestSet>
+        <CleanupSequence id="_1qbP" name="close_processor_tool">
+          <ProcedureCall id="_1s6m" procedure="close_processor_tool"/>
+        </CleanupSequence>
+      </TestSet>
+    </TestSet>
+    <TestCase id="_1pFr" name="03_help">
+      <ProcedureCall id="_1s6b" procedure="open_tool_window"/>
+      <TestStep id="_1pVG" name="check_help">
+        <ProcedureCall id="_1pVH"
+                       procedure="do_click.fu_classification.menu.help"/>
+        <ProcedureCall id="_1qBp"
+                       procedure="do_click.fu_classification.menu.help_menu_item"/>
+        <ProcedureCall id="_1qcu" procedure="help.check_help_appears_close"/>
+      </TestStep>
+      <TestStep id="_1pVN" name="check_help_about">
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogFU_Classification.menubar"
+                        event="MOUSE_MPRC" id="_1r+f" modifiers="16" x="185"
+                        y="13"/>
+        <ProcedureCall id="_1qBq"
+                       procedure="do_click.fu_classification.menu.help"/>
+        <ProcedureCall id="_1qBr"
+                       procedure="do_click.fu_classification.menu.about"/>
+        <ComponentWaiter client="$(client)" component="dialogAbout_FuOp"
+                         id="_1s3T"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogAbout_FuOp.ModalDialog.ok"
+                        event="MOUSE_MPRC" id="_1s3U" modifiers="16"/>
+      </TestStep>
+      <ProcedureCall id="_1s6l" procedure="close_processor_tool"/>
+    </TestCase>
+  </TestSet>
+  <PackageRoot id="_4">
+    <Procedure id="_1s6c" name="close_processor_tool">
+      <ProcedureCall id="_1s6d"
+                     procedure="close_processing_tool.thematic_water_processing.fu_classification"/>
+    </Procedure>
+    <Procedure id="_1s6L" name="open_tool_window">
+      <ProcedureCall id="_1s6N"
+                     procedure="open.optical.thematic_water_processing.fu_classification_processor"/>
+    </Procedure>
+    <Procedure id="_1pb8" name="select_io_tab">
+      <ProcedureCall id="_1pb9" procedure="select.fu_classification.tab">
+        <variable name="tab">I/O Parameters</variable>
+        <variable name="example">I/O Parameters;Processing Parameters</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pbC" name="select_processing_parameters_tab">
+      <ProcedureCall id="_1pbE" procedure="select.fu_classification.tab">
+        <variable name="tab">Processing Parameters</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pbQ" name="display_parameters_and_check">
+      <ProcedureCall id="_1pbR" procedure="display_parameters"/>
+      <ComponentWaiter client="$(client)" component="dialogFuOp_Parameters"
+                       id="_1s3F"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogFuOp_Parameters.ModalDialog.ok"
+                      event="MOUSE_MPRC" id="_1s3G" modifiers="16"/>
+    </Procedure>
+    <Procedure id="_1pMT" name="open_source_product">
+      <variable name="prod_dir"/>
+      <variable name="prod_name"/>
+      <ProcedureCall id="_1oSj" procedure="path.source_data_directory">
+        <variable name="data_type">$(prod_dir)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1pMS"
+                     procedure="do_click.fu_classification.button_source_product"/>
+      <ProcedureCall id="_1pHR"
+                     procedure="utility.handle_select_product_dialog">
+        <variable name="file">$(data_source_directory)$(prod_name)</variable>
+      </ProcedureCall>
+      <TryStep id="_1pXT">
+        <ProcedureCall id="_1pXV" procedure="wait.appear.error.dialog_Error"/>
+        <ProcedureCall id="_1pXS"
+                       procedure="do_click.error_dialog.button_OK_Error"/>
+        <ProcedureCall id="_1pXW" procedure="run-log.logError">
+          <variable name="message">Opening of the product $(data_source_directory)$(prod_name) failed</variable>
+          <variable name="withScreenshots">false</variable>
+        </ProcedureCall>
+        <CatchSequence exception="TestException" id="_1pXU" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1pON" name="click_ok_in_product_created_dialog">
+      <TryStep id="_1qXT">
+        <ComponentWaiter client="$(client)"
+                         component="dialogSNAP_-_FU_Classification"
+                         errorlevel="0" id="_1qXS" raise="false"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSNAP_-_FU_Classification.buttonOK"
+                        event="MOUSE_MPRC" id="_1qXR" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1qXW" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1s5a" name="click_yes_in_overwrite_existing_file_dialog">
+      <TryStep id="_1s5b">
+        <ComponentWaiter client="$(client)"
+                         component="dialogFU_Classification2.buttonYes"
+                         errorlevel="0" id="_1s5c" raise="false"
+                         timeout="20"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogFU_Classification2.buttonYes"
+                        event="MOUSE_MPRC" id="_1s5d" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1s5e" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1s5y" name="click_ok_in_error_dialog">
+      <ProcedureCall id="_1s63"
+                     procedure="error_handling.if_SNAP_Error_shoot_error_message"/>
+    </Procedure>
+    <Procedure id="_1qCR" name="preparation_for_test_without_save">
+      <comment>@teststep preparation</comment>
+      <ProcedureCall id="_1qCS" procedure="select_io_tab"/>
+      <ProcedureCall id="_1qCT" procedure="open_source_product">
+        <variable name="prod_dir">$(source_dir)</variable>
+        <variable name="prod_name">$(source_data)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qCU"
+                     procedure="set.fu_classification.target_product_name">
+        <variable name="target_product_name">$(output_file)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1pfn" procedure="get_source_product"/>
+      <ProcedureCall id="_1qCV"
+                     procedure="deselect.fu_classification.save_as"/>
+      <ProcedureCall id="_1s58" procedure="select_processing_parameters_tab"/>
+      <ProcedureCall id="_1s5t" procedure="variables.fu_instruments"/>
+      <ProcedureCall id="_1s5u"
+                     procedure="select.fu_classification.instrument">
+        <variable name="instrument">$(auto)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1s5A"
+                     procedure="set.fu_classification.valid_pixel_expression">
+        <variable name="val"/>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1qGm" name="preparation_for_test_save_output_product">
+      <comment>@teststep preparation</comment>
+      <ProcedureCall id="_1s3H" procedure="select_io_tab"/>
+      <ProcedureCall id="_1s3I" postdelay="5000"
+                     procedure="open_source_product">
+        <variable name="prod_dir">$(source_dir)</variable>
+        <variable name="prod_name">$(source_data)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1s3J"
+                     procedure="set.fu_classification.target_product_name">
+        <variable name="target_product_name">$(output_file)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qH6"
+                     procedure="set.fu_classification.target_directory">
+        <variable name="dir">$(output_folder)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1s3M" procedure="select.fu_classification.save_as"/>
+      <ProcedureCall id="_1s3N"
+                     procedure="select.fu_classification.open_in_snap"/>
+      <ProcedureCall id="_1s3O" procedure="daten_format.beam_dimap"/>
+      <ProcedureCall id="_1s3P"
+                     procedure="select.fu_classification.output_format">
+        <variable name="output_format">$(beam_dimap)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qGs" procedure="select_processing_parameters_tab"/>
+      <ProcedureCall id="_1s5B" procedure="variables.fu_instruments"/>
+      <ProcedureCall id="_1s5Y"
+                     procedure="deselect.fu_classification.copy_all_source_bands"/>
+      <ProcedureCall id="_1s5Z"
+                     procedure="deselect.fu_classification.input_is_irradiance_reflectance"/>
+      <ProcedureCall id="_1s54"
+                     procedure="select.fu_classification.instrument">
+        <variable name="instrument">$(auto)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1s6K"
+                     procedure="set.fu_classification.valid_pixel_expression">
+        <variable name="val"/>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pPF" name="store_parameters">
+      <TryStep id="_1pPG" name="select_menu_store_parameters">
+        <ProcedureCall id="_1pPH"
+                       procedure="do_click.fu_classification.menu.file"/>
+        <ProcedureCall id="_1qGM"
+                       procedure="do_click.fu_classification.menu.save_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPJ" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPK" procedure="utility.store_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pTE" name="get_source_product">
+      <FetchTextStep client="$(client)"
+                     component="dialogFU_Classification.panelI/O_Parameters.comboThe_source_product_providing_reflectances."
+                     id="_1pTF" varname="source_product"/>
+    </Procedure>
+    <Procedure id="_1pPv" name="display_parameters">
+      <TryStep id="_1pPw" name="select_menu_display_parameters">
+        <ProcedureCall id="_1qGN"
+                       procedure="do_click.fu_classification.menu.file"/>
+        <ProcedureCall id="_1qGO"
+                       procedure="do_click.fu_classification.menu.display_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPz" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1pP9" name="load_parameters">
+      <TryStep id="_1pPA" name="select_menu_load_parameters">
+        <ProcedureCall id="_1qGP"
+                       procedure="do_click.fu_classification.menu.file"/>
+        <ProcedureCall id="_1qGQ"
+                       procedure="do_click.fu_classification.menu.load_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPD" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPM" procedure="utility.load_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1s5K" name="running">
+      <ProcedureCall id="_1s5L"
+                     procedure="do_click.fu_classification.button_apply"/>
+      <ProcedureCall id="_1s5f"
+                     procedure="click_yes_in_overwrite_existing_file_dialog"/>
+      <ProcedureCall id="_1s5M"
+                     procedure="wait.disappear.writing_target_product"/>
+      <ProcedureCall id="_1s5N"
+                     procedure="click_ok_in_product_created_dialog"/>
+      <ProcedureCall id="_1s6J" procedure="click_ok_in_error_dialog"/>
+      <ProcedureCall id="_1s64" procedure="click_ok_in_error_dialog"/>
+      <ProcedureCall disabled="true" id="_1s5O"
+                     procedure="error_handling.if_any_error_make_screenshot_shoot_error_message"/>
+    </Procedure>
+  </PackageRoot>
+  <ExtraSequence id="_5">
+    <BasicSequence id="_1sWt" name="Aufnahme 04.07.16 16:24">
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogFU_Classification.instrument"
+                       id="_1sWu">
+        <text>AUTO_DETECT</text>
+      </CheckStringStep>
+    </BasicSequence>
+    <BasicSequence id="_1sUw" name="Aufnahme 16.06.16 15:51">
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogFU_Classification.inputIsIrradianceReflectance"
+                        id="_1sUx" state="false"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogFU_Classification.copyAllSourceBands"
+                        id="_1sUy" state="false"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogFU_Classification.includeIntermediateResults"
+                        id="_1sUz"/>
+    </BasicSequence>
+    <ProcedureCall id="_1s6n" procedure="check.product.not_opened"/>
+    <IfSequence id="_1oXW" test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+      <TestStep id="_1o+2" name="delete_band">
+        <ProcedureCall id="_1oXb" procedure="select.product_tree.band">
+          <variable name="prod_id">0</variable>
+          <variable name="group_id"/>
+          <variable name="view_id">1</variable>
+          <variable name="band">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1ozv" procedure="delete_product_tree_node"/>
+        <ProcedureCall id="_1ozx" procedure="check.product.node_not_exists">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1o+t" name="undo">
+        <ProcedureCall id="_1p0C" procedure="undo_tree"/>
+        <ProcedureCall disabled="true" id="_1o+y"
+                       procedure="do_click_menubar_undo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o+z" procedure="get.tree.get_index_of_node">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+        <ServerScriptStep disabled="true" id="_1o++" name="print">
+          <code>print "$(new_band_id)"</code>
+        </ServerScriptStep>
+      </TestStep>
+      <TestStep id="_1o-3" name="redo">
+        <ProcedureCall id="_1p0D" procedure="redo_tree"/>
+        <ProcedureCall disabled="true" id="_1o-B"
+                       procedure="do_click_menubar_redo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o-C" procedure="check.product.node_not_exists">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1o-F" name="undo">
+        <ProcedureCall id="_1p0E" procedure="undo_tree"/>
+        <ProcedureCall disabled="true" id="_1o-P"
+                       procedure="do_click_menubar_undo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o-Q" procedure="get.tree.get_index_of_node">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+    </IfSequence>
+    <ProcedureCall id="_1oXO" procedure="close.all_products"/>
+  </ExtraSequence>
+  <WindowList id="_6"/>
+</RootStep>

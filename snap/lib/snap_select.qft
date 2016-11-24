@@ -135,7 +135,7 @@
             <SetGlobalStep id="_1pE1" varname="nid">
               <default>/$(prod_id)/$(vector_data_node_id)/$(node_id)</default>
             </SetGlobalStep>
-            <ServerScriptStep id="_1pEF" name="print">
+            <ServerScriptStep disabled="true" id="_1pEF" name="print">
               <code>print "Vector Node = $(nid)"</code>
             </ServerScriptStep>
             <MouseEventStep clicks="1" client="$(client)"
@@ -178,37 +178,37 @@
             </CatchSequence>
           </TryStep>
         </Procedure>
-        <Procedure id="_1oTh" name="metadata" postdelay="500">
+        <Procedure id="_2Je0" name="metadata" postdelay="500">
           <variable name="prod_id"/>
           <variable name="group_id"/>
           <variable name="metadata_id"/>
           <comment>@teststep Select 'Meta Data' node.</comment>
-          <ProcedureCall id="_1oTi" procedure="get.tree.metadata_node_id">
+          <ProcedureCall id="_2Je1" procedure="get.tree.metadata_node_id">
             <variable name="prod_id">$(prod_id)</variable>
           </ProcedureCall>
-          <IfSequence id="_1oTj"
+          <IfSequence id="_2Je2"
                       test="&#34;$(metadata_group)&#34;==&#34;true&#34;">
             <MouseEventStep clicks="1" client="$(client)"
                             component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(metadata_node_id)/$(metadata_id)"
-                            event="MOUSE_MPRC" hardevent="true" id="_1oTk"
+                            event="MOUSE_MPRC" hardevent="true" id="_2Je3"
                             modifiers="16"/>
-            <IfSequence disabled="true" id="_1oTl"
+            <IfSequence disabled="true" id="_2Je4"
                         test="&#34;$(group_id)&#34;==&#34;&#34;">
               <MouseEventStep clicks="1" client="$(client)"
                               component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(metadata_node_id)/$(metadata_id)"
-                              event="MOUSE_MPRC" hardevent="true" id="_1oTm"
+                              event="MOUSE_MPRC" hardevent="true" id="_2Je5"
                               modifiers="16"/>
-              <ElseSequence id="_1oTn">
+              <ElseSequence id="_2Je6">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(metadata_node_id)/$(group_id)/$(metadata_id)"
-                                event="MOUSE_MPRC" hardevent="true" id="_1oTo"
+                                event="MOUSE_MPRC" hardevent="true" id="_2Je7"
                                 modifiers="16"/>
               </ElseSequence>
             </IfSequence>
-            <ElseSequence id="_1oTp">
+            <ElseSequence id="_2Je8">
               <MouseEventStep clicks="1" client="$(client)"
                               component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(metadata_id)"
-                              event="MOUSE_MPRC" hardevent="true" id="_1oTq"
+                              event="MOUSE_MPRC" hardevent="true" id="_2Je9"
                               modifiers="16"/>
             </ElseSequence>
           </IfSequence>
@@ -226,21 +226,30 @@
               </SetGlobalStep>
             </ElseSequence>
           </IfSequence>
+          <ServerScriptStep disabled="true" id="_2Jdr" name="print">
+            <code>print "!!!!  pid 2 = $(pid)"</code>
+          </ServerScriptStep>
           <MouseEventStep clicks="1" client="$(client)"
                           component="NbMainWindow.Product_Explorer.tree&amp;/$(pid)"
-                          event="MOUSE_MPRC" id="_1mis" modifiers="16"/>
+                          event="MOUSE_MPRC" id="_1rkK" modifiers="16"/>
         </Procedure>
       </Package>
       <Package id="_1oOp" name="tools">
         <Package id="_1oOq" name="bandMaths">
           <Procedure id="_1oQI" name="target_product">
-            <variable name="target_product">[1]_MER_RR__1PNMAP20070729_022435_000000792060_00175_28285_0001.N1</variable>
+            <variable name="target_product"/>
+            <variable name="target_product_example">[1] MER_RR__1PNMAP20070729_022435_000000792060_00175_28285_0001.N1</variable>
+            <variable name="target_product_example_old">[1]_MER_RR__1PNMAP20070729_022435_000000792060_00175_28285_0001.N1</variable>
             <MouseEventStep clicks="1" client="$(client)"
                             component="productName" event="MOUSE_MPRC"
                             id="_1paZ" modifiers="16" x="342" y="13"/>
             <MouseEventStep clicks="1" client="$(client)"
+                            component="listInvokerName:_productName.target_product"
+                            event="MOUSE_MPRC" id="_1rxr" modifiers="16"/>
+            <MouseEventStep clicks="1" client="$(client)"
                             component="listInvokerName:_productName@$(target_product)"
-                            event="MOUSE_MPRC" id="_1paa" modifiers="16"/>
+                            disabled="true" event="MOUSE_MPRC" id="_1paa"
+                            modifiers="16"/>
             <IfSequence disabled="true" id="_1pDh" test="${qftest:windows}">
               <MouseEventStep clicks="1" client="$(client)"
                               component="BandMathsDialog.productName"
@@ -771,13 +780,46 @@
                              maxerror="0">
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="NbMainWindow.roiMask"
-                                event="MOUSE_MPRC" id="_1rR2" modifiers="16"
-                                x="68" y="11"/>
+                                disabled="true" event="MOUSE_MPRC" id="_1rR2"
+                                modifiers="16" x="68" y="11"/>
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="NbMainWindow.listInvokerName:_roiMask2_correlative_plot.mask"
-                                event="MOUSE_MPRC" id="_1rR3" modifiers="16"/>
+                                disabled="true" event="MOUSE_MPRC" id="_1rR3"
+                                modifiers="16"/>
               </CatchSequence>
             </TryStep>
+            <ProcedureCall id="_1rhO"
+                           procedure="get.analysis.dialog.selected_mask">
+              <variable name="mask">$(mask)</variable>
+            </ProcedureCall>
+            <IfSequence id="_1rjr"
+                        test="&#34;$(selected_mask)&#34;&lt;&gt;&#34;$(mask)&#34;">
+              <TryStep id="_1rjs">
+                <ProcedureCall id="_1rjt"
+                               procedure="select.analysis.dialog.mask">
+                  <variable name="mask">$(mask)</variable>
+                </ProcedureCall>
+                <CatchSequence exception="TestException" id="_1rju"
+                               maxerror="0"/>
+              </TryStep>
+              <ProcedureCall id="_1rjx"
+                             procedure="get.analysis.dialog.selected_mask">
+                <variable name="mask">$(mask)</variable>
+              </ProcedureCall>
+              <IfSequence id="_1rjy"
+                          test="&#34;$(selected_mask)&#34;&lt;&gt;&#34;$(mask)&#34;">
+                <SetGlobalStep id="_1rkF" local="true" varname="text">
+                  <default>Assert selected_mask = $(selected_mask), but obtain selected_mask = $(mask)</default>
+                </SetGlobalStep>
+                <ServerScriptStep id="_1rkG" name="log_output">
+                  <code>rc.logMessage(rc.lookup("text"),
+dontcompactify=True, report=True, nowrap=True)</code>
+                </ServerScriptStep>
+                <ServerScriptStep id="_1rkJ" name="print">
+                  <code>print "$(text)"</code>
+                </ServerScriptStep>
+              </IfSequence>
+            </IfSequence>
           </Procedure>
         </Package>
         <Package id="_1l8t" name="statistics_dialog">
@@ -891,7 +933,7 @@
           </Procedure>
           <Procedure id="_1pg+" name="point_data_source">
             <variable name="data_source"/>
-            <comment>@teststep Select $(data_source) mask</comment>
+            <comment>@teststep Select $(data_source) point data source.</comment>
             <TryStep id="_1rRd">
               <ProcedureCall id="_1rRc"
                              procedure="select.analysis.correlative_plot.auto_min_max_x"/>
@@ -924,7 +966,7 @@
           </Procedure>
           <Procedure id="_1ph1" name="data_field">
             <variable name="data_field"/>
-            <comment>@teststep Select $(data_field) mask</comment>
+            <comment>@teststep Select $(data_field) data field.</comment>
             <TryStep id="_1rQu">
               <ProcedureCall id="_1rQz"
                              procedure="select.analysis.dialog.data_field">
@@ -1027,7 +1069,159 @@
             </ProcedureCall>
           </Procedure>
         </Package>
-        <Package id="_1pbJ" name="profile_plot"/>
+        <Package id="_1pbJ" name="profile_plot">
+          <Procedure id="_1rpB" name="mask">
+            <variable name="mask"/>
+            <comment>@teststep Select $(mask) mask</comment>
+            <TryStep id="_1rpC">
+              <ProcedureCall id="_1rpD"
+                             procedure="select.analysis.dialog.mask">
+                <variable name="mask">$(mask)</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1rpE"
+                             maxerror="0"/>
+            </TryStep>
+          </Procedure>
+          <Procedure id="_1roF" name="use_ROI_mask">
+            <comment>@teststep Select 'Use ROI mask(s)</comment>
+            <ProcedureCall id="_1roG"
+                           procedure="check.analysis.profile_plot.checked.use_ROI_mask"/>
+            <IfSequence id="_1roH"
+                        test="&#34;$(use_ROI_mask)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1roI"
+                             procedure="do_click.analysis.profile_plot.use_ROI_mask"/>
+            </IfSequence>
+            <ProcedureCall id="_1roJ"
+                           procedure="check.analysis.profile_plot.checked.use_ROI_mask_selected_status">
+              <variable name="selected">true</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1roO" name="log_scaled">
+            <comment>@teststep Select 'Log scaled'.</comment>
+            <ProcedureCall id="_1roP"
+                           procedure="check.analysis.profile_plot.checked.log_scaled"/>
+            <IfSequence id="_1roQ"
+                        test="&#34;$(log_scaled)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1ron"
+                             procedure="do_click.analysis.profile_plot.log_scaled"/>
+            </IfSequence>
+            <ProcedureCall id="_1roS"
+                           procedure="check.analysis.profile_plot.checked.log_scaled_selected_status">
+              <variable name="selected">true</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1roo" name="compute_in_between_points">
+            <comment>@teststep Select 'Compute in-between points'.</comment>
+            <ProcedureCall id="_1rop"
+                           procedure="check.analysis.profile_plot.checked.compute_in_between_points"/>
+            <IfSequence id="_1roq"
+                        test="&#34;$(compute_in_between_points)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1ror"
+                             procedure="do_click.analysis.profile_plot.compute_in_between_points"/>
+            </IfSequence>
+            <ProcedureCall id="_1ros"
+                           procedure="check.analysis.profile_plot.checked.compute_in_between_points_selected_status">
+              <variable name="selected">true</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1rot" name="mark_segments">
+            <comment>@teststep Select 'Mark segments'.</comment>
+            <ProcedureCall id="_1rou"
+                           procedure="check.analysis.profile_plot.checked.mark_segments"/>
+            <IfSequence id="_1rov"
+                        test="&#34;$(mark_segments)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1row"
+                             procedure="do_click.analysis.profile_plot.mark_segments"/>
+            </IfSequence>
+            <ProcedureCall id="_1rox"
+                           procedure="check.analysis.profile_plot.checked.mark_segments_selected_status">
+              <variable name="selected">true</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1roy" name="use_correlative_data">
+            <comment>@teststep Select 'Use correlative data'.</comment>
+            <ProcedureCall id="_1roz"
+                           procedure="check.analysis.profile_plot.checked.use_correlative_data"/>
+            <IfSequence id="_1ro+"
+                        test="&#34;$(use_correlative_data)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1ro-"
+                             procedure="do_click.analysis.profile_plot.use_correlative_data"/>
+            </IfSequence>
+            <ProcedureCall id="_1rp0"
+                           procedure="check.analysis.profile_plot.checked.use_correlative_data_selected_status">
+              <variable name="selected">true</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1rp1" name="x_auto_min_max">
+            <comment>@teststep Select 'X Axis auto Min Max'.</comment>
+            <ProcedureCall id="_1rp2"
+                           procedure="check.analysis.profile_plot.checked.auto_min_max_x"/>
+            <IfSequence id="_1rp3"
+                        test="&#34;$(auto_min_max_x)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1rp4"
+                             procedure="do_click.analysis.profile_plot.x_auto_min_max"/>
+            </IfSequence>
+            <ProcedureCall id="_1rp5"
+                           procedure="check.analysis.profile_plot.checked.auto_min_max_x_selected_status">
+              <variable name="selected">true</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1rp6" name="y_auto_min_max">
+            <comment>@teststep Select 'Y auto Min Max'.</comment>
+            <ProcedureCall id="_1rp7"
+                           procedure="check.analysis.profile_plot.checked.auto_min_max_y"/>
+            <IfSequence id="_1rp8"
+                        test="&#34;$(auto_min_max_y)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1rp9"
+                             procedure="do_click.analysis.profile_plot.y_auto_min_max"/>
+            </IfSequence>
+            <ProcedureCall id="_1rpA"
+                           procedure="check.analysis.profile_plot.checked.auto_min_max_y_selected_status">
+              <variable name="selected">true</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1rpI" name="point_data_source">
+            <variable name="data_source"/>
+            <comment>@teststep Select $(data_source) point data source.</comment>
+            <TryStep id="_1rpP">
+              <ProcedureCall id="_1rpQ"
+                             procedure="select.analysis.dialog.point_data_source">
+                <variable name="data_source">$(data_source)</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1rpR"
+                             maxerror="0"/>
+            </TryStep>
+          </Procedure>
+          <Procedure id="_1rpU" name="data_field">
+            <variable name="data_field"/>
+            <comment>@teststep Select $(data_field) data field.</comment>
+            <TryStep id="_1rpV">
+              <ProcedureCall id="_1rpW"
+                             procedure="select.analysis.dialog.data_field">
+                <variable name="data_field">$(data_field)</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1rpX"
+                             maxerror="0"/>
+            </TryStep>
+          </Procedure>
+          <Procedure id="_1rpH" name="s">
+            <BasicSequence id="_1rmK" name="Aufnahme 04.01.16 13:30">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="dialog7.pointDataSource"
+                              event="MOUSE_MPRC" id="_1rmL" modifiers="16"
+                              x="133" y="8"/>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="dialog7.listInvokerName:_pointDataSource.09_meris_test04"
+                              event="MOUSE_MPRC" id="_1rmM" modifiers="16"/>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="dialog7.dataField" event="MOUSE_MPRC"
+                              id="_1rmN" modifiers="16" x="99" y="15"/>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="dialog7.listInvokerName:_dataField.radiance_5"
+                              event="MOUSE_MPRC" id="_1rmO" modifiers="16"/>
+            </BasicSequence>
+          </Procedure>
+        </Package>
         <Package id="_1pbL" name="scatter_plot">
           <Procedure id="_1px7" name="use_ROI_mask">
             <comment>@teststep Select 'Use ROI mask(s)'.</comment>
@@ -1211,7 +1405,6 @@
         <Package id="_1rNe" name="dialog">
           <Procedure id="_1rR4" name="mask_statistic">
             <variable name="mask"/>
-            <comment>@teststep Select $(mask) mask</comment>
             <MouseEventStep clicks="1" client="$(client)"
                             component="dialog.Content_displayer.listFilter_mask"
                             event="MOUSE_MPRC" id="_1rRK" modifiers="16"/>
@@ -1221,59 +1414,9 @@
             <MouseEventStep clicks="1" client="$(client)"
                             component="dialog.roiMask" event="MOUSE_MPRC"
                             id="_1rNq" modifiers="16" x="28" y="13"/>
-            <IfSequence id="_58D" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="dialog.listInvokerName:_roiMask.scatter_plot_mask"
-                              event="MOUSE_MPRC" id="_1rNr" modifiers="16"/>
-              <ElseifSequence id="_1l3m" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-              <ElseSequence id="_58I">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="roiMask" event="MOUSE_MPRC"
-                                id="_1riP" modifiers="16" x="28" y="12"/>
-                <CheckStringStep checktype="value" client="$(client)"
-                                 component="roiMask" id="_1riO">
-                  <text>coastline</text>
-                </CheckStringStep>
-                <BasicSequence id="_1riM" name="Aufnahme 20.07.16 14:54">
-                  <CheckBooleanStep checktype="checked" client="$(client)"
-                                    component="useRoiMask" id="_1riN"
-                                    state="false"/>
-                  <MouseEventStep clicks="1" client="$(client)"
-                                  component="roiMask" event="MOUSE_MPRC"
-                                  id="_1riQ" modifiers="16" x="41" y="10"/>
-                  <MouseEventStep clicks="1" client="$(client)"
-                                  component="useRoiMask" event="MOUSE_MPRC"
-                                  id="_1riR" modifiers="16"/>
-                  <MouseEventStep clicks="1" client="$(client)"
-                                  component="roiMask" event="MOUSE_MPRC"
-                                  id="_1riS" modifiers="16" x="22" y="10"/>
-                  <MouseEventStep clicks="1" client="$(client)"
-                                  component="listInvokerName:_roiMask@land"
-                                  event="MOUSE_MPRC" id="_1riT"
-                                  modifiers="16"/>
-                  <MouseEventStep clicks="1" client="$(client)"
-                                  component="boxSize.textBox_size:"
-                                  event="MOUSE_MPRC" id="_1riU" modifiers="16"
-                                  x="28" y="10"/>
-                  <MouseEventStep clicks="1" client="$(client)"
-                                  component="pointDataSource"
-                                  event="MOUSE_MPRC" id="_1riV" modifiers="16"
-                                  x="48" y="13"/>
-                  <MouseEventStep clicks="1" client="$(client)"
-                                  component="listInvokerName:_pointDataSource@ground_control_points"
-                                  event="MOUSE_MPRC" id="_1riW"
-                                  modifiers="16"/>
-                  <MouseEventStep clicks="1" client="$(client)"
-                                  component="dataField" event="MOUSE_MPRC"
-                                  id="_1riX" modifiers="16" x="32" y="4"/>
-                  <MouseEventStep clicks="1" client="$(client)"
-                                  component="listInvokerName:_dataField&amp;0"
-                                  event="MOUSE_MPRC" id="_1riY"
-                                  modifiers="16"/>
-                </BasicSequence>
-              </ElseSequence>
-            </IfSequence>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialog.listInvokerName:_roiMask.scatter_plot_mask"
+                            event="MOUSE_MPRC" id="_1rNr" modifiers="16"/>
           </Procedure>
           <Procedure id="_1rNv" name="x_product">
             <variable name="x_product"/>
@@ -1304,12 +1447,23 @@
           </Procedure>
           <Procedure id="_1rOE" name="y_band">
             <variable name="y_band"/>
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="dialog.yBand" event="MOUSE_MPRC"
-                            id="_1rOG" modifiers="16" x="58" y="10"/>
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="dialog.listInvokerName:_yBand.scatter_plot"
-                            event="MOUSE_MPRC" id="_1rOH" modifiers="16"/>
+            <TryStep id="_1rtj">
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="dialog.yBand" event="MOUSE_MPRC"
+                              id="_1rOG" modifiers="16" x="58" y="10"/>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="dialog.listInvokerName:_yBand.scatter_plot"
+                              event="MOUSE_MPRC" id="_1rOH" modifiers="16"/>
+              <CatchSequence exception="TestException" id="_1rtk"
+                             maxerror="0">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="dialog.yBand" event="MOUSE_MPRC"
+                                id="_1rtl" modifiers="16" x="118" y="10"/>
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="dialog9.listInvokerName:_yBand2"
+                                event="MOUSE_MPRC" id="_1rti" modifiers="16"/>
+              </CatchSequence>
+            </TryStep>
           </Procedure>
           <Procedure id="_1rOo" name="point_data_source">
             <variable name="data_source"/>
@@ -1449,6 +1603,27 @@ None</comment>
       </Package>
     </Package>
     <Package id="_1oQ5" name="deselect">
+      <Package id="_1rpY" name="band_chooser">
+        <Procedure id="_1rpd" name="select_all">
+          <comment>@teststep Click on checkbox 'Select All' in the 'Band Chooser' dialog.</comment>
+          <ProcedureCall id="_1rpe"
+                         procedure="check.band_chooser.select_all_selected"/>
+          <IfSequence id="_1rpf"
+                      test="&#34;$(select_all_selected)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1rpg"
+                           procedure="do_click.band_chooser.select_all"/>
+          </IfSequence>
+          <ProcedureCall id="_1rph"
+                         procedure="check.band_chooser.select_all_selected_status">
+            <variable name="sel_status">false</variable>
+          </ProcedureCall>
+        </Procedure>
+        <Procedure id="_1rpi" name="select_none">
+          <comment>@teststep Click on checkbox 'Select None' in the 'Band Chooser' dialog.</comment>
+          <ProcedureCall id="_1rpn"
+                         procedure="select.band_chooser.select_all"/>
+        </Procedure>
+      </Package>
       <Package id="_1pZs" name="analysis">
         <Package id="_1pay" name="histogram_dialog">
           <Procedure id="_1paz" name="use_ROI_mask">
@@ -1624,7 +1799,106 @@ None</comment>
             </ProcedureCall>
           </Procedure>
         </Package>
-        <Package id="_1piF" name="profile_plot"/>
+        <Package id="_1piF" name="profile_plot">
+          <Procedure id="_1rkL" name="use_ROI_mask">
+            <comment>@teststep Deselect 'Use ROI mask(s)'.</comment>
+            <ProcedureCall id="_1rkM"
+                           procedure="check.analysis.profile_plot.checked.use_ROI_mask"/>
+            <IfSequence id="_1rkN"
+                        test="&#34;$(use_ROI_mask)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1rkO"
+                             procedure="do_click.analysis.profile_plot.use_ROI_mask"/>
+            </IfSequence>
+            <ProcedureCall id="_1rkP"
+                           procedure="check.analysis.profile_plot.checked.use_ROI_mask_selected_status">
+              <variable name="selected">false</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1rm1" name="log_scaled">
+            <comment>@teststep Deselect 'Log scaled'.</comment>
+            <ProcedureCall id="_1roK"
+                           procedure="check.analysis.profile_plot.checked.log_scaled"/>
+            <IfSequence id="_1roL"
+                        test="&#34;$(log_scaled)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1rm2"
+                             procedure="do_click.analysis.profile_plot.log_scaled"/>
+            </IfSequence>
+            <ProcedureCall id="_1roN"
+                           procedure="check.analysis.profile_plot.checked.log_scaled_selected_status">
+              <variable name="selected">false</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1rna" name="compute_in_between_points">
+            <comment>@teststep Deselect 'Compute in-between points'.</comment>
+            <ProcedureCall id="_1roT"
+                           procedure="check.analysis.profile_plot.checked.compute_in_between_points"/>
+            <IfSequence id="_1roU"
+                        test="&#34;$(compute_in_between_points)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1roB"
+                             procedure="do_click.analysis.profile_plot.compute_in_between_points"/>
+            </IfSequence>
+            <ProcedureCall id="_1roW"
+                           procedure="check.analysis.profile_plot.checked.compute_in_between_points_selected_status">
+              <variable name="selected">false</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1ro5" name="mark_segments">
+            <comment>@teststep Deselect 'Mark segments'.</comment>
+            <ProcedureCall id="_1roX"
+                           procedure="check.analysis.profile_plot.checked.mark_segments"/>
+            <IfSequence id="_1roY"
+                        test="&#34;$(mark_segments)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1roZ"
+                             procedure="do_click.analysis.profile_plot.mark_segments"/>
+            </IfSequence>
+            <ProcedureCall id="_1roa"
+                           procedure="check.analysis.profile_plot.checked.mark_segments_selected_status">
+              <variable name="selected">false</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1ro9" name="use_correlative_data">
+            <comment>@teststep Deselect 'Use correlative data'.</comment>
+            <ProcedureCall id="_1rob"
+                           procedure="check.analysis.profile_plot.checked.use_correlative_data"/>
+            <IfSequence id="_1roc"
+                        test="&#34;$(use_correlative_data)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1rod"
+                             procedure="do_click.analysis.profile_plot.use_correlative_data"/>
+            </IfSequence>
+            <ProcedureCall id="_1roe"
+                           procedure="check.analysis.profile_plot.checked.use_correlative_data_selected_status">
+              <variable name="selected">false</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1rlf" name="x_auto_min_max">
+            <comment>@teststep Deselect 'X Axis auto Min Max'.</comment>
+            <ProcedureCall id="_1rof"
+                           procedure="check.analysis.profile_plot.checked.auto_min_max_x"/>
+            <IfSequence id="_1rog"
+                        test="&#34;$(auto_min_max_x)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1roh"
+                             procedure="do_click.analysis.profile_plot.x_auto_min_max"/>
+            </IfSequence>
+            <ProcedureCall id="_1roi"
+                           procedure="check.analysis.profile_plot.checked.auto_min_max_x_selected_status">
+              <variable name="selected">false</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1rln" name="y_auto_min_max">
+            <comment>@teststep Deselect 'Y auto Min Max'.</comment>
+            <ProcedureCall id="_1roj"
+                           procedure="check.analysis.profile_plot.checked.auto_min_max_y"/>
+            <IfSequence id="_1rok"
+                        test="&#34;$(auto_min_max_y)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1rol"
+                             procedure="do_click.analysis.profile_plot.y_auto_min_max"/>
+            </IfSequence>
+            <ProcedureCall id="_1rom"
+                           procedure="check.analysis.profile_plot.checked.auto_min_max_y_selected_status">
+              <variable name="selected">false</variable>
+            </ProcedureCall>
+          </Procedure>
+        </Package>
         <Package id="_1px-" name="scatter_plot">
           <Procedure id="_1py0" name="use_ROI_mask">
             <comment>@teststep Select 'Use ROI mask(s)'.</comment>
@@ -1741,6 +2015,41 @@ None</comment>
     </Package>
   </PackageRoot>
   <ExtraSequence id="_4">
+    <Procedure id="_2Jds" name="metadata" postdelay="500">
+      <variable name="prod_id"/>
+      <variable name="group_id"/>
+      <variable name="metadata_id"/>
+      <comment>@teststep Select 'Meta Data' node.</comment>
+      <ProcedureCall id="_2Jdt" procedure="get.tree.metadata_node_id">
+        <variable name="prod_id">$(prod_id)</variable>
+      </ProcedureCall>
+      <IfSequence id="_2Jdu"
+                  test="&#34;$(metadata_group)&#34;==&#34;true&#34;">
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(metadata_node_id)/$(metadata_id)"
+                        event="MOUSE_MPRC" hardevent="true" id="_2Jdv"
+                        modifiers="16"/>
+        <IfSequence disabled="true" id="_2Jdw"
+                    test="&#34;$(group_id)&#34;==&#34;&#34;">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(metadata_node_id)/$(metadata_id)"
+                          event="MOUSE_MPRC" hardevent="true" id="_2Jdx"
+                          modifiers="16"/>
+          <ElseSequence id="_2Jdy">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(metadata_node_id)/$(group_id)/$(metadata_id)"
+                            event="MOUSE_MPRC" hardevent="true" id="_2Jdz"
+                            modifiers="16"/>
+          </ElseSequence>
+        </IfSequence>
+        <ElseSequence id="_2Jd+">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(metadata_id)"
+                          event="MOUSE_MPRC" hardevent="true" id="_2Jd-"
+                          modifiers="16"/>
+        </ElseSequence>
+      </IfSequence>
+    </Procedure>
     <IfSequence id="_1op7" test="${qftest:windows}">
       <ElseifSequence id="_1op8" name="MAC?"
                       test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>

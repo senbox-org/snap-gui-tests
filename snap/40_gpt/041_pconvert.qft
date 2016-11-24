@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.4">
+<RootStep id="_0" name="root" version="4.0.11">
   <include>qfs.qft</include>
   <include>gpt_main.qft</include>
   <variable name="output_folder">pconvert</variable>
@@ -13,11 +13,39 @@
       <DataDriver id="_3y4"
                   loopreportname="Convert the $(dataInDir)/$(fileName) data product"
                   name="dataTable">
-        <ProcedureCall id="_Bt4" procedure="tables.envisat_multispectral"/>
+        <ProcedureCall id="_Bt4"
+                       procedure="tables.optical_sensors.envisat.envisat_multispectral"/>
       </DataDriver>
       <TestCase condition="&#34;$(processing)&#34;==&#34;true&#34; and &#34;$(dataInDir)&#34;&lt;&gt;&#34;aatsr_nr__n1&#34;"
                 id="_2" name="test" reportname="$(productName)">
-        <ProcedureCall id="_1pP2" procedure="test_sequence_pconvert"/>
+        <ProcedureCall id="_1pP2" procedure="test_sequence_pconvert">
+          <variable name="platform">envisat</variable>
+        </ProcedureCall>
+      </TestCase>
+    </TestSet>
+    <TestSet id="_1pP3" name="pconvert_sentinel3">
+      <DataDriver id="_1pP4"
+                  loopreportname="Convert the $(dataInDir)/$(fileName) data product"
+                  name="dataTable">
+        <ProcedureCall id="_1pP5"
+                       procedure="tables.optical_sensors.sentinel_3.sentinel3"/>
+      </DataDriver>
+      <TestCase condition="&#34;$(processing)&#34;&lt;&gt;&#34;&#34;"
+                id="_1pP6" name="test" reportname="$(productName)">
+        <ProcedureCall id="_1pP7" procedure="test_sequence_pconvert">
+          <variable name="platform">sentinel3</variable>
+        </ProcedureCall>
+      </TestCase>
+    </TestSet>
+    <TestSet disabled="true" id="_1rjf" name="pconvert_sentinel2">
+      <DataDriver id="_1rjg"
+                  loopreportname="Convert the $(dataInDir)/$(fileName) data product"
+                  name="dataTable">
+        <ProcedureCall id="_1rjh"
+                       procedure="tables.optical_sensors.sentinel_2.sentinel2"/>
+      </DataDriver>
+      <TestCase id="_1rji" name="test" reportname="$(productName)">
+        <ProcedureCall id="_1rjj" procedure="test_sequence_pconvert"/>
       </TestCase>
     </TestSet>
   </TestSet>

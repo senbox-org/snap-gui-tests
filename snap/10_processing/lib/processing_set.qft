@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.4">
+<RootStep id="_0" name="root" version="4.0.11">
   <include>qfs.qft</include>
   <include>processing_main.qft</include>
   <dependency>processing_main.qft</dependency>
@@ -500,6 +500,80 @@
           </TextInputStep>
         </Procedure>
       </Package>
+      <Package id="_1s8n" name="olci_smile_correction">
+        <Procedure id="_1s8u" name="target_directory">
+          <variable name="dir"/>
+          <comment>@teststep Insert target directory.</comment>
+          <ProcedureCall id="_1s8v"
+                         procedure="select.olci_smile_correction.save_as"/>
+          <ProcedureCall id="_1s8w" procedure="path.output_data_directory">
+            <variable name="output_dir">$(dir)</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogOLCI_Smile_Correction....productDir"
+                         id="_1s8x">
+            <text>$(output_data_directory)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1s8y" name="target_product_name">
+          <variable name="target_product_name"/>
+          <comment>@teststep Insert target product name.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogOLCI_Smile_Correction....productName"
+                         id="_1s8z">
+            <text>$(target_product_name)</text>
+          </TextInputStep>
+        </Procedure>
+      </Package>
+      <Package id="_1r+w" name="scape_m">
+        <Procedure id="_1r+x" name="reflectance_water_threshold">
+          <variable name="val"/>
+          <comment>@teststep Insert reflectance water threshold.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogSCAPE-M.reflectance_water_threshold"
+                         id="_1r+y">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1r+z" name="thickness_of_coast">
+          <variable name="val"/>
+          <comment>@teststep Insert thickness of coast.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogSCAPE-M.thicknessOfCoast"
+                         id="_1r++">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1s8e" name="minimum_ocean_size">
+          <variable name="val"/>
+          <comment>@teststep Insert minimum ocean size.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogSCAPE-M.minimumOceanSize"
+                         id="_1s8f">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1r+-" name="target_directory">
+          <variable name="dir"/>
+          <comment>@teststep Insert target directory.</comment>
+          <ProcedureCall id="_1r-0" procedure="select.scape_m.save_as"/>
+          <ProcedureCall id="_1r-1" procedure="path.output_data_directory">
+            <variable name="output_dir">$(dir)</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogSCAPE-M.productDir" id="_1r-2">
+            <text>$(output_data_directory)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1r-3" name="target_product_name">
+          <variable name="target_product_name"/>
+          <comment>@teststep Insert target product name.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogSCAPE-M.productName" id="_1r-4">
+            <text>$(target_product_name)</text>
+          </TextInputStep>
+        </Procedure>
+      </Package>
       <Package id="_1pjn" name="projection_parameters_dialog">
         <Procedure id="_1pnW" name="central_meridian">
           <variable name="projection"/>
@@ -585,7 +659,8 @@
         <Procedure id="_1pX2" name="target_directory">
           <variable name="dir"/>
           <comment>@teststep Insert target directory.</comment>
-          <ProcedureCall id="_1pX6" procedure="select.reprojection.save_as"/>
+          <ProcedureCall id="_1pX6"
+                         procedure="select.reprojection.save_as_reprojection_tool"/>
           <ProcedureCall id="_1pX4" procedure="path.output_data_directory">
             <variable name="output_dir">$(dir)</variable>
           </ProcedureCall>
@@ -681,63 +756,102 @@
           </IfSequence>
         </Procedure>
       </Package>
-      <Package id="_1q8x" name="flh_mci_processor">
-        <Procedure id="_1qBs" name="presets_list">
-          <SetGlobalStep id="_1qBt" varname="meris_l1b_mci">
+      <Package id="_2JXt" name="flh_mci_processor">
+        <Procedure id="_2JXu" name="presets_list">
+          <SetGlobalStep id="_2JXv" varname="meris_l1b_mci">
             <default>MERIS L1b MCI</default>
           </SetGlobalStep>
-          <SetGlobalStep id="_1qBu" varname="meris_l2_flh">
+          <SetGlobalStep id="_2JXw" varname="meris_l2_flh">
             <default>MERIS L2 FLH</default>
           </SetGlobalStep>
-          <SetGlobalStep id="_1qBv" varname="meris_l2_mci">
+          <SetGlobalStep id="_2JXx" varname="meris_l2_mci">
             <default>MERIS L2 MCI</default>
           </SetGlobalStep>
-          <SetGlobalStep id="_1qBw" varname="none">
+          <SetGlobalStep id="_2JXy" varname="none">
             <default>None</default>
           </SetGlobalStep>
         </Procedure>
-        <Procedure id="_1qBx" name="line_height_band_name">
+        <Procedure id="_2JXz" name="line_height_band_name">
           <variable name="val"/>
           <comment>@teststep Insert line height band name.</comment>
           <TextInputStep clear="true" client="$(client)"
                          component="dialogFLH/MCI_Processor.lineHeightBandName"
-                         id="_1qBy">
+                         id="_2JX+">
             <text>$(val)</text>
           </TextInputStep>
         </Procedure>
-        <Procedure id="_1qC2" name="slope_band_name">
+        <Procedure id="_2JX-" name="slope_band_name">
           <variable name="val"/>
           <comment>@teststep Insert slope band name.</comment>
           <TextInputStep clear="true" client="$(client)"
                          component="dialogFLH/MCI_Processor.slopeBandName"
-                         id="_1qC4">
+                         id="_2JY0">
             <text>$(val)</text>
           </TextInputStep>
         </Procedure>
-        <Procedure id="_1qC9" name="mask_expression">
+        <Procedure id="_2JY1" name="mask_expression">
           <variable name="val"/>
           <comment>@teststep Insert mask expression.</comment>
           <TextInputStep clear="true" client="$(client)"
                          component="dialogFLH/MCI_Processor.maskExpression"
-                         id="_1qCC">
+                         id="_2JY2">
             <text>$(val)</text>
           </TextInputStep>
         </Procedure>
-        <Procedure id="_1qCG" name="cloud_correction_factor">
+        <Procedure id="_2JY3" name="cloud_correction_factor">
           <variable name="val"/>
           <comment>@teststep Insert cloud correction factor.</comment>
           <TextInputStep clear="true" client="$(client)"
                          component="dialogFLH/MCI_Processor.cloudCorrectionFactor"
-                         id="_1qCK">
+                         id="_2JY4">
             <text>$(val)</text>
           </TextInputStep>
         </Procedure>
-        <Procedure id="_1qCN" name="invalid_value">
+        <Procedure id="_2JY5" name="invalid_value">
           <variable name="val"/>
           <comment>@teststep Insert invalid value.</comment>
           <TextInputStep clear="true" client="$(client)"
                          component="dialogFLH/MCI_Processor.invalidFlhMciValue"
-                         id="_1qCS">
+                         id="_2JY6">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_2JY7" name="target_directory">
+          <variable name="dir"/>
+          <comment>@teststep Insert target directory.</comment>
+          <ProcedureCall id="_2JY8"
+                         procedure="select.flh_mci_processor.save_as"/>
+          <ProcedureCall id="_2JY9" procedure="path.output_data_directory">
+            <variable name="output_dir">$(dir)</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogFLH/MCI_Processor.productDir"
+                         id="_2JYA">
+            <text>$(output_data_directory)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_2JYB" name="target_product_name">
+          <variable name="target_product_name"/>
+          <comment>@teststep Insert target product name.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogFLH/MCI_Processor.productName"
+                         id="_2JYC">
+            <text>$(target_product_name)</text>
+          </TextInputStep>
+        </Procedure>
+      </Package>
+      <Package id="_1q8x" name="fub_wew_processor">
+        <Procedure id="_2JYD" name="default_values">
+          <SetGlobalStep id="_2JYE" varname="valid_expr_default">
+            <default>not l1_flags.GLINT_RISK and not l1_flags.BRIGHT and not l1_flags.INVALID and not l1_flags.SUSPECT</default>
+          </SetGlobalStep>
+        </Procedure>
+        <Procedure id="_1qC9" name="valid_expression">
+          <variable name="val"/>
+          <comment>@teststep Insert valid expression.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogFUB/WeW_Water_Processor.expression"
+                         id="_1qCC">
             <text>$(val)</text>
           </TextInputStep>
         </Procedure>
@@ -745,12 +859,12 @@
           <variable name="dir"/>
           <comment>@teststep Insert target directory.</comment>
           <ProcedureCall id="_1q91"
-                         procedure="select.flh_mci_processor.save_as"/>
+                         procedure="select.fub_wew_processor.save_as"/>
           <ProcedureCall id="_1q92" procedure="path.output_data_directory">
             <variable name="output_dir">$(dir)</variable>
           </ProcedureCall>
           <TextInputStep clear="true" client="$(client)"
-                         component="dialogFLH/MCI_Processor.productDir"
+                         component="dialogFUB/WeW_Water_Processor.productDir"
                          id="_1q93">
             <text>$(output_data_directory)</text>
           </TextInputStep>
@@ -759,9 +873,306 @@
           <variable name="target_product_name"/>
           <comment>@teststep Insert target product name.</comment>
           <TextInputStep clear="true" client="$(client)"
-                         component="dialogFLH/MCI_Processor.productName"
+                         component="dialogFUB/WeW_Water_Processor.productName"
                          id="_1q95">
             <text>$(target_product_name)</text>
+          </TextInputStep>
+        </Procedure>
+      </Package>
+      <Package id="_1rqd" name="fu_classification">
+        <Procedure id="_1rqn" name="valid_pixel_expression">
+          <variable name="val"/>
+          <comment>@teststep Insert Valid pixel expression.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogFU_Classification.validExpression"
+                         id="_1r+Z">
+            <text>$(val)</text>
+          </TextInputStep>
+          <KeyEventStep client="$(client)"
+                        component="dialogFU_Classification.validExpression"
+                        event="KEY_PTR" id="_1r+v" keychar="9" keycode="9"
+                        modifiers="0"/>
+        </Procedure>
+        <Procedure id="_1rqt" name="target_directory">
+          <variable name="dir"/>
+          <comment>@teststep Insert target directory.</comment>
+          <ProcedureCall id="_1rqu"
+                         procedure="select.fu_classification.save_as"/>
+          <ProcedureCall id="_1rqv" procedure="path.output_data_directory">
+            <variable name="output_dir">$(dir)</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogFU_Classification.productDir"
+                         id="_1rqw">
+            <text>$(output_data_directory)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1rqx" name="target_product_name">
+          <variable name="target_product_name"/>
+          <comment>@teststep Insert target product name.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogFU_Classification.productName"
+                         id="_1rqy">
+            <text>$(target_product_name)</text>
+          </TextInputStep>
+        </Procedure>
+      </Package>
+      <Package id="_2JdH" name="s2_mci_processor">
+        <Procedure id="_2JdL" name="target_directory">
+          <variable name="dir"/>
+          <comment>@teststep Insert target directory.</comment>
+          <ProcedureCall id="_2JdM"
+                         procedure="select.s2_mci_processor.save_as"/>
+          <ProcedureCall id="_2JdN" procedure="path.output_data_directory">
+            <variable name="output_dir">$(dir)</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogS2_MCI_Processor.productDir"
+                         id="_2JdO">
+            <text>$(output_data_directory)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_2JdP" name="target_product_name">
+          <variable name="target_product_name"/>
+          <comment>@teststep Insert target product name.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogS2_MCI_Processor.productName"
+                         id="_2JdQ">
+            <text>$(target_product_name)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_2Je-" name="presets_list_S2">
+          <SetGlobalStep id="_2Jf0" varname="s2_l1b_mci">
+            <default>S2MSI L1b MCI</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_2Jf1" varname="s2_l2_mci">
+            <default>S2MSI L2 MCI</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_2Jf3" varname="none">
+            <default>None</default>
+          </SetGlobalStep>
+        </Procedure>
+        <Procedure id="_2Jf4" name="line_height_band_name">
+          <variable name="val"/>
+          <comment>@teststep Insert line height band name.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogS2_MCI_Processor.lineHeightBandName"
+                         id="_2Jf5">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_2Jf6" name="slope_band_name">
+          <variable name="val"/>
+          <comment>@teststep Insert slope band name.</comment>
+          <ProcedureCall id="_2JfE"
+                         procedure="select.s2_mci_processor.generate_slope_band"/>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogS2_MCI_Processor.slopeBandName"
+                         id="_2Jf7">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_2Jf8" name="mask_expression">
+          <variable name="val"/>
+          <comment>@teststep Insert mask expression.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogS2_MCI_Processor.maskExpression"
+                         id="_2Jf9">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_2JfA" name="cloud_correction_factor">
+          <variable name="val"/>
+          <comment>@teststep Insert cloud correction factor.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogS2_MCI_Processor.cloudCorrectionFactor"
+                         id="_2JfB">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_2JfC" name="invalid_mci_value">
+          <variable name="val"/>
+          <comment>@teststep Insert invalid MCI value.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogS2_MCI_Processor.invalidMciValue"
+                         id="_2JfD">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+      </Package>
+      <Package id="_2JdR" name="owt_classification">
+        <Procedure id="_2Jdb" name="possible_values">
+          <SetGlobalStep id="_2Jdc" varname="owt_type_coastal">
+            <default>COASTAL</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_2Jdd" varname="owt_type_inland">
+            <default>INLAND</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_2Jde" varname="owt_type_inland_no_blue">
+            <default>INLAND_NO_BLUE_BAND</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_2Jdf" varname="owt_type_glass5c">
+            <default>GLASS_5C</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_2Jdg" varname="owt_type_glass6c">
+            <default>GLASS_6C</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_2Jdj" varname="owt_type_glass6c_norm">
+            <default>GLASS_6C_NORMALISED</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_2Jdh" varname="owt_type_calimnos">
+            <default>CALIMNOS</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_2Jdi" varname="refl_prefix">
+            <default>reflec</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_2Jdk" varname="input_rad_refl">
+            <default>RADIANCE_REFLECTANCES</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_2Jdm" varname="input_irrad_refl_esa">
+            <default>IRRADIANCE_REFLECTANCES (ESA compatible)</default>
+          </SetGlobalStep>
+        </Procedure>
+        <Procedure id="_2JdS" name="reflectances_prefix">
+          <variable name="val"/>
+          <comment>@teststep Insert Reflectances prefix.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogOWT_Classification.reflectancesPrefix"
+                         id="_2JdT">
+            <text>$(val)</text>
+          </TextInputStep>
+          <KeyEventStep client="$(client)"
+                        component="dialogOWT_Classification.reflectancesPrefix"
+                        event="KEY_PTR" id="_2JdU" keychar="9" keycode="9"
+                        modifiers="0"/>
+        </Procedure>
+        <Procedure id="_2JdV" name="target_directory">
+          <variable name="dir"/>
+          <comment>@teststep Insert target directory.</comment>
+          <ProcedureCall id="_2JdW"
+                         procedure="select.owt_classification.save_as"/>
+          <ProcedureCall id="_2JdX" procedure="path.output_data_directory">
+            <variable name="output_dir">$(dir)</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogOWT_Classification.productDir"
+                         id="_2JdY">
+            <text>$(output_data_directory)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_2JdZ" name="target_product_name">
+          <variable name="target_product_name"/>
+          <comment>@teststep Insert target product name.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogOWT_Classification.productName"
+                         id="_2Jda">
+            <text>$(target_product_name)</text>
+          </TextInputStep>
+        </Procedure>
+      </Package>
+      <Package id="_1s8i" name="pdu_stitching">
+        <Procedure id="_1s8j" name="target_directory">
+          <variable name="dir"/>
+          <comment>@teststep Insert target directory.</comment>
+          <ProcedureCall id="_1s8l" procedure="path.output_data_directory">
+            <variable name="output_dir">$(dir)</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogSLSTR_L1B_PDU_Stitching.text"
+                         disabled="true" id="_1s8m">
+            <text>$(output_data_directory)</text>
+          </TextInputStep>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogSLSTR_L1B_Stitching.text"
+                         id="_1sD9">
+            <text>$(output_data_directory)</text>
+          </TextInputStep>
+        </Procedure>
+      </Package>
+      <Package id="_1rqH" name="resampling">
+        <Procedure id="_1rqX" name="target_directory">
+          <variable name="dir"/>
+          <comment>@teststep Insert target directory.</comment>
+          <ProcedureCall id="_1rqY" procedure="select.resampling.save_as"/>
+          <ProcedureCall id="_1rqZ" procedure="path.output_data_directory">
+            <variable name="output_dir">$(dir)</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogResampling2.productDir" id="_1rqa">
+            <text>$(output_data_directory)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1rqb" name="target_product_name">
+          <variable name="target_product_name"/>
+          <comment>@teststep Insert target product name.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogResampling2.productName" id="_1rqc">
+            <text>$(target_product_name)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1s8g" name="target_width_height">
+          <variable name="val"/>
+          <comment>@teststep Insert target width and height.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogResampling2.scrollResampling_Parameters.textTarget_width:"
+                         id="_1s23">
+            <text>$(val)</text>
+          </TextInputStep>
+          <KeyEventStep client="$(client)"
+                        component="dialogResampling2.scrollResampling_Parameters.textTarget_width:"
+                        event="KEY_PTR" id="_1s2A" keychar="9" keycode="9"
+                        modifiers="0"/>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogResampling2.scrollResampling_Parameters.textTarget_height:"
+                         disabled="true" id="_1s8h">
+            <text>$(val)</text>
+          </TextInputStep>
+          <KeyEventStep client="$(client)"
+                        component="dialogResampling2.scrollResampling_Parameters.textTarget_height:"
+                        event="KEY_PTR" id="_1s2B" keychar="9" keycode="9"
+                        modifiers="0"/>
+        </Procedure>
+      </Package>
+      <Package id="_1qcs" name="land_water_mask">
+        <Procedure id="_1qd6" name="target_directory">
+          <variable name="dir"/>
+          <comment>@teststep Insert target directory.</comment>
+          <ProcedureCall id="_1qd7"
+                         procedure="select.land_water_mask.save_as"/>
+          <ProcedureCall id="_1qd8" procedure="path.output_data_directory">
+            <variable name="output_dir">$(dir)</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogLand/Water_Mask.productDir"
+                         id="_1qd9">
+            <text>$(output_data_directory)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1qdA" name="target_product_name">
+          <variable name="target_product_name"/>
+          <comment>@teststep Insert target product name.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogLand/Water_Mask.productName"
+                         id="_1qdB">
+            <text>$(target_product_name)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1rpK" name="subSamplingFactorX">
+          <variable name="val"/>
+          <comment>@teststep Insert subsampling factor X.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogLand/Water_Mask.subSamplingFactorX"
+                         id="_1rpL">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1rpB" name="subSamplingFactorY">
+          <variable name="val"/>
+          <comment>@teststep Insert subsampling factor Y.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogLand/Water_Mask.subSamplingFactorY"
+                         id="_1rpC">
+            <text>$(val)</text>
           </TextInputStep>
         </Procedure>
       </Package>
@@ -1017,6 +1428,127 @@
           </SetGlobalStep>
         </Procedure>
       </Package>
+      <Package id="_1sZ0" name="arc_sst_processor">
+        <Procedure id="_1sZi" name="target_directory">
+          <variable name="dir"/>
+          <comment>@teststep Insert target directory.</comment>
+          <ProcedureCall id="_1sZj"
+                         procedure="select.arc_sst_processor.save_as"/>
+          <ProcedureCall id="_1sZk" procedure="path.output_data_directory">
+            <variable name="output_dir">$(dir)</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogARC_SST_Processor2.productDir"
+                         id="_1sZl">
+            <text>$(output_data_directory)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1sZm" name="target_product_name">
+          <variable name="target_product_name"/>
+          <comment>@teststep Insert target product name.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogARC_SST_Processor2.productName"
+                         id="_1sZn">
+            <text>$(target_product_name)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1sZo" name="total_column_water_vapour">
+          <variable name="val"/>
+          <comment>@teststep Insert Total Column Water Vapour.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogARC_SST_Processor2.nwpTCWV"
+                         id="_1sZp">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1sa9" name="invalid_pixel">
+          <variable name="val"/>
+          <comment>@teststep Insert invalid SST value.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogARC_SST_Processor2.invalidSstValue"
+                         id="_1saA">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1sa7" name="asdi_mask">
+          <variable name="val"/>
+          <comment>@teststep Insert 'ASDI mask'.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogARC_SST_Processor2.asdiMaskExpression"
+                         id="_1sa8">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1sZq" name="dual_view_mask">
+          <variable name="val"/>
+          <comment>@teststep Insert 'Dual-view mask'.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogARC_SST_Processor2.dualMaskExpression"
+                         id="_1sZr">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1sZs" name="nadir_view_mask">
+          <variable name="val"/>
+          <comment>@teststep Insert  'Nadir-view mask'.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogARC_SST_Processor2.nadirMaskExpression"
+                         id="_1sZt">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1saB" name="asdi_file_variables">
+          <SetGlobalStep id="_1saC" varname="atsr1_asdi">
+            <default>ATSR1 ASDI coeffs</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1saT" varname="atsr2_asdi">
+            <default>ATSR2 ASDI coeffs</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1saU" varname="aatsr_asdi">
+            <default>AATSR ASDI coeffs</default>
+          </SetGlobalStep>
+        </Procedure>
+        <Procedure id="_1sZu" name="dual_view_file_variables">
+          <SetGlobalStep id="_1sZv" varname="atsr1_arc_d2">
+            <default>ATSR1 ARC D2 coeffs</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1saV" varname="atsr2_arc_d2">
+            <default>ATSR2 ARC D2 coeffs</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1saW" varname="aatsr_arc_d2">
+            <default>AATSR ARC D2 coeffs</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1saX" varname="atsr1_arc_d3">
+            <default>ATSR1 ARC D3 coeffs</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1saY" varname="atsr2_arc_d3">
+            <default>ATSR2 ARC D3 coeffs</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1saZ" varname="aatsr_arc_d3">
+            <default>AATSR ARC D3 coeffs</default>
+          </SetGlobalStep>
+        </Procedure>
+        <Procedure id="_1sa0" name="nadir_view_files_variables">
+          <SetGlobalStep id="_1sa1" varname="atsr1_arc_n2">
+            <default>ATSR1 ARC N2 coeffs</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1saa" varname="atsr2_arc_n2">
+            <default>ATSR2 ARC N2 coeffs</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1sab" varname="aatsr_arc_n2">
+            <default>AATSR ARC N2 coeffs</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1sac" varname="atsr1_arc_n3">
+            <default>ATSR1 ARC N3 coeffs</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1sad" varname="atsr2_arc_n3">
+            <default>ATSR2 ARC N3 coeffs</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1sae" varname="aatsr_arc_n3">
+            <default>AATSR ARC N3 coeffs</default>
+          </SetGlobalStep>
+        </Procedure>
+      </Package>
       <Package id="_1q9O" name="principle_component_analysis">
         <Procedure id="_1qcl" name="target_directory">
           <variable name="dir"/>
@@ -1043,7 +1575,7 @@
         </Procedure>
         <Procedure id="_1qcr" name="max_component_count">
           <variable name="val"/>
-          <comment>@teststep Insert 'Maximum component count'</comment>
+          <comment>@teststep Insert 'Maximum component count' = $(val).</comment>
           <TextInputStep clear="true" client="$(client)"
                          component="dialogPrincipal_Component_Analysis2.componentCount"
                          id="_1qXp">
@@ -1052,10 +1584,62 @@
         </Procedure>
         <Procedure id="_1qXs" name="roi_mask_expression">
           <variable name="val"/>
-          <comment>@teststep Insert 'ROI mask expression'.</comment>
+          <comment>@teststep Insert 'ROI mask expression'= $(val).</comment>
           <TextInputStep clear="true" client="$(client)"
                          component="dialogPrincipal_Component_Analysis2.roiMaskExpr"
                          id="_1qXt">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+      </Package>
+      <Package id="_1rpO" name="k_mean_cluster_analysis">
+        <Procedure id="_1rpP" name="target_directory">
+          <variable name="dir"/>
+          <comment>@teststep Insert target directory.</comment>
+          <ProcedureCall id="_1rpZ"
+                         procedure="select.kmean_cluster_analysis.save_as"/>
+          <ProcedureCall id="_1rpR" procedure="path.output_data_directory">
+            <variable name="output_dir">$(dir)</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogK-Means_Cluster_Analysis.productDir"
+                         id="_1rpS">
+            <text>$(output_data_directory)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1rpT" name="target_product_name">
+          <variable name="target_product_name"/>
+          <comment>@teststep Insert target product name.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogK-Means_Cluster_Analysis.productName"
+                         id="_1rpU">
+            <text>$(target_product_name)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1rp-" name="number_of_clusters">
+          <variable name="val"/>
+          <comment>@teststep Insert 'Number of clusters' = $(val).</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogK-Means_Cluster_Analysis.clusterCount"
+                         id="_1rq0">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1rq1" name="number_of_iterations">
+          <variable name="val"/>
+          <comment>@teststep Insert 'Number of Iterations' = $(val).</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogK-Means_Cluster_Analysis.iterationCount"
+                         id="_1rq2">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1rqF" name="random_seed">
+          <variable name="val"/>
+          <comment>@teststep Insert 'Random Seed' = $(val).</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogK-Means_Cluster_Analysis.randomSeed"
+                         id="_1rqG">
             <text>$(val)</text>
           </TextInputStep>
         </Procedure>
@@ -1079,6 +1663,106 @@
           </ElseSequence>
         </IfSequence>
       </Procedure>
+      <Package id="_1sDA" name="sentinel2_radiometric_uncertainty_tool">
+        <Procedure id="_1sDB" name="target_directory">
+          <variable name="dir"/>
+          <comment>@teststep Insert target directory.</comment>
+          <ProcedureCall id="_1sDC"
+                         procedure="select.sentinel2_radiometric_uncertainty_tool.save_as"/>
+          <ProcedureCall id="_1sDD" procedure="path.output_data_directory">
+            <variable name="output_dir">$(dir)</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogSentinel-2_Radiometric_Uncertainty_Tool.productDir"
+                         id="_1sDE">
+            <text>$(output_data_directory)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1sDF" name="target_product_name">
+          <variable name="target_product_name"/>
+          <comment>@teststep Insert target product name.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogSentinel-2_Radiometric_Uncertainty_Tool.productName"
+                         id="_1sDG">
+            <text>$(target_product_name)</text>
+          </TextInputStep>
+        </Procedure>
+      </Package>
+      <Package id="_1sHY" name="radiance-to-reflectance_processor">
+        <Procedure id="_1sU3" name="target_directory">
+          <variable name="dir"/>
+          <comment>@teststep Insert target directory.</comment>
+          <ProcedureCall id="_1sU4"
+                         procedure="select.radiance-to-reflectance_processor.save_as"/>
+          <ProcedureCall id="_1sU5" procedure="path.output_data_directory">
+            <variable name="output_dir">$(dir)</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogRadiance-to-Reflectance_Processor2.productDir"
+                         id="_1sU6">
+            <text>$(output_data_directory)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1sU7" name="target_product_name">
+          <variable name="target_product_name"/>
+          <comment>@teststep Insert target product name.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogRadiance-to-Reflectance_Processor2.productName"
+                         id="_1sU8">
+            <text>$(target_product_name)</text>
+          </TextInputStep>
+        </Procedure>
+      </Package>
+      <Package id="_1sII" name="rayleigh_correction">
+        <Procedure id="_1sTz" name="target_directory">
+          <variable name="dir"/>
+          <comment>@teststep Insert target directory.</comment>
+          <ProcedureCall id="_1sT+"
+                         procedure="select.rayleigh_correction.save_as"/>
+          <ProcedureCall id="_1sT-" procedure="path.output_data_directory">
+            <variable name="output_dir">$(dir)</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogRayleigh_Correction2.productDir"
+                         id="_1sU0">
+            <text>$(output_data_directory)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1sU1" name="target_product_name">
+          <variable name="target_product_name"/>
+          <comment>@teststep Insert target product name.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogRayleigh_Correction2.productName"
+                         id="_1sU2">
+            <text>$(target_product_name)</text>
+          </TextInputStep>
+        </Procedure>
+      </Package>
+      <Package id="_1sLC" name="gaseous_absorption">
+        <Procedure id="_1sTt" name="target_directory">
+          <variable name="dir"/>
+          <comment>@teststep Insert target directory.</comment>
+          <ProcedureCall id="_1sTu"
+                         procedure="select.gaseous_absorption.save_as"/>
+          <ProcedureCall id="_1sTv" procedure="path.output_data_directory">
+            <variable name="output_dir">$(dir)</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogGaseous_Absorption2.productDir"
+                         id="_1sTw">
+            <text>$(output_data_directory)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1sTx" name="target_product_name">
+          <variable name="target_product_name"/>
+          <comment>@teststep Insert target product name.</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogGaseous_Absorption2.productName"
+                         id="_1sTy">
+            <text>$(target_product_name)</text>
+          </TextInputStep>
+        </Procedure>
+      </Package>
     </Package>
   </PackageRoot>
   <ExtraSequence id="_4">

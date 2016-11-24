@@ -1,0 +1,966 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.11">
+  <include>qfs.qft</include>
+  <include>../../../lib/snap_main.qft</include>
+  <include>../../lib/idepix.qft</include>
+  <variable name="output_folder">idepix</variable>
+  <TestSet id="_2" name="010_22_idepix_modis"
+           reportname="010-22 Idepix MODIS">
+    <DependencyReference id="_1pO-"
+                         reference="start_application_for_processing">
+      <variable name="output_dir">$(output_folder)</variable>
+    </DependencyReference>
+    <TestCase id="_8cc" name="01_check_ui"
+              reportname="01 Check Idepix MODIS Tool UI">
+      <ProcedureCall id="_1rwl" procedure="action.open.tool_window"/>
+      <TestStep id="_1pM7" name="default_componets">
+        <ProcedureCall id="_1qeu" procedure="check.enabled.menu_file"/>
+        <ProcedureCall id="_1qev" procedure="check.enabled.menu_help"/>
+        <ProcedureCall id="_1qew" procedure="check.enabled.close_button"/>
+        <ProcedureCall id="_1qex" procedure="check.enabled.run_button"/>
+        <TestStep id="_1pbB" name="io_parameters">
+          <ProcedureCall id="_1pbA" procedure="select_io_tab"/>
+          <ProcedureCall id="_1qez"
+                         procedure="check.enabled.io_parameters.open_source_product_button"/>
+          <ProcedureCall id="_1qe+"
+                         procedure="check.enabled.io_parameters.output_directory_button"/>
+          <ProcedureCall id="_1qf1"
+                         procedure="check.enabled.io_parameters.save_as_checkbox_enabled_status">
+            <variable name="enabled">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qf2"
+                         procedure="check.enabled.io_parameters.open_in_snap_checkbox_enabled_status">
+            <variable name="enabled">true</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pbG" name="processing_parameters">
+          <ProcedureCall id="_1pbF"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_1qf7"
+                         procedure="check.checked.processing_parameters.write_reflective_solar_band_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qf8"
+                         procedure="check.checked.processing_parameters.write-emissive-bands_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rzq"
+                         procedure="set.processing_parameters.cloud_flag_variable"/>
+          <ProcedureCall id="_1rzr"
+                         procedure="set.processing_parameters.land_water_mask_resolution_variable"/>
+          <ProcedureCall id="_1rzb"
+                         procedure="check.text.processing_parameters.strength_of_cloud_flagging">
+            <variable name="val">$(clear_sky)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rzc"
+                         procedure="check.text.processing_parameters.resolution_of_land_water_mask">
+            <variable name="val">$(res_2)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qf3"
+                         procedure="check.text.processing_parameters.cloudBufferWidth">
+            <variable name="val">1</variable>
+          </ProcedureCall>
+        </TestStep>
+      </TestStep>
+      <ProcedureCall id="_1s6s" procedure="action.close_processor_tool"/>
+    </TestCase>
+    <TestSet id="_1pMP" name="02_processing">
+      <TestCase id="_1rtr" name="modis_A2006302181500">
+        <variable name="source_data">A2006302181500.L1B_LAC</variable>
+        <variable name="source_dir">seadas_modis_l1</variable>
+        <comment>
+</comment>
+        <TestStep id="_1qKN" name="preparation">
+          <ProcedureCall id="_1rwm" procedure="action.open.tool_window"/>
+          <ProcedureCall id="_1r-E" procedure="select_io_tab"/>
+          <ProcedureCall id="_1r+I" procedure="open_source_product">
+            <variable name="prod_dir">$(source_dir)</variable>
+            <variable name="prod_name">$(source_data)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1r+Z"
+                         procedure="action.select.io_parameters.deselect_save_as"/>
+          <ProcedureCall id="_1r+a"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_1r+b"
+                         procedure="action.select.processing_parameters.write-emissive-bands"/>
+        </TestStep>
+        <TestStep id="_1qKQ" name="processing">
+          <ProcedureCall id="_1r+c" postdelay="5000"
+                         procedure="action.do_click.run_button"/>
+          <ProcedureCall id="_1r-c"
+                         procedure="wait.disappear.writing_target_product"/>
+          <ProcedureCall id="_1r+s" predelay="5000"
+                         procedure="action.handle_successfully_created_and_opened"/>
+        </TestStep>
+        <TestStep id="_1qKS" name="check_output_product">
+          <ProcedureCall id="_1qKT"
+                         procedure="product_meta_data.for_open_image_view_without_grouping"/>
+          <ProcedureCall id="_1qKU"
+                         procedure="test_events.imaging_tools.open_image_window_in_target_product_check_masks_layers"/>
+        </TestStep>
+        <ProcedureCall id="_1s6t" procedure="action.close_processor_tool"/>
+      </TestCase>
+      <TestCase id="_40q" name="store_load_display_parameters">
+        <variable name="ofn">idepix_modis.xml</variable>
+        <variable name="output_file">test_save_parameters_idepix_modis.dim</variable>
+        <variable name="source_data">A2003001000000.L1B_LAC</variable>
+        <variable name="source_dir">modis_l1b</variable>
+        <ProcedureCall id="_1rwp" procedure="action.open.tool_window"/>
+        <ProcedureCall id="_1rue" procedure="open_source_product">
+          <variable name="prod_dir">$(source_dir)</variable>
+          <variable name="prod_name">$(source_data)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1ruf"
+                       procedure="action.select.io_parameters.open_in_snap"/>
+        <ProcedureCall id="_1rug"
+                       procedure="action.select.io_parameters.deselect_save_as"/>
+        <TestStep id="_1pOt" name="change_parameters">
+          <ProcedureCall id="_1rt-"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_1rtw"
+                         procedure="set.processing_parameters.cloudBufferWidth">
+            <variable name="val">5</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rzs"
+                         procedure="set.processing_parameters.cloud_flag_variable"/>
+          <ProcedureCall id="_1rzt"
+                         procedure="set.processing_parameters.land_water_mask_resolution_variable"/>
+          <ProcedureCall id="_1rzu"
+                         procedure="action.select.processing_parameters.strength_of_cloud_flagging">
+            <variable name="cloud_flagging">$(cloud)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rzv"
+                         procedure="action.select.processing_parameters.resolution_of_land_water_mask">
+            <variable name="mask_resolution">$(res_3)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rzw"
+                         procedure="action.select.processing_parameters.write_reflective_solar_band"/>
+          <ProcedureCall id="_1rzx"
+                         procedure="action.select.processing_parameters.write-emissive-bands"/>
+        </TestStep>
+        <ProcedureCall id="_1pPE" procedure="store_parameters"/>
+        <TestStep id="_1pPg" name="change_parameters">
+          <ProcedureCall id="_1rzy"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_1rzz"
+                         procedure="set.processing_parameters.cloudBufferWidth">
+            <variable name="val">1</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rz+"
+                         procedure="set.processing_parameters.cloud_flag_variable"/>
+          <ProcedureCall id="_1rz-"
+                         procedure="set.processing_parameters.land_water_mask_resolution_variable"/>
+          <ProcedureCall id="_1r+0"
+                         procedure="action.select.processing_parameters.strength_of_cloud_flagging">
+            <variable name="cloud_flagging">$(clear_sky)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1r+1"
+                         procedure="action.select.processing_parameters.resolution_of_land_water_mask">
+            <variable name="mask_resolution">$(res_1)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1r+2"
+                         procedure="action.select.processing_parameters.deselect_write_reflective_solar_band"/>
+          <ProcedureCall id="_1r+9"
+                         procedure="action.select.processing_parameters.deselect_write-emissive-bands"/>
+        </TestStep>
+        <ProcedureCall id="_1pPl" procedure="load_parameters"/>
+        <TestStep id="_1pPm" name="check_parameters">
+          <ProcedureCall id="_1r+A"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_1r+B"
+                         procedure="check.checked.processing_parameters.write_reflective_solar_band_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1r+C"
+                         procedure="check.checked.processing_parameters.write-emissive-bands_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1r+F"
+                         procedure="check.text.processing_parameters.strength_of_cloud_flagging">
+            <variable name="val">$(cloud)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1r+G"
+                         procedure="check.text.processing_parameters.resolution_of_land_water_mask">
+            <variable name="val">$(res_3)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1r+H"
+                         procedure="check.text.processing_parameters.cloudBufferWidth">
+            <variable name="val">5</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pV8" name="display_parameters">
+          <ProcedureCall id="_1rwO" procedure="action.do_click.menu.file"/>
+          <ProcedureCall id="_1rwP"
+                         procedure="action.do_click.menu.file_Display_Parameters"/>
+          <ComponentWaiter client="$(client)"
+                           component="dialogIdepix.Modis_Parameters"
+                           id="_1rxT"/>
+          <CheckStringStep checktype="item" client="$(client)"
+                           component="dialogIdepix.Modis_Parameters.text@&lt;parameters&gt;"
+                           id="_1rxU">
+            <text>&lt;parameters&gt;</text>
+          </CheckStringStep>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogIdepix.Modis_Parameters.ModalDialog.ok"
+                          event="MOUSE_MPRC" id="_1rxW" modifiers="16"/>
+          <ProcedureCall id="_1s6u" procedure="action.close_processor_tool"/>
+        </TestStep>
+      </TestCase>
+      <TestSet id="_1pT+" name="processing_in_different_formats">
+        <variable name="source_data">A2006302181500.L1B_LAC</variable>
+        <variable name="source_dir">seadas_modis_l1</variable>
+        <SetupSequence id="_1pUV" name="prepare_for_the_testing">
+          <ProcedureCall id="_1qd4" procedure="cleanup.output_data_folder">
+            <variable name="directory">$(output_folder)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1r+t" procedure="action.open.tool_window"/>
+          <ProcedureCall id="_1r-F" procedure="select_io_tab"/>
+          <ProcedureCall id="_1r-8" procedure="open_source_product">
+            <variable name="prod_dir">$(source_dir)</variable>
+            <variable name="prod_name">$(source_data)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1r-9"
+                         procedure="action.select.io_parameters.save_as"/>
+          <ProcedureCall id="_1r-A"
+                         procedure="action.select.io_parameters.open_in_snap"/>
+          <ProcedureCall id="_1r-C"
+                         procedure="set.io_parameters.target_product_name">
+            <variable name="target_product_name">test</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1r-I"
+                         procedure="set.io_parameters.target_directory">
+            <variable name="dir">$(output_folder)</variable>
+          </ProcedureCall>
+        </SetupSequence>
+        <TestSet id="_1pUb" name="processing">
+          <DataDriver id="_1pUc"
+                      loopreportname="Write the target product as $(output_format)"
+                      name="output_formats">
+            <ProcedureCall id="_1pUd" procedure="tables.output_formats"/>
+          </DataDriver>
+          <TestCase id="_1pUj" name="processing_in_different_formats"
+                    reportname="Processing in $(output_format) format and check output product">
+            <ServerScriptStep disabled="true" id="_1pV5" name="print">
+              <code>print "output_format = $(output_format)"</code>
+            </ServerScriptStep>
+            <ServerScriptStep disabled="true" id="_1pV6" name="print">
+              <code>print "output_file = $(output_file)"</code>
+            </ServerScriptStep>
+            <TestStep id="_1qG-" name="processing">
+              <ProcedureCall id="_1qcm"
+                             procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
+                <variable name="screenshot">run_meris_rad_corr_error</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1qH2" procedure="select_io_tab"/>
+              <ProcedureCall id="_1r-N"
+                             procedure="set.io_parameters.target_product_name">
+                <variable name="target_product_name">$(output_file)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1r-O"
+                             procedure="action.select.io_parameters.output_format">
+                <variable name="output_format">$(output_format)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1r-P" postdelay="5000"
+                             procedure="action.do_click.run_button"/>
+              <ProcedureCall id="_1pUo" predelay="5000"
+                             procedure="wait.disappear.writing_target_product"/>
+              <ProcedureCall id="_1r-Q" predelay="5000"
+                             procedure="action.handle_successfully_created_and_opened"/>
+              <ProcedureCall disabled="true" id="_1r-f"
+                             procedure="qfs.swing.cleanup.closeAllModalDialogs">
+                <variable name="maxDialogs">5</variable>
+              </ProcedureCall>
+            </TestStep>
+            <TestStep id="_1pUq" name="check_target_product">
+              <ProcedureCall id="_1pfx"
+                             procedure="test_events.check_target_product_without_grouping"/>
+              <ProcedureCall id="_1qH5" procedure="close.all_products"/>
+            </TestStep>
+          </TestCase>
+        </TestSet>
+        <CleanupSequence id="_1pUa" name="close_processor_tool">
+          <ProcedureCall id="_1s6v" procedure="action.close_processor_tool"/>
+        </CleanupSequence>
+      </TestSet>
+      <TestCase disabled="true" id="_1pZO" name="cancel_processing">
+        <variable name="output_file">test_idepix_modis_cancel.dim</variable>
+        <variable name="source_data">A2006302181500.L1B_LAC</variable>
+        <variable name="source_dir">seadas_modis_l1</variable>
+      </TestCase>
+    </TestSet>
+    <TestCase id="_1pFr" name="03_help">
+      <ProcedureCall id="_1rwq" procedure="action.open.tool_window"/>
+      <TestStep id="_1pVG" name="check_help">
+        <ProcedureCall id="_1ruZ" procedure="action.do_click.menu.help"/>
+        <ProcedureCall id="_1rua"
+                       procedure="action.do_click.menu.help_menuItemHelp"/>
+        <ProcedureCall id="_1qes" procedure="help.check_help_appears_close"/>
+      </TestStep>
+      <TestStep id="_1pVN" name="check_help_about">
+        <ProcedureCall id="_1ruc" procedure="action.do_click.menu.help"/>
+        <ProcedureCall id="_1rud"
+                       procedure="action.do_click.menu.help_about"/>
+        <ComponentWaiter client="$(client)"
+                         component="dialogAbout_Idepix.Modis" id="_1rxZ"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogAbout_Idepix.Modis.ModalDialog.ok"
+                        event="MOUSE_MPRC" id="_1rxa" modifiers="16"/>
+      </TestStep>
+      <ProcedureCall id="_1s6w" procedure="action.close_processor_tool"/>
+    </TestCase>
+  </TestSet>
+  <PackageRoot id="_4">
+    <Package id="_1rsV" name="action">
+      <Procedure id="_1s6h" name="close_processor_tool">
+        <ProcedureCall id="_1s6r" procedure="action.do_click.close_button"/>
+      </Procedure>
+      <Package id="_1rsb" name="do_click">
+        <Package id="_1rsc" name="menu">
+          <Procedure id="_1rsd" name="file">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).menuFile"
+                            event="MOUSE_MPRC" id="_1rxd" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1rsh" name="file_Load_Parameters">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).menuItemLoad_Parameters..."
+                            event="MOUSE_MPRC" id="_1rsi" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1rsl" name="file_Save_Parameters">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).menuItemSave_Parameters..."
+                            event="MOUSE_MPRC" id="_1rsm" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1rsn" name="file_Display_Parameters">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).menuItemDisplay_Parameters..."
+                            event="MOUSE_MPRC" id="_1rso" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1rsf" name="help">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).menuHelp"
+                            event="MOUSE_MPRC" id="_1rxX" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1rsr" name="help_about">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).menuItemAbout..."
+                            event="MOUSE_MPRC" id="_1rxe" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1rsj" name="help_menuItemHelp">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).menuItemHelp"
+                            event="MOUSE_MPRC" id="_1rsk" modifiers="16"/>
+          </Procedure>
+        </Package>
+        <Package id="_1rtX" name="io_parameters">
+          <Procedure id="_1rt9" name="open_source_product_button">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).button...2"
+                            event="MOUSE_MPRC" id="_1rqC" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1rvu" name="save_as">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).saveToFileSelected"
+                            event="MOUSE_MPRC" id="_1rvv" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1rvw" name="open_in_snap">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).openInAppSelected"
+                            event="MOUSE_MPRC" id="_1rvx" modifiers="16"/>
+          </Procedure>
+        </Package>
+        <Package id="_1rtY" name="processing_parameters">
+          <Procedure id="_1ryf" name="write_reflective_solar_band">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).outputRad2Refl"
+                            event="MOUSE_MPRC" id="_1ryj" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1ryg" name="write-emissive-bands">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).outputEmissive"
+                            event="MOUSE_MPRC" id="_1ryk" modifiers="16"/>
+          </Procedure>
+        </Package>
+        <Procedure id="_1rtA" name="close_button">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).DefaultSingleTargetProductDialog.close"
+                          event="MOUSE_MPRC" id="_1rtB" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1rtC" name="run_button">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).DefaultSingleTargetProductDialog.apply"
+                          event="MOUSE_MPRC" id="_1rtD" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1r+i" name="button_OK_product_ready_dialog">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogSNAP_-_Idepix_-_Pixel_Identification_and_Classification_(MODIS_mode).buttonOK"
+                          event="MOUSE_MPRC" id="_1r+l" modifiers="16"/>
+        </Procedure>
+      </Package>
+      <Package id="_1rqr" name="open">
+        <Procedure id="_1rwk" name="tool_window">
+          <ProcedureCall id="_1qet" procedure="idepix.open.modis"/>
+        </Procedure>
+      </Package>
+      <Package id="_1rsS" name="select">
+        <Package id="_1rth" name="io_parameters">
+          <Procedure id="_1rw3" name="save_as">
+            <ProcedureCall id="_1rw4"
+                           procedure="check.checked.io_parameters.save_as"/>
+            <IfSequence id="_1rwA"
+                        test="&#34;$(save_as)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1rw5"
+                             procedure="action.do_click.io_parameters.save_as"/>
+            </IfSequence>
+            <ProcedureCall id="_1rw6"
+                           procedure="check.checked.io_parameters.save_as_selected_status">
+              <variable name="selected">true</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1rwB" name="open_in_snap">
+            <ProcedureCall id="_1rwC"
+                           procedure="check.checked.io_parameters.open_in_snap"/>
+            <IfSequence id="_1rwD"
+                        test="&#34;$(open_in_snap)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1rw2"
+                             procedure="action.do_click.io_parameters.open_in_snap"/>
+            </IfSequence>
+            <ProcedureCall id="_1rw0"
+                           procedure="check.checked.io_parameters.open_in_snap_selected_status">
+              <variable name="selected">true</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1rwE" name="deselect_save_as">
+            <ProcedureCall id="_1rwF"
+                           procedure="check.checked.io_parameters.save_as"/>
+            <IfSequence id="_1rwG"
+                        test="&#34;$(save_as)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1rwH"
+                             procedure="action.do_click.io_parameters.save_as"/>
+            </IfSequence>
+            <ProcedureCall id="_1rwI"
+                           procedure="check.checked.io_parameters.save_as_selected_status">
+              <variable name="selected">false</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1rwJ" name="deselect_open_in_snap">
+            <ProcedureCall id="_1rwK"
+                           procedure="check.checked.io_parameters.open_in_snap"/>
+            <IfSequence id="_1rwL"
+                        test="&#34;$(open_in_snap)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1rwM"
+                             procedure="action.do_click.io_parameters.open_in_snap"/>
+            </IfSequence>
+            <ProcedureCall id="_1rwN"
+                           procedure="check.checked.io_parameters.open_in_snap_selected_status">
+              <variable name="selected">false</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1ry-" name="output_format_help">
+            <variable name="output_format"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).formatName"
+                            event="MOUSE_MPRC" id="_1rx1" modifiers="16"
+                            x="40" y="7"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).listInvokerName:_formatName.output_format"
+                            event="MOUSE_MPRC" id="_1r+r" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1qCP" name="output_format">
+            <variable name="output_format"/>
+            <comment>@teststep Select output format</comment>
+            <TryStep id="_1qCQ">
+              <ProcedureCall id="_1rz7"
+                             procedure="action.select.io_parameters.output_format_help">
+                <variable name="output_format">$(output_format)</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1qCS"
+                             maxerror="0">
+                <TryStep id="_1qCT">
+                  <ProcedureCall id="_1rz8"
+                                 procedure="action.select.io_parameters.output_format_help">
+                    <variable name="output_format">$(output_format)</variable>
+                  </ProcedureCall>
+                  <CatchSequence exception="TestException" id="_1qCV"
+                                 maxerror="0">
+                    <ProcedureCall id="_1qCW" procedure="run-log.logError">
+                      <variable name="message">$(output_format) can not be selected</variable>
+                      <variable name="withScreenshots">true</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
+        </Package>
+        <Package id="_1rti" name="processing_parameters">
+          <Procedure id="_1ru+" name="write_reflective_solar_band">
+            <ProcedureCall id="_1rv4"
+                           procedure="check.checked.processing_parameters.write_reflective_solar_band"/>
+            <IfSequence id="_1rvG"
+                        test="&#34;$(write_reflective_solar_band)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1rvD"
+                             procedure="action.do_click.processing_parameters.write_reflective_solar_band"/>
+            </IfSequence>
+            <ProcedureCall id="_1rve"
+                           procedure="check.checked.processing_parameters.write_reflective_solar_band_selected_status">
+              <variable name="selected">true</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1ryl" name="deselect_write_reflective_solar_band">
+            <ProcedureCall id="_1rym"
+                           procedure="check.checked.processing_parameters.write_reflective_solar_band"/>
+            <IfSequence id="_1ryn"
+                        test="&#34;$(write_reflective_solar_band)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1ryo"
+                             procedure="action.do_click.processing_parameters.write_reflective_solar_band"/>
+            </IfSequence>
+            <ProcedureCall id="_1ryp"
+                           procedure="check.checked.processing_parameters.write_reflective_solar_band_selected_status">
+              <variable name="selected">false</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1rv0" name="write-emissive-bands">
+            <ProcedureCall id="_1rvP"
+                           procedure="check.checked.processing_parameters.write-emissive-bands"/>
+            <IfSequence id="_1rvH"
+                        test="&#34;$(write-emissive-bands)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1rvJ"
+                             procedure="action.do_click.processing_parameters.write-emissive-bands"/>
+            </IfSequence>
+            <ProcedureCall id="_1rvf"
+                           procedure="check.checked.processing_parameters.write-emissive-bands_selected_status">
+              <variable name="selected">true</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1r+4" name="deselect_write-emissive-bands">
+            <ProcedureCall id="_1r+5"
+                           procedure="check.checked.processing_parameters.write-emissive-bands"/>
+            <IfSequence id="_1r+6"
+                        test="&#34;$(write-emissive-bands)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1r+7"
+                             procedure="action.do_click.processing_parameters.write-emissive-bands"/>
+            </IfSequence>
+            <ProcedureCall id="_1r+8"
+                           procedure="check.checked.processing_parameters.write-emissive-bands_selected_status">
+              <variable name="selected">true</variable>
+            </ProcedureCall>
+          </Procedure>
+          <Procedure id="_1ryu" name="strength_of_cloud_flagging_help">
+            <variable name="cloud_flagging"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).cloudFlaggingStrength"
+                            event="MOUSE_MPRC" id="_1r-Y" modifiers="16"
+                            x="109" y="8"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).listInvokerName:_cloudFlaggingStrength_cloud_flagging"
+                            event="MOUSE_MPRC" id="_1r-Z" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1rv2" name="strength_of_cloud_flagging">
+            <variable name="cloud_flagging"/>
+            <TryStep id="_1rzA">
+              <ProcedureCall id="_1ry+"
+                             procedure="action.select.processing_parameters.strength_of_cloud_flagging_help">
+                <variable name="cloud_flagging">$(cloud_flagging)</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1rzB"
+                             maxerror="0">
+                <TryStep id="_1rzC">
+                  <ProcedureCall id="_1rzD"
+                                 procedure="action.select.processing_parameters.strength_of_cloud_flagging_help">
+                    <variable name="cloud_flagging">$(cloud_flagging)</variable>
+                  </ProcedureCall>
+                  <CatchSequence exception="TestException" id="_1rzE"
+                                 maxerror="0">
+                    <ProcedureCall id="_1rz9" procedure="run-log.logError">
+                      <variable name="message">$(cloud_flagging) can not be selected</variable>
+                      <variable name="withScreenshots">true</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
+          <Procedure id="_1rzM" name="resolution_of_land_water_mask_help">
+            <variable name="mask_resolution"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).buttonTipResolution_of_used_land-water_mask_in_meters_per_pixel"
+                            event="MOUSE_MPRC" id="_1r-a" modifiers="16"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).listInvokerName:_waterMaskResolution.mask_resolution"
+                            event="MOUSE_MPRC" id="_1r-b" modifiers="16"/>
+          </Procedure>
+          <Procedure id="_1rvS" name="resolution_of_land_water_mask">
+            <variable name="mask_resolution"/>
+            <TryStep id="_1rzF">
+              <ProcedureCall id="_1rzZ"
+                             procedure="action.select.processing_parameters.resolution_of_land_water_mask_help">
+                <variable name="mask_resolution">$(mask_resolution)</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1rzH"
+                             maxerror="0">
+                <TryStep id="_1rzI">
+                  <ProcedureCall id="_1rza"
+                                 procedure="action.select.processing_parameters.resolution_of_land_water_mask_help">
+                    <variable name="mask_resolution">$(mask_resolution)</variable>
+                  </ProcedureCall>
+                  <CatchSequence exception="TestException" id="_1rzK"
+                                 maxerror="0">
+                    <ProcedureCall id="_1rzL" procedure="run-log.logError">
+                      <variable name="message">$(mask_resolution) can not be selected</variable>
+                      <variable name="withScreenshots">true</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
+        </Package>
+        <Procedure id="_1qCN" name="tab">
+          <variable name="tab"/>
+          <variable name="example">I/O Parameters;Processing Parameters</variable>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).tabbed.tab"
+                          event="MOUSE_MPRC" id="_1ryP" modifiers="16"/>
+        </Procedure>
+      </Package>
+      <Procedure id="_1r+m" name="handle_successfully_created_and_opened">
+        <TryStep id="_1r+p">
+          <ComponentWaiter client="$(client)"
+                           component="dialogSNAP_-_Idepix_-_Pixel_Identification_and_Classification_(MODIS_mode)"
+                           id="_1r+o" raise="false"/>
+          <ProcedureCall id="_1r+n"
+                         procedure="action.do_click.button_OK_product_ready_dialog"/>
+          <CatchSequence exception="TestException" id="_1r+q" maxerror="0"/>
+        </TryStep>
+      </Procedure>
+    </Package>
+    <Procedure id="_1pb8" name="select_io_tab">
+      <ProcedureCall id="_1rwQ" procedure="action.select.tab">
+        <variable name="tab">I/O Parameters</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pbC" name="select_processing_parameters_tab">
+      <ProcedureCall id="_1pbE" procedure="action.select.tab">
+        <variable name="tab">Processing Parameters</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pMT" name="open_source_product">
+      <variable name="prod_dir"/>
+      <variable name="prod_name"/>
+      <ProcedureCall id="_1oSj" procedure="path.source_data_directory">
+        <variable name="data_type">$(prod_dir)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1rwr"
+                     procedure="action.do_click.io_parameters.open_source_product_button"/>
+      <ProcedureCall id="_1pHR"
+                     procedure="utility.handle_select_product_dialog">
+        <variable name="file">$(data_source_directory)$(prod_name)</variable>
+      </ProcedureCall>
+      <TryStep id="_1pXT">
+        <ProcedureCall id="_1pXV" procedure="wait.appear.error.dialog_Error"/>
+        <ProcedureCall id="_1pXS"
+                       procedure="do_click.error_dialog.button_OK_Error"/>
+        <ProcedureCall id="_1pXW" procedure="run-log.logError">
+          <variable name="message">Opening of the product $(data_source_directory)$(prod_name) failed</variable>
+          <variable name="withScreenshots">false</variable>
+        </ProcedureCall>
+        <CatchSequence exception="TestException" id="_1pXU" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1pPF" name="store_parameters">
+      <TryStep id="_1pPG" name="select_menu_store_parameters">
+        <ProcedureCall id="_1ru0" procedure="action.do_click.menu.file"/>
+        <ProcedureCall id="_1ru1"
+                       procedure="action.do_click.menu.file_Save_Parameters"/>
+        <CatchSequence exception="TestException" id="_1pPJ" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPK" procedure="utility.store_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pP9" name="load_parameters">
+      <TryStep id="_1pPA" name="select_menu_load_parameters">
+        <ProcedureCall id="_1ru8" procedure="action.do_click.menu.file"/>
+        <ProcedureCall id="_1ru9"
+                       procedure="action.do_click.menu.file_Load_Parameters"/>
+        <CatchSequence exception="TestException" id="_1pPD" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPM" procedure="utility.load_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Package id="_1rsW" name="check">
+      <Package id="_1rsX" name="enabled">
+        <Package id="_1rtb" name="io_parameters">
+          <Procedure id="_1rtO" name="open_source_product_button">
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).button..."
+                              id="_1rtQ"/>
+          </Procedure>
+          <Procedure id="_1rsa" name="output_directory_button">
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).button...2"
+                              id="_1rqR"/>
+          </Procedure>
+          <Procedure id="_1rs-" name="save_as_checkbox">
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).saveToFileSelected"
+                              id="_1rqJ" resvarname="save_as_enabled"/>
+          </Procedure>
+          <Procedure id="_1rt1" name="open_in_snap_checkbox">
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).openInAppSelected"
+                              id="_1rqK" resvarname="open_in_snap_enabled"/>
+          </Procedure>
+          <Procedure id="_1rtT" name="save_as_checkbox_enabled_status">
+            <variable name="enabled"/>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).saveToFileSelected"
+                              id="_1rtU" state="$(enabled)"/>
+          </Procedure>
+          <Procedure id="_1rtV" name="open_in_snap_checkbox_enabled_status">
+            <variable name="enabled"/>
+            <CheckBooleanStep checktype="enabled" client="$(client)"
+                              component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).openInAppSelected"
+                              id="_1rtW" state="$(enabled)"/>
+          </Procedure>
+        </Package>
+        <Package id="_1rtc" name="processing_parameters"/>
+        <Procedure id="_1rsu" name="menu_file">
+          <CheckBooleanStep checktype="enabled" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).menuFile"
+                            id="_1rsy"/>
+        </Procedure>
+        <Procedure id="_1rsw" name="menu_help">
+          <CheckBooleanStep checktype="enabled" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).menuHelp"
+                            id="_1rsz"/>
+        </Procedure>
+        <Procedure id="_1rtG" name="close_button">
+          <CheckBooleanStep checktype="enabled" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).DefaultSingleTargetProductDialog.close"
+                            id="_1rs+"/>
+        </Procedure>
+        <Procedure id="_1rtI" name="run_button">
+          <CheckBooleanStep checktype="enabled" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).DefaultSingleTargetProductDialog.apply"
+                            id="_1rtM"/>
+        </Procedure>
+        <Procedure id="_1rtK" name="help_button">
+          <CheckBooleanStep checktype="enabled" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).IdepixDefaultDialog.help"
+                            id="_1rtN"/>
+        </Procedure>
+      </Package>
+      <Package id="_1rsY" name="checked">
+        <Package id="_1rtd" name="io_parameters">
+          <Procedure id="_1rvk" name="save_as">
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).saveToFileSelected"
+                              id="_1rvl" resvarname="save_as"/>
+          </Procedure>
+          <Procedure id="_1rvm" name="open_in_snap">
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).openInAppSelected"
+                              id="_1rvn" resvarname="open_in_snap"/>
+          </Procedure>
+          <Procedure id="_1rvq" name="save_as_selected_status">
+            <variable name="selected"/>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).saveToFileSelected"
+                              id="_1rvr" state="$(selected)"/>
+          </Procedure>
+          <Procedure id="_1rvs" name="open_in_snap_selected_status">
+            <variable name="selected"/>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).openInAppSelected"
+                              id="_1rvt" state="$(selected)"/>
+          </Procedure>
+        </Package>
+        <Package id="_1rte" name="processing_parameters">
+          <Procedure id="_1rwR" name="write_reflective_solar_band">
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).outputRad2Refl"
+                              id="_1rwS"
+                              resvarname="write_reflective_solar_band"/>
+          </Procedure>
+          <Procedure id="_1rwT" name="write-emissive-bands">
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).outputEmissive"
+                              id="_1rwU" resvarname="write-emissive-bands"/>
+          </Procedure>
+          <Procedure id="_1rwX"
+                     name="write_reflective_solar_band_selected_status">
+            <variable name="selected"/>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).outputRad2Refl"
+                              id="_1rwY" state="$(selected)"/>
+          </Procedure>
+          <Procedure id="_1rwZ" name="write-emissive-bands_selected_status">
+            <variable name="selected"/>
+            <CheckBooleanStep checktype="checked" client="$(client)"
+                              component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).outputEmissive"
+                              id="_1rwa" state="$(selected)"/>
+          </Procedure>
+        </Package>
+      </Package>
+      <Package id="_1rsZ" name="text">
+        <Package id="_1rtf" name="io_parameters"/>
+        <Package id="_1rtg" name="processing_parameters">
+          <Procedure id="_1ryd" name="strength_of_cloud_flagging">
+            <variable name="val"/>
+            <CheckStringStep checktype="value" client="$(client)"
+                             component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).cloudFlaggingStrength"
+                             id="_1rys">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1rye" name="resolution_of_land_water_mask">
+            <variable name="val"/>
+            <CheckStringStep checktype="value" client="$(client)"
+                             component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).waterMaskResolution"
+                             id="_1ryt">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+          <Procedure id="_1rwd" name="cloudBufferWidth">
+            <variable name="val"/>
+            <CheckStringStep client="$(client)"
+                             component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).cloudBufferWidth"
+                             id="_1rwe">
+              <text>$(val)</text>
+            </CheckStringStep>
+          </Procedure>
+        </Package>
+      </Package>
+    </Package>
+    <Package id="_1rup" name="set">
+      <Package id="_1ruq" name="io_parameters">
+        <Procedure id="_1r-B" name="target_product_name">
+          <variable name="target_product_name"/>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).productName"
+                         id="_1r-D">
+            <text>$(target_product_name)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1r-G" name="target_directory">
+          <variable name="dir"/>
+          <ProcedureCall id="_1r-H"
+                         procedure="action.select.io_parameters.save_as"/>
+          <ProcedureCall id="_1qJm" procedure="path.output_data_directory">
+            <variable name="output_dir">$(dir)</variable>
+          </ProcedureCall>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).productDir"
+                         id="_1r-J">
+            <text>$(output_data_directory)</text>
+          </TextInputStep>
+        </Procedure>
+      </Package>
+      <Package id="_1rur" name="processing_parameters">
+        <Procedure id="_1rzd" name="cloud_flag_variable">
+          <SetGlobalStep id="_1rze" varname="clear_sky">
+            <default>CLEAR_SKY_CONSERVATIVE</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1rzf" varname="cloud">
+            <default>CLOUD_CONSERVATIVE</default>
+          </SetGlobalStep>
+        </Procedure>
+        <Procedure id="_1rzj" name="land_water_mask_resolution_variable">
+          <SetGlobalStep id="_1rzk" varname="res_1">
+            <default>1000</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1rzl" varname="res_2">
+            <default>150</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1rzp" varname="res_3">
+            <default>50</default>
+          </SetGlobalStep>
+        </Procedure>
+        <Procedure id="_1rus" name="cloudBufferWidth">
+          <variable name="val"/>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).cloudBufferWidth"
+                         id="_1rut">
+            <text>$(val)</text>
+          </TextInputStep>
+        </Procedure>
+      </Package>
+    </Package>
+  </PackageRoot>
+  <ExtraSequence id="_5">
+    <BasicSequence id="_1ryz" name="Aufnahme 16.03.16 16:07">
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).DefaultSingleTargetProductDialog.apply"
+                       id="_1r-d">
+        <text>Run</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(MODIS_mode).DefaultSingleTargetProductDialog.close"
+                       id="_1r-e">
+        <text>Close</text>
+      </CheckStringStep>
+    </BasicSequence>
+    <ProcedureCall id="_1oXV" procedure="check.product.not_opened"/>
+    <IfSequence id="_1oXW" test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+      <TestStep id="_1o+2" name="delete_band">
+        <ProcedureCall id="_1oXb" procedure="select.product_tree.band">
+          <variable name="prod_id">0</variable>
+          <variable name="group_id"/>
+          <variable name="view_id">1</variable>
+          <variable name="band">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1ozv" procedure="delete_product_tree_node"/>
+        <ProcedureCall id="_1ozx" procedure="check.product.node_not_exists">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1o+t" name="undo">
+        <ProcedureCall id="_1p0C" procedure="undo_tree"/>
+        <ProcedureCall disabled="true" id="_1o+y"
+                       procedure="do_click_menubar_undo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o+z" procedure="get.tree.get_index_of_node">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+        <ServerScriptStep disabled="true" id="_1o++" name="print">
+          <code>print "$(new_band_id)"</code>
+        </ServerScriptStep>
+      </TestStep>
+      <TestStep id="_1o-3" name="redo">
+        <ProcedureCall id="_1p0D" procedure="redo_tree"/>
+        <ProcedureCall disabled="true" id="_1o-B"
+                       procedure="do_click_menubar_redo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o-C" procedure="check.product.node_not_exists">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1o-F" name="undo">
+        <ProcedureCall id="_1p0E" procedure="undo_tree"/>
+        <ProcedureCall disabled="true" id="_1o-P"
+                       procedure="do_click_menubar_undo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o-Q" procedure="get.tree.get_index_of_node">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+    </IfSequence>
+    <ProcedureCall id="_1oXO" procedure="close.all_products"/>
+  </ExtraSequence>
+  <WindowList id="_6"/>
+</RootStep>

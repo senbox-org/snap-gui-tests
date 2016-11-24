@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.4">
+<RootStep id="_0" name="root" version="4.0.11">
   <include>qfs.qft</include>
   <include>../../lib/snap_main.qft</include>
   <include>../lib/processing_main.qft</include>
   <variable name="output_folder">aatsr_sst_processor</variable>
   <TestSet id="_2" name="010_12_aatsr_sst_processor"
            reportname="010-12 (A)ATSR SST Processor">
-    <comment>Product generation tools. Arithmetic Expression Editor.</comment>
     <DependencyReference id="_1pO-"
                          reference="start_application_for_processing">
       <variable name="output_dir">$(output_folder)</variable>
     </DependencyReference>
     <TestCase id="_8cc" name="01_check_ui"
               reportname="01 Check (A)ATSR SST Processor UI">
-      <ProcedureCall id="_1pFq"
-                     procedure="open.optical.thematic_water_processing.aatsr_sst_processor"/>
+      <ProcedureCall id="_1s6O" procedure="open_tool_window"/>
       <TestStep id="_1pM7" name="default_componets">
         <TestStep id="_1pbB" name="io_parameters">
           <ProcedureCall id="_1pbA" procedure="select_io_tab"/>
@@ -74,8 +72,7 @@
           </ProcedureCall>
         </TestStep>
       </TestStep>
-      <ProcedureCall id="_1qH7"
-                     procedure="close_processing_tool.thematic_water_processing.aatsr_sst_processor"/>
+      <ProcedureCall id="_1s6h" procedure="close_processor_tool"/>
     </TestCase>
     <TestSet id="_1pMP" name="02_processing">
       <TestCase id="_1qQN" name="test_1">
@@ -87,7 +84,7 @@
         <ProcedureCall id="_1qQO" procedure="test_sequence"/>
       </TestCase>
       <TestCase id="_1qYL" name="test_2">
-        <variable name="output_file">test_01.dim</variable>
+        <variable name="output_file">test_02.dim</variable>
         <variable name="source_data">ATS_TOA_1COLRA20030530_104438_000000762016_00451_06517_1067.N1</variable>
         <variable name="source_dir">aatsr_toa_n1</variable>
         <comment>
@@ -99,8 +96,7 @@
         <variable name="source_data">ATS_TOA_1_test.gz</variable>
         <variable name="source_dir">aatsr_toa_n1</variable>
         <variable name="output_file">save_parameters.dim</variable>
-        <ProcedureCall id="_1qBl"
-                       procedure="open.optical.thematic_water_processing.aatsr_sst_processor"/>
+        <ProcedureCall id="_1s6P" procedure="open_tool_window"/>
         <TestStep id="_1qRP" name="set_parameters">
           <ProcedureCall id="_1qYN"
                          procedure="set.aatsr_sst_processor.dual_view_file_variables"/>
@@ -221,15 +217,13 @@
                           component="dialogAatsr.SST_Parameters.ModalDialog.ok"
                           event="MOUSE_MPRC" id="_1qXV" modifiers="16"/>
         </TestStep>
-        <ProcedureCall id="_1qBX"
-                       procedure="close_processing_tool.thematic_water_processing.aatsr_sst_processor"/>
+        <ProcedureCall id="_1s6i" procedure="close_processor_tool"/>
       </TestCase>
       <TestSet id="_1qTC" name="processing_in_different_formats">
         <variable name="source_data">ATS_TOA_1_test.gz</variable>
         <variable name="source_dir">aatsr_toa_n1</variable>
         <SetupSequence id="_1qTD" name="prepare_for_the_testing">
-          <ProcedureCall id="_1qTE"
-                         procedure="open.optical.thematic_water_processing.aatsr_sst_processor"/>
+          <ProcedureCall id="_1s6Q" procedure="open_tool_window"/>
           <ProcedureCall id="_1qTG"
                          procedure="preparation_io_tab_checkout_save">
             <variable name="output_file">test</variable>
@@ -248,7 +242,7 @@
             <ProcedureCall id="_1qTN" procedure="tables.output_formats"/>
           </DataDriver>
           <TestCase id="_1qTO" name="processing_in_different_formats"
-                    reportname="Processing in different formats and check output product">
+                    reportname="Processing in $(output_format) format and check output product">
             <ServerScriptStep disabled="true" id="_1qTP" name="print">
               <code>print "output_format = $(output_format)"</code>
             </ServerScriptStep>
@@ -273,23 +267,21 @@
             </TestStep>
             <TestStep id="_1qTc" name="check_target_product">
               <ProcedureCall id="_1qTd"
-                             procedure="test_events.check_target_product"/>
+                             procedure="test_events.check_target_product_without_grouping"/>
               <ProcedureCall id="_1qTe" procedure="close.all_products"/>
             </TestStep>
           </TestCase>
         </TestSet>
         <CleanupSequence id="_1qTf" name="close_processor_tool">
-          <ProcedureCall id="_1qTg"
-                         procedure="close_processing_tool.thematic_water_processing.aatsr_sst_processor"/>
+          <ProcedureCall id="_1s6j" procedure="close_processor_tool"/>
         </CleanupSequence>
       </TestSet>
-      <TestCase disabled="true" id="_1pZO" name="cancel_processing">
-        <variable name="output_file">test_14_cancel.dim</variable>
+      <TestCase id="_1pZO" name="cancel_processing">
+        <variable name="output_file">test_aatsr_sst_cancel.dim</variable>
         <variable name="source_data">ATS_TOA_1_test.gz</variable>
         <variable name="source_dir">aatsr_toa_n1</variable>
         <TestStep id="_1qTt" name="preparation">
-          <ProcedureCall id="_1qTm"
-                         procedure="open.optical.thematic_water_processing.aatsr_sst_processor"/>
+          <ProcedureCall id="_1s6R" procedure="open_tool_window"/>
           <ProcedureCall id="_1qTn"
                          procedure="preparation_io_tab_checkout_save"/>
           <ProcedureCall id="_1qTo"
@@ -308,31 +300,15 @@
         <TestStep id="_1pZQ" name="cancel_processing">
           <ProcedureCall id="_1qGy"
                          procedure="do_click.aatsr_sst_processor.button_apply"/>
-          <ProcedureCall id="_1pa9"
-                         procedure="cancel_writing_target_product"/>
+          <ProcedureCall id="_1pa9" procedure="cancel_operators"/>
         </TestStep>
-        <TestStep id="_1pQE" name="check">
-          <ProcedureCall id="_1l3B" procedure="check.product.not_opened"/>
-          <IfSequence id="_1kk7"
-                      test="&#34;$(not_opened)&#34;==&#34;false&#34;">
-            <ProcedureCall id="_1pQV" procedure="run-log.logError">
-              <variable name="message">$(output_file) is opened in SNAP</variable>
-              <variable name="withScreenshots">true</variable>
-            </ProcedureCall>
-          </IfSequence>
-          <ProcedureCall id="_1pQe" procedure="set.target_product_with_path"/>
-          <ProcedureCall id="_1pQW"
-                         procedure="check_external_file.file_was_not_processed_else_shoot_error">
-            <variable name="fileName">$(target_product)</variable>
-          </ProcedureCall>
-        </TestStep>
-        <ProcedureCall id="_1qBY"
-                       procedure="close_processing_tool.thematic_water_processing.aatsr_sst_processor"/>
+        <ProcedureCall id="_1s6m"
+                       procedure="utility.check_if_processing_is_really_canceled"/>
+        <ProcedureCall id="_1s6k" procedure="close_processor_tool"/>
       </TestCase>
     </TestSet>
     <TestCase id="_1pFr" name="03_help">
-      <ProcedureCall id="_1qBo"
-                     procedure="open.optical.thematic_water_processing.aatsr_sst_processor"/>
+      <ProcedureCall id="_1s6S" procedure="open_tool_window"/>
       <TestStep id="_1pVG" name="check_help">
         <ProcedureCall id="_1qYC"
                        procedure="do_click.aatsr_sst_processor.menu.help"/>
@@ -355,11 +331,18 @@
                         component="dialogAbout_Aatsr.SST.ModalDialog.ok"
                         event="MOUSE_MPRC" id="_1qXa" modifiers="16"/>
       </TestStep>
-      <ProcedureCall id="_1qBa"
-                     procedure="close_processing_tool.thematic_water_processing.aatsr_sst_processor"/>
+      <ProcedureCall id="_1s6l" procedure="close_processor_tool"/>
     </TestCase>
   </TestSet>
   <PackageRoot id="_4">
+    <Procedure id="_1s6c" name="close_processor_tool">
+      <ProcedureCall id="_1s6f"
+                     procedure="close_processing_tool.thematic_water_processing.aatsr_sst_processor"/>
+    </Procedure>
+    <Procedure id="_1s6L" name="open_tool_window">
+      <ProcedureCall id="_1s6N"
+                     procedure="open.optical.thematic_water_processing.aatsr_sst_processor"/>
+    </Procedure>
     <Procedure id="_1qY0" name="default_parameters">
       <ProcedureCall id="_1qY1"
                      procedure="set.aatsr_sst_processor.dual_view_file_variables"/>
@@ -382,8 +365,7 @@
       </SetGlobalStep>
     </Procedure>
     <Procedure id="_1qQc" name="test_sequence">
-      <ProcedureCall id="_1qQd"
-                     procedure="open.optical.thematic_water_processing.aatsr_sst_processor"/>
+      <ProcedureCall id="_1s6T" procedure="open_tool_window"/>
       <TestStep id="_1qQe" name="preparation">
         <ProcedureCall id="_1qQf"
                        procedure="preparation_io_tab_checkout_save"/>
@@ -395,12 +377,11 @@
       </TestStep>
       <TestStep id="_1qQk" name="check_output_product">
         <ProcedureCall id="_1qQl"
-                       procedure="product_meta_data.for_open_image_view"/>
+                       procedure="product_meta_data.for_open_image_view_without_grouping"/>
         <ProcedureCall id="_1qQm"
                        procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
       </TestStep>
-      <ProcedureCall id="_1qQn"
-                     procedure="close_processing_tool.thematic_water_processing.aatsr_sst_processor"/>
+      <ProcedureCall id="_1s6g" procedure="close_processor_tool"/>
     </Procedure>
     <Procedure id="_1pb8" name="select_io_tab">
       <ProcedureCall id="_1pb9" procedure="select.aatsr_sst_processor.tab">

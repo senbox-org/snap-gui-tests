@@ -1,0 +1,636 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.11">
+  <include>qfs.qft</include>
+  <include>smosbox_lib.qft</include>
+  <variable name="output_folder">smos</variable>
+  <TestSet id="_5G1" name="015_05_smos_ee_to_netcdf"
+           reportname="015-05 Conversion SMOS Earth Explorer Product to NetCDF">
+    <DependencyReference id="_1pP1" reference="start_application_for_gpt">
+      <variable name="output_dir">$(output_folder)</variable>
+    </DependencyReference>
+    <TestSet id="_9V3" name="smos_ee_to_netcdf" postdelay="2000"
+             reportname="Convert SMOS Earth Explorer Product to NetCDF, check target product">
+      <DataDriver id="_9V5"
+                  loopreportname="Convert $(source-product-paths1) to NetCDF"
+                  name="dataTable">
+        <ProcedureCall id="_1l4d" procedure="tables.smos_ee_to_netcdf"/>
+      </DataDriver>
+      <TestCase id="_9Xo" name="smos_ee_to_netcdf" reportname="$(commando)">
+        <ProcedureCall id="_1pP2"
+                       procedure="test_sequence_smos_ee_to_netcdf"/>
+      </TestCase>
+    </TestSet>
+  </TestSet>
+  <PackageRoot id="_4">
+    <Procedure id="_1roM" name="convertion_help">
+      <variable name="gpt_client"/>
+      <ShellClientStarter client="$(gpt_client)" command="$(commando)"
+                          directory="${path:smos_ee_to_netcdf_dir}" id="_1roN"
+                          postdelay="20000"/>
+      <ProcedureCall id="_1roO" postdelay="2000"
+                     procedure="run-log.log_client_output">
+        <variable name="client_name">$(gpt_client)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1roP" postdelay="2000" predelay="2000"
+                     procedure="utils.waiting_for_processierung_else_terminate_process">
+        <variable name="client_name">$(gpt_client)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1oPq" name="test_sequence_smos_ee_to_netcdf">
+      <ProcedureCall id="_1oPr" procedure="close.all_products"/>
+      <TestStep id="_1p1t" name="set_processing_parameters">
+        <ProcedureCall id="_1qUe"
+                       procedure="variables.variable_increase_on_1">
+          <variable name="var_int">1000</variable>
+        </ProcedureCall>
+        <TestStep id="_1qkH" name="set_output_directory">
+          <ProcedureCall id="_1qUg" procedure="path.main_path"/>
+          <ProcedureCall id="_1p2E" procedure="path.output_data_directory">
+            <variable name="output_dir">$(output_folder)</variable>
+          </ProcedureCall>
+          <SetGlobalStep id="_1qkO" varname="output_directory">
+            <default>$(output_data_directory)$(target-directory)</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1rpM" varname="output_sub_directory">
+            <default>$(output_folder)${path:slash}$(target-directory)</default>
+          </SetGlobalStep>
+        </TestStep>
+        <ProcedureCall id="_1qV5" procedure="utils.gpt_client_name">
+          <variable name="client_nr">$(wv)</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1qaN" name="run_convertion">
+        <TryStep id="_1qWH">
+          <ProcedureCall id="_1roS" procedure="convertion_help">
+            <variable name="gpt_client">$(gpt_client_name)</variable>
+          </ProcedureCall>
+          <CatchSequence exception="TestException" id="_1qWJ" maxerror="0">
+            <TryStep id="_1roC">
+              <ProcedureCall id="_1roQ" procedure="convertion_help">
+                <variable name="gpt_client">$(gpt_client_name)_a</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1roF"
+                             maxerror="0">
+                <ProcedureCall id="_1roR" procedure="convertion_help">
+                  <variable name="gpt_client">$(gpt_client_name)_b</variable>
+                </ProcedureCall>
+              </CatchSequence>
+            </TryStep>
+          </CatchSequence>
+        </TryStep>
+        <ProcedureCall id="_1p2p" postdelay="2000" predelay="2000"
+                       procedure="utils.waiting_for_processierung_else_terminate_process">
+          <variable name="client_name">$(gpt_client_name)</variable>
+        </ProcedureCall>
+      </TestStep>
+      <ProcedureCall id="_1rpK" procedure="check.check_target_product"/>
+    </Procedure>
+  </PackageRoot>
+  <ExtraSequence id="_5">
+    <TestSet id="_1ro3" name="smos_ee_to_netcdf_not_jet_work" postdelay="2000"
+             reportname="Convert SMOS Earth Explorer Product to NetCDF, check target product">
+      <DataDriver id="_1ro4"
+                  loopreportname="Convert $(source-product-paths1) to NetCDF"
+                  name="dataTable">
+        <ProcedureCall id="_1ro5" procedure="tables.smos_ee_to_netcdf"/>
+      </DataDriver>
+      <TestCase id="_1ro6" name="smos_ee_to_netcdf"
+                reportname="Convert $(source-product-paths1) to NetCDF">
+        <ProcedureCall id="_1ro7"
+                       procedure="test_sequence_smos_ee_to_netcdf"/>
+      </TestCase>
+    </TestSet>
+    <Procedure id="_1rm+" name="test_sequence_smos_ee_to_netcdf_not_jet_work">
+      <ProcedureCall id="_1rm-" procedure="close.all_products"/>
+      <TestStep id="_1rn0" name="set_processing_parameters">
+        <ProcedureCall id="_1rn1"
+                       procedure="variables.variable_increase_on_1">
+          <variable name="var_int">1000</variable>
+        </ProcedureCall>
+        <TestStep id="_1rn2" name="set_output_directory">
+          <ProcedureCall id="_1rn3" procedure="path.main_path"/>
+          <ProcedureCall id="_1rn4" procedure="path.output_data_directory">
+            <variable name="output_dir">$(output_folder)</variable>
+          </ProcedureCall>
+          <SetGlobalStep id="_1rn5" varname="output_directory">
+            <default>$(output_data_directory)$(target-directory)</default>
+          </SetGlobalStep>
+          <SetGlobalStep disabled="true" id="_1rn6"
+                         varname="output_directory">
+            <default>$(output_data_directory)</default>
+          </SetGlobalStep>
+        </TestStep>
+        <TestStep id="_1rn7" name="set_conversion_shell_script">
+          <IfSequence id="_1rn8" test="${qftest:windows}">
+            <SetGlobalStep id="_1rn9" varname="smos_ee_to_netcdf">
+              <default>${path:smos_ee_to_netcdf_dir}${path:slash}smos-ee-to-nc.bat</default>
+            </SetGlobalStep>
+            <ElseSequence id="_1rnA">
+              <SetGlobalStep id="_1rnB" varname="smos_ee_to_netcdf">
+                <default>${path:smos_ee_to_netcdf_dir}${path:slash}smos-ee-to-nc.sh</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </TestStep>
+        <ProcedureCall id="_1rnC" procedure="set.input">
+          <variable name="source1">$(source-product-paths1)</variable>
+          <variable name="source2">$(source-product-paths2)</variable>
+          <variable name="source3">$(source-product-paths3)</variable>
+        </ProcedureCall>
+        <TestStep id="_1rnD" name="set_options">
+          <IfSequence id="_1rnE"
+                      test="&#34;$(compression-level)&#34;&lt;&gt;&#34;&#34;">
+            <comment>
+</comment>
+            <SetGlobalStep id="_1rnF" local="true" varname="op1">
+              <default> --compression-level $(compression-level)</default>
+            </SetGlobalStep>
+            <ElseSequence id="_1rnG">
+              <SetGlobalStep id="_1rnH" local="true" varname="op1"/>
+            </ElseSequence>
+          </IfSequence>
+          <IfSequence id="_1rnI" test="&#34;$(region)&#34;&lt;&gt;&#34;&#34;">
+            <SetGlobalStep id="_1rnJ" local="true" varname="op2">
+              <default> --region "$(region)"</default>
+            </SetGlobalStep>
+            <ElseSequence id="_1rnK">
+              <SetGlobalStep id="_1rnL" local="true" varname="op2"/>
+            </ElseSequence>
+          </IfSequence>
+          <IfSequence id="_1rnM"
+                      test="&#34;$(variables)&#34;&lt;&gt;&#34;&#34;">
+            <comment>
+</comment>
+            <SetGlobalStep id="_1rnN" local="true" varname="op3">
+              <default> --variables $(variables)</default>
+            </SetGlobalStep>
+            <ElseSequence id="_1rnO">
+              <SetGlobalStep id="_1rnP" local="true" varname="op3"/>
+            </ElseSequence>
+          </IfSequence>
+          <SetGlobalStep id="_1rnQ" local="true" varname="options">
+            <default>$(op1)$(op2)$(op3) -e -l ALL --contact test_contact --institution test_institution</default>
+          </SetGlobalStep>
+        </TestStep>
+        <ProcedureCall id="_1rnR" procedure="utils.gpt_client_name">
+          <variable name="client_nr">$(wv)</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1rnS" name="compose_command_line ">
+        <SetGlobalStep id="_1rnT" varname="commando">
+          <default>$(smos_ee_to_netcdf) $(options) --target-directory $(output_directory) --source-product-paths $(input)</default>
+        </SetGlobalStep>
+        <ServerScriptStep disabled="true" id="_1rnU" name="print">
+          <code>print "************ commando = $(commando)*****************"  </code>
+        </ServerScriptStep>
+      </TestStep>
+      <TestStep id="_1rnV" name="run_convertion">
+        <TryStep id="_1rnW">
+          <ShellClientStarter client="$(gpt_client_name)"
+                              command="$(commando)"
+                              directory="${path:smos_ee_to_netcdf_dir}"
+                              id="_1rnX" postdelay="20000"/>
+          <CatchSequence exception="TestException" id="_1rnY" maxerror="0">
+            <SetGlobalStep id="_1rnZ" varname="gpt_client_name">
+              <default>$(gpt_client_name)_a</default>
+            </SetGlobalStep>
+            <ShellClientStarter client="$(gpt_client_name)"
+                                command="$(commando)"
+                                directory="${path:smos_ee_to_netcdf_dir}"
+                                id="_1rna" postdelay="20000"/>
+          </CatchSequence>
+        </TryStep>
+        <ServerScriptStep disabled="true" id="_1rnb" name="print">
+          <code>print "$(commando)"  </code>
+        </ServerScriptStep>
+        <ProcedureCall id="_1rnc" postdelay="2000"
+                       procedure="run-log.log_client_output">
+          <variable name="client_name">$(gpt_client_name)</variable>
+        </ProcedureCall>
+        <ServerScriptStep disabled="true" id="_1rnd" name="print">
+          <code>print "*** gpt_client_name = $(gpt_client_name)"  </code>
+        </ServerScriptStep>
+      </TestStep>
+      <ProcedureCall id="_1rne" postdelay="2000" predelay="2000"
+                     procedure="utils.waiting_for_processierung_else_terminate_process">
+        <variable name="client_name">$(gpt_client_name)</variable>
+      </ProcedureCall>
+      <ServerScriptStep disabled="true" id="_1rnf" name="print">
+        <code>print "*** gpt_client_nr = $(wv)"  </code>
+      </ServerScriptStep>
+      <SetGlobalStep id="_1rng" varname="outfile">
+        <default>$(output_directory)${path:slash}$(target_product).nc</default>
+      </SetGlobalStep>
+      <ProcedureCall id="_1rnh"
+                     procedure="check_external_file.file_exists_setGlobal">
+        <variable name="fileName">$(outfile)</variable>
+      </ProcedureCall>
+      <IfSequence id="_1rni" test="&#34;$(fileExists)&#34;==&#34;False&#34;">
+        <TestStep id="_1rnj" name="wait" postdelay="5000"/>
+        <ProcedureCall id="_1rnk"
+                       procedure="check_external_file.file_exists_setGlobal">
+          <variable name="fileName">$(outfile)</variable>
+        </ProcedureCall>
+        <IfSequence id="_1rnl"
+                    test="&#34;$(fileExists)&#34;==&#34;False&#34;">
+          <ProcedureCall id="_1rnm" procedure="run-log.logError">
+            <variable name="message">$(outfile) is not processed</variable>
+            <variable name="withScreenshots">false</variable>
+          </ProcedureCall>
+        </IfSequence>
+      </IfSequence>
+      <IfSequence id="_1rnn" test="&#34;$(fileExists)&#34;==&#34;True&#34;">
+        <ProcedureCall id="_1rno" procedure="check.product.not_opened"/>
+        <IfSequence id="_1rnp"
+                    test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+          <ProcedureCall id="_1rnq" procedure="close.all_products"/>
+          <ElseSequence id="_1rnr">
+            <ProcedureCall id="_1rns" procedure="open.product_in_snap">
+              <variable name="prod_dir">$(output_folder)/$(target-directory)</variable>
+              <variable name="in_out">out</variable>
+              <variable name="prod">$(target_product).nc</variable>
+              <variable name="product_type"/>
+            </ProcedureCall>
+            <ProcedureCall disabled="true" id="_1rnt"
+                           procedure="open.product_in_snap">
+              <variable name="prod_dir">$(output_folder)</variable>
+              <variable name="in_out">out</variable>
+              <variable name="prod">$(target_product).nc</variable>
+              <variable name="product_type"/>
+            </ProcedureCall>
+            <IfSequence id="_1rnu"
+                        test="&#34;$(not_opened)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1rnv" procedure="wait.product_is_opened"/>
+            </IfSequence>
+            <ProcedureCall id="_1rnw" procedure="check.product.not_opened"/>
+            <IfSequence id="_1rnx"
+                        test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+              <SetGlobalStep id="_1rny" varname="group_id1">
+                <comment>view_Id1</comment>
+              </SetGlobalStep>
+              <ProcedureCall id="_1rnz"
+                             procedure="product_meta_data.product_attributes">
+                <variable name="prod_type"/>
+              </ProcedureCall>
+              <SetGlobalStep id="_1rn+" varname="view_Id1">
+                <default>0</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1roA" varname="bandName">
+                <default>test</default>
+              </SetGlobalStep>
+              <ProcedureCall id="_1rn-"
+                             procedure="utility.open_image_view_check_it">
+                <comment>@teststep Open image view and check it.</comment>
+              </ProcedureCall>
+              <ProcedureCall id="_1ro0" procedure="close.all_products"/>
+              <ElseSequence id="_1ro1">
+                <ProcedureCall id="_1ro2" procedure="run-log.logError">
+                  <variable name="message">Target product is not opened in SNAP</variable>
+                  <variable name="withScreenshots">true</variable>
+                </ProcedureCall>
+              </ElseSequence>
+            </IfSequence>
+          </ElseSequence>
+        </IfSequence>
+      </IfSequence>
+    </Procedure>
+    <IfSequence disabled="true" id="_1qkj"
+                test="&#34;$(region)&#34;&lt;&gt;&#34;&#34;">
+      <SetGlobalStep id="_1qkk" local="true" varname="op2">
+        <default> --region \"$(region)\"</default>
+      </SetGlobalStep>
+      <ElseSequence id="_1qkl">
+        <SetGlobalStep id="_1qkm" local="true" varname="op2"/>
+      </ElseSequence>
+    </IfSequence>
+    <Procedure id="_1rlp" name="test_sequence_smos_ee_to_netcdf">
+      <ProcedureCall id="_1rlq" procedure="close.all_products"/>
+      <TestStep id="_1rlr" name="set_processing_parameters">
+        <ProcedureCall id="_1rls"
+                       procedure="variables.variable_increase_on_1">
+          <variable name="var_int">1000</variable>
+        </ProcedureCall>
+        <TestStep id="_1rlt" name="set_output_directory">
+          <ProcedureCall id="_1rlu" procedure="path.main_path"/>
+          <ProcedureCall id="_1rlv" procedure="path.output_data_directory">
+            <variable name="output_dir">$(output_folder)</variable>
+          </ProcedureCall>
+          <SetGlobalStep id="_1rlw" varname="output_directory">
+            <default>$(output_data_directory)$(target-directory)</default>
+          </SetGlobalStep>
+        </TestStep>
+        <TestStep id="_1rlx" name="set_conversion_shell_script">
+          <IfSequence id="_1rly" test="${qftest:windows}">
+            <SetGlobalStep id="_1rlz" varname="smos_ee_to_netcdf">
+              <default>${path:smos_ee_to_netcdf_dir}${path:slash}smos-ee-to-nc.bat</default>
+            </SetGlobalStep>
+            <ElseSequence id="_1rl+">
+              <SetGlobalStep id="_1rl-" varname="smos_ee_to_netcdf">
+                <default>${path:smos_ee_to_netcdf_dir}${path:slash}smos-ee-to-nc.sh</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+        </TestStep>
+        <ProcedureCall id="_1rm0" procedure="set.input">
+          <variable name="source1">$(source-product-paths1)</variable>
+          <variable name="source2">$(source-product-paths2)</variable>
+          <variable name="source3">$(source-product-paths3)</variable>
+        </ProcedureCall>
+        <TestStep id="_1rm1" name="set_options">
+          <IfSequence id="_1rm2"
+                      test="&#34;$(compression-level)&#34;&lt;&gt;&#34;&#34;">
+            <comment>
+</comment>
+            <SetGlobalStep id="_1rm3" local="true" varname="op1">
+              <default> --compression-level $(compression-level)</default>
+            </SetGlobalStep>
+            <ElseSequence id="_1rm4">
+              <SetGlobalStep id="_1rm5" local="true" varname="op1"/>
+            </ElseSequence>
+          </IfSequence>
+          <IfSequence id="_1rm6" test="&#34;$(region)&#34;&lt;&gt;&#34;&#34;">
+            <SetGlobalStep id="_1rm7" local="true" varname="op2">
+              <default> --region "$(region)"</default>
+            </SetGlobalStep>
+            <ElseSequence id="_1rm8">
+              <SetGlobalStep id="_1rm9" local="true" varname="op2"/>
+            </ElseSequence>
+          </IfSequence>
+          <IfSequence disabled="true" id="_1rmA"
+                      test="&#34;$(region)&#34;&lt;&gt;&#34;&#34;">
+            <SetGlobalStep id="_1rmB" local="true" varname="op2">
+              <default> --region \"$(region)\"</default>
+            </SetGlobalStep>
+            <ElseSequence id="_1rmC">
+              <SetGlobalStep id="_1rmD" local="true" varname="op2"/>
+            </ElseSequence>
+          </IfSequence>
+          <IfSequence id="_1rmE"
+                      test="&#34;$(variables)&#34;&lt;&gt;&#34;&#34;">
+            <comment>
+</comment>
+            <SetGlobalStep id="_1rmF" local="true" varname="op3">
+              <default> --variables $(variables)</default>
+            </SetGlobalStep>
+            <ElseSequence id="_1rmG">
+              <SetGlobalStep id="_1rmH" local="true" varname="op3"/>
+            </ElseSequence>
+          </IfSequence>
+          <SetGlobalStep id="_1rmI" local="true" varname="options">
+            <default>$(op1)$(op2)$(op3) -e -l ALL --contact test_contact --institution test_institution</default>
+          </SetGlobalStep>
+        </TestStep>
+        <ProcedureCall id="_1rmJ" procedure="utils.gpt_client_name">
+          <variable name="client_nr">$(wv)</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1rmK" name="compose_command_line ">
+        <SetGlobalStep id="_1rmL" varname="commando">
+          <default>$(smos_ee_to_netcdf) $(options) --target-directory $(output_directory) --source-product-paths $(input)</default>
+        </SetGlobalStep>
+        <ServerScriptStep disabled="true" id="_1rmM" name="print">
+          <code>print "************ commando = $(commando)*****************"  </code>
+        </ServerScriptStep>
+      </TestStep>
+      <TestStep id="_1rmN" name="run_convertion">
+        <TryStep id="_1rmO">
+          <ShellClientStarter client="$(gpt_client_name)"
+                              command="$(commando)"
+                              directory="${path:smos_ee_to_netcdf_dir}"
+                              id="_1rmP" postdelay="20000"/>
+          <CatchSequence exception="TestException" id="_1rmQ" maxerror="0">
+            <SetGlobalStep id="_1rmR" varname="gpt_client_name">
+              <default>$(gpt_client_name)_a</default>
+            </SetGlobalStep>
+            <ShellClientStarter client="$(gpt_client_name)"
+                                command="$(commando)"
+                                directory="${path:smos_ee_to_netcdf_dir}"
+                                id="_1rmS" postdelay="20000"/>
+          </CatchSequence>
+        </TryStep>
+        <ServerScriptStep disabled="true" id="_1rmT" name="print">
+          <code>print "$(commando)"  </code>
+        </ServerScriptStep>
+        <ProcedureCall id="_1rmU" postdelay="2000"
+                       procedure="run-log.log_client_output">
+          <variable name="client_name">$(gpt_client_name)</variable>
+        </ProcedureCall>
+        <ServerScriptStep disabled="true" id="_1rmV" name="print">
+          <code>print "*** gpt_client_name = $(gpt_client_name)"  </code>
+        </ServerScriptStep>
+      </TestStep>
+      <ProcedureCall id="_1rmW" postdelay="2000" predelay="2000"
+                     procedure="utils.waiting_for_processierung_else_terminate_process">
+        <variable name="client_name">$(gpt_client_name)</variable>
+      </ProcedureCall>
+      <ServerScriptStep disabled="true" id="_1rmX" name="print">
+        <code>print "*** gpt_client_nr = $(wv)"  </code>
+      </ServerScriptStep>
+      <SetGlobalStep id="_1rmY" varname="outfile">
+        <default>$(output_directory)${path:slash}$(target_product).nc</default>
+      </SetGlobalStep>
+      <ProcedureCall id="_1rmZ"
+                     procedure="check_external_file.file_exists_setGlobal">
+        <variable name="fileName">$(outfile)</variable>
+      </ProcedureCall>
+      <IfSequence id="_1rma" test="&#34;$(fileExists)&#34;==&#34;False&#34;">
+        <TestStep id="_1rmb" name="wait" postdelay="5000"/>
+        <ProcedureCall id="_1rmc"
+                       procedure="check_external_file.file_exists_setGlobal">
+          <variable name="fileName">$(outfile)</variable>
+        </ProcedureCall>
+        <IfSequence id="_1rmd"
+                    test="&#34;$(fileExists)&#34;==&#34;False&#34;">
+          <ProcedureCall id="_1rme" procedure="run-log.logError">
+            <variable name="message">$(outfile) is not processed</variable>
+            <variable name="withScreenshots">false</variable>
+          </ProcedureCall>
+        </IfSequence>
+      </IfSequence>
+      <IfSequence id="_1rmf" test="&#34;$(fileExists)&#34;==&#34;True&#34;">
+        <ProcedureCall id="_1rmg" procedure="check.product.not_opened"/>
+        <IfSequence id="_1rmh"
+                    test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+          <ProcedureCall id="_1rmi" procedure="close.all_products"/>
+          <ElseSequence id="_1rmj">
+            <ProcedureCall id="_1rmk" procedure="open.product_in_snap">
+              <variable name="prod_dir">$(output_folder)/$(target-directory)</variable>
+              <variable name="in_out">out</variable>
+              <variable name="prod">$(target_product).nc</variable>
+              <variable name="product_type"/>
+              <comment>outfile
+$(output_directory)${path:slash}$(target_product).nc</comment>
+            </ProcedureCall>
+            <IfSequence id="_1rml"
+                        test="&#34;$(not_opened)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1rmm" procedure="wait.product_is_opened"/>
+            </IfSequence>
+            <ProcedureCall id="_1rmn" procedure="check.product.not_opened"/>
+            <IfSequence id="_1rmo"
+                        test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+              <ProcedureCall id="_1rmp"
+                             procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
+                <variable name="screenshot">error_while_import</variable>
+              </ProcedureCall>
+              <SetGlobalStep id="_1rmq" varname="group_id1">
+                <comment>view_Id1</comment>
+              </SetGlobalStep>
+              <ProcedureCall id="_1rmr"
+                             procedure="product_meta_data.product_attributes">
+                <variable name="prod_type"/>
+              </ProcedureCall>
+              <SetGlobalStep id="_1rms" varname="view_Id1">
+                <default>0</default>
+              </SetGlobalStep>
+              <ProcedureCall id="_1rmt"
+                             procedure="utility.open_image_view_check_it">
+                <comment>@teststep Open image view and check it.</comment>
+              </ProcedureCall>
+              <ProcedureCall id="_1rmu" procedure="close.all_products"/>
+              <ElseSequence id="_1rmv">
+                <ProcedureCall id="_1rmw" procedure="run-log.logError">
+                  <variable name="message">Target product is not opened in SNAP</variable>
+                  <variable name="withScreenshots">true</variable>
+                </ProcedureCall>
+              </ElseSequence>
+            </IfSequence>
+            <ProcedureCall id="_1rmx"
+                           procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
+              <variable name="screenshot">error_while_import</variable>
+            </ProcedureCall>
+          </ElseSequence>
+        </IfSequence>
+      </IfSequence>
+    </Procedure>
+    <ServerScriptStep id="_1qkv" name="replace">
+      <code>import string
+
+pn = "B:\\Users\\olga\\Projects\\Testing\\test_suite\\smos-ee-to-netcdf\\smos-ee-to-nc.bat  --compression-level 9 --region "POLYGON((-180.0 -80.0, -180.0 -20.0, 180.0 -20.0, 180.0 -20.0, -180.0 -80.0))" --variables Dg_chi2_1,Dg_chi2_2,Dg_chi2_3,Latitude,Longitude,Grid_Point_ID,Control_Flags_1,Control_Flags_2 -e -l ALL --contact test_contact --institution test_institution --target-directory E:\\testdata\\out\\smos\\MIR_OSUDP2 --source-product-paths E:\\testdata\\in\\sensors_platforms\\SMOS\\MIR_OSUDP2\\SM*.zip,E:\\testdata\\in\\sensors_platforms\\SMOS\\MIR_OSUDP2\\SM*\\SM*.HDR"
+#pn = pn.replace("\\", "\")
+rc.setGlobal("commando", pn.replace("\\", {quoteitem:\}))      
+</code>
+    </ServerScriptStep>
+    <SetGlobalStep id="_1qku" local="true" varname="commando1">
+      <default>$(smos_ee_to_netcdf) $(options) --target-directory $(output_directory) --source-product-paths $(input)</default>
+    </SetGlobalStep>
+    <ServerScriptStep id="_1qkt" name="replace">
+      <code>import string
+
+pn = "$(commando1)"
+#pn = pn.replace("\\", "\")
+rc.setGlobal("commando", pn.replace("\\", {quoteitem:\}))      
+</code>
+    </ServerScriptStep>
+    <ServerScriptStep id="_AUb" name="replace_whitespaces">
+      <code>import string
+
+pn = "$(productName)"
+pn = pn.replace(".", "_")
+rc.setGlobal("productName2", pn.replace(" ", "_"))      </code>
+    </ServerScriptStep>
+    <TestStep id="_1qkz" name="set_region">
+      <comment>index_last_char = len(s)</comment>
+      <SetGlobalStep id="_1qky" varname="region">
+        <default>POLYGON((-180.0 -80.0, -180.0 -20.0, 180.0 -20.0, 180.0 -20.0, -180.0 -80.0))</default>
+      </SetGlobalStep>
+      <SetGlobalStep id="_1qkw" local="true" varname="op2">
+        <default> --region \"$(region)\"</default>
+      </SetGlobalStep>
+      <ServerScriptStep id="_1qkx" name="print">
+        <code>print "************ op2 = $(op2)*****************"  </code>
+      </ServerScriptStep>
+    </TestStep>
+    <Test id="_1qlm" name="temp2">
+      <ShellClientStarter client="xx"
+                          command="B:\\Users\\olga\Projects\\Testing\\test_suite\\smos-ee-to-netcdf\\smos-ee-to-nc.bat  --compression-level 9 --region &#34;POLYGON((-180.0 -80.0, -180.0 -20.0, 180.0 -20.0, 180.0 -20.0, -180.0 -80.0))&#34; --variables Dg_chi2_1,Dg_chi2_2,Dg_chi2_3,Latitude,Longitude,Grid_Point_ID,Control_Flags_1,Control_Flags_2 -e -l ALL --contact test_contact --institution test_institution --target-directory E:\\testdata\\out\\smos\\MIR_OSUDP2x2 --source-product-paths E:\\testdata\\in\\sensors_platforms\\SMOS\\MIR_OSUDP2\SM*.zip,E:\\testdata\\in\\sensors_platforms\\SMOS\\MIR_OSUDP2\SM*\SM*.HDR"
+                          id="_1qmn"/>
+      <ShellClientStarter client="xx"
+                          command="B:\\Users\\olga\Projects\\Testing\\test_suite\\smos-ee-to-netcdf\\smos-ee-to-nc.bat  --compression-level 9 --region &#34;POLYGON((-180.0 -80.0, -180.0 -20.0, 180.0 -20.0, 180.0 -20.0, -180.0 -80.0))&#34; --variables Dg_chi2_1,Dg_chi2_2,Dg_chi2_3,Latitude,Longitude,Grid_Point_ID,Control_Flags_1,Control_Flags_2 -e -l ALL --contact test_contact --institution test_institution --target-directory E:\\testdata\\out\\smos\\MIR_OSUDP2x2 --source-product-paths E:\\testdata\\in\\sensors_platforms\\SMOS\\MIR_OSUDP2/SM*.zip,E:\\testdata\\in\\sensors_platforms\\SMOS\\MIR_OSUDP2/SM*/SM*.HDR"
+                          id="_1qmp"/>
+      <ShellClientStarter client="xx"
+                          command="B:\\Users\\olga\Projects\\Testing\\test_suite\\smos-ee-to-netcdf\\smos-ee-to-nc.bat  --compression-level 9 --region &#34;POLYGON((-180.0 -80.0, -180.0 -20.0, 180.0 -20.0, 180.0 -20.0, -180.0 -80.0))&#34; --variables Dg_chi2_1,Dg_chi2_2,Dg_chi2_3,Latitude,Longitude,Grid_Point_ID,Control_Flags_1,Control_Flags_2 -e -l ALL --contact test_contact --institution test_institution --target-directory E:\\testdata\\out\\smos\\MIR_OSUDP2x2 --source-product-paths E:\\testdata\\in\\sensors_platforms\\SMOS\\MIR_OSUDP2\SM*.zip,E:\\testdata\\in\\sensors_platforms\\SMOS\\MIR_OSUDP2\SM*\SM*.HDR"
+                          id="_1qmq"/>
+      <ShellClientStarter client="xx"
+                          command="B:\\Users\\olga\Projects\\Testing\\test_suite\\smos-ee-to-netcdf\\smos-ee-to-nc.bat  --compression-level 9 --region &#34;POLYGON((-180.0 -80.0, -180.0 -20.0, 180.0 -20.0, 180.0 -20.0, -180.0 -80.0))&#34; --variables Dg_chi2_1,Dg_chi2_2,Dg_chi2_3,Latitude,Longitude,Grid_Point_ID,Control_Flags_1,Control_Flags_2 -e -l ALL --contact test_contact --institution test_institution --target-directory E:\\testdata\\out\\smos\\MIR_OSUDP2x2 --source-product-paths E:\\testdata\\in\\sensors_platforms\\SMOS\\MIR_OSUDP2\SM*.zip,E:\\testdata\\in\\sensors_platforms\\SMOS\\MIR_OSUDP2\SM*\SM*.HDR"
+                          id="_1qmr"/>
+      <ShellClientStarter client="xx"
+                          command="B:\\Users\\olga\Projects\\Testing\\test_suite\\smos-ee-to-netcdf\\smos-ee-to-nc.bat  --compression-level 9 --region &#34;POLYGON((-180.0 -80.0, -180.0 -20.0, 180.0 -20.0, 180.0 -20.0, -180.0 -80.0))&#34; --variables Dg_chi2_1,Dg_chi2_2,Dg_chi2_3,Latitude,Longitude,Grid_Point_ID,Control_Flags_1,Control_Flags_2 -e -l ALL --contact test_contact --institution test_institution --target-directory E:\\testdata\\out\\smos\\MIR_OSUDP2x2 --source-product-paths E:\\testdata\\in\\sensors_platforms\\SMOS\\MIR_OSUDP2\SM*.zip,E:\\testdata\\in\\sensors_platforms\\SMOS\\MIR_OSUDP2\SM*\SM*.HDR"
+                          id="_1qms"/>
+      <ShellClientStarter client="xx"
+                          command="B:\\Users\\olga\Projects\\Testing\\test_suite\\smos-ee-to-netcdf\\smos-ee-to-nc.bat  --compression-level 9 --region &#34;POLYGON((-180.0 -80.0, -180.0 -20.0, 180.0 -20.0, 180.0 -20.0, -180.0 -80.0))&#34; --variables Dg_chi2_1,Dg_chi2_2,Dg_chi2_3,Latitude,Longitude,Grid_Point_ID,Control_Flags_1,Control_Flags_2 -e -l ALL --contact test_contact --institution test_institution --target-directory E:\\testdata\\out\\smos\\MIR_OSUDP2x2 --source-product-paths E:\testdata\in\sensors_platforms\SMOS\MIR_OSUDP2\SM*.zip,E:\testdata\in\sensors_platforms\SMOS\MIR_OSUDP2\SM*\SM*.HDR"
+                          id="_1qmh"/>
+      <ShellClientStarter client="xx"
+                          command="B:\\Users\\olga\Projects\\Testing\\test_suite\\smos-ee-to-netcdf\\smos-ee-to-nc.bat  --compression-level 9 --region &#34;POLYGON((-180.0 -80.0, -180.0 -20.0, 180.0 -20.0, 180.0 -20.0, -180.0 -80.0))&#34; --variables Dg_chi2_1,Dg_chi2_2,Dg_chi2_3,Latitude,Longitude,Grid_Point_ID,Control_Flags_1,Control_Flags_2 -e -l ALL --contact test_contact --institution test_institution --target-directory E:\\testdata\\out\\smos\\MIR_OSUDP2x2 --source-product-paths E:\testdata\in\sensors_platforms\SMOS\MIR_OSUDP2\SM*.zip,E:\testdata\in\sensors_platforms\SMOS\MIR_OSUDP2\SM*\SM*.HDR"
+                          id="_1qmi"/>
+      <ShellClientStarter client="xx"
+                          command="B:\\Users\\olga\Projects\\Testing\\test_suite\\smos-ee-to-netcdf\\smos-ee-to-nc.bat  --compression-level 9 --region &#34;POLYGON((-180.0 -80.0, -180.0 -20.0, 180.0 -20.0, 180.0 -20.0, -180.0 -80.0))&#34; --variables Dg_chi2_1,Dg_chi2_2,Dg_chi2_3,Latitude,Longitude,Grid_Point_ID,Control_Flags_1,Control_Flags_2 -e -l ALL --contact test_contact --institution test_institution --target-directory E:\\testdata\\out\\smos\\MIR_OSUDP2x2 --source-product-paths E:\testdata\in\sensors_platforms\SMOS\MIR_OSUDP2\SM*.zip,E:\testdata\in\sensors_platforms\SMOS\MIR_OSUDP2\SM*\SM*.HDR"
+                          id="_1qmj"/>
+      <SetGlobalStep id="_1qlo" local="true" varname="op3"/>
+      <SetGlobalStep id="_1qlp" varname="region">
+        <default>POLYGON((-180.0 -80.0, -180.0 -20.0, 180.0 -20.0, 180.0 -20.0, -180.0 -80.0))</default>
+      </SetGlobalStep>
+      <IfSequence id="_1qlq" test="&#34;$(region)&#34;&lt;&gt;&#34;&#34;">
+        <SetGlobalStep id="_1qlr" local="true" varname="op2">
+          <default> --region \"$(region)\"</default>
+        </SetGlobalStep>
+        <ElseSequence id="_1qls">
+          <SetGlobalStep id="_1qlt" local="true" varname="op2"/>
+        </ElseSequence>
+      </IfSequence>
+      <SetGlobalStep id="_1qlu" local="true" varname="options">
+        <default>$(op1)$(op2)$(op3) -e -l ALL --contact test_contact --institution test_institution</default>
+      </SetGlobalStep>
+      <ShellClientStarter client="$(gpt_client_name)"
+                          command="$(smos_ee_to_netcdf) $(options) --target-directory $(output_directory) --source-product-paths $(input)"
+                          directory="${path:smos_ee_to_netcdf_dir}" id="_1qmD"
+                          postdelay="2000"/>
+    </Test>
+    <Test id="_1qmv" name="set_input">
+      <ProcedureCall id="_1qkF" procedure="path.main_path"/>
+      <ProcedureCall id="_1qk6" procedure="path.source_data_directory">
+        <variable name="data_type">smos_MIR_OSUDP2</variable>
+      </ProcedureCall>
+      <SetGlobalStep id="_1qmw" varname="tmp">
+        <default>$(data_source_directory)</default>
+      </SetGlobalStep>
+      <ServerScriptStep id="_1qmt">
+        <code>import string
+
+s = "$(tmp)"
+index_last_char = len(s) - 1
+rc.setGlobal("smos_input_tmp", s[:(index_last_char - 1)])   </code>
+      </ServerScriptStep>
+      <SetGlobalStep id="_1qk7" varname="smos_input">
+        <default>$(smos_input_tmp)/SM*.zip,$(smos_input_tmp)/SM*/SM*.HDR</default>
+      </SetGlobalStep>
+      <SetGlobalStep id="_1qUk" local="true" varname="i1">
+        <default>$(smos_input)</default>
+      </SetGlobalStep>
+      <SetGlobalStep id="_1qUr" local="true" varname="i2"/>
+      <SetGlobalStep id="_1qUw" local="true" varname="i3"/>
+      <IfSequence id="_1qZ-"
+                  test="&#34;$(i1)&#34;&lt;&gt;&#34;&#34; and &#34;$(i2)&#34;&lt;&gt;&#34;&#34; and &#34;$(i3)&#34;&lt;&gt;&#34;&#34;">
+        <SetGlobalStep id="_1qUx" varname="input">
+          <default>$(i1),$(i2),$(i3)</default>
+        </SetGlobalStep>
+        <ElseifSequence id="_1qa0"
+                        test="&#34;$(i1)&#34;&lt;&gt;&#34;&#34; and &#34;$(i2)&#34;&lt;&gt;&#34;&#34; and &#34;$(i3)&#34;==&#34;&#34;">
+          <SetGlobalStep id="_1qa1" varname="input">
+            <default>$(i1),$(i2)</default>
+          </SetGlobalStep>
+        </ElseifSequence>
+        <ElseifSequence id="_1qa2"
+                        test="&#34;$(i1)&#34;&lt;&gt;&#34;&#34; and &#34;$(i2)&#34;==&#34;&#34; and &#34;$(i3)&#34;==&#34;&#34;">
+          <SetGlobalStep id="_1qa3" varname="input">
+            <default>$(i1)</default>
+          </SetGlobalStep>
+        </ElseifSequence>
+      </IfSequence>
+      <ServerScriptStep id="_1qUy" name="print">
+        <code>print "*** input = $(input)"  </code>
+      </ServerScriptStep>
+    </Test>
+  </ExtraSequence>
+  <WindowList id="_6"/>
+</RootStep>

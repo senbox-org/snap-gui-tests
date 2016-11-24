@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.4">
+<RootStep id="_0" name="root" version="4.0.11">
   <include>qfs.qft</include>
   <include>../../lib/snap_components.qft</include>
   <include>../../lib/snap_main.qft</include>
   <include>../../../shared/shared_lib.qft</include>
   <include>../../../shared/variables.qft</include>
+  <include>idepix.qft</include>
   <include>processing_components.qft</include>
   <include>processing_check.qft</include>
   <include>processing_close.qft</include>
@@ -13,8 +14,11 @@
   <include>processing_get.qft</include>
   <include>processing_set.qft</include>
   <include>processing_select.qft</include>
+  <include>processing_utility.qft</include>
   <include>reprojection_workflow.qft</include>
   <include>reprojection_lib.qft</include>
+  <include>../geometric/010_06_resampling.qft</include>
+  <dependency>idepix.qft</dependency>
   <dependency>processing_check.qft</dependency>
   <dependency>processing_close.qft</dependency>
   <dependency>processing_do_click.qft</dependency>
@@ -26,14 +30,36 @@
   <dependency>../geometric/010_01_collocation.qft</dependency>
   <dependency>../geometric/010_04_mosaic.qft</dependency>
   <dependency>../geometric/010_05_binning.qft</dependency>
-  <dependency>../spectral/010_08_spectral_unmixing.qft</dependency>
-  <dependency>../thematic_land_processing/010_18_ndvi_processor.qft</dependency>
-  <dependency>../thematic_land_processing/010_19_meris_aatsr_smac_atmospheric_correction.qft</dependency>
+  <dependency>../geometric/010_06_resampling.qft</dependency>
+  <dependency>../geometric/010_07_pdu_stitching.qft</dependency>
+  <dependency>../thematic_water_processing/010_10_s2_mci_processor.qft</dependency>
   <dependency>../thematic_water_processing/010_11_flh_mci_processor.qft</dependency>
   <dependency>../thematic_water_processing/010_12_aatsr_sst_processor.qft</dependency>
+  <dependency>../thematic_water_processing/010_13_arc_sst_processor.qft</dependency>
+  <dependency>../thematic_water_processing/010_14_fu_classification.qft</dependency>
+  <dependency>../thematic_water_processing/010_15_01_c2r_cc_meris_processor.qft</dependency>
+  <dependency>../thematic_water_processing/010_15_02_c2r_cc_modis_processor.qft</dependency>
+  <dependency>../thematic_water_processing/010_15_03_c2r_cc_seawifs_processor.qft</dependency>
+  <dependency>../thematic_water_processing/010_15_04_c2r_cc_sentinel3_olci_processor.qft</dependency>
+  <dependency>../thematic_water_processing/010_15_05_c2r_cc_sentinel2_msi_processor.qft</dependency>
+  <dependency>../thematic_water_processing/010_16_fub_wew_processor.qft</dependency>
+  <dependency>../thematic_water_processing/010_17_owt_processor.qft</dependency>
   <dependency>../preprocessing/010_20_meris_radiometric_correction.qft</dependency>
   <dependency>../preprocessing/010_21_meris_cloud_probability.qft</dependency>
-  <dependency>../image_analysis/010_25_principal_component_analysis.qft</dependency>
+  <dependency>../preprocessing/idepix/010_22_idepix_avhrr.qft</dependency>
+  <dependency>../preprocessing/idepix/010_22_idepix_landsat8.qft</dependency>
+  <dependency>../preprocessing/010_23_land_water_mask.qft</dependency>
+  <dependency>../preprocessing/010_24_olci_smile_correction.qft</dependency>
+  <dependency>../preprocessing/010_25_sentinel2_radiometric_uncertainty_tool.qft</dependency>
+  <dependency>../preprocessing/010_26_rayleigh_correction_tool.qft</dependency>
+  <dependency>../preprocessing/010_27_gaseous_absorption_tool.qft</dependency>
+  <dependency>../preprocessing/010_28_radiance-to-reflectance_processor.qft</dependency>
+  <dependency>../image_analysis/010_41_principal_component_analysis.qft</dependency>
+  <dependency>../image_analysis/010_42_kmeans_cluster_analysis.qft</dependency>
+  <dependency>../spectral/010_50_spectral_unmixing.qft</dependency>
+  <dependency>../thematic_land_processing/010_60_scape_m.qft</dependency>
+  <dependency>../thematic_land_processing/010_61_ndvi_processor.qft</dependency>
+  <dependency>../thematic_land_processing/010_62_meris_aatsr_smac_atmospheric_correction.qft</dependency>
   <PackageRoot id="_3">
     <Dependency id="_1p03" name="start_application_for_processing">
       <variable name="output_dir"/>
@@ -57,7 +83,6 @@
         <ProcedureCall id="_1p07" procedure="stop.exit_snap"/>
       </CleanupSequence>
     </Dependency>
-    <Package id="_1pLf" name="collocation"/>
     <Package id="_1pMZ" name="utility">
       <Procedure id="_1q55"
                  name="set_pattern_click_OK_file_selection_pattern_dialog">
@@ -121,9 +146,87 @@
         </ProcedureCall>
         <ProcedureCall id="_1pOj"
                        procedure="do_click.load_parameters_dialog.button_load"/>
+        <ProcedureCall id="_1sB8"
+                       procedure="utility.load_parameters_error_dialog"/>
+      </Procedure>
+      <Procedure id="_1s01" name="load_parameters_error_dialog">
+        <TryStep id="_1sB4">
+          <ComponentWaiter client="$(client)"
+                           component="dialogLoad_Parameters.buttonOK"
+                           id="_1s04" timeout="10"/>
+          <ProcedureCall id="_1sB6" procedure="run-log.make_screensot">
+            <variable name="iw_name">load_parameters_error_dialog</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1sB3"
+                         procedure="do_click.load_parameters_dialog.button_ok_error"/>
+          <ProcedureCall id="_1sB7" procedure="run-log.logError">
+            <variable name="message">Load parameters error dialog appears</variable>
+            <variable name="withScreenshots">false</variable>
+          </ProcedureCall>
+          <CatchSequence exception="TestException" id="_1sB5" maxerror="0"/>
+        </TryStep>
+      </Procedure>
+      <Procedure id="_1sB9" name="check_if_processing_is_really_canceled">
+        <comment>@teststep Check if processing is really canceled.</comment>
+        <ProcedureCall id="_1l3B" procedure="check.product.not_opened"/>
+        <IfSequence id="_1kk7"
+                    test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+          <ProcedureCall id="_1sBA" procedure="run-log.logError">
+            <variable name="message">$(output_file) is opened in SNAP</variable>
+            <variable name="withScreenshots">true</variable>
+          </ProcedureCall>
+        </IfSequence>
+        <ProcedureCall id="_1pQe" procedure="set.target_product_with_path"/>
+        <ProcedureCall disabled="true" id="_1pQW"
+                       procedure="check_external_file.file_was_not_processed_else_shoot_error">
+          <variable name="fileName">$(target_product)</variable>
+        </ProcedureCall>
       </Procedure>
     </Package>
-    <Procedure id="_1pO+" name="cancel_writing_target_product">
+    <Package id="_1uas" name="error_handling">
+      <Procedure id="_1tQL" name="check_error_appears_shoot_message">
+        <ProcedureCall id="_1s63"
+                       procedure="error_handling.if_SNAP_Error_shoot_error_message"/>
+        <ProcedureCall id="_1tQW"
+                       procedure="error_handling.if_SNAP_Error_shoot_error_message"/>
+        <ProcedureCall id="_1tQV"
+                       procedure="error_handling.if_any_error_make_screenshot_shoot_error_message"/>
+      </Procedure>
+      <Procedure id="_1tZt" name="close_all_modal_dialogs_close_all_products">
+        <ProcedureCall disabled="true" id="_1tZu"
+                       procedure="error_handling.if_any_error_make_screenshot_shoot_error_message"/>
+        <ProcedureCall id="_1tZv"
+                       procedure="qfs.swing.cleanup.closeAllModalDialogs">
+          <variable name="maxDialogs">5</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1tZw" procedure="close.all_products"/>
+      </Procedure>
+    </Package>
+    <Procedure id="_1riT" name="handle_multi_size_warning">
+      <ProcedureCall disabled="true" id="_1rkX"
+                     procedure="message.product_has_successfully_been_created"/>
+      <TryStep id="_1rmV">
+        <ProcedureCall id="_1rmW" procedure="variables.multi_size">
+          <variable name="multi_size">true</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1rmX"
+                       procedure="wait.appear.error.dialog_SNAP-Error"/>
+        <ProcedureCall disabled="true" id="_1rmf"
+                       procedure="get.error_text.message_in_dialog_SNAP_Error"/>
+        <ProcedureCall id="_1rmZ" procedure="variables.multi_size">
+          <variable name="multi_size">true</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1rma"
+                       procedure="do_click.error_dialog.dialog_SNAP_Error.button_OK"/>
+        <CatchSequence exception="TestException" id="_1rmb" maxerror="0">
+          <ProcedureCall id="_1rme" procedure="variables.multi_size">
+            <variable name="multi_size">false</variable>
+          </ProcedureCall>
+        </CatchSequence>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1pO+" name="cancel_operators">
+      <comment>@teststep Cancel operator.</comment>
       <TryStep id="_1pQR"
                name="click_cancel_in_writing_target_product_dialog">
         <ProcedureCall id="_1pP8"
@@ -134,13 +237,49 @@
                        procedure="wait.disappear.writing_target_product"/>
         <CatchSequence exception="TestException" id="_1pQS" maxerror="0"/>
       </TryStep>
-      <TryStep id="_1pQT" name="click_OK_in_dialog_SNAP_SNAP_Error">
-        <ProcedureCall id="_1pQQ"
-                       procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
-        <ProcedureCall id="_1pQP"
-                       procedure="do_click.error_dialog.button_OK_SNAP_SNAP_Error"/>
-        <CatchSequence exception="TestException" id="_1pQU" maxerror="0"/>
-      </TryStep>
+      <TestStep id="_1s6r" name="jira_SNAP-576">
+        <comment>Make cancelling operators less scary&lt;br&gt;
+Make cancelling operators less scary (the "Type: OperatorException", "Message: Operation canceled", "Unexpected Exception" warnings). If the cancel button is there, pressing should not be an unexpected event.</comment>
+        <TryStep id="_1pQT" name="click_OK_in_dialog_SNAP_SNAP_Error">
+          <ProcedureCall id="_1pQQ"
+                         procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
+          <ProcedureCall id="_1uaz" procedure="run-log.make_screensot">
+            <variable name="iw_name">dialog_SNAP_SNAP_Error</variable>
+            <variable name="iw_name_example">error_dialog</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1pQP"
+                         procedure="do_click.error_dialog.dialog_SNAP_SNAP_Error.button_OK"/>
+          <TryStep id="_1uau" name="get_error_text">
+            <SetGlobalStep id="_1uaw" varname="error_message"/>
+            <ProcedureCall id="_1uat"
+                           procedure="get.error_text.message_in_dialog_SNAP_SNAP_Error"/>
+            <CatchSequence exception="TestException" id="_1uav" maxerror="0">
+              <SetGlobalStep id="_1uax" varname="error_message"/>
+            </CatchSequence>
+          </TryStep>
+          <ProcedureCall id="_1uay" procedure="run-log.logError">
+            <variable name="message">dialog SNAP SNAP Error appears $(error_message)</variable>
+            <variable name="withScreenshots"/>
+          </ProcedureCall>
+          <CatchSequence exception="TestException" id="_1pQU" maxerror="0"/>
+        </TryStep>
+        <TryStep id="_1rmg" name="click_OK_in_dialog_SNAP_Error">
+          <ProcedureCall id="_1rmh"
+                         procedure="wait.appear.error.dialog_SNAP-Error"/>
+          <ProcedureCall id="_1ua+" procedure="run-log.make_screensot">
+            <variable name="iw_name">dialog_SNAP_Error</variable>
+            <variable name="iw_name_example">error_dialog</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rmi"
+                         procedure="do_click.error_dialog.dialog_SNAP_Error.button_OK"/>
+          <ProcedureCall id="_1ua-" procedure="run-log.logError">
+            <variable name="message">dialog SNAP Error appears</variable>
+            <variable name="withScreenshots"/>
+          </ProcedureCall>
+          <CatchSequence exception="TestException" id="_1rmj" maxerror="0"/>
+        </TryStep>
+      </TestStep>
+      <ProcedureCall id="_1rqA" procedure="close.modal_dialogs"/>
     </Procedure>
   </PackageRoot>
   <ExtraSequence id="_4">

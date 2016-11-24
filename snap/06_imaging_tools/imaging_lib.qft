@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.4">
+<RootStep id="_0" name="root" version="4.0.11">
   <include>qfs.qft</include>
   <include>../lib/snap_main.qft</include>
   <include>../lib/snap_components.qft</include>
@@ -31,13 +31,197 @@
   <dependency>006_01_seaDAS_L2.qft</dependency>
   <dependency>006_01_seaDAS_L3.qft</dependency>
   <dependency>006_01_sentinel3.qft</dependency>
-  <dependency>006_01_smos.qft</dependency>
   <dependency>006_01_spot_vgt.qft</dependency>
   <dependency>006_01_viirs.qft</dependency>
   <dependency>006_02_navigation.qft</dependency>
   <dependency>006_03_uncertainty_visualisation.qft</dependency>
   <dependency>006_04_landsat_geotiff_rgb.qft</dependency>
+  <dependency>006_05_mask_management.qft</dependency>
+  <dependency>../15_smos_box/015_01_check_smos_products.qft</dependency>
   <PackageRoot id="_3">
+    <Package id="_1rq-" name="mask_manager">
+      <Package id="_1rr5" name="new_band_math_expressoin_editor">
+        <Procedure id="_1rrF"
+                   name="wait_dialogNew_Logical_Band_Maths_Expression">
+          <ComponentWaiter client="$(client)"
+                           component="dialogNew_Logical_Band_Maths_Expression"
+                           id="_1rrG"/>
+        </Procedure>
+        <Procedure id="_1rrO" name="insert_expression">
+          <variable name="expression"/>
+          <comment>@teststep Insert band maths expression: $(expression).</comment>
+          <TextInputStep clear="true" client="$(client)"
+                         component="dialogNew_Logical_Band_Maths_Expression.codeArea"
+                         id="_1rrR">
+            <text>$(expression)</text>
+          </TextInputStep>
+        </Procedure>
+        <Procedure id="_1rrp" name="do_click_cancel">
+          <comment>@teststep Click 'Cancel' button.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogNew_Logical_Band_Maths_Expression.ExpressionPaneDialog.cancel"
+                          event="MOUSE_MPRC" id="_1rrq" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1rrX" name="do_click_ok">
+          <comment>@teststep Click 'OK' button.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogNew_Logical_Band_Maths_Expression.ExpressionPaneDialog.ok"
+                          event="MOUSE_MPRC" id="_1rrf" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1rrg" name="do_click_help">
+          <comment>@teststep Click 'Help' button.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogNew_Logical_Band_Maths_Expression.ExpressionPaneDialog.help"
+                          event="MOUSE_MPRC" id="_1rro" modifiers="16"/>
+        </Procedure>
+      </Package>
+      <Package id="_1rr1" name="do_click">
+        <Procedure id="_1rr0" name="add_mask_band_maths_expression">
+          <comment>@teststep Click 'Add a new mask which is based on a band maths expression' icon.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.bandMathButton"
+                          event="MOUSE_MPRC" id="_1rqs" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1rs5" name="transfer_button">
+          <comment>@teststep Click Transfer button.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.transferButton"
+                          event="MOUSE_MPRC" id="_1rs6" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1rsW" name="export_button">
+          <comment>@teststep Click Export button.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.exportButton"
+                          event="MOUSE_MPRC" id="_1rsX" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1rsl" name="import_button">
+          <comment>@teststep Click Import button.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.importButton"
+                          event="MOUSE_MPRC" id="_1rsn" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1rs+" name="zoom_to_button">
+          <comment>@teststep Click 'Zoom to' button.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.zoomToButton"
+                          event="MOUSE_MPRC" id="_1rt1" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1rtD" name="remove_button">
+          <comment>@teststep Click 'Remove' button.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.removeButton"
+                          event="MOUSE_MPRC" id="_1rtH" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1rtS" name="copy_button">
+          <comment>@teststep Click 'Copy' button.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.copyButton"
+                          event="MOUSE_MPRC" id="_1rtX" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1rth" name="complement_button">
+          <comment>@teststep Click 'Complement' button.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.complementButton"
+                          event="MOUSE_MPRC" id="_1rti" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1rtr" name="difference_button">
+          <comment>@teststep Click 'Difference' button.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.differenceButton"
+                          event="MOUSE_MPRC" id="_1rtt" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1rt-" name="union_button">
+          <comment>@teststep Click 'Union' button.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.unionButton"
+                          event="MOUSE_MPRC" id="_1ru2" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1ru9" name="new_geometry">
+          <comment>@teststep Click 'New Geometry'.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.newGeometry"
+                          event="MOUSE_MPRC" id="_1ruD" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1ruJ" name="range_button">
+          <comment>@teststep Click 'Range' button.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.rangeButton"
+                          event="MOUSE_MPRC" id="_1ruO" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1ruT" name="intersection_button">
+          <comment>@teststep Click 'Intersection' button.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.intersectionButton"
+                          event="MOUSE_MPRC" id="_1ruU" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1ruY" name="invDifference_button">
+          <comment>@teststep Click 'invDifference' button.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.invDifferenceButton"
+                          event="MOUSE_MPRC" id="_1rua" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1rud" name="edit_button">
+          <comment>@teststep Click 'Edit' button.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.editButton"
+                          event="MOUSE_MPRC" id="_1rug" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1rsH" name="help_button">
+          <comment>@teststep Click 'Help' button.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.helpButton"
+                          event="MOUSE_MPRC" id="_1rsV" modifiers="16"/>
+        </Procedure>
+      </Package>
+      <Procedure id="_1rr2" name="add_mask_band_based_on_maths_expression">
+        <variable name="expression"/>
+        <comment>@teststep Add a new mask which is based on a band maths expression.</comment>
+        <ProcedureCall id="_1rr4"
+                       procedure="mask_manager.do_click.add_mask_band_maths_expression"/>
+        <ProcedureCall id="_1rrv"
+                       procedure="mask_manager.new_band_math_expressoin_editor.wait_dialogNew_Logical_Band_Maths_Expression"/>
+        <ProcedureCall id="_1rrw"
+                       procedure="mask_manager.new_band_math_expressoin_editor.insert_expression">
+          <variable name="expression">$(expression)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1rrx"
+                       procedure="mask_manager.new_band_math_expressoin_editor.do_click_ok"/>
+      </Procedure>
+      <Package id="_1rs2" name="select">
+        <Procedure id="_1rs3" name="mask">
+          <variable name="row"/>
+          <comment>@teststep Mask in the mask table.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="NbMainWindow.maskTable.Name&amp;$(row)"
+                          event="MOUSE_MPRC" id="_1rs4" modifiers="16"/>
+        </Procedure>
+      </Package>
+      <Package id="_1rs7" name="transfer_dialog">
+        <Procedure id="_1rs8" name="wait_dialogTransfer_Mask">
+          <ComponentWaiter client="$(client)"
+                           component="dialogTransfer_Mask(s)_to_other_product"
+                           id="_1rs9"/>
+        </Procedure>
+        <Procedure id="_1rsA" name="do_click_cancel">
+          <comment>@teststep Click 'Cancel' button.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogTransfer_Mask(s)_to_other_product.TransferMaskDialog.cancel"
+                          event="MOUSE_MPRC" id="_1rsG" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1rsC" name="do_click_ok">
+          <comment>@teststep Click 'OK' button.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogTransfer_Mask(s)_to_other_product.TransferMaskDialog.ok"
+                          event="MOUSE_MPRC" id="_1rri" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1rsE" name="do_click_help">
+          <comment>@teststep Click 'Help' button.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogTransfer_Mask(s)_to_other_product.TransferMaskDialog.help"
+                          event="MOUSE_MPRC" id="_1rrn" modifiers="16"/>
+        </Procedure>
+      </Package>
+    </Package>
     <Package id="_1opA" name="rgb">
       <Procedure id="_1r4K" name="test_sequence">
         <ProcedureCall id="_1l52" procedure="check.product.not_opened"/>
@@ -79,6 +263,7 @@
         </IfSequence>
       </Procedure>
       <Procedure id="_1opB" name="open_rgb_image_window">
+        <comment>@teststep Open rgb image window</comment>
         <ProcedureCall id="_1opC" procedure="select.product_tree.product">
           <variable name="prod_id">0</variable>
         </ProcedureCall>
@@ -113,6 +298,7 @@
       </Procedure>
       <Procedure id="_1r3-" name="select_rgb_profile">
         <variable name="rgb_profile"/>
+        <comment>@teststep Select rgb profile.</comment>
         <TryStep id="_1r40">
           <MouseEventStep clicks="1" client="$(client)"
                           component="dialogSelect_RGB-Image_Channels.profileBox"
@@ -142,16 +328,19 @@
         </TryStep>
       </Procedure>
       <Procedure id="_1r4C" name="click_button_ok">
+        <comment>@teststep Click 'OK' button.</comment>
         <MouseEventStep clicks="1" client="$(client)"
                         component="dialogSelect_RGB-Image_Channels.ModalDialog.ok"
                         event="MOUSE_MPRC" id="_1r4D" modifiers="16"/>
       </Procedure>
       <Procedure id="_1r4G" name="click_button_cancel">
+        <comment>@teststep Click 'Cancel' button.</comment>
         <MouseEventStep clicks="1" client="$(client)"
                         component="dialogSelect_RGB-Image_Channels.ModalDialog.cancel"
                         event="MOUSE_MPRC" id="_1r4I" modifiers="16"/>
       </Procedure>
       <Procedure id="_1r4B" name="click_button_help">
+        <comment>@teststep Click 'Help' button.</comment>
         <MouseEventStep clicks="1" client="$(client)"
                         component="dialogSelect_RGB-Image_Channels.ModalDialog.help"
                         event="MOUSE_MPRC" id="_1r3u" modifiers="16"/>
@@ -189,6 +378,8 @@
           <variable name="prod">$(fileName)</variable>
           <variable name="product_type">$(prod_reader_type)</variable>
         </ProcedureCall>
+        <ProcedureCall id="_1rlj"
+                       procedure="utility.handle_SNAP_Limited_Functionality_dialog"/>
         <ProcedureCall id="_1ri4" procedure="wait.product_is_opened"/>
         <ProcedureCall id="_1lEu"
                        procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
@@ -196,28 +387,6 @@
     </Package>
   </PackageRoot>
   <ExtraSequence id="_4">
-    <BasicSequence id="_1r4W" name="Aufnahme 08.07.15 16:35">
-      <ComponentWaiter client="$(client)"
-                       component="dialogSNAP_-_Creating_rgb_image_window"
-                       id="_1r4Y"/>
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogSNAP_-_Creating_image_for_'[1]_MERIS_L1b_-_Tristimulus_RGB'.panel"
-                      event="MOUSE_MPRC" id="_1r48" modifiers="16" x="193"
-                      y="25"/>
-      <MouseEventStep clicks="0" client="$(client)"
-                      component="dialogSNAP_-_Creating_image_for_'[1]_MERIS_L1b_-_Tristimulus_RGB'.buttonCancel"
-                      event="MOUSE_MOVED" id="_1r49" modifiers="0"/>
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogSNAP_-_Creating_image_for_'[1]_MERIS_L1b_-_Tristimulus_RGB'.buttonCancel"
-                      event="MOUSE_PRESSED" id="_1r4Z" modifiers="16"/>
-      <MouseEventStep clicks="0" client="$(client)"
-                      component="NbMainWindow.panel9" event="MOUSE_DRAGGED"
-                      id="_1r4a" modifiers="16" x="460" y="404"/>
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="NbMainWindow.[1]_MERIS_L1b_-_Tristimulus_RGB2.panel"
-                      event="MOUSE_RELEASED" id="_1r4b" modifiers="16" x="459"
-                      y="384"/>
-    </BasicSequence>
     <IfSequence id="_1op7" test="${qftest:windows}">
       <ElseifSequence id="_1op8" name="MAC?"
                       test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>

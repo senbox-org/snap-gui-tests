@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.4">
+<RootStep id="_0" name="root" version="4.0.11">
   <include>qfs.qft</include>
   <include>../lib/processing_main.qft</include>
   <variable name="output_folder">binning</variable>
-  <TestSet id="_2" name="010_05_binning" reportname="010-30 Binning">
+  <TestSet id="_2" name="010_05_binning" reportname="010-05 Binning">
     <DependencyReference id="_1pO-"
                          reference="start_application_for_processing">
       <variable name="output_dir">$(output_folder)</variable>
     </DependencyReference>
     <TestCase id="_8cc" name="01_check_binning_ui"
               reportname="01 Check Binning Tool UI">
-      <ProcedureCall id="_1pFq"
-                     procedure="open.raster.geometric_operations.binning"/>
+      <ProcedureCall id="_1s6O" procedure="open_tool_window"/>
       <TestStep id="_1pWQ" name="common_elements">
         <ProcedureCall id="_1p-V"
                        procedure="check.binning.enabled.menu_file"/>
@@ -167,11 +166,11 @@
           <variable name="val">1</variable>
         </ProcedureCall>
       </TestStep>
+      <ProcedureCall id="_1s6m" procedure="close_processor_tool"/>
     </TestCase>
     <TestSet id="_1pMP" name="02_processing">
       <TestCase id="_1pMR" name="01_meris_europe_avg">
-        <ProcedureCall id="_1piT"
-                       procedure="open.raster.geometric_operations.binning"/>
+        <ProcedureCall id="_1s6P" procedure="open_tool_window"/>
         <TestStep id="_1pvr" name="set_processing_variables">
           <SetGlobalStep id="_1pvs" varname="output_file">
             <default>test01</default>
@@ -241,7 +240,7 @@
         </TestStep>
         <TestStep id="_1pOo" name="check_binning_product">
           <ProcedureCall id="_1qCO"
-                         procedure="product_meta_data.for_open_image_view"/>
+                         procedure="product_meta_data.for_open_image_view_without_grouping"/>
           <SetGlobalStep id="_1opV" varname="view_Id1">
             <default>2</default>
           </SetGlobalStep>
@@ -259,7 +258,7 @@
           <ProcedureCall id="_1pOS"
                          procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
         </TestStep>
-        <ProcedureCall id="_1pOV" procedure="close_processing_tool.binning"/>
+        <ProcedureCall id="_1s6g" procedure="close_processor_tool"/>
       </TestCase>
       <TestCase id="_1piy" name="02_meris_globe_avg_percentile">
         <ProcedureCall id="_1qCQ" procedure="check.product.not_opened"/>
@@ -267,8 +266,7 @@
                     test="&#34;$(not_opened)&#34;==&#34;false&#34;">
           <ProcedureCall id="_1qCj" procedure="close.all_products"/>
         </IfSequence>
-        <ProcedureCall id="_1q6K"
-                       procedure="open.raster.geometric_operations.binning"/>
+        <ProcedureCall id="_1s6Q" procedure="open_tool_window"/>
         <TestStep id="_1q6L" name="set_processing_variables">
           <SetGlobalStep id="_1q6M" varname="output_file">
             <default>test02</default>
@@ -371,7 +369,7 @@
         </TestStep>
         <TestStep id="_1q6o" name="check_binning_product">
           <ProcedureCall id="_1qCP"
-                         procedure="product_meta_data.for_open_image_view"/>
+                         procedure="product_meta_data.for_open_image_view_without_grouping"/>
           <SetGlobalStep id="_1q6q" varname="view_Id1">
             <default>2</default>
           </SetGlobalStep>
@@ -389,12 +387,11 @@
           <ProcedureCall id="_1q6v"
                          procedure="test_events.imaging_tools.open_band_check_masks_layers"/>
         </TestStep>
-        <ProcedureCall id="_1q6w" procedure="close_processing_tool.binning"/>
+        <ProcedureCall id="_1s6h" procedure="close_processor_tool"/>
       </TestCase>
       <TestCase id="_40q" name="03_store_load_display_parameters">
         <variable name="ofn">binning_save_parameters.xml</variable>
-        <ProcedureCall id="_1q7l"
-                       procedure="open.raster.geometric_operations.binning"/>
+        <ProcedureCall id="_1s6R" procedure="open_tool_window"/>
         <TestStep id="_1q7m" name="set_processing_variables">
           <SetGlobalStep id="_1q7n" varname="output_file">
             <default>test03</default>
@@ -418,15 +415,27 @@
             <default>!l2_flags.CLOUD</default>
           </SetGlobalStep>
           <SetGlobalStep id="_1q8f" varname="lon_west">
-            <default>-20.0</default>
+            <default>-20</default>
           </SetGlobalStep>
           <SetGlobalStep id="_1q8g" varname="lon_east">
-            <default>20.0</default>
+            <default>20</default>
           </SetGlobalStep>
           <SetGlobalStep id="_1q8h" varname="lat_north">
-            <default>65.0</default>
+            <default>65</default>
           </SetGlobalStep>
           <SetGlobalStep id="_1q8i" varname="lat_south">
+            <default>30</default>
+          </SetGlobalStep>
+          <SetGlobalStep disabled="true" id="_1sXz" varname="lon_west">
+            <default>-20.0</default>
+          </SetGlobalStep>
+          <SetGlobalStep disabled="true" id="_1sX+" varname="lon_east">
+            <default>20.0</default>
+          </SetGlobalStep>
+          <SetGlobalStep disabled="true" id="_1sX-" varname="lat_north">
+            <default>65.0</default>
+          </SetGlobalStep>
+          <SetGlobalStep disabled="true" id="_1sY0" varname="lat_south">
             <default>30.0</default>
           </SetGlobalStep>
           <SetGlobalStep id="_1q8t" varname="intermed_source_bands_expr">
@@ -439,9 +448,15 @@
             <default>2</default>
           </SetGlobalStep>
           <SetGlobalStep id="_1qB4" varname="rows">
+            <default>2160</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1sY7" varname="spat_res">
+            <default>9.28</default>
+          </SetGlobalStep>
+          <SetGlobalStep disabled="true" id="_1sY6" varname="rows">
             <default>1336</default>
           </SetGlobalStep>
-          <SetGlobalStep id="_1qB5" varname="spat_res">
+          <SetGlobalStep disabled="true" id="_1qB5" varname="spat_res">
             <default>15.01</default>
           </SetGlobalStep>
         </TestStep>
@@ -565,6 +580,9 @@
             <ProcedureCall id="_1q8e" procedure="set.binning.filter.south">
               <variable name="val">$(lat_south)</variable>
             </ProcedureCall>
+            <ProcedureCall id="_1s6n" procedure="set.binning.filter.west">
+              <variable name="val">$(lon_west)</variable>
+            </ProcedureCall>
           </TestStep>
         </TestStep>
         <ProcedureCall id="_1pPE" procedure="store_parameters"/>
@@ -606,22 +624,36 @@
                            procedure="check.binning.checked.filter.radio_enter_WKT">
               <variable name="selected">true</variable>
             </ProcedureCall>
-            <ProcedureCall id="_1qC2"
+            <ProcedureCall disabled="true" id="_1qC2"
                            procedure="check.binning.text.filter.west">
               <variable name="val">$(lon_west)</variable>
             </ProcedureCall>
-            <ProcedureCall id="_1qC3"
+            <ProcedureCall disabled="true" id="_1qC3"
                            procedure="check.binning.text.filter.north">
               <variable name="val">$(lat_north)</variable>
             </ProcedureCall>
-            <ProcedureCall id="_1qC4"
+            <ProcedureCall disabled="true" id="_1qC4"
                            procedure="check.binning.text.filter.east">
               <variable name="val">$(lon_east)</variable>
             </ProcedureCall>
-            <ProcedureCall id="_1qC5"
+            <ProcedureCall disabled="true" id="_1qC5"
                            procedure="check.binning.text.filter.south">
               <variable name="val">$(lat_south)</variable>
             </ProcedureCall>
+            <SetGlobalStep id="_1sY1" local="true" varname="wkt">
+              <default>POLYGON (($(lon_west) $(lat_south), $(lon_west) $(lat_north), $(lon_east) $(lat_north), $(lon_east) $(lat_south), $(lon_west) $(lat_south)))</default>
+            </SetGlobalStep>
+            <ProcedureCall id="_1sXy"
+                           procedure="check.binning.text.filter.wkt">
+              <variable name="val">$(wkt)</variable>
+            </ProcedureCall>
+            <BasicSequence id="_1sXv" name="Aufnahme 08.09.16 16:34">
+              <CheckStringStep checktype="item" client="$(client)"
+                               component="dialogBinning.manualWkt&amp;0"
+                               id="_1sXw">
+                <text>POLYGON ((-20 30, -20 65, 20 65, 20 30, -20 30))</text>
+              </CheckStringStep>
+            </BasicSequence>
           </TestStep>
           <TestStep id="_1qBK" name="configuration">
             <ProcedureCall id="_1qBL" procedure="select_configuration_tab"/>
@@ -674,12 +706,11 @@
                           component="dialogBinning_Parameters.ModalDialog.ok"
                           event="MOUSE_MPRC" id="_1prT" modifiers="16"/>
         </TestStep>
-        <ProcedureCall id="_1q8X" procedure="close_processing_tool.binning"/>
+        <ProcedureCall id="_1s6i" procedure="close_processor_tool"/>
       </TestCase>
     </TestSet>
     <TestCase id="_1pFr" name="03_help">
-      <ProcedureCall id="_1psH"
-                     procedure="open.raster.geometric_operations.binning"/>
+      <ProcedureCall id="_1s6S" procedure="open_tool_window"/>
       <TestStep id="_1pVG" name="check_help">
         <ProcedureCall id="_1qCF" procedure="do_click.binning.menu.help"/>
         <ProcedureCall id="_1qCG"
@@ -699,11 +730,18 @@
         <ProcedureCall id="_1qCK" procedure="do_click.binning.button_help"/>
         <ProcedureCall id="_1qcv" procedure="help.check_help_appears_close"/>
       </TestStep>
-      <ProcedureCall id="_1psP"
-                     procedure="close_processing_tool.geometric_operations.mosaicing"/>
+      <ProcedureCall id="_1s6j" procedure="close_processor_tool"/>
     </TestCase>
   </TestSet>
   <PackageRoot id="_4">
+    <Procedure id="_1s6c" name="close_processor_tool">
+      <ProcedureCall id="_1s6f"
+                     procedure="close_processing_tool.geometric_operations.binning"/>
+    </Procedure>
+    <Procedure id="_1s6L" name="open_tool_window">
+      <ProcedureCall id="_1s6N"
+                     procedure="open.raster.geometric_operations.binning"/>
+    </Procedure>
     <Package id="_1pjd" name="io_parameters">
       <Procedure id="_1q4P" name="add_directory">
         <variable name="dir"/>
@@ -715,23 +753,59 @@
         <ProcedureCall id="_1q4Q" procedure="wait.appear.dialog.open"/>
         <ProcedureCall id="_1q4R" procedure="path.main_path"/>
         <TryStep id="_1q4S">
-          <SetGlobalStep id="_1q4T" varname="data_source_directory">
+          <BasicSequence id="_1rnP" name="tmp_select_source_dir">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogOpen.treeRecent:./Desktop/Dieser_PC/big4_(E:)"
+                            event="MOUSE_MPRC" id="_1rnQ" modifiers="16"
+                            x="-11" y="9"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogOpen.treeRecent:./Desktop/Dieser_PC/big4_(E:)/testdata"
+                            event="MOUSE_MPRC" id="_1rnR" modifiers="16"
+                            x="-11" y="10"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogOpen.treeRecent:./Desktop/Dieser_PC/big4_(E:)/testdata/in"
+                            event="MOUSE_MPRC" id="_1rnS" modifiers="16"
+                            x="-11" y="4"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogOpen.treeRecent:./Desktop/Dieser_PC/big4_(E:)/testdata/in/sensors_platforms"
+                            event="MOUSE_MPRC" id="_1rnT" modifiers="16"
+                            x="-9" y="10"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogOpen.treeRecent:./Desktop/Dieser_PC/big4_(E:)/testdata/in/sensors_platforms/MERIS"
+                            event="MOUSE_MPRC" id="_1rnU" modifiers="16"
+                            x="-7" y="6"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogOpen.treeRecent:./Desktop/Dieser_PC/big4_(E:)/testdata/in/sensors_platforms/MERIS/for_binning"
+                            event="MOUSE_MPRC" id="_1rnV" modifiers="16"/>
+            <ProcedureCall disabled="true" id="_1s6k"
+                           procedure="do_click.open_dialog.button_open"/>
+            <ComponentWaiter client="$(client)"
+                             component="dialogFile_Selection_Pattern"
+                             disabled="true" id="_1rnX"/>
+            <TextInputStep client="$(client)"
+                           component="dialogFile_Selection_Pattern.textPattern:"
+                           disabled="true" id="_1rnY">
+              <text>N1</text>
+            </TextInputStep>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogFile_Selection_Pattern.FileSelectionPatternDialog.ok"
+                            disabled="true" event="MOUSE_MPRC" id="_1rnZ"
+                            modifiers="16"/>
+          </BasicSequence>
+          <SetGlobalStep disabled="true" id="_1q4T"
+                         varname="data_source_directory">
             <default>${path:binning_dir}$(dir)</default>
           </SetGlobalStep>
           <ServerScriptStep disabled="true" id="_1q4U" name="print">
             <code>print "data_source_dir = $(data_source_directory)"</code>
           </ServerScriptStep>
-          <CatchSequence exception="TestException" id="_1q4V" maxerror="0">
-            <ProcedureCall id="_1q4W" procedure="qfs.run-log.logError">
-              <variable name="message">It was no no property or resource called timeseries_dir</variable>
-              <variable name="withScreenshots">false</variable>
-            </ProcedureCall>
-          </CatchSequence>
+          <CatchSequence exception="TestException" id="_1q4V" maxerror="0"/>
         </TryStep>
-        <ServerScriptStep id="_1q4X" name="print">
+        <ServerScriptStep disabled="true" id="_1q4X" name="print">
           <code>print "$(data_source_directory)"</code>
         </ServerScriptStep>
-        <ProcedureCall id="_1q4Y" procedure="do_click.open_dialog.folder">
+        <ProcedureCall disabled="true" id="_1q4Y"
+                       procedure="do_click.open_dialog.folder">
           <variable name="data_dir">$(data_source_directory)</variable>
         </ProcedureCall>
         <ProcedureCall id="_1q4Z"
@@ -935,7 +1009,7 @@
     <Procedure id="_1pON" name="click_ok_in_product_created_dialog">
       <TryStep id="_1qXf">
         <ComponentWaiter client="$(client)" component="dialogSNAP_-_Binning"
-                         id="_1qXd" raise="false"/>
+                         id="_1qXd" raise="false" timeout="150000"/>
         <MouseEventStep clicks="1" client="$(client)"
                         component="dialogSNAP_-_Binning.buttonOK"
                         event="MOUSE_MPRC" id="_1qXe" modifiers="16"/>
@@ -1023,103 +1097,6 @@
         <variable name="time_filter_method">$(none)</variable>
       </ProcedureCall>
     </TestStep>
-    <BasicSequence id="_1q2H" name="Aufnahme 27.04.15 08:30">
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogBinning.sourceProductPaths.1.buttonPlus24"
-                      event="MOUSE_MPRC" id="_1q2J" modifiers="16"/>
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogBinning.menuItemAdd_directory(s)..."
-                      event="MOUSE_MPRC" id="_1q2K" modifiers="16"/>
-      <ComponentWaiter client="$(client)" component="dialogOpen" id="_1q2L"/>
-      <MouseEventStep clicks="0" client="$(client)"
-                      component="dialogOpen.scrollbarVertical"
-                      event="MOUSE_MOVED" id="_1q2M" modifiers="0" x="6"
-                      y="186"/>
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogOpen.scrollbarVertical"
-                      event="MOUSE_PRESSED" id="_1q2N" modifiers="16" x="6"
-                      y="186"/>
-      <MouseEventStep clicks="0" client="$(client)"
-                      component="dialogOpen.scrollbarVertical"
-                      event="MOUSE_DRAGGED" id="_1q2O" modifiers="16" x="1"
-                      y="21"/>
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogOpen.scrollbarVertical"
-                      event="MOUSE_RELEASED" id="_1po4" modifiers="16" x="1"
-                      y="21"/>
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogOpen2.treeRecent:./Desktop/Computer/data_(B:)"
-                      event="MOUSE_MPRC" id="_1q2P" modifiers="16" x="-12"
-                      y="7"/>
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogOpen2.treeRecent:./Desktop/Computer/data_(B:)"
-                      event="MOUSE_MPRC" id="_1q2Q" modifiers="16" x="-14"
-                      y="5"/>
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogOpen2.treeRecent:./Desktop/Computer/root_(C:)"
-                      event="MOUSE_MPRC" id="_1q2R" modifiers="16" x="-11"
-                      y="6"/>
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogOpen2.treeRecent:./Desktop/Computer/big4_(E:)"
-                      event="MOUSE_MPRC" id="_1q2S" modifiers="16" x="-11"
-                      y="9"/>
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogOpen2.treeRecent:./Desktop/Computer/big4_(E:)/testdata"
-                      event="MOUSE_MPRC" id="_1q2T" modifiers="16" x="-14"
-                      y="8"/>
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogOpen2.treeRecent:./Desktop/Computer/big4_(E:)/testdata/in"
-                      event="MOUSE_MPRC" id="_1q2U" modifiers="16" x="-12"
-                      y="10"/>
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogOpen2.treeRecent:./Desktop/Computer/big4_(E:)/testdata/in/sensors_platforms"
-                      event="MOUSE_MPRC" id="_1q2V" modifiers="16" x="-11"
-                      y="8"/>
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogOpen2.treeRecent:./Desktop/Computer/big4_(E:)/testdata/in/sensors_platforms/MERIS"
-                      event="MOUSE_MPRC" id="_1q2W" modifiers="16" x="-7"
-                      y="10"/>
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogOpen2.treeRecent:./Desktop/Computer/big4_(E:)/testdata/in/sensors_platforms/MERIS/for_binning"
-                      event="MOUSE_MPRC" id="_1q2X" modifiers="16"/>
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogOpen.buttonOpen" event="MOUSE_MPRC"
-                      id="_1q2Y" modifiers="16"/>
-      <ComponentWaiter client="$(client)"
-                       component="dialogFile_Selection_Pattern" id="_1q2Z"/>
-      <TextInputStep client="$(client)"
-                     component="dialogFile_Selection_Pattern.textPattern:"
-                     id="_1q2a">
-        <text>.N1</text>
-      </TextInputStep>
-      <CheckStringStep client="$(client)"
-                       component="dialogFile_Selection_Pattern.FileSelectionPatternDialog.cancel"
-                       id="_1q2b">
-        <text>Cancel</text>
-      </CheckStringStep>
-      <CheckStringStep client="$(client)"
-                       component="dialogFile_Selection_Pattern.FileSelectionPatternDialog.ok"
-                       id="_1q2c">
-        <text>OK</text>
-      </CheckStringStep>
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogFile_Selection_Pattern.FileSelectionPatternDialog.help"
-                      event="MOUSE_MPRC" id="_1q2d" modifiers="16"/>
-      <ComponentWaiter client="$(client)"
-                       component="dialogFile_Selection_Pattern" id="_1q2e"/>
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogFile_Selection_Pattern.buttonOK"
-                      event="MOUSE_MPRC" id="_1q2f" modifiers="16"/>
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogFile_Selection_Pattern.FileSelectionPatternDialog.ok"
-                      event="MOUSE_MPRC" id="_1q2g" modifiers="16"/>
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogBinning.sourceProductPaths.list.product"
-                      event="MOUSE_MPRC" id="_1q2h" modifiers="16"/>
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogBinning.sourceProductPaths.1.buttonMinus24"
-                      event="MOUSE_MPRC" id="_1q2i" modifiers="16"/>
-    </BasicSequence>
     <ProcedureCall id="_1oXV" procedure="check.product.not_opened"/>
     <IfSequence id="_1oXW" test="&#34;$(not_opened)&#34;==&#34;false&#34;">
       <TestStep id="_1o+2" name="delete_band">

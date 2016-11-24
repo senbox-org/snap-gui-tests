@@ -10,6 +10,21 @@
   <PackageRoot id="_3">
     <Package id="_1k-S" name="open">
       <Package id="_1qiG" name="raster">
+        <Procedure id="_1rsx" name="resampling">
+          <TryStep id="_1rs-">
+            <ProcedureCall id="_1rsy" procedure="do_click.menu.raster"/>
+            <ProcedureCall id="_1rt2"
+                           procedure="do_click.menu.raster.geometric_operations"/>
+            <ProcedureCall id="_1rsz"
+                           procedure="do_click.menu.raster.geometric_operations.resampling"/>
+            <ProcedureCall id="_1rs+"
+                           procedure="wait.appear.tools.dialogResampling"/>
+            <CatchSequence exception="TestException" id="_1rt0" maxerror="0">
+              <ProcedureCall id="_1rt1"
+                             procedure="wait.appear.tools.dialogResampling"/>
+            </CatchSequence>
+          </TryStep>
+        </Procedure>
         <Procedure id="_1oRE" name="band_maths">
           <comment>@teststep Open Band Maths tool.</comment>
           <ProcedureCall id="_1oRe" procedure="do_click.menubar"/>
@@ -47,21 +62,29 @@
             <comment>@teststep Open EM Cluster Analysis.</comment>
             <TryStep id="_1pu-">
               <ProcedureCall id="_1qiC" procedure="do_click.menu.raster"/>
-              <ProcedureCall id="_1pv1"
-                             procedure="do_click.menu.raster.image_analysis"/>
-              <ProcedureCall id="_1pwk"
-                             procedure="do_click.menu.raster.image_analysis.em_cluster_analysis"/>
+              <ProcedureCall id="_1sKm"
+                             procedure="do_click.menu.raster.classification"/>
+              <ProcedureCall id="_1sKn"
+                             procedure="do_click.menu.raster.classification.unsupervised"/>
+              <ProcedureCall id="_1sKo"
+                             procedure="do_click.menu.raster.classification.unsupervised.em_cluster_analysis"/>
+              <ProcedureCall id="_1sKp"
+                             procedure="check.k_means_cluster_analysis.k_means_cluster_analysis_tool_opened"/>
               <ProcedureCall id="_1pwo"
                              procedure="check.em_cluster_analysis.em_cluster_analysis_tool_opened"/>
               <CatchSequence exception="TestException" id="_1pv3"
                              maxerror="0">
                 <TryStep id="_1pv4">
                   <ProcedureCall id="_1pv5" procedure="do_click.menubar"/>
-                  <ProcedureCall id="_1qiD" procedure="do_click.menu.raster"/>
-                  <ProcedureCall id="_1pwf"
-                                 procedure="do_click.menu.raster.image_analysis"/>
-                  <ProcedureCall id="_1pwl"
-                                 procedure="do_click.menu.raster.image_analysis.em_cluster_analysis"/>
+                  <ProcedureCall id="_1sKq" procedure="do_click.menu.raster"/>
+                  <ProcedureCall id="_1sKr"
+                                 procedure="do_click.menu.raster.classification"/>
+                  <ProcedureCall id="_1sKs"
+                                 procedure="do_click.menu.raster.classification.unsupervised"/>
+                  <ProcedureCall id="_1sKt"
+                                 procedure="do_click.menu.raster.classification.unsupervised.em_cluster_analysis"/>
+                  <ProcedureCall id="_1sKu"
+                                 procedure="check.k_means_cluster_analysis.k_means_cluster_analysis_tool_opened"/>
                   <ProcedureCall id="_1pwp"
                                  procedure="check.em_cluster_analysis.em_cluster_analysis_tool_opened"/>
                   <CatchSequence exception="TestException" id="_1pv9"
@@ -79,22 +102,26 @@
             <comment>@teststep Do click Menu Item 'K-Means Cluster Analysis'</comment>
             <TryStep id="_1pvB">
               <ProcedureCall id="_1pvC" procedure="do_click.menu.raster"/>
-              <ProcedureCall id="_1pwg"
-                             procedure="do_click.menu.raster.image_analysis"/>
+              <ProcedureCall id="_1sKf"
+                             procedure="do_click.menu.raster.classification"/>
+              <ProcedureCall id="_1sKe"
+                             procedure="do_click.menu.raster.classification.unsupervised"/>
               <ProcedureCall id="_1pwm"
-                             procedure="do_click.menu.raster.image_analysis.k_means_cluster_analysis"/>
+                             procedure="do_click.menu.raster.classification.unsupervised.k_means_cluster_analysis"/>
               <ProcedureCall id="_1pwq"
                              procedure="check.k_means_cluster_analysis.k_means_cluster_analysis_tool_opened"/>
               <CatchSequence exception="TestException" id="_1pvF"
                              maxerror="0">
                 <TryStep id="_1pvG">
                   <ProcedureCall id="_1pvH" procedure="do_click.menubar"/>
-                  <ProcedureCall id="_1qiB" procedure="do_click.menu.raster"/>
-                  <ProcedureCall id="_1pwh"
-                                 procedure="do_click.menu.raster.image_analysis"/>
-                  <ProcedureCall id="_1pwn"
-                                 procedure="do_click.menu.raster.image_analysis.k_means_cluster_analysis"/>
-                  <ProcedureCall id="_1pwr"
+                  <ProcedureCall id="_1sKg" procedure="do_click.menu.raster"/>
+                  <ProcedureCall id="_1sKh"
+                                 procedure="do_click.menu.raster.classification"/>
+                  <ProcedureCall id="_1sKi"
+                                 procedure="do_click.menu.raster.classification.unsupervised"/>
+                  <ProcedureCall id="_1sKj"
+                                 procedure="do_click.menu.raster.classification.unsupervised.k_means_cluster_analysis"/>
+                  <ProcedureCall id="_1sKk"
                                  procedure="check.k_means_cluster_analysis.k_means_cluster_analysis_tool_opened"/>
                   <CatchSequence exception="TestException" id="_1pvL"
                                  maxerror="0">
@@ -292,59 +319,97 @@
         </Package>
       </Package>
       <Package id="_1pH3" name="optical">
-        <Procedure id="_1ptL" name="orthorectification">
-          <comment>@teststep Open Orthorectification tool.</comment>
-          <TryStep id="_1ptM" name="is orthorectification tool already open?">
-            <ProcedureCall id="_1ptN"
-                           procedure="check.reprojection.orthorectification_tool_opened"/>
-            <CatchSequence exception="TestException" id="_1ptO" maxerror="0"
-                           name="not open -&gt; open">
-              <TryStep id="_1ptP">
-                <ProcedureCall id="_1qiH" procedure="do_click.menu.optical"/>
-                <ProcedureCall id="_1ptR"
-                               procedure="do_click.menu.optical.geometric"/>
-                <ProcedureCall id="_1ptS"
-                               procedure="do_click.menu.optical.geometric.orthorectification"/>
-                <TryStep id="_1ptT" name="click_OK_in_dialog_JIDE_software">
-                  <ProcedureCall id="_1ptU"
-                                 procedure="utility.handle_dialog_JIDE_software"/>
-                  <CatchSequence exception="TestException" id="_1ptV"
-                                 maxerror="0"/>
-                </TryStep>
-                <ProcedureCall id="_1pti"
-                               procedure="check.reprojection.orthorectification_tool_opened"/>
-                <CatchSequence exception="TestException" id="_1ptX"
-                               maxerror="0">
-                  <TryStep id="_1ptY">
-                    <ProcedureCall id="_1qiI" procedure="do_click.menubar"/>
-                    <ProcedureCall id="_1ptj"
-                                   procedure="do_click.menu.optical"/>
-                    <ProcedureCall id="_1ptk"
-                                   procedure="do_click.menu.optical.geometric"/>
-                    <ProcedureCall id="_1ptl"
-                                   procedure="do_click.menu.optical.geometric.orthorectification"/>
-                    <TryStep id="_1ptm"
-                             name="click_OK_in_dialog_JIDE_software">
-                      <ProcedureCall id="_1ptn"
-                                     procedure="utility.handle_dialog_JIDE_software"/>
-                      <CatchSequence exception="TestException" id="_1pto"
-                                     maxerror="0"/>
-                    </TryStep>
-                    <ProcedureCall id="_1ptp"
-                                   procedure="check.reprojection.orthorectification_tool_opened"/>
-                    <CatchSequence exception="TestException" id="_1ptg"
-                                   maxerror="0">
-                      <ProcedureCall id="_1pth" procedure="run-log.logError">
-                        <variable name="message">Orthorectification Tool is not appear</variable>
-                        <variable name="withScreenshots">true</variable>
-                      </ProcedureCall>
-                    </CatchSequence>
+        <Package id="_1s3c" name="geometric">
+          <Procedure id="_1ptL" name="orthorectification">
+            <comment>@teststep Open Orthorectification tool.</comment>
+            <TryStep id="_1ptM"
+                     name="is orthorectification tool already open?">
+              <ProcedureCall id="_1ptN"
+                             procedure="check.reprojection.orthorectification_tool_opened"/>
+              <CatchSequence exception="TestException" id="_1ptO" maxerror="0"
+                             name="not open -&gt; open">
+                <TryStep id="_1ptP">
+                  <ProcedureCall id="_1qiH"
+                                 procedure="do_click.menu.optical"/>
+                  <ProcedureCall id="_1ptR"
+                                 procedure="do_click.menu.optical.geometric"/>
+                  <ProcedureCall id="_1ptS"
+                                 procedure="do_click.menu.optical.geometric.orthorectification"/>
+                  <TryStep id="_1ptT" name="click_OK_in_dialog_JIDE_software">
+                    <ProcedureCall id="_1ptU"
+                                   procedure="utility.handle_dialog_JIDE_software"/>
+                    <CatchSequence exception="TestException" id="_1ptV"
+                                   maxerror="0"/>
                   </TryStep>
-                </CatchSequence>
-              </TryStep>
-            </CatchSequence>
-          </TryStep>
-        </Procedure>
+                  <ProcedureCall id="_1pti"
+                                 procedure="check.reprojection.orthorectification_tool_opened"/>
+                  <CatchSequence exception="TestException" id="_1ptX"
+                                 maxerror="0">
+                    <TryStep id="_1ptY">
+                      <ProcedureCall id="_1qiI" procedure="do_click.menubar"/>
+                      <ProcedureCall id="_1ptj"
+                                     procedure="do_click.menu.optical"/>
+                      <ProcedureCall id="_1ptk"
+                                     procedure="do_click.menu.optical.geometric"/>
+                      <ProcedureCall id="_1ptl"
+                                     procedure="do_click.menu.optical.geometric.orthorectification"/>
+                      <TryStep id="_1ptm"
+                               name="click_OK_in_dialog_JIDE_software">
+                        <ProcedureCall id="_1ptn"
+                                       procedure="utility.handle_dialog_JIDE_software"/>
+                        <CatchSequence exception="TestException" id="_1pto"
+                                       maxerror="0"/>
+                      </TryStep>
+                      <ProcedureCall id="_1ptp"
+                                     procedure="check.reprojection.orthorectification_tool_opened"/>
+                      <CatchSequence exception="TestException" id="_1ptg"
+                                     maxerror="0">
+                        <ProcedureCall id="_1pth"
+                                       procedure="run-log.logError">
+                          <variable name="message">Orthorectification Tool is not appear</variable>
+                          <variable name="withScreenshots">true</variable>
+                        </ProcedureCall>
+                      </CatchSequence>
+                    </TryStep>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
+          <Procedure id="_1rth" name="pdu_stitching">
+            <comment>@teststep Open 'SLSTR L1B PDU Stitching' tool.</comment>
+            <TryStep id="_1rti">
+              <ProcedureCall id="_1rtj" procedure="do_click.menu.optical"/>
+              <ProcedureCall id="_1rtk"
+                             procedure="do_click.menu.optical.geometric"/>
+              <ProcedureCall id="_1rtl"
+                             procedure="do_click.menu.optical.geometric.pdu_stitching"/>
+              <ProcedureCall id="_1s3e"
+                             procedure="check.pdu_stitching.pdu_stitching_tool_opened"/>
+              <CatchSequence exception="TestException" id="_1rtq"
+                             maxerror="0">
+                <TryStep id="_1rtr">
+                  <ProcedureCall id="_1rts" procedure="do_click.menubar"/>
+                  <ProcedureCall id="_1rtt"
+                                 procedure="do_click.menu.optical"/>
+                  <ProcedureCall id="_1rtu"
+                                 procedure="do_click.menu.optical.geometric"/>
+                  <ProcedureCall id="_1s3d"
+                                 procedure="do_click.menu.optical.geometric.pdu_stitching"/>
+                  <ProcedureCall id="_1s3f"
+                                 procedure="check.pdu_stitching.pdu_stitching_tool_opened"/>
+                  <CatchSequence exception="TestException" id="_1rt+"
+                                 maxerror="0">
+                    <ProcedureCall id="_1rt-" procedure="run-log.logError">
+                      <variable name="message">SLSTR L1B PDU Stitching Tool is not appear</variable>
+                      <variable name="withScreenshots">true</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
+        </Package>
         <Package id="_1puA" name="spectral_tools">
           <Procedure id="_1pGm" name="spectral_unmixing">
             <comment>@teststep Open Spectral Unmixing tool.</comment>
@@ -383,8 +448,10 @@
               <ProcedureCall id="_1qiL" procedure="do_click.menu.optical"/>
               <ProcedureCall id="_1pH6"
                              procedure="do_click.menu.optical.thematic_land_processing"/>
+              <ProcedureCall id="_1sKw"
+                             procedure="do_click.menu.optical.thematic_land_processing.vegetation_radiometric_indices"/>
               <ProcedureCall id="_1pH7"
-                             procedure="do_click.menu.optical.thematic_land_processing.ndvi_processor"/>
+                             procedure="do_click.menu.optical.thematic_land_processing.vegetation_radiometric.ndvi_processor"/>
               <ProcedureCall id="_1pja"
                              procedure="check.ndvi_processor.ndvi_processor_opened"/>
               <CatchSequence exception="TestException" id="_1pH9"
@@ -395,8 +462,10 @@
                                  procedure="do_click.menu.optical"/>
                   <ProcedureCall id="_1pHJ"
                                  procedure="do_click.menu.optical.thematic_land_processing"/>
+                  <ProcedureCall id="_1sKv"
+                                 procedure="do_click.menu.optical.thematic_land_processing.vegetation_radiometric_indices"/>
                   <ProcedureCall id="_1pHK"
-                                 procedure="do_click.menu.optical.thematic_land_processing.ndvi_processor"/>
+                                 procedure="do_click.menu.optical.thematic_land_processing.vegetation_radiometric.ndvi_processor"/>
                   <ProcedureCall id="_1pjb"
                                  procedure="check.ndvi_processor.ndvi_processor_opened"/>
                   <CatchSequence exception="TestException" id="_1pHG"
@@ -410,9 +479,42 @@
               </CatchSequence>
             </TryStep>
           </Procedure>
+          <Procedure id="_1rtP" name="scape_m">
+            <comment>@teststep Open SCAPE-M processor UI.</comment>
+            <TryStep id="_1rtQ">
+              <ProcedureCall id="_1rtR" procedure="do_click.menu.optical"/>
+              <ProcedureCall id="_1rtS"
+                             procedure="do_click.menu.optical.thematic_land_processing"/>
+              <ProcedureCall id="_1rtT"
+                             procedure="do_click.menu.optical.thematic_land_processing.scape_m_processor"/>
+              <ProcedureCall id="_1rte"
+                             procedure="check.scape_m.scape_m_processor_opened"/>
+              <CatchSequence exception="TestException" id="_1rtV"
+                             maxerror="0">
+                <TryStep id="_1rtW">
+                  <ProcedureCall id="_1rtX" procedure="do_click.menubar"/>
+                  <ProcedureCall id="_1rtY"
+                                 procedure="do_click.menu.optical"/>
+                  <ProcedureCall id="_1rtZ"
+                                 procedure="do_click.menu.optical.thematic_land_processing"/>
+                  <ProcedureCall id="_1rtf"
+                                 procedure="do_click.menu.optical.thematic_land_processing.scape_m_processor"/>
+                  <ProcedureCall id="_1rtg"
+                                 procedure="check.scape_m.scape_m_processor_opened"/>
+                  <CatchSequence exception="TestException" id="_1rtc"
+                                 maxerror="0">
+                    <ProcedureCall id="_1rtd" procedure="run-log.logError">
+                      <variable name="message">SCOPE-M Processor is not appear</variable>
+                      <variable name="withScreenshots">true</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
           <Procedure id="_1puQ"
                      name="meris_aatsr_smac_atmospheric_correction_processor">
-            <comment>@teststep Do click Menu Item 'MERIS/(A)ATSR SMAC Atmospheric Correction'</comment>
+            <comment>@teststep Open 'MERIS/(A)ATSR SMAC Atmospheric Correction'</comment>
             <TryStep id="_1pvZ">
               <ProcedureCall id="_1qiN" procedure="do_click.menu.optical"/>
               <ProcedureCall id="_1pvb"
@@ -447,7 +549,7 @@
         </Package>
         <Package id="_1puX" name="thematic_water_processing">
           <Procedure id="_1puY" name="aatsr_sst_processor">
-            <comment>@teststep Do click Menu Item '(A)ATSR SST Processor'</comment>
+            <comment>@teststep Open '(A)ATSR SST Processor'.</comment>
             <TryStep id="_1pvn">
               <ProcedureCall id="_1qiP" procedure="do_click.menu.optical"/>
               <ProcedureCall id="_1pvp"
@@ -479,8 +581,40 @@
               </CatchSequence>
             </TryStep>
           </Procedure>
+          <Procedure id="_1rxY" name="arc_sst_processor">
+            <TryStep id="_1sLH">
+              <ProcedureCall id="_1sLI" procedure="do_click.menu.optical"/>
+              <ProcedureCall id="_1sLJ"
+                             procedure="do_click.menu.optical.thematic_water_processing"/>
+              <ProcedureCall id="_1sLK"
+                             procedure="do_click.menu.optical.thematic_water_processing.arc_sst_processor"/>
+              <ProcedureCall id="_1sLW"
+                             procedure="check.arc_sst_processor.arc_sst_processor_opened"/>
+              <CatchSequence exception="TestException" id="_1sLM"
+                             maxerror="0">
+                <TryStep id="_1sLN">
+                  <ProcedureCall id="_1sLO" procedure="do_click.menubar"/>
+                  <ProcedureCall id="_1sLP"
+                                 procedure="do_click.menu.optical"/>
+                  <ProcedureCall id="_1sLQ"
+                                 procedure="do_click.menu.optical.thematic_water_processing"/>
+                  <ProcedureCall id="_1sLV"
+                                 procedure="do_click.menu.optical.thematic_water_processing.arc_sst_processor"/>
+                  <ProcedureCall id="_1sLS"
+                                 procedure="check.arc_sst_processor.arc_sst_processor_opened"/>
+                  <CatchSequence exception="TestException" id="_1sLT"
+                                 maxerror="0">
+                    <ProcedureCall id="_1sLU" procedure="run-log.logError">
+                      <variable name="message">(A)ATSR SST Processor is not appear</variable>
+                      <variable name="withScreenshots">true</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
           <Procedure id="_1puf" name="flh_mci_processor">
-            <comment>@teststep Do click Menu Item 'FLH/MCI Processor'</comment>
+            <comment>@teststep Open 'FLH/MCI Processor'.</comment>
             <TryStep id="_1pv-">
               <ProcedureCall id="_1qiR" procedure="do_click.menu.optical"/>
               <ProcedureCall id="_1pwy"
@@ -512,10 +646,350 @@
               </CatchSequence>
             </TryStep>
           </Procedure>
+          <Procedure id="_1sLe" name="fub_wew_processor">
+            <comment>@teststep Do click Menu Item 'FUB/WeW Processor'</comment>
+            <TryStep id="_1sLl">
+              <ProcedureCall id="_1sLm" procedure="do_click.menu.optical"/>
+              <ProcedureCall id="_1sLn"
+                             procedure="do_click.menu.optical.thematic_water_processing"/>
+              <ProcedureCall id="_1sLo"
+                             procedure="do_click.menu.optical.thematic_water_processing.fub_wew_processor"/>
+              <ProcedureCall id="_1sLz"
+                             procedure="check.fub_wew_processor.fub_wew_tool_opened"/>
+              <CatchSequence exception="TestException" id="_1sLq"
+                             maxerror="0">
+                <TryStep id="_1sLr">
+                  <ProcedureCall id="_1sLs" procedure="do_click.menubar"/>
+                  <ProcedureCall id="_1sLt"
+                                 procedure="do_click.menu.optical"/>
+                  <ProcedureCall id="_1sLu"
+                                 procedure="do_click.menu.optical.thematic_water_processing"/>
+                  <ProcedureCall id="_1sL+"
+                                 procedure="do_click.menu.optical.thematic_water_processing.fub_wew_processor"/>
+                  <ProcedureCall id="_1sL-"
+                                 procedure="check.fub_wew_processor.fub_wew_tool_opened"/>
+                  <CatchSequence exception="TestException" id="_1sLx"
+                                 maxerror="0">
+                    <ProcedureCall id="_1sLy" procedure="run-log.logError">
+                      <variable name="message">FUB/WeW Processor is not appear</variable>
+                      <variable name="withScreenshots">true</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
+          <Procedure id="_1sM2" name="fu_classification_processor">
+            <comment>@teststep Open 'FU Classification'.</comment>
+            <TryStep id="_1sM5">
+              <ProcedureCall id="_1sM6" procedure="do_click.menu.optical"/>
+              <ProcedureCall id="_1sM7"
+                             procedure="do_click.menu.optical.thematic_water_processing"/>
+              <ProcedureCall id="_1sM8"
+                             procedure="do_click.menu.optical.thematic_water_processing.fu_classification_processor"/>
+              <ProcedureCall id="_1sM9"
+                             procedure="check.fu_classification.fu_classification_tool_opened"/>
+              <CatchSequence exception="TestException" id="_1sMA"
+                             maxerror="0">
+                <TryStep id="_1sMB">
+                  <ProcedureCall id="_1sMC" procedure="do_click.menubar"/>
+                  <ProcedureCall id="_1sMD"
+                                 procedure="do_click.menu.optical"/>
+                  <ProcedureCall id="_1sME"
+                                 procedure="do_click.menu.optical.thematic_water_processing"/>
+                  <ProcedureCall id="_1sMF"
+                                 procedure="do_click.menu.optical.thematic_water_processing.fu_classification_processor"/>
+                  <ProcedureCall id="_1sMG"
+                                 procedure="check.fu_classification.fu_classification_tool_opened"/>
+                  <CatchSequence exception="TestException" id="_1sMH"
+                                 maxerror="0">
+                    <ProcedureCall id="_1sMI" procedure="run-log.logError">
+                      <variable name="message">FU Classification Processor is not appear</variable>
+                      <variable name="withScreenshots">true</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
+          <Procedure id="_1sMJ" name="s2_mci_processor">
+            <comment>@teststep Open 'S2 MCI' processor.</comment>
+            <TryStep id="_1sMM">
+              <ProcedureCall id="_1sMN" procedure="do_click.menu.optical"/>
+              <ProcedureCall id="_1sMO"
+                             procedure="do_click.menu.optical.thematic_water_processing"/>
+              <ProcedureCall id="_1sMa"
+                             procedure="do_click.menu.optical.thematic_water_processing.s2_mci_processor"/>
+              <ProcedureCall id="_1sMd"
+                             procedure="check.s2_mci_processor.s2_mci_processor_opened"/>
+              <CatchSequence exception="TestException" id="_1sMR"
+                             maxerror="0">
+                <TryStep id="_1sMS">
+                  <ProcedureCall id="_1sMT" procedure="do_click.menubar"/>
+                  <ProcedureCall id="_1sMU"
+                                 procedure="do_click.menu.optical"/>
+                  <ProcedureCall id="_1sMV"
+                                 procedure="do_click.menu.optical.thematic_water_processing"/>
+                  <ProcedureCall id="_1sMb"
+                                 procedure="do_click.menu.optical.thematic_water_processing.s2_mci_processor"/>
+                  <ProcedureCall id="_1sMe"
+                                 procedure="check.s2_mci_processor.s2_mci_processor_opened"/>
+                  <CatchSequence exception="TestException" id="_1sMY"
+                                 maxerror="0">
+                    <ProcedureCall id="_1sMZ" procedure="run-log.logError">
+                      <variable name="message">S2 MCI Processor is not appear</variable>
+                      <variable name="withScreenshots">true</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
+          <Procedure id="_1rt3" name="owt_classification_processor">
+            <comment>@teststep Open 'OWT Classification'.</comment>
+            <TryStep id="_1rt4">
+              <ProcedureCall id="_1rt5" procedure="do_click.menu.optical"/>
+              <ProcedureCall id="_1rt6"
+                             procedure="do_click.menu.optical.thematic_water_processing"/>
+              <ProcedureCall id="_1sM1"
+                             procedure="do_click.menu.optical.thematic_water_processing.owt_classification_processor"/>
+              <ProcedureCall id="_1sMf"
+                             procedure="check.owt_classification.owt_classification_tool_opened"/>
+              <CatchSequence exception="TestException" id="_1rt9"
+                             maxerror="0">
+                <TryStep id="_1rtA">
+                  <ProcedureCall id="_1rtB" procedure="do_click.menubar"/>
+                  <ProcedureCall id="_1rtL"
+                                 procedure="do_click.menu.optical"/>
+                  <ProcedureCall id="_1rtM"
+                                 procedure="do_click.menu.optical.thematic_water_processing"/>
+                  <ProcedureCall id="_1sMc"
+                                 procedure="do_click.menu.optical.thematic_water_processing.owt_classification_processor"/>
+                  <ProcedureCall id="_1sMg"
+                                 procedure="check.owt_classification.owt_classification_tool_opened"/>
+                  <CatchSequence exception="TestException" id="_1rtG"
+                                 maxerror="0">
+                    <ProcedureCall id="_1rtH" procedure="run-log.logError">
+                      <variable name="message">OWT Classification Processor is not appear</variable>
+                      <variable name="withScreenshots">true</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
+          <Procedure id="_1sHo" name="c2r_cc_processor">
+            <comment>@teststep Open 'C2R-CC Processor'</comment>
+            <TryStep id="_1sH+">
+              <ProcedureCall id="_1sH-" procedure="do_click.menu.optical"/>
+              <ProcedureCall id="_1sI0"
+                             procedure="do_click.menu.optical.thematic_water_processing"/>
+              <ProcedureCall id="_1sI1"
+                             procedure="do_click.menu.optical.thematic_water_processing.c2r_cc_processor"/>
+              <ProcedureCall id="_1sI2"
+                             procedure="c2r_cc.check_components.opened.c2r_cc_processor"/>
+              <CatchSequence exception="TestException" id="_1sI3"
+                             maxerror="0">
+                <TryStep id="_1sI4">
+                  <ProcedureCall id="_1sI5" procedure="do_click.menubar"/>
+                  <ProcedureCall id="_1sIC"
+                                 procedure="do_click.menu.optical"/>
+                  <ProcedureCall id="_1sID"
+                                 procedure="do_click.menu.optical.thematic_water_processing"/>
+                  <ProcedureCall id="_1sIE"
+                                 procedure="do_click.menu.optical.thematic_water_processing.c2r_cc_processor"/>
+                  <ProcedureCall id="_1sIF"
+                                 procedure="c2r_cc.check_components.opened.c2r_cc_processor"/>
+                  <CatchSequence exception="TestException" id="_1sIA"
+                                 maxerror="0">
+                    <ProcedureCall id="_1sIB" procedure="run-log.logError">
+                      <variable name="message">C2R-CC Processor is not appear</variable>
+                      <variable name="withScreenshots">true</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
+          <Procedure id="_1sIG" name="c2r_cc_meris_processor">
+            <comment>@teststep Open 'C2R/CC MERIS Processor'.</comment>
+            <TryStep id="_1sIH">
+              <ProcedureCall id="_1sII" procedure="do_click.menu.optical"/>
+              <ProcedureCall id="_1sIJ"
+                             procedure="do_click.menu.optical.thematic_water_processing"/>
+              <ProcedureCall id="_1sIK"
+                             procedure="do_click.menu.optical.thematic_water_processing.c2r_cc_processor_specific"/>
+              <ProcedureCall id="_1sJR"
+                             procedure="do_click.menu.optical.thematic_water_processing.c2r_cc_processor_specific.c2r_cc_meris_processor"/>
+              <ProcedureCall id="_1sIL"
+                             procedure="c2r_cc.check_components.opened.c2r_cc_meris_processor"/>
+              <CatchSequence exception="TestException" id="_1sIM"
+                             maxerror="0">
+                <TryStep id="_1sIN">
+                  <ProcedureCall id="_1sIO" procedure="do_click.menubar"/>
+                  <ProcedureCall id="_1sJS"
+                                 procedure="do_click.menu.optical.thematic_water_processing"/>
+                  <ProcedureCall id="_1sJT"
+                                 procedure="do_click.menu.optical.thematic_water_processing.c2r_cc_processor_specific"/>
+                  <ProcedureCall id="_1sJU"
+                                 procedure="do_click.menu.optical.thematic_water_processing.c2r_cc_processor_specific.c2r_cc_meris_processor"/>
+                  <ProcedureCall id="_1sJV"
+                                 procedure="c2r_cc.check_components.opened.c2r_cc_meris_processor"/>
+                  <CatchSequence exception="TestException" id="_1sIT"
+                                 maxerror="0">
+                    <ProcedureCall id="_1sIU" procedure="run-log.logError">
+                      <variable name="message">C2R/CC MERIS Processor is not appear</variable>
+                      <variable name="withScreenshots">true</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
+          <Procedure id="_1sJW" name="c2r_cc_modis_processor">
+            <comment>@teststep Open 'C2R/CC MODIS Processor'.</comment>
+            <TryStep id="_1sJX">
+              <ProcedureCall id="_1sJY" procedure="do_click.menu.optical"/>
+              <ProcedureCall id="_1sJZ"
+                             procedure="do_click.menu.optical.thematic_water_processing"/>
+              <ProcedureCall id="_1sJa"
+                             procedure="do_click.menu.optical.thematic_water_processing.c2r_cc_processor_specific"/>
+              <ProcedureCall id="_1sJb"
+                             procedure="do_click.menu.optical.thematic_water_processing.c2r_cc_processor_specific.c2r_cc_modis_processor"/>
+              <ProcedureCall id="_1sJc"
+                             procedure="c2r_cc.check_components.opened.c2r_cc_modis_processor"/>
+              <CatchSequence exception="TestException" id="_1sJd"
+                             maxerror="0">
+                <TryStep id="_1sJe">
+                  <ProcedureCall id="_1sJf" procedure="do_click.menubar"/>
+                  <ProcedureCall id="_1sJg"
+                                 procedure="do_click.menu.optical.thematic_water_processing"/>
+                  <ProcedureCall id="_1sJh"
+                                 procedure="do_click.menu.optical.thematic_water_processing.c2r_cc_processor_specific"/>
+                  <ProcedureCall id="_1sKc"
+                                 procedure="do_click.menu.optical.thematic_water_processing.c2r_cc_processor_specific.c2r_cc_modis_processor"/>
+                  <ProcedureCall id="_1sKd"
+                                 procedure="c2r_cc.check_components.opened.c2r_cc_modis_processor"/>
+                  <CatchSequence exception="TestException" id="_1sJk"
+                                 maxerror="0">
+                    <ProcedureCall id="_1sJl" procedure="run-log.logError">
+                      <variable name="message">C2R/CC MODIS Processor is not appear</variable>
+                      <variable name="withScreenshots">true</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
+          <Procedure id="_1sJm" name="c2r_cc_seawifs_processor">
+            <comment>@teststep Open 'C2R/CC SeaWiFS Processor'.</comment>
+            <TryStep id="_1sJn">
+              <ProcedureCall id="_1sJo" procedure="do_click.menu.optical"/>
+              <ProcedureCall id="_1sJp"
+                             procedure="do_click.menu.optical.thematic_water_processing"/>
+              <ProcedureCall id="_1sJq"
+                             procedure="do_click.menu.optical.thematic_water_processing.c2r_cc_processor_specific"/>
+              <ProcedureCall id="_1sJr"
+                             procedure="do_click.menu.optical.thematic_water_processing.c2r_cc_processor_specific.c2r_cc_seawifs_processor"/>
+              <ProcedureCall id="_1sJs"
+                             procedure="c2r_cc.check_components.opened.c2r_cc_seawifs_processor"/>
+              <CatchSequence exception="TestException" id="_1sJt"
+                             maxerror="0">
+                <TryStep id="_1sJu">
+                  <ProcedureCall id="_1sJv" procedure="do_click.menubar"/>
+                  <ProcedureCall id="_1sJw"
+                                 procedure="do_click.menu.optical.thematic_water_processing"/>
+                  <ProcedureCall id="_1sJx"
+                                 procedure="do_click.menu.optical.thematic_water_processing.c2r_cc_processor_specific"/>
+                  <ProcedureCall id="_1sKa"
+                                 procedure="do_click.menu.optical.thematic_water_processing.c2r_cc_processor_specific.c2r_cc_seawifs_processor"/>
+                  <ProcedureCall id="_1sKb"
+                                 procedure="c2r_cc.check_components.opened.c2r_cc_seawifs_processor"/>
+                  <CatchSequence exception="TestException" id="_1sJ+"
+                                 maxerror="0">
+                    <ProcedureCall id="_1sJ-" procedure="run-log.logError">
+                      <variable name="message">C2R/CC SeaWiFS Processor is not appear</variable>
+                      <variable name="withScreenshots">true</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
+          <Procedure id="_1sK0" name="c2r_cc_olci_processor">
+            <comment>@teststep Open 'C2R/CC OLCI Processor'.</comment>
+            <TryStep id="_1sK1">
+              <ProcedureCall id="_1sK2" procedure="do_click.menu.optical"/>
+              <ProcedureCall id="_1sK3"
+                             procedure="do_click.menu.optical.thematic_water_processing"/>
+              <ProcedureCall id="_1sK4"
+                             procedure="do_click.menu.optical.thematic_water_processing.c2r_cc_processor_specific"/>
+              <ProcedureCall id="_1sK5"
+                             procedure="do_click.menu.optical.thematic_water_processing.c2r_cc_processor_specific.c2r_cc_olci_processor"/>
+              <ProcedureCall id="_1sK6"
+                             procedure="c2r_cc.check_components.opened.c2r_cc_olci_processor"/>
+              <CatchSequence exception="TestException" id="_1sK7"
+                             maxerror="0">
+                <TryStep id="_1sK8">
+                  <ProcedureCall id="_1sK9" procedure="do_click.menubar"/>
+                  <ProcedureCall id="_1sKA"
+                                 procedure="do_click.menu.optical.thematic_water_processing"/>
+                  <ProcedureCall id="_1sKB"
+                                 procedure="do_click.menu.optical.thematic_water_processing.c2r_cc_processor_specific"/>
+                  <ProcedureCall id="_1sKY"
+                                 procedure="do_click.menu.optical.thematic_water_processing.c2r_cc_processor_specific.c2r_cc_olci_processor"/>
+                  <ProcedureCall id="_1sKZ"
+                                 procedure="c2r_cc.check_components.opened.c2r_cc_olci_processor"/>
+                  <CatchSequence exception="TestException" id="_1sKE"
+                                 maxerror="0">
+                    <ProcedureCall id="_1sKF" procedure="run-log.logError">
+                      <variable name="message">C2R/CC OLCI Processor is not appear</variable>
+                      <variable name="withScreenshots">true</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
+          <Procedure id="_1sKG" name="c2r_cc_msi_processor">
+            <comment>@teststep Open 'C2R/CC MSI Processor'.</comment>
+            <TryStep id="_1sKH">
+              <ProcedureCall id="_1sKI" procedure="do_click.menu.optical"/>
+              <ProcedureCall id="_1sKJ"
+                             procedure="do_click.menu.optical.thematic_water_processing"/>
+              <ProcedureCall id="_1sKK"
+                             procedure="do_click.menu.optical.thematic_water_processing.c2r_cc_processor_specific"/>
+              <ProcedureCall id="_1sKL"
+                             procedure="do_click.menu.optical.thematic_water_processing.c2r_cc_processor_specific.c2r_cc_mci_processor"/>
+              <ProcedureCall id="_1sKM"
+                             procedure="c2r_cc.check_components.opened.c2r_cc_msi_processor"/>
+              <CatchSequence exception="TestException" id="_1sKN"
+                             maxerror="0">
+                <TryStep id="_1sKO">
+                  <ProcedureCall id="_1sKP" procedure="do_click.menubar"/>
+                  <ProcedureCall id="_1sKQ"
+                                 procedure="do_click.menu.optical.thematic_water_processing"/>
+                  <ProcedureCall id="_1sKR"
+                                 procedure="do_click.menu.optical.thematic_water_processing.c2r_cc_processor_specific"/>
+                  <ProcedureCall id="_1sKW"
+                                 procedure="do_click.menu.optical.thematic_water_processing.c2r_cc_processor_specific.c2r_cc_mci_processor"/>
+                  <ProcedureCall id="_1sKX"
+                                 procedure="c2r_cc.check_components.opened.c2r_cc_msi_processor"/>
+                  <CatchSequence exception="TestException" id="_1sKU"
+                                 maxerror="0">
+                    <ProcedureCall id="_1sKV" procedure="run-log.logError">
+                      <variable name="message">C2R/CC MSI Processor is not appear</variable>
+                      <variable name="withScreenshots">true</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
         </Package>
         <Package id="_1pum" name="preprocessing">
           <Procedure id="_1pun" name="meris_radiometric_correction_processor">
-            <comment>@teststep Do click Menu Item 'MERIS Radiometric Correction'.</comment>
+            <comment>@teststep Open 'MERIS Radiometric Correction'.</comment>
             <TryStep id="_1pwD">
               <ProcedureCall id="_1qiT" procedure="do_click.menu.optical"/>
               <ProcedureCall id="_1pwF"
@@ -548,7 +1022,7 @@
             </TryStep>
           </Procedure>
           <Procedure id="_1puu" name="meris_cloud_probability_processor">
-            <comment>@teststep Do click Menu Item 'MERIS Cloud Probability Processor'</comment>
+            <comment>@teststep Open 'MERIS Cloud Probability Processor'</comment>
             <TryStep id="_1pwR">
               <ProcedureCall id="_1qiV" procedure="do_click.menu.optical"/>
               <ProcedureCall id="_1pxA"
@@ -579,6 +1053,336 @@
                 </TryStep>
               </CatchSequence>
             </TryStep>
+          </Procedure>
+          <Procedure id="_1rok" name="land_water_mask">
+            <comment>@teststep Open 'Land/Watzer Mask operator'.</comment>
+            <TryStep id="_1rol">
+              <ProcedureCall id="_1rom" procedure="do_click.menu.raster"/>
+              <ProcedureCall id="_1ron"
+                             procedure="do_click.menu.raster.masks"/>
+              <ProcedureCall id="_1roz"
+                             procedure="do_click.menu.raster.masks.land_water_mask"/>
+              <ProcedureCall id="_1rp0"
+                             procedure="check.land_water_mask.land_water_mask_tool_opened"/>
+              <CatchSequence exception="TestException" id="_1roq"
+                             maxerror="0">
+                <TryStep id="_1ror">
+                  <ProcedureCall id="_1ros" procedure="do_click.menubar"/>
+                  <ProcedureCall id="_1rss" procedure="do_click.menu.raster"/>
+                  <ProcedureCall id="_1rst"
+                                 procedure="do_click.menu.raster.masks"/>
+                  <ProcedureCall id="_1rsu"
+                                 procedure="do_click.menu.raster.masks.land_water_mask"/>
+                  <ProcedureCall id="_1rsv"
+                                 procedure="check.land_water_mask.land_water_mask_tool_opened"/>
+                  <CatchSequence exception="TestException" id="_1rox"
+                                 maxerror="0">
+                    <ProcedureCall id="_1roy" procedure="run-log.logError">
+                      <variable name="message">Land/Water Mask tool window is not appear</variable>
+                      <variable name="withScreenshots">true</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
+          <Procedure id="_1s3g" name="olci_smile_correction">
+            <comment>@teststep Open 'OLCI Smile Correction' tool.</comment>
+            <TryStep id="_1s3h">
+              <ProcedureCall id="_1s3i" procedure="do_click.menu.optical"/>
+              <ProcedureCall id="_1s4n"
+                             procedure="do_click.menu.optical.preprocessing"/>
+              <ProcedureCall id="_1s4p"
+                             procedure="do_click.menu.optical.preprocessing.olci_smile_correction"/>
+              <ProcedureCall id="_1s4q"
+                             procedure="check.olci_smile_correction.olci_smile_correction_tool_opened"/>
+              <CatchSequence exception="TestException" id="_1s3m"
+                             maxerror="0">
+                <TryStep id="_1s3n">
+                  <ProcedureCall id="_1s3o" procedure="do_click.menubar"/>
+                  <ProcedureCall id="_1s3p"
+                                 procedure="do_click.menu.optical"/>
+                  <ProcedureCall id="_1s4o"
+                                 procedure="do_click.menu.optical.preprocessing"/>
+                  <ProcedureCall id="_1s4r"
+                                 procedure="do_click.menu.optical.preprocessing.olci_smile_correction"/>
+                  <ProcedureCall id="_1s4s"
+                                 procedure="check.olci_smile_correction.olci_smile_correction_tool_opened"/>
+                  <CatchSequence exception="TestException" id="_1s3t"
+                                 maxerror="0">
+                    <ProcedureCall id="_1s3u" procedure="run-log.logError">
+                      <variable name="message">OLCI Smile Correction Tool is not appear</variable>
+                      <variable name="withScreenshots">true</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
+          <Procedure id="_1s9X" name="sentinel2_radiometric_uncertainty_tool">
+            <TryStep id="_1sGo">
+              <ProcedureCall id="_1sGp" procedure="do_click.menu.optical"/>
+              <ProcedureCall id="_1sGq"
+                             procedure="do_click.menu.optical.preprocessing"/>
+              <ProcedureCall id="_1sGr"
+                             procedure="do_click.menu.optical.preprocessing.sentinel2_radiometric_uncertainty_tool"/>
+              <ProcedureCall id="_1sGs"
+                             procedure="check.sentinel2_radiometric_uncertainty_tool.sentinel2_radiometric_uncertainty_tool_opened"/>
+              <CatchSequence exception="TestException" id="_1sGt"
+                             maxerror="0">
+                <TryStep id="_1sGu">
+                  <ProcedureCall id="_1sGv" procedure="do_click.menubar"/>
+                  <ProcedureCall id="_1sGw"
+                                 procedure="do_click.menu.optical"/>
+                  <ProcedureCall id="_1sGx"
+                                 procedure="do_click.menu.optical.preprocessing"/>
+                  <ProcedureCall id="_1sHg"
+                                 procedure="do_click.menu.optical.preprocessing.sentinel2_radiometric_uncertainty_tool"/>
+                  <ProcedureCall id="_1sHh"
+                                 procedure="check.sentinel2_radiometric_uncertainty_tool.sentinel2_radiometric_uncertainty_tool_opened"/>
+                  <CatchSequence exception="TestException" id="_1sG+"
+                                 maxerror="0">
+                    <ProcedureCall id="_1sG-" procedure="run-log.logError">
+                      <variable name="message">Sentinel-2 Radiometric Uncertainty Tool is not appear</variable>
+                      <variable name="withScreenshots">true</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
+          <Procedure id="_1s9d" name="radiance-to-reflectance_processor">
+            <TryStep id="_1sH0">
+              <ProcedureCall id="_1sH1" procedure="do_click.menu.optical"/>
+              <ProcedureCall id="_1sH2"
+                             procedure="do_click.menu.optical.preprocessing"/>
+              <ProcedureCall id="_1sH3"
+                             procedure="do_click.menu.optical.preprocessing.radiance-to-reflectance_processor"/>
+              <ProcedureCall id="_1sH4"
+                             procedure="check.radiance-to-reflectance_processor.radiance-to-reflectance_processor_opened"/>
+              <CatchSequence exception="TestException" id="_1sH5"
+                             maxerror="0">
+                <TryStep id="_1sH6">
+                  <ProcedureCall id="_1sH7" procedure="do_click.menubar"/>
+                  <ProcedureCall id="_1sH8"
+                                 procedure="do_click.menu.optical"/>
+                  <ProcedureCall id="_1sH9"
+                                 procedure="do_click.menu.optical.preprocessing"/>
+                  <ProcedureCall id="_1sHi"
+                                 procedure="do_click.menu.optical.preprocessing.radiance-to-reflectance_processor"/>
+                  <ProcedureCall id="_1sHj"
+                                 procedure="check.radiance-to-reflectance_processor.radiance-to-reflectance_processor_opened"/>
+                  <CatchSequence exception="TestException" id="_1sHC"
+                                 maxerror="0">
+                    <ProcedureCall id="_1sHD" procedure="run-log.logError">
+                      <variable name="message">Radiance-to-Reflectance Processor is not appear</variable>
+                      <variable name="withScreenshots">true</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
+          <Procedure id="_1s7K" name="rayleigh_correction">
+            <TryStep id="_1sHE">
+              <ProcedureCall id="_1sHF" procedure="do_click.menu.optical"/>
+              <ProcedureCall id="_1sHG"
+                             procedure="do_click.menu.optical.preprocessing"/>
+              <ProcedureCall id="_1sHH"
+                             procedure="do_click.menu.optical.preprocessing.rayleigh_correction"/>
+              <ProcedureCall id="_1sHI"
+                             procedure="check.rayleigh_correction.rayleigh_correction_tool_opened"/>
+              <CatchSequence exception="TestException" id="_1sHJ"
+                             maxerror="0">
+                <TryStep id="_1sHK">
+                  <ProcedureCall id="_1sHL" procedure="do_click.menubar"/>
+                  <ProcedureCall id="_1sHM"
+                                 procedure="do_click.menu.optical"/>
+                  <ProcedureCall id="_1sHN"
+                                 procedure="do_click.menu.optical.preprocessing"/>
+                  <ProcedureCall id="_1sHk"
+                                 procedure="do_click.menu.optical.preprocessing.rayleigh_correction"/>
+                  <ProcedureCall id="_1sHl"
+                                 procedure="check.rayleigh_correction.rayleigh_correction_tool_opened"/>
+                  <CatchSequence exception="TestException" id="_1sHQ"
+                                 maxerror="0">
+                    <ProcedureCall id="_1sHR" procedure="run-log.logError">
+                      <variable name="message">Rayleigh Correction Tool is not appear</variable>
+                      <variable name="withScreenshots">true</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
+          <Procedure id="_1sAG" name="gaseous_absorption">
+            <TryStep id="_1sHS">
+              <ProcedureCall id="_1sHT" procedure="do_click.menu.optical"/>
+              <ProcedureCall id="_1sHU"
+                             procedure="do_click.menu.optical.preprocessing"/>
+              <ProcedureCall id="_1sHV"
+                             procedure="do_click.menu.optical.preprocessing.gaseous_absorption"/>
+              <ProcedureCall id="_1sHW"
+                             procedure="check.gaseous_absorption.gaseous_absorption_tool_opened"/>
+              <CatchSequence exception="TestException" id="_1sHX"
+                             maxerror="0">
+                <TryStep id="_1sHY">
+                  <ProcedureCall id="_1sHZ" procedure="do_click.menubar"/>
+                  <ProcedureCall id="_1sHa"
+                                 procedure="do_click.menu.optical"/>
+                  <ProcedureCall id="_1sHb"
+                                 procedure="do_click.menu.optical.preprocessing"/>
+                  <ProcedureCall id="_1sHm"
+                                 procedure="do_click.menu.optical.preprocessing.gaseous_absorption"/>
+                  <ProcedureCall id="_1sHn"
+                                 procedure="check.gaseous_absorption.gaseous_absorption_tool_opened"/>
+                  <CatchSequence exception="TestException" id="_1sHe"
+                                 maxerror="0">
+                    <ProcedureCall id="_1sHf" procedure="run-log.logError">
+                      <variable name="message">Gaseous Absorption Tool is not appear</variable>
+                      <variable name="withScreenshots">true</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+          </Procedure>
+          <Procedure id="_1sGl" name="s">
+            <BasicSequence id="_1sGm" name="Aufnahme 25.05.16 10:25">
+              <BasicSequence id="_1ruU" name="Aufnahme 25.05.16 10:47">
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.Optical"
+                                event="MOUSE_MPRC" id="_1ruV" modifiers="16"/>
+                <MouseEventStep clicks="0" client="$(client)"
+                                component="NbMainWindow.Geometric"
+                                event="MOUSE_MOVED" id="_1ruW" modifiers="0"/>
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.Preprocessing2"
+                                event="MOUSE_MPRC" id="_1ruX" modifiers="16"/>
+                <MouseEventStep clicks="0" client="$(client)"
+                                component="NbMainWindow.IdePix_Pixel_Classification"
+                                event="MOUSE_MOVED" id="_1ruY" modifiers="0"/>
+                <MouseEventStep clicks="1" client="$(client)"
+                                component="NbMainWindow.menuItemSentinel-2_Radiometric_Uncertainty_Tool"
+                                event="MOUSE_MPRC" id="_1ruZ" modifiers="16"/>
+              </BasicSequence>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.menuItemSentinel-2_Radiometric_Uncertainty_Tool"
+                              event="MOUSE_MPRC" id="_1sAx" modifiers="16"/>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.Optical"
+                              event="MOUSE_MPRC" id="_1sAy" modifiers="16"/>
+              <MouseEventStep clicks="0" client="$(client)"
+                              component="NbMainWindow.Geometric"
+                              event="MOUSE_MOVED" id="_1sAz" modifiers="0"/>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.Preprocessing2"
+                              event="MOUSE_MPRC" id="_1sA+" modifiers="16"/>
+              <MouseEventStep clicks="0" client="$(client)"
+                              component="NbMainWindow.IdePix_Pixel_Classification"
+                              event="MOUSE_MOVED" id="_1sA-" modifiers="0"/>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.menuItemMERIS_Radiometric_Correction3"
+                              event="MOUSE_MPRC" id="_1sB0" modifiers="16"/>
+              <ComponentWaiter client="$(client)"
+                               component="dialogMERIS_L1b_Radiometric_Correction"
+                               id="_1sB1"/>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.Optical"
+                              event="MOUSE_MPRC" id="_1sB2" modifiers="16"/>
+              <MouseEventStep clicks="0" client="$(client)"
+                              component="NbMainWindow.Geometric"
+                              event="MOUSE_MOVED" id="_1sB3" modifiers="0"/>
+              <MouseEventStep clicks="0" client="$(client)"
+                              component="NbMainWindow.Preprocessing2"
+                              event="MOUSE_MOVED" id="_1sB4" modifiers="0"/>
+              <MouseEventStep clicks="0" client="$(client)"
+                              component="NbMainWindow.Thematic_Land_Processing2"
+                              event="MOUSE_MOVED" id="_1sB5" modifiers="0"/>
+              <MouseEventStep clicks="0" client="$(client)"
+                              component="NbMainWindow.Radiometric_Indices"
+                              event="MOUSE_MOVED" id="_1sB6" modifiers="0"/>
+              <MouseEventStep clicks="0" client="$(client)"
+                              component="NbMainWindow.Thematic_Land_Processing2"
+                              event="MOUSE_MOVED" id="_1sB7" modifiers="0"/>
+              <MouseEventStep clicks="0" client="$(client)"
+                              component="NbMainWindow.Preprocessing2"
+                              event="MOUSE_MOVED" id="_1sB8" modifiers="0"/>
+              <MouseEventStep clicks="0" client="$(client)"
+                              component="NbMainWindow.IdePix_Pixel_Classification"
+                              event="MOUSE_MOVED" id="_1sB9" modifiers="0"/>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.menuItemRadiance-to-Reflectance_Processor"
+                              event="MOUSE_MPRC" id="_1sBA" modifiers="16"/>
+              <ComponentWaiter client="$(client)"
+                               component="dialogRadiance-to-Reflectance_Processor"
+                               id="_1sBB"/>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.Optical"
+                              event="MOUSE_MPRC" id="_1sBC" modifiers="16"/>
+              <MouseEventStep clicks="0" client="$(client)"
+                              component="NbMainWindow.Geometric"
+                              event="MOUSE_MOVED" id="_1sBD" modifiers="0"/>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.Preprocessing2"
+                              event="MOUSE_MPRC" id="_1sGn" modifiers="16"/>
+              <MouseEventStep clicks="0" client="$(client)"
+                              component="NbMainWindow.Thematic_Land_Processing2"
+                              event="MOUSE_MOVED" id="_1sBF" modifiers="0"/>
+              <MouseEventStep clicks="0" client="$(client)"
+                              component="NbMainWindow.Radiometric_Indices"
+                              event="MOUSE_MOVED" id="_1sBG" modifiers="0"/>
+              <MouseEventStep clicks="0" client="$(client)"
+                              component="NbMainWindow.Thematic_Land_Processing2"
+                              event="MOUSE_MOVED" id="_1sBH" modifiers="0"/>
+              <MouseEventStep clicks="0" client="$(client)"
+                              component="NbMainWindow.Preprocessing2"
+                              event="MOUSE_MOVED" id="_1sBI" modifiers="0"/>
+              <MouseEventStep clicks="0" client="$(client)"
+                              component="NbMainWindow.IdePix_Pixel_Classification"
+                              event="MOUSE_MOVED" id="_1sBJ" modifiers="0"/>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.menuItemRayleigh_Correction"
+                              event="MOUSE_MPRC" id="_1sBK" modifiers="16"/>
+              <ComponentWaiter client="$(client)"
+                               component="dialogRayleigh_Correction"
+                               id="_1sBL"/>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.Optical"
+                              event="MOUSE_MPRC" id="_1sBM" modifiers="16"/>
+              <MouseEventStep clicks="0" client="$(client)"
+                              component="NbMainWindow.Geometric"
+                              event="MOUSE_MOVED" id="_1sBN" modifiers="0"/>
+              <MouseEventStep clicks="0" client="$(client)"
+                              component="NbMainWindow.Preprocessing2"
+                              event="MOUSE_MOVED" id="_1sBO" modifiers="0"/>
+              <MouseEventStep clicks="0" client="$(client)"
+                              component="NbMainWindow.IdePix_Pixel_Classification"
+                              event="MOUSE_MOVED" id="_1sBP" modifiers="0"/>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.menuItemSmile_Correction"
+                              event="MOUSE_MPRC" id="_1sBQ" modifiers="16"/>
+              <ComponentWaiter client="$(client)"
+                               component="dialogSmile_Correction" id="_1sBR"/>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.Optical"
+                              event="MOUSE_MPRC" id="_1sBS" modifiers="16"/>
+              <MouseEventStep clicks="0" client="$(client)"
+                              component="NbMainWindow.Geometric"
+                              event="MOUSE_MOVED" id="_1sBT" modifiers="0"/>
+              <MouseEventStep clicks="0" client="$(client)"
+                              component="NbMainWindow.Preprocessing2"
+                              event="MOUSE_MOVED" id="_1sBU" modifiers="0"/>
+              <MouseEventStep clicks="0" client="$(client)"
+                              component="NbMainWindow.IdePix_Pixel_Classification"
+                              event="MOUSE_MOVED" id="_1sBV" modifiers="0"/>
+              <MouseEventStep clicks="1" client="$(client)"
+                              component="NbMainWindow.menuItemGaseous_Absorption"
+                              event="MOUSE_MPRC" id="_1sBW" modifiers="16"/>
+              <ComponentWaiter client="$(client)"
+                               component="dialogGaseous_Absorption"
+                               id="_1sBX"/>
+            </BasicSequence>
           </Procedure>
         </Package>
       </Package>
@@ -731,13 +1535,13 @@
         <Procedure id="_1lVT" name="product_browser">
           <comment>@teststep Open 'Product Browser'.</comment>
           <TryStep id="_1qjj">
-            <ProcedureCall id="_1ph9"
-                           procedure="do_click.main_toolbar.views.product_browser"/>
+            <ProcedureCall id="_1qjn"
+                           procedure="utility.do_click_menu_view_tool_windows"/>
+            <ProcedureCall id="_1qjo"
+                           procedure="do_click.menu.view.tool_windows.product_explorer"/>
             <CatchSequence exception="TestException" id="_1qjm" maxerror="0">
-              <ProcedureCall id="_1qjn"
-                             procedure="utility.do_click_menu_view_tool_windows"/>
-              <ProcedureCall id="_1qjo"
-                             procedure="do_click.menu.view.tool_windows.product_explorer"/>
+              <ProcedureCall id="_1ph9"
+                             procedure="do_click.main_toolbar.views.product_browser"/>
             </CatchSequence>
           </TryStep>
         </Procedure>
@@ -1114,167 +1918,69 @@
           </TryStep>
         </Procedure>
       </Package>
+      <Procedure id="_1rsw" name="open_image_window">
+        <ProcedureCall id="_1rll" procedure="do_click.menu.window"/>
+        <ProcedureCall id="_1rlm"
+                       procedure="do_click.menu.window.open_image_window"/>
+      </Procedure>
+      <Procedure id="_1s4t" name="s3_multispectral_product_in_snap">
+        <variable name="prod_dir"/>
+        <variable name="in_out"/>
+        <variable name="prod"/>
+        <variable name="product_type"/>
+        <comment>@teststep Open data product in SNAP.</comment>
+        <ProcedureCall id="_1s6M" procedure="utility.product_in_snap_help">
+          <variable name="prod_dir">$(prod_dir)</variable>
+          <variable name="in_out">$(in_out)</variable>
+          <variable name="prod">$(prod)</variable>
+          <variable name="product_type">$(product_type)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1s5S"
+                       procedure="utility.handle_multiple_readers_dialog_s3_multiresolution"/>
+        <ProcedureCall id="_1s5T" predelay="500"
+                       procedure="wait.disappear.reading_product_progress_monitor"/>
+        <ProcedureCall id="_1s5U"
+                       procedure="utility.handle_SNAP_Limited_Functionality_dialog"/>
+        <ProcedureCall id="_1s5V"
+                       procedure="utility.handle_possible_errors_while_product_open"/>
+        <ProcedureCall id="_1s5W"
+                       procedure="wait.disappear.reading_product_progress_monitor"/>
+        <IfSequence disabled="true" id="_1s5X" name="mac"
+                    test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+          <ProcedureCall id="_1s5Y"
+                         procedure="do_click.main_toolbar.standard.open"/>
+          <ProcedureCall id="_1s5Z" procedure="get.file_nr_in_the_folder">
+            <variable name="file_name">$(prod)</variable>
+          </ProcedureCall>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogESA_S-3_Toolbox_-_Open_Data_Product(s).tableFile:@Name&amp;$(file_nr_in_the_folder)"
+                          event="MOUSE_MPRC" id="_1s5a" modifiers="16"/>
+          <ProcedureCall id="_1s5b"
+                         procedure="do_click.open_product_dialog.open"/>
+        </IfSequence>
+      </Procedure>
       <Procedure id="_1l3s" name="product_in_snap">
         <variable name="prod_dir"/>
         <variable name="in_out"/>
         <variable name="prod"/>
         <variable name="product_type"/>
         <comment>@teststep Open data product in SNAP.</comment>
-        <ProcedureCall id="_1l3w" procedure="path.main_path"/>
-        <IfSequence id="_1oSd" test="&#34;$(in_out)&#34;==&#34;out&#34;">
-          <SetGlobalStep id="_1pxw" varname="data_source_directory">
-            <default>${path:output_data_directory}$(prod_dir)${path:slash}</default>
-          </SetGlobalStep>
-          <ElseSequence id="_1oSg">
-            <ProcedureCall id="_1oSj" procedure="path.source_data_directory">
-              <variable name="data_type">$(prod_dir)</variable>
-            </ProcedureCall>
-          </ElseSequence>
-        </IfSequence>
-        <ProcedureCall id="_1oS1"
-                       procedure="product_meta_data.product_attributes">
-          <variable name="prod_type">$(product_type)</variable>
+        <ProcedureCall id="_1s6L" procedure="utility.product_in_snap_help">
+          <variable name="prod_dir">$(prod_dir)</variable>
+          <variable name="in_out">$(in_out)</variable>
+          <variable name="prod">$(prod)</variable>
+          <variable name="product_type">$(product_type)</variable>
         </ProcedureCall>
-        <TestStep id="_1oRQ" name="open_product_dialog">
-          <comment>@teststep Open 'Open Product' dialog.</comment>
-          <SetGlobalStep id="_1oRm" varname="open_product_dialog_appears">
-            <default>true</default>
-          </SetGlobalStep>
-          <TryStep disabled="true" id="_1oS3"
-                   name="open_product_dialog_by_clicking_open_icon">
-            <ProcedureCall id="_1l3v"
-                           procedure="do_click.main_toolbar.standard.open"/>
-            <ProcedureCall id="_1l3u"
-                           procedure="wait.appear.dialog.open_product"/>
-            <CatchSequence exception="TestException" id="_1oS4" maxerror="0">
-              <SetGlobalStep id="_1oS5" varname="open_product_dialog_appears">
-                <default>false</default>
-              </SetGlobalStep>
-              <ProcedureCall id="_1oS6"
-                             procedure="run-log.error_message.dialog_does_not_appear">
-                <variable name="dialog">Open Product</variable>
-              </ProcedureCall>
-            </CatchSequence>
-          </TryStep>
-          <TryStep id="_1oQT" name="open_product_dialog_by_selecting_menu">
-            <ProcedureCall id="_1oQS"
-                           procedure="utility.open_open_product_dialog"/>
-            <CatchSequence exception="TestException" id="_1oQU" maxerror="0">
-              <TryStep id="_1oQW">
-                <ProcedureCall id="_1oQX"
-                               procedure="utility.open_open_product_dialog"/>
-                <CatchSequence exception="TestException" id="_1oQZ"
-                               maxerror="0">
-                  <SetGlobalStep id="_1oRn"
-                                 varname="open_product_dialog_appears">
-                    <default>false</default>
-                  </SetGlobalStep>
-                  <ProcedureCall id="_1oQb"
-                                 procedure="run-log.make_screensot">
-                    <variable name="iw_name">open_product_dialog_missing</variable>
-                    <variable name="iw_name_example">error_dialog</variable>
-                  </ProcedureCall>
-                  <ProcedureCall id="_1qhx"
-                                 procedure="run-log.error_message.dialog_does_not_appear">
-                    <variable name="dialog">Open Product</variable>
-                  </ProcedureCall>
-                </CatchSequence>
-              </TryStep>
-            </CatchSequence>
-          </TryStep>
-        </TestStep>
-        <IfSequence id="_1qcy"
-                    test="&#34;$(open_product_dialog_appears)&#34;==&#34;true&#34;">
-          <ProcedureCall id="_1rMf" procedure="select.file_of_type">
-            <variable name="file_of_type">$(reader)</variable>
-          </ProcedureCall>
-          <IfSequence id="_1rMg"
-                      test="&#34;$(file_of_type_selected)&#34;==&#34;false&#34;">
-            <ProcedureCall id="_1qd4"
-                           procedure="daten_format.file_of_type_all"/>
-            <ProcedureCall id="_1qd5" procedure="select.file_of_type">
-              <variable name="file_of_type">$(file_of_type_all)</variable>
-            </ProcedureCall>
-          </IfSequence>
-          <ProcedureCall id="_1rM7"
-                         procedure="utility.fill_in_open_product_dialog">
-            <variable name="in_out">$(in_out)</variable>
-            <variable name="prod_dir">$(prod_dir)</variable>
-            <variable name="prod">$(prod)</variable>
-            <variable name="product_type">$(product_type)</variable>
-          </ProcedureCall>
-          <ProcedureCall id="_1qdC" postdelay="2000"
-                         procedure="do_click.open_product_dialog.open"/>
-          <ServerScriptStep disabled="true" id="_1r4v" name="print">
-            <code>print "$(input_file)"</code>
-            <comment> </comment>
-          </ServerScriptStep>
-        </IfSequence>
         <ProcedureCall id="_1pzt"
-                       procedure="utility.handle_SNAP_Multiple_Readers_dialog"/>
-        <BasicSequence id="_1pxT" name="find_error_dialog_click_ok">
-          <TryStep id="_1pxU" name="find_error_dialog_click_ok">
-            <ProcedureCall id="_1pxV"
-                           procedure="wait.appear.error.dialog_open_product"/>
-            <ProcedureCall id="_1pxW" procedure="run-log.make_screensot">
-              <variable name="iw_name">error_dialog_open_product</variable>
-              <variable name="iw_name_example">error_dialog</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1pxX"
-                           procedure="do_click.error_dialog.button_Yes_dialog_Open_Product"/>
-            <ProcedureCall id="_1pxY"
-                           procedure="run-log.error_message.error_dialog_appears">
-              <variable name="dialog">'Open Product' error</variable>
-            </ProcedureCall>
-            <CatchSequence exception="TestException" id="_1pxZ" maxerror="0"/>
-          </TryStep>
-          <TryStep id="_1pxa" name="find_error_dialog_click_ok">
-            <ProcedureCall id="_1pxb"
-                           procedure="wait.appear.error.dialog_SNAP_open_product"/>
-            <ProcedureCall id="_1pxc" procedure="run-log.make_screensot">
-              <variable name="iw_name">dialog_SNAP_open_product</variable>
-              <variable name="iw_name_example">error_dialog</variable>
-            </ProcedureCall>
-            <TryStep id="_1pxd">
-              <ProcedureCall id="_1pxe"
-                             procedure="get.text_error_dialog_SNAP_Open_Product"/>
-              <CatchSequence exception="TestException" id="_1pxf"
-                             maxerror="0">
-                <SetGlobalStep id="_1pxg" varname="error_text">
-                  <default>$(prod_dir)/$(prod) can not be opened</default>
-                </SetGlobalStep>
-              </CatchSequence>
-            </TryStep>
-            <ProcedureCall id="_1pxh"
-                           procedure="do_click.error_dialog.button_OK_error_SNAP_Open_Product"/>
-            <IfSequence id="_1pxi"
-                        test="&#34;$(error_text)&#34;&lt;&gt;&#34;Open Product&#34;">
-              <ServerScriptStep id="_1pxj" name="error">
-                <code>rc.logError("'$(error_text)'.")</code>
-              </ServerScriptStep>
-            </IfSequence>
-            <CatchSequence exception="TestException" id="_1pxk" maxerror="0"/>
-          </TryStep>
-          <TryStep id="_1pxl" name="find_error_dialog_click_ok">
-            <ComponentWaiter client="$(client)" component="dialogSNAP_-_Error"
-                             id="_1pxm" timeout="10"/>
-            <TryStep id="_1pxn" name="make_screensot">
-              <ProcedureCall id="_1pxo" procedure="run-log.make_screensot">
-                <variable name="iw_name">error_dialog_open_product</variable>
-                <variable name="iw_name_example">error_dialog</variable>
-              </ProcedureCall>
-              <CatchSequence exception="TestException" id="_1pxp"
-                             maxerror="0"/>
-            </TryStep>
-            <ProcedureCall id="_1pxq"
-                           procedure="do_click.error_dialog.button_OK_SNAP_Error"/>
-            <ProcedureCall id="_1pxr"
-                           procedure="run-log.error_message.error_dialog_appears">
-              <variable name="dialog">'Open Product' error</variable>
-            </ProcedureCall>
-            <CatchSequence exception="TestException" id="_1pxs" maxerror="0"/>
-          </TryStep>
-        </BasicSequence>
+                       procedure="utility.handle_multiple_readers_dialog_default"/>
+        <ProcedureCall id="_1rlk" predelay="500"
+                       procedure="wait.disappear.reading_product_progress_monitor"/>
+        <ProcedureCall id="_1rlj"
+                       procedure="utility.handle_SNAP_Limited_Functionality_dialog"/>
+        <ProcedureCall id="_1rjC"
+                       procedure="utility.handle_possible_errors_while_product_open"/>
+        <ProcedureCall id="_1rm0"
+                       procedure="wait.disappear.reading_product_progress_monitor"/>
         <IfSequence disabled="true" id="_1omr" name="mac"
                     test="'${system:os.name}' .find('Mac OS X')&gt;=0">
           <ProcedureCall id="_1oms"
@@ -1335,14 +2041,18 @@
         </IfSequence>
         <TextInputStep clear="true" client="$(client)"
                        component="dialogOpen_Product.textDateiname:"
-                       id="_1pzN">
+                       disabled="true" id="_1pzN">
           <text>$(prod_dir)</text>
           <comment>@teststep Select $(input_file).</comment>
         </TextInputStep>
+        <ProcedureCall id="_1sLc" procedure="utility.set_file_name">
+          <variable name="input_file">$(prod_dir)</variable>
+        </ProcedureCall>
         <ProcedureCall id="_1pzO" postdelay="2000"
                        procedure="do_click.open_product_dialog.open"/>
         <IfSequence id="_1pzh" test="${qftest:windows}">
-          <BasicSequence id="_1puh" name="select_all_products_in_the_folder">
+          <BasicSequence disabled="true" id="_1puh"
+                         name="select_all_products_in_the_folder">
             <KeyEventStep client="$(client)"
                           component="dialogOpen_Product.buttonOpen"
                           event="KEY_PTR" id="_1pvK" keychar="9" keycode="9"
@@ -1400,6 +2110,23 @@
                           event="KEY_RELEASED" id="_1pzL" keychar="65535"
                           keycode="17" modifiers="0"/>
           </BasicSequence>
+          <BasicSequence id="_1sLd" name="select_all_products_in_the_folder">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogSNAP_-_Open_Product.tableFile_name:.Name&amp;0"
+                            event="MOUSE_MPRC" id="_1ryf" modifiers="16"/>
+            <KeyEventStep client="$(client)"
+                          component="dialogSNAP_-_Open_Product.tableFile_name:"
+                          event="KEY_PRESSED" id="_1ryg" keychar="65535"
+                          keycode="17" modifiers="2"/>
+            <KeyEventStep client="$(client)"
+                          component="dialogSNAP_-_Open_Product.tableFile_name:"
+                          event="KEY_PTR" id="_1ryh" keychar="1" keycode="65"
+                          modifiers="2"/>
+            <KeyEventStep client="$(client)"
+                          component="dialogSNAP_-_Open_Product.tableFile_name:"
+                          event="KEY_RELEASED" id="_1ryi" keychar="65535"
+                          keycode="17" modifiers="0"/>
+          </BasicSequence>
           <ElseifSequence id="_1pzi" name="MAC?"
                           test="'${system:os.name}' .find('Mac OS X')&gt;=0">
             <TextInputStep clear="true" client="$(client)"
@@ -1420,73 +2147,147 @@
                        procedure="do_click.open_product_dialog.open"/>
         <ProcedureCall id="_1pzm" procedure="wait.product_is_opened"/>
         <ProcedureCall id="_1pzs"
-                       procedure="utility.handle_SNAP_Multiple_Readers_dialog"/>
-        <BasicSequence id="_1pyZ" name="find_error_dialog_click_ok">
-          <TryStep id="_1pya" name="find_error_dialog_click_ok">
-            <ProcedureCall id="_1pyb"
-                           procedure="wait.appear.error.dialog_open_product"/>
-            <ProcedureCall id="_1pyc" procedure="run-log.make_screensot">
-              <variable name="iw_name">error_dialog_open_product</variable>
-              <variable name="iw_name_example">error_dialog</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1pyd"
-                           procedure="do_click.error_dialog.button_Yes_dialog_Open_Product"/>
-            <ProcedureCall id="_1pye"
-                           procedure="run-log.error_message.error_dialog_appears">
-              <variable name="dialog">'Open Product' error</variable>
-            </ProcedureCall>
-            <CatchSequence exception="TestException" id="_1pyf" maxerror="0"/>
-          </TryStep>
-          <TryStep id="_1pyg" name="find_error_dialog_click_ok">
-            <ProcedureCall id="_1pyh"
-                           procedure="wait.appear.error.dialog_SNAP_open_product"/>
-            <ProcedureCall id="_1pyi" procedure="run-log.make_screensot">
-              <variable name="iw_name">dialog_SNAP_open_product</variable>
-              <variable name="iw_name_example">error_dialog</variable>
-            </ProcedureCall>
-            <TryStep id="_1pyj">
-              <ProcedureCall id="_1pyk"
-                             procedure="get.text_error_dialog_SNAP_Open_Product"/>
-              <CatchSequence exception="TestException" id="_1pyl"
-                             maxerror="0">
-                <SetGlobalStep id="_1pym" varname="error_text">
-                  <default>$(prod_dir)/$(prod) can not be opened</default>
-                </SetGlobalStep>
-              </CatchSequence>
-            </TryStep>
-            <ProcedureCall id="_1pyn"
-                           procedure="do_click.error_dialog.button_OK_error_SNAP_Open_Product"/>
-            <IfSequence id="_1pyo"
-                        test="&#34;$(error_text)&#34;&lt;&gt;&#34;Open Product&#34;">
-              <ServerScriptStep id="_1pyp" name="error">
-                <code>rc.logError("'$(error_text)'.")</code>
-              </ServerScriptStep>
-            </IfSequence>
-            <CatchSequence exception="TestException" id="_1pyq" maxerror="0"/>
-          </TryStep>
-          <TryStep id="_1pyr" name="find_error_dialog_click_ok">
-            <ComponentWaiter client="$(client)" component="dialogSNAP_-_Error"
-                             id="_1pys" timeout="10"/>
-            <TryStep id="_1pyt">
-              <ProcedureCall id="_1pyu" procedure="run-log.make_screensot">
-                <variable name="iw_name">error_dialog_open_product</variable>
-                <variable name="iw_name_example">error_dialog</variable>
-              </ProcedureCall>
-              <CatchSequence exception="TestException" id="_1pyv"
-                             maxerror="0"/>
-            </TryStep>
-            <ProcedureCall id="_1pyw"
-                           procedure="do_click.error_dialog.button_OK_SNAP_Error"/>
-            <ProcedureCall id="_1pyx"
-                           procedure="run-log.error_message.error_dialog_appears">
-              <variable name="dialog">'Open Product' error</variable>
-            </ProcedureCall>
-            <CatchSequence exception="TestException" id="_1pyy" maxerror="0"/>
-          </TryStep>
-        </BasicSequence>
+                       procedure="utility.handle_multiple_readers_dialog_default"/>
+        <ProcedureCall id="_1rjB"
+                       procedure="utility.handle_possible_errors_while_product_open"/>
       </Procedure>
     </Package>
     <Package id="_1oRH" name="utility">
+      <Procedure id="_1sLY" name="set_file_name">
+        <variable name="input_file"/>
+        <comment>@teststep Set $(input_file).</comment>
+        <TextInputStep clear="true" client="$(client)"
+                       component="dialogSNAP_-_Open_Product.textFile_name:"
+                       id="_1sLZ">
+          <text>$(input_file)</text>
+          <comment>@teststep Select $(input_file).</comment>
+        </TextInputStep>
+        <TextInputStep clear="true" client="$(client)"
+                       component="dialogOpen_Product.textDateiname:"
+                       disabled="true" id="_1sLa">
+          <text>$(input_file)</text>
+          <comment>@teststep Select $(input_file).</comment>
+        </TextInputStep>
+      </Procedure>
+      <Procedure id="_1s5c" name="product_in_snap_help">
+        <variable name="prod_dir"/>
+        <variable name="in_out"/>
+        <variable name="prod"/>
+        <variable name="product_type"/>
+        <ProcedureCall id="_1s5d" procedure="path.main_path"/>
+        <IfSequence id="_1s5e" test="&#34;$(in_out)&#34;==&#34;out&#34;">
+          <SetGlobalStep id="_1s5f" varname="data_source_directory">
+            <default>${path:output_data_directory}$(prod_dir)${path:slash}</default>
+          </SetGlobalStep>
+          <ElseSequence id="_1s5g">
+            <ProcedureCall id="_1s5h" procedure="path.source_data_directory">
+              <variable name="data_type">$(prod_dir)</variable>
+            </ProcedureCall>
+          </ElseSequence>
+        </IfSequence>
+        <ProcedureCall id="_1s5i"
+                       procedure="product_meta_data.product_attributes">
+          <variable name="prod_type">$(product_type)</variable>
+        </ProcedureCall>
+        <TestStep id="_1s5j" name="open_product_dialog">
+          <comment>@teststep Open 'Open Product' dialog.</comment>
+          <SetGlobalStep id="_1s5k" varname="open_product_dialog_appears">
+            <default>true</default>
+          </SetGlobalStep>
+          <TryStep disabled="true" id="_1s5l"
+                   name="open_product_dialog_by_clicking_open_icon">
+            <ProcedureCall id="_1s5m"
+                           procedure="do_click.main_toolbar.standard.open"/>
+            <ProcedureCall id="_1s5n"
+                           procedure="wait.appear.dialog.open_product"/>
+            <CatchSequence exception="TestException" id="_1s5o" maxerror="0">
+              <SetGlobalStep id="_1s5p" varname="open_product_dialog_appears">
+                <default>false</default>
+              </SetGlobalStep>
+              <ProcedureCall id="_1s5q"
+                             procedure="run-log.error_message.dialog_does_not_appear">
+                <variable name="dialog">Open Product</variable>
+              </ProcedureCall>
+            </CatchSequence>
+          </TryStep>
+          <TryStep id="_1s5r" name="open_product_dialog_by_selecting_menu">
+            <ProcedureCall id="_1s5s"
+                           procedure="utility.open_open_product_dialog"/>
+            <CatchSequence exception="TestException" id="_1s5t" maxerror="0">
+              <TryStep id="_1s5u">
+                <ProcedureCall id="_1s5v"
+                               procedure="utility.open_open_product_dialog"/>
+                <CatchSequence exception="TestException" id="_1s5w"
+                               maxerror="0">
+                  <SetGlobalStep id="_1s5x"
+                                 varname="open_product_dialog_appears">
+                    <default>false</default>
+                  </SetGlobalStep>
+                  <ProcedureCall id="_1s5y"
+                                 procedure="run-log.make_screensot">
+                    <variable name="iw_name">open_product_dialog_missing</variable>
+                    <variable name="iw_name_example">error_dialog</variable>
+                  </ProcedureCall>
+                  <ProcedureCall id="_1s5z"
+                                 procedure="run-log.error_message.dialog_does_not_appear">
+                    <variable name="dialog">Open Product</variable>
+                  </ProcedureCall>
+                </CatchSequence>
+              </TryStep>
+            </CatchSequence>
+          </TryStep>
+        </TestStep>
+        <IfSequence id="_1sKz"
+                    test="&#34;$(open_product_dialog_appears)&#34;==&#34;true&#34;">
+          <ProcedureCall id="_1sK+" procedure="select.file_of_type">
+            <variable name="file_of_type">$(reader)</variable>
+          </ProcedureCall>
+          <IfSequence id="_1sK-"
+                      test="&#34;$(file_of_type_selected)&#34;==&#34;false&#34;">
+            <ProcedureCall id="_1sL0"
+                           procedure="daten_format.file_of_type_all"/>
+            <ProcedureCall id="_1sL1" procedure="select.file_of_type">
+              <variable name="file_of_type">$(file_of_type_all)</variable>
+            </ProcedureCall>
+          </IfSequence>
+          <ProcedureCall id="_1sL2"
+                         procedure="utility.fill_in_open_product_dialog">
+            <variable name="in_out">$(in_out)</variable>
+            <variable name="prod_dir">$(prod_dir)</variable>
+            <variable name="prod">$(prod)</variable>
+            <variable name="product_type">$(product_type)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1sL3" postdelay="2000"
+                         procedure="do_click.open_product_dialog.open"/>
+          <ServerScriptStep disabled="true" id="_1sL4" name="print">
+            <code>print "$(input_file)"</code>
+            <comment> </comment>
+          </ServerScriptStep>
+          <TryStep id="_1sL5" name="handle_product_already_opened">
+            <ComponentWaiter client="$(client)" component="buttonYes3"
+                             errorlevel="0" id="_1sL6" timeout="10"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="buttonYes3" event="MOUSE_MPRC"
+                            id="_1sL7" modifiers="16"/>
+            <CatchSequence exception="TestException" id="_1sL8" maxerror="0"/>
+          </TryStep>
+        </IfSequence>
+        <ProcedureCall id="_1s6A"
+                       procedure="wait.disappear.reading_product_progress_monitor"/>
+        <IfSequence disabled="true" id="_1s6G" name="mac"
+                    test="'${system:os.name}' .find('Mac OS X')&gt;=0">
+          <ProcedureCall id="_1s6H"
+                         procedure="do_click.main_toolbar.standard.open"/>
+          <ProcedureCall id="_1s6I" procedure="get.file_nr_in_the_folder">
+            <variable name="file_name">$(prod)</variable>
+          </ProcedureCall>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogESA_S-3_Toolbox_-_Open_Data_Product(s).tableFile:@Name&amp;$(file_nr_in_the_folder)"
+                          event="MOUSE_MPRC" id="_1s6J" modifiers="16"/>
+          <ProcedureCall id="_1s6K"
+                         procedure="do_click.open_product_dialog.open"/>
+        </IfSequence>
+      </Procedure>
       <Procedure id="_1rME" name="set_source_product_path">
         <variable name="in_out"/>
         <variable name="prod_dir"/>
@@ -1507,36 +2308,39 @@
                        procedure="product_meta_data.product_attributes">
           <variable name="prod_type">$(product_type)</variable>
         </ProcedureCall>
-        <IfSequence id="_1rML"
-                    test="&#34;$(product_type)&#34;==&#34;smos&#34;">
-          <ServerScriptStep disabled="true" id="_1rMM" name="print">
-            <code>print "$(prod)"</code>
-            <comment> </comment>
-          </ServerScriptStep>
-          <ServerScriptStep id="_1rMN" name="findInString">
-            <code>import string
+        <IfSequence id="_1sKx"
+                    test="&#34;$(data_source_directory)&#34;&lt;&gt;&#34;unknown&#34;">
+          <IfSequence id="_1rML"
+                      test="&#34;$(product_type)&#34;==&#34;smos&#34; and &#34;$(prod_dir)&#34;&lt;&gt;&#34;smos_BUFR&#34;">
+            <ServerScriptStep disabled="true" id="_1rMM" name="print">
+              <code>print "$(prod)"</code>
+              <comment> </comment>
+            </ServerScriptStep>
+            <ServerScriptStep id="_1rMN" name="findInString">
+              <code>import string
 rc.setGlobal("zip_file", string.find("$(prod)", ".zip"))</code>
-            <comment> </comment>
-          </ServerScriptStep>
-          <ServerScriptStep disabled="true" id="_1rMO" name="print">
-            <code>print "$(zip_file)"</code>
-            <comment> </comment>
-          </ServerScriptStep>
-          <IfSequence id="_1rMP" test="$(zip_file)&lt;0">
-            <SetGlobalStep id="_1rMQ" varname="input_file">
-              <default>$(data_source_directory)$(prod)${path:slash}$(prod).HDR</default>
-            </SetGlobalStep>
-            <ElseSequence id="_1rMR">
-              <SetGlobalStep id="_1rMS" varname="input_file">
+              <comment> </comment>
+            </ServerScriptStep>
+            <ServerScriptStep disabled="true" id="_1rMO" name="print">
+              <code>print "$(zip_file)"</code>
+              <comment> </comment>
+            </ServerScriptStep>
+            <IfSequence id="_1rMP" test="$(zip_file)&lt;0">
+              <SetGlobalStep id="_1rMQ" varname="input_file">
+                <default>$(data_source_directory)$(prod)${path:slash}$(prod).HDR</default>
+              </SetGlobalStep>
+              <ElseSequence id="_1rMR">
+                <SetGlobalStep id="_1rMS" varname="input_file">
+                  <default>$(data_source_directory)$(prod)</default>
+                </SetGlobalStep>
+              </ElseSequence>
+            </IfSequence>
+            <ElseSequence id="_1rMT">
+              <SetGlobalStep id="_1sKy" varname="input_file">
                 <default>$(data_source_directory)$(prod)</default>
               </SetGlobalStep>
             </ElseSequence>
           </IfSequence>
-          <ElseSequence id="_1rMT">
-            <SetGlobalStep id="_1rMU" varname="input_file">
-              <default>$(data_source_directory)$(prod)</default>
-            </SetGlobalStep>
-          </ElseSequence>
         </IfSequence>
         <ServerScriptStep disabled="true" id="_1rLv" name="findInString">
           <code>print "input_file = $(input_file)"</code>
@@ -1557,12 +2361,9 @@ rc.setGlobal("zip_file", string.find("$(prod)", ".zip"))</code>
         <IfSequence id="_1rLk"
                     test="&#34;$(open_product_dialog_appears)&#34;==&#34;true&#34;">
           <IfSequence id="_1rL-" test="${qftest:windows}">
-            <TextInputStep clear="true" client="$(client)"
-                           component="dialogOpen_Product.textDateiname:"
-                           id="_1rM0">
-              <text>$(input_file)</text>
-              <comment>@teststep Select $(input_file).</comment>
-            </TextInputStep>
+            <ProcedureCall id="_1sLb" procedure="utility.set_file_name">
+              <variable name="input_file">$(input_file)</variable>
+            </ProcedureCall>
             <ElseifSequence id="_1rM1" name="MAC?"
                             test="'${system:os.name}' .find('Mac OS X')&gt;=0">
               <TextInputStep clear="true" client="$(client)"
@@ -1572,21 +2373,11 @@ rc.setGlobal("zip_file", string.find("$(prod)", ".zip"))</code>
               </TextInputStep>
             </ElseifSequence>
             <ElseSequence id="_1rM3">
-              <TryStep id="_1rhu">
-                <TextInputStep clear="true" client="$(client)"
-                               component="textSelection:9" id="_1rhw">
-                  <text>$(input_file)</text>
-                  <comment>@teststep Select $(input_file).</comment>
-                </TextInputStep>
-                <CatchSequence exception="TestException" id="_1rhv"
-                               maxerror="0">
-                  <TextInputStep clear="true" client="$(client)"
-                                 component="textSelection:" id="_1rM4">
-                    <text>$(input_file)</text>
-                    <comment>@teststep Select $(input_file).</comment>
-                  </TextInputStep>
-                </CatchSequence>
-              </TryStep>
+              <TextInputStep clear="true" client="$(client)"
+                             component="textSelection:" id="_1rM4">
+                <text>$(input_file)</text>
+                <comment>@teststep Select $(input_file).</comment>
+              </TextInputStep>
             </ElseSequence>
           </IfSequence>
           <ServerScriptStep disabled="true" id="_1rM6" name="print">
@@ -1595,16 +2386,82 @@ rc.setGlobal("zip_file", string.find("$(prod)", ".zip"))</code>
           </ServerScriptStep>
         </IfSequence>
       </Procedure>
-      <Procedure id="_1pzr" name="handle_SNAP_Multiple_Readers_dialog">
+      <Procedure id="_1pzr" name="handle_multiple_readers_dialog_default">
         <TryStep id="_1pzn" name="handle_SNAP_Multiple_Readers_dialog">
-          <ComponentWaiter client="$(client)"
-                           component="dialogSNAP_-_Multiple_Readers_Available"
-                           id="_1pzo" timeout="10"/>
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="dialogSNAP_-_Multiple_Readers_Available.buttonOK"
-                          event="MOUSE_MPRC" id="_1pzp" modifiers="16"/>
-          <CatchSequence exception="TestException" id="_1pzq" maxerror="0"/>
+          <ProcedureCall disabled="true" id="_1rlg"
+                         procedure="variables.multi_size">
+            <variable name="multi_size">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s77"
+                         procedure="wait.appear.dialog_multiple_readers_available"/>
+          <ProcedureCall id="_1s78"
+                         procedure="do_click.dialog_multiple_readers_available.button_OK"/>
+          <CatchSequence exception="TestException" id="_1pzq" maxerror="0">
+            <ProcedureCall disabled="true" id="_1rlh"
+                           procedure="variables.multi_size">
+              <variable name="multi_size">false</variable>
+            </ProcedureCall>
+          </CatchSequence>
         </TryStep>
+      </Procedure>
+      <Procedure id="_1s6-"
+                 name="handle_multiple_readers_dialog_s3_multiresolution">
+        <TryStep id="_1s70" name="handle_SNAP_Multiple_Readers_dialog">
+          <ProcedureCall disabled="true" id="_1s71"
+                         procedure="variables.multi_size">
+            <variable name="multi_size">true</variable>
+          </ProcedureCall>
+          <SetGlobalStep id="_1s7C" local="true" varname="resolution_default">
+            <default>Sentinel-3 SLSTR L1B products in 1km resolution</default>
+          </SetGlobalStep>
+          <SetGlobalStep id="_1s7D" local="true" varname="multi_resolution">
+            <default>Sentinel-3 products</default>
+          </SetGlobalStep>
+          <ProcedureCall id="_1s76"
+                         procedure="wait.appear.dialog_multiple_readers_available"/>
+          <FetchTextStep client="$(client)"
+                         component="dialogSNAP_-_Multiple_Readers_Available.comboMultiple_readers_are_available_for_the_selected_file._The_readers_might_interpret_the_data_differently._Please_select_one_of_the_following:"
+                         id="_1s7B" varname="selected_resolution"/>
+          <IfSequence id="_1s7E"
+                      test="&#34;$(selected_resolution)&#34;&lt;&gt;&#34;$(multi_resolution)&#34;">
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogSNAP_-_Multiple_Readers_Available.comboMultiple_readers_are_available_for_the_selected_file._The_readers_might_interpret_the_data_differently._Please_select_one_of_the_following:"
+                            event="MOUSE_MPRC" id="_1s7G" modifiers="16"
+                            x="152" y="8"/>
+            <MouseEventStep clicks="1" client="$(client)"
+                            component="dialogSNAP_-_Multiple_Readers_Available.listInvokerClass:_ComboBox.Sentinel-3_products"
+                            event="MOUSE_MPRC" id="_1s7H" modifiers="16"/>
+          </IfSequence>
+          <ProcedureCall id="_1s79"
+                         procedure="do_click.dialog_multiple_readers_available.button_OK"/>
+          <CatchSequence exception="TestException" id="_1s74" maxerror="0">
+            <ProcedureCall disabled="true" id="_1s75"
+                           procedure="variables.multi_size">
+              <variable name="multi_size">false</variable>
+            </ProcedureCall>
+          </CatchSequence>
+        </TryStep>
+      </Procedure>
+      <Procedure id="_1rie" name="handle_SNAP_Limited_Functionality_dialog">
+        <TryStep id="_1rij" name="handle_SNAP_Limited_Functionality_dialog">
+          <ProcedureCall id="_1rjc" procedure="variables.multi_size">
+            <variable name="multi_size">true</variable>
+          </ProcedureCall>
+          <ComponentWaiter client="$(client)"
+                           component="dialogSNAP_-_Limited_Functionality"
+                           id="_1rik" timeout="10"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogSNAP_-_Limited_Functionality.buttonOK"
+                          event="MOUSE_MPRC" id="_1ril" modifiers="16"/>
+          <CatchSequence exception="TestException" id="_1rim" maxerror="0">
+            <ProcedureCall id="_1rjd" procedure="variables.multi_size">
+              <variable name="multi_size">false</variable>
+            </ProcedureCall>
+          </CatchSequence>
+        </TryStep>
+        <ServerScriptStep disabled="true" id="_1l5A" name="print">
+          <code>print "**** multi_size = $(multi_size)"</code>
+        </ServerScriptStep>
       </Procedure>
       <Procedure id="_1pVd" name="handle_dialog_JIDE_software">
         <ComponentWaiter client="$(client)"
@@ -1624,6 +2481,76 @@ rc.setGlobal("zip_file", string.find("$(prod)", ".zip"))</code>
         </ProcedureCall>
         <ProcedureCall id="_1pGk"
                        procedure="do_click.select_source_product_dialog.button_select"/>
+      </Procedure>
+      <Procedure id="_1rin" name="handle_possible_errors_while_product_open">
+        <TryStep id="_1rio" name="find_error_dialog_click_ok">
+          <ProcedureCall id="_1rip"
+                         procedure="wait.appear.error.dialog_open_product"/>
+          <ProcedureCall id="_1riq" procedure="run-log.make_screensot">
+            <variable name="iw_name">error_dialog_open_product</variable>
+            <variable name="iw_name_example">error_dialog</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rir"
+                         procedure="do_click.error_dialog.open_product.button_Yes"/>
+          <ProcedureCall id="_1ris"
+                         procedure="run-log.error_message.error_dialog_appears">
+            <variable name="dialog">'Open Product' error</variable>
+          </ProcedureCall>
+          <CatchSequence exception="TestException" id="_1rit" maxerror="0"/>
+        </TryStep>
+        <TryStep id="_1riu" name="find_error_dialog_click_ok">
+          <ProcedureCall id="_1riv"
+                         procedure="wait.appear.error.dialog_SNAP_open_product"/>
+          <ProcedureCall id="_1riw" procedure="run-log.make_screensot">
+            <variable name="iw_name">dialog_SNAP_open_product</variable>
+            <variable name="iw_name_example">error_dialog</variable>
+          </ProcedureCall>
+          <TryStep id="_1rix">
+            <ProcedureCall id="_1riy"
+                           procedure="get.text_error_dialog_SNAP_Open_Product"/>
+            <CatchSequence exception="TestException" id="_1riz" maxerror="0">
+              <SetGlobalStep id="_1ri+" varname="error_text">
+                <default>$(prod_dir)/$(prod) can not be opened</default>
+              </SetGlobalStep>
+            </CatchSequence>
+          </TryStep>
+          <ProcedureCall id="_1ri-"
+                         procedure="do_click.error_dialog.open_product.button_OK"/>
+          <IfSequence id="_1rj0"
+                      test="&#34;$(error_text)&#34;&lt;&gt;&#34;Open Product&#34; and &#34;$(error_text)&#34;&lt;&gt;&#34;Incomplete SMOS file, unable to handle correctly.&#34;">
+            <ServerScriptStep id="_1rj1" name="error">
+              <code>rc.logError("'$(error_text)'.")</code>
+            </ServerScriptStep>
+            <ElseSequence id="_1rm1">
+              <SetGlobalStep id="_1roj" varname="incomplete_SMOS_file">
+                <default>true</default>
+              </SetGlobalStep>
+            </ElseSequence>
+          </IfSequence>
+          <CatchSequence exception="TestException" id="_1rj2" maxerror="0"/>
+        </TryStep>
+        <TryStep id="_1rj3" name="find_error_dialog_click_ok">
+          <ComponentWaiter client="$(client)" component="dialogSNAP_-_Error"
+                           id="_1rj4" timeout="10"/>
+          <TryStep id="_1rj5">
+            <ProcedureCall id="_1rj6" procedure="run-log.make_screensot">
+              <variable name="iw_name">error_dialog_open_product</variable>
+              <variable name="iw_name_example">error_dialog</variable>
+            </ProcedureCall>
+            <CatchSequence exception="TestException" id="_1rj7" maxerror="0"/>
+          </TryStep>
+          <ProcedureCall id="_1rj8"
+                         procedure="do_click.error_dialog.dialog_SNAP_Error.button_OK"/>
+          <ProcedureCall id="_1rj9"
+                         procedure="run-log.error_message.error_dialog_appears">
+            <variable name="dialog">'Open Product' error</variable>
+          </ProcedureCall>
+          <CatchSequence exception="TestException" id="_1rjA" maxerror="0"/>
+        </TryStep>
+        <ProcedureCall id="_1rid"
+                       procedure="qfs.swing.cleanup.closeAllModalDialogs">
+          <variable name="maxDialogs">5</variable>
+        </ProcedureCall>
       </Procedure>
       <Procedure id="_1oRI" name="bandMaths">
         <ProcedureCall id="_1oRd" procedure="do_click.menubar"/>
@@ -1657,6 +2584,37 @@ rc.setGlobal("zip_file", string.find("$(prod)", ".zip"))</code>
     </Package>
   </PackageRoot>
   <ExtraSequence id="_4">
+    <ServerScriptStep id="_1sLC" name="print">
+      <code>print "${default:varname:defaultvalue}"</code>
+    </ServerScriptStep>
+    <BasicSequence id="_1s6t" name="Aufnahme 11.05.16 14:18">
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSNAP_-_Multiple_Readers_Available.comboMultiple_readers_are_available_for_the_selected_file._The_readers_might_interpret_the_data_differently._Please_select_one_of_the_following:"
+                      event="MOUSE_MPRC" id="_1s6u" modifiers="16" x="192"
+                      y="12"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSNAP_-_Multiple_Readers_Available.comboMultiple_readers_are_available_for_the_selected_file._The_readers_might_interpret_the_data_differently._Please_select_one_of_the_following:"
+                      event="MOUSE_MPRC" id="_1s6v" modifiers="4" popup="true"
+                      x="165" y="13"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogSNAP_-_Multiple_Readers_Available.comboMultiple_readers_are_available_for_the_selected_file._The_readers_might_interpret_the_data_differently._Please_select_one_of_the_following:"
+                       id="_1s6w">
+        <text>Sentinel-3 SLSTR L1B products in 1km resolution</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSNAP_-_Multiple_Readers_Available.listInvokerClass:_ComboBox.Sentinel-3_products"
+                      event="MOUSE_MPRC" id="_1s6x" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogSNAP_-_Multiple_Readers_Available.buttonOK2"
+                      event="MOUSE_MPRC" id="_1s6y" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="NbMainWindow.Product_Explorer.tree&amp;/0"
+                      event="MOUSE_MPRC" id="_1s6z" modifiers="4"
+                      popup="true"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="NbMainWindow2.menuItemClose_Product"
+                      event="MOUSE_MPRC" id="_1s6+" modifiers="16"/>
+    </BasicSequence>
     <Package id="_1p9U" name="image_analysis">
       <Procedure id="_1p7O" name="em_cluster_analysis">
         <comment>@teststep Do click Menu Item 'EM Cluster Analysis'</comment>

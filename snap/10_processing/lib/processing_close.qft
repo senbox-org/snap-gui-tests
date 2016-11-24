@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.4">
+<RootStep id="_0" name="root" version="4.0.11">
   <include>qfs.qft</include>
   <include>processing_main.qft</include>
   <dependency>processing_main.qft</dependency>
@@ -9,6 +9,7 @@
     <Package id="_1lB5" name="close_processing_tool">
       <Package id="_1px6" name="geometric_operations">
         <Procedure id="_1pLf" name="collocation">
+          <comment>@teststep Close 'Collocation' tool window.</comment>
           <TryStep id="_1pE8">
             <ProcedureCall id="_1pLw"
                            procedure="check.collocation.collocation_tool_opened"/>
@@ -17,7 +18,18 @@
             <CatchSequence exception="TestException" id="_1pE9" maxerror="0"/>
           </TryStep>
         </Procedure>
+        <Procedure id="_1qN7" name="resampling">
+          <comment>@teststep Close 'Resampling' tool window.</comment>
+          <TryStep id="_1qN8">
+            <ProcedureCall id="_1qN9"
+                           procedure="check.resampling.resampling_tool_opened"/>
+            <ProcedureCall id="_1qNC"
+                           procedure="do_click.resampling.button_close"/>
+            <CatchSequence exception="TestException" id="_1qNB" maxerror="0"/>
+          </TryStep>
+        </Procedure>
         <Procedure id="_1pLz" name="mosaicing">
+          <comment>@teststep Close 'Mosaicing' tool window.</comment>
           <TryStep id="_1pL+">
             <ProcedureCall id="_1pL-"
                            procedure="check.mosaicing.mosaicing_tool_opened"/>
@@ -26,13 +38,46 @@
             <CatchSequence exception="TestException" id="_1pM1" maxerror="0"/>
           </TryStep>
         </Procedure>
+        <Procedure id="_1qMu" name="binning">
+          <comment>@teststep Close 'Binning' tool window.</comment>
+          <TryStep id="_1qMv">
+            <ProcedureCall id="_1qMw"
+                           procedure="check.binning.binning_tool_opened"/>
+            <ProcedureCall id="_1qMx"
+                           procedure="do_click.binning.button_close"/>
+            <CatchSequence exception="TestException" id="_1qMy" maxerror="0"/>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1qNN" name="pdu_stitching">
+          <comment>@teststep Close 'SLSTR L1B PDU Stitching' tool window.</comment>
+          <TryStep id="_1qNO">
+            <ProcedureCall id="_1qNP"
+                           procedure="check.pdu_stitching.pdu_stitching_tool_opened"/>
+            <ProcedureCall id="_1qNQ"
+                           procedure="do_click.pdu_stitching.button_close"/>
+            <CatchSequence exception="TestException" id="_1qNR" maxerror="0"/>
+          </TryStep>
+        </Procedure>
         <Procedure id="_1pLq" name="reprojection">
+          <comment>@teststep Close 'Reprojection' tool window.</comment>
           <TryStep id="_1pLr">
             <ProcedureCall id="_1pLv"
                            procedure="check.reprojection.reprojection_tool_opened"/>
             <ProcedureCall id="_1pLt"
                            procedure="do_click.reprojection.button_close"/>
             <CatchSequence exception="TestException" id="_1pLu" maxerror="0"/>
+          </TryStep>
+          <TryStep id="_1qNX">
+            <ProcedureCall id="_1qNY"
+                           procedure="check.reprojection.reprojection_tool_opened"/>
+            <ProcedureCall disabled="true" id="_1qNb"
+                           procedure="run-log.make_screensot">
+              <variable name="iw_name">close_processor_window</variable>
+              <variable name="iw_name_example">error_dialog</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1qNc"
+                           procedure="error_handling.if_any_error_make_screenshot_shoot_error_message"/>
+            <CatchSequence exception="TestException" id="_1qNa" maxerror="0"/>
           </TryStep>
         </Procedure>
       </Package>
@@ -47,9 +92,20 @@
             <CatchSequence exception="TestException" id="_1qMs" maxerror="0"/>
           </TryStep>
         </Procedure>
+        <Procedure id="_1qN2" name="kmean_cluster_analysis">
+          <comment>@teststep Close 'K-Mean Cluster Analysis' tool.</comment>
+          <TryStep id="_1qN3">
+            <ProcedureCall id="_1qN4"
+                           procedure="check.k_means_cluster_analysis.k_means_cluster_analysis_tool_opened"/>
+            <ProcedureCall id="_1qN5"
+                           procedure="do_click.kmean_cluster_analysis.button_close"/>
+            <CatchSequence exception="TestException" id="_1qN6" maxerror="0"/>
+          </TryStep>
+        </Procedure>
       </Package>
       <Package id="_1py4" name="spectral_tools">
         <Procedure id="_1pLg" name="spectral_unmixing">
+          <comment>@teststep Close 'Spectral Unmixing' tool window.</comment>
           <TryStep id="_1pLh">
             <ProcedureCall id="_1pLx"
                            procedure="check.spectral_unmixing.spectral_unmixing_tool_opened"/>
@@ -60,7 +116,18 @@
         </Procedure>
       </Package>
       <Package id="_1pxa" name="thematic_land_processing">
+        <Procedure id="_1qNI" name="scape_m_processor">
+          <comment>@teststep Close 'SCAPE-M Processor'</comment>
+          <TryStep id="_1qNJ">
+            <ProcedureCall id="_1qNK"
+                           procedure="check.scape_m.scape_m_processor_opened"/>
+            <ProcedureCall id="_1qNL"
+                           procedure="do_click.ndvi_processor.button_close"/>
+            <CatchSequence exception="TestException" id="_1qNM" maxerror="0"/>
+          </TryStep>
+        </Procedure>
         <Procedure id="_1pLl" name="ndvi_processor">
+          <comment>@teststep Close 'NDVI Processor'</comment>
           <TryStep id="_1pLm">
             <ProcedureCall id="_1pLy"
                            procedure="check.ndvi_processor.ndvi_processor_opened"/>
@@ -70,6 +137,7 @@
           </TryStep>
         </Procedure>
         <Procedure id="_1pt5" name="meris_aatsr_smac_atmospheric_correction">
+          <comment>@teststep Close 'Meris AATSR SMAC Atmospheric Correction' tool window.</comment>
           <TryStep id="_1qMg">
             <ProcedureCall id="_1qMh"
                            procedure="check.smac.meris_aatsr_smac_atm_correction_tool_opened"/>
@@ -89,8 +157,28 @@
             <CatchSequence exception="TestException" id="_1pwx" maxerror="0"/>
           </TryStep>
         </Procedure>
+        <Procedure id="_1qNd" name="fub_wew_processor">
+          <comment>@teststep Close 'FUB/WeW Processor'</comment>
+          <TryStep id="_1qNe">
+            <ProcedureCall id="_1qNf"
+                           procedure="check.fub_wew_processor.fub_wew_tool_opened"/>
+            <ProcedureCall id="_1qNg"
+                           procedure="do_click.fub_wew_processor.button_close"/>
+            <CatchSequence exception="TestException" id="_1qNh" maxerror="0"/>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1qND" name="fu_classification">
+          <comment>@teststep Close 'FU Classification Processor'</comment>
+          <TryStep id="_1qNE">
+            <ProcedureCall id="_1qNF"
+                           procedure="check.flh_mci_processor.flh_mci_tool_opened"/>
+            <ProcedureCall id="_1qNG"
+                           procedure="do_click.flh_mci_processor.button_close"/>
+            <CatchSequence exception="TestException" id="_1qNH" maxerror="0"/>
+          </TryStep>
+        </Procedure>
         <Procedure id="_1psl" name="aatsr_sst_processor">
-          <comment>@teststep Do click Menu Item '(A)ATSR SST Processor'</comment>
+          <comment>@teststep Close '(A)ATSR SST Processor'</comment>
           <TryStep id="_1qMk">
             <ProcedureCall id="_1qMl"
                            procedure="check.aatsr_sst_processor.aatsr_sst_processor_opened"/>
@@ -99,10 +187,40 @@
             <CatchSequence exception="TestException" id="_1qMn" maxerror="0"/>
           </TryStep>
         </Procedure>
+        <Procedure id="_1qNS" name="arc_sst_processor">
+          <comment>@teststep Close 'ARC SST Processor'</comment>
+          <TryStep id="_1qNT">
+            <ProcedureCall id="_1qNU"
+                           procedure="check.arc_sst_processor.arc_sst_processor_opened"/>
+            <ProcedureCall id="_1qNV"
+                           procedure="do_click.arc_sst_processor.button_close"/>
+            <CatchSequence exception="TestException" id="_1qNW" maxerror="0"/>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1qNi" name="s2_mci_processor">
+          <comment>@teststep Close 'S2 MCI Processor'</comment>
+          <TryStep id="_1qNj">
+            <ProcedureCall id="_1qNk"
+                           procedure="check.s2_mci_processor.s2_mci_processor_opened"/>
+            <ProcedureCall id="_1qNs"
+                           procedure="do_click.s2_mci_processor.button_close"/>
+            <CatchSequence exception="TestException" id="_1qNm" maxerror="0"/>
+          </TryStep>
+        </Procedure>
+        <Procedure id="_1qNn" name="owt_classification">
+          <comment>@teststep Close 'OWT Classification Processor'</comment>
+          <TryStep id="_1qNo">
+            <ProcedureCall id="_1qNp"
+                           procedure="check.owt_classification.owt_classification_tool_opened"/>
+            <ProcedureCall id="_1qNt"
+                           procedure="do_click.owt_classification.button_close"/>
+            <CatchSequence exception="TestException" id="_1qNr" maxerror="0"/>
+          </TryStep>
+        </Procedure>
       </Package>
       <Package id="_1pxq" name="preprocessing">
         <Procedure id="_1pxr" name="meris_radiometric_correction_processor">
-          <comment>@teststep Do click Menu Item 'MERIS Radiometric Correction'.</comment>
+          <comment>@teststep Close 'MERIS Radiometric Correction'.</comment>
           <TryStep id="_1py5">
             <ProcedureCall id="_1py6"
                            procedure="check.meris_radiometric_correction.meris_radiometric_correction_tool_opened"/>
@@ -112,7 +230,7 @@
           </TryStep>
         </Procedure>
         <Procedure id="_1ps+" name="meris_cloud_probability_processor">
-          <comment>@teststep Do click Menu Item 'MERIS Cloud Probability Processor'</comment>
+          <comment>@teststep Close 'MERIS Cloud Probability Processor'</comment>
           <TryStep id="_1py9">
             <ProcedureCall id="_1pyA"
                            procedure="check.meris_cloud_probability.meris_cloud_probability_tool_opened"/>
@@ -121,16 +239,17 @@
             <CatchSequence exception="TestException" id="_1pyC" maxerror="0"/>
           </TryStep>
         </Procedure>
+        <Procedure id="_1qMz" name="land_water_mask">
+          <comment>@teststep Close 'Land/Water Mask' tool window.</comment>
+          <TryStep id="_1qM+">
+            <ProcedureCall id="_1qM-"
+                           procedure="check.meris_cloud_probability.meris_cloud_probability_tool_opened"/>
+            <ProcedureCall id="_1qN0"
+                           procedure="do_click.meris_cloud_probability.button_close"/>
+            <CatchSequence exception="TestException" id="_1qN1" maxerror="0"/>
+          </TryStep>
+        </Procedure>
       </Package>
-      <Procedure id="_1pwo" name="binning">
-        <TryStep id="_1pwp">
-          <ProcedureCall id="_1pwn"
-                         procedure="check.binning.binning_tool_opened"/>
-          <ProcedureCall id="_1pwr"
-                         procedure="do_click.binning.button_close"/>
-          <CatchSequence exception="TestException" id="_1pws" maxerror="0"/>
-        </TryStep>
-      </Procedure>
     </Package>
   </PackageRoot>
   <ExtraSequence id="_4">

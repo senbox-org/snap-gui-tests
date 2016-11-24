@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.4">
+<RootStep id="_0" name="root" version="4.0.11">
   <include>qfs.qft</include>
   <include>snap_components.qft</include>
   <include>snap_main.qft</include>
@@ -64,7 +64,7 @@
                 </ServerScriptStep>
               </CatchSequence>
             </TryStep>
-            <RepeatSequence count="4" id="_1qcv"
+            <RepeatSequence count="4" id="_1s70"
                             name="handle_product_modified_dialog">
               <TryStep id="_1pXV" name="click_No_in_product_modified_dialog">
                 <ProcedureCall id="_1pXW"
@@ -120,6 +120,13 @@
         <MouseEventStep clicks="1" client="$(client)"
                         component="NbMainWindow.menuItemClose_Other_Products"
                         event="MOUSE_MPRC" id="_1rex" modifiers="16"/>
+        <TryStep id="_1rey" name="click_No_in_product_modified_dialog">
+          <ProcedureCall id="_1rez"
+                         procedure="wait.appear.dialog.product_modified"/>
+          <ProcedureCall id="_1re+"
+                         procedure="do_click.product_modified_dialog.button_No"/>
+          <CatchSequence exception="TestException" id="_1re-" maxerror="0"/>
+        </TryStep>
       </Procedure>
       <Procedure id="_1qcw" name="selected_product">
         <comment>@teststep Close all products.</comment>
@@ -130,7 +137,7 @@
           </ProcedureCall>
           <CatchSequence exception="TestException" id="_1qd0" maxerror="0"/>
         </TryStep>
-        <TryStep id="_1qd2" name="select_menu_close_session">
+        <TryStep id="_1qd2" name="select_menu_close_product">
           <ProcedureCall id="_1qd3" procedure="do_click.menu.file"/>
           <ProcedureCall id="_1qd4"
                          procedure="do_click.menu.file.close_product"/>
@@ -186,7 +193,7 @@
         </ProcedureCall>
       </Procedure>
       <Procedure id="_1lDa" name="modal_dialogs">
-        <TryStep id="_1pXc">
+        <TryStep disabled="true" id="_1pXc">
           <ComponentWaiter client="$(client)" component="genericModalDialog"
                            id="_3CY" timeout="50"/>
           <ProcedureCall id="_1pXe" procedure="run-log.make_screensot">

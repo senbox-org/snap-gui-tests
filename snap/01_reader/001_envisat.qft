@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.4">
+<RootStep id="_0" name="root" version="4.0.9">
   <include>qfs.qft</include>
   <include>reader.qft</include>
   <TestSet id="_1" name="001_01_import_envisat_product"
            reportname="001-01 Import ENVISAT MERIS,AATSR product or subset">
     <DependencyReference id="_1lWz"
                          reference="dependencies.start_application"/>
-    <TestSet id="_D" name="import_product_open_image_window">
+    <TestSet id="_D" name="import_product_n1_format_open_image_window">
       <DataDriver id="_3y4"
                   loopreportname="Import $(dataInDir)/$(fileName) data product"
                   name="dataTable">
-        <ProcedureCall id="_Bt4" procedure="tables.envisat_multispectral"/>
+        <ProcedureCall id="_Bt4"
+                       procedure="tables.optical_sensors.envisat.envisat_multispectral"/>
       </DataDriver>
       <TestCase id="_2" name="test" reportname="$(productName)">
         <ProcedureCall id="_1lW+" procedure="test_import">
@@ -19,8 +20,43 @@
         </ProcedureCall>
       </TestCase>
     </TestSet>
+    <TestSet id="_1lW-"
+             name="import_meris_level2_product_sen3_format_open_image_window">
+      <comment>meris_l1_sen3
+meris_l2_sen3
+MERIS Level 1 (S3 Format)</comment>
+      <DataDriver id="_1lX0"
+                  loopreportname="Import $(dataInDir)/$(fileName) data product"
+                  name="dataTable">
+        <ProcedureCall id="_1lX1"
+                       procedure="tables.optical_sensors.envisat.meris_level2_sen3"/>
+      </DataDriver>
+      <TestCase id="_1lX2" name="test" reportname="$(productName)">
+        <ProcedureCall id="_1lX3" procedure="test_import">
+          <variable name="prod_reader_type">meris_l2_sen3</variable>
+        </ProcedureCall>
+      </TestCase>
+    </TestSet>
   </TestSet>
   <PackageRoot id="_3"/>
-  <ExtraSequence id="_4"/>
+  <ExtraSequence id="_4">
+    <TestSet id="_1qcw"
+             name="import_meris_level1_product_sen3_format_open_image_window">
+      <comment>meris_l1_sen3
+meris_l2_sen3
+MERIS Level 1 (S3 Format)</comment>
+      <DataDriver id="_1qcx"
+                  loopreportname="Import $(dataInDir)/$(fileName) data product"
+                  name="dataTable">
+        <ProcedureCall id="_1qcy"
+                       procedure="tables.optical_sensors.envisat.meris_level1_sen3"/>
+      </DataDriver>
+      <TestCase id="_1qcz" name="test" reportname="$(productName)">
+        <ProcedureCall id="_1qc+" procedure="test_import">
+          <variable name="prod_reader_type">meris_l1_sen3</variable>
+        </ProcedureCall>
+      </TestCase>
+    </TestSet>
+  </ExtraSequence>
   <WindowList id="_5"/>
 </RootStep>

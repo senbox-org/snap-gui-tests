@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.7">
+<RootStep id="_0" name="root" version="4.0.11">
   <include>qfs.qft</include>
   <include>../lib/snap_main.qft</include>
   <include>../lib/snap_components.qft</include>
@@ -31,10 +31,38 @@
   <dependency>001_seaDAS_L2.qft</dependency>
   <dependency>001_seaDAS_L3.qft</dependency>
   <dependency>001_sentinel3.qft</dependency>
+  <dependency>001_sentinel2.qft</dependency>
   <dependency>001_smos.qft</dependency>
   <dependency>001_spot_vgt.qft</dependency>
   <dependency>001_viirs.qft</dependency>
   <PackageRoot id="_3">
+    <Procedure id="_1rz0" name="close_import_dialog_shoot_error">
+      <TryStep id="_1rz1">
+        <SetGlobalStep id="_1rz9" varname="import_dialog_closed">
+          <default>true</default>
+        </SetGlobalStep>
+        <ComponentWaiter client="$(client)"
+                         component="dialogSNAP_-_Import_Product.buttonCancel"
+                         errorlevel="0" id="_1rz2" raise="false"
+                         timeout="10"/>
+        <ProcedureCall id="_1rz3" procedure="run-log.make_screensot">
+          <variable name="iw_name">import_product_dialog</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1rz4"
+                       procedure="do_click.open_product_dialog.cancel"/>
+        <SetGlobalStep id="_1rzA" varname="import_dialog_closed">
+          <default>false</default>
+        </SetGlobalStep>
+        <ProcedureCall id="_1rz5" procedure="run-log.logError">
+          <variable name="message">Import dialog has remained after clicking on the 'Import Subset' button</variable>
+        </ProcedureCall>
+        <CatchSequence exception="TestException" id="_1rz6" maxerror="0">
+          <SetGlobalStep id="_1rzB" varname="import_dialog_closed">
+            <default>true</default>
+          </SetGlobalStep>
+        </CatchSequence>
+      </TryStep>
+    </Procedure>
     <Procedure id="_6" name="test_import">
       <variable name="prod_reader_type"/>
       <TestStep id="_1rZH" name="import_data_product">
@@ -59,14 +87,14 @@
             <variable name="y">200</variable>
           </ProcedureCall>
           <TestStep id="_1rZ2" name="set_geo_coordinates">
-            <SetGlobalStep id="_1rZ3" varname="north_latitude">
-              <default>$(latitude)</default>
-            </SetGlobalStep>
-            <SetGlobalStep id="_1rZ4" varname="west_longitude">
-              <default>$(longitude)</default>
-            </SetGlobalStep>
             <IfSequence id="_1rZI"
-                        test="&#34;$(north_latitude)&#34;&lt;&gt;&#34;NaN&#34; and &#34;$(west_longitude)&#34;&lt;&gt;&#34;NaN&#34;">
+                        test="&#34;$(north_lat)&#34;&lt;&gt;&#34;NaN&#34; and &#34;$(west_lon)&#34;&lt;&gt;&#34;NaN&#34;">
+              <SetGlobalStep id="_1rZd" varname="north_latitude">
+                <default>$(latitude)</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1rZ4" varname="west_longitude">
+                <default>$(longitude)</default>
+              </SetGlobalStep>
               <ServerScriptStep id="_1rZ5" name="south_latitude">
                 <code>vl = $(north_latitude)
 vl = vl - 10   
@@ -112,42 +140,225 @@ rc.setGlobal("east_longitude", vl)                       </code>
       </IfSequence>
       <ProcedureCall id="_1lEz" procedure="close.all_products"/>
       <TestStep id="_1rZE" name="import_subset">
-        <IfSequence id="_1lE-" test="&#34;$(processing)&#34;==&#34;true&#34;">
-          <TestStep id="_1lF7"
+        <IfSequence id="_1rZR" test="&#34;$(processing)&#34;==&#34;true&#34;">
+          <ProcedureCall id="_1rZf"
+                         procedure="qfs.swing.cleanup.closeAllModalDialogs">
+            <variable name="maxDialogs">5</variable>
+          </ProcedureCall>
+          <IfSequence id="_1rZe"
+                      test="&#34;$(geo_coding)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1rZg"
+                           procedure="import.spatial_subset_according_to_geo_position">
+              <variable name="import_data">$(prod_reader_type)</variable>
+            </ProcedureCall>
+            <ElseSequence id="_1rZj">
+              <ProcedureCall id="_1rZk"
+                             procedure="import.spatial_subset_according_to_pixel_position">
+                <variable name="import_data">$(prod_reader_type)</variable>
+              </ProcedureCall>
+            </ElseSequence>
+          </IfSequence>
+          <ProcedureCall id="_1rzI"
+                         procedure="close_import_dialog_shoot_error"/>
+          <ProcedureCall id="_1rzJ"
+                         procedure="qfs.swing.cleanup.closeAllModalDialogs">
+            <variable name="maxDialogs">5</variable>
+          </ProcedureCall>
+          <TestStep id="_1rzE" name="check_imported_subset_product_in_SNAP">
+            <IfSequence id="_1rzD"
+                        test="&#34;$(import_dialog_closed)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1rZh"
+                             procedure="utility.check_imported_subset_in_SNAP"/>
+            </IfSequence>
+            <ProcedureCall id="_1r+L"
+                           procedure="utility.check_imported_subset_in_SNAP"/>
+          </TestStep>
+          <ProcedureCall id="_1rZi" procedure="close.all_products"/>
+        </IfSequence>
+      </TestStep>
+    </Procedure>
+  </PackageRoot>
+  <ExtraSequence id="_4">
+    <Procedure id="_1rzK" name="test_import">
+      <variable name="prod_reader_type"/>
+      <TestStep id="_1rzL" name="import_data_product">
+        <ProcedureCall id="_1rzM"
+                       procedure="qfs.swing.cleanup.closeAllModalDialogs">
+          <variable name="maxDialogs">5</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1rzN" procedure="import.raster_data">
+          <variable name="import_data">$(prod_reader_type)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1rzO"
+                       procedure="utility.open_image_view_check_it"/>
+      </TestStep>
+      <IfSequence id="_1rzP" name="get_geo_coordinates"
+                  test="&#34;$(processing)&#34;==&#34;true&#34;">
+        <ProcedureCall id="_1rzQ" procedure="check.product.not_opened"/>
+        <IfSequence id="_1rzR"
+                    test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+          <ProcedureCall id="_1rzS"
+                         procedure="placemark.utility_sequences.get_lat_and_long_values_for_pin_pos_x_y">
+            <variable name="x">200</variable>
+            <variable name="y">200</variable>
+          </ProcedureCall>
+          <TestStep id="_1rzT" name="set_geo_coordinates">
+            <IfSequence id="_1rzU"
+                        test="&#34;$(north_lat)&#34;&lt;&gt;&#34;NaN&#34; and &#34;$(west_lon)&#34;&lt;&gt;&#34;NaN&#34;">
+              <SetGlobalStep id="_1rzV" varname="north_latitude">
+                <default>$(latitude)</default>
+              </SetGlobalStep>
+              <SetGlobalStep id="_1rzW" varname="west_longitude">
+                <default>$(longitude)</default>
+              </SetGlobalStep>
+              <ServerScriptStep id="_1rzX" name="south_latitude">
+                <code>vl = $(north_latitude)
+vl = vl - 10   
+rc.setGlobal("south_latitude", vl)                       </code>
+              </ServerScriptStep>
+              <ServerScriptStep id="_1rzY" name="east_longitude">
+                <code>vl = $(west_longitude)
+vl = vl + 10   
+rc.setGlobal("east_longitude", vl)                       </code>
+              </ServerScriptStep>
+              <SetGlobalStep id="_1rzZ" varname="geo_coding">
+                <default>true</default>
+              </SetGlobalStep>
+              <ElseSequence id="_1rza">
+                <SetGlobalStep id="_1rzb" varname="geo_coding">
+                  <default>false</default>
+                </SetGlobalStep>
+              </ElseSequence>
+            </IfSequence>
+            <BasicSequence disabled="true" id="_1rzc" name="print">
+              <ServerScriptStep id="_1rzd" name="print">
+                <code>print "north_lat = $(north_latitude)"  </code>
+              </ServerScriptStep>
+              <ServerScriptStep id="_1rze" name="print">
+                <code>print "west_lon = $(west_longitude)"  </code>
+              </ServerScriptStep>
+              <ServerScriptStep id="_1rzf" name="print">
+                <code>print "south_lat = $(south_latitude)"  </code>
+              </ServerScriptStep>
+              <ServerScriptStep id="_1rzg" name="print">
+                <code>print "east_lon = $(east_longitude)"  </code>
+              </ServerScriptStep>
+            </BasicSequence>
+          </TestStep>
+          <ProcedureCall id="_1rzh"
+                         procedure="placemark.new_pin.do_click.cancel_button"/>
+          <ElseSequence id="_1rzi">
+            <SetGlobalStep id="_1rzj" varname="geo_coding">
+              <default>false</default>
+            </SetGlobalStep>
+          </ElseSequence>
+        </IfSequence>
+      </IfSequence>
+      <ProcedureCall id="_1rzk" procedure="close.all_products"/>
+      <TestStep id="_1rzl" name="import_subset">
+        <ServerScriptStep disabled="true" id="_1rzm" name="print">
+          <code>print "**** multi_size = $(multi_size)"</code>
+        </ServerScriptStep>
+        <IfSequence disabled="true" id="_1rzn"
+                    test="&#34;$(processing)&#34;==&#34;true&#34; and &#34;$(multi_size)&#34;==&#34;false&#34;">
+          <TestStep id="_1rzo"
                     name="import_band_and_spatial_subset_according_pixel_pos">
-            <ProcedureCall id="_1rZF"
+            <ProcedureCall id="_1rzp"
                            procedure="qfs.swing.cleanup.closeAllModalDialogs">
               <variable name="maxDialogs">5</variable>
             </ProcedureCall>
-            <ProcedureCall id="_1lE+"
+            <ProcedureCall id="_1rzq"
                            procedure="import.spatial_subset_according_to_pixel_position">
               <variable name="import_data">$(prod_reader_type)</variable>
             </ProcedureCall>
-            <ProcedureCall id="_1rZO"
+            <ProcedureCall id="_1rzr"
                            procedure="utility.check_imported_subset_in_SNAP"/>
-            <ProcedureCall id="_1lEv" procedure="close.all_products"/>
+            <ProcedureCall id="_1rzs" procedure="close.all_products"/>
           </TestStep>
-          <TestStep id="_1lF8"
+          <TestStep id="_1rzt"
                     name="import_band_and_spatial_subset_according_geo_pos">
-            <IfSequence id="_1rZM"
+            <IfSequence id="_1rzu"
                         test="&#34;$(geo_coding)&#34;==&#34;true&#34;">
-              <ProcedureCall id="_1rZG"
+              <ProcedureCall id="_1rzv"
                              procedure="qfs.swing.cleanup.closeAllModalDialogs">
                 <variable name="maxDialogs">5</variable>
               </ProcedureCall>
-              <ProcedureCall id="_1lF1"
+              <ProcedureCall id="_1rzw"
                              procedure="import.spatial_subset_according_to_geo_position">
                 <variable name="import_data">$(prod_reader_type)</variable>
               </ProcedureCall>
-              <ProcedureCall id="_1rZC"
+              <ProcedureCall id="_1rzx"
                              procedure="utility.check_imported_subset_in_SNAP"/>
-              <ProcedureCall id="_1lF3" procedure="close.all_products"/>
+              <ProcedureCall id="_1rzy" procedure="close.all_products"/>
+            </IfSequence>
+          </TestStep>
+        </IfSequence>
+        <IfSequence id="_1rzz" test="&#34;$(processing)&#34;==&#34;true&#34;">
+          <ProcedureCall id="_1rz+"
+                         procedure="qfs.swing.cleanup.closeAllModalDialogs">
+            <variable name="maxDialogs">5</variable>
+          </ProcedureCall>
+          <IfSequence id="_1rz-"
+                      test="&#34;$(geo_coding)&#34;==&#34;true&#34;">
+            <ProcedureCall id="_1r+0"
+                           procedure="import.spatial_subset_according_to_geo_position">
+              <variable name="import_data">$(prod_reader_type)</variable>
+            </ProcedureCall>
+            <ElseSequence id="_1r+1">
+              <ProcedureCall id="_1r+2"
+                             procedure="import.spatial_subset_according_to_pixel_position">
+                <variable name="import_data">$(prod_reader_type)</variable>
+              </ProcedureCall>
+            </ElseSequence>
+          </IfSequence>
+          <ProcedureCall id="_1r+3"
+                         procedure="close_import_dialog_shoot_error"/>
+          <ProcedureCall id="_1r+4"
+                         procedure="qfs.swing.cleanup.closeAllModalDialogs">
+            <variable name="maxDialogs">5</variable>
+          </ProcedureCall>
+          <TestStep id="_1r+5" name="check_imported_subset_product_in_SNAP">
+            <IfSequence id="_1r+6"
+                        test="&#34;$(import_dialog_closed)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1r+7"
+                             procedure="utility.check_imported_subset_in_SNAP"/>
+            </IfSequence>
+          </TestStep>
+          <ProcedureCall id="_1r+8" procedure="close.all_products"/>
+          <TestStep disabled="true" id="_1r+9"
+                    name="import_band_and_spatial_subset_according_pixel_pos">
+            <ProcedureCall id="_1r+A"
+                           procedure="qfs.swing.cleanup.closeAllModalDialogs">
+              <variable name="maxDialogs">5</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1r+B"
+                           procedure="import.spatial_subset_according_to_pixel_position">
+              <variable name="import_data">$(prod_reader_type)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1r+C"
+                           procedure="utility.check_imported_subset_in_SNAP"/>
+            <ProcedureCall id="_1r+D" procedure="close.all_products"/>
+          </TestStep>
+          <TestStep disabled="true" id="_1r+E"
+                    name="import_band_and_spatial_subset_according_geo_pos">
+            <IfSequence id="_1r+F"
+                        test="&#34;$(geo_coding)&#34;==&#34;true&#34;">
+              <ProcedureCall id="_1r+G"
+                             procedure="qfs.swing.cleanup.closeAllModalDialogs">
+                <variable name="maxDialogs">5</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1r+H"
+                             procedure="import.spatial_subset_according_to_geo_position">
+                <variable name="import_data">$(prod_reader_type)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1r+I"
+                             procedure="utility.check_imported_subset_in_SNAP"/>
+              <ProcedureCall id="_1r+J" procedure="close.all_products"/>
             </IfSequence>
           </TestStep>
         </IfSequence>
       </TestStep>
     </Procedure>
-  </PackageRoot>
-  <ExtraSequence id="_4"/>
+  </ExtraSequence>
   <WindowList id="_5"/>
 </RootStep>

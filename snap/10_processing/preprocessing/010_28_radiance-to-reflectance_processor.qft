@@ -1,0 +1,853 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.11">
+  <include>qfs.qft</include>
+  <include>../../lib/snap_main.qft</include>
+  <include>../lib/processing_main.qft</include>
+  <variable name="output_folder">radiance_to_reflectance</variable>
+  <variable name="conversion_mode_def">RAD_TO_REFL</variable>
+  <variable name="sensor_def">OLCI</variable>
+  <TestSet id="_2" name="010_28_radiance-to-reflectance_processor"
+           reportname="010-28 Radiance-to-reflectance Processor">
+    <DependencyReference id="_1pO-"
+                         reference="start_application_for_processing">
+      <variable name="output_dir">$(output_folder)</variable>
+    </DependencyReference>
+    <TestCase id="_8cc" name="01_check_ui"
+              reportname="01 Check Radiance-to-reflectance Processor UI">
+      <ProcedureCall id="_1s6N" procedure="open_tool_window"/>
+      <TestStep id="_1pM7" name="default_componets">
+        <TryStep id="_1sY0"
+                 name="check_radiance-to-reflectance_processor_tool_is_opened_else_open">
+          <ProcedureCall id="_1sY1"
+                         procedure="check.radiance-to-reflectance_processor.radiance-to-reflectance_processor_opened"/>
+          <CatchSequence exception="TestException" id="_1sY2" maxerror="0">
+            <ProcedureCall id="_1sY4" procedure="open_tool_window"/>
+          </CatchSequence>
+        </TryStep>
+        <ProcedureCall id="_1s8v"
+                       procedure="check.radiance-to-reflectance_processor.enabled.button_apply"/>
+        <ProcedureCall id="_1s8w"
+                       procedure="check.radiance-to-reflectance_processor.enabled.button_close"/>
+        <ProcedureCall id="_1s8z"
+                       procedure="check.radiance-to-reflectance_processor.enabled.menu_file"/>
+        <ProcedureCall id="_1s8+"
+                       procedure="check.radiance-to-reflectance_processor.enabled.menu_help"/>
+        <TestStep id="_1pbB" name="io_parameters">
+          <ProcedureCall id="_1pbA" procedure="select_io_tab"/>
+          <ProcedureCall id="_1s8x"
+                         procedure="check.radiance-to-reflectance_processor.enabled.button_directory"/>
+          <ProcedureCall id="_1s8y"
+                         procedure="check.radiance-to-reflectance_processor.enabled.button_source_product"/>
+          <ProcedureCall id="_1s90"
+                         procedure="check.radiance-to-reflectance_processor.enabled.open_in_snap_enabled_status">
+            <variable name="enabled">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s92"
+                         procedure="check.radiance-to-reflectance_processor.enabled.save_as_enabled_status">
+            <variable name="enabled">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s8s"
+                         procedure="check.radiance-to-reflectance_processor.checked.open_in_snap_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1s8u"
+                         procedure="check.radiance-to-reflectance_processor.checked.save_as_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pbG" name="processing_parameters">
+          <ProcedureCall id="_1pbF"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_1sBv"
+                         procedure="check.radiance-to-reflectance_processor.text.sensor">
+            <variable name="val">$(sensor_def)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1sX4"
+                         procedure="check.radiance-to-reflectance_processor.text.conversion_mode">
+            <variable name="val">$(conversion_mode_def)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1sBw"
+                         procedure="check.radiance-to-reflectance_processor.checked.copy_non_spectral_bands_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </TestStep>
+      </TestStep>
+      <ProcedureCall id="_1s6d" procedure="close_processor_tool"/>
+    </TestCase>
+    <TestSet id="_1pMP" name="02_processing">
+      <TestCase id="_40q" name="store_load_display_parameters">
+        <variable name="ofn">radiance-to-reflectance_processor_save_parameters.xml</variable>
+        <variable name="sensor_name">MERIS</variable>
+        <variable name="conv_mode">REFL_TO_RAD</variable>
+        <variable name="output_file">radiance-to-reflectance_processor_save_parameters.dim</variable>
+        <variable name="source_data">xfdumanifest.xml</variable>
+        <variable name="source_dir">sentinel3_S3A_OL_1_EFR_20160310T014756_0179</variable>
+        <ProcedureCall id="_1s6P" procedure="open_tool_window"/>
+        <TestStep id="_1pOt" name="change_parameters">
+          <ProcedureCall id="_1qGC"
+                         procedure="preparation_for_test_io_parameters"/>
+          <ProcedureCall id="_1s9J"
+                         procedure="deselect.radiance-to-reflectance_processor.save_as"/>
+          <ProcedureCall id="_1s9K"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall disabled="true" id="_1sBy"
+                         procedure="select.radiance-to-reflectance_processor.copy_non_spectral_bands"/>
+          <ProcedureCall id="_1sY5"
+                         procedure="deselect.radiance-to-reflectance_processor.copy_non_spectral_bands"/>
+          <ProcedureCall id="_1sBz"
+                         procedure="select.radiance-to-reflectance_processor.sensor">
+            <variable name="sensor">$(sensor_name)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1sXA"
+                         procedure="select.radiance-to-reflectance_processor.conversion_mode">
+            <variable name="conversion_mode">$(conv_mode)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <ProcedureCall id="_1pPE" procedure="store_parameters"/>
+        <TestStep id="_1pPg" name="change_parameters">
+          <ProcedureCall id="_1s9R"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_1sXB"
+                         procedure="select.radiance-to-reflectance_processor.copy_non_spectral_bands"/>
+          <ProcedureCall disabled="true" id="_1sY6"
+                         procedure="deselect.radiance-to-reflectance_processor.copy_non_spectral_bands"/>
+          <ProcedureCall id="_1sXC"
+                         procedure="select.radiance-to-reflectance_processor.sensor">
+            <variable name="sensor">$(sensor_def)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1sXD"
+                         procedure="select.radiance-to-reflectance_processor.conversion_mode">
+            <variable name="conversion_mode">$(conversion_mode_def)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <ProcedureCall id="_1pPl" procedure="load_parameters"/>
+        <TestStep id="_1pPm" name="check_parameters">
+          <ProcedureCall id="_1pfY"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_1sXE"
+                         procedure="check.radiance-to-reflectance_processor.text.sensor">
+            <variable name="val">$(sensor_name)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1sXF"
+                         procedure="check.radiance-to-reflectance_processor.text.conversion_mode">
+            <variable name="val">$(conv_mode)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1sXG"
+                         procedure="check.radiance-to-reflectance_processor.checked.copy_non_spectral_bands_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pV8" name="display_parameters">
+          <ProcedureCall id="_1pbU" procedure="display_parameters_and_check"/>
+          <ProcedureCall id="_1s6f" procedure="close_processor_tool"/>
+        </TestStep>
+      </TestCase>
+      <TestCase id="_1pZO" name="cancel_processing">
+        <variable name="output_file">radiance-to-reflectance_processo_cancel.dim</variable>
+        <variable name="source_data">xfdumanifest.xml</variable>
+        <variable name="source_dir">sentinel3_S3A_OL_1_EFR_20160310T014756_0179</variable>
+        <ProcedureCall id="_1s6Q" procedure="open_tool_window"/>
+        <ProcedureCall id="_1qGx"
+                       procedure="preparation_for_test_io_parameters"/>
+        <ProcedureCall id="_1s9L"
+                       procedure="select.radiance-to-reflectance_processor.save_as"/>
+        <ProcedureCall disabled="true" id="_1sDc"
+                       procedure="select_processing_parameters_tab"/>
+        <TestStep id="_1pZQ" name="cancel_processing">
+          <ProcedureCall id="_1qGy"
+                         procedure="do_click.radiance-to-reflectance_processor.button_apply"/>
+          <ProcedureCall id="_1pa9" procedure="cancel_operators"/>
+        </TestStep>
+        <ProcedureCall id="_1sX-"
+                       procedure="utility.check_if_processing_is_really_canceled"/>
+        <ProcedureCall id="_1s6g" procedure="close_processor_tool"/>
+      </TestCase>
+      <TestSet id="_1sXI" name="processing_in_different_formats_olci">
+        <variable name="sensor_name">OLCI</variable>
+        <variable name="source_data">xfdumanifest.xml</variable>
+        <variable name="source_dir">sentinel3_S3A_OL_1_EFR_20160310T014756_0179</variable>
+        <SetupSequence id="_1sXJ" name="prepare_for_the_testing">
+          <ProcedureCall id="_1sXz" procedure="preparation_for_processing">
+            <variable name="sensor_name">$(sensor_name)</variable>
+          </ProcedureCall>
+        </SetupSequence>
+        <TestSet id="_1sXQ" name="processing">
+          <DataDriver id="_1sXR"
+                      loopreportname="Write the target product as $(output_format)"
+                      name="output_formats">
+            <ProcedureCall id="_1sXS" procedure="tables.output_formats"/>
+          </DataDriver>
+          <TestCase id="_1sXT" name="processing_in_different_formats"
+                    reportname="Processing in $(output_format) format and check output product">
+            <ServerScriptStep disabled="true" id="_1sXU" name="print">
+              <code>print "output_format = $(output_format)"</code>
+            </ServerScriptStep>
+            <ServerScriptStep disabled="true" id="_1sXV" name="print">
+              <code>print "output_file = $(output_file)"</code>
+            </ServerScriptStep>
+            <TryStep id="_1sXW"
+                     name="check_radiance-to-reflectance_processor_tool_is_opened_else_open">
+              <ProcedureCall id="_1sXX"
+                             procedure="check.radiance-to-reflectance_processor.radiance-to-reflectance_processor_opened"/>
+              <CatchSequence exception="TestException" id="_1sXY"
+                             maxerror="0">
+                <ProcedureCall id="_1sX+"
+                               procedure="preparation_for_processing">
+                  <variable name="sensor_name"/>
+                </ProcedureCall>
+              </CatchSequence>
+            </TryStep>
+            <TestStep id="_1sXf" name="processing">
+              <ProcedureCall disabled="true" id="_1sXg"
+                             procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
+                <variable name="screenshot">flh_mci_error</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1sXh" procedure="select_io_tab"/>
+              <ProcedureCall id="_1sXi"
+                             procedure="set.radiance-to-reflectance_processor.target_product_name">
+                <variable name="target_product_name">$(output_file)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1sXj"
+                             procedure="select.radiance-to-reflectance_processor.output_format">
+                <variable name="output_format">$(output_format)</variable>
+              </ProcedureCall>
+              <ProcedureCall id="_1sXk" procedure="running"/>
+            </TestStep>
+            <TestStep id="_1sXl" name="check_target_product">
+              <ProcedureCall id="_1sXm"
+                             procedure="test_events.check_target_product_with_grouping"/>
+              <ProcedureCall id="_1sXn" procedure="close.all_products"/>
+            </TestStep>
+          </TestCase>
+        </TestSet>
+        <CleanupSequence id="_1sXo" name="close_processor_tool">
+          <ProcedureCall id="_1sXp" procedure="close_processor_tool"/>
+          <ProcedureCall id="_1sXq" procedure="cleanup.output_data_folder">
+            <variable name="directory">$(output_folder)</variable>
+          </ProcedureCall>
+        </CleanupSequence>
+      </TestSet>
+      <TestSet id="_1pT+" name="processing_in_different_formats_meris">
+        <variable name="sensor_name">MERIS</variable>
+      </TestSet>
+      <TestSet id="_1sXr" name="processing_in_different_formats_slstr_500m">
+        <variable name="sensor_name">SLSTR_500m</variable>
+      </TestSet>
+    </TestSet>
+    <TestCase id="_1pFr" name="03_help">
+      <ProcedureCall id="_1sY7"
+                     procedure="qfs.swing.cleanup.closeAllModalDialogs">
+        <variable name="maxDialogs">5</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1s6b" procedure="open_tool_window"/>
+      <TestStep id="_1pVG" name="check_help">
+        <ProcedureCall id="_1pVH"
+                       procedure="do_click.radiance-to-reflectance_processor.menu.help"/>
+        <ProcedureCall id="_1s99"
+                       procedure="do_click.radiance-to-reflectance_processor.menu.help_menu_item"/>
+        <ProcedureCall id="_1qcu" procedure="help.check_help_appears_close"/>
+      </TestStep>
+      <TestStep id="_1pVN" name="check_help_about">
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogRadiance-to-Reflectance_Processor2.menubar"
+                        event="MOUSE_MPRC" id="_1sX9" modifiers="16" x="97"
+                        y="10"/>
+        <ProcedureCall id="_1s97"
+                       procedure="do_click.radiance-to-reflectance_processor.menu.help"/>
+        <ProcedureCall id="_1s98"
+                       procedure="do_click.radiance-to-reflectance_processor.menu.about"/>
+        <ComponentWaiter client="$(client)" component="dialogAbout_Rad2Refl"
+                         id="_1sWx"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogAbout_Rad2Refl.ModalDialog.ok"
+                        event="MOUSE_MPRC" id="_1sWy" modifiers="16"/>
+      </TestStep>
+      <ProcedureCall id="_1s6m" procedure="close_processor_tool"/>
+    </TestCase>
+  </TestSet>
+  <PackageRoot id="_4">
+    <Procedure id="_1s6c" name="close_processor_tool">
+      <ProcedureCall id="_1sBd"
+                     procedure="do_click.radiance-to-reflectance_processor.button_close"/>
+    </Procedure>
+    <Procedure id="_1s6L" name="open_tool_window">
+      <ProcedureCall id="_1s8o"
+                     procedure="open.optical.preprocessing.radiance-to-reflectance_processor"/>
+    </Procedure>
+    <Procedure id="_1pb8" name="select_io_tab">
+      <ProcedureCall id="_1pb9"
+                     procedure="select.radiance-to-reflectance_processor.tab">
+        <variable name="tab">I/O Parameters</variable>
+        <variable name="example">I/O Parameters;Processing Parameters</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pbC" name="select_processing_parameters_tab">
+      <ProcedureCall id="_1pbE"
+                     procedure="select.radiance-to-reflectance_processor.tab">
+        <variable name="tab">Processing Parameters</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pbQ" name="display_parameters_and_check">
+      <ProcedureCall id="_1pbR" procedure="display_parameters"/>
+      <ComponentWaiter client="$(client)"
+                       component="dialogRad2Refl_Parameters" id="_1sX5"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRad2Refl_Parameters.ModalDialog.ok"
+                      event="MOUSE_MPRC" id="_1sX6" modifiers="16"/>
+    </Procedure>
+    <Procedure id="_1pMT" name="open_source_product">
+      <variable name="prod_dir"/>
+      <variable name="prod_name"/>
+      <ProcedureCall id="_1oSj" procedure="path.source_data_directory">
+        <variable name="data_type">$(prod_dir)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1pMS"
+                     procedure="do_click.radiance-to-reflectance_processor.button_source_product"/>
+      <ProcedureCall id="_1pHR"
+                     procedure="utility.handle_select_product_dialog">
+        <variable name="file">$(data_source_directory)$(prod_name)</variable>
+      </ProcedureCall>
+      <TryStep id="_1pXT">
+        <ProcedureCall id="_1pXV" procedure="wait.appear.error.dialog_Error"/>
+        <ProcedureCall id="_1pXS"
+                       procedure="do_click.error_dialog.button_OK_Error"/>
+        <ProcedureCall id="_1pXW" procedure="run-log.logError">
+          <variable name="message">Opening of the product $(data_source_directory)$(prod_name) failed</variable>
+          <variable name="withScreenshots">false</variable>
+        </ProcedureCall>
+        <CatchSequence exception="TestException" id="_1pXU" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1pON" name="click_ok_in_product_created_dialog">
+      <TryStep id="_1qXT">
+        <ComponentWaiter client="$(client)"
+                         component="dialogSNAP_-_Radiance-to-Reflectance_Processor"
+                         id="_1sDT"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSNAP_-_Radiance-to-Reflectance_Processor.buttonOK"
+                        event="MOUSE_MPRC" id="_1sDU" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1qXW" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1s5a" name="click_yes_in_overwrite_existing_file_dialog">
+      <TryStep id="_1s5b">
+        <ComponentWaiter client="$(client)"
+                         component="dialogRadiance-to-Reflectance_Processor3.buttonYes"
+                         errorlevel="0" id="_1sDa" raise="false"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogRadiance-to-Reflectance_Processor3.buttonYes"
+                        event="MOUSE_MPRC" id="_1sDb" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1s5e" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1s5y" name="click_ok_in_error_dialog">
+      <ProcedureCall id="_1s63"
+                     procedure="error_handling.if_SNAP_Error_shoot_error_message"/>
+    </Procedure>
+    <Procedure id="_1qCR" name="preparation_for_test_io_parameters">
+      <comment>@teststep Preparation for test</comment>
+      <ProcedureCall id="_1qCS" procedure="select_io_tab"/>
+      <ProcedureCall id="_1qCT" postdelay="5000"
+                     procedure="open_source_product">
+        <variable name="prod_dir">$(source_dir)</variable>
+        <variable name="prod_name">$(source_data)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qCU"
+                     procedure="set.radiance-to-reflectance_processor.target_product_name">
+        <variable name="target_product_name">$(output_file)</variable>
+      </ProcedureCall>
+      <ProcedureCall disabled="true" id="_1pfn"
+                     procedure="get_source_product"/>
+      <ProcedureCall id="_1s3O" procedure="daten_format.beam_dimap"/>
+      <ProcedureCall id="_1s3P"
+                     procedure="select.radiance-to-reflectance_processor.output_format">
+        <variable name="output_format">$(beam_dimap)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1s9P"
+                     procedure="select.radiance-to-reflectance_processor.open_in_snap"/>
+      <ProcedureCall id="_1qH6"
+                     procedure="set.radiance-to-reflectance_processor.target_directory">
+        <variable name="dir">$(output_folder)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1sXs" name="preparation_for_processing">
+      <variable name="sensor_name"/>
+      <ProcedureCall id="_1sXt" procedure="open_tool_window"/>
+      <SetGlobalStep id="_1sXu" varname="output_file">
+        <default>test</default>
+      </SetGlobalStep>
+      <ProcedureCall id="_1sXv"
+                     procedure="preparation_for_test_io_parameters"/>
+      <ProcedureCall id="_1sXw"
+                     procedure="select.radiance-to-reflectance_processor.save_as"/>
+      <ProcedureCall id="_1sXx" procedure="select_processing_parameters_tab"/>
+      <ProcedureCall id="_1sXy"
+                     procedure="select.radiance-to-reflectance_processor.sensor">
+        <variable name="sensor">$(sensor_name)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pPF" name="store_parameters">
+      <TryStep id="_1pPG" name="select_menu_store_parameters">
+        <ProcedureCall id="_1s9B"
+                       procedure="do_click.radiance-to-reflectance_processor.menu.file"/>
+        <ProcedureCall id="_1s9C"
+                       procedure="do_click.radiance-to-reflectance_processor.menu.save_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPJ" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPK" procedure="utility.store_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pTE" name="get_source_product">
+      <FetchTextStep client="$(client)"
+                     component="dialogRadiance-to-Reflectance_Processor2.panelI/O_Parameters.comboThe_source_product."
+                     id="_1sBe" varname="source_product"/>
+    </Procedure>
+    <Procedure id="_1pPv" name="display_parameters">
+      <TryStep id="_1pPw" name="select_menu_display_parameters">
+        <ProcedureCall id="_1qGN"
+                       procedure="do_click.radiance-to-reflectance_processor.menu.file"/>
+        <ProcedureCall id="_1s9A"
+                       procedure="do_click.radiance-to-reflectance_processor.menu.display_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPz" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1pP9" name="load_parameters">
+      <TryStep id="_1pPA" name="select_menu_load_parameters">
+        <ProcedureCall id="_1s9D"
+                       procedure="do_click.radiance-to-reflectance_processor.menu.file"/>
+        <ProcedureCall id="_1s9E"
+                       procedure="do_click.radiance-to-reflectance_processor.menu.load_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPD" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPM" procedure="utility.load_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1s5K" name="running">
+      <ProcedureCall id="_1s5L"
+                     procedure="do_click.radiance-to-reflectance_processor.button_apply"/>
+      <ProcedureCall id="_1s5f"
+                     procedure="click_yes_in_overwrite_existing_file_dialog"/>
+      <ProcedureCall id="_1s5M"
+                     procedure="wait.disappear.writing_target_product"/>
+      <ProcedureCall id="_1s5N"
+                     procedure="click_ok_in_product_created_dialog"/>
+      <ProcedureCall id="_1s6J" procedure="click_ok_in_error_dialog"/>
+      <ProcedureCall id="_1s64" procedure="click_ok_in_error_dialog"/>
+      <ProcedureCall disabled="true" id="_1s5O"
+                     procedure="error_handling.if_any_error_make_screenshot_shoot_error_message"/>
+    </Procedure>
+  </PackageRoot>
+  <ExtraSequence id="_5">
+    <BasicSequence id="_1sFR" name="Aufnahme 30.05.16 16:39">
+      <CheckItemsStep checktype="items" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.conversionMode"
+                      id="_1sFS">
+        <item>RAD_TO_REFL</item>
+        <item>REFL_TO_RAD</item>
+      </CheckItemsStep>
+      <CheckItemsStep checktype="items" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.sensor"
+                      id="_1sFT">
+        <item>MERIS</item>
+        <item>OLCI</item>
+        <item>SLSTR_500m</item>
+      </CheckItemsStep>
+    </BasicSequence>
+    <BasicSequence id="_1sVA" name="Aufnahme 30.05.16 15:03">
+      <ProcedureCall id="_1sV+"
+                     procedure="do_click.radiance-to-reflectance_processor.copy_non_spectral_bands"/>
+      <ProcedureCall id="_1sWu"
+                     procedure="select.radiance-to-reflectance_processor.sensor">
+        <variable name="sensor"/>
+      </ProcedureCall>
+      <ProcedureCall id="_1sWv"
+                     procedure="select.radiance-to-reflectance_processor.conversion_mode">
+        <variable name="conversion_mode"/>
+      </ProcedureCall>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.menuFile"
+                      event="MOUSE_MPRC" id="_1sVB" modifiers="16"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogRadiance-to-Reflectance_Processor2.menuItemLoad_Parameters..."
+                       id="_1sVC">
+        <text>Load Parameters...</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogRadiance-to-Reflectance_Processor2.menuItemSave_Parameters..."
+                       id="_1sWA">
+        <text>Save Parameters...</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.menuItemDisplay_Parameters..."
+                      event="MOUSE_MPRC" id="_1sWB" modifiers="16"/>
+      <ComponentWaiter client="$(client)"
+                       component="dialogRad2Refl_Parameters" id="_1sVD"/>
+      <CheckStringStep checktype="item" client="$(client)"
+                       component="dialogRad2Refl_Parameters.text@&lt;parameters&gt;"
+                       id="_1sWw">
+        <text>&lt;parameters&gt;</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRad2Refl_Parameters.ModalDialog.ok"
+                      event="MOUSE_MPRC" id="_1sWC" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.menubar"
+                      event="MOUSE_MPRC" id="_1sWD" modifiers="16" x="97"
+                      y="10"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.menubar"
+                      event="MOUSE_MPRC" id="_1sWE" modifiers="16" x="97"
+                      y="10"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.menuHelp"
+                      event="MOUSE_MPRC" id="_1sWF" modifiers="16"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogRadiance-to-Reflectance_Processor2.menuItemHelp"
+                       id="_1sWG">
+        <text>Help</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.menuItemAbout..."
+                      event="MOUSE_MPRC" id="_1sWH" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.tabbed.tab"
+                      event="MOUSE_MPRC" id="_1sWz" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.tabbed.Processing_Parameters"
+                      event="MOUSE_MPRC" id="_1sW+" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.tabbed.tab"
+                      event="MOUSE_MPRC" id="_1sWI" modifiers="16"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogRadiance-to-Reflectance_Processor2.panelI/O_Parameters.comboThe_source_product."
+                       id="_1sWJ"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogRadiance-to-Reflectance_Processor2.button..."
+                       id="_1sW-">
+        <text>...</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogRadiance-to-Reflectance_Processor2.productName"
+                       id="_1sX0"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogRadiance-to-Reflectance_Processor2.saveToFileSelected"
+                        id="_1sX1"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogRadiance-to-Reflectance_Processor2.openInAppSelected"
+                        id="_1sX2"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogRadiance-to-Reflectance_Processor2.formatName"
+                       id="_1sVE">
+        <text>BEAM-DIMAP</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.formatName"
+                      event="MOUSE_MPRC" id="_1sVF" modifiers="16" x="42"
+                      y="7"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.listInvokerName:_formatName.output_format_name"
+                      event="MOUSE_MPRC" id="_1sWK" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.formatName"
+                      event="MOUSE_MPRC" id="_1sWL" modifiers="16" x="32"
+                      y="10"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.listInvokerName:_formatName.BEAM-DIMAP"
+                      event="MOUSE_MPRC" id="_1sWM" modifiers="16"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogRadiance-to-Reflectance_Processor2.productDir"
+                       id="_1sWN">
+        <text>E:\testdata\out\gaseous_absorption</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogRadiance-to-Reflectance_Processor2.button...2"
+                       id="_1sWO">
+        <text>...</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogRadiance-to-Reflectance_Processor2.DefaultSingleTargetProductDialog.apply"
+                       id="_1sWP">
+        <text>Run</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogRadiance-to-Reflectance_Processor2.DefaultSingleTargetProductDialog.close"
+                       id="_1sWQ">
+        <text>Close</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.tabbed.Processing_Parameters"
+                      event="MOUSE_MPRC" id="_1sWR" modifiers="16"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogRadiance-to-Reflectance_Processor2.sensor"
+                       id="_1sVO">
+        <text>OLCI</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.sensor"
+                      event="MOUSE_MPRC" id="_1sVP" modifiers="16" x="98"
+                      y="9"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.listInvokerName:_sensor.sensor"
+                      event="MOUSE_MPRC" id="_1sVQ" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.sensor"
+                      event="MOUSE_MPRC" id="_1sVR" modifiers="16" x="53"
+                      y="12"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.listInvokerName:_sensor.OLCI"
+                      event="MOUSE_MPRC" id="_1sVS" modifiers="16"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogRadiance-to-Reflectance_Processor2.conversionMode"
+                       id="_1sVT">
+        <text>RAD_TO_REFL</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.conversionMode"
+                      event="MOUSE_MPRC" id="_1sVU" modifiers="16" x="38"
+                      y="10"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.listInvokerName:_conversionMode.conversion_mode"
+                      event="MOUSE_MPRC" id="_1sVV" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.conversionMode"
+                      event="MOUSE_MPRC" id="_1sWS" modifiers="16" x="36"
+                      y="10"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.listInvokerName:_conversionMode.RAD_TO_REFL"
+                      event="MOUSE_MPRC" id="_1sWT" modifiers="16"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogRadiance-to-Reflectance_Processor2.copyNonSpectralBands"
+                        id="_1sWU"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.copyNonSpectralBands"
+                      event="MOUSE_MPRC" id="_1sX3" modifiers="16"/>
+    </BasicSequence>
+    <BasicSequence id="_1sEj" name="Aufnahme 30.05.16 15:03">
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.menuFile"
+                      event="MOUSE_MPRC" id="_1sEk" modifiers="16"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogRadiance-to-Reflectance_Processor2.menuItemLoad_Parameters..."
+                       id="_1sEl">
+        <text>Load Parameters...</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogRadiance-to-Reflectance_Processor2.menuItemSave_Parameters..."
+                       id="_1sEm">
+        <text>Save Parameters...</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.menuItemDisplay_Parameters..."
+                      event="MOUSE_MPRC" id="_1sEn" modifiers="16"/>
+      <ComponentWaiter client="$(client)"
+                       component="dialogRad2Refl_Parameters" id="_1sEo"/>
+      <CheckStringStep checktype="item" client="$(client)"
+                       component="dialogRad2Refl_Parameters.text@&lt;parameters&gt;"
+                       id="_1sEp">
+        <text>&lt;parameters&gt;</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRad2Refl_Parameters.ModalDialog.ok"
+                      event="MOUSE_MPRC" id="_1sEq" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.menubar"
+                      event="MOUSE_MPRC" id="_1sEr" modifiers="16" x="97"
+                      y="10"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.menubar"
+                      event="MOUSE_MPRC" id="_1sEs" modifiers="16" x="97"
+                      y="10"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.menuHelp"
+                      event="MOUSE_MPRC" id="_1sEt" modifiers="16"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogRadiance-to-Reflectance_Processor2.menuItemHelp"
+                       id="_1sEu">
+        <text>Help</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.menuItemAbout..."
+                      event="MOUSE_MPRC" id="_1sEv" modifiers="16"/>
+      <ComponentWaiter client="$(client)" component="dialogAbout_Rad2Refl"
+                       id="_1sEw"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogAbout_Rad2Refl.ModalDialog.ok"
+                      event="MOUSE_MPRC" id="_1sEx" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.tabbed.tab"
+                      event="MOUSE_MPRC" id="_1sEy" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.tabbed.Processing_Parameters"
+                      event="MOUSE_MPRC" id="_1sEz" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.tabbed.tab"
+                      event="MOUSE_MPRC" id="_1sE+" modifiers="16"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogRadiance-to-Reflectance_Processor2.panelI/O_Parameters.comboThe_source_product."
+                       id="_1sE-"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogRadiance-to-Reflectance_Processor2.button..."
+                       id="_1sF0">
+        <text>...</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogRadiance-to-Reflectance_Processor2.productName"
+                       id="_1sF1"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogRadiance-to-Reflectance_Processor2.saveToFileSelected"
+                        id="_1sF2"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogRadiance-to-Reflectance_Processor2.openInAppSelected"
+                        id="_1sF3"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogRadiance-to-Reflectance_Processor2.formatName"
+                       id="_1sF4">
+        <text>BEAM-DIMAP</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.formatName"
+                      event="MOUSE_MPRC" id="_1sF5" modifiers="16" x="42"
+                      y="7"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.listInvokerName:_formatName.output_format_name"
+                      event="MOUSE_MPRC" id="_1sF6" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.formatName"
+                      event="MOUSE_MPRC" id="_1sF7" modifiers="16" x="32"
+                      y="10"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.listInvokerName:_formatName.BEAM-DIMAP"
+                      event="MOUSE_MPRC" id="_1sF8" modifiers="16"/>
+      <CheckStringStep client="$(client)"
+                       component="dialogRadiance-to-Reflectance_Processor2.productDir"
+                       id="_1sF9">
+        <text>E:\testdata\out\gaseous_absorption</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogRadiance-to-Reflectance_Processor2.button...2"
+                       id="_1sFA">
+        <text>...</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogRadiance-to-Reflectance_Processor2.DefaultSingleTargetProductDialog.apply"
+                       id="_1sFB">
+        <text>Run</text>
+      </CheckStringStep>
+      <CheckStringStep client="$(client)"
+                       component="dialogRadiance-to-Reflectance_Processor2.DefaultSingleTargetProductDialog.close"
+                       id="_1sFC">
+        <text>Close</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.tabbed.Processing_Parameters"
+                      event="MOUSE_MPRC" id="_1sFD" modifiers="16"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogRadiance-to-Reflectance_Processor2.sensor"
+                       id="_1sFE">
+        <text>OLCI</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.sensor"
+                      event="MOUSE_MPRC" id="_1sFF" modifiers="16" x="98"
+                      y="9"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.listInvokerName:_sensor.sensor"
+                      event="MOUSE_MPRC" id="_1sFG" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.sensor"
+                      event="MOUSE_MPRC" id="_1sFH" modifiers="16" x="53"
+                      y="12"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.listInvokerName:_sensor.OLCI"
+                      event="MOUSE_MPRC" id="_1sFI" modifiers="16"/>
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogRadiance-to-Reflectance_Processor2.conversionMode"
+                       id="_1sFJ">
+        <text>RAD_TO_REFL</text>
+      </CheckStringStep>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.conversionMode"
+                      event="MOUSE_MPRC" id="_1sFK" modifiers="16" x="38"
+                      y="10"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.listInvokerName:_conversionMode.conversion_mode"
+                      event="MOUSE_MPRC" id="_1sFL" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.conversionMode"
+                      event="MOUSE_MPRC" id="_1sFM" modifiers="16" x="36"
+                      y="10"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.listInvokerName:_conversionMode.RAD_TO_REFL"
+                      event="MOUSE_MPRC" id="_1sFN" modifiers="16"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="dialogRadiance-to-Reflectance_Processor2.copyNonSpectralBands"
+                        id="_1sFO"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.copyNonSpectralBands"
+                      event="MOUSE_MPRC" id="_1sFP" modifiers="16"/>
+      <MouseEventStep clicks="2" client="$(client)"
+                      component="dialogRadiance-to-Reflectance_Processor2.copyNonSpectralBands"
+                      event="MOUSE_MPRC" id="_1sFQ" modifiers="16"/>
+    </BasicSequence>
+    <IfSequence id="_1oXW" test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+      <TestStep id="_1o+2" name="delete_band">
+        <ProcedureCall id="_1oXb" procedure="select.product_tree.band">
+          <variable name="prod_id">0</variable>
+          <variable name="group_id"/>
+          <variable name="view_id">1</variable>
+          <variable name="band">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1ozv" procedure="delete_product_tree_node"/>
+        <ProcedureCall id="_1ozx" procedure="check.product.node_not_exists">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1o+t" name="undo">
+        <ProcedureCall id="_1p0C" procedure="undo_tree"/>
+        <ProcedureCall disabled="true" id="_1o+y"
+                       procedure="do_click_menubar_undo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o+z" procedure="get.tree.get_index_of_node">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+        <ServerScriptStep disabled="true" id="_1o++" name="print">
+          <code>print "$(new_band_id)"</code>
+        </ServerScriptStep>
+      </TestStep>
+      <TestStep id="_1o-3" name="redo">
+        <ProcedureCall id="_1p0D" procedure="redo_tree"/>
+        <ProcedureCall disabled="true" id="_1o-B"
+                       procedure="do_click_menubar_redo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o-C" procedure="check.product.node_not_exists">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1o-F" name="undo">
+        <ProcedureCall id="_1p0E" procedure="undo_tree"/>
+        <ProcedureCall disabled="true" id="_1o-P"
+                       procedure="do_click_menubar_undo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o-Q" procedure="get.tree.get_index_of_node">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+    </IfSequence>
+    <ProcedureCall id="_1oXO" procedure="close.all_products"/>
+  </ExtraSequence>
+  <WindowList id="_6"/>
+</RootStep>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.4">
+<RootStep id="_0" name="root" version="4.0.9">
   <include>qfs.qft</include>
   <include>imaging_lib.qft</include>
   <TestSet id="_1" name="006_04_landsat_geotiff_rgb"
@@ -11,7 +11,8 @@
       <DataDriver id="_3y4"
                   loopreportname="Open image view of $(dataInDir)/$(fileName) data product"
                   name="dataTable">
-        <ProcedureCall id="_Bt4" procedure="tables.landsat_geotiff"/>
+        <ProcedureCall id="_Bt4"
+                       procedure="tables.optical_sensors.landsat.landsat_geotiff"/>
       </DataDriver>
       <TestCase condition="&#34;$(processing)&#34;==&#34;true&#34; and &#34;$(dataInDir)&#34;&lt;&gt;&#34;landsat_8_tirs_LT82270322013068LGN01&#34;"
                 id="_2" name="test" reportname="$(productName)">

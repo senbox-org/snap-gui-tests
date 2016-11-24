@@ -1,0 +1,159 @@
+zu prüfen:
+polygon nicht intesct:
+gpt E:\testdata\in\applications\processing\gpf_files\statistics\aatsr_polygon.xml -e 
+gpt E:\testdata\in\applications\processing\gpf_files\statistics\spot_vgt_polygon.xml -e 
+falsche input:
+gpt E:\testdata\in\applications\processing\gpf_files\statistics\netcdf_polygon.xml -e 
+fehler 300
+gpt E:\testdata\in\applications\processing\gpf_files\statistics\modis_polygon.xml
+
+******************************************
+# gpt E:\testdata\in\applications\processing\gpf_files\statistics\meris_BandMaths_StatisticsOp.xml -e E:\testdata\in\sensors_platforms\MERIS\MER_FRS_2P\N1\MER_FRS_2PNEPA20090501_092154_000001522078_00351_37479_8306.N1
+gpt EOData\testdata\applications\processing\gpf_files\statistics\meris_BandMaths_StatisticsOp.xml -e EOData\testdata\sensors_platforms\MERIS\MER_FRS_2P\N1\MER_FRS_2PNEPA20090501_092154_000001522078_00351_37479_8306.N1
+******************************************
+
+
+
+gpt -e E:\testdata\in\applications\processing\gpf_files\statistics\meris_tibet_startDate_endDate.xml  -e 
+E:\testdata\in\sensors_platforms\MERIS\MER_FSG_Tibet\MER_FSG_1PNUPA20090703_044516_000004532080_00248_38378_6955.N1 -e
+gpt -e E:\testdata\in\applications\processing\gpf_files\statistics\meris_tibet_doOutputAsciiFile_false.xml -e
+gpt -e E:\testdata\in\applications\processing\gpf_files\statistics\meris_tibet_doOutputShapefile_shapefile_missing.xml -e
+gpt -e E:\testdata\in\applications\processing\gpf_files\statistics\meris_tibet_polygon.xml -e
+gpt -e E:\testdata\in\applications\processing\gpf_files\statistics\meris_tibet_accuracy_percentiles.xml -e
+gpt -e E:\testdata\in\applications\processing\gpf_files\statistics\meris_tibet_bandConfiguration_missing.xml -e
+
+gpt -e E:\testdata\in\applications\processing\gpf_files\statistics\meris_level2.xml -e
+E:\testdata\in\MERIS\FRS\2\MER_FRS_2PNEPA20090501_092154_000001522078_00351_37479_8306.N1 -e
+gpt -e E:\testdata\in\applications\processing\gpf_files\statistics\meris_polygon.xml -e
+gpt -e E:\testdata\in\applications\processing\gpf_files\statistics\meris_complex_expression.xml -e
+gpt -e E:\testdata\in\applications\processing\gpf_files\statistics\meris_multi_line.xml -e
+gpt -e E:\testdata\in\applications\processing\gpf_files\statistics\meris_pins_point.xml -e
+gpt -e E:\testdata\in\applications\processing\gpf_files\statistics\meris_BandMaths_StatisticsOp.xml -e  E:\testdata\in\sensors_platforms\MERIS\MER_FRS_2P\N1\MER_FRS_2PNEPA20090501_092154_000001522078_00351_37479_8306.N1
+#gpt -e E:\testdata\in\applications\processing\gpf_files\statistics\meris_Case2Regional_StatisticsOp.xml  -Ssource=E:\testdata\in\sensors_platforms\MERIS\MER_FSG_Tibet\MER_RR__1PNBCM20090703_044731_000001012080_00248_38378_0594.N1
+##
+gpt -e E:\testdata\in\applications\processing\gpf_files\statistics\meris_wrong_bandConfiguration.xml -e
+gpt -e E:\testdata\in\applications\processing\gpf_files\statistics\meris_wrong_sourceProductPaths.xml -e
+gpt -e E:\testdata\in\applications\processing\gpf_files\statistics\meris_error_by_bandConfiguration.xml -e
+
+gpt -e E:\testdata\in\applications\processing\gpf_files\statistics\landsat_polygon.xml -e
+gpt -e E:\testdata\in\applications\processing\gpf_files\statistics\landsat_australia_polygon.xml -e
+gpt -e E:\testdata\in\applications\processing\gpf_files\statistics\asar_polygon.xml -e
+gpt -e E:\testdata\in\applications\processing\gpf_files\statistics\aatsr_polygon.xml -e
+gpt -e E:\testdata\in\applications\processing\gpf_files\statistics\avhr_polygon.xml -e
+gpt -e E:\testdata\in\applications\processing\gpf_files\statistics\coastcolour_polygon.xml -e
+gpt -e E:\testdata\in\applications\processing\gpf_files\statistics\dimap_polygon.xml -e
+gpt -e E:\testdata\in\applications\processing\gpf_files\statistics\modis_polygon.xml -e
+gpt -e E:\testdata\in\applications\processing\gpf_files\statistics\netcdf_polygon.xml -e
+gpt -e E:\testdata\in\applications\processing\gpf_files\statistics\obpg_polygon.xml -e
+gpt -e E:\testdata\in\applications\processing\gpf_files\statistics\smos_polygon.xml -e
+gpt -e E:\testdata\in\applications\processing\gpf_files\statistics\spot_vgt_polygon.xml -e
+
+#gpt -e E:\testdata\in\applications\processing\gpf_files\statistics\avnir_polygon.xml -e
+#gpt -e E:\testdata\in\applications\processing\gpf_files\statistics\prism_polygon.xml -e
+
+#gpt -e E:\testdata\in\applications\processing\gpf_files\statistics\ers_sar_polygon.xml -e
+#gpt -e E:\testdata\in\applications\processing\gpf_files\statistics\geotiff_polygon.xml  E:\testdata\in\GeoTIFF\MERIS_300m_24_B07_NorthAm.tif
+
+
+Usage:
+  gpt StatisticsOp [options]
+
+Description:
+  Computes statistics for an arbitrary number of source products.
+
+
+Parameter Options:
+  -Paccuracy=<int>                                   The degree of accuracy used for statistics computation. 
+                                                    Higher numbers indicate higher accuracy but may lead to a considerably longer computation time.
+                                                     Default value is '3'.
+  -PendDate=<uTC>                                    The end date. If not given, taken from the 'youngest' source product. 
+                                                    Products that have an end date after the end date given by this parameter are not considered.
+                                                     Format for valid values is 'yyyy-MM-dd HH:mm:ss'.
+  -PoutputAsciiFile=<file>                           The target file for ASCII output.The metadata file will have the suffix _metadata.txt.
+                                                     ASCII output will only be written if this parameter is set.
+  -PoutputShapefile=<file>                           The target file for shapefile output. 
+                                                    Shapefile output will only be written if this parameter is set. 
+                                                    The band mapping file will have the suffix _band_mapping.txt.
+  -Ppercentiles=<int,int,int,...>                    The percentile levels that shall be created. Must be in the interval [0..100]
+                                                     Default value is '90,95'.
+  -Pshapefile=<file>                                 An ESRI shapefile, providing the considered geographical region(s) given as polygons. 
+                                                    If null, all pixels are considered.
+  -PsourceProductPaths=<string,string,string,...>    A comma-separated list of file paths specifying the source products.
+                                                     Each path may contain the wildcards '**' (matches recursively any directory),
+                                                     '*' (matches any character sequence in path names) and
+                                                     '?' (matches any single character).
+                                                     If, for example, all NetCDF files under /eodata/ shall be considered, use '/eodata/**/*.nc'.
+  -PstartDate=<uTC>                                  The start date. If not given, taken from the 'oldest' source product. 
+                                                    Products that have a start date before the start date given by this parameter are not considered.
+                                                     Format for valid values is 'yyyy-MM-dd HH:mm:ss'.
+
+Graph XML Format:
+  <graph id="someGraphId">
+    <version>1.0</version>
+    <node id="someNodeId">
+      <operator>StatisticsOp</operator>
+      <sources>
+        <sourceProducts>${sourceProducts}</sourceProducts>
+      </sources>
+      <parameters>
+        <sourceProductPaths>string,string,string,...</sourceProductPaths>
+        <shapefile>file</shapefile>
+        <startDate>uTC</startDate>
+        <endDate>uTC</endDate>
+        <bandConfigurations>
+          <bandConfiguration>
+            <sourceBandName>string</sourceBandName>
+            <expression>string</expression>
+            <validPixelExpression>string</validPixelExpression>
+          </bandConfiguration>
+          <.../>
+        </bandConfigurations>
+        <outputShapefile>file</outputShapefile>
+        <outputAsciiFile>file</outputAsciiFile>
+        <percentiles>int,int,int,...</percentiles>
+        <accuracy>int</accuracy>
+      </parameters>
+    </node>
+  </graph>
+  
+  vrg_rdnc7=average_radiance_7
+vrg_0=average_radiance_13-radiance_7
+mx_rrr_0=max_error_radiance_7
+mx_rrr_1=max_error_radiance_13-radiance_7
+mx_rdnc7=maximum_radiance_7
+mx_0=maximum_radiance_13-radiance_7
+mdn_rdnc7=median_radiance_7
+mdn_0=median_radiance_13-radiance_7
+mn_rdnc7=minimum_radiance_7
+mn_0=minimum_radiance_13-radiance_7
+p93_thrs_0=p93_threshold_radiance_7
+p93_thrs_1=p93_threshold_radiance_13-radiance_7
+p94_thrs_0=p94_threshold_radiance_7
+p94_thrs_1=p94_threshold_radiance_13-radiance_7
+sgm_rdnc7=sigma_radiance_7
+sgm_0=sigma_radiance_13-radiance_7
+ttl_rdnc7=total_radiance_7
+ttl_0=total_radiance_13-radiance_7
+
+# BEAM Statistics export
+#
+# Products:
+#              E:\testdata\in\sensors_platforms\MERIS\MER_FSG_Tibet\tmp\MER_FSG_1PNUPA20090703_044516_000004532080_00248_38378_6955.zip
+#
+# Start Date: 03-JUL-2009 00:00:00.000000
+#
+# End Date: 05-JUL-2009 23:59:59.000000
+#
+# Regions:
+#              geometry_Polygon.1
+
+
+# Region	Band	average	max_error	maximum	median	minimum	p93_threshold	p94_threshold	sigma	total
+geometry_Polygon.1	radiance_13-radiance_7	-21.1314	0.0028	64.8454	-13.7229	-215.5254	2.4209	3.4386	25.3936	947243
+geometry_Polygon.1	radiance_7	98.9387	0.0044	448.1038	81.7695	8.9436	217.8433	229.0375	60.5582	947243
+
+# Region	Band	average	max_error	maximum	median	minimum	p93_threshold	p94_threshold	sigma	total
+geometry_Polygon.1	radiance_13-radiance_7	-21.1314	0.0028	64.8454	-13.7229	-215.5254	2.4209	3.4386	25.3936	1894486
+geometry_Polygon.1	radiance_7	98.9387	0.0044	448.1038	81.7695	8.9436	217.8433	229.0375	60.5582	1894486
+
+

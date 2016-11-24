@@ -1,0 +1,585 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.11">
+  <include>qfs.qft</include>
+  <include>../../lib/snap_main.qft</include>
+  <include>../lib/processing_main.qft</include>
+  <variable name="output_folder">cluster_analysis</variable>
+  <variable name="num_iter_def">30</variable>
+  <variable name="num_clusters_def">14</variable>
+  <TestSet id="_2" name="010_42_kmeans_cluster_analysis"
+           reportname="010-42 k-means Cluster Analysis">
+    <DependencyReference id="_1pO-"
+                         reference="start_application_for_processing">
+      <variable name="output_dir">$(output_folder)</variable>
+    </DependencyReference>
+    <TestCase id="_8cc" name="01_check_ui"
+              reportname="01 Check K-Means Cluster Analysis Tool UI">
+      <ProcedureCall id="_1s6N" procedure="open_tool_window"/>
+      <TestStep id="_1pM7" name="default_componets">
+        <ProcedureCall id="_1rr5"
+                       procedure="check.k_means_cluster_analysis.enabled.button_apply"/>
+        <ProcedureCall id="_1rr6"
+                       procedure="check.k_means_cluster_analysis.enabled.button_close"/>
+        <ProcedureCall id="_1rr9"
+                       procedure="check.k_means_cluster_analysis.enabled.menu_file"/>
+        <ProcedureCall id="_1rrA"
+                       procedure="check.k_means_cluster_analysis.enabled.menu_help"/>
+        <TestStep id="_1pbB" name="io_parameters">
+          <ProcedureCall id="_1pbA" procedure="select_io_tab"/>
+          <ProcedureCall id="_1rr7"
+                         procedure="check.k_means_cluster_analysis.enabled.button_directory"/>
+          <ProcedureCall id="_1rr8"
+                         procedure="check.k_means_cluster_analysis.enabled.button_source_product"/>
+          <ProcedureCall id="_1rrC"
+                         procedure="check.k_means_cluster_analysis.enabled.open_in_snap_enabled_status">
+            <variable name="enabled">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rrE"
+                         procedure="check.k_means_cluster_analysis.enabled.save_as_enabled_status">
+            <variable name="enabled">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rrF"
+                         procedure="check.k_means_cluster_analysis.checked.open_in_snap_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rrG"
+                         procedure="check.k_means_cluster_analysis.checked.save_as_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pbG" name="processing_parameters">
+          <ProcedureCall id="_1pbF"
+                         procedure="select_processing_parameters_tab"/>
+          <ProcedureCall id="_1rrH"
+                         procedure="check.k_means_cluster_analysis.text.number_of_clusters">
+            <variable name="val">$(num_clusters_def)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rrI"
+                         procedure="check.k_means_cluster_analysis.text.number_of_iterations">
+            <variable name="val">$(num_iter_def)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1rrK"
+                         procedure="check.k_means_cluster_analysis.text.roi_mask_name">
+            <variable name="val"/>
+          </ProcedureCall>
+          <ProcedureCall id="_1rrL"
+                         procedure="check.k_means_cluster_analysis.text.source_bands_empty"/>
+        </TestStep>
+      </TestStep>
+      <ProcedureCall id="_1s6g" procedure="close_processor_tool"/>
+    </TestCase>
+    <TestSet id="_1qax" name="02_processing"
+             reportname="K-Means Cluster Analysis for different source data">
+      <variable name="fileName">MER_RR__1_test.N1</variable>
+      <variable name="dataInDir">mer_rr__1p_n1</variable>
+      <SetupSequence id="_1qay" name="prepare_for_the_testing">
+        <ProcedureCall id="_1ruu" procedure="prepare_for_the_testing"/>
+      </SetupSequence>
+      <TestSet id="_1qa-" name="processing">
+        <DataDriver id="_1qb0"
+                    loopreportname="K-Means Cluster Analysis for $(dataInDir)/$(fileName)"
+                    name="source_data">
+          <ProcedureCall id="_1rkE"
+                         procedure="tables.source_data_for_processing"/>
+        </DataDriver>
+        <TestCase id="_1qb2" name="k_mean_cluster_analysis"
+                  reportname="$(dataInDir)/$(fileName)">
+          <ProcedureCall id="_1ruT" procedure="handle_deadlock_exception"/>
+          <ServerScriptStep disabled="true" id="_1l5A" name="print">
+            <code>print "$(multi_size)"</code>
+          </ServerScriptStep>
+          <ProcedureCall id="_1qcy"
+                         procedure="qfs.swing.cleanup.closeAllModalDialogs">
+            <variable name="maxDialogs">5</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qd2" procedure="close.all_products"/>
+          <TestStep id="_1qbX" name="preparation">
+            <TryStep id="_1qce"
+                     name="check_tool_is_opened_else_open_k_means_analysis">
+              <ProcedureCall id="_1pws"
+                             procedure="check.k_means_cluster_analysis.k_means_cluster_analysis_tool_opened"/>
+              <CatchSequence exception="TestException" id="_1qcf"
+                             maxerror="0">
+                <ProcedureCall id="_1s6O" procedure="open_tool_window"/>
+              </CatchSequence>
+            </TryStep>
+            <ProcedureCall id="_1qbY"
+                           procedure="preparation_io_tab_for_test"/>
+            <ProcedureCall id="_1rrj"
+                           procedure="deselect.kmean_cluster_analysis.save_as"/>
+            <TestStep id="_1rsT" name="set_test_variables">
+              <SetGlobalStep id="_1rsZ" varname="roi_mask_name">
+                <default>$(mask1)</default>
+              </SetGlobalStep>
+            </TestStep>
+            <ProcedureCall id="_1rsc"
+                           procedure="preparation_processing_tab_for_test"/>
+          </TestStep>
+          <TestStep id="_1qb5" name="processing">
+            <ProcedureCall id="_1qcw" procedure="close.modal_dialogs"/>
+            <ProcedureCall id="_1qTw"
+                           procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
+              <variable name="screenshot">k_mean_cluster_analysis_error_1</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1qbi"
+                           procedure="do_click.kmean_cluster_analysis.button_apply"/>
+            <ProcedureCall id="_1qd0"
+                           procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
+              <variable name="screenshot">k_mean_cluster_analysis_error_2</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1qbK"
+                           procedure="wait.disappear.writing_target_product"/>
+            <ProcedureCall id="_1qbL"
+                           procedure="click_ok_in_product_created_dialog"/>
+          </TestStep>
+          <TestStep id="_1qbM" name="check_target_product">
+            <ProcedureCall id="_1rv1" procedure="handle_deadlock_exception"/>
+            <ProcedureCall id="_1rs8"
+                           procedure="check.k_means_cluster_analysis.target_product"/>
+            <ProcedureCall id="_1rsi" procedure="close.all_products"/>
+          </TestStep>
+        </TestCase>
+      </TestSet>
+      <CleanupSequence id="_1qbP" name="close_processor_tool">
+        <ProcedureCall id="_1s6h" procedure="close_processor_tool"/>
+        <ProcedureCall id="_1ru+" procedure="handle_deadlock_exception"/>
+      </CleanupSequence>
+    </TestSet>
+    <TestCase id="_40q" name="03_store_load_display_parameters"
+              reportname="03 Store, load, display parameters">
+      <ProcedureCall id="_1s6P" procedure="open_tool_window"/>
+      <TestStep id="_1qbx" name="set_test_variables">
+        <SetGlobalStep id="_1qby" varname="fileName">
+          <default>MER_FSG_1PNMAP20050726_232437_000000782039_00216_17805_0001.N1</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1qbz" varname="bandName">
+          <default>radiance_7</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1qb+" varname="dataInDir">
+          <default>mer_fsg_1p_n1</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1qb-" varname="output_file">
+          <default>store_parameters.dim</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1qc4" varname="ofn">
+          <default>save_parameters.xml</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1qc1" varname="roi_mask_name">
+          <default>land</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1qc6" varname="n_cluster">
+          <default>30</default>
+          <comment>	</comment>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1qc2" varname="n_iter">
+          <default>40</default>
+        </SetGlobalStep>
+      </TestStep>
+      <TestStep id="_1pOt" name="change_parameters">
+        <ProcedureCall id="_1qGC" procedure="preparation_io_tab_for_test"/>
+        <ProcedureCall id="_1qc3"
+                       procedure="preparation_processing_tab_for_test">
+          <variable name="n_cluster">$(n_cluster)</variable>
+          <variable name="n_iter">$(n_iter)</variable>
+        </ProcedureCall>
+      </TestStep>
+      <ProcedureCall id="_1rsM" procedure="store_parameters"/>
+      <TestStep id="_1pPg" name="change_parameters">
+        <ProcedureCall id="_1pfT"
+                       procedure="select_processing_parameters_tab"/>
+        <ProcedureCall id="_1qc8"
+                       procedure="select.kmean_cluster_analysis.all_source_bands">
+          <variable name="source_band">$(bandName)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1qcB"
+                       procedure="select.principle_component_analysis.roi_mask_name">
+          <variable name="roi_mask_name">water</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1rsB"
+                       procedure="set.k_mean_cluster_analysis.number_of_clusters">
+          <variable name="val">$(num_clusters_def)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1rsD"
+                       procedure="set.k_mean_cluster_analysis.number_of_iterations">
+          <variable name="val">$(num_iter_def)</variable>
+        </ProcedureCall>
+      </TestStep>
+      <ProcedureCall id="_1pPl" procedure="load_parameters"/>
+      <TestStep id="_1pPm" name="check_parameters">
+        <ProcedureCall id="_1qcL"
+                       procedure="select_processing_parameters_tab"/>
+        <ProcedureCall id="_1rsE"
+                       procedure="check.k_means_cluster_analysis.text.number_of_clusters">
+          <variable name="val">$(n_cluster)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1rsF"
+                       procedure="check.k_means_cluster_analysis.text.number_of_iterations">
+          <variable name="val">$(n_iter)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1rsG"
+                       procedure="check.k_means_cluster_analysis.text.roi_mask_name">
+          <variable name="val">$(roi_mask_name)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1rsH"
+                       procedure="check.k_means_cluster_analysis.source_band_selection">
+          <variable name="source_band">$(bandName)</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1pV8" name="display_parameters">
+        <TryStep id="_1qaX" name="select_menu_display_parameters">
+          <ProcedureCall id="_1qaY"
+                         procedure="do_click.kmean_cluster_analysis.menu.file"/>
+          <ProcedureCall id="_1rqr"
+                         procedure="do_click.kmean_cluster_analysis.menu.display_parameters"/>
+          <CatchSequence exception="TestException" id="_1qaa" maxerror="0"/>
+        </TryStep>
+        <ComponentWaiter client="$(client)"
+                         component="dialogKMeansClusterAnalysis_Parameters"
+                         id="_1rpZ"/>
+        <CheckStringStep checktype="item" client="$(client)"
+                         component="dialogKMeansClusterAnalysis_Parameters.text@&lt;parameters&gt;"
+                         id="_1rpb">
+          <text>&lt;parameters&gt;</text>
+        </CheckStringStep>
+        <ProcedureCall id="_1ruO"
+                       procedure="click_ok_in_display_parameter_dialog"/>
+      </TestStep>
+      <ProcedureCall id="_1s6i" procedure="close_processor_tool"/>
+    </TestCase>
+    <TestSet id="_1pT+" name="04_processing_data_in_different_formats"
+             reportname="04 Processing data in different formats">
+      <SetupSequence id="_1pUV" name="prepare_for_the_testing">
+        <TryStep id="_1qcq" name="check_is_SNAP_is_already_started">
+          <ProcedureCall id="_1qcr" procedure="set.variable.client_snap"/>
+          <ClientWaiter client="$(client)" id="_1qcs" timeout="0"/>
+          <CatchSequence exception="ClientNotConnectedException" id="_1qct"
+                         maxerror="0" name="not start -&gt; start">
+            <ProcedureCall id="_1qcu" procedure="start.snap.application"/>
+          </CatchSequence>
+        </TryStep>
+        <ProcedureCall id="_1rky"
+                       procedure="preparing_for_processing_data_in_different_formats_test"/>
+      </SetupSequence>
+      <TestSet id="_1pUb" name="processing">
+        <DataDriver id="_1pUc"
+                    loopreportname="Write the target product as $(output_format)"
+                    name="output_formats">
+          <ProcedureCall id="_1pUd" procedure="tables.output_formats"/>
+        </DataDriver>
+        <TestCase id="_1pUj" name="processing_in_different_formats"
+                  reportname="Processing in different formats and check output product">
+          <ProcedureCall id="_1rkz"
+                         procedure="preparing_for_processing_data_in_different_formats_test"/>
+          <ServerScriptStep id="_1pV5" name="print">
+            <code>print "output_format = $(output_format)"</code>
+          </ServerScriptStep>
+          <ServerScriptStep id="_1pV6" name="print">
+            <code>print "output_file = $(output_file)"</code>
+          </ServerScriptStep>
+          <TestStep id="_1qG-" name="processing">
+            <ProcedureCall id="_1qcm"
+                           procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
+              <variable name="screenshot">kmeans_analysis_error</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1qH2" procedure="select_io_tab"/>
+            <ProcedureCall id="_1qcc"
+                           procedure="set.k_mean_cluster_analysis.target_product_name">
+              <variable name="target_product_name">$(output_file)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1qH4"
+                           procedure="select.kmean_cluster_analysis.output_format">
+              <variable name="output_format">$(output_format)</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1rrp"
+                           procedure="do_click.kmean_cluster_analysis.button_apply"/>
+            <ProcedureCall id="_1qcn"
+                           procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
+              <variable name="screenshot">run_kmeans_analysis_error</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1pUo"
+                           procedure="wait.disappear.writing_target_product"/>
+            <ProcedureCall id="_1qH1"
+                           procedure="click_ok_in_product_created_dialog"/>
+          </TestStep>
+          <TestStep id="_1pUq" name="check_target_product">
+            <ProcedureCall id="_1pfx"
+                           procedure="test_events.check_target_product_without_grouping"/>
+            <ProcedureCall id="_1qH5" procedure="close.all_products"/>
+          </TestStep>
+        </TestCase>
+      </TestSet>
+      <CleanupSequence id="_1pUa" name="close_processor_tool">
+        <ProcedureCall id="_1s6j" procedure="close_processor_tool"/>
+      </CleanupSequence>
+    </TestSet>
+    <TestCase id="_1pFr" name="05_help" reportname="05 Check Help">
+      <ProcedureCall id="_1s6Q" procedure="open_tool_window"/>
+      <TestStep id="_1pVG" name="check_help">
+        <ProcedureCall id="_1rqt"
+                       procedure="do_click.kmean_cluster_analysis.menu.help"/>
+        <ProcedureCall id="_1rqu"
+                       procedure="do_click.kmean_cluster_analysis.menu.help_menu_item"/>
+        <ProcedureCall id="_1qcx" procedure="help.check_help_appears_close"/>
+      </TestStep>
+      <TestStep id="_1pVN" name="check_help_about">
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogK-Means_Cluster_Analysis.menubar"
+                        event="MOUSE_MPRC" id="_1rqx" modifiers="16" x="206"
+                        y="10"/>
+        <ProcedureCall id="_1rqv"
+                       procedure="do_click.kmean_cluster_analysis.menu.help"/>
+        <ProcedureCall id="_1rqw"
+                       procedure="do_click.kmean_cluster_analysis.menu.about"/>
+        <ComponentWaiter client="$(client)"
+                         component="dialogAbout_KMeansClusterAnalysis"
+                         id="_1rpj"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogAbout_KMeansClusterAnalysis.ModalDialog.ok"
+                        event="MOUSE_MPRC" id="_1rpk" modifiers="16"/>
+      </TestStep>
+      <ProcedureCall id="_1s6k" procedure="close_processor_tool"/>
+    </TestCase>
+  </TestSet>
+  <PackageRoot id="_4">
+    <Procedure id="_1s6c" name="close_processor_tool">
+      <ProcedureCall id="_1s6f"
+                     procedure="close_processing_tool.image_analysis.kmean_cluster_analysis"/>
+    </Procedure>
+    <Procedure id="_1s6L" name="open_tool_window">
+      <ProcedureCall id="_1s6M"
+                     procedure="open.raster.image_analysis.k_means_cluster_analysis"/>
+    </Procedure>
+    <Procedure id="_1ruk" name="prepare_for_the_testing">
+      <TryStep id="_1l9R" name="check_is_SNAP_is_already_started">
+        <ProcedureCall id="_1oJI" procedure="set.variable.client_snap"/>
+        <ClientWaiter client="$(client)" id="_1oJH" timeout="0"/>
+        <CatchSequence exception="ClientNotConnectedException" id="_1l9T"
+                       maxerror="0" name="not start -&gt; start">
+          <ProcedureCall id="_1p05" procedure="start.snap.application"/>
+        </CatchSequence>
+      </TryStep>
+      <TestStep id="_1rsd" name="set_test_variables">
+        <SetGlobalStep id="_1rsf" varname="n_cluster">
+          <comment>	</comment>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1rsg" varname="n_iter"/>
+      </TestStep>
+      <ProcedureCall id="_1s6R" procedure="open_tool_window"/>
+    </Procedure>
+    <Procedure id="_1ruS" name="handle_deadlock_exception">
+      <ProcedureCall id="_1rv2" procedure="deadlock.handle_deadlock"/>
+      <TryStep id="_1ruw">
+        <ProcedureCall id="_1ruv" procedure="prepare_for_the_testing"/>
+        <CatchSequence exception="TestException" id="_1rux" maxerror="0">
+          <ProcedureCall id="_1ruy" procedure="utils.terminate_process">
+            <variable name="client_name">$(client)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ruz" procedure="prepare_for_the_testing"/>
+        </CatchSequence>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1rkH"
+               name="check_kmean_analysis_tool_is_opened_else_open">
+      <TryStep id="_1rkI">
+        <ProcedureCall id="_1rkJ"
+                       procedure="check.k_means_cluster_analysis.k_means_cluster_analysis_tool_opened"/>
+        <CatchSequence exception="TestException" id="_1rkK" maxerror="0">
+          <ProcedureCall id="_1s6S" procedure="open_tool_window"/>
+        </CatchSequence>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1pON" name="click_ok_in_product_created_dialog">
+      <TryStep id="_1qa9" name="handle_error_dialog">
+        <ProcedureCall id="_1qaB"
+                       procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
+        <ProcedureCall id="_1qa8"
+                       procedure="do_click.error_dialog.dialog_SNAP_SNAP_Error.button_OK"/>
+        <CatchSequence exception="TestException" id="_1qaA" maxerror="0"/>
+      </TryStep>
+      <TryStep id="_1qch">
+        <ComponentWaiter client="$(client)"
+                         component="dialogSNAP_-_K-Means_Cluster_Analysis"
+                         id="_1rs7"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSNAP_-_K-Means_Cluster_Analysis.buttonOK"
+                        event="MOUSE_MPRC" id="_1rs6" modifiers="16"/>
+        <CatchSequence exception="TestException" id="_1qck" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1ruE" name="click_ok_in_display_parameter_dialog">
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="dialogKMeansClusterAnalysis_Parameters.ModalDialog.ok"
+                      event="MOUSE_MPRC" id="_1ruN" modifiers="16"/>
+    </Procedure>
+    <Procedure id="_1pP9" name="load_parameters">
+      <TryStep id="_1pPA" name="select_menu_load_parameters">
+        <ProcedureCall id="_1qGP"
+                       procedure="do_click.kmean_cluster_analysis.menu.file"/>
+        <ProcedureCall id="_1rqq"
+                       procedure="do_click.kmean_cluster_analysis.menu.load_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPD" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPM" procedure="utility.load_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pMT" name="open_source_product">
+      <variable name="prod_dir"/>
+      <variable name="prod_name"/>
+      <ProcedureCall id="_1oSj" procedure="path.source_data_directory">
+        <variable name="data_type">$(prod_dir)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1pMS"
+                     procedure="do_click.kmean_cluster_analysis.button_source_product"/>
+      <ProcedureCall id="_1pHR"
+                     procedure="utility.handle_select_product_dialog">
+        <variable name="file">$(data_source_directory)$(prod_name)</variable>
+      </ProcedureCall>
+      <TryStep id="_1pXT">
+        <ProcedureCall id="_1pXV" procedure="wait.appear.error.dialog_Error"/>
+        <ProcedureCall id="_1pXS"
+                       procedure="do_click.error_dialog.button_OK_Error"/>
+        <ProcedureCall id="_1pXW" procedure="run-log.logError">
+          <variable name="message">Opening of the product $(data_source_directory)$(prod_name) failed</variable>
+          <variable name="withScreenshots">false</variable>
+        </ProcedureCall>
+        <CatchSequence exception="TestException" id="_1pXU" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1qCR" name="preparation_io_tab_for_test">
+      <comment>@teststep Preparation I/O parameters for test.</comment>
+      <ProcedureCall id="_1rkM"
+                     procedure="check_kmean_analysis_tool_is_opened_else_open"/>
+      <ProcedureCall id="_1qCS" procedure="select_io_tab"/>
+      <ProcedureCall id="_1rkF" procedure="open_source_product">
+        <variable name="prod_dir">$(dataInDir)</variable>
+        <variable name="prod_name">$(fileName)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1rrN"
+                     procedure="set.k_mean_cluster_analysis.target_product_name">
+        <variable name="target_product_name">$(output_file)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1rrO"
+                     procedure="get.k_mean_cluster_analysis.source_product_name"/>
+    </Procedure>
+    <Procedure id="_1qac" name="preparation_processing_tab_for_test">
+      <variable name="n_cluster"/>
+      <variable name="n_iter"/>
+      <comment>@teststep Preparation processing parameters for test.</comment>
+      <ProcedureCall id="_1qai" procedure="select_processing_parameters_tab"/>
+      <ProcedureCall id="_1qbv"
+                     procedure="select.kmean_cluster_analysis.source_band">
+        <variable name="source_band">$(bandName)</variable>
+      </ProcedureCall>
+      <IfSequence id="_1qc5"
+                  test="&#34;$(roi_mask_name)&#34;&lt;&gt;&#34;&#34;">
+        <ProcedureCall id="_1qak"
+                       procedure="select.kmean_cluster_analysis.roi_mask_name">
+          <variable name="roi_mask_name">$(roi_mask_name)</variable>
+        </ProcedureCall>
+      </IfSequence>
+      <IfSequence id="_1rrm" test="&#34;$(n_cluster)&#34;&lt;&gt;&#34;&#34;">
+        <ProcedureCall id="_1rrn"
+                       procedure="set.k_mean_cluster_analysis.number_of_clusters">
+          <variable name="val">$(n_cluster)</variable>
+        </ProcedureCall>
+      </IfSequence>
+      <IfSequence id="_1qbf" test="&#34;$(n_iter)&#34;&lt;&gt;&#34;&#34;">
+        <ProcedureCall id="_1rrl"
+                       procedure="set.k_mean_cluster_analysis.number_of_iterations">
+          <variable name="val">$(n_iter)</variable>
+        </ProcedureCall>
+      </IfSequence>
+    </Procedure>
+    <Procedure id="_1rkh"
+               name="preparing_for_processing_data_in_different_formats_test">
+      <comment>@teststep preparing_for_processing_data_in_different_formats_test</comment>
+      <ProcedureCall id="_1rki"
+                     procedure="check_kmean_analysis_tool_is_opened_else_open"/>
+      <TestStep id="_1rkj" name="set_test_variables">
+        <SetGlobalStep id="_1rkk" varname="fileName">
+          <default>MER_RR__1_test.N1</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1rkl" varname="bandName">
+          <default>radiance_1</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1rkm" varname="dataInDir">
+          <default>mer_rr__1p_n1</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1rkn" varname="output_file">
+          <default>test.dim</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1rko" varname="roi_mask_name">
+          <default>water</default>
+        </SetGlobalStep>
+        <SetGlobalStep disabled="true" id="_1rsQ" varname="n_cluster">
+          <comment>	</comment>
+        </SetGlobalStep>
+        <SetGlobalStep disabled="true" id="_1rsR" varname="n_iter"/>
+      </TestStep>
+      <ProcedureCall id="_1rkr" procedure="preparation_io_tab_for_test"/>
+      <ProcedureCall id="_1rks"
+                     procedure="select.kmean_cluster_analysis.save_as"/>
+      <ProcedureCall id="_1rkt" procedure="daten_format.beam_dimap"/>
+      <ProcedureCall id="_1rku"
+                     procedure="select.principle_component_analysis.output_format">
+        <variable name="output_format">$(beam_dimap)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1rrM"
+                     procedure="set.k_mean_cluster_analysis.target_directory">
+        <variable name="dir">$(output_folder)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1rsS"
+                     procedure="select.kmean_cluster_analysis.open_in_snap"/>
+      <ProcedureCall id="_1rkx"
+                     procedure="preparation_processing_tab_for_test">
+        <variable name="n_cluster"/>
+        <variable name="n_iter"/>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pb8" name="select_io_tab">
+      <ProcedureCall id="_1rkN"
+                     procedure="check_kmean_analysis_tool_is_opened_else_open"/>
+      <ProcedureCall id="_1rkO" procedure="select.kmean_cluster_analysis.tab">
+        <variable name="tab">I/O Parameters</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pbC" name="select_processing_parameters_tab">
+      <ProcedureCall id="_1pbE" procedure="select.kmean_cluster_analysis.tab">
+        <variable name="tab">Processing Parameters</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pPF" name="store_parameters">
+      <TryStep id="_1pPG" name="select_menu_store_parameters">
+        <ProcedureCall id="_1rqo"
+                       procedure="do_click.kmean_cluster_analysis.menu.file"/>
+        <ProcedureCall id="_1rqp"
+                       procedure="do_click.kmean_cluster_analysis.menu.save_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPJ" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPK" procedure="utility.store_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+  </PackageRoot>
+  <ExtraSequence id="_5">
+    <CleanupSequence disabled="true" id="_1rtv" name="kill_snap_if_stalled">
+      <TryStep id="_1rtx">
+        <ProcedureCall id="_1rtw" procedure="open.views.navigation"/>
+        <CatchSequence exception="TestException" id="_1rty" maxerror="0">
+          <ProcedureCall id="_1oMp" procedure="utils.terminate_process">
+            <variable name="client_name">$(client)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1ru2" procedure="run-log.logError">
+            <variable name="message">'SNAP' went into a deadlock.</variable>
+            <variable name="withScreenshots">true</variable>
+          </ProcedureCall>
+        </CatchSequence>
+      </TryStep>
+    </CleanupSequence>
+    <ProcedureCall id="_1oXV" procedure="check.product.not_opened"/>
+    <ProcedureCall id="_1oXO" procedure="close.all_products"/>
+  </ExtraSequence>
+  <WindowList id="_6"/>
+</RootStep>

@@ -1,0 +1,1105 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.0.11">
+  <include>qfs.qft</include>
+  <include>../../../lib/snap_main.qft</include>
+  <include>../../lib/idepix.qft</include>
+  <variable name="output_folder">idepix</variable>
+  <variable name="xml_file_dir">idepix</variable>
+  <TestSet id="_2" name="010_22_idepix_sentinel2"
+           reportname="010-22 Idepix sentinel2">
+    <DependencyReference id="_1pO-"
+                         reference="start_application_for_processing">
+      <variable name="output_dir">$(output_folder)</variable>
+    </DependencyReference>
+    <TestCase id="_8cc" name="check_ui" reportname="Idepix sentinel2 Tool UI">
+      <ProcedureCall id="_1rwm" procedure="open_tool_window"/>
+      <TestStep id="_1pM7" name="default_componets">
+        <ProcedureCall id="_1qeu" procedure="check.enabled.menu_file"/>
+        <ProcedureCall id="_1qev" procedure="check.enabled.menu_help"/>
+        <ProcedureCall id="_1qew" procedure="check.enabled.close_button"/>
+        <ProcedureCall id="_1qex" procedure="check.enabled.run_button"/>
+        <TestStep id="_1pbB" name="io_parameters">
+          <ProcedureCall id="_1pbA" procedure="select.io_tab"/>
+          <ProcedureCall id="_1qez"
+                         procedure="check.enabled.open_source_product_button"/>
+          <ProcedureCall id="_1qe+"
+                         procedure="check.enabled.output_directory_button"/>
+          <ProcedureCall id="_1qf1"
+                         procedure="check.enabled.save_as_checkbox_enabled_status">
+            <variable name="enabled">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1qf2"
+                         procedure="check.enabled.open_in_snap_checkbox_enabled_status">
+            <variable name="enabled">true</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pbG" name="processing_parameters">
+          <ProcedureCall id="_1pbF"
+                         procedure="select.processing_parameters_tab"/>
+          <ProcedureCall id="_1sXN"
+                         procedure="idepix.set.default_processing_parameters"/>
+          <ProcedureCall id="_1sYv"
+                         procedure="check.checked.compute_cloud_buffer_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1sYw"
+                         procedure="check.checked.write_feature_values_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1sYx"
+                         procedure="check.checked.write_toa_reflectances_selected_status">
+            <variable name="selected">true</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1sXO"
+                         procedure="check.text.width_of_cloud_buffer">
+            <variable name="val">$(cloudBufferWidth_default)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1sXP"
+                         procedure="check.text.threshold_cw_thresh">
+            <variable name="val">$(cwThresh_default)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1sXQ"
+                         procedure="check.text.threshold_gcl_thresh">
+            <variable name="val">$(gclThresh_default)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1sXR"
+                         procedure="check.text.threshold_cl_thresh">
+            <variable name="val">$(clThresh_default)</variable>
+          </ProcedureCall>
+        </TestStep>
+      </TestStep>
+      <ProcedureCall id="_1s6s" procedure="close_processor_tool"/>
+    </TestCase>
+    <TestSet id="_1pMP" name="processing">
+      <variable name="source_dir">sentinel2_subset</variable>
+      <variable name="source_data">S2A_OPER_MTD_SAFL1C_PDMC_20160427T113628_R135_V20160427T080740_20160427T080740_T36MVB_resampled.dim</variable>
+      <TestCase id="_40q" name="store_load_display_parameters">
+        <variable name="ofn">idepix_sentinel2.xml</variable>
+        <variable name="output_file">save_parameter_idepix_sentinel2.dim</variable>
+        <ProcedureCall id="_1taF"
+                       procedure="preparation_io_parameters_for_test">
+          <variable name="source_dir">$(source_dir)</variable>
+          <variable name="source_data">$(source_data)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1sZD"
+                       procedure="idepix.set.processing_parameters"/>
+        <ProcedureCall id="_1rug" procedure="select.deselect_save_as"/>
+        <TestStep id="_1pOt" name="change_parameters">
+          <ProcedureCall id="_1rt-"
+                         procedure="select.processing_parameters_tab"/>
+          <ProcedureCall id="_1rtw" procedure="set.width_of_cloud_buffer">
+            <variable name="val">$(cloudBufferWidth)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1sZE" procedure="set.threshold_cl_thresh">
+            <variable name="val">$(clThresh)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1sZF" procedure="set.threshold_cw_thresh">
+            <variable name="val">$(cwThresh)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1sZG" procedure="set.threshold_gcl_thresh">
+            <variable name="val">$(gclThresh)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1sZH"
+                         procedure="select.deselect_compute_cloud_buffer"/>
+          <ProcedureCall id="_1sZI"
+                         procedure="select.deselect_write_feature_values"/>
+          <ProcedureCall id="_1sZJ"
+                         procedure="select.deselect_write_toa_reflectances"/>
+        </TestStep>
+        <ProcedureCall id="_1pPE" procedure="store_parameters"/>
+        <ProcedureCall id="_1sZT" procedure="change_parameters_to_default"/>
+        <ProcedureCall id="_1ubK" procedure="select.write_feature_values"/>
+        <ProcedureCall id="_1ubL" procedure="select.write_toa_reflectances"/>
+        <ProcedureCall id="_1pPl" procedure="load_parameters"/>
+        <TestStep id="_1pPm" name="check_parameters">
+          <ProcedureCall id="_1pfY"
+                         procedure="select.processing_parameters_tab"/>
+          <ProcedureCall id="_1sZU"
+                         procedure="check.checked.compute_cloud_buffer_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1sZV"
+                         procedure="check.checked.write_feature_values_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1sZW"
+                         procedure="check.checked.write_toa_reflectances_selected_status">
+            <variable name="selected">false</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1sZX"
+                         procedure="check.text.width_of_cloud_buffer">
+            <variable name="val">$(cloudBufferWidth)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1sZY"
+                         procedure="check.text.threshold_cw_thresh">
+            <variable name="val">$(cwThresh)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1sZZ"
+                         procedure="check.text.threshold_gcl_thresh">
+            <variable name="val">$(gclThresh)</variable>
+          </ProcedureCall>
+          <ProcedureCall id="_1sZa"
+                         procedure="check.text.threshold_cl_thresh">
+            <variable name="val">$(clThresh)</variable>
+          </ProcedureCall>
+        </TestStep>
+        <TestStep id="_1pV8" name="display_parameters">
+          <ProcedureCall id="_1rwO" procedure="do_click.menu.file"/>
+          <ProcedureCall id="_1rwP"
+                         procedure="do_click.menu.display_parameters"/>
+          <ComponentWaiter client="$(client)"
+                           component="dialogIdepix.Sentinel2_Parameters"
+                           id="_1sV9"/>
+          <CheckStringStep checktype="item" client="$(client)"
+                           component="dialogIdepix.Sentinel2_Parameters.text@&lt;parameters&gt;"
+                           disabled="true" id="_1sVA">
+            <text>&lt;parameters&gt;</text>
+          </CheckStringStep>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogIdepix.Sentinel2_Parameters.ModalDialog.ok"
+                          event="MOUSE_MPRC" id="_1sVB" modifiers="16"/>
+        </TestStep>
+        <ProcedureCall id="_1sZb" procedure="change_parameters_to_default"/>
+        <ProcedureCall id="_1sZc" procedure="close_processor_tool"/>
+      </TestCase>
+      <TestCase id="_1tQU" name="cancel_processing">
+        <variable name="output_file">idepix_sentinel2_cancel.dim</variable>
+        <ProcedureCall id="_1taG"
+                       procedure="preparation_io_parameters_for_test">
+          <variable name="source_dir">$(source_dir)</variable>
+          <variable name="source_data">$(source_data)</variable>
+        </ProcedureCall>
+        <TestStep id="_1pZQ" name="cancel_processing">
+          <ProcedureCall id="_1qGy" procedure="do_click.run_button"/>
+          <ProcedureCall id="_1pa9" procedure="cancel_operators"/>
+        </TestStep>
+        <ProcedureCall id="_1taH"
+                       procedure="utility.check_if_processing_is_really_canceled"/>
+        <ProcedureCall id="_1tQW" procedure="close_processor_tool"/>
+      </TestCase>
+      <TestSet id="_1tQX" name="processing_in_different_formats">
+        <SetupSequence id="_1tQY" name="prepare_for_the_testing">
+          <ProcedureCall id="_1taI"
+                         procedure="preparation_io_parameters_for_test">
+            <variable name="output_file">test</variable>
+            <variable name="source_dir">$(source_dir)</variable>
+            <variable name="source_data">$(source_data)</variable>
+          </ProcedureCall>
+        </SetupSequence>
+        <TestSet id="_1tQf" name="processing">
+          <DataDriver id="_1tQg"
+                      loopreportname="Write the target product as $(output_format)"
+                      name="output_formats">
+            <ProcedureCall id="_1tQh" procedure="tables.output_formats"/>
+          </DataDriver>
+          <TestCase id="_1tQi" name="processing_in_different_formats"
+                    reportname="Processing in $(output_format) format and check output product">
+            <ProcedureCall id="_1taL"
+                           procedure="check.processor_tool_is_opened_else_open"/>
+            <ProcedureCall id="_1ual" procedure="processing"/>
+            <ProcedureCall id="_1uao" procedure="idepix.check.target_product">
+              <variable name="product_id">0</variable>
+            </ProcedureCall>
+          </TestCase>
+        </TestSet>
+        <CleanupSequence id="_1tQq" name="close_processor_tool">
+          <ProcedureCall id="_1tQr" procedure="close_processor_tool"/>
+          <ProcedureCall id="_1tQs" procedure="cleanup.output_data_folder">
+            <variable name="directory">$(output_folder)</variable>
+          </ProcedureCall>
+        </CleanupSequence>
+      </TestSet>
+    </TestSet>
+    <TestSet id="_1ubO" name="first_resampling_idefix_thereafter">
+      <variable name="source_dir">sentinel2_S2A_OPER_PRD_MSIL1C_PDMC_20160427T113628_small</variable>
+      <variable name="source_data">S2A_OPER_MTD_SAFL1C_PDMC_20160427T113628_R135_V20160427T080740_20160427T080740_T36MVB.xml</variable>
+      <SetupSequence id="_1ubP" name="prepare_for_the_testing">
+        <ProcedureCall id="_1ubv" procedure="resampling_for_test"/>
+        <ProcedureCall id="_1ubF" procedure="open_tool_window"/>
+      </SetupSequence>
+      <TestSet id="_1uar" name="resampling_idepix">
+        <TestSet id="_1uau" name="processing">
+          <DataDriver id="_1uav"
+                      loopreportname="Write the target product as $(output_format)"
+                      name="output_formats">
+            <ProcedureCall id="_1uaw" procedure="tables.output_formats"/>
+          </DataDriver>
+          <TestCase id="_1uax" name="processing_in_different_formats"
+                    reportname="Processing in $(output_format) format and check output product">
+            <ProcedureCall id="_1ucD"
+                           procedure="check.processor_tool_is_opened_else_open"/>
+            <TryStep id="_1ub+" name="check_resampled_product_selected">
+              <ProcedureCall id="_1ubo" procedure="get.source_product_name"/>
+              <CatchSequence exception="TestException" id="_1ub-"
+                             maxerror="0">
+                <SetGlobalStep id="_1uc0" varname="resampled_product"/>
+              </CatchSequence>
+            </TryStep>
+            <ProcedureCall id="_1uc4" procedure="get.tree.rowCount">
+              <variable name="id">NbMainWindow.Product_Explorer.tree</variable>
+            </ProcedureCall>
+            <IfSequence id="_1ucM"
+                        test="&#34;$(source_product_name)&#34;&lt;&gt;&#34;$(resampled_product)&#34; or &#34;$(rowCount)&#34;&lt;&gt;&#34;1&#34;">
+              <ProcedureCall id="_1ucN" procedure="close_processor_tool"/>
+              <ProcedureCall id="_1ucO" procedure="resampling_for_test"/>
+              <ProcedureCall id="_1ucP" procedure="open_tool_window"/>
+            </IfSequence>
+            <ProcedureCall id="_1uc6" procedure="processing"/>
+            <ProcedureCall id="_1ua+" procedure="idepix.check.target_product">
+              <variable name="product_id">1</variable>
+            </ProcedureCall>
+            <ProcedureCall disabled="true" id="_1ubG"
+                           procedure="close_processor_tool"/>
+          </TestCase>
+        </TestSet>
+        <CleanupSequence id="_1ua-" name="close_processor_tool">
+          <ProcedureCall id="_1ub0" procedure="close_processor_tool"/>
+          <ProcedureCall id="_1ub1" procedure="cleanup.output_data_folder">
+            <variable name="directory">$(output_folder)</variable>
+          </ProcedureCall>
+        </CleanupSequence>
+      </TestSet>
+    </TestSet>
+    <TestCase id="_1pFr" name="03_help">
+      <ProcedureCall id="_1rwr" procedure="open_tool_window"/>
+      <TestStep id="_1pVG" name="check_help">
+        <ProcedureCall id="_1ruZ" procedure="do_click.menu.help"/>
+        <ProcedureCall id="_1rua" procedure="do_click.menu.menuItemHelp"/>
+        <ProcedureCall id="_1qes" procedure="help.check_help_appears_close"/>
+      </TestStep>
+      <TestStep id="_1pVN" name="check_help_about">
+        <ProcedureCall id="_1ruc" procedure="do_click.menu.help"/>
+        <ProcedureCall id="_1rud" procedure="do_click.menu.about"/>
+        <ComponentWaiter client="$(client)"
+                         component="dialogAbout_Idepix.Sentinel2" id="_1sVE"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogAbout_Idepix.Sentinel2.ModalDialog.ok"
+                        event="MOUSE_MPRC" id="_1sVF" modifiers="16"/>
+      </TestStep>
+      <ProcedureCall id="_1s6v" procedure="close_processor_tool"/>
+    </TestCase>
+  </TestSet>
+  <PackageRoot id="_4">
+    <Package id="_1rsW" name="check">
+      <Package id="_1rsY" name="checked">
+        <Procedure id="_1sXa" name="compute_cloud_buffer">
+          <comment>@teststep Check 'Compute cloud buffer' checkbox is selected.</comment>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).computeCloudBuffer"
+                            id="_1sXe" resvarname="compute_cloud_buffer"/>
+        </Procedure>
+        <Procedure id="_1sX-" name="compute_cloud_buffer_selected_status">
+          <variable name="selected"/>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).computeCloudBuffer"
+                            id="_1sY0" state="$(selected)"/>
+        </Procedure>
+        <Procedure id="_1rvm" name="open_in_snap">
+          <comment>@teststep Check 'Open in SNAP' checkbox is selected.</comment>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).openInAppSelected"
+                            id="_1rlp" resvarname="open_in_snap"/>
+        </Procedure>
+        <Procedure id="_1rvs" name="open_in_snap_selected_status">
+          <variable name="selected"/>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).openInAppSelected"
+                            id="_1rvt" state="$(selected)"/>
+        </Procedure>
+        <Procedure id="_1rvk" name="save_as">
+          <comment>@teststep Check 'Save as' checkbox is selected.</comment>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).saveToFileSelected"
+                            id="_1rlo" resvarname="save_as"/>
+        </Procedure>
+        <Procedure id="_1rvq" name="save_as_selected_status">
+          <variable name="selected"/>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).saveToFileSelected"
+                            id="_1rvr" state="$(selected)"/>
+        </Procedure>
+        <Procedure id="_1sXY" name="write_feature_values">
+          <comment>@teststep Check 'Write feature values to the target product' checkbox is selected.</comment>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).copyFeatureValues"
+                            id="_1sXd" resvarname="write_feature_values"/>
+        </Procedure>
+        <Procedure id="_1sXz" name="write_feature_values_selected_status">
+          <variable name="selected"/>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).copyFeatureValues"
+                            id="_1sX+" state="$(selected)"/>
+        </Procedure>
+        <Procedure id="_1sXW" name="write_toa_reflectances">
+          <comment>@teststep Check 'Write TOA Reflectances to the target product' checkbox is selected.</comment>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).copyToaReflectances"
+                            id="_1sXc" resvarname="write_toa_reflectances"/>
+        </Procedure>
+        <Procedure id="_1sXx" name="write_toa_reflectances_selected_status">
+          <variable name="selected"/>
+          <CheckBooleanStep checktype="checked" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).copyToaReflectances"
+                            id="_1sXy" state="$(selected)"/>
+        </Procedure>
+      </Package>
+      <Package id="_1rsX" name="enabled">
+        <Procedure id="_1rtG" name="close_button">
+          <comment>@teststep Check  'Close' button enabled.</comment>
+          <CheckBooleanStep checktype="enabled" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).DefaultSingleTargetProductDialog.close"
+                            id="_1rs+"/>
+        </Procedure>
+        <Procedure id="_1rsu" name="menu_file">
+          <comment>@teststep Check menu 'File' is enabled.</comment>
+          <CheckBooleanStep checktype="enabled" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).menuFile"
+                            id="_1rsy"/>
+        </Procedure>
+        <Procedure id="_1rsw" name="menu_help">
+          <comment>@teststep Check menu 'Help' is enabled.</comment>
+          <CheckBooleanStep checktype="enabled" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).menuHelp"
+                            id="_1rsz"/>
+        </Procedure>
+        <Procedure id="_1rt1" name="open_in_snap_checkbox">
+          <comment>@teststep Check 'Open in SNAP' checkbox is enabled.</comment>
+          <CheckBooleanStep checktype="enabled" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).openInAppSelected"
+                            id="_1rqK" resvarname="open_in_snap_enabled"/>
+        </Procedure>
+        <Procedure id="_1rtV" name="open_in_snap_checkbox_enabled_status">
+          <variable name="enabled"/>
+          <CheckBooleanStep checktype="enabled" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).openInAppSelected"
+                            id="_1rtW" state="$(enabled)"/>
+        </Procedure>
+        <Procedure id="_1rtO" name="open_source_product_button">
+          <comment>@teststep Check  'source product' button enabled.</comment>
+          <CheckBooleanStep checktype="enabled" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).button..."
+                            id="_1rtQ"/>
+        </Procedure>
+        <Procedure id="_1rsa" name="output_directory_button">
+          <comment>@teststep Check  'directory' button enabled.</comment>
+          <CheckBooleanStep checktype="enabled" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).button...2"
+                            id="_1rqR"/>
+        </Procedure>
+        <Procedure id="_1rtI" name="run_button">
+          <comment>@teststep Check  'RUN' button enabled.</comment>
+          <CheckBooleanStep checktype="enabled" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).DefaultSingleTargetProductDialog.apply"
+                            id="_1rtM"/>
+        </Procedure>
+        <Procedure id="_1rs-" name="save_as_checkbox">
+          <comment>@teststep Check 'Save as' checkbox is enabled.</comment>
+          <CheckBooleanStep checktype="enabled" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).saveToFileSelected"
+                            id="_1rqJ" resvarname="save_as_enabled"/>
+        </Procedure>
+        <Procedure id="_1rtT" name="save_as_checkbox_enabled_status">
+          <variable name="enabled"/>
+          <CheckBooleanStep checktype="enabled" client="$(client)"
+                            component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).saveToFileSelected"
+                            id="_1rtU" state="$(enabled)"/>
+        </Procedure>
+      </Package>
+      <Package id="_1rsZ" name="text">
+        <Procedure id="_1s0q" name="output_format_name">
+          <variable name="val"/>
+          <comment>@teststep Check selected outpur format.</comment>
+          <CheckStringStep checktype="value" client="$(client)"
+                           component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).formatName"
+                           id="_1s18">
+            <text>$(val)</text>
+          </CheckStringStep>
+        </Procedure>
+        <Procedure id="_1s0y" name="source_product_name">
+          <variable name="val"/>
+          <comment>@teststep Check source product name.</comment>
+          <CheckStringStep checktype="value" client="$(client)"
+                           component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).panelI/O_Parameters.comboThe_Sentinel-2_MSI_L1C_product."
+                           id="_1s15">
+            <text>$(val)</text>
+          </CheckStringStep>
+        </Procedure>
+        <Procedure id="_1s0+" name="target_product_name">
+          <variable name="val"/>
+          <comment>@teststep Check target product name.</comment>
+          <CheckStringStep client="$(client)"
+                           component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).productName"
+                           id="_1s17">
+            <text>$(val)</text>
+          </CheckStringStep>
+        </Procedure>
+        <Procedure id="_1sXJ" name="threshold_cl_thresh">
+          <variable name="val"/>
+          <comment>@teststep Check 'Threshold CL THRESH' value.</comment>
+          <CheckStringStep client="$(client)"
+                           component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).clThresh"
+                           id="_1sXK">
+            <text>$(val)</text>
+          </CheckStringStep>
+        </Procedure>
+        <Procedure id="_1rzj" name="threshold_cw_thresh">
+          <variable name="val"/>
+          <comment>@teststep Check 'Threshold CW THRESH' value.</comment>
+          <CheckStringStep client="$(client)"
+                           component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).cwThresh"
+                           id="_1rzk">
+            <text>$(val)</text>
+          </CheckStringStep>
+        </Procedure>
+        <Procedure id="_1sXL" name="threshold_gcl_thresh">
+          <variable name="val"/>
+          <comment>@teststep Check 'Threshold GCL THRESH' value.</comment>
+          <CheckStringStep client="$(client)"
+                           component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).gclThresh"
+                           id="_1sXM">
+            <text>$(val)</text>
+          </CheckStringStep>
+        </Procedure>
+        <Procedure id="_1rzb" name="width_of_cloud_buffer">
+          <variable name="val"/>
+          <comment>@teststep Check 'Width of cloud buffer' value.</comment>
+          <CheckStringStep client="$(client)"
+                           component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).cloudBufferWidth"
+                           id="_1rzz">
+            <text>$(val)</text>
+          </CheckStringStep>
+        </Procedure>
+      </Package>
+      <Procedure id="_1taK" name="processor_tool_is_opened_else_open">
+        <TryStep id="_1tZz">
+          <ProcedureCall id="_1taM"
+                         procedure="idepix.check.sentinel2_tool_opened"/>
+          <CatchSequence exception="TestException" id="_1tZ-" maxerror="0">
+            <ProcedureCall id="_1taO"
+                           procedure="preparation_io_parameters_for_test">
+              <variable name="output_file">test</variable>
+              <variable name="source_dir">$(source_dir)</variable>
+              <variable name="source_data">$(source_data)</variable>
+            </ProcedureCall>
+          </CatchSequence>
+        </TryStep>
+      </Procedure>
+    </Package>
+    <Package id="_1rsb" name="do_click">
+      <Package id="_1rsc" name="menu">
+        <Procedure id="_1rsr" name="about">
+          <comment>@teststep Do click Menu Item 'About...'.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).menuItemAbout..."
+                          event="MOUSE_MPRC" id="_1sWo" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1rsn" name="display_parameters">
+          <comment>@teststep Do click Menu Item 'Display Parameters...'.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).menuItemDisplay_Parameters..."
+                          event="MOUSE_MPRC" id="_1sWn" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1rsd" name="file">
+          <comment>@teststep Do click Menu Item 'File'.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).menuFile"
+                          event="MOUSE_MPRC" id="_1sV7" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1rsf" name="help">
+          <comment>@teststep Do click Menu Item 'Help'.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).menuHelp"
+                          event="MOUSE_MPRC" id="_1sVC" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1rsh" name="load_parameters">
+          <comment>@teststep Do click Menu Item 'Load Parameters...'.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).menuItemLoad_Parameters..."
+                          event="MOUSE_MPRC" id="_1rsi" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1rsj" name="menuItemHelp">
+          <comment>@teststep Do click Menu Item 'Help'.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).menuItemHelp"
+                          event="MOUSE_MPRC" id="_1rsk" modifiers="16"/>
+        </Procedure>
+        <Procedure id="_1rsl" name="save_parameters">
+          <comment>@teststep Do click Menu Item 'Save Parameters...'.</comment>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).menuItemSave_Parameters..."
+                          event="MOUSE_MPRC" id="_1rsm" modifiers="16"/>
+        </Procedure>
+      </Package>
+      <Procedure id="_1rtA" name="close_button">
+        <comment>@teststep Click 'Close' button.</comment>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).DefaultSingleTargetProductDialog.close"
+                        event="MOUSE_MPRC" id="_1rtB" modifiers="16"/>
+      </Procedure>
+      <Procedure id="_1sXs" name="compute_cloud_buffer">
+        <comment>@teststep Click on the checkbox 'Compute cloud buffer'.</comment>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).computeCloudBuffer"
+                        event="MOUSE_MPRC" id="_1sXt" modifiers="16"/>
+      </Procedure>
+      <Procedure id="_1rvw" name="open_in_snap">
+        <comment>@teststep Click on the checkbox 'Open in SNAP'.</comment>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).openInAppSelected"
+                        event="MOUSE_MPRC" id="_1sWq" modifiers="16"/>
+      </Procedure>
+      <Procedure id="_1rt9" name="open_source_product_button">
+        <comment>@teststep Click 'Source Product' button.</comment>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).button..."
+                        event="MOUSE_MPRC" id="_1sWr" modifiers="16"/>
+      </Procedure>
+      <Procedure id="_1rtC" name="run_button">
+        <comment>@teststep Click 'Apply' button.</comment>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).DefaultSingleTargetProductDialog.apply"
+                        event="MOUSE_MPRC" id="_1rtD" modifiers="16"/>
+      </Procedure>
+      <Procedure id="_1rvu" name="save_as">
+        <comment>@teststep Click on the checkbox 'Save as'.</comment>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).saveToFileSelected"
+                        event="MOUSE_MPRC" id="_1sWp" modifiers="16"/>
+      </Procedure>
+      <Procedure id="_1sXq" name="write_feature_values">
+        <comment>@teststep Click on the checkbox 'Write feature values to the target product'.</comment>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).copyFeatureValues"
+                        event="MOUSE_MPRC" id="_1sXr" modifiers="16"/>
+      </Procedure>
+      <Procedure id="_1sXo" name="write_toa_reflectances">
+        <comment>@teststep Click on the checkbox 'Write TOA Reflectances to the target product'.</comment>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).copyToaReflectances"
+                        event="MOUSE_MPRC" id="_1sXp" modifiers="16"/>
+      </Procedure>
+      <Procedure id="_1pON" name="ok_in_product_created_dialog">
+        <TryStep id="_1qXT">
+          <ComponentWaiter client="$(client)"
+                           component="dialogSNAP_-_Idepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).buttonOK"
+                           errorlevel="0" id="_1qXS" raise="false"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogSNAP_-_Idepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).buttonOK"
+                          event="MOUSE_MPRC" id="_1seA" modifiers="16"/>
+          <CatchSequence exception="TestException" id="_1qXW" maxerror="0"/>
+        </TryStep>
+      </Procedure>
+      <Procedure id="_1s5a" name="yes_in_overwrite_existing_file_dialog">
+        <TryStep id="_1s5b">
+          <ComponentWaiter client="$(client)"
+                           component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode)2.buttonYes"
+                           errorlevel="0" id="_1s5c" raise="false"
+                           timeout="20"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode)2.buttonYes"
+                          event="MOUSE_MPRC" id="_1s5d" modifiers="16"/>
+          <CatchSequence exception="TestException" id="_1s5e" maxerror="0"/>
+        </TryStep>
+      </Procedure>
+    </Package>
+    <Package id="_1ubl" name="get">
+      <Procedure id="_1ubm" name="source_product_name">
+        <comment>@teststep Get source product name.</comment>
+        <FetchTextStep client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).panelI/O_Parameters.comboThe_Sentinel-2_MSI_L1C_product."
+                       id="_1ubn" varname="source_product_name"/>
+      </Procedure>
+    </Package>
+    <Package id="_1rsS" name="select">
+      <Procedure id="_1sXj" name="compute_cloud_buffer">
+        <comment>@teststep Check-in checkbox 'Compute cloud buffer'.</comment>
+        <ProcedureCall id="_1sY7"
+                       procedure="check.checked.compute_cloud_buffer"/>
+        <IfSequence id="_1sY9"
+                    test="&#34;$(compute_cloud_buffer)&#34;==&#34;false&#34;">
+          <ProcedureCall id="_1sYC"
+                         procedure="do_click.compute_cloud_buffer"/>
+        </IfSequence>
+        <ProcedureCall id="_1sYF"
+                       procedure="check.checked.compute_cloud_buffer_selected_status">
+          <variable name="selected">true</variable>
+        </ProcedureCall>
+      </Procedure>
+      <Procedure id="_1sYb" name="deselect_compute_cloud_buffer">
+        <comment>@teststep Check-out checkbox 'Compute cloud buffer'.</comment>
+        <ProcedureCall id="_1sYc"
+                       procedure="check.checked.compute_cloud_buffer"/>
+        <IfSequence id="_1sYd"
+                    test="&#34;$(compute_cloud_buffer)&#34;==&#34;true&#34;">
+          <ProcedureCall id="_1sYe"
+                         procedure="do_click.compute_cloud_buffer"/>
+        </IfSequence>
+        <ProcedureCall id="_1sYf"
+                       procedure="check.checked.compute_cloud_buffer_selected_status">
+          <variable name="selected">false</variable>
+        </ProcedureCall>
+      </Procedure>
+      <Procedure id="_1rwJ" name="deselect_open_in_snap">
+        <comment>@teststep Check-out checkbox 'Open in SNAP'.</comment>
+        <ProcedureCall id="_1rwK" procedure="check.checked.open_in_snap"/>
+        <IfSequence id="_1rwL"
+                    test="&#34;$(open_in_snap)&#34;==&#34;true&#34;">
+          <ProcedureCall id="_1rwM" procedure="do_click.open_in_snap"/>
+        </IfSequence>
+        <ProcedureCall id="_1rwN"
+                       procedure="check.checked.open_in_snap_selected_status">
+          <variable name="selected">false</variable>
+        </ProcedureCall>
+      </Procedure>
+      <Procedure id="_1rwE" name="deselect_save_as">
+        <comment>@teststep Check-out checkbox 'Save as'.</comment>
+        <ProcedureCall id="_1rwF" procedure="check.checked.save_as"/>
+        <IfSequence id="_1rwG" test="&#34;$(save_as)&#34;==&#34;true&#34;">
+          <ProcedureCall id="_1rwH" procedure="do_click.save_as"/>
+        </IfSequence>
+        <ProcedureCall id="_1rwI"
+                       procedure="check.checked.save_as_selected_status">
+          <variable name="selected">false</variable>
+        </ProcedureCall>
+      </Procedure>
+      <Procedure id="_1sYW" name="deselect_write_feature_values">
+        <comment>@teststep Check-out checkbox 'Write feature values to the target product'.</comment>
+        <ProcedureCall id="_1sYX"
+                       procedure="check.checked.write_feature_values"/>
+        <IfSequence id="_1sYY"
+                    test="&#34;$(write_feature_values)&#34;==&#34;true&#34;">
+          <ProcedureCall id="_1sYZ"
+                         procedure="do_click.write_feature_values"/>
+        </IfSequence>
+        <ProcedureCall id="_1sYa"
+                       procedure="check.checked.write_feature_values_selected_status">
+          <variable name="selected">false</variable>
+        </ProcedureCall>
+      </Procedure>
+      <Procedure id="_1sYR" name="deselect_write_toa_reflectances">
+        <comment>@teststep Check-out checkbox 'Write TOA Reflectances to the target product'.</comment>
+        <ProcedureCall id="_1sYS"
+                       procedure="check.checked.write_toa_reflectances"/>
+        <IfSequence id="_1sYT"
+                    test="&#34;$(write_toa_reflectances)&#34;==&#34;true&#34;">
+          <ProcedureCall id="_1sYU"
+                         procedure="do_click.write_toa_reflectances"/>
+        </IfSequence>
+        <ProcedureCall id="_1sYV"
+                       procedure="check.checked.write_toa_reflectances_selected_status">
+          <variable name="selected">false</variable>
+        </ProcedureCall>
+      </Procedure>
+      <Procedure id="_1pb8" name="io_tab">
+        <ProcedureCall id="_1rwQ" procedure="select.tab_idepix_sentinel2">
+          <variable name="tab">I/O Parameters</variable>
+        </ProcedureCall>
+      </Procedure>
+      <Procedure id="_1rwB" name="open_in_snap">
+        <comment>@teststep Check-in checkbox 'Open in SNAP'.</comment>
+        <ProcedureCall id="_1rwC" procedure="check.checked.open_in_snap"/>
+        <IfSequence id="_1rwD"
+                    test="&#34;$(open_in_snap)&#34;==&#34;false&#34;">
+          <ProcedureCall id="_1rw2" procedure="do_click.open_in_snap"/>
+        </IfSequence>
+        <ProcedureCall id="_1rw0"
+                       procedure="check.checked.open_in_snap_selected_status">
+          <variable name="selected">true</variable>
+        </ProcedureCall>
+      </Procedure>
+      <Procedure id="_1uad" name="output_format">
+        <variable name="output_format"/>
+        <TryStep id="_1tM+">
+          <ProcedureCall id="_1uag" procedure="select.output_format_help">
+            <variable name="output_format_name">$(output_format)</variable>
+          </ProcedureCall>
+          <CatchSequence exception="TestException" id="_1tN0" maxerror="0">
+            <TryStep id="_1tN1">
+              <ProcedureCall id="_1uah" procedure="select.output_format_help">
+                <variable name="output_format_name">$(output_format)</variable>
+              </ProcedureCall>
+              <CatchSequence exception="TestException" id="_1tN3"
+                             maxerror="0">
+                <ProcedureCall id="_1tN4" procedure="run-log.logError">
+                  <variable name="message">$(output_format) can not be selected</variable>
+                  <variable name="withScreenshots">true</variable>
+                </ProcedureCall>
+              </CatchSequence>
+            </TryStep>
+          </CatchSequence>
+        </TryStep>
+      </Procedure>
+      <Procedure id="_1uaf" name="output_format_help">
+        <variable name="output_format_name"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).formatName"
+                        event="MOUSE_MPRC" id="_1sWA" modifiers="16" x="36"
+                        y="14"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).listInvokerName:_formatName.output_format_name"
+                        event="MOUSE_MPRC" id="_1sWB" modifiers="16"/>
+      </Procedure>
+      <Procedure id="_1pbC" name="processing_parameters_tab">
+        <ProcedureCall id="_1pbE" procedure="select.tab_idepix_sentinel2">
+          <variable name="tab">Processing Parameters</variable>
+        </ProcedureCall>
+      </Procedure>
+      <Procedure id="_1rw3" name="save_as">
+        <comment>@teststep Check-in checkbox 'Save as'.</comment>
+        <ProcedureCall id="_1rw4" procedure="check.checked.save_as"/>
+        <IfSequence id="_1rwA" test="&#34;$(save_as)&#34;==&#34;false&#34;">
+          <ProcedureCall id="_1rw5" procedure="do_click.save_as"/>
+        </IfSequence>
+        <ProcedureCall id="_1rw6"
+                       procedure="check.checked.save_as_selected_status">
+          <variable name="selected">true</variable>
+        </ProcedureCall>
+      </Procedure>
+      <Procedure id="_1qCN" name="tab_idepix_sentinel2">
+        <variable name="tab"/>
+        <variable name="example">I/O Parameters;Processing Parameters</variable>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).tabbed.tab"
+                        event="MOUSE_MPRC" id="_1sVl" modifiers="16"/>
+      </Procedure>
+      <Procedure id="_1sXh" name="write_feature_values">
+        <comment>@teststep Check-in checkbox 'Write feature values to the target product'.</comment>
+        <ProcedureCall id="_1sYH"
+                       procedure="check.checked.write_feature_values"/>
+        <IfSequence id="_1sYK"
+                    test="&#34;$(write_feature_values)&#34;==&#34;false&#34;">
+          <ProcedureCall id="_1sYM"
+                         procedure="do_click.write_feature_values"/>
+        </IfSequence>
+        <ProcedureCall id="_1sYP"
+                       procedure="check.checked.write_feature_values_selected_status">
+          <variable name="selected">true</variable>
+        </ProcedureCall>
+      </Procedure>
+      <Procedure id="_1sXf" name="write_toa_reflectances">
+        <comment>@teststep Check-in checkbox 'Write TOA Reflectances to the target product'.</comment>
+        <ProcedureCall id="_1sXl"
+                       procedure="check.checked.write_toa_reflectances"/>
+        <IfSequence id="_1sY4"
+                    test="&#34;$(write_toa_reflectances)&#34;==&#34;false&#34;">
+          <ProcedureCall id="_1sXu"
+                         procedure="do_click.write_toa_reflectances"/>
+        </IfSequence>
+        <ProcedureCall id="_1sY1"
+                       procedure="check.checked.write_toa_reflectances_selected_status">
+          <variable name="selected">true</variable>
+        </ProcedureCall>
+      </Procedure>
+    </Package>
+    <Package id="_1rup" name="set">
+      <Procedure id="_1rqt" name="target_directory">
+        <variable name="dir"/>
+        <comment>@teststep Insert target directory.</comment>
+        <ProcedureCall id="_1sYy" procedure="select.save_as"/>
+        <ProcedureCall id="_1rqv" procedure="path.output_data_directory">
+          <variable name="output_dir">$(dir)</variable>
+        </ProcedureCall>
+        <TextInputStep clear="true" client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).productDir"
+                       id="_1rqw">
+          <text>$(output_data_directory)</text>
+        </TextInputStep>
+      </Procedure>
+      <Procedure id="_1rqx" name="target_product_name">
+        <variable name="target_product_name"/>
+        <comment>@teststep Insert target product name.</comment>
+        <TextInputStep clear="true" client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).productName"
+                       id="_1rqy">
+          <text>$(target_product_name)</text>
+        </TextInputStep>
+      </Procedure>
+      <Procedure id="_1rx1" name="width_of_cloud_buffer">
+        <variable name="val"/>
+        <comment>@teststep Insert cloud buffer width.</comment>
+        <TextInputStep clear="true" client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).cloudBufferWidth"
+                       id="_1rx2">
+          <text>$(val)</text>
+        </TextInputStep>
+      </Procedure>
+      <Procedure id="_1sYz" name="threshold_cl_thresh">
+        <variable name="val"/>
+        <comment>@teststep Insert 'Threshold CL THRESH'.</comment>
+        <TextInputStep clear="true" client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).clThresh"
+                       id="_1sY+">
+          <text>$(val)</text>
+        </TextInputStep>
+      </Procedure>
+      <Procedure id="_1sY-" name="threshold_cw_thresh">
+        <variable name="val"/>
+        <comment>@teststep Insert 'Threshold CW THRESH'.</comment>
+        <TextInputStep clear="true" client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).cwThresh"
+                       id="_1sZ0">
+          <text>$(val)</text>
+        </TextInputStep>
+      </Procedure>
+      <Procedure id="_1sZ1" name="threshold_gcl_thresh">
+        <variable name="val"/>
+        <comment>@teststep Insert 'Threshold GCL THRESH'.</comment>
+        <TextInputStep clear="true" client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).gclThresh"
+                       id="_1sZ2">
+          <text>$(val)</text>
+        </TextInputStep>
+      </Procedure>
+    </Package>
+    <Procedure id="_1ubr" name="resampling_for_test">
+      <ProcedureCall id="_1ubs" procedure="close.all_products"/>
+      <ProcedureCall id="_1ubt" procedure="open.raster.resampling"/>
+      <ProcedureCall id="_1ubu" procedure="resampling_default"/>
+      <ServerScriptStep id="_9pM" name="substring">
+        <code>import string 
+pn = "$(source_data)"
+index = string.find(pn, ".xml")
+rc.setGlobal("product_name_in_snap", pn[:index])   
+              </code>
+      </ServerScriptStep>
+      <SetGlobalStep id="_1ubz" varname="resampled_product">
+        <default>[1] $(product_name_in_snap)_resampled</default>
+      </SetGlobalStep>
+    </Procedure>
+    <Procedure id="_1s6h" name="close_processor_tool">
+      <TryStep id="_1ubH">
+        <ProcedureCall id="_1ubI"
+                       procedure="idepix.check.sentinel2_tool_opened"/>
+        <ProcedureCall id="_1s6r" procedure="do_click.close_button"/>
+        <CatchSequence exception="TestException" id="_1ubJ" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1pP9" name="load_parameters">
+      <TryStep id="_1pPA" name="select_menu_load_parameters">
+        <ProcedureCall id="_1ru8" procedure="do_click.menu.file"/>
+        <ProcedureCall id="_1ru9" procedure="do_click.menu.load_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPD" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPM" procedure="utility.load_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pMT" name="open_source_product">
+      <variable name="prod_dir"/>
+      <variable name="prod_name"/>
+      <ProcedureCall id="_1oSj" procedure="path.source_data_directory">
+        <variable name="data_type">$(prod_dir)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1rx0"
+                     procedure="do_click.open_source_product_button"/>
+      <ProcedureCall id="_1pHR"
+                     procedure="utility.handle_select_product_dialog">
+        <variable name="file">$(data_source_directory)$(prod_name)</variable>
+      </ProcedureCall>
+      <TryStep id="_1pXT">
+        <ProcedureCall id="_1pXV" procedure="wait.appear.error.dialog_Error"/>
+        <ProcedureCall id="_1pXS"
+                       procedure="do_click.error_dialog.button_OK_Error"/>
+        <ProcedureCall id="_1pXW" procedure="run-log.logError">
+          <variable name="message">Opening of the product $(data_source_directory)$(prod_name) failed</variable>
+          <variable name="withScreenshots">false</variable>
+        </ProcedureCall>
+        <CatchSequence exception="TestException" id="_1pXU" maxerror="0"/>
+      </TryStep>
+    </Procedure>
+    <Procedure id="_1rwk" name="open_tool_window">
+      <ProcedureCall id="_1rwl" procedure="idepix.open.sentinel2"/>
+    </Procedure>
+    <Procedure id="_1s42" name="processing">
+      <comment>@teststep processing</comment>
+      <ProcedureCall id="_1uab" procedure="select.io_tab"/>
+      <ProcedureCall id="_1uac" procedure="select.save_as"/>
+      <ProcedureCall id="_1s45" procedure="set.target_product_name">
+        <variable name="target_product_name">$(output_file)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1ubN" procedure="set.target_directory">
+        <variable name="dir">$(output_folder)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1uai" procedure="select.output_format">
+        <variable name="output_format">$(output_format)</variable>
+      </ProcedureCall>
+      <IfSequence id="_1uaX"
+                  test="&#34;$(output_format)&#34;&lt;&gt;&#34;HDF5&#34;">
+        <ProcedureCall id="_1uaj" procedure="select.open_in_snap"/>
+      </IfSequence>
+      <ProcedureCall id="_1uak" procedure="do_click.run_button"/>
+      <ProcedureCall id="_1uaq"
+                     procedure="do_click.yes_in_overwrite_existing_file_dialog"/>
+      <ProcedureCall id="_1tQC" predelay="2000"
+                     procedure="wait.disappear.writing_target_product"/>
+      <ProcedureCall id="_1uap"
+                     procedure="do_click.ok_in_product_created_dialog"/>
+      <ProcedureCall id="_1uam"
+                     procedure="error_handling.check_error_appears_shoot_message"/>
+      <ProcedureCall id="_1tZv"
+                     procedure="qfs.swing.cleanup.closeAllModalDialogs">
+        <variable name="maxDialogs">5</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1pPF" name="store_parameters">
+      <TryStep id="_1pPG" name="select_menu_store_parameters">
+        <ProcedureCall id="_1ru0" procedure="do_click.menu.file"/>
+        <ProcedureCall id="_1ru1" procedure="do_click.menu.save_parameters"/>
+        <CatchSequence exception="TestException" id="_1pPJ" maxerror="0"/>
+      </TryStep>
+      <ProcedureCall id="_1pPK" procedure="utility.store_parameters_dialog">
+        <variable name="file_name">$(ofn)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1sZK" name="change_parameters_to_default">
+      <ProcedureCall id="_1sXS"
+                     procedure="idepix.set.default_processing_parameters"/>
+      <ProcedureCall id="_1sZL" procedure="select.processing_parameters_tab"/>
+      <ProcedureCall id="_1sZQ" procedure="select.compute_cloud_buffer"/>
+      <ProcedureCall id="_1sZR"
+                     procedure="select.deselect_write_feature_values"/>
+      <ProcedureCall id="_1sZS"
+                     procedure="select.deselect_write_toa_reflectances"/>
+      <ProcedureCall id="_1sZM" procedure="set.width_of_cloud_buffer">
+        <variable name="val">$(cloudBufferWidth_default)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1sZN" procedure="set.threshold_cl_thresh">
+        <variable name="val">$(clThresh_default)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1sZO" procedure="set.threshold_cw_thresh">
+        <variable name="val">$(cwThresh_default)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1sZP" procedure="set.threshold_gcl_thresh">
+        <variable name="val">$(gclThresh_default)</variable>
+      </ProcedureCall>
+    </Procedure>
+    <Procedure id="_1qCR" name="preparation_io_parameters_for_test">
+      <variable name="source_dir"/>
+      <variable name="source_data"/>
+      <comment>@teststep Preparation I/O Parameters for test.</comment>
+      <ProcedureCall id="_1taE" procedure="open_tool_window"/>
+      <ProcedureCall id="_1taD" procedure="select.io_tab"/>
+      <ProcedureCall id="_1ta9" procedure="open_source_product">
+        <variable name="prod_dir">$(source_dir)</variable>
+        <variable name="prod_name">$(source_data)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1qCU" procedure="set.target_product_name">
+        <variable name="target_product_name">$(output_file)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1sbY" procedure="set.target_directory">
+        <variable name="dir">$(output_folder)</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_1taA" procedure="select.open_in_snap"/>
+      <ProcedureCall id="_1taB" procedure="select.save_as"/>
+    </Procedure>
+  </PackageRoot>
+  <ExtraSequence id="_5">
+    <BasicSequence id="_1ryj" name="resampling_target_product_error">
+      <ProcedureCall id="_1ub8"
+                     procedure="error_specify_target_product_name"/>
+      <IfSequence id="_1ubC"
+                  test="&#34;$(error_specify_target_product_name)&#34;==&#34;true&#34;">
+        <ProcedureCall id="_1ubD" postdelay="1000"
+                       procedure="do_click.resampling.button_apply"/>
+      </IfSequence>
+      <ProcedureCall id="_1s8n"
+                     procedure="wait.disappear.writing_target_product"/>
+      <ProcedureCall id="_1s8o"
+                     procedure="do_click.resampling.click_ok_in_product_created_dialog"/>
+      <ProcedureCall id="_1ucR" procedure="open_tool_window"/>
+    </BasicSequence>
+    <BasicSequence id="_1ubx" name="Aufnahme 08.09.16 14:07">
+      <CheckStringStep checktype="value" client="$(client)"
+                       component="dialogIdepix_-_Pixel_Identification_and_Classification_(Sentinel-2_mode).panelI/O_Parameters.combo[1]_S2A_OPER_MTD_SAFL1C_PDMC_20160427T113628_R135_V20160427T080740_20160427T080740_T36MVB_resampled"
+                       id="_1uby">
+        <text>[1] S2A_OPER_MTD_SAFL1C_PDMC_20160427T113628_R135_V20160427T080740_20160427T080740_T36MVB_resampled</text>
+      </CheckStringStep>
+    </BasicSequence>
+    <TestSet id="_1ubR" name="resampling_idepix">
+      <TestSet id="_1ubS" name="processing">
+        <DataDriver id="_1ubT"
+                    loopreportname="Write the target product as $(output_format)"
+                    name="output_formats">
+          <ProcedureCall id="_1ubU" procedure="tables.output_formats"/>
+        </DataDriver>
+        <TestCase id="_1ubV" name="processing_in_different_formats"
+                  reportname="Processing in $(output_format) format and check output product">
+          <ProcedureCall id="_1ubW" procedure="open.raster.resampling"/>
+          <ProcedureCall id="_1ubX" procedure="resampling_default"/>
+          <ProcedureCall id="_1ubY" procedure="open_tool_window"/>
+          <ProcedureCall id="_1ubZ" procedure="processing"/>
+          <ProcedureCall id="_1uba" procedure="idepix.check.target_product">
+            <variable name="product_id">1</variable>
+          </ProcedureCall>
+          <ProcedureCall disabled="true" id="_1ubb"
+                         procedure="close_processor_tool"/>
+        </TestCase>
+      </TestSet>
+      <CleanupSequence id="_1ubc" name="close_processor_tool">
+        <ProcedureCall id="_1ubd" procedure="close_processor_tool"/>
+        <ProcedureCall id="_1ube" procedure="cleanup.output_data_folder">
+          <variable name="directory">$(output_folder)</variable>
+        </ProcedureCall>
+      </CleanupSequence>
+    </TestSet>
+    <ProcedureCall id="_1oXV" procedure="check.product.not_opened"/>
+    <IfSequence id="_1oXW" test="&#34;$(not_opened)&#34;==&#34;false&#34;">
+      <TestStep id="_1o+2" name="delete_band">
+        <ProcedureCall id="_1oXb" procedure="select.product_tree.band">
+          <variable name="prod_id">0</variable>
+          <variable name="group_id"/>
+          <variable name="view_id">1</variable>
+          <variable name="band">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1ozv" procedure="delete_product_tree_node"/>
+        <ProcedureCall id="_1ozx" procedure="check.product.node_not_exists">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1o+t" name="undo">
+        <ProcedureCall id="_1p0C" procedure="undo_tree"/>
+        <ProcedureCall disabled="true" id="_1o+y"
+                       procedure="do_click_menubar_undo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o+z" procedure="get.tree.get_index_of_node">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+        <ServerScriptStep disabled="true" id="_1o++" name="print">
+          <code>print "$(new_band_id)"</code>
+        </ServerScriptStep>
+      </TestStep>
+      <TestStep id="_1o-3" name="redo">
+        <ProcedureCall id="_1p0D" procedure="redo_tree"/>
+        <ProcedureCall disabled="true" id="_1o-B"
+                       procedure="do_click_menubar_redo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o-C" procedure="check.product.node_not_exists">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+      <TestStep id="_1o-F" name="undo">
+        <ProcedureCall id="_1p0E" procedure="undo_tree"/>
+        <ProcedureCall disabled="true" id="_1o-P"
+                       procedure="do_click_menubar_undo">
+          <variable name="node_name">$(band)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1o-Q" procedure="get.tree.get_index_of_node">
+          <variable name="node">$(band)</variable>
+          <variable name="nodeSeparator">@</variable>
+          <variable name="linear">false</variable>
+        </ProcedureCall>
+      </TestStep>
+    </IfSequence>
+    <ProcedureCall id="_1oXO" procedure="close.all_products"/>
+  </ExtraSequence>
+  <WindowList id="_6"/>
+</RootStep>

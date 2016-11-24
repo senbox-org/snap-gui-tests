@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.7">
+<RootStep id="_0" name="root" version="4.0.11">
   <include>qfs.qft</include>
   <include>gpt.qft</include>
   <include>variables.qft</include>
@@ -77,6 +77,17 @@ else: rc.logError("$(fileName) has been written!")</code>
           <SetGlobalStep id="_1o-q" local="true" varname="del_out_client">
             <default>del_out</default>
           </SetGlobalStep>
+          <TryStep id="_1l9R" name="check_client_is_already_started">
+            <ClientWaiter client="$(del_out_client)" id="_1pF1" timeout="10"/>
+            <ProcedureCall id="_1pF2" procedure="utils.exit_program">
+              <variable name="client_name">$(del_out_client)</variable>
+            </ProcedureCall>
+            <CatchSequence exception="ClientNotConnectedException" id="_1l9T"
+                           maxerror="0"/>
+          </TryStep>
+          <ProcedureCall id="_1pFE" procedure="utils.exit_program">
+            <variable name="client_name">$(del_out_client)</variable>
+          </ProcedureCall>
           <ShellClientStarter client="$(del_out_client)"
                               command="$(delete_commando) $(directory)"
                               directory="${path:output_data_directory}"
@@ -88,24 +99,12 @@ else: rc.logError("$(fileName) has been written!")</code>
             <variable name="client_name">$(del_out_client)</variable>
           </ProcedureCall>
         </TestStep>
-        <TestStep id="_1o-x" name="create_output_folder">
-          <SetGlobalStep id="_1o-u" local="true" varname="mkdir_client">
-            <default>mkdir_client</default>
-          </SetGlobalStep>
-          <ShellClientStarter client="$(mkdir_client)"
-                              command="$(mkdir_commando) $(directory)"
-                              directory="${path:output_data_directory}"
-                              id="_1o-v">
-            <comment>MKDIR</comment>
-          </ShellClientStarter>
-          <ProcedureCall id="_1o-w" procedure="utils.exit_program">
-            <variable name="client_name">$(mkdir_client)</variable>
-          </ProcedureCall>
-        </TestStep>
+        <ProcedureCall id="_1pEw" procedure="utils.create_output_folder">
+          <variable name="directory">$(directory)</variable>
+        </ProcedureCall>
       </Procedure>
       <Procedure id="_1o-J" name="temp_dir">
         <variable name="client"/>
-        <comment>s3tbx</comment>
         <ProcedureCall id="_1oO8" procedure="path.main_path"/>
         <ProcedureCall id="_1oOJ" procedure="variables.system_and_commando"/>
         <TestStep id="_1o-K" name="delete">
@@ -148,52 +147,40 @@ else: rc.logError("$(fileName) has been written!")</code>
             </TestStep>
             <ElseifSequence id="_1p1X"
                             test="&#34;$(client)&#34;==&#34;snap&#34;">
-              <TestStep disabled="true" id="_1p26" name="snap_cache_folder">
+              <TestStep id="_1p26" name="snap_cache_folder">
                 <SetGlobalStep id="_1p1Z" local="true" varname="cn_cache">
                   <default>del_cache</default>
                 </SetGlobalStep>
-                <ShellClientStarter client="$(cn_cache)"
-                                    command="$(delete_commando) cache"
-                                    directory="${path:temp_snap}" id="_1p1a"/>
-                <ProcedureCall disabled="true" id="_1p1b"
-                               procedure="shellutils.removeDirectory">
-                  <variable name="directory">${path:temp_snap}cache</variable>
-                </ProcedureCall>
+                <TryStep id="_1pFB">
+                  <ShellClientStarter client="$(cn_cache)"
+                                      command="$(delete_commando) ${path:temp_snap2}var${path:slash}cache"
+                                      directory="${path:temp_snap2}var"
+                                      id="_1pFC"/>
+                  <CatchSequence exception="TestException" id="_1pFD"
+                                 maxerror="0"/>
+                </TryStep>
                 <ProcedureCall id="_1p1c" procedure="utils.exit_program">
                   <variable name="client_name">$(cn_cache)</variable>
                 </ProcedureCall>
               </TestStep>
-              <TestStep disabled="true" id="_1p2B" name="snap_app_folder">
-                <SetGlobalStep id="_1p1g" local="true" varname="cn_app">
-                  <default>del_app</default>
+              <TestStep id="_1p2B" name="snap_var_folder">
+                <SetGlobalStep id="_1p1g" local="true" varname="del_snap_var">
+                  <default>del_snap_var</default>
                 </SetGlobalStep>
-                <ShellClientStarter client="$(cn_app)"
-                                    command="$(delete_commando) snap-app"
-                                    directory="${path:temp_snap}" id="_1p1h"/>
-                <ProcedureCall disabled="true" id="_1p1i"
-                               procedure="shellutils.removeDirectory">
-                  <variable name="directory">${path:temp_snap}snap-app</variable>
-                </ProcedureCall>
+                <TryStep id="_1pF8">
+                  <ShellClientStarter client="$(del_snap_var)"
+                                      command="$(delete_commando) ${path:temp_snap}var"
+                                      directory="${path:temp_snap}"
+                                      id="_1pF9"/>
+                  <CatchSequence exception="TestException" id="_1pFA"
+                                 maxerror="0"/>
+                </TryStep>
                 <ProcedureCall id="_1p1j" procedure="utils.exit_program">
-                  <variable name="client_name">$(cn_app)</variable>
+                  <variable name="client_name">$(del_snap_var)</variable>
                 </ProcedureCall>
               </TestStep>
-              <TestStep disabled="true" id="_1p2I" name="snap_ui_folder">
-                <SetGlobalStep id="_1p1q" local="true" varname="cn_ui">
-                  <default>del_ui</default>
-                </SetGlobalStep>
-                <ShellClientStarter client="$(cn_ui)"
-                                    command="$(delete_commando) beam-ui "
-                                    directory="${path:temp_snap}" id="_1p1r"/>
-                <ProcedureCall disabled="true" id="_1p1s"
-                               procedure="shellutils.removeDirectory">
-                  <variable name="directory">${path:temp_snap}beam-ui</variable>
-                </ProcedureCall>
-                <ProcedureCall id="_1p1t" procedure="utils.exit_program">
-                  <variable name="client_name">$(cn_ui)</variable>
-                </ProcedureCall>
-              </TestStep>
-              <TestStep id="_1pEX" name="snap_temporal_folder">
+              <TestStep disabled="true" id="_1pEX"
+                        name="snap_temporal_folder">
                 <SetGlobalStep id="_1pEc" local="true" varname="cn_cache">
                   <default>del_temp_snap</default>
                 </SetGlobalStep>
@@ -434,6 +421,22 @@ if file.exists():
       </Procedure>
     </Package>
     <Package id="_1lAZ" name="utils">
+      <Procedure id="_1pEr" name="create_output_folder">
+        <variable name="directory"/>
+        <ProcedureCall id="_1pEx" procedure="variables.system_and_commando"/>
+        <SetGlobalStep id="_1pEt" local="true" varname="mkdir_client">
+          <default>mkdir_client</default>
+        </SetGlobalStep>
+        <ShellClientStarter client="$(mkdir_client)"
+                            command="$(mkdir_commando) $(directory)"
+                            directory="${path:output_data_directory}"
+                            id="_1pEu">
+          <comment>MKDIR</comment>
+        </ShellClientStarter>
+        <ProcedureCall id="_1pEv" procedure="utils.exit_program">
+          <variable name="client_name">$(mkdir_client)</variable>
+        </ProcedureCall>
+      </Procedure>
       <Procedure id="_9aQ" name="exit_program">
         <variable name="client_name"/>
         <TryStep id="_9aR" name="check if really stopped">
@@ -484,6 +487,14 @@ In this case we catch the exeption in this node and perform a hard close.
 </comment>
           </ClientStopper>
           <CatchSequence exception="TestException" id="_1o+y" maxerror="0"/>
+        </TryStep>
+        <TryStep disabled="true" id="_1pEy">
+          <ClientWaiter client="$(client_name)" errorlevel="0" id="_1pEz"
+                        raise="false" timeout="10"/>
+          <ProcedureCall id="_1pF0" procedure="qfs.utils.killAllClients">
+            <variable name="timeout">5000</variable>
+          </ProcedureCall>
+          <CatchSequence exception="TestException" id="_1pE-" maxerror="0"/>
         </TryStep>
       </Procedure>
     </Package>
