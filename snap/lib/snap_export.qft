@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.11">
+<RootStep id="_0" name="root" version="4.1.1">
   <include>qfs.qft</include>
   <include>snap_components.qft</include>
   <include>snap_main.qft</include>
@@ -22,12 +22,6 @@
         </ProcedureCall>
         <ProcedureCall id="_2Jby"
                        procedure="do_click.menu.file.export.beam_dimap"/>
-        <TestStep disabled="true" id="_1rtB" name="open_export_dimap_dialog">
-          <ProcedureCall id="_1s97" procedure="do_click.menu.file"/>
-          <ProcedureCall id="_1s98" procedure="do_click.menu.file.export"/>
-          <ProcedureCall id="_1rtD"
-                         procedure="do_click.menu.file.export.beam_dimap"/>
-        </TestStep>
       </Procedure>
       <Procedure id="_2Jbz" name="geotiff">
         <variable name="prod_id"/>
@@ -308,9 +302,6 @@
             <SetGlobalStep id="_2Jd-" varname="resampled_id">
               <default>$(product_id)</default>
             </SetGlobalStep>
-            <ServerScriptStep disabled="true" id="_1l5A" name="print">
-              <code>print "!!!!  resampled_id = $(resampled_id)"</code>
-            </ServerScriptStep>
             <IfSequence id="_2JH7"
                         test="&#34;$(resampled_id)&#34;&lt;&gt;&#34;&#34;">
               <TestStep id="_2JHE" name="open_image_window">
@@ -380,13 +371,6 @@
               <ProcedureCall id="_2JHZ"
                              procedure="placemark.utility_sequences.get_geo_coordinates_for_subset"/>
               <TestStep id="_1rt8" name="export_beam_dimap_subset_and_check">
-                <ServerScriptStep disabled="true" id="_2Jdr" name="print">
-                  <code>print "!!!!  pid 1 = $(pid)"</code>
-                </ServerScriptStep>
-                <ProcedureCall disabled="true" id="_2Jdt"
-                               procedure="select.product_tree.product">
-                  <variable name="prod_id">$(pid)</variable>
-                </ProcedureCall>
                 <SetGlobalStep id="_1rtA" varname="extension">
                   <default>dim</default>
                 </SetGlobalStep>
@@ -479,10 +463,6 @@
                                procedure="utility.check_resampled_product_is_opened"/>
                 <IfSequence id="_2Jb1"
                             test="&#34;$(resampled_id)&#34;&lt;&gt;&#34;&#34;">
-                  <ProcedureCall disabled="true" id="_2Jb2"
-                                 procedure="select.product_tree.product">
-                    <variable name="prod_id">$(pid)</variable>
-                  </ProcedureCall>
                   <SetGlobalStep id="_2JaT" varname="target_file">
                     <default>test_netcdf4_beam</default>
                   </SetGlobalStep>
@@ -752,9 +732,6 @@
           <SetGlobalStep id="_1rsS" varname="output_file">
             <default>$(output_data_directory)$(target_file).$(ext)</default>
           </SetGlobalStep>
-          <ServerScriptStep disabled="true" id="_1rrc" name="print">
-            <code>print "output_file =$(output_file)"  </code>
-          </ServerScriptStep>
           <TryStep id="_2JdC" name="set_file_name">
             <ProcedureCall id="_2Jd7" postdelay="500"
                            procedure="set.export_dialog.file_name">
@@ -774,17 +751,6 @@
             <SetGlobalStep id="_1rrL" varname="subset_tool_window_appears">
               <default>false</default>
             </SetGlobalStep>
-            <ProcedureCall disabled="true" id="_1rrM"
-                           procedure="run-log.make_screensot">
-              <variable name="iw_name">export_product_window</variable>
-            </ProcedureCall>
-            <ProcedureCall disabled="true" id="_1rrN"
-                           procedure="run-log.logError">
-              <variable name="message">Subset button is disabled</variable>
-              <variable name="withScreenshots"/>
-            </ProcedureCall>
-            <ProcedureCall disabled="true" id="_1rrO"
-                           procedure="do_click.import_product_dialog.cancel"/>
           </CatchSequence>
         </TryStep>
         <IfSequence id="_1rrP"
@@ -829,9 +795,6 @@
             <SetGlobalStep id="_2JeX" varname="output_file">
               <default>$(output_data_directory)$(target_file).$(ext)</default>
             </SetGlobalStep>
-            <ServerScriptStep disabled="true" id="_2JeY" name="print">
-              <code>print "output_file =$(output_file)"  </code>
-            </ServerScriptStep>
             <ProcedureCall id="_2JeZ" postdelay="500"
                            procedure="set.export_dialog.file_name">
               <variable name="file">$(output_file)</variable>
@@ -864,8 +827,6 @@
                 <variable name="maxDialogs">5</variable>
               </ProcedureCall>
               <ElseSequence id="_1rsL">
-                <ProcedureCall disabled="true" id="_1rri"
-                               procedure="do_click.export_product_dialog.cancel"/>
                 <ProcedureCall id="_2JdF"
                                procedure="qfs.swing.cleanup.closeAllModalDialogs">
                   <variable name="maxDialogs">5</variable>
@@ -899,8 +860,6 @@
             <variable name="prod">$(target_file).$(extension)</variable>
             <variable name="product_type"/>
           </ProcedureCall>
-          <ProcedureCall disabled="true" id="_1roY"
-                         procedure="wait.product_is_opened"/>
           <ProcedureCall id="_2JGN"
                          procedure="wait.disappear.reading_product_progress_monitor"/>
           <ProcedureCall id="_2JGP"
@@ -1115,22 +1074,6 @@
       </Procedure>
     </Package>
   </PackageRoot>
-  <ExtraSequence id="_4">
-    <ProcedureCall id="_1rZG"
-                   procedure="qfs.swing.cleanup.closeAllModalDialogs">
-      <variable name="maxDialogs">5</variable>
-    </ProcedureCall>
-    <IfSequence id="_1op7" test="${qftest:windows}">
-      <ElseifSequence id="_1op8" name="MAC?"
-                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-      <ElseSequence id="_1op9"/>
-    </IfSequence>
-    <ProcedureCall id="_1oXb" procedure="select.product_tree.band">
-      <variable name="prod_id">0</variable>
-      <variable name="group_id"/>
-      <variable name="view_id">4</variable>
-      <variable name="band">Oa05_radiance</variable>
-    </ProcedureCall>
-  </ExtraSequence>
+  <ExtraSequence id="_4"/>
   <WindowList id="_5"/>
 </RootStep>

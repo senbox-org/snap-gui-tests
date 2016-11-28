@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.11">
+<RootStep id="_0" name="root" version="4.1.1">
   <include>qfs.qft</include>
   <include>../../lib/snap_components.qft</include>
   <include>../../lib/snap_main.qft</include>
@@ -177,10 +177,6 @@
           </ProcedureCall>
         </IfSequence>
         <ProcedureCall id="_1pQe" procedure="set.target_product_with_path"/>
-        <ProcedureCall disabled="true" id="_1pQW"
-                       procedure="check_external_file.file_was_not_processed_else_shoot_error">
-          <variable name="fileName">$(target_product)</variable>
-        </ProcedureCall>
       </Procedure>
     </Package>
     <Package id="_1uas" name="error_handling">
@@ -193,8 +189,6 @@
                        procedure="error_handling.if_any_error_make_screenshot_shoot_error_message"/>
       </Procedure>
       <Procedure id="_1tZt" name="close_all_modal_dialogs_close_all_products">
-        <ProcedureCall disabled="true" id="_1tZu"
-                       procedure="error_handling.if_any_error_make_screenshot_shoot_error_message"/>
         <ProcedureCall id="_1tZv"
                        procedure="qfs.swing.cleanup.closeAllModalDialogs">
           <variable name="maxDialogs">5</variable>
@@ -203,16 +197,12 @@
       </Procedure>
     </Package>
     <Procedure id="_1riT" name="handle_multi_size_warning">
-      <ProcedureCall disabled="true" id="_1rkX"
-                     procedure="message.product_has_successfully_been_created"/>
       <TryStep id="_1rmV">
         <ProcedureCall id="_1rmW" procedure="variables.multi_size">
           <variable name="multi_size">true</variable>
         </ProcedureCall>
         <ProcedureCall id="_1rmX"
                        procedure="wait.appear.error.dialog_SNAP-Error"/>
-        <ProcedureCall disabled="true" id="_1rmf"
-                       procedure="get.error_text.message_in_dialog_SNAP_Error"/>
         <ProcedureCall id="_1rmZ" procedure="variables.multi_size">
           <variable name="multi_size">true</variable>
         </ProcedureCall>
@@ -282,12 +272,6 @@ Make cancelling operators less scary (the "Type: OperatorException", "Message: O
       <ProcedureCall id="_1rqA" procedure="close.modal_dialogs"/>
     </Procedure>
   </PackageRoot>
-  <ExtraSequence id="_4">
-    <IfSequence id="_1op7" test="${qftest:windows}">
-      <ElseifSequence id="_1op8" name="MAC?"
-                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-      <ElseSequence id="_1op9"/>
-    </IfSequence>
-  </ExtraSequence>
+  <ExtraSequence id="_4"/>
   <WindowList id="_5"/>
 </RootStep>

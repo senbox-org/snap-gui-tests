@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.11">
+<RootStep id="_0" name="root" version="4.1.1">
   <include>qfs.qft</include>
   <include>snap_check.qft</include>
   <include>snap_components.qft</include>
@@ -14,9 +14,6 @@
         <Procedure id="_1pYz" name="checkbox_band">
           <variable name="band"/>
           <comment>@teststep Click on checkbox 'band' in the 'Band Chooser' dialog.</comment>
-          <SetGlobalStep disabled="true" id="_1pZi" varname="band">
-            <default>algal_1</default>
-          </SetGlobalStep>
           <ProcedureCall id="_1pZW"
                          procedure="do_click.band_chooser.checkbox_band">
             <variable name="band">$(band)</variable>
@@ -68,12 +65,6 @@
           </ProcedureCall>
           <IfSequence id="_1oTc"
                       test="&#34;$(bands_group)&#34;==&#34;true&#34;">
-            <SetGlobalStep disabled="true" id="_1oUQ" varname="nid">
-              <default>/$(prod_id)/$(bands_node_id)/$(view_id)</default>
-            </SetGlobalStep>
-            <ServerScriptStep disabled="true" id="_1l5A" name="print">
-              <code>print "1 Bands Node = $(nid)"</code>
-            </ServerScriptStep>
             <IfSequence id="_1oQJ" test="&#34;$(group_id)&#34;==&#34;&#34;">
               <SetGlobalStep id="_1oUR" varname="nid">
                 <default>/$(prod_id)/$(bands_node_id)/$(view_id)</default>
@@ -135,9 +126,6 @@
             <SetGlobalStep id="_1pE1" varname="nid">
               <default>/$(prod_id)/$(vector_data_node_id)/$(node_id)</default>
             </SetGlobalStep>
-            <ServerScriptStep disabled="true" id="_1pEF" name="print">
-              <code>print "Vector Node = $(nid)"</code>
-            </ServerScriptStep>
             <MouseEventStep clicks="1" client="$(client)"
                             component="NbMainWindow.Product_Explorer.tree&amp;$(nid)"
                             event="MOUSE_MPRC" hardevent="true" id="_1pEG"
@@ -192,19 +180,6 @@
                             component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(metadata_node_id)/$(metadata_id)"
                             event="MOUSE_MPRC" hardevent="true" id="_2Je3"
                             modifiers="16"/>
-            <IfSequence disabled="true" id="_2Je4"
-                        test="&#34;$(group_id)&#34;==&#34;&#34;">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(metadata_node_id)/$(metadata_id)"
-                              event="MOUSE_MPRC" hardevent="true" id="_2Je5"
-                              modifiers="16"/>
-              <ElseSequence id="_2Je6">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(metadata_node_id)/$(group_id)/$(metadata_id)"
-                                event="MOUSE_MPRC" hardevent="true" id="_2Je7"
-                                modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
             <ElseSequence id="_2Je8">
               <MouseEventStep clicks="1" client="$(client)"
                               component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(metadata_id)"
@@ -246,36 +221,6 @@
             <MouseEventStep clicks="1" client="$(client)"
                             component="listInvokerName:_productName.target_product"
                             event="MOUSE_MPRC" id="_1rxr" modifiers="16"/>
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="listInvokerName:_productName@$(target_product)"
-                            disabled="true" event="MOUSE_MPRC" id="_1paa"
-                            modifiers="16"/>
-            <IfSequence disabled="true" id="_1pDh" test="${qftest:windows}">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="BandMathsDialog.productName"
-                              event="MOUSE_MPRC" id="_1mlL" modifiers="16"
-                              x="225" y="13"/>
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="dialogBand_Maths.popupInvokerName:_productName.listTarget_product_target_product"
-                              event="MOUSE_MPRC" id="_1mlM" modifiers="16"/>
-              <ElseifSequence id="_1pDi" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="productName" event="MOUSE_MPRC"
-                                id="_1pDm" modifiers="16" x="342" y="13"/>
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="listInvokerName:_productName@$(target_product)"
-                                event="MOUSE_MPRC" id="_1pDn" modifiers="16"/>
-              </ElseifSequence>
-              <ElseSequence id="_1pDj">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="productName" event="MOUSE_MPRC"
-                                id="_1pDo" modifiers="16" x="342" y="13"/>
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="listInvokerName:_productName@$(target_product)"
-                                event="MOUSE_MPRC" id="_1pDp" modifiers="16"/>
-              </ElseSequence>
-            </IfSequence>
           </Procedure>
           <Procedure id="_1oPr" name="saveExpressionOnly">
             <comment>@teststep Check-in checkbox 'Virtual (save expression only)' .</comment>
@@ -341,14 +286,6 @@
             <MouseEventStep clicks="1" client="$(client)"
                             component="dialogSNAP_-_Open_Product.listInvokerFeature:_Label:_Files_of_type_item"
                             event="MOUSE_MPRC" id="_1rd7" modifiers="16"/>
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="dialogOpen_Product.comboFiles_of_type:"
-                            disabled="true" event="MOUSE_MPRC" id="_1pDq"
-                            modifiers="16" x="130" y="13"/>
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="dialogOpen_Product.popupInvokerFeature:_Label:_Files_of_type:.listFiles_of_type"
-                            disabled="true" event="MOUSE_MPRC" id="_1pDr"
-                            modifiers="16"/>
             <ElseifSequence id="_1owO" name="MAC?"
                             test="'${system:os.name}' .find('Mac OS X')&gt;=0">
               <MouseEventStep clicks="1" client="$(client)"
@@ -359,36 +296,7 @@
                               component="dialogOpen_Product.popupInvokerFeature:_Label:_Files_of_type:.listFiles_of_type"
                               event="MOUSE_MPRC" id="_1msK" modifiers="16"/>
             </ElseifSequence>
-            <ElseSequence id="_1owP">
-              <TryStep disabled="true" id="_1owc" name="todo">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="comboFilter:" event="MOUSE_MPRC"
-                                id="_1owK" modifiers="4" popup="true" x="38"
-                                y="11"/>
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="listInvokerFeature:_Label:_Filter:@$(file_of_type)"
-                                event="MOUSE_MPRC" id="_1owM" modifiers="16"/>
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="listInvokerFeature:_Label:_Filter:@BEAM-DIMAP product files (*.dim)"
-                                disabled="true" event="MOUSE_MPRC" id="_1owQ"
-                                modifiers="16"/>
-                <CatchSequence exception="TestException" id="_1owd"
-                               maxerror="0">
-                  <TryStep id="_1owe">
-                    <MouseEventStep clicks="1" client="$(client)"
-                                    component="comboFilter:.button"
-                                    event="MOUSE_MPRC" id="_1owR"
-                                    modifiers="4" popup="true" x="38" y="11"/>
-                    <MouseEventStep clicks="1" client="$(client)"
-                                    component="listInvokerFeature:_Label:_Filter:@$(file_of_type)"
-                                    event="MOUSE_MPRC" id="_1owS"
-                                    modifiers="16"/>
-                    <CatchSequence exception="TestException" id="_1owi"
-                                   maxerror="0"/>
-                  </TryStep>
-                </CatchSequence>
-              </TryStep>
-            </ElseSequence>
+            <ElseSequence id="_1owP"/>
           </IfSequence>
           <SetGlobalStep id="_1rhL" varname="file_of_type_selected">
             <default>true</default>
@@ -404,354 +312,6 @@
           </CatchSequence>
         </TryStep>
       </Procedure>
-      <Package disabled="true" id="_1lbo" name="smos_box">
-        <Package id="_1lbx" name="grid_point_bt_chart">
-          <Procedure id="_1lc4" name="snap_to_selected_pin">
-            <comment>@teststep Select 'Snap to selected pin'</comment>
-            <ProcedureCall id="_1m0J"
-                           procedure="check.smos_box.grid_point_bt_chart.snap_to_pin_selected"/>
-            <IfSequence id="_1m0L"
-                        test="&#34;$(snap_to_pin_selected)&#34;==&#34;false&#34;">
-              <ProcedureCall id="_1m0F"
-                             procedure="do_click.smos_box.grid_point_bt_chart.snap_to_selected_pin"/>
-            </IfSequence>
-            <ProcedureCall id="_1m0K"
-                           procedure="check.smos_box.grid_point_bt_chart.snap_to_pin_selected_status">
-              <variable name="snap_to_pin">true</variable>
-            </ProcedureCall>
-          </Procedure>
-          <Procedure id="_1lda" name="check_X">
-            <comment>@teststep Select 'X' checkbox</comment>
-            <ProcedureCall id="_1m0M"
-                           procedure="check.smos_box.grid_point_bt_chart.check_X_selected"/>
-            <IfSequence id="_1m0O"
-                        test="&#34;$(check_X_selected)&#34;==&#34;false&#34;">
-              <ProcedureCall id="_1m0G"
-                             procedure="do_click.smos_box.grid_point_bt_chart.check_X"/>
-            </IfSequence>
-            <ProcedureCall id="_1m0N"
-                           procedure="check.smos_box.grid_point_bt_chart.check_X_selected_status">
-              <variable name="x_selected">true</variable>
-            </ProcedureCall>
-          </Procedure>
-          <Procedure id="_1lf4" name="check_Y">
-            <comment>@teststep Select 'Y' checkbox</comment>
-            <ProcedureCall id="_1m0P"
-                           procedure="check.smos_box.grid_point_bt_chart.check_Y_selected"/>
-            <IfSequence id="_1m0R"
-                        test="&#34;$(check_Y_selected)&#34;==&#34;false&#34;">
-              <ProcedureCall id="_1m0H"
-                             procedure="do_click.smos_box.grid_point_bt_chart.check_Y"/>
-            </IfSequence>
-            <ProcedureCall id="_1m0Q"
-                           procedure="check.smos_box.grid_point_bt_chart.check_Y_selected_status">
-              <variable name="y_selected">true</variable>
-            </ProcedureCall>
-          </Procedure>
-          <Procedure id="_1lx4" name="check_XY">
-            <comment>@teststep Select 'XY' checkbox</comment>
-            <ProcedureCall id="_1m0S"
-                           procedure="check.smos_box.grid_point_bt_chart.check_XY_selected"/>
-            <IfSequence id="_1m0U"
-                        test="&#34;$(check_XY_selected)&#34;==&#34;false&#34;">
-              <ProcedureCall id="_1m0I"
-                             procedure="do_click.smos_box.grid_point_bt_chart.check_XY"/>
-            </IfSequence>
-            <ProcedureCall id="_1m0T"
-                           procedure="check.smos_box.grid_point_bt_chart.check_XY_selected_status">
-              <variable name="xy_selected">true</variable>
-            </ProcedureCall>
-          </Procedure>
-          <Package id="_1m0V" name="deselect">
-            <Procedure id="_1m0W" name="snap_to_selected_pin">
-              <comment>@teststep Deselect 'Snap to selected pin'</comment>
-              <ProcedureCall id="_1m0X"
-                             procedure="check.smos_box.grid_point_bt_chart.snap_to_pin_selected"/>
-              <IfSequence id="_1m0Y"
-                          test="&#34;$(snap_to_pin_selected)&#34;==&#34;true&#34;">
-                <ProcedureCall id="_1m0Z"
-                               procedure="do_click.smos_box.grid_point_bt_chart.snap_to_selected_pin"/>
-              </IfSequence>
-              <ProcedureCall id="_1m0a"
-                             procedure="check.smos_box.grid_point_bt_chart.snap_to_pin_selected_status">
-                <variable name="snap_to_pin">false</variable>
-              </ProcedureCall>
-            </Procedure>
-            <Procedure id="_1m0b" name="check_X">
-              <comment>@teststep Deselect 'X' checkbox</comment>
-              <ProcedureCall id="_1m0c"
-                             procedure="check.smos_box.grid_point_bt_chart.check_X_selected"/>
-              <IfSequence id="_1m0d"
-                          test="&#34;$(check_X_selected)&#34;==&#34;true&#34;">
-                <ProcedureCall id="_1m0e"
-                               procedure="do_click.smos_box.grid_point_bt_chart.check_X"/>
-              </IfSequence>
-              <ProcedureCall id="_1m0f"
-                             procedure="check.smos_box.grid_point_bt_chart.check_X_selected_status">
-                <variable name="x_selected">false</variable>
-              </ProcedureCall>
-            </Procedure>
-            <Procedure id="_1m0g" name="check_Y">
-              <comment>@teststep Deselect 'Y' checkbox</comment>
-              <ProcedureCall id="_1m0h"
-                             procedure="check.smos_box.grid_point_bt_chart.check_Y_selected"/>
-              <IfSequence id="_1m0i"
-                          test="&#34;$(check_Y_selected)&#34;==&#34;true&#34;">
-                <ProcedureCall id="_1m0j"
-                               procedure="do_click.smos_box.grid_point_bt_chart.check_Y"/>
-              </IfSequence>
-              <ProcedureCall id="_1m0k"
-                             procedure="check.smos_box.grid_point_bt_chart.check_Y_selected_status">
-                <variable name="y_selected">false</variable>
-              </ProcedureCall>
-            </Procedure>
-            <Procedure id="_1m0l" name="check_XY">
-              <comment>@teststep Deselect 'XY' checkbox</comment>
-              <ProcedureCall id="_1m0m"
-                             procedure="check.smos_box.grid_point_bt_chart.check_XY_selected"/>
-              <IfSequence id="_1m0n"
-                          test="&#34;$(check_XY_selected)&#34;==&#34;true&#34;">
-                <ProcedureCall id="_1m0o"
-                               procedure="do_click.smos_box.grid_point_bt_chart.check_XY"/>
-              </IfSequence>
-              <ProcedureCall id="_1m0p"
-                             procedure="check.smos_box.grid_point_bt_chart.check_XY_selected_status">
-                <variable name="xy_selected">false</variable>
-              </ProcedureCall>
-            </Procedure>
-          </Package>
-        </Package>
-        <Package id="_1lby" name="grid_point_flag_matrix">
-          <Procedure id="_1m0q" name="snap_to_selected_pin">
-            <comment>@teststep Select 'Snap to selected pin'</comment>
-            <ProcedureCall id="_1m0v"
-                           procedure="check.smos_box.grid_point_flag_matrix.snap_to_pin_selected"/>
-            <IfSequence id="_1m0s"
-                        test="&#34;$(snap_to_pin_selected)&#34;==&#34;false&#34;">
-              <ProcedureCall id="_1m0t"
-                             procedure="do_click.smos_box.grid_point_flag_matrix.snap_to_selected_pin"/>
-            </IfSequence>
-            <ProcedureCall id="_1m0w"
-                           procedure="check.smos_box.grid_point_flag_matrix.snap_to_pin_selected_status">
-              <variable name="snap_to_pin">true</variable>
-            </ProcedureCall>
-          </Procedure>
-          <Package id="_1m0x" name="deselect">
-            <Procedure id="_1m1G" name="snap_to_selected_pin">
-              <comment>@teststep Deselect 'Snap to selected pin'</comment>
-              <ProcedureCall id="_1m1H"
-                             procedure="check.smos_box.grid_point_flag_matrix.snap_to_pin_selected"/>
-              <IfSequence id="_1m1I"
-                          test="&#34;$(snap_to_pin_selected)&#34;==&#34;true&#34;">
-                <ProcedureCall id="_1m1J"
-                               procedure="do_click.smos_box.grid_point_flag_matrix.snap_to_selected_pin"/>
-              </IfSequence>
-              <ProcedureCall id="_1m1K"
-                             procedure="check.smos_box.grid_point_flag_matrix.snap_to_pin_selected_status">
-                <variable name="snap_to_pin">false</variable>
-              </ProcedureCall>
-            </Procedure>
-          </Package>
-        </Package>
-        <Package id="_1lbz" name="grid_point_data_table">
-          <Procedure id="_1m1W" name="snap_to_selected_pin">
-            <comment>@teststep Select 'Snap to selected pin'</comment>
-            <ProcedureCall id="_1m1h"
-                           procedure="check.smos_box.grid_point_data_table.snap_to_pin_selected"/>
-            <IfSequence id="_1m1Y"
-                        test="&#34;$(snap_to_pin_selected)&#34;==&#34;false&#34;">
-              <ProcedureCall id="_1m1Z"
-                             procedure="do_click.smos_box.grid_point_data_table.snap_to_selected_pin"/>
-            </IfSequence>
-            <ProcedureCall id="_1m1i"
-                           procedure="check.smos_box.grid_point_data_table.snap_to_pin_selected_status">
-              <variable name="snap_to_pin">true</variable>
-            </ProcedureCall>
-          </Procedure>
-          <Package id="_1m1b" name="deselect">
-            <Procedure id="_1m1c" name="snap_to_selected_pin">
-              <comment>@teststep Deselect 'Snap to selected pin'</comment>
-              <ProcedureCall id="_1m1j"
-                             procedure="check.smos_box.grid_point_data_table.snap_to_pin_selected"/>
-              <IfSequence id="_1m1k"
-                          test="&#34;$(snap_to_pin_selected)&#34;==&#34;true&#34;">
-                <ProcedureCall id="_1m1l"
-                               procedure="do_click.smos_box.grid_point_data_table.snap_to_selected_pin"/>
-              </IfSequence>
-              <ProcedureCall id="_1m1m"
-                             procedure="check.smos_box.grid_point_data_table.snap_to_pin_selected_status">
-                <variable name="snap_to_pin">false</variable>
-              </ProcedureCall>
-            </Procedure>
-          </Package>
-          <Procedure id="_1lyK" name="snap_to_selected_pin">
-            <comment>@teststep Click 'Snap to selected pin' checkbox</comment>
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="Dialog.checkSnap_to_selected_pin3"
-                            event="MOUSE_MPRC" id="_1lyO" modifiers="16"/>
-          </Procedure>
-          <Procedure id="_1lyP" name="columns">
-            <comment>@teststep Click 'Columns...' button</comment>
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="Dialog.buttonColumns..."
-                            event="MOUSE_MPRC" id="_1lyQ" modifiers="16"/>
-          </Procedure>
-          <Procedure id="_1ll4" name="export">
-            <comment>@teststep Click 'Export...' button</comment>
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="Dialog.buttonExport..."
-                            event="MOUSE_MPRC" id="_1llj" modifiers="16"/>
-          </Procedure>
-          <Procedure id="_1lyM" name="help">
-            <comment>@teststep Click 'Help' button</comment>
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="Dialog.helpButton4" event="MOUSE_MPRC"
-                            id="_1llr" modifiers="16"/>
-          </Procedure>
-        </Package>
-        <Package id="_1lb+" name="snapshot">
-          <Procedure id="_1lyW" name="synchronise_with_view">
-            <comment>@teststep Select 'Synchronise with view' </comment>
-            <ProcedureCall id="_1m1n"
-                           procedure="check.smos_box.snapshot.synchronise_with_view_selected"/>
-            <IfSequence id="_1m1q"
-                        test="&#34;$(synchronise_with_view_selected)&#34;==&#34;false&#34;">
-              <ProcedureCall id="_1m1p"
-                             procedure="do_click.smos_box.snapshot.synchronise_with_view"/>
-            </IfSequence>
-            <ProcedureCall id="_1m1o"
-                           procedure="check.smos_box.snapshot.synchronise_with_view_selected_status">
-              <variable name="synchronise_with_view">true</variable>
-            </ProcedureCall>
-          </Procedure>
-          <Procedure id="_1l+6" name="follow">
-            <comment>@teststep Click 'Follow' checkbox</comment>
-            <ProcedureCall id="_1m1z"
-                           procedure="check.smos_box.snapshot.follow_enabled"/>
-            <IfSequence id="_1m26"
-                        test="&#34;$(follow_enabled)&#34;==&#34;false&#34;">
-              <ProcedureCall id="_1m27"
-                             procedure="select.smos_box.snapshot.synchronise_with_view"/>
-              <ProcedureCall id="_1m2F"
-                             procedure="do_click.smos_box.snapshot.snapshot"/>
-            </IfSequence>
-            <ProcedureCall id="_1m28"
-                           procedure="check.smos_box.snapshot.follow_enabled"/>
-            <IfSequence id="_1m2B"
-                        test="&#34;$(follow_enabled)&#34;==&#34;true&#34;">
-              <ProcedureCall id="_1m23"
-                             procedure="check.smos_box.snapshot.follow_selected"/>
-              <IfSequence id="_1m24"
-                          test="&#34;$(follow_selected)&#34;==&#34;false&#34;">
-                <ProcedureCall id="_1m25"
-                               procedure="do_click.smos_box.snapshot.follow"/>
-              </IfSequence>
-              <ProcedureCall id="_1m1y"
-                             procedure="check.smos_box.snapshot.follow_selected_status">
-                <variable name="follow">true</variable>
-              </ProcedureCall>
-              <ElseSequence id="_1m2C">
-                <ProcedureCall id="_1m2D" procedure="run-log.logError">
-                  <variable name="message">'Follow' radiobutton is disabled</variable>
-                  <variable name="withScreenshots">true</variable>
-                </ProcedureCall>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure id="_1m2W" name="comboMode_utility">
-            <variable name="mode"/>
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="Dialog.SnapshotInfoToolView.Control.comboMode:"
-                            event="MOUSE_MPRC" id="_1lJV" modifiers="16"
-                            x="17" y="12"/>
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="Dialog.popupInvokerClass:_ComboBox.listMode_mode"
-                            event="MOUSE_MPRC" id="_1m2Z" modifiers="16"/>
-          </Procedure>
-          <Procedure id="_1l-A" name="comboMode">
-            <variable name="mode"/>
-            <ProcedureCall id="_1m2V"
-                           procedure="check.smos_box.snapshot.comboMode_enabled"/>
-            <IfSequence id="_1m2h"
-                        test="&#34;$(comboMode_enabled)&#34;==&#34;false&#34;">
-              <ProcedureCall id="_1m2i"
-                             procedure="select.smos_box.snapshot.deselect.synchronise_with_view"/>
-            </IfSequence>
-            <TryStep id="_1m2b">
-              <ProcedureCall id="_1m2a"
-                             procedure="select.smos_box.snapshot.comboMode_utility">
-                <variable name="mode">$(mode)</variable>
-              </ProcedureCall>
-              <CatchSequence exception="TestException" id="_1m2c"
-                             maxerror="0">
-                <TryStep id="_1m2d">
-                  <ProcedureCall id="_1m2e"
-                                 procedure="select.smos_box.snapshot.comboMode_utility">
-                    <variable name="mode">$(mode)</variable>
-                  </ProcedureCall>
-                  <CatchSequence exception="TestException" id="_1m2f"
-                                 maxerror="0">
-                    <ProcedureCall id="_1m2g" procedure="run-log.logError">
-                      <variable name="message">Mode $(mode) can not be selected</variable>
-                      <variable name="withScreenshots">true</variable>
-                    </ProcedureCall>
-                  </CatchSequence>
-                </TryStep>
-              </CatchSequence>
-            </TryStep>
-          </Procedure>
-          <Package id="_1m1r" name="deselect">
-            <Procedure id="_1m1s" name="synchronise_with_view">
-              <comment>@teststep Deselect 'Synchronise with view' </comment>
-              <ProcedureCall id="_1m1t"
-                             procedure="check.smos_box.snapshot.synchronise_with_view_selected"/>
-              <IfSequence id="_1m1u"
-                          test="&#34;$(synchronise_with_view_selected)&#34;==&#34;true&#34;">
-                <ProcedureCall id="_1m1v"
-                               procedure="do_click.smos_box.snapshot.synchronise_with_view"/>
-              </IfSequence>
-              <ProcedureCall id="_1m1w"
-                             procedure="check.smos_box.snapshot.synchronise_with_view_selected_status">
-                <variable name="synchronise_with_view">false</variable>
-              </ProcedureCall>
-            </Procedure>
-            <Procedure id="_1m2G" name="follow">
-              <comment>@teststep Click 'Follow' checkbox</comment>
-              <ProcedureCall id="_1m2H"
-                             procedure="check.smos_box.snapshot.follow_enabled"/>
-              <IfSequence id="_1m2I"
-                          test="&#34;$(follow_enabled)&#34;==&#34;false&#34;">
-                <ProcedureCall id="_1m2J"
-                               procedure="select.smos_box.snapshot.synchronise_with_view"/>
-                <ProcedureCall id="_1m2K"
-                               procedure="do_click.smos_box.snapshot.snapshot"/>
-              </IfSequence>
-              <ProcedureCall id="_1m2L"
-                             procedure="check.smos_box.snapshot.follow_enabled"/>
-              <IfSequence id="_1m2M"
-                          test="&#34;$(follow_enabled)&#34;==&#34;true&#34;">
-                <ProcedureCall id="_1m2N"
-                               procedure="check.smos_box.snapshot.follow_selected"/>
-                <IfSequence id="_1m2O"
-                            test="&#34;$(follow_selected)&#34;==&#34;true&#34;">
-                  <ProcedureCall id="_1m2P"
-                                 procedure="do_click.smos_box.snapshot.follow"/>
-                </IfSequence>
-                <ProcedureCall disabled="true" id="_1m2Q"
-                               procedure="check.smos_box.snapshot.follow_selected_status">
-                  <variable name="follow">false</variable>
-                </ProcedureCall>
-                <ElseSequence id="_1m2R">
-                  <ProcedureCall id="_1m2S" procedure="run-log.logError">
-                    <variable name="message">'Follow' radiobutton is disabled</variable>
-                    <variable name="withScreenshots">true</variable>
-                  </ProcedureCall>
-                </ElseSequence>
-              </IfSequence>
-            </Procedure>
-          </Package>
-        </Package>
-      </Package>
       <Package id="_1pZj" name="analysis">
         <Package id="_1pab" name="histogram_dialog">
           <Procedure id="_1pac" name="use_ROI_mask">
@@ -777,16 +337,7 @@
                 <variable name="mask">$(mask)</variable>
               </ProcedureCall>
               <CatchSequence exception="TestException" id="_1rR1"
-                             maxerror="0">
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.roiMask"
-                                disabled="true" event="MOUSE_MPRC" id="_1rR2"
-                                modifiers="16" x="68" y="11"/>
-                <MouseEventStep clicks="1" client="$(client)"
-                                component="NbMainWindow.listInvokerName:_roiMask2_correlative_plot.mask"
-                                disabled="true" event="MOUSE_MPRC" id="_1rR3"
-                                modifiers="16"/>
-              </CatchSequence>
+                             maxerror="0"/>
             </TryStep>
             <ProcedureCall id="_1rhO"
                            procedure="get.analysis.dialog.selected_mask">
@@ -1203,23 +754,6 @@ dontcompactify=True, report=True, nowrap=True)</code>
               <CatchSequence exception="TestException" id="_1rpX"
                              maxerror="0"/>
             </TryStep>
-          </Procedure>
-          <Procedure id="_1rpH" name="s">
-            <BasicSequence id="_1rmK" name="Aufnahme 04.01.16 13:30">
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="dialog7.pointDataSource"
-                              event="MOUSE_MPRC" id="_1rmL" modifiers="16"
-                              x="133" y="8"/>
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="dialog7.listInvokerName:_pointDataSource.09_meris_test04"
-                              event="MOUSE_MPRC" id="_1rmM" modifiers="16"/>
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="dialog7.dataField" event="MOUSE_MPRC"
-                              id="_1rmN" modifiers="16" x="99" y="15"/>
-              <MouseEventStep clicks="1" client="$(client)"
-                              component="dialog7.listInvokerName:_dataField.radiance_5"
-                              event="MOUSE_MPRC" id="_1rmO" modifiers="16"/>
-            </BasicSequence>
           </Procedure>
         </Package>
         <Package id="_1pbL" name="scatter_plot">
@@ -2014,47 +1548,6 @@ None</comment>
       </Package>
     </Package>
   </PackageRoot>
-  <ExtraSequence id="_4">
-    <Procedure id="_2Jds" name="metadata" postdelay="500">
-      <variable name="prod_id"/>
-      <variable name="group_id"/>
-      <variable name="metadata_id"/>
-      <comment>@teststep Select 'Meta Data' node.</comment>
-      <ProcedureCall id="_2Jdt" procedure="get.tree.metadata_node_id">
-        <variable name="prod_id">$(prod_id)</variable>
-      </ProcedureCall>
-      <IfSequence id="_2Jdu"
-                  test="&#34;$(metadata_group)&#34;==&#34;true&#34;">
-        <MouseEventStep clicks="1" client="$(client)"
-                        component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(metadata_node_id)/$(metadata_id)"
-                        event="MOUSE_MPRC" hardevent="true" id="_2Jdv"
-                        modifiers="16"/>
-        <IfSequence disabled="true" id="_2Jdw"
-                    test="&#34;$(group_id)&#34;==&#34;&#34;">
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(metadata_node_id)/$(metadata_id)"
-                          event="MOUSE_MPRC" hardevent="true" id="_2Jdx"
-                          modifiers="16"/>
-          <ElseSequence id="_2Jdy">
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(metadata_node_id)/$(group_id)/$(metadata_id)"
-                            event="MOUSE_MPRC" hardevent="true" id="_2Jdz"
-                            modifiers="16"/>
-          </ElseSequence>
-        </IfSequence>
-        <ElseSequence id="_2Jd+">
-          <MouseEventStep clicks="1" client="$(client)"
-                          component="NbMainWindow.Product_Explorer.tree&amp;/$(prod_id)/$(metadata_id)"
-                          event="MOUSE_MPRC" hardevent="true" id="_2Jd-"
-                          modifiers="16"/>
-        </ElseSequence>
-      </IfSequence>
-    </Procedure>
-    <IfSequence id="_1op7" test="${qftest:windows}">
-      <ElseifSequence id="_1op8" name="MAC?"
-                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-      <ElseSequence id="_1op9"/>
-    </IfSequence>
-  </ExtraSequence>
+  <ExtraSequence id="_4"/>
   <WindowList id="_5"/>
 </RootStep>

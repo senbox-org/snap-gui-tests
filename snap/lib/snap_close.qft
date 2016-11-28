@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.11">
+<RootStep id="_0" name="root" version="4.1.1">
   <include>qfs.qft</include>
   <include>snap_components.qft</include>
   <include>snap_main.qft</include>
@@ -155,30 +155,6 @@
           <CatchSequence exception="TestException" id="_1qdB" maxerror="0"/>
         </TryStep>
       </Procedure>
-      <Procedure disabled="true" id="_1mcS" name="session">
-        <comment>@teststep Close session</comment>
-        <ProcedureCall id="_1mcT" procedure="check.product.not_opened"/>
-        <IfSequence id="_1mcU"
-                    test="&#34;$(not_opened)&#34;==&#34;false&#34;">
-          <TryStep id="_1mcV" name="select_menu_close_session">
-            <ProcedureCall id="_1mcW" procedure="do_click.menu.file"/>
-            <ProcedureCall id="_1mcX"
-                           procedure="do_click.menu.file.closeSession"/>
-            <CatchSequence exception="TestException" id="_1mcY" maxerror="0">
-              <ServerScriptStep id="_1mcZ" name="error">
-                <code>rc.logError("Session can not be closed")</code>
-              </ServerScriptStep>
-            </CatchSequence>
-          </TryStep>
-          <TryStep id="_1mca" name="click_Yes_in_product_modified_dialog">
-            <ProcedureCall id="_1mcb"
-                           procedure="wait.appear.dialog.product_modified"/>
-            <ProcedureCall id="_1mcc"
-                           procedure="do_click.product_modified_dialog.button_Yes"/>
-            <CatchSequence exception="TestException" id="_1mcd" maxerror="0"/>
-          </TryStep>
-        </IfSequence>
-      </Procedure>
       <Procedure id="_1mQI" name="dialogCustomize_Toolbars">
         <comment>@teststep Close Customize Toolbars.</comment>
         <MouseEventStep clicks="1" client="$(client)"
@@ -193,19 +169,6 @@
         </ProcedureCall>
       </Procedure>
       <Procedure id="_1lDa" name="modal_dialogs">
-        <TryStep disabled="true" id="_1pXc">
-          <ComponentWaiter client="$(client)" component="genericModalDialog"
-                           id="_3CY" timeout="50"/>
-          <ProcedureCall id="_1pXe" procedure="run-log.make_screensot">
-            <variable name="iw_name">modal_dialog</variable>
-            <variable name="iw_name_example">error_dialog</variable>
-          </ProcedureCall>
-          <ProcedureCall id="_1pXf" procedure="run-log.logError">
-            <variable name="message">Unexpected modal dialog appears</variable>
-            <variable name="withScreenshots">true</variable>
-          </ProcedureCall>
-          <CatchSequence exception="TestException" id="_1pXd" maxerror="0"/>
-        </TryStep>
         <ProcedureCall id="_1lDc"
                        procedure="qfs.swing.cleanup.closeAllModalDialogs">
           <variable name="maxDialogs">5</variable>

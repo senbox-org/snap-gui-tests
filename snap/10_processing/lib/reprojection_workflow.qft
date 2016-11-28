@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.11">
+<RootStep id="_0" name="root" version="4.1.1">
   <include>qfs.qft</include>
   <include>processing_main.qft</include>
   <include>processing_components.qft</include>
@@ -69,8 +69,6 @@
             </IfSequence>
           </ElseifSequence>
         </IfSequence>
-        <ProcedureCall disabled="true" id="_1piH"
-                       procedure="close_processing_tool.geometric_operations.reprojection"/>
       </Procedure>
       <Procedure id="_1r4V" name="preparation_io_orthorectification">
         <variable name="prod_dir"/>
@@ -208,11 +206,6 @@
           </SetGlobalStep>
           <ProcedureCall id="_1pXW" procedure="run-log.logError">
             <variable name="message">$(open_product_error)</variable>
-            <variable name="withScreenshots">false</variable>
-          </ProcedureCall>
-          <ProcedureCall disabled="true" id="_1r3M"
-                         procedure="run-log.logError">
-            <variable name="message">Opening of the product $(data_source_directory)$(prod_name) failed</variable>
             <variable name="withScreenshots">false</variable>
           </ProcedureCall>
           <CatchSequence exception="TestException" id="_1pXU" maxerror="0">
@@ -363,84 +356,7 @@
         <variable name="tab">Reprojection Parameters</variable>
       </ProcedureCall>
     </Procedure>
-    <Procedure disabled="true" id="_1pTE"
-               name="get_selected_source_product_todo">
-      <FetchTextStep client="$(client)"
-                     component="dialogReprojection3.panelI/O_Parameters.comboSelect_a_source_product."
-                     id="_1r4U" varname="source_product_name"/>
-      <FetchTextStep client="$(client)"
-                     component="dialogReprojection.panelI/O_Parameters.comboName:"
-                     disabled="true" id="_1pTF" varname="source_product"/>
-      <ServerScriptStep id="_1phn" name="print">
-        <code>print "$(source_product)"</code>
-      </ServerScriptStep>
-    </Procedure>
   </PackageRoot>
-  <ExtraSequence id="_4">
-    <BasicSequence id="_1qd4" name="Aufnahme 09.07.15 10:57">
-      <CheckStringStep client="$(client)"
-                       component="dialogReprojection2.buttonYes" id="_1qd5">
-        <text>Yes</text>
-      </CheckStringStep>
-      <CheckStringStep client="$(client)"
-                       component="dialogReprojection2.buttonNo" id="_1qd6">
-        <text>No</text>
-      </CheckStringStep>
-    </BasicSequence>
-    <Procedure disabled="true" id="_1pbm" name="check_reproj_target_product">
-      <comment>@teststep Check target product.</comment>
-      <ProcedureCall id="_1pbn" procedure="set.target_product_with_path"/>
-      <ProcedureCall id="_1pbo"
-                     procedure="check_external_file.file_exists_setGlobal">
-        <variable name="fileName">$(target_product)</variable>
-      </ProcedureCall>
-      <IfSequence id="_1pbp" test="&#34;$(fileExists)&#34;==&#34;True&#34;">
-        <IfSequence id="_1r4I"
-                    test="&#34;$(output_format)&#34;&lt;&gt;&#34;HDF5&#34;">
-          <ProcedureCall id="_1pbr" procedure="check.product.not_opened"/>
-          <IfSequence id="_1pbs"
-                      test="&#34;$(not_opened)&#34;==&#34;false&#34;">
-            <TestStep id="_1pbt" name="open_image_view">
-              <ProcedureCall id="_1pxv"
-                             procedure="product_meta_data.for_open_image_view_without_grouping"/>
-              <ProcedureCall id="_1pbx"
-                             procedure="utility.open_image_view_check_it"/>
-            </TestStep>
-            <TestStep id="_1pby"
-                      name="open_image_view_check_masks_layers_close_product">
-              <SetGlobalStep id="_1pbz" varname="view_Id1">
-                <default>1</default>
-              </SetGlobalStep>
-              <ProcedureCall id="_1r4J"
-                             procedure="test_events.imaging_tools.open_image_window_in_target_product_check_masks_layers"/>
-            </TestStep>
-            <ElseSequence id="_1pb-">
-              <ProcedureCall id="_1pc0" procedure="run-log.logError">
-                <variable name="message">$(target_product) is not opened.</variable>
-                <variable name="withScreenshots">false</variable>
-              </ProcedureCall>
-            </ElseSequence>
-          </IfSequence>
-        </IfSequence>
-        <ElseSequence id="_1pc1">
-          <ProcedureCall id="_1pc2" procedure="run-log.logError">
-            <variable name="message">$(target_product) is not written.</variable>
-            <variable name="withScreenshots">false</variable>
-          </ProcedureCall>
-        </ElseSequence>
-      </IfSequence>
-    </Procedure>
-    <ServerScriptStep id="_1l5A" name="print">
-      <code>print "${default:varname:defaultvalue}"</code>
-    </ServerScriptStep>
-    <ServerScriptStep id="_1phm" name="print">
-      <code>print "${default:varname:defaultvalue}"</code>
-    </ServerScriptStep>
-    <IfSequence id="_1op7" test="${qftest:windows}">
-      <ElseifSequence id="_1op8" name="MAC?"
-                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-      <ElseSequence id="_1op9"/>
-    </IfSequence>
-  </ExtraSequence>
+  <ExtraSequence id="_4"/>
   <WindowList id="_5"/>
 </RootStep>

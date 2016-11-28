@@ -76,24 +76,12 @@
             <SetGlobalStep id="_1q5q" varname="fr">
               <default>dim</default>
             </SetGlobalStep>
-            <SetGlobalStep disabled="true" id="_1q5r" varname="output_format">
-              <default>dimap</default>
-            </SetGlobalStep>
             <SetGlobalStep id="_1q5t" varname="output_format"/>
             <SetGlobalStep id="_1q5s" varname="supported_format">
               <default>true</default>
             </SetGlobalStep>
           </ElseSequence>
         </IfSequence>
-        <ServerScriptStep disabled="true" id="_1oxE" name="print">
-          <code>print "of = $(of)"</code>
-        </ServerScriptStep>
-        <ServerScriptStep disabled="true" id="_1oxF" name="print">
-          <code>print "fr = $(fr)"</code>
-        </ServerScriptStep>
-        <ServerScriptStep disabled="true" id="_1q5j" name="print">
-          <code>print "output_format = $(output_format)"</code>
-        </ServerScriptStep>
       </Procedure>
     </Package>
     <Package id="_1q5T" name="path">
@@ -111,9 +99,6 @@
         <SetGlobalStep id="_1orS" varname="user_home">
           <default>${system:user.home}</default>
         </SetGlobalStep>
-        <ServerScriptStep disabled="true" id="_1o+-" name="print">
-          <code>print "user_home = $(user_home)"</code>
-        </ServerScriptStep>
         <IfSequence id="_1orT" test="${qftest:windows}">
           <LoadPropertiesStep id="_1orU"
                               propertyfile="properties/path_win.properties"
@@ -130,56 +115,6 @@
                                 resourcename="path"/>
           </ElseSequence>
         </IfSequence>
-        <BasicSequence disabled="true" id="_1orZ" name="print">
-          <ServerScriptStep id="_1ora" name="print">
-            <code>print "data_directory = ${path:data_directory}"</code>
-          </ServerScriptStep>
-          <ServerScriptStep id="_1orb" name="print">
-            <code>print "data_directory2 = ${path:data_directory2}"  </code>
-          </ServerScriptStep>
-          <ServerScriptStep id="_1orc" name="print">
-            <code>print "screenshot_path = ${path:screenshot_path}"  </code>
-          </ServerScriptStep>
-          <ServerScriptStep id="_1ord" name="print">
-            <code>print "input_data_directory=${path:input_data_directory}"</code>
-          </ServerScriptStep>
-          <ServerScriptStep id="_1ore" name="print">
-            <code>print "output_data_directory=${path:output_data_directory}"</code>
-          </ServerScriptStep>
-          <ServerScriptStep id="_1orf" name="print">
-            <code>print "parameters_file_dir=${path:parameters_file_dir}"</code>
-          </ServerScriptStep>
-          <ServerScriptStep id="_1org" name="print">
-            <code>print "graph_file_dir=${path:graph_file_dir}"</code>
-          </ServerScriptStep>
-          <ServerScriptStep id="_1orh" name="print">
-            <code>print "temp_snap_directory=${path:temp_snap}"</code>
-          </ServerScriptStep>
-          <ServerScriptStep id="_1o-0" name="print">
-            <code>print "temp_s3tbx_directory=${path:temp_s3tbx}"</code>
-          </ServerScriptStep>
-          <ServerScriptStep id="_1ori" name="print">
-            <code>print "snap_bin_directory=${path:snap_bin_directory}"</code>
-          </ServerScriptStep>
-          <ServerScriptStep id="_1o-1" name="print">
-            <code>print "s3tbx_bin_directory=${path:s3tbx_bin_directory}"</code>
-          </ServerScriptStep>
-          <ServerScriptStep id="_1orj" name="print">
-            <code>print "snap_working_directory=${path:snap_working_directory}"</code>
-          </ServerScriptStep>
-          <ServerScriptStep id="_1o+b" name="print">
-            <code>print "s3tbx_working_directory=${path:s3tbx_working_directory}"</code>
-          </ServerScriptStep>
-          <ServerScriptStep id="_1ork" name="print">
-            <code>print "slash=${path:slash}"</code>
-          </ServerScriptStep>
-          <ServerScriptStep id="_1orl" name="print">
-            <code>print "screenshot_path=${path:screenshot_path}"</code>
-          </ServerScriptStep>
-          <ServerScriptStep id="_1orm" name="print">
-            <code>print "screenshot_path2 = ${path:screenshot_path2}"  </code>
-          </ServerScriptStep>
-        </BasicSequence>
       </Procedure>
       <Procedure disabled="true" id="_1q6C"
                  name="output_data_directory_for_gpt_tests">
@@ -242,16 +177,10 @@
           <SetGlobalStep id="_1orw" varname="data_source_directory">
             <default>${path:input_data_directory}${subdir:$(data_type)}</default>
           </SetGlobalStep>
-          <ServerScriptStep disabled="true" id="_1orx" name="print">
-            <code>print "data_source_dir = $(data_source_directory)"</code>
-          </ServerScriptStep>
           <CatchSequence exception="TestException" id="_1ory" maxerror="0">
             <SetGlobalStep id="_1sI8" varname="data_source_directory">
               <default>unknown</default>
             </SetGlobalStep>
-            <ServerScriptStep disabled="true" id="_1sI7" name="print">
-              <code>print "data_source_dir = $(data_source_directory)"</code>
-            </ServerScriptStep>
             <ProcedureCall id="_1o+p" procedure="qfs.run-log.logError">
               <variable name="message">It was no property or resource called $(data_type)</variable>
               <variable name="withScreenshots">false</variable>
@@ -270,11 +199,6 @@
 #print "$(fileName)"
 var1 = "$(fileName)"
 rc.setGlobal("smos", var1[:3])
-              </code>
-          <comment> </comment>
-        </ServerScriptStep>
-        <ServerScriptStep disabled="true" id="_1o+e" name="print">
-          <code>print "smos = ","$(smos)" 
               </code>
           <comment> </comment>
         </ServerScriptStep>
@@ -467,17 +391,11 @@ rc.setGlobal("smos", var1[:3])
                                     resourcename="attribut"/>
                 <ElseifSequence id="_1o-3" name="MAC?"
                                 test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                  <LoadPropertiesStep id="_1q6J"
-                                      propertyfile="properties/product_attributes.properties"
-                                      resourcename="attribut"/>
                   <LoadPropertiesStep disabled="true" id="_1q6K"
                                       propertyfile="properties/product_attributes_lin.properties"
                                       resourcename="attribut"/>
                 </ElseifSequence>
                 <ElseSequence id="_1o-4">
-                  <LoadPropertiesStep id="_1o-6"
-                                      propertyfile="properties/product_attributes.properties"
-                                      resourcename="attribut"/>
                   <LoadPropertiesStep disabled="true" id="_1q6I"
                                       propertyfile="properties/product_attributes_lin.properties"
                                       resourcename="attribut"/>
@@ -510,20 +428,6 @@ rc.setGlobal("smos", var1[:3])
             </TryStep>
           </ElseSequence>
         </IfSequence>
-        <BasicSequence disabled="true" id="_1sI9" name="print">
-          <ServerScriptStep id="_1sIA" name="print">
-            <code>print "product_group = $(product_group)"</code>
-          </ServerScriptStep>
-          <ServerScriptStep disabled="true" id="_1sIB" name="print">
-            <code>print "product_group2 = $(product_group2)"</code>
-          </ServerScriptStep>
-          <ServerScriptStep id="_1sIC" name="print">
-            <code>print "reader = $(reader)"</code>
-          </ServerScriptStep>
-          <ServerScriptStep id="_1sID" name="print">
-            <code>print "menu_item = $(menu_item)"</code>
-          </ServerScriptStep>
-        </BasicSequence>
       </Procedure>
       <Procedure id="_1q5f" name="for_open_image_view_without_grouping">
         <SetGlobalStep id="_1pUs" varname="group_id1"/>
@@ -729,16 +633,10 @@ rc.setGlobal("smos", var1[:3])
         <SetGlobalStep id="_364" varname="testFile">
           <default>${qftest:suite.dir}/manualtester/uncertainty_visualisation.xls</default>
         </SetGlobalStep>
-        <ServerScriptStep disabled="true" id="_1lBQ" name="print">
-          <code>print "$(testFile)"</code>
-        </ServerScriptStep>
       </Procedure>
     </Package>
     <Package id="_1q5c" name="variables">
       <Procedure id="_1rjw" name="mask_manager">
-        <SetGlobalStep disabled="true" id="_1qe6" varname="table">
-          <default>Dialog.maskTable</default>
-        </SetGlobalStep>
         <SetGlobalStep id="_1qe7" varname="table">
           <default>NbMainWindow.maskTable</default>
         </SetGlobalStep>
@@ -1077,15 +975,6 @@ rc.setGlobal("wv", vl)                       </code>
       </Procedure>
     </Package>
   </PackageRoot>
-  <ExtraSequence id="_4">
-    <IfSequence id="_1op7" test="${qftest:windows}">
-      <ElseifSequence id="_1op8" name="MAC?"
-                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-      <ElseSequence id="_1op9"/>
-    </IfSequence>
-    <ServerScriptStep id="_1oh2" name="print">
-      <code>print "data_directory = ${path:data_directory}"</code>
-    </ServerScriptStep>
-  </ExtraSequence>
+  <ExtraSequence id="_4"/>
   <WindowList id="_5"/>
 </RootStep>

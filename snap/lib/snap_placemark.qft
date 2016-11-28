@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.11">
+<RootStep id="_0" name="root" version="4.1.1">
   <include>qfs.qft</include>
   <include>snap_components.qft</include>
   <include>snap_main.qft</include>
@@ -17,12 +17,7 @@
                            procedure="utility.do_click_menu_view_tool_windows"/>
             <ProcedureCall id="_1qjb"
                            procedure="do_click.menu.view.tool_windows.pin_manager"/>
-            <ProcedureCall disabled="true" id="_1qjY"
-                           procedure="wait.appear.dialog.dialog"/>
-            <CatchSequence exception="TestException" id="_1qjZ" maxerror="0">
-              <ProcedureCall disabled="true" id="_1ph7"
-                             procedure="do_click.main_toolbar.views.pin_manager"/>
-            </CatchSequence>
+            <CatchSequence exception="TestException" id="_1r4+" maxerror="0"/>
           </TryStep>
         </Procedure>
         <Package id="_1rVM" name="select">
@@ -64,74 +59,6 @@
                             component="NbMainWindow.newButton"
                             event="MOUSE_MPRC" id="_1rUY" modifiers="16"/>
           </Procedure>
-          <Procedure disabled="true" id="_1rUI" name="new_pin_button_bkp">
-            <comment>@teststep Do click 'Create and add new PIN' button.</comment>
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="NbMainWindow.newButton"
-                            event="MOUSE_MPRC" id="_1rUK" modifiers="16"/>
-            <BasicSequence id="_1rUJ" name="Aufnahme 23.09.15 11:30">
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.copyButton"
-                               id="_1rUL"/>
-              <CheckBooleanStep checktype="visible" client="$(client)"
-                                component="NbMainWindow.tooltip" id="_1rST"/>
-              <CheckBooleanStep checktype="visible" client="$(client)"
-                                component="NbMainWindow.tooltip" id="_1rSU"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.importButton"
-                               id="_1rSV"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.exportButton"
-                               id="_1rSW"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.exportTableButton"
-                               id="_1rSX"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.filterButton"
-                               id="_1rSY"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.zoomToButton"
-                               id="_1rSZ"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.transferButton"
-                               id="_1rUM"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.helpButton"
-                               id="_1rSb"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.newButton" id="_1rSc"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.copyButton"
-                               id="_1rUN"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.editButton"
-                               id="_1rUO"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.removeButton"
-                               id="_1rUP"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.importButton"
-                               id="_1rUQ"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.exportButton"
-                               id="_1rUR"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.filterButton"
-                               id="_1rUS"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.exportTableButton"
-                               id="_1rUT"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.transferButton"
-                               id="_1rUU"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.zoomToButton"
-                               id="_1rUV"/>
-              <CheckStringStep client="$(client)"
-                               component="NbMainWindow.helpButton"
-                               id="_1rUW"/>
-            </BasicSequence>
-          </Procedure>
         </Package>
       </Package>
       <Package id="_1rMP" name="new_pin">
@@ -143,11 +70,7 @@
           <variable name="x"/>
           <variable name="y"/>
           <comment>@teststep Create new pin.</comment>
-          <ProcedureCall disabled="true" id="_1lGw"
-                         procedure="do_click.main_toolbar.views.pin_manager"/>
           <ProcedureCall id="_1rS5" procedure="placemark.pin_manager.open"/>
-          <ProcedureCall disabled="true" id="_1lGY"
-                         procedure="wait.appear.dialog.dialog"/>
           <ProcedureCall id="_1lGb"
                          procedure="placemark.pin_manager.do_click.new_pin_button"/>
           <ProcedureCall id="_1rS6" procedure="placemark.wait.new_pin"/>
@@ -381,14 +304,6 @@
             <variable name="y">200</variable>
           </ProcedureCall>
           <TestStep id="_1rZ2" name="set_geo_coordinates">
-            <SetGlobalStep disabled="true" id="_2JFz"
-                           varname="north_latitude">
-              <default>$(latitude)</default>
-            </SetGlobalStep>
-            <SetGlobalStep disabled="true" id="_1rZ4"
-                           varname="west_longitude">
-              <default>$(longitude)</default>
-            </SetGlobalStep>
             <IfSequence id="_1rZI"
                         test="&#34;$(north_lat)&#34;&lt;&gt;&#34;NaN&#34; and &#34;$(west_lon)&#34;&lt;&gt;&#34;NaN&#34;">
               <ServerScriptStep id="_1rv3" name="rundung">
@@ -415,18 +330,6 @@ rc.setGlobal("south_latitude", vl)                       </code>
               <ServerScriptStep id="_1rZ6" name="east_longitude">
                 <code>vl = $(west_longitude)
 vl = vl + 2   
-rc.setGlobal("east_longitude", vl)                       </code>
-              </ServerScriptStep>
-              <ServerScriptStep disabled="true" id="_1rsi"
-                                name="south_latitude">
-                <code>vl = $(north_latitude)
-vl = vl - 5   
-rc.setGlobal("south_latitude", vl)                       </code>
-              </ServerScriptStep>
-              <ServerScriptStep disabled="true" id="_1rsj"
-                                name="east_longitude">
-                <code>vl = $(west_longitude)
-vl = vl + 5   
 rc.setGlobal("east_longitude", vl)                       </code>
               </ServerScriptStep>
               <SetGlobalStep id="_1rZJ" varname="geo_coding">
@@ -465,51 +368,6 @@ rc.setGlobal("east_longitude", vl)                       </code>
       </Package>
     </Package>
   </PackageRoot>
-  <ExtraSequence id="_4">
-    <IfSequence id="_1op7" test="${qftest:windows}">
-      <ElseifSequence id="_1op8" name="MAC?"
-                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-      <ElseSequence id="_1op9"/>
-    </IfSequence>
-    <ProcedureCall id="_1pEO" procedure="geometry.draw.line">
-      <variable name="view_name">radiance_4</variable>
-      <variable name="x0">300</variable>
-      <variable name="y0">300</variable>
-      <variable name="x1">300</variable>
-      <variable name="y1">500</variable>
-    </ProcedureCall>
-    <ProcedureCall id="_1pER" procedure="geometry.draw.ellipse">
-      <variable name="view_name">radiance_4</variable>
-      <variable name="x0">300</variable>
-      <variable name="y0">300</variable>
-      <variable name="x1">400</variable>
-      <variable name="y1">500</variable>
-    </ProcedureCall>
-    <ProcedureCall id="_1pEU" procedure="geometry.draw.polyline">
-      <variable name="view_name">radiance_4</variable>
-      <variable name="x0">300</variable>
-      <variable name="y0">300</variable>
-      <variable name="x1">350</variable>
-      <variable name="y1">370</variable>
-      <variable name="x2">400</variable>
-      <variable name="y2">500</variable>
-      <variable name="x3">330</variable>
-      <variable name="y3">400</variable>
-    </ProcedureCall>
-    <ProcedureCall id="_1pEV" procedure="geometry.draw.polygon">
-      <variable name="view_name">radiance_4</variable>
-      <variable name="x0">300</variable>
-      <variable name="y0">300</variable>
-      <variable name="x1">350</variable>
-      <variable name="y1">370</variable>
-      <variable name="x2">400</variable>
-      <variable name="y2">500</variable>
-      <variable name="x3">330</variable>
-      <variable name="y3">400</variable>
-    </ProcedureCall>
-    <ProcedureCall id="_1pEa" procedure="geometry.new_geometry_container">
-      <variable name="name">test</variable>
-    </ProcedureCall>
-  </ExtraSequence>
+  <ExtraSequence id="_4"/>
   <WindowList id="_5"/>
 </RootStep>

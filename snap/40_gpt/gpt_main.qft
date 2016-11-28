@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.11">
+<RootStep id="_0" name="root" version="4.1.1">
   <include>qfs.qft</include>
   <include>../lib/snap_components.qft</include>
   <include>../lib/snap_main.qft</include>
@@ -143,107 +143,6 @@
               <variable name="file">$(ascii)</variable>
               <variable name="text">minimum</variable>
             </ProcedureCall>
-            <ElseSequence disabled="true" id="_BkI">
-              <ProcedureCall disabled="true" id="_1qar"
-                             procedure="check_external_file.file_exists_setGlobal">
-                <variable name="fileName">$(mapping_file)</variable>
-              </ProcedureCall>
-              <IfSequence disabled="true" id="_1qas"
-                          test="&#34;$(fileExists)&#34;==&#34;True&#34;">
-                <ProcedureCall id="_1qat"
-                               procedure="check_external_file.check_text_in_external_file">
-                  <variable name="file">$(mapping_file)</variable>
-                  <variable name="text">average</variable>
-                </ProcedureCall>
-                <ProcedureCall id="_1qau"
-                               procedure="check_external_file.check_text_in_external_file">
-                  <variable name="file">$(mapping_file)</variable>
-                  <variable name="text">maximum</variable>
-                </ProcedureCall>
-                <ProcedureCall id="_1qav"
-                               procedure="check_external_file.check_text_in_external_file">
-                  <variable name="file">$(mapping_file)</variable>
-                  <variable name="text">median</variable>
-                </ProcedureCall>
-                <ProcedureCall id="_1qaw"
-                               procedure="check_external_file.check_text_in_external_file">
-                  <variable name="file">$(mapping_file)</variable>
-                  <variable name="text">minimum</variable>
-                </ProcedureCall>
-                <ElseSequence id="_1qax">
-                  <ProcedureCall id="_1qay" procedure="run-log.logError">
-                    <variable name="message">$(mapping_file) is not processed</variable>
-                    <variable name="withScreenshots">false</variable>
-                  </ProcedureCall>
-                </ElseSequence>
-              </IfSequence>
-              <ProcedureCall disabled="true" id="_1qb4"
-                             procedure="check_external_file.file_exists_setGlobal">
-                <variable name="fileName">$(meta_file)</variable>
-              </ProcedureCall>
-              <IfSequence disabled="true" id="_1qaz"
-                          test="&#34;$(fileExists)&#34;==&#34;True&#34;">
-                <ProcedureCall id="_1qa+"
-                               procedure="check_external_file.check_text_in_external_file">
-                  <variable name="file">$(meta_file)</variable>
-                  <variable name="text">average</variable>
-                </ProcedureCall>
-                <ProcedureCall id="_1qa-"
-                               procedure="check_external_file.check_text_in_external_file">
-                  <variable name="file">$(meta_file)</variable>
-                  <variable name="text">maximum</variable>
-                </ProcedureCall>
-                <ProcedureCall id="_1qb0"
-                               procedure="check_external_file.check_text_in_external_file">
-                  <variable name="file">$(meta_file)</variable>
-                  <variable name="text">median</variable>
-                </ProcedureCall>
-                <ProcedureCall id="_1qb1"
-                               procedure="check_external_file.check_text_in_external_file">
-                  <variable name="file">$(meta_file)</variable>
-                  <variable name="text">minimum</variable>
-                </ProcedureCall>
-                <ElseSequence id="_1qb2">
-                  <ProcedureCall id="_1qb3" procedure="run-log.logError">
-                    <variable name="message">Metadata file $(meta_file) is not processed</variable>
-                    <variable name="withScreenshots">false</variable>
-                  </ProcedureCall>
-                </ElseSequence>
-              </IfSequence>
-              <ProcedureCall id="_1qbI"
-                             procedure="check_external_file.file_exists_setGlobal">
-                <variable name="fileName">$(ascii).txt</variable>
-              </ProcedureCall>
-              <IfSequence id="_1qbJ"
-                          test="&#34;$(fileExists)&#34;==&#34;True&#34;">
-                <ProcedureCall id="_1qbK"
-                               procedure="check_external_file.check_text_in_external_file">
-                  <variable name="file">$(ascii).txt</variable>
-                  <variable name="text">average</variable>
-                </ProcedureCall>
-                <ProcedureCall id="_1qbL"
-                               procedure="check_external_file.check_text_in_external_file">
-                  <variable name="file">$(ascii).txt</variable>
-                  <variable name="text">maximum</variable>
-                </ProcedureCall>
-                <ProcedureCall id="_1qbM"
-                               procedure="check_external_file.check_text_in_external_file">
-                  <variable name="file">$(ascii).txt</variable>
-                  <variable name="text">median</variable>
-                </ProcedureCall>
-                <ProcedureCall id="_1qbN"
-                               procedure="check_external_file.check_text_in_external_file">
-                  <variable name="file">$(ascii).txt</variable>
-                  <variable name="text">minimum</variable>
-                </ProcedureCall>
-                <ElseSequence id="_1qbO">
-                  <ProcedureCall id="_1qbP" procedure="run-log.logError">
-                    <variable name="message">Output ascii file $(ascii) / $(ascii).txt is not processed</variable>
-                    <variable name="withScreenshots">false</variable>
-                  </ProcedureCall>
-                </ElseSequence>
-              </IfSequence>
-            </ElseSequence>
           </IfSequence>
         </IfSequence>
         <IfSequence id="_1p4M"
@@ -331,9 +230,6 @@
               </SetGlobalStep>
             </ElseSequence>
           </IfSequence>
-          <ServerScriptStep id="_1qdo" name="print">
-            <code>print "outfile = $(outfile)"</code>
-          </ServerScriptStep>
         </TestStep>
         <ProcedureCall id="_1qdq"
                        procedure="check_external_file.file_exists_setGlobal">
@@ -351,13 +247,6 @@
                 <variable name="prod">xfdumanifest.xml</variable>
                 <variable name="product_type"/>
               </ProcedureCall>
-              <ProcedureCall disabled="true" id="_1qdH"
-                             procedure="open.product_in_snap">
-                <variable name="prod_dir">$(outfile)</variable>
-                <variable name="in_out">out</variable>
-                <variable name="prod">xfdumanifest.xml</variable>
-                <variable name="product_type"/>
-              </ProcedureCall>
               <ProcedureCall id="_1qdI" procedure="check.product.not_opened"/>
               <IfSequence id="_1qdJ"
                           test="&#34;$(not_opened)&#34;==&#34;true&#34;">
@@ -369,10 +258,6 @@
                 <ProcedureCall id="_1qdN"
                                procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
                   <variable name="screenshot">error_while_import</variable>
-                </ProcedureCall>
-                <ProcedureCall disabled="true" id="_1qdQ"
-                               procedure="utility.open_image_view_check_it">
-                  <comment>@teststep Open image view and check it.</comment>
                 </ProcedureCall>
                 <ProcedureCall id="_1qdT"
                                procedure="test_events.imaging_tools.open_image_window_in_target_product_check_masks_layers"/>
@@ -471,28 +356,16 @@
         </TestStep>
         <TestStep id="_1kGk" name="check_measurement_files">
           <IfSequence id="_1qQD" test="&#34;$(prod_1)&#34;&lt;&gt;&#34;&#34;">
-            <ProcedureCall disabled="true" id="_1qQa"
-                           procedure="check_measurements_file">
-              <variable name="measurements_file">"$(measurements_1)"</variable>
-            </ProcedureCall>
             <ProcedureCall id="_1qab" procedure="check_measurements_file">
               <variable name="measurements_file">$(measurements_1)</variable>
             </ProcedureCall>
           </IfSequence>
           <IfSequence id="_1kHA" test="&#34;$(prod_2)&#34;&lt;&gt;&#34;&#34;">
-            <ProcedureCall disabled="true" id="_1qQb"
-                           procedure="check_measurements_file">
-              <variable name="measurements_file">"$(measurements_2)"</variable>
-            </ProcedureCall>
             <ProcedureCall id="_1qac" procedure="check_measurements_file">
               <variable name="measurements_file">$(measurements_2)</variable>
             </ProcedureCall>
           </IfSequence>
           <IfSequence id="_1qQc" test="&#34;$(prod_3)&#34;&lt;&gt;&#34;&#34;">
-            <ProcedureCall disabled="true" id="_1qad"
-                           procedure="check_measurements_file">
-              <variable name="measurements_file">"$(measurements_3)"</variable>
-            </ProcedureCall>
             <ProcedureCall id="_1qQd" procedure="check_measurements_file">
               <variable name="measurements_file">$(measurements_3)</variable>
             </ProcedureCall>
@@ -522,9 +395,6 @@
 import glob
 sp = glob.glob('$(scatte_plot_file)')
 rc.setGlobal("files_number", len(sp))</code>
-            </ServerScriptStep>
-            <ServerScriptStep id="_1qRb" name="print">
-              <code>print "files_number = $(files_number)"  </code>
             </ServerScriptStep>
             <IfSequence id="_1qRg" test="$(files_number)==0">
               <ProcedureCall id="_1qRh" procedure="run-log.logError">
@@ -692,12 +562,6 @@ rc.setGlobal("files_number", len(sp))</code>
         <ElseifSequence id="_1oQP"
                         test="&#34;$(other_formats )&#34;==&#34;N1&#34;">
           <TestStep id="_1oQQ" name="N1">
-            <ServerScriptStep id="_1qUq" name="print">
-              <code>print "*** N1 = $(sourceOption)-$(dataInDir)-$(fileName)"  </code>
-            </ServerScriptStep>
-            <ServerScriptStep id="_1qV5" name="print">
-              <code>print "*** N1 = $(sourceOption2)-$(dataInDir2)-$(fileName2)"  </code>
-            </ServerScriptStep>
             <SetGlobalStep id="_1qUr" varname="f">
               <default>N1</default>
             </SetGlobalStep>
@@ -825,9 +689,6 @@ rc.setGlobal("files_number", len(sp))</code>
           <SetGlobalStep id="_1qUS" varname="output_fu_file">
             <default>${path:data_directory}out\\$(output_folder)\\</default>
           </SetGlobalStep>
-          <ServerScriptStep disabled="true" id="_1qfD" name="print">
-            <code>print "************ output_fu_file = $(output_fu_file)*****************"  </code>
-          </ServerScriptStep>
           <ElseifSequence id="_1qUT" name="MAC?"
                           test="'${system:os.name}' .find('Mac OS X')&gt;=0">
             <SetGlobalStep id="_1qUU" varname="output_fu_file">
@@ -934,13 +795,6 @@ rc.setGlobal("files_number", len(sp))</code>
               <variable name="prod">$(outfn).$(fr)</variable>
               <variable name="product_type">dimap</variable>
             </ProcedureCall>
-            <ProcedureCall disabled="true" id="_1qae"
-                           procedure="open.product_in_snap">
-              <variable name="prod_dir">$(output_folder)</variable>
-              <variable name="in_out">out</variable>
-              <variable name="prod">$(outfn).$(fr)</variable>
-              <variable name="product_type"/>
-            </ProcedureCall>
             <ProcedureCall id="_1po3" procedure="check.product.not_opened"/>
             <IfSequence id="_1po4"
                         test="&#34;$(not_opened)&#34;==&#34;true&#34;">
@@ -988,177 +842,6 @@ rc.setGlobal("files_number", len(sp))</code>
         <code>print "measurements_file = $(measurements_file)" </code>
         <comment>"$(measurements_file)"</comment>
       </ServerScriptStep>
-      <BasicSequence disabled="true" id="_1qaM" name="todo">
-        <SetGlobalStep id="_1qZk" varname="mf">
-          <default>${quoteitem:$(measurements_file)}</default>
-        </SetGlobalStep>
-        <IfSequence id="_1qZl" test="&#34;$(mf)&#34;&lt;&gt;&#34;&#34;">
-          <ProcedureCall id="_1qZm"
-                         procedure="check_external_file.file_exists_setGlobal">
-            <variable name="fileName">$(measurements_file)</variable>
-          </ProcedureCall>
-          <IfSequence id="_1qZn"
-                      test="&#34;$(fileExists)&#34;==&#34;True&#34;">
-            <ProcedureCall id="_1qZo"
-                           procedure="check_external_file.check_text_in_external_file">
-              <variable name="file">$(measurements_file)</variable>
-              <variable name="text">SNAP pixel extraction export table</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1qZp"
-                           procedure="check_external_file.check_text_in_external_file">
-              <variable name="file">$(measurements_file)</variable>
-              <variable name="text">ProdID</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1qZq"
-                           procedure="check_external_file.check_text_in_external_file">
-              <variable name="file">$(measurements_file)</variable>
-              <variable name="text">Name</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1qZr"
-                           procedure="check_external_file.check_text_in_external_file">
-              <variable name="file">$(measurements_file)</variable>
-              <variable name="text">Latitude</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1qZs"
-                           procedure="check_external_file.check_text_in_external_file">
-              <variable name="file">$(measurements_file)</variable>
-              <variable name="text">Longitude</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1qZt"
-                           procedure="check_external_file.check_text_in_external_file">
-              <variable name="file">$(measurements_file)</variable>
-              <variable name="text">$(measurements)</variable>
-            </ProcedureCall>
-            <IfSequence id="_1qZu"
-                        test="&#34;$(expression)&#34;&lt;&gt;&#34;&#34;">
-              <ProcedureCall id="_1qZv"
-                             procedure="check_external_file.check_text_in_external_file">
-                <variable name="file">$(measurements_file)</variable>
-                <variable name="text">$(expression)</variable>
-              </ProcedureCall>
-            </IfSequence>
-            <ElseSequence id="_1qZw">
-              <ProcedureCall id="_1qZx" procedure="run-log.logError">
-                <variable name="message">$(measurements_file) is not processed</variable>
-                <variable name="withScreenshots">false</variable>
-              </ProcedureCall>
-            </ElseSequence>
-          </IfSequence>
-        </IfSequence>
-        <ServerScriptStep id="_AUb" name="replace_whitespaces">
-          <code>import string
-
-pn = "${quoteitem:$(measurements_file)}"
-pn = pn.replace(${quoteitem:"\\"}, "/")
-rc.setGlobal("productName2", pn.replace(" ", "_"))      </code>
-        </ServerScriptStep>
-        <IfSequence id="_1qZy" test="&#34;$(mf)&#34;&lt;&gt;&#34;&#34;">
-          <ProcedureCall id="_1qZz"
-                         procedure="check_external_file.file_exists_setGlobal">
-            <variable name="fileName">$(measurements_file)</variable>
-          </ProcedureCall>
-          <IfSequence id="_1qZ+"
-                      test="&#34;$(fileExists)&#34;==&#34;True&#34;">
-            <ProcedureCall id="_1qZ-"
-                           procedure="check_external_file.check_text_in_external_file">
-              <variable name="file">$(measurements_file)</variable>
-              <variable name="text">SNAP pixel extraction export table</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1qa0"
-                           procedure="check_external_file.check_text_in_external_file">
-              <variable name="file">$(measurements_file)</variable>
-              <variable name="text">ProdID</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1qa1"
-                           procedure="check_external_file.check_text_in_external_file">
-              <variable name="file">$(measurements_file)</variable>
-              <variable name="text">Name</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1qa2"
-                           procedure="check_external_file.check_text_in_external_file">
-              <variable name="file">$(measurements_file)</variable>
-              <variable name="text">Latitude</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1qa3"
-                           procedure="check_external_file.check_text_in_external_file">
-              <variable name="file">$(measurements_file)</variable>
-              <variable name="text">Longitude</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1qa4"
-                           procedure="check_external_file.check_text_in_external_file">
-              <variable name="file">$(measurements_file)</variable>
-              <variable name="text">$(measurements)</variable>
-            </ProcedureCall>
-            <IfSequence id="_1qa5"
-                        test="&#34;$(expression)&#34;&lt;&gt;&#34;&#34;">
-              <ProcedureCall id="_1qa6"
-                             procedure="check_external_file.check_text_in_external_file">
-                <variable name="file">$(measurements_file)</variable>
-                <variable name="text">$(expression)</variable>
-              </ProcedureCall>
-            </IfSequence>
-            <ElseSequence id="_1qa7">
-              <ProcedureCall id="_1qa8" procedure="run-log.logError">
-                <variable name="message">$(measurements_file) is not processed</variable>
-                <variable name="withScreenshots">false</variable>
-              </ProcedureCall>
-            </ElseSequence>
-          </IfSequence>
-        </IfSequence>
-        <IfSequence id="_1qa9" test="&#34;$(mf)&#34;&lt;&gt;&#34;&#34;">
-          <ProcedureCall id="_1qaA"
-                         procedure="check_external_file.file_exists_setGlobal">
-            <variable name="fileName">$(measurements_file)</variable>
-          </ProcedureCall>
-          <IfSequence id="_1qaB"
-                      test="&#34;$(fileExists)&#34;==&#34;True&#34;">
-            <ProcedureCall id="_1qaC"
-                           procedure="check_external_file.check_text_in_external_file">
-              <variable name="file">$(measurements_file)</variable>
-              <variable name="text">SNAP pixel extraction export table</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1qaD"
-                           procedure="check_external_file.check_text_in_external_file">
-              <variable name="file">$(measurements_file)</variable>
-              <variable name="text">ProdID</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1qaE"
-                           procedure="check_external_file.check_text_in_external_file">
-              <variable name="file">$(measurements_file)</variable>
-              <variable name="text">Name</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1qaF"
-                           procedure="check_external_file.check_text_in_external_file">
-              <variable name="file">$(measurements_file)</variable>
-              <variable name="text">Latitude</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1qaG"
-                           procedure="check_external_file.check_text_in_external_file">
-              <variable name="file">$(measurements_file)</variable>
-              <variable name="text">Longitude</variable>
-            </ProcedureCall>
-            <ProcedureCall id="_1qaH"
-                           procedure="check_external_file.check_text_in_external_file">
-              <variable name="file">$(measurements_file)</variable>
-              <variable name="text">$(measurements)</variable>
-            </ProcedureCall>
-            <IfSequence id="_1qaI"
-                        test="&#34;$(expression)&#34;&lt;&gt;&#34;&#34;">
-              <ProcedureCall id="_1qaJ"
-                             procedure="check_external_file.check_text_in_external_file">
-                <variable name="file">$(measurements_file)</variable>
-                <variable name="text">$(expression)</variable>
-              </ProcedureCall>
-            </IfSequence>
-            <ElseSequence id="_1qaK">
-              <ProcedureCall id="_1qaL" procedure="run-log.logError">
-                <variable name="message">$(measurements_file) is not processed</variable>
-                <variable name="withScreenshots">false</variable>
-              </ProcedureCall>
-            </ElseSequence>
-          </IfSequence>
-        </IfSequence>
-      </BasicSequence>
       <IfSequence id="_1qQN"
                   test="&#34;$(measurements_file)&#34;&lt;&gt;&#34;&#34;">
         <ProcedureCall id="_1qQO"
@@ -1257,10 +940,6 @@ rc.setGlobal("productName2", pn.replace(" ", "_"))      </code>
         <ProcedureCall id="_1qhG"
                        procedure="utils.set_processing_parameters_no_output_product"/>
         <TestStep id="_1qhH" name="compose_command_line ">
-          <SetGlobalStep disabled="true" id="_1qhJ" local="true"
-                         varname="source_option">
-            <default>-Ssource=</default>
-          </SetGlobalStep>
           <ProcedureCall id="_1qij" procedure="variables.operators"/>
           <SetGlobalStep id="_1qhj" local="true" varname="operator">
             <default>$(fu)</default>
@@ -1268,19 +947,6 @@ rc.setGlobal("productName2", pn.replace(" ", "_"))      </code>
           <IfSequence id="_1qhK"
                       test="&#34;$(instrument_name)&#34;&lt;&gt;&#34;&#34;">
             <ProcedureCall id="_1qhl" procedure="variables.fu_instruments"/>
-            <BasicSequence disabled="true" id="_1qiL"
-                           name="for_check_can_away">
-              <SetGlobalStep id="_1qiJ" local="true" varname="instr">
-                <default>$($(instrument_name))</default>
-                <comment>  -Pinstrument=&lt;instrument&gt;                   The instrument to compute FU for.
-                                              Default value is 'AUTO_DETECT'.
-  -PvalidExpression=&lt;string&gt;                  An expression to filter which pixel are considered.
-</comment>
-              </SetGlobalStep>
-              <ServerScriptStep id="_1qiK" name="print">
-                <code>print "************ instr = $(instr)*****************"  </code>
-              </ServerScriptStep>
-            </BasicSequence>
             <SetGlobalStep id="_1qiH" local="true"
                            varname="instrument_option">
               <default>-Pinstrument=$($(instrument_name))</default>
@@ -1319,12 +985,6 @@ rc.setGlobal("productName2", pn.replace(" ", "_"))      </code>
               </SetGlobalStep>
             </ElseSequence>
           </IfSequence>
-          <ServerScriptStep disabled="true" id="_1qiI" name="print">
-            <code>print "************ instrument_option = $(instrument_option)*****************"  </code>
-          </ServerScriptStep>
-          <ServerScriptStep disabled="true" id="_1qiQ" name="print">
-            <code>print "************ valid_expression_option = $(valid_expression_option)*****************"  </code>
-          </ServerScriptStep>
           <IfSequence id="_1qid" test="${qftest:windows}">
             <SetGlobalStep id="_1qig" varname="gpt_commando">
               <default>$(gpt_calling) $(operator)  $(instrument_option) $(valid_expression_option) $(of) -t $(output_fu_file)$(outfn).$(fr) $(input) -e</default>
@@ -1341,35 +1001,20 @@ rc.setGlobal("productName2", pn.replace(" ", "_"))      </code>
               </SetGlobalStep>
             </ElseSequence>
           </IfSequence>
-          <ServerScriptStep disabled="true" id="_1qhT" name="print">
-            <code>print "************ gpt_commando = $(gpt_commando)*****************"  </code>
-          </ServerScriptStep>
         </TestStep>
         <ProcedureCall id="_1qht" procedure="utils.run_operator"/>
         <ProcedureCall id="_1qhV" postdelay="2000" predelay="2000"
                        procedure="utils.waiting_for_processierung_else_terminate_process">
           <variable name="client_name">$(gpt_client_name)</variable>
         </ProcedureCall>
-        <ServerScriptStep disabled="true" id="_1qiP" name="print">
-          <code>print "*** gpt_client_nr = $(wv)"  </code>
-        </ServerScriptStep>
         <ProcedureCall id="_1qhX"
                        procedure="utils.check_output_file_was_written_else_shoot_error"/>
-        <ServerScriptStep disabled="true" id="_1qhY" name="print">
-          <code>print "of = $(of)"</code>
-        </ServerScriptStep>
       </IfSequence>
       <IfSequence id="_1qiR" test="&#34;$(f)&#34;&lt;&gt;&#34;hdf5&#34;">
         <ProcedureCall id="_1qhZ" procedure="check_target_product_in_SNAP"/>
       </IfSequence>
     </Procedure>
   </PackageRoot>
-  <ExtraSequence id="_4">
-    <IfSequence id="_1op7" test="${qftest:windows}">
-      <ElseifSequence id="_1op8" name="MAC?"
-                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-      <ElseSequence id="_1op9"/>
-    </IfSequence>
-  </ExtraSequence>
+  <ExtraSequence id="_4"/>
   <WindowList id="_5"/>
 </RootStep>

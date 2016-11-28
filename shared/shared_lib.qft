@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.11">
+<RootStep id="_0" name="root" version="4.1.1">
   <include>qfs.qft</include>
   <include>gpt.qft</include>
   <include>variables.qft</include>
@@ -14,9 +14,6 @@
         <ServerScriptStep id="_1oGf" name="check_fileExists_setGlobal">
           <code>from java.io import File
 rc.setGlobal("fileExists", File("$(fileName)").exists())</code>
-        </ServerScriptStep>
-        <ServerScriptStep disabled="true" id="_1oGg" name="print">
-          <code>print "fileExists = $(fileExists)"  </code>
         </ServerScriptStep>
       </Procedure>
       <Procedure id="_6ec" name="check_text_in_external_file">
@@ -63,9 +60,6 @@ rc.setLocal("fileExists", File("$(fileName)").exists())</code>
           <code>from java.io import File
 if $(fileExists)==0:  rc.logMessage("OK")
 else: rc.logError("$(fileName) has been written!")</code>
-        </ServerScriptStep>
-        <ServerScriptStep disabled="true" id="_1p2M" name="print">
-          <code>print "fileExists = $(fileExists)"  </code>
         </ServerScriptStep>
       </Procedure>
     </Package>
@@ -116,9 +110,6 @@ else: rc.logError("$(fileName) has been written!")</code>
               <ShellClientStarter client="$(cn_cache)"
                                   command="$(delete_commando) cache"
                                   directory="${path:temp_s3tbx}" id="_1p1M"/>
-              <ServerScriptStep disabled="true" id="_1p1N" name="print">
-                <code>print "working_directory = ${path:temp_s3tbx}"</code>
-              </ServerScriptStep>
               <ProcedureCall id="_1p1O" procedure="utils.exit_program">
                 <variable name="client_name">$(cn_cache)</variable>
               </ProcedureCall>
@@ -457,25 +448,6 @@ In this case we catch the exeption in this node and perform a hard close.
           </TryStep>
           <CatchSequence exception="TestException" id="_1pEq" maxerror="0"/>
         </TryStep>
-        <TryStep disabled="true" id="_1pEf" name="check_client_exists">
-          <ClientWaiter client="$(client_name)" errorlevel="0" id="_1oJH"
-                        raise="false" timeout="0"/>
-          <ProcessWaiter client="$(client_name)" errorlevel="0" id="_1pEg"
-                         raise="false" timeout="1000"/>
-          <TryStep id="_1pEj" name="check if really stopped">
-            <ProcessWaiter client="$(client_name)" errorlevel="0" id="_1pEk"
-                           raise="false" timeout="1000"/>
-            <CatchSequence exception="ClientNotTerminatedException" id="_1pEl"
-                           maxerror="0" name="notTerminated">
-              <comment>The Wait for client to terminate node throws an exeption if it did not stop.
-In this case we catch the exeption in this node and perform a hard close.
-</comment>
-              <ProcedureCall id="_1pEm" procedure="utils.terminate_process">
-                <variable name="client_name">$(client_name)</variable>
-              </ProcedureCall>
-            </CatchSequence>
-          </TryStep>
-        </TryStep>
       </Procedure>
       <Procedure id="_1o+u" name="terminate_process">
         <variable name="client_name"/>
@@ -488,74 +460,9 @@ In this case we catch the exeption in this node and perform a hard close.
           </ClientStopper>
           <CatchSequence exception="TestException" id="_1o+y" maxerror="0"/>
         </TryStep>
-        <TryStep disabled="true" id="_1pEy">
-          <ClientWaiter client="$(client_name)" errorlevel="0" id="_1pEz"
-                        raise="false" timeout="10"/>
-          <ProcedureCall id="_1pF0" procedure="qfs.utils.killAllClients">
-            <variable name="timeout">5000</variable>
-          </ProcedureCall>
-          <CatchSequence exception="TestException" id="_1pE-" maxerror="0"/>
-        </TryStep>
       </Procedure>
     </Package>
   </PackageRoot>
-  <ExtraSequence id="_4">
-    <ProcedureCall id="_1p10" procedure="path.main_path"/>
-    <Procedure id="_1p1D" name="listingDirectory">
-      <variable name="directory">${path:temp_snap}snap-core</variable>
-      <ServerScriptStep id="_1p1H">
-        <code>import shutil
-
-directory = rc.lookup("directory")
-shutil.disk_usage(directory)
-</code>
-      </ServerScriptStep>
-    </Procedure>
-    <IfSequence id="_1p0x" name="snap-core folder"
-                test="'${path:temp_snap}snap-core'.find('$(operation_system)') &gt;0">
-      <ServerScriptStep id="_1p16" name="print">
-        <code>print "find_directory = '${path:temp_snap}snap-core'.find('$(operation_system)') &gt;0"</code>
-      </ServerScriptStep>
-    </IfSequence>
-    <IfSequence id="_1p11" name="snap-core folder"
-                test="'${path:temp_snap}snap-core'.find('$(operation_system)') !=0">
-      <ServerScriptStep id="_1p17" name="print">
-        <code>print "find_directory = '${path:temp_snap}snap-core'.find('$(operation_system)') !=0"</code>
-      </ServerScriptStep>
-      <ShellClientStarter client="s" command="dir ${path:temp_snap}snap-core"
-                          directory="${path:temp_snap}" id="_1p18"/>
-      <ShellClientStarter client="s2"
-                          command="dir C:\Users\olga_2\.snap\snap-core"
-                          directory="${path:temp_snap}" id="_1p19"/>
-      <ServerScriptStep id="_1p1A">
-        <code>import shutil
-
-directory = rc.lookup("${path:temp_snap}snap-core")
-try:
-	shutil.dir (directory)
-       #shutil.rmtree (directory)
-except:
-	raise UserException("Removing directory " + directory + " didn't work! Perhaps you have no permissions!")
-
-</code>
-      </ServerScriptStep>
-      <ServerScriptStep id="_1p1B">
-        <code>import shutil
-
-directory = rc.lookup("C:\\Users\\olga_2\\.snap\\snap-core")
-try:
-	shutil.dir (directory)
-       #shutil.rmtree (directory)
-except:
-	raise UserException("Removing directory " + directory + " didn't work! Perhaps you have no permissions!")
-
-</code>
-      </ServerScriptStep>
-    </IfSequence>
-    <ServerScriptStep id="_1oh2" name="print">
-      <code>print "data_directory = ${path:data_directory}"</code>
-      <comment>@teststep </comment>
-    </ServerScriptStep>
-  </ExtraSequence>
+  <ExtraSequence id="_4"/>
   <WindowList id="_5"/>
 </RootStep>

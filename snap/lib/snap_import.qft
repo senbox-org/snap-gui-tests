@@ -275,10 +275,6 @@
           <ElseSequence id="_1rVZ">
             <IfSequence id="_1rVa"
                         test="&#34;$(menu_item)&#34;&lt;&gt;&#34;&#34;">
-              <ServerScriptStep disabled="true" id="_1rhf" name="print">
-                <code>print "$(menu_item)"</code>
-                <comment> </comment>
-              </ServerScriptStep>
               <TryStep id="_1riF" name="open_import_dialog">
                 <comment>@teststep Open 'Import Product' dialog</comment>
                 <IfSequence id="_1riG"
@@ -420,10 +416,6 @@
         </ProcedureCall>
         <IfSequence id="_1rLk"
                     test="&#34;$(import_product_dialog_appears)&#34;==&#34;true&#34;">
-          <ServerScriptStep disabled="true" id="_1rLv" name="findInString">
-            <code>print "input_file = $(input_file)"</code>
-            <comment> </comment>
-          </ServerScriptStep>
           <IfSequence id="_1rL-" test="${qftest:windows}">
             <TextInputStep clear="true" client="$(client)"
                            component="dialogSNAP_-_Import_Product.textFile_name:"
@@ -447,10 +439,6 @@
               </TextInputStep>
             </ElseSequence>
           </IfSequence>
-          <ServerScriptStep disabled="true" id="_1rM6" name="print">
-            <code>print "$(input_file)"</code>
-            <comment> </comment>
-          </ServerScriptStep>
         </IfSequence>
       </Procedure>
       <Procedure id="_1rYf" name="open_subset_tool_window">
@@ -646,9 +634,6 @@ row	ASA_IMM_1_test.N1</comment>
             </TryStep>
           </CatchSequence>
         </TryStep>
-        <ServerScriptStep disabled="true" id="_1l5A" name="print">
-          <code>print "file_found = $(file_found)"</code>
-        </ServerScriptStep>
       </Procedure>
       <Package id="_1oZk" name="raster_data">
         <Package id="_1rSV" name="optical_sensors">
@@ -691,16 +676,6 @@ row	ASA_IMM_1_test.N1</comment>
             <MouseEventStep clicks="1" client="$(client)"
                             component="NbMainWindow.menuItem"
                             event="MOUSE_MPRC" id="_1qy5" modifiers="16"/>
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="NbMainWindow.menuItem$(menu_item)"
-                            disabled="true" event="MOUSE_MPRC" id="_1rUi"
-                            modifiers="16"/>
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="NbMainWindow.$(menu_item)"
-                            disabled="true" event="MOUSE_MPRC" id="_1rZQ"
-                            modifiers="16">
-              <comment>menuItem</comment>
-            </MouseEventStep>
             <IfSequence id="_1qwc" test="${qftest:windows}">
               <ElseifSequence id="_1qwd" name="MAC?"
                               test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -741,10 +716,6 @@ row	ASA_IMM_1_test.N1</comment>
           </Procedure>
           <Procedure id="_1rSm" name="sar_sensor">
             <variable name="menu_item"/>
-            <MouseEventStep clicks="1" client="$(client)"
-                            component="NbMainWindow.menuItem$(menu_item)"
-                            disabled="true" event="MOUSE_MPRC" id="_1raS"
-                            modifiers="16"/>
             <MouseEventStep clicks="1" client="$(client)"
                             component="NbMainWindow.menuItem_item_label"
                             event="MOUSE_MPRC" id="_1piz" modifiers="16"/>
@@ -807,267 +778,6 @@ row	ASA_IMM_1_test.N1</comment>
       </Package>
     </Package>
   </PackageRoot>
-  <ExtraSequence id="_4">
-    <ServerScriptStep disabled="true" id="_1r4v" name="print">
-      <code>print "$(input_file)"</code>
-      <comment> </comment>
-    </ServerScriptStep>
-    <IfSequence id="_1op7" test="${qftest:windows}">
-      <ElseifSequence id="_1op8" name="MAC?"
-                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-      <ElseSequence id="_1op9"/>
-    </IfSequence>
-    <ProcedureCall id="_1oXV" procedure="check.product.not_opened"/>
-    <IfSequence id="_1oXW" test="&#34;$(not_opened)&#34;==&#34;false&#34;">
-      <TestStep id="_1o+2" name="delete_band">
-        <ProcedureCall id="_1oXb" procedure="select.product_tree.band">
-          <variable name="prod_id">0</variable>
-          <variable name="group_id"/>
-          <variable name="view_id">1</variable>
-          <variable name="band">$(band)</variable>
-        </ProcedureCall>
-        <ProcedureCall id="_1ozv" procedure="delete_product_tree_node"/>
-        <ProcedureCall id="_1ozx" procedure="check.product.node_not_exists">
-          <variable name="node">$(band)</variable>
-          <variable name="nodeSeparator">@</variable>
-          <variable name="linear">false</variable>
-        </ProcedureCall>
-      </TestStep>
-      <TestStep id="_1o+t" name="undo">
-        <ProcedureCall id="_1p0C" procedure="undo_tree"/>
-        <ProcedureCall disabled="true" id="_1o+y"
-                       procedure="do_click_menubar_undo">
-          <variable name="node_name">$(band)</variable>
-        </ProcedureCall>
-        <ProcedureCall id="_1o+z" procedure="get.tree.get_index_of_node">
-          <variable name="node">$(band)</variable>
-          <variable name="nodeSeparator">@</variable>
-          <variable name="linear">false</variable>
-        </ProcedureCall>
-        <ServerScriptStep disabled="true" id="_1o++" name="print">
-          <code>print "$(new_band_id)"</code>
-        </ServerScriptStep>
-      </TestStep>
-      <TestStep id="_1o-3" name="redo">
-        <ProcedureCall id="_1p0D" procedure="redo_tree"/>
-        <ProcedureCall disabled="true" id="_1o-B"
-                       procedure="do_click_menubar_redo">
-          <variable name="node_name">$(band)</variable>
-        </ProcedureCall>
-        <ProcedureCall id="_1o-C" procedure="check.product.node_not_exists">
-          <variable name="node">$(band)</variable>
-          <variable name="nodeSeparator">@</variable>
-          <variable name="linear">false</variable>
-        </ProcedureCall>
-      </TestStep>
-      <TestStep id="_1o-F" name="undo">
-        <ProcedureCall id="_1p0E" procedure="undo_tree"/>
-        <ProcedureCall disabled="true" id="_1o-P"
-                       procedure="do_click_menubar_undo">
-          <variable name="node_name">$(band)</variable>
-        </ProcedureCall>
-        <ProcedureCall id="_1o-Q" procedure="get.tree.get_index_of_node">
-          <variable name="node">$(band)</variable>
-          <variable name="nodeSeparator">@</variable>
-          <variable name="linear">false</variable>
-        </ProcedureCall>
-      </TestStep>
-    </IfSequence>
-    <ProcedureCall id="_1oXO" procedure="close.all_products"/>
-    <Procedure id="_1rVv" name="raster_data">
-      <variable name="import_data"/>
-      <ProcedureCall id="_1rVw"
-                     procedure="utility.open_import_product_window"/>
-      <ProcedureCall id="_1rVx" procedure="check.product.not_opened"/>
-      <IfSequence id="_1rVy" test="&#34;$(not_opened)&#34;==&#34;false&#34;">
-        <ProcedureCall id="_1rVz" procedure="close.all_products"/>
-      </IfSequence>
-      <ProcedureCall id="_1rV+"
-                     procedure="product_meta_data.product_attributes">
-        <variable name="prod_type">$(import_data)</variable>
-      </ProcedureCall>
-      <IfSequence id="_1rV-"
-                  test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-        <ProcedureCall id="_1rW0" procedure="open.product_in_snap">
-          <variable name="prod_dir">$(dataInDir)</variable>
-          <variable name="in_out">in</variable>
-          <variable name="prod">$(fileName)</variable>
-          <variable name="product_type">$(import_data)</variable>
-        </ProcedureCall>
-        <ElseSequence id="_1rW1">
-          <IfSequence id="_1rW2"
-                      test="&#34;$(menu_item)&#34;&lt;&gt;&#34;&#34;">
-            <TryStep id="_1rW3" name="open_import_dialog">
-              <comment>@teststep Open 'Import Product' dialog</comment>
-              <IfSequence id="_1rW4"
-                          test="&#34;$(product_group)&#34;==&#34;&#34;">
-                <ProcedureCall id="_1rW5" procedure="open.product_in_snap">
-                  <variable name="prod_dir">$(dataInDir)</variable>
-                  <variable name="in_out">in</variable>
-                  <variable name="prod">$(fileName)</variable>
-                  <variable name="product_type">$(import_data)</variable>
-                </ProcedureCall>
-                <ElseifSequence id="_1rW6"
-                                test="&#34;$(product_group)&#34;==&#34;multispectral&#34;">
-                  <ProcedureCall id="_1rW7"
-                                 procedure="utility.raster_data.optical_sensors.menu_file_import_optical_sensors"/>
-                  <ProcedureCall id="_1rW8"
-                                 procedure="utility.raster_data.optical_sensors.optical_sensor">
-                    <variable name="menu_item">$(menu_item)</variable>
-                  </ProcedureCall>
-                </ElseifSequence>
-                <ElseifSequence id="_1rW9"
-                                test="&#34;$(product_group)&#34;==&#34;generic&#34;">
-                  <ProcedureCall id="_1rWA"
-                                 procedure="utility.raster_data.generic_formats.menu_file_import_generic_formats">
-                    <variable name="menu_item">$(menu_item)</variable>
-                  </ProcedureCall>
-                </ElseifSequence>
-                <ElseifSequence id="_1rWB"
-                                test="&#34;$(product_group)&#34;==&#34;sar&#34;">
-                  <ProcedureCall id="_1rWC"
-                                 procedure="utility.raster_data.sar_sensors.menu_file_import_sar_sensors">
-                    <variable name="menu_item">$(menu_item)</variable>
-                  </ProcedureCall>
-                </ElseifSequence>
-                <ElseifSequence id="_1rWD"
-                                test="&#34;$(product_group)&#34;==&#34;sentinel2&#34;">
-                  <ProcedureCall id="_1rWE"
-                                 procedure="utility.raster_data.optical_sensors.menu_file_import_optical_sensors_sentinel2">
-                    <variable name="menu_item">$(menu_item)</variable>
-                  </ProcedureCall>
-                </ElseifSequence>
-                <ElseifSequence id="_1rWF"
-                                test="&#34;$(product_group)&#34;==&#34;sentinel3&#34;">
-                  <ProcedureCall id="_1rWG"
-                                 procedure="utility.raster_data.optical_sensors.menu_file_import_optical_sensors_sentinel3">
-                    <variable name="menu_item">$(menu_item)</variable>
-                  </ProcedureCall>
-                </ElseifSequence>
-                <ElseifSequence id="_1rWH"
-                                test="&#34;$(product_group)&#34;==&#34;landsat&#34;">
-                  <ProcedureCall id="_1rWI"
-                                 procedure="utility.raster_data.optical_sensors.menu_file_import_optical_sensors_landsat">
-                    <variable name="menu_item">$(menu_item)</variable>
-                  </ProcedureCall>
-                </ElseifSequence>
-                <ElseifSequence id="_1rWJ"
-                                test="&#34;$(product_group)&#34;==&#34;seadas&#34;">
-                  <ProcedureCall id="_1rWK"
-                                 procedure="utility.raster_data.optical_sensors.menu_file_import_optical_sensors_seadas">
-                    <variable name="menu_item">$(menu_item)</variable>
-                  </ProcedureCall>
-                </ElseifSequence>
-              </IfSequence>
-              <ProcedureCall id="_1rWL"
-                             procedure="wait.appear.dialog.import_product"/>
-              <IfSequence id="_1rWM"
-                          test="&#34;$(import_product_dialog_appears)&#34;==&#34;true&#34;">
-                <ProcedureCall id="_1rWN"
-                               procedure="utility.fill_in_open_product_dialog">
-                  <variable name="prod_dir">$(dataInDir)</variable>
-                  <variable name="in_out">in</variable>
-                  <variable name="prod">$(fileName)</variable>
-                  <variable name="product_type">$(import_data)</variable>
-                </ProcedureCall>
-                <ProcedureCall id="_1rWO"
-                               procedure="do_click.open_product_dialog.import_product"/>
-                <ServerScriptStep disabled="true" id="_1rWP" name="print">
-                  <code>print "$(input_file)"</code>
-                  <comment> </comment>
-                </ServerScriptStep>
-                <ElseSequence id="_1rWQ">
-                  <ProcedureCall id="_1rWR"
-                                 procedure="run-log.error_message.dialog_Import_Product_does_not_appear"/>
-                </ElseSequence>
-              </IfSequence>
-            </TryStep>
-          </IfSequence>
-        </ElseSequence>
-      </IfSequence>
-      <ProcedureCall id="_1rWS" procedure="check.product.not_opened"/>
-      <IfSequence id="_1rWT" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
-        <ProcedureCall id="_1rWU" procedure="wait.product_is_opened"/>
-      </IfSequence>
-      <ProcedureCall id="_1rWV" procedure="check.product.not_opened"/>
-      <IfSequence id="_1rWW" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
-        <ProcedureCall id="_1rWX" procedure="run-log.logError">
-          <variable name="message">$(fileName) did not appear</variable>
-          <variable name="withScreenshots">true</variable>
-        </ProcedureCall>
-      </IfSequence>
-      <TryStep id="_1rWY">
-        <ProcedureCall id="_1rWZ"
-                       procedure="wait.appear.error.dialog_SNAP_SNAP_Error"/>
-        <ProcedureCall id="_1rWa" procedure="run-log.make_screensot">
-          <variable name="iw_name">error_while_import</variable>
-          <variable name="iw_name_example">error_dialog</variable>
-        </ProcedureCall>
-        <ProcedureCall id="_1rWb"
-                       procedure="do_click.error_dialog.dialog_SNAP_SNAP_Error.button_OK"/>
-        <ProcedureCall id="_1rWc" procedure="run-log.logError">
-          <variable name="message">Error while import $(dataInDir)/$(fileName)</variable>
-          <variable name="withScreenshots">false</variable>
-        </ProcedureCall>
-        <CatchSequence exception="TestException" id="_1rWd" maxerror="0"/>
-      </TryStep>
-    </Procedure>
-    <Procedure id="_1pl2" name="import_csv">
-      <comment>@teststep Click 'OK' button in the 'SNAP - Import CSV file' error dialog.</comment>
-      <ComponentWaiter client="$(client)"
-                       component="dialogSNAP_-_Import_CSV_file" id="_1pna"/>
-      <CheckStringStep client="$(client)"
-                       component="dialogSNAP_-_Import_CSV_file.buttonCancel"
-                       id="_1pnb">
-        <text>Cancel</text>
-      </CheckStringStep>
-      <MouseEventStep clicks="1" client="$(client)"
-                      component="dialogSNAP_-_Import_CSV_file.buttonOK"
-                      event="MOUSE_MPRC" id="_1pnc" modifiers="16"/>
-    </Procedure>
-    <Procedure id="_1pko" name="import_csv">
-      <variable name="val"/>
-      <comment>@teststep Click 'Use Predefined CRS' button in the 'Point Data Interpretation' dialog.</comment>
-      <BasicSequence id="_1pkt" name="Aufnahme 04.05.15 09:22">
-        <CheckBooleanStep checktype="checked" client="$(client)"
-                          component="dialogPoint_Data_Interpretation.radioLeave_imported_data_unchanged"
-                          id="_1pku"/>
-        <CheckBooleanStep checktype="checked" client="$(client)"
-                          component="dialogPoint_Data_Interpretation.radioInterpret_each_point_as_vertex_of_a_single_line_or_polygon_(This_will_remove_all_attributes_from_points)"
-                          id="_1pkv" state="false"/>
-        <CheckBooleanStep checktype="checked" client="$(client)"
-                          component="dialogPoint_Data_Interpretation.radioInterpret_each_point_as_track_point"
-                          id="_1pkw" state="false"/>
-        <CheckStringStep client="$(client)"
-                         component="dialogPoint_Data_Interpretation.TypeDialog.ok"
-                         id="_1pkx">
-          <text>OK</text>
-        </CheckStringStep>
-        <CheckStringStep client="$(client)"
-                         component="dialogPoint_Data_Interpretation.TypeDialog.cancel"
-                         id="_1pky">
-          <text>Cancel</text>
-        </CheckStringStep>
-        <CheckStringStep client="$(client)"
-                         component="dialogPoint_Data_Interpretation.TypeDialog.help"
-                         id="_1pkz">
-          <text>Help</text>
-        </CheckStringStep>
-        <MouseEventStep clicks="1" client="$(client)"
-                        component="dialogPoint_Data_Interpretation.TypeDialog.ok"
-                        event="MOUSE_MPRC" id="_1pk+" modifiers="16"/>
-        <ComponentWaiter client="$(client)"
-                         component="dialogSNAP_-_Import_CSV_file" id="_1pk-"/>
-        <CheckStringStep client="$(client)"
-                         component="dialogSNAP_-_Import_CSV_file.buttonCancel"
-                         id="_1pl0">
-          <text>Cancel</text>
-        </CheckStringStep>
-        <MouseEventStep clicks="1" client="$(client)"
-                        component="dialogSNAP_-_Import_CSV_file.buttonOK"
-                        event="MOUSE_MPRC" id="_1pl1" modifiers="16"/>
-      </BasicSequence>
-    </Procedure>
-  </ExtraSequence>
+  <ExtraSequence id="_4"/>
   <WindowList id="_5"/>
 </RootStep>

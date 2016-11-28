@@ -214,23 +214,10 @@
           <ProcedureCall id="_1qd4" procedure="cleanup.output_data_folder">
             <variable name="directory">$(output_folder)</variable>
           </ProcedureCall>
-          <ProcedureCall id="_1r+t" procedure="action.open.tool_window"/>
-          <ProcedureCall id="_1r-F" procedure="select_io_tab"/>
-          <ProcedureCall id="_1r-8" procedure="open_source_product">
-            <variable name="prod_dir">$(source_dir)</variable>
-            <variable name="prod_name">$(source_data)</variable>
-          </ProcedureCall>
-          <ProcedureCall id="_1r-9"
-                         procedure="action.select.io_parameters.save_as"/>
-          <ProcedureCall id="_1r-A"
-                         procedure="action.select.io_parameters.open_in_snap"/>
-          <ProcedureCall id="_1r-C"
+          <ProcedureCall id="_1s76" procedure="action.prepare_for_test"/>
+          <ProcedureCall id="_1s74"
                          procedure="set.io_parameters.target_product_name">
             <variable name="target_product_name">test</variable>
-          </ProcedureCall>
-          <ProcedureCall id="_1r-I"
-                         procedure="set.io_parameters.target_directory">
-            <variable name="dir">$(output_folder)</variable>
           </ProcedureCall>
         </SetupSequence>
         <TestSet id="_1pUb" name="processing">
@@ -241,17 +228,20 @@
           </DataDriver>
           <TestCase id="_1pUj" name="processing_in_different_formats"
                     reportname="Processing in $(output_format) format and check output product">
-            <ServerScriptStep disabled="true" id="_1pV5" name="print">
-              <code>print "output_format = $(output_format)"</code>
-            </ServerScriptStep>
-            <ServerScriptStep disabled="true" id="_1pV6" name="print">
-              <code>print "output_file = $(output_file)"</code>
-            </ServerScriptStep>
             <TestStep id="_1qG-" name="processing">
               <ProcedureCall id="_1qcm"
                              procedure="error_handling.if_SNAP_SNAP_Error_shoot_error_message">
                 <variable name="screenshot">run_meris_rad_corr_error</variable>
               </ProcedureCall>
+              <TryStep id="_1s6y" name="check_modis_tool_opened">
+                <ProcedureCall id="_1s6x"
+                               procedure="idepix.check.modis_tool_opened"/>
+                <CatchSequence exception="TestException" id="_1s6z"
+                               maxerror="0">
+                  <ProcedureCall id="_1s77"
+                                 procedure="action.prepare_for_test"/>
+                </CatchSequence>
+              </TryStep>
               <ProcedureCall id="_1qH2" procedure="select_io_tab"/>
               <ProcedureCall id="_1r-N"
                              procedure="set.io_parameters.target_product_name">
@@ -633,6 +623,22 @@
                          procedure="action.do_click.button_OK_product_ready_dialog"/>
           <CatchSequence exception="TestException" id="_1r+q" maxerror="0"/>
         </TryStep>
+      </Procedure>
+      <Procedure id="_1s6+" name="prepare_for_test">
+        <ProcedureCall id="_1s6-" procedure="action.open.tool_window"/>
+        <ProcedureCall id="_1s70" procedure="select_io_tab"/>
+        <ProcedureCall id="_1s71" procedure="open_source_product">
+          <variable name="prod_dir">$(source_dir)</variable>
+          <variable name="prod_name">$(source_data)</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1s72"
+                       procedure="action.select.io_parameters.save_as"/>
+        <ProcedureCall id="_1s73"
+                       procedure="action.select.io_parameters.open_in_snap"/>
+        <ProcedureCall id="_1s75"
+                       procedure="set.io_parameters.target_directory">
+          <variable name="dir">$(output_folder)</variable>
+        </ProcedureCall>
       </Procedure>
     </Package>
     <Procedure id="_1pb8" name="select_io_tab">

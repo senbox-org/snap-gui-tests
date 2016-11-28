@@ -49,8 +49,6 @@
               <ProcedureCall id="_1ucL" procedure="check.product.not_opened"/>
               <IfSequence id="_1uam"
                           test="&#34;$(not_opened)&#34;==&#34;false&#34;">
-                <ProcedureCall disabled="true" id="_1uan"
-                               procedure="utility.open_image_view_by_doubleclick_check_image_else_shoot_error"/>
                 <TryStep id="_1rt8" name="open_image_view_by_doubleclick"
                          predelay="200">
                   <ProcedureCall id="_2JTC"
@@ -117,8 +115,6 @@
               </ProcedureCall>
             </ElseSequence>
           </IfSequence>
-          <ProcedureCall disabled="true" id="_1uaG"
-                         procedure="test_events.check_target_product"/>
         </Procedure>
       </Package>
       <Package id="_1qTv" name="aatsr_sst_processor">
@@ -1245,9 +1241,6 @@
           </Procedure>
         </Package>
         <Procedure id="_1sDa" name="slstr_l1b_stitching_tool_opened">
-          <ComponentWaiter client="$(client)"
-                           component="dialogSLSTR_L1B_PDU_Stitching"
-                           disabled="true" id="_1sDb" timeout="10"/>
           <ComponentWaiter client="$(client)"
                            component="dialogSLSTR_L1B_Stitching" id="_1s5v"
                            timeout="10"/>
@@ -6957,12 +6950,6 @@
       </Package>
     </Package>
   </PackageRoot>
-  <ExtraSequence id="_4">
-    <IfSequence id="_1op7" test="${qftest:windows}">
-      <ElseifSequence id="_1op8" name="MAC?"
-                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-      <ElseSequence id="_1op9"/>
-    </IfSequence>
-  </ExtraSequence>
+  <ExtraSequence id="_4"/>
   <WindowList id="_5"/>
 </RootStep>

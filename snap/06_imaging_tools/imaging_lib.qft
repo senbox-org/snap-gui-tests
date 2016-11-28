@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.11">
+<RootStep id="_0" name="root" version="4.1.1">
   <include>qfs.qft</include>
   <include>../lib/snap_main.qft</include>
   <include>../lib/snap_components.qft</include>
@@ -356,10 +356,6 @@
       <Procedure id="_1r4p" name="test">
         <variable name="prod_reader_type"/>
         <comment>@teststep Open image window&lt;br&gt;Open world map&lt;br&gt;Check mask mangment by select/deselect masks&lt;br&gt;Check layer mangment by select/deselect layers</comment>
-        <ProcedureCall disabled="true" id="_C" postdelay="2000"
-                       procedure="import.raster_data">
-          <variable name="import_data">$(reader)</variable>
-        </ProcedureCall>
         <TryStep id="_1ri2" name="close_all_modal_dialogs">
           <ProcedureCall disabled="true" id="_1oQb"
                          procedure="run-log.make_screensot">
@@ -386,12 +382,6 @@
       </Procedure>
     </Package>
   </PackageRoot>
-  <ExtraSequence id="_4">
-    <IfSequence id="_1op7" test="${qftest:windows}">
-      <ElseifSequence id="_1op8" name="MAC?"
-                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-      <ElseSequence id="_1op9"/>
-    </IfSequence>
-  </ExtraSequence>
+  <ExtraSequence id="_4"/>
   <WindowList id="_5"/>
 </RootStep>

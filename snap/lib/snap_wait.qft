@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.11">
+<RootStep id="_0" name="root" version="4.1.1">
   <include>qfs.qft</include>
   <include>snap_components.qft</include>
   <include>snap_main.qft</include>
@@ -19,36 +19,11 @@
           <Procedure id="_1mhq" name="band_Maths_dialog">
             <ComponentWaiter client="$(client)" component="dialogBand_Maths"
                              id="_1pZQ"/>
-            <IfSequence disabled="true" id="_1ozL" test="${qftest:windows}">
-              <ComponentWaiter client="$(client)" component="BandMathsDialog"
-                               id="_1mjg"/>
-              <ElseifSequence id="_1ozM" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <ComponentWaiter client="$(client)"
-                                 component="dialogBand_Maths" id="_1ozO"/>
-              </ElseifSequence>
-              <ElseSequence id="_1ozN">
-                <ComponentWaiter client="$(client)"
-                                 component="dialogBand_Maths" id="_1ozP"/>
-              </ElseSequence>
-            </IfSequence>
-          </Procedure>
-          <Procedure disabled="true" id="_1mcJ" name="dialogOptions">
-            <ComponentWaiter client="$(client)" component="dialogOptions"
-                             id="_1mOx"/>
-          </Procedure>
-          <Procedure disabled="true" id="_1mcR" name="dialogPlugins">
-            <ComponentWaiter client="$(client)" component="dialogPlugins"
-                             id="_1mOt"/>
           </Procedure>
           <Procedure id="_1oeR" name="dialogSNAP_Attach_Pixel_Geo-Coding">
             <ComponentWaiter client="$(client)"
                              component="dialogSNAP_-_Attach_Pixel_Geo-Coding.buttonYes"
                              id="_1ob4" timeout="2000"/>
-          </Procedure>
-          <Procedure disabled="true" id="_1mcN" name="dialogTemplate_Manager">
-            <ComponentWaiter client="$(client)"
-                             component="dialogTemplate_Manager" id="_1mOp"/>
           </Procedure>
           <Procedure id="_1rgY" name="dialogResampling">
             <ComponentWaiter client="$(client)" component="dialogResampling"
@@ -57,10 +32,6 @@
         </Package>
         <Package id="_1ozK" name="error">
           <Procedure id="_1pPD" name="dialog_Error">
-            <ComponentWaiter client="$(client)"
-                             component="dialogError.buttonOK" disabled="true"
-                             errorlevel="0" id="_1pPI" raise="false"
-                             timeout="100"/>
             <ComponentWaiter client="$(client)" component="dialogError"
                              id="_1res" timeout="100"/>
             <IfSequence id="_1pPE" test="${qftest:windows}">
@@ -192,9 +163,6 @@
                 <ComponentWaiter client="$(client)"
                                  component="dialogSNAP_-_Open_Product"
                                  id="_1mhH"/>
-                <ComponentWaiter client="$(client)"
-                                 component="dialogOpen_Product"
-                                 disabled="true" id="_1s7A"/>
                 <ElseifSequence id="_1ok4" name="MAC?"
                                 test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                   <ComponentWaiter client="$(client)"
@@ -285,16 +253,6 @@
           <ComponentWaiter client="$(client)"
                            component="dialogSNAP_-_Multiple_Readers_Available"
                            id="_1s72" timeout="10"/>
-        </Procedure>
-        <Procedure disabled="true" id="_1k-o" name="view">
-          <variable name="prod_nr"/>
-          <variable name="band_name"/>
-          <comment>@teststep Check view title</comment>
-          <IfSequence id="_1owO" test="${qftest:windows}">
-            <ElseifSequence id="_1owP" name="MAC?"
-                            test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-            <ElseSequence id="_1owQ"/>
-          </IfSequence>
         </Procedure>
       </Package>
       <Package id="_1lBA" name="disappear">
@@ -435,21 +393,6 @@
         <comment>@teststep Wait if product appears.</comment>
         <ProcedureCall id="_1l3B" procedure="check.product.not_opened"/>
         <IfSequence id="_1l53" test="&#34;$(not_opened)&#34;==&#34;true&#34;">
-          <TryStep disabled="true" id="_1rej" postdelay="500">
-            <ComponentWaiter client="$(client)"
-                             component="dialogLengthy_operation_in_progress"
-                             id="_1rem" raise="false"/>
-            <FetchTextStep client="$(client)"
-                           component="dialogLengthy_operation_in_progress.labelOpen_Product"
-                           id="_1ren" local="true" varname="label"/>
-            <IfSequence id="_1reo"
-                        test="&#34;$(label)&#34;==&#34;Open Product&#34;">
-              <ComponentWaiter absence="true" client="$(client)"
-                               component="dialogLengthy_operation_in_progress"
-                               id="_1rep" raise="false"/>
-            </IfSequence>
-            <CatchSequence exception="TestException" id="_1req" maxerror="0"/>
-          </TryStep>
           <TryStep id="_9Z6" postdelay="500">
             <ProcedureCall id="_1rgS"
                            procedure="wait.appear.reading_product_progress_monitor"/>
@@ -471,12 +414,6 @@
       </Procedure>
     </Package>
   </PackageRoot>
-  <ExtraSequence id="_4">
-    <IfSequence id="_1owd" test="${qftest:windows}">
-      <ElseifSequence id="_1owe" name="MAC?"
-                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-      <ElseSequence id="_1owf"/>
-    </IfSequence>
-  </ExtraSequence>
+  <ExtraSequence id="_4"/>
   <WindowList id="_5"/>
 </RootStep>

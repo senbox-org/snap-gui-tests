@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.11">
+<RootStep id="_0" name="root" version="4.1.1">
   <include>qfs.qft</include>
   <include>snap_main.qft</include>
   <include>snap_components.qft</include>
@@ -48,47 +48,6 @@
           <CheckBooleanStep checktype="checked" client="$(client)"
                             component="dialogBand_Chooser.checkSelect_none"
                             id="_1pZW" state="$(sel_status)"/>
-        </Procedure>
-      </Package>
-      <Package disabled="true" id="_1l2F" name="files_of_type">
-        <Procedure id="_1l2C" name="asar">
-          <ProcedureCall id="_1l2G" procedure="import.resize_import_dialog"/>
-          <CheckStringStep checktype="value" client="$(client)"
-                           component="dialogESA_S-3_Toolbox_-_Import_ENVISAT_Product.comboFiles_of_type:"
-                           id="_1m2d">
-            <text>ENVISAT MERIS, AATSR, ASAR and ERS1/2 SAR products (*.N1,*.E1,*.E2,*.zip,*.gz)</text>
-          </CheckStringStep>
-        </Procedure>
-        <Procedure id="_1m2c" name="envisat">
-          <CheckStringStep checktype="value" client="$(client)"
-                           component="dialogESA_S-3_Toolbox_-_Import_ENVISAT_Product.comboFiles_of_type:"
-                           id="_1m2S">
-            <text>ENVISAT MERIS, AATSR, ASAR and ERS1/2 SAR products (*.N1,*.E1,*.E2,*.zip,*.gz)</text>
-          </CheckStringStep>
-        </Procedure>
-        <Procedure id="_1m2e" name="ers_sar">
-          <CheckStringStep checktype="value" client="$(client)"
-                           component="dialogESA_S-3_Toolbox_-_Import_ENVISAT_Product.comboFiles_of_type:"
-                           id="_1lK2">
-            <text>ENVISAT MERIS, AATSR, ASAR and ERS1/2 SAR products (*.N1,*.E1,*.E2,*.zip,*.gz)</text>
-          </CheckStringStep>
-        </Procedure>
-        <Procedure id="_1l1z" name="dimap"/>
-        <Procedure id="_1l23" name="geotiff"/>
-        <Procedure id="_1l29" name="rgb"/>
-        <Procedure id="_1l26" name="sentinel3">
-          <CheckStringStep checktype="value" client="$(client)"
-                           component="dialogESA_S-3_Toolbox_-_Import_SENTINEL-3_Product.comboFiles_of_type:"
-                           id="_1kz+">
-            <text>Sentinel-3 products (*.xml)</text>
-          </CheckStringStep>
-        </Procedure>
-        <Procedure id="_1l1w" name="smos">
-          <CheckStringStep checktype="value" client="$(client)"
-                           component="dialogESA_S-3_Toolbox_-_Import_SMOS-EEF_Product.comboFiles_of_type:"
-                           id="_1kzB">
-            <text>SMOS Data Products (*.HDR,*.DBL,*.zip,*.ZIP)</text>
-          </CheckStringStep>
         </Procedure>
       </Package>
       <Package id="_1kxG" name="menu">
@@ -428,11 +387,6 @@
             <variable name="val"/>
             <comment>@teststep Check band description.</comment>
             <IfSequence id="_1o+C" test="${qftest:windows}">
-              <CheckStringStep client="$(client)"
-                               component="BandMathsDialog.bandDescription"
-                               disabled="true" id="_1oPN">
-                <text>$(val)</text>
-              </CheckStringStep>
               <CheckStringStep client="$(client)" component="bandDescription"
                                id="_1pZy">
                 <text>$(val)</text>
@@ -456,11 +410,6 @@
             <variable name="val"/>
             <comment>@teststep Check band unit.</comment>
             <IfSequence id="_1o+F" test="${qftest:windows}">
-              <CheckStringStep client="$(client)"
-                               component="BandMathsDialog.bandUnit"
-                               disabled="true" id="_1oPW">
-                <text>$(val)</text>
-              </CheckStringStep>
               <CheckStringStep client="$(client)" component="bandUnit"
                                id="_1pZz">
                 <text>$(val)</text>
@@ -516,11 +465,6 @@
                                id="_1pZ-">
                 <text>$(val)</text>
               </CheckStringStep>
-              <CheckStringStep client="$(client)"
-                               component="BandMathsDialog.noDataValue"
-                               disabled="true" id="_1oO-">
-                <text>$(val)</text>
-              </CheckStringStep>
               <ElseifSequence id="_1o+M" name="MAC?"
                               test="'${system:os.name}' .find('Mac OS X')&gt;=0">
                 <CheckStringStep client="$(client)" component="noDataValue"
@@ -540,11 +484,6 @@
             <variable name="val"/>
             <comment>@teststep Check expression.</comment>
             <IfSequence id="_1o+O" test="${qftest:windows}">
-              <CheckStringStep client="$(client)"
-                               component="BandMathsDialog.expression"
-                               disabled="true" id="_1oPj">
-                <text>$(val)</text>
-              </CheckStringStep>
               <CheckStringStep client="$(client)" component="expression"
                                id="_1pa0">
                 <text>$(val)</text>
@@ -568,10 +507,6 @@
             <comment>@teststep Test 'Virtual (save expression only)' checked</comment>
             <IfSequence id="_1o+R" test="${qftest:windows}">
               <CheckBooleanStep checktype="checked" client="$(client)"
-                                component="BandMathsDialog.saveExpressionOnly"
-                                disabled="true" id="_1oPt"
-                                resvarname="saveExpressionOnly_selected"/>
-              <CheckBooleanStep checktype="checked" client="$(client)"
                                 component="saveExpressionOnly" id="_1pa1"
                                 resvarname="saveExpressionOnly_selected"/>
               <ElseifSequence id="_1o+S" name="MAC?"
@@ -592,10 +527,6 @@
             <comment>@teststep Check selection of the checkbox 'Virtual (save expression only)'.</comment>
             <IfSequence id="_1o+U" test="${qftest:windows}">
               <CheckBooleanStep checktype="checked" client="$(client)"
-                                component="BandMathsDialog.saveExpressionOnly"
-                                disabled="true" id="_1oPw"
-                                state="$(sel_status)"/>
-              <CheckBooleanStep checktype="checked" client="$(client)"
                                 component="saveExpressionOnly" id="_1pa2"
                                 state="$(sel_status)"/>
               <ElseifSequence id="_1o+V" name="MAC?"
@@ -614,10 +545,6 @@
           <Procedure id="_1oPx" name="noDataValueUsed_selected">
             <comment>@teststep Test 'Replace NaN and infinity results' checked</comment>
             <IfSequence id="_1o+X" test="${qftest:windows}">
-              <CheckBooleanStep checktype="checked" client="$(client)"
-                                component="BandMathsDialog.noDataValueUsed"
-                                disabled="true" id="_1oPy"
-                                resvarname="noDataValueUsed_selected"/>
               <CheckBooleanStep checktype="checked" client="$(client)"
                                 component="noDataValueUsed" id="_1pa3"
                                 resvarname="noDataValueUsed_selected"/>
@@ -639,10 +566,6 @@
             <comment>@teststep Check selection of the checkbox 'Replace NaN and infinity results'.</comment>
             <IfSequence id="_1o+a" test="${qftest:windows}">
               <CheckBooleanStep checktype="checked" client="$(client)"
-                                component="BandMathsDialog.noDataValueUsed"
-                                disabled="true" id="_1oPn"
-                                state="$(sel_status)"/>
-              <CheckBooleanStep checktype="checked" client="$(client)"
                                 component="noDataValueUsed" id="_1pa4"
                                 state="$(sel_status)"/>
               <ElseifSequence id="_1o+b" name="MAC?"
@@ -662,10 +585,6 @@
             <variable name="enabled_status"/>
             <comment>@teststep Check the checkbox 'Replace NaN and infinity results' enabled status.</comment>
             <IfSequence id="_1o+d" test="${qftest:windows}">
-              <CheckBooleanStep checktype="enabled" client="$(client)"
-                                component="BandMathsDialog.noDataValueUsed"
-                                disabled="true" id="_1oTh"
-                                state="$(enabled_status)"/>
               <CheckBooleanStep checktype="enabled" client="$(client)"
                                 component="noDataValueUsed" id="_1pa5"
                                 state="$(enabled_status)"/>
@@ -949,9 +868,6 @@
               <variable name="id">$(table)</variable>
               <comment>@teststep Get number of masks.</comment>
             </ProcedureCall>
-            <ServerScriptStep disabled="true" id="_1oLl" name="print">
-              <code>print "Masks number = $(rowCount)"  </code>
-            </ServerScriptStep>
             <SetGlobalStep id="_1oLm" varname="masks_number">
               <default>$(rowCount)</default>
             </SetGlobalStep>
@@ -1015,9 +931,6 @@
               <variable name="layer_name">Masks</variable>
               <comment>@teststep Find Masks in the layer manager</comment>
             </ProcedureCall>
-            <ServerScriptStep disabled="true" id="_1oM3" name="print">
-              <code>print "Layer Masks id = $(layer_node_id)"  </code>
-            </ServerScriptStep>
             <ProcedureCall id="_1oM4"
                            procedure="do_click.layer_manager.layer_node">
               <variable name="layer_node1">$(layer_node_id)</variable>
@@ -1058,12 +971,6 @@
               <comment>@teststep Close Layer Manager</comment>
             </ProcedureCall>
           </TestStep>
-        </Procedure>
-      </Package>
-      <Package disabled="true" id="_1l8p" name="navigation_window">
-        <Procedure id="_1l8q" name="zoomFactor">
-          <variable name="val"/>
-          <comment>@teststep Check zoom factor</comment>
         </Procedure>
       </Package>
       <Package id="_1lFb" name="placemark_dialog">
@@ -1134,15 +1041,9 @@
           <variable name="nodeSeparator">@</variable>
           <variable name="linear">false</variable>
           <comment>@teststep Check  product node does not exist.</comment>
-          <ServerScriptStep disabled="true" id="_1oRb" name="print">
-            <code>print "node = $(node)"</code>
-          </ServerScriptStep>
           <SetGlobalStep id="_1mKN" local="true" varname="id">
             <default>NbMainWindow.Product_Explorer.tree</default>
           </SetGlobalStep>
-          <ProcedureCall disabled="true" id="_1oRc" procedure="tree.expand">
-            <variable name="tree_id">$(id)&amp;/0</variable>
-          </ProcedureCall>
           <TryStep id="_1l8Q" name="Override option">
             <ClientScriptStep client="$(client)"
                               engine="${default:guiengine:awt}" id="_1l8U"
@@ -1152,9 +1053,6 @@
             <FetchIndexStep client="$(client)"
                             component="$(id)$(nodeSeparator)$(node)"
                             id="_1mKM" local="true" varname="index"/>
-            <ServerScriptStep disabled="true" id="_1l5A" name="print">
-              <code>print "$(new_band_id)"</code>
-            </ServerScriptStep>
             <ServerScriptStep id="_1oIA" name="error">
               <code>rc.logError("'$(node)' exists.")</code>
             </ServerScriptStep>
@@ -1183,10 +1081,6 @@
               <CheckItemsStep client="$(client)"
                               component="NbMainWindow.Product_Explorer.tree"
                               id="_1rlo" resvarname="not_opened"/>
-              <CheckItemsStep client="$(client)"
-                              component="Product_Explorer.tree"
-                              disabled="true" id="_1rlp"
-                              resvarname="not_opened"/>
             </ElseSequence>
           </IfSequence>
         </Procedure>
@@ -3254,32 +3148,8 @@ dialog.label_statistic_txt</comment>
             </CheckStringStep>
           </Procedure>
         </Package>
-        <Procedure disabled="true" id="_1l6T" name="label_More_Options">
-          <variable name="txt"/>
-          <variable name="txt_example">More Options ; Less Options</variable>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.labelLess_Options"
-                           id="_1pmv">
-            <text>Less Options</text>
-          </CheckStringStep>
-          <CheckStringStep client="$(client)"
-                           component="NbMainWindow.labelMore_Options"
-                           id="_1pmx">
-            <text>More Options</text>
-          </CheckStringStep>
-        </Procedure>
       </Package>
       <Package id="_1k-n" name="image_view">
-        <Procedure disabled="true" id="_1k-o" name="title">
-          <variable name="prod_nr"/>
-          <variable name="band_name"/>
-          <comment>@teststep Check view title</comment>
-          <CheckStringStep client="$(client)"
-                           component="mainFrameESA_S-3_Toolbox.intFrame_band"
-                           id="_1k-V">
-            <text>[$(prod_nr)] $(band_name)</text>
-          </CheckStringStep>
-        </Procedure>
         <Procedure id="_1k-k" name="visible">
           <variable name="visible"/>
           <comment>@teststep Check image view is visible.</comment>
@@ -3457,12 +3327,6 @@ dialog.label_statistic_txt</comment>
       </Procedure>
     </Package>
   </PackageRoot>
-  <ExtraSequence id="_4">
-    <IfSequence id="_1op7" test="${qftest:windows}">
-      <ElseifSequence id="_1op8" name="MAC?"
-                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-      <ElseSequence id="_1op9"/>
-    </IfSequence>
-  </ExtraSequence>
+  <ExtraSequence id="_4"/>
   <WindowList id="_5"/>
 </RootStep>

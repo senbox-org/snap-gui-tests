@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.11">
+<RootStep id="_0" name="root" version="4.1.1">
   <include>qfs.qft</include>
   <include>snap_components.qft</include>
   <include>snap_main.qft</include>
@@ -270,31 +270,6 @@
           </IfSequence>
         </Procedure>
       </Package>
-      <Package disabled="true" id="_1lBQ" name="import_dialog">
-        <Procedure id="_1lBO" name="file_name">
-          <ProcedureCall id="_1orz"
-                         procedure="path.source_data_with_absolute_path"/>
-          <IfSequence id="_1or+" test="${qftest:windows}">
-            <TextInputStep clear="true" client="$(client)"
-                           component="textSelection:" id="_1ofd">
-              <text>$(file)</text>
-            </TextInputStep>
-            <ElseifSequence id="_1or-" name="MAC?"
-                            test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-              <TextInputStep clear="true" client="$(client)"
-                             component="textSelection:" id="_1os1">
-                <text>$(file)</text>
-              </TextInputStep>
-            </ElseifSequence>
-            <ElseSequence id="_1os0">
-              <TextInputStep clear="true" client="$(client)"
-                             component="textSelection:" id="_1os2">
-                <text>$(file)</text>
-              </TextInputStep>
-            </ElseSequence>
-          </IfSequence>
-        </Procedure>
-      </Package>
       <Package id="_1oaT" name="imaging_tools">
         <Package id="_1oaU" name="navigation">
           <Procedure id="_1ocE" name="zoom_factor">
@@ -352,38 +327,6 @@
                            component="bandName" id="_1pEW">
               <text>$(val)</text>
             </TextInputStep>
-            <KeyEventStep client="$(client)" component="productName"
-                          disabled="true" event="KEY_PTR" id="_1pEX"
-                          keychar="10" keycode="10" modifiers="0"/>
-            <IfSequence disabled="true" id="_1pDh" test="${qftest:windows}">
-              <TextInputStep clear="true" client="$(client)"
-                             component="BandMathsDialog.bandName" id="_1pDz">
-                <text>$(val)</text>
-              </TextInputStep>
-              <KeyEventStep client="$(client)"
-                            component="BandMathsDialog.bandName"
-                            event="KEY_PTR" id="_1pD+" keychar="10"
-                            keycode="10" modifiers="0"/>
-              <ElseifSequence id="_1pDi" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <TextInputStep clear="true" client="$(client)"
-                               component="productName" id="_1pD-">
-                  <text>$(val)</text>
-                </TextInputStep>
-                <KeyEventStep client="$(client)" component="productName"
-                              event="KEY_PTR" id="_1pE0" keychar="10"
-                              keycode="10" modifiers="0"/>
-              </ElseifSequence>
-              <ElseSequence id="_1pDj">
-                <TextInputStep clear="true" client="$(client)"
-                               component="productName" id="_1pE1">
-                  <text>$(val)</text>
-                </TextInputStep>
-                <KeyEventStep client="$(client)" component="productName"
-                              event="KEY_PTR" id="_1pE2" keychar="10"
-                              keycode="10" modifiers="0"/>
-              </ElseSequence>
-            </IfSequence>
           </Procedure>
           <Procedure id="_1oPK" name="bandDescription">
             <variable name="val"/>
@@ -392,26 +335,6 @@
                            component="bandDescription" id="_1pEY">
               <text>$(val)</text>
             </TextInputStep>
-            <IfSequence disabled="true" id="_1pDw" test="${qftest:windows}">
-              <TextInputStep clear="true" client="$(client)"
-                             component="BandMathsDialog.bandDescription"
-                             id="_1oPN">
-                <text>$(val)</text>
-              </TextInputStep>
-              <ElseifSequence id="_1pDx" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <TextInputStep clear="true" client="$(client)"
-                               component="bandDescription" id="_1pE3">
-                  <text>$(val)</text>
-                </TextInputStep>
-              </ElseifSequence>
-              <ElseSequence id="_1pDy">
-                <TextInputStep clear="true" client="$(client)"
-                               component="bandDescription" id="_1pE4">
-                  <text>$(val)</text>
-                </TextInputStep>
-              </ElseSequence>
-            </IfSequence>
           </Procedure>
           <Procedure id="_1oPS" name="bandUnit">
             <variable name="val"/>
@@ -420,25 +343,6 @@
                            component="bandUnit" id="_1pEZ">
               <text>$(val)</text>
             </TextInputStep>
-            <IfSequence disabled="true" id="_1pDt" test="${qftest:windows}">
-              <TextInputStep clear="true" client="$(client)"
-                             component="BandMathsDialog.bandUnit" id="_1oPW">
-                <text>$(val)</text>
-              </TextInputStep>
-              <ElseifSequence id="_1pDu" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <TextInputStep clear="true" client="$(client)"
-                               component="bandUnit" id="_1pE5">
-                  <text>$(val)</text>
-                </TextInputStep>
-              </ElseifSequence>
-              <ElseSequence id="_1pDv">
-                <TextInputStep clear="true" client="$(client)"
-                               component="bandUnit" id="_1pE6">
-                  <text>$(val)</text>
-                </TextInputStep>
-              </ElseSequence>
-            </IfSequence>
           </Procedure>
           <Procedure id="_1oPa" name="bandWavelength">
             <variable name="val"/>
@@ -447,26 +351,6 @@
                            component="bandWavelength" id="_1pEa">
               <text>$(val)</text>
             </TextInputStep>
-            <IfSequence disabled="true" id="_1pDq" test="${qftest:windows}">
-              <TextInputStep clear="true" client="$(client)"
-                             component="BandMathsDialog.bandWavelength"
-                             id="_1oPf">
-                <text>$(val)</text>
-              </TextInputStep>
-              <ElseifSequence id="_1pDr" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <TextInputStep clear="true" client="$(client)"
-                               component="bandWavelength" id="_1pE7">
-                  <text>$(val)</text>
-                </TextInputStep>
-              </ElseifSequence>
-              <ElseSequence id="_1pDs">
-                <TextInputStep clear="true" client="$(client)"
-                               component="bandWavelength" id="_1pE8">
-                  <text>$(val)</text>
-                </TextInputStep>
-              </ElseSequence>
-            </IfSequence>
           </Procedure>
           <Procedure id="_1oOs" name="noDataValue">
             <variable name="val"/>
@@ -475,26 +359,6 @@
                            component="noDataValue" id="_1pEb">
               <text>$(val)</text>
             </TextInputStep>
-            <IfSequence disabled="true" id="_1pDn" test="${qftest:windows}">
-              <TextInputStep clear="true" client="$(client)"
-                             component="BandMathsDialog.noDataValue"
-                             id="_1oO-">
-                <text>$(val)</text>
-              </TextInputStep>
-              <ElseifSequence id="_1pDo" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <TextInputStep clear="true" client="$(client)"
-                               component="noDataValue" id="_1pE9">
-                  <text>$(val)</text>
-                </TextInputStep>
-              </ElseifSequence>
-              <ElseSequence id="_1pDp">
-                <TextInputStep clear="true" client="$(client)"
-                               component="noDataValue" id="_1pEA">
-                  <text>$(val)</text>
-                </TextInputStep>
-              </ElseSequence>
-            </IfSequence>
           </Procedure>
           <Procedure id="_1oPi" name="expression">
             <variable name="val"/>
@@ -503,26 +367,6 @@
                            component="expression" id="_1pEc">
               <text>$(val)</text>
             </TextInputStep>
-            <IfSequence disabled="true" id="_1pDk" test="${qftest:windows}">
-              <TextInputStep clear="true" client="$(client)"
-                             component="BandMathsDialog.expression"
-                             id="_1oPj">
-                <text>$(val)</text>
-              </TextInputStep>
-              <ElseifSequence id="_1pDl" name="MAC?"
-                              test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                <TextInputStep clear="true" client="$(client)"
-                               component="expression" id="_1pEB">
-                  <text>$(val)</text>
-                </TextInputStep>
-              </ElseifSequence>
-              <ElseSequence id="_1pDm">
-                <TextInputStep clear="true" client="$(client)"
-                               component="expression" id="_1pED">
-                  <text>$(val)</text>
-                </TextInputStep>
-              </ElseSequence>
-            </IfSequence>
           </Procedure>
         </Package>
         <Package id="_1oU9" name="expression_Editor">
@@ -645,14 +489,6 @@
             <default>snap</default>
           </SetGlobalStep>
         </Procedure>
-        <Procedure disabled="true" id="_1l6l" name="more_less_options">
-          <SetGlobalStep id="_1l6m" varname="more_options">
-            <default>More Options</default>
-          </SetGlobalStep>
-          <SetGlobalStep id="_1l6n" varname="less_options">
-            <default>Less Options</default>
-          </SetGlobalStep>
-        </Procedure>
         <Procedure id="_1l8H" name="rough_statistics">
           <SetGlobalStep id="_1l8J" varname="rough_statistics">
             <default>Rough statistics!</default>
@@ -667,61 +503,6 @@
       </Procedure>
     </Package>
   </PackageRoot>
-  <ExtraSequence id="_4">
-    <IfSequence id="_1op7" test="${qftest:windows}">
-      <ElseifSequence id="_1op8" name="MAC?"
-                      test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
-      <ElseSequence id="_1op9"/>
-    </IfSequence>
-    <Procedure id="_1oZV" name="data_subdirectory">
-      <variable name="data_type"/>
-      <ProcedureCall id="_1ohc" procedure="path.main_path"/>
-      <IfSequence id="_1ohd" test="${qftest:windows}">
-        <LoadPropertiesStep id="_1ohe"
-                            propertyfile="../properties/subdir_win.properties"
-                            resourcename="subdir"/>
-        <ElseifSequence id="_1ohf" name="MAC?"
-                        test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-          <LoadPropertiesStep id="_1ohg"
-                              propertyfile="../properties/subdir_mac.properties"
-                              resourcename="subdir"/>
-        </ElseifSequence>
-        <ElseSequence id="_1ohh">
-          <LoadPropertiesStep id="_1ohi"
-                              propertyfile="../properties/subdir_lin.properties"
-                              resourcename="subdir"/>
-        </ElseSequence>
-      </IfSequence>
-      <TryStep id="_1omH">
-        <SetGlobalStep id="_1ohj" varname="data_subdirectory">
-          <default>${subdir:$(data_type)}</default>
-        </SetGlobalStep>
-        <CatchSequence exception="TestException" id="_1omI" maxerror="0">
-          <ProcedureCall id="_1omJ" procedure="run-log.logError">
-            <variable name="message">It was no no property or resource called $(data_type)</variable>
-            <variable name="withScreenshots">false</variable>
-          </ProcedureCall>
-        </CatchSequence>
-      </TryStep>
-      <ServerScriptStep disabled="true" id="_1ohk" name="print">
-        <code>print "data_subdirectory = $(data_subdirectory)"</code>
-      </ServerScriptStep>
-    </Procedure>
-    <ProcedureCall id="_1oMg" procedure="daten_format.output_format">
-      <variable name="out_form">test</variable>
-    </ProcedureCall>
-    <ServerScriptStep id="_1oh2" name="print">
-      <code>print "data_directory = ${path:data_directory}"</code>
-    </ServerScriptStep>
-    <ServerScriptStep id="_1og-" name="print">
-      <code>print "data_directory2 = ${path:data_directory2}"  </code>
-    </ServerScriptStep>
-    <ServerScriptStep id="_1oh0" name="print">
-      <code>print "screenshot_path = ${path:screenshot_path}"  </code>
-    </ServerScriptStep>
-    <ServerScriptStep id="_1oh1" name="print">
-      <code>print "screenshot_path2 = ${path:screenshot_path2}"  </code>
-    </ServerScriptStep>
-  </ExtraSequence>
+  <ExtraSequence id="_4"/>
   <WindowList id="_5"/>
 </RootStep>
