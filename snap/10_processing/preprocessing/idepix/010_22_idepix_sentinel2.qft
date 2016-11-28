@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.0.11">
+<RootStep id="_0" name="root" version="4.1.1">
   <include>qfs.qft</include>
   <include>../../../lib/snap_main.qft</include>
   <include>../../lib/idepix.qft</include>
@@ -215,6 +215,10 @@
       <variable name="source_dir">sentinel2_S2A_OPER_PRD_MSIL1C_PDMC_20160427T113628_small</variable>
       <variable name="source_data">S2A_OPER_MTD_SAFL1C_PDMC_20160427T113628_R135_V20160427T080740_20160427T080740_T36MVB.xml</variable>
       <SetupSequence id="_1ubP" name="prepare_for_the_testing">
+        <ProcedureCall id="_1ucT"
+                       procedure="qfs.swing.cleanup.closeAllModalDialogs">
+          <variable name="maxDialogs">5</variable>
+        </ProcedureCall>
         <ProcedureCall id="_1ubv" procedure="resampling_for_test"/>
         <ProcedureCall id="_1ubF" procedure="open_tool_window"/>
       </SetupSequence>
@@ -262,6 +266,10 @@
       </TestSet>
     </TestSet>
     <TestCase id="_1pFr" name="03_help">
+      <ProcedureCall id="_1ucS"
+                     procedure="qfs.swing.cleanup.closeAllModalDialogs">
+        <variable name="maxDialogs">5</variable>
+      </ProcedureCall>
       <ProcedureCall id="_1rwr" procedure="open_tool_window"/>
       <TestStep id="_1pVG" name="check_help">
         <ProcedureCall id="_1ruZ" procedure="do_click.menu.help"/>
