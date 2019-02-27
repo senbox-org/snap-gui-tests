@@ -23,8 +23,10 @@ pipeline {
     stages {
         stage('GUI Tests') {
             agent {
-                docker.image('snap-build-server.tilaa.cloud/xvfb:1.0').withRun() { c ->
-                    docker.image("${params.dockerTagName}").inside("--link ${c.id} -e DISPLAY=${c.id}:0") {
+                docker {
+                    docker.image('snap-build-server.tilaa.cloud/xvfb:1.0').withRun() { c ->
+                        docker.image("${params.dockerTagName}").inside("--link ${c.id} -e DISPLAY=${c.id}:0") {
+                        }
                     }
                 }
             }
