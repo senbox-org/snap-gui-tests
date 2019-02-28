@@ -16,23 +16,20 @@
  */
 
 pipeline {
-    agent any
+    agent snap-test
     parameters {
-        string(name: 'dockerTagName', defaultValue: '', description: 'Snap version to use to launch tests')
+        string(name: 'dockerTagName', defaultValue: 's2tbx:testJenkins_validation', description: 'Snap version to use to launch tests')
     }
     stages {
         stage('GUI Tests') {
-            agent {
-                docker {
-                    docker.image('snap-build-server.tilaa.cloud/xvfb:1.0').withRun() { c ->
-                        docker.image("${params.dockerTagName}").inside("--link ${c.id} -e DISPLAY=${c.id}:0") {
-                        }
+            agent snap-test
+            steps {
+                docker.image('snap-build-server.tilaa.cloud/xvfb:1.0').withRun() { c ->
+                    docker.image("snap-build-server.tilaa.cloud/${params.dockerTagName}").inside("--link ${c.id} -e DISPLAY=${c.id}:0") {
+                        echo "Launch GUI Tests from ${env.JOB_NAME} from ${env.GIT_BRANCH} with docker image ${params.dockerTagName}"
+                        // sh 'mvn -Duser.home=/var/maven -Dsnap.userdir=/home/snap clean package install -U -Dsnap.reader.tests.data.dir=/data/ssd/s2tbx/ -Dsnap.reader.tests.execute=false -DskipTests=false'
                     }
                 }
-            }
-            steps {
-                echo "Launch GUI Tests from ${env.JOB_NAME} from ${env.GIT_BRANCH} with docker image ${params.dockerTagName}"
-                // sh 'mvn -Duser.home=/var/maven -Dsnap.userdir=/home/snap clean package install -U -Dsnap.reader.tests.data.dir=/data/ssd/s2tbx/ -Dsnap.reader.tests.execute=false -DskipTests=false'
             }
         }
     }
