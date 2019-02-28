@@ -26,9 +26,10 @@ pipeline {
             steps {
                 script {
                     docker.image('snap-build-server.tilaa.cloud/xvfb:1.0').withRun() { c ->
-                        docker.image("snap-build-server.tilaa.cloud/${params.dockerTagName}").inside("--link ${c.id} -e DISPLAY=${c.id}:0") {
-                            echo "Launch GUI Tests from ${env.JOB_NAME} from ${env.GIT_BRANCH} with docker image ${params.dockerTagName}"
-                            // sh 'mvn -Duser.home=/var/maven -Dsnap.userdir=/home/snap clean package install -U -Dsnap.reader.tests.data.dir=/data/ssd/s2tbx/ -Dsnap.reader.tests.execute=false -DskipTests=false'
+                        docker.image("snap-build-server.tilaa.cloud/${params.dockerTagName}").inside("--group-add 1006 --link ${c.id} -e DISPLAY=${c.id}:0 -v /data/ssd/testData/test-user/qftest:/data/Products/qftest") {
+                            echo "Launch GUI Tests with ${env.JOB_NAME} from ${env.GIT_BRANCH} using docker image snap-build-server.tilaa.cloud/${params.dockerTagName}"
+                            sh 'rm -rf /home/snap/.snap/ && mkdir -p /home/snap/.snap/'
+                            sh "export qftest_data_dir=/data/Products/qftest && export qftest_snap_install_dir=/home/snap/snap/ && qftest_snap_user_dir=/home/snap/.snap && /usr/bin/xvfb-run -a -n 1 -s '-shmem -screen 0 1024x768x24 -dpi 96 +extension RANDR' /usr/local/bin/qftest -batch -runlog $WORKSPACE/qftest_logs -report /home/snap/qftest_report -suitesfile /home/snap/qftests.lst"
                         }
                     }
                 }
