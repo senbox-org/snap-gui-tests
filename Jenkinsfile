@@ -24,10 +24,12 @@ pipeline {
         stage('GUI Tests') {
             agent { label 'snap-test' }
             steps {
-                docker.image('snap-build-server.tilaa.cloud/xvfb:1.0').withRun() { c ->
-                    docker.image("snap-build-server.tilaa.cloud/${params.dockerTagName}").inside("--link ${c.id} -e DISPLAY=${c.id}:0") {
-                        echo "Launch GUI Tests from ${env.JOB_NAME} from ${env.GIT_BRANCH} with docker image ${params.dockerTagName}"
-                        // sh 'mvn -Duser.home=/var/maven -Dsnap.userdir=/home/snap clean package install -U -Dsnap.reader.tests.data.dir=/data/ssd/s2tbx/ -Dsnap.reader.tests.execute=false -DskipTests=false'
+                script {
+                    docker.image('snap-build-server.tilaa.cloud/xvfb:1.0').withRun() { c ->
+                        docker.image("snap-build-server.tilaa.cloud/${params.dockerTagName}").inside("--link ${c.id} -e DISPLAY=${c.id}:0") {
+                            echo "Launch GUI Tests from ${env.JOB_NAME} from ${env.GIT_BRANCH} with docker image ${params.dockerTagName}"
+                            // sh 'mvn -Duser.home=/var/maven -Dsnap.userdir=/home/snap clean package install -U -Dsnap.reader.tests.data.dir=/data/ssd/s2tbx/ -Dsnap.reader.tests.execute=false -DskipTests=false'
+                        }
                     }
                 }
             }
