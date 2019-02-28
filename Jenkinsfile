@@ -16,13 +16,13 @@
  */
 
 pipeline {
-    agent snap-test
+    agent { label 'snap-test' }
     parameters {
         string(name: 'dockerTagName', defaultValue: 's2tbx:testJenkins_validation', description: 'Snap version to use to launch tests')
     }
     stages {
         stage('GUI Tests') {
-            agent snap-test
+            agent { label 'snap-test' }
             steps {
                 docker.image('snap-build-server.tilaa.cloud/xvfb:1.0').withRun() { c ->
                     docker.image("snap-build-server.tilaa.cloud/${params.dockerTagName}").inside("--link ${c.id} -e DISPLAY=${c.id}:0") {
