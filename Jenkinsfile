@@ -38,8 +38,8 @@ pipeline {
     }
     post {
         always {
-            archiveArtifacts artifacts: '$WORKSPACE/report.html', fingerprint: true
-            junit '$WORKSPACE/report_junit.xml'
+            archiveArtifacts artifacts: '$WORKSPACE/qftest_report/report.html', fingerprint: true
+            junit '$WORKSPACE/qftest_report/report_junit.xml'
         }
     }
     /*post {
