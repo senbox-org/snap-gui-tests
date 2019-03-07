@@ -36,6 +36,12 @@ pipeline {
             }
         }
     }
+    post {
+        always {
+            archiveArtifacts artifacts: '$WORKSPACE/report.html', fingerprint: true
+            junit '$WORKSPACE/report_junit.xml'
+        }
+    }
     /*post {
         failure {
             step (
