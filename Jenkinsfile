@@ -37,8 +37,9 @@ pipeline {
             post {
                 always {
                     sh "ls -l $WORKSPACE"
+                    sh "ls -l $WORKSPACE/qftest_report"
                     archiveArtifacts artifacts: '$WORKSPACE/qftest_report/report.html', fingerprint: true
-                    junit '$WORKSPACE/qftest_report/report_junit.xml'
+                    // junit '$WORKSPACE/qftest_report/report_junit.xml'
                 }
             }
         }
