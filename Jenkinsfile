@@ -34,13 +34,13 @@ pipeline {
                     }
                 }
             }
-        }
-    }
-    post {
-        always {
-            sh "ls -l $WORKSPACE"
-            archiveArtifacts artifacts: '$WORKSPACE/qftest_report/report.html', fingerprint: true
-            junit '$WORKSPACE/qftest_report/report_junit.xml'
+            post {
+                always {
+                    sh "ls -l $WORKSPACE"
+                    archiveArtifacts artifacts: '$WORKSPACE/qftest_report/report.html', fingerprint: true
+                    junit '$WORKSPACE/qftest_report/report_junit.xml'
+                }
+            }
         }
     }
     /*post {
