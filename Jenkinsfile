@@ -38,8 +38,9 @@ pipeline {
             post {
                 always {
                     sh "ls -l $WORKSPACE"
+                    sh "tar zcvf qftest_report.tgz qftest_report"
                     sh "ls -l $WORKSPACE/qftest_report"
-                    archiveArtifacts artifacts: "qftest_report/*", fingerprint: true
+                    archiveArtifacts artifacts: "qftest_report.tgz", fingerprint: true
                     junit "qftest_report/report_junit.xml"
                 }
             }
