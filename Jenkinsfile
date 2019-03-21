@@ -39,7 +39,7 @@ pipeline {
                 always {
                     sh "ls -l $WORKSPACE"
                     sh "ls -l $WORKSPACE/qftest_report"
-                    archiveArtifacts artifacts: "qftest_report", fingerprint: true
+                    archiveArtifacts artifacts: "qftest_report/*", fingerprint: true
                     junit "qftest_report/report_junit.xml"
                 }
             }
