@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.1.1">
+<RootStep id="_0" name="root" version="4.2.0">
   <include>qfs.qft</include>
   <include>shared_lib.qft</include>
   <include>gpt.qft</include>
@@ -216,6 +216,31 @@ rc.setGlobal("smos", var1[:3])
       </Procedure>
     </Package>
     <Package id="_1lBM" name="product_meta_data">
+      <Procedure id="_1sII" name="S2A_L1C">
+        <SetGlobalStep id="_1sIJ" varname="dataInDir">
+          <default>sentinel2_S2A_MSIL1C_20170317T105021_N0204_R051_T30TYN_20170317T105423</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1sIK" varname="fileName">
+          <default>MTD_MSIL1C.xml</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1sIL" varname="bandName">
+          <default>B1</default>
+        </SetGlobalStep>
+        <SetGlobalStep disabled="true" id="_1sIM" varname="err_band">
+          <default>B2</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1sIN" varname="err_band">
+          <default>B2</default>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1sIO" varname="view_Id1">
+          <default>0</default>
+          <comment>
+</comment>
+        </SetGlobalStep>
+        <SetGlobalStep id="_1sIP" varname="group_id1">
+          <default>0</default>
+        </SetGlobalStep>
+      </Procedure>
       <Procedure id="_1pTw" name="MER_RR__1P">
         <SetGlobalStep id="_1pTx" varname="dataInDir">
           <default>mer_rr__1p_n1</default>
@@ -391,12 +416,12 @@ rc.setGlobal("smos", var1[:3])
                                     resourcename="attribut"/>
                 <ElseifSequence id="_1o-3" name="MAC?"
                                 test="'${system:os.name}' .find('Mac OS X')&gt;=0">
-                  <LoadPropertiesStep disabled="true" id="_1q6K"
+                  <LoadPropertiesStep id="_1q6K"
                                       propertyfile="properties/product_attributes_lin.properties"
                                       resourcename="attribut"/>
                 </ElseifSequence>
                 <ElseSequence id="_1o-4">
-                  <LoadPropertiesStep disabled="true" id="_1q6I"
+                  <LoadPropertiesStep id="_1q6I"
                                       propertyfile="properties/product_attributes_lin.properties"
                                       resourcename="attribut"/>
                 </ElseSequence>
@@ -414,14 +439,14 @@ rc.setGlobal("smos", var1[:3])
                 <default>${attribut:$(prod_type)_menu_item}</default>
               </SetGlobalStep>
               <CatchSequence exception="TestException" id="_1oxR"
-                             maxerror="0">
+                             matchlocalized="true" maxerror="0">
                 <SetGlobalStep id="_1oxS" varname="product_group"/>
                 <SetGlobalStep id="_1oxT" varname="reader">
                   <default>All Files</default>
                 </SetGlobalStep>
                 <SetGlobalStep id="_1oxU" varname="menu_item"/>
                 <ProcedureCall id="_1o+n" procedure="qfs.run-log.logError">
-                  <variable name="message">It was no no property or resource called $(prod_type)</variable>
+                  <variable name="message">It was no property or resource called $(prod_type)</variable>
                   <variable name="withScreenshots">false</variable>
                 </ProcedureCall>
               </CatchSequence>
