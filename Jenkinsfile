@@ -18,7 +18,7 @@
 pipeline {
     agent { label 'snap-test' }
     parameters {
-        string(name: 'dockerTagName', defaultValue: 's2tbx:testJenkins_validation', description: 'Snap version to use to launch tests')
+        string(name: 'dockerTagName', defaultValue: 'snap:testJenkins_validation', description: 'Snap version to use to launch tests')
     }
     stages {
         stage('GUI Tests') {
