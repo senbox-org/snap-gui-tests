@@ -23,7 +23,7 @@ pipeline {
     }
     stages {
         stage('GUI Tests') {
-            agent { label 'snap-test' }
+            agent { label 'snap-execution' }
             steps {
                 script {
                     docker.image('snap-build-server.tilaa.cloud/xvfb:1.0').withRun() { c ->
