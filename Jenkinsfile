@@ -31,7 +31,7 @@ pipeline {
                             echo "Launch GUI Tests with ${env.JOB_NAME} from ${env.GIT_BRANCH} using docker image snap-build-server.tilaa.cloud/${params.dockerTagName}"
                             // sh 'rm -rf /home/snap/.snap/ && mkdir -p /home/snap/.snap/'
                             // sh "rm -rf /home/snap/snap/snap/modules/org-esa-snap-snap-worldwind.jar"
-                            sh "export qftest_data_dir=/data/Products/qftest && export qftest_snap_install_dir=/home/snap/snap/ && export qftest_snap_user_dir=/home/snap/.snap && /usr/local/bin/qftest -batch -runlog $WORKSPACE/qftest_logs -report $WORKSPACE/qftest_report -suitesfile $WORKSPACE/${params.testFileList}"
+                            sh "export qftest_data_dir=/data/Products/qftest && export qftest_snap_install_dir=/home/snap/snap/ && export qftest_snap_user_dir=/home/snap/.snap && xvfb-run /usr/local/bin/qftest -batch -runlog $WORKSPACE/qftest_logs -report $WORKSPACE/qftest_report -suitesfile $WORKSPACE/${params.testFileList}"
                         }
                     }
                 }
