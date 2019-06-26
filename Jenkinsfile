@@ -46,7 +46,7 @@ pipeline {
             }
         }
     }
-    /*post {
+    post {
         failure {
             step (
                 emailext(
@@ -56,9 +56,9 @@ Check console output at ${env.BUILD_URL}
 ${env.JOB_NAME} [${env.BUILD_NUMBER}]""",
                     attachLog: true,
                     compressLog: true,
-                    recipientProviders: [[$class: 'CulpritsRecipientProvider'], [$class:'DevelopersRecipientProvider']]
+                    to: "${SNAP_INTERNAL_MAIL_LIST}"
                 )
             )
         }
-    }*/
+    }
 }
