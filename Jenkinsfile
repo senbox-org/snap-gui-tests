@@ -56,7 +56,8 @@ Check console output at ${env.BUILD_URL}
 ${env.JOB_NAME} [${env.BUILD_NUMBER}]""",
                     attachLog: true,
                     compressLog: true,
-                    to: "${SNAP_INTERNAL_MAIL_LIST}"
+                    //to: "${SNAP_INTERNAL_MAIL_LIST}"
+                    to: "omar.barrilero@c-s.fr, jean.seyral@c-s.fr"
                 )
             )
         }
