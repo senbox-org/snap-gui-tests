@@ -27,7 +27,7 @@ pipeline {
                 docker {
                     image "snap-build-server.tilaa.cloud/${params.dockerTagName}"
                     label 'snap-execution' 
-                    args "--group-add 1006 -v /data/ssd/testData/snap-gui-tests/qftest:/data/Products/qftest -v /opt/qftest/license:/home/snap/qftest/license"
+                    args "--group-add 1006 -v /data/ssd/testData:/data/ssd/testData -v /opt/qftest/license:/home/snap/qftest/license"
                 }
             }
             steps {
