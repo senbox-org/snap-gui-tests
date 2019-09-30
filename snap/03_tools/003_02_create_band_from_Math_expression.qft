@@ -198,13 +198,15 @@
       </TestStep>
       <ProcedureCall id="_1mkK" procedure="close.all_products"/>
     </TestCase>
-    <TestCase id="_8gA" name="virtual_collocated_products_save_session"
+    <TestCase disabled="true" id="_8gA"
+              name="virtual_collocated_products_save_session"
               reportname="Create virtual band from two collocated products and save session">
       <variable name="fileName">MER_RR__1PNMAP20070729_022435_000000792060_00175_28285_0001.N1</variable>
       <variable name="newBand">test_coll_session</variable>
       <variable name="expr">$2.reflec_2&lt;0.5 ? radiance_2 : 999.0</variable>
       <variable name="fileName2">MER_RR__2PNMAP20070729_022435_000000792060_00175_28285_0001.N1</variable>
       <variable name="dataInDir">collocated_small</variable>
+      <comment>Data is not available</comment>
       <TestStep id="_8gB" name="open_data_products" postdelay="1000">
         <ProcedureCall id="_1oRe" procedure="open.product_in_snap">
           <variable name="prod_dir">$(dataInDir)</variable>
@@ -282,11 +284,13 @@
       </TestStep>
       <ProcedureCall id="_1oS8" procedure="close.all_products"/>
     </TestCase>
-    <TestCase id="_8i1" name="reproject_product_containing_math_bands"
+    <TestCase disabled="true" id="_8i1"
+              name="reproject_product_containing_math_bands"
               reportname="Reproject product containing math bands">
       <variable name="fileName">MER_RR__2_test.N1</variable>
       <variable name="valid_expr">(l2_flags.WATER)</variable>
       <variable name="expr">algal_1 / algal_2</variable>
+      <comment>Not working</comment>
       <TestStep id="_1oS9" name="open_product">
         <ProcedureCall id="_1oSA" procedure="open.product_in_snap">
           <variable name="prod_dir">mer_rr__2p_n1</variable>
@@ -386,11 +390,12 @@ valid_expr	fneq(reflec_2,-1.5259254723787308E-5)</comment>
       <ProcedureCall id="_1oUU" procedure="check_new_band"/>
       <ProcedureCall id="_1oSu" procedure="close.all_products"/>
     </TestCase>
-    <TestCase id="_9B-" name="cancel_band_math_BEAM-365"
+    <TestCase disabled="true" id="_9B-" name="cancel_band_math_BEAM-365"
               reportname="Cancel Band Math BEAM-365">
       <variable name="fileName">AT1_TOA_1P_test.zip</variable>
       <variable name="valid_expr">(!l1_flags.INVALID)</variable>
       <variable name="expr">reflec_nadir_0870&lt;reflec_nadir_1600 ? reflec_nadir_0870 : 999.0</variable>
+      <comment>Data not available</comment>
       <TestStep id="_1oSv" name="open_product">
         <ProcedureCall id="_1oSw" procedure="open.product_in_snap">
           <variable name="prod_dir">ers_atsr1_e1_toa</variable>
