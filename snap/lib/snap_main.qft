@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.1.1">
+<RootStep id="_0" name="root" version="4.7.0">
   <include>qfs.qft</include>
   <include>snap_do_click.qft</include>
   <include>snap_check.qft</include>
@@ -56,6 +56,13 @@
   <variable name="client">snap</variable>
   <PackageRoot id="_3">
     <comment>snap</comment>
+    <Package id="_1ryC" name="modal">
+      <Procedure id="_1ryD" name="CloseUpdate">
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogPlugin_Installer.buttonFinish"
+                        event="MOUSE_MPRC" id="_M" modifiers="16"/>
+      </Procedure>
+    </Package>
     <Package id="_1l8u" name="dependencies">
       <Dependency id="_1lWZ" name="start_application">
         <SetupSequence id="_1lWa" name="start">
@@ -206,10 +213,11 @@
             </CatchSequence>
           </TryStep>
           <TryStep id="_1rv4" name="constructed gui?">
+            <ProcedureCall id="_1ryE" procedure="modal.CloseUpdate"/>
             <MouseEventStep clicks="1" client="$(client)"
                             component="NbMainWindow.Tab_Displayer"
                             event="MOUSE_MPRC" id="_1rxz" modifiers="16"
-                            x="67" y="8"/>
+                            x="10" y="8"/>
             <CatchSequence exception="TestException" id="_1rvP" maxerror="0">
               <TryStep id="_1rx-" name="constructed gui?" predelay="2000">
                 <ComponentWaiter client="$(client)"
@@ -219,7 +227,7 @@
                 <MouseEventStep clicks="1" client="$(client)"
                                 component="NbMainWindow.Tab_Displayer"
                                 event="MOUSE_MPRC" id="_1ry0" modifiers="16"
-                                x="67" y="8"/>
+                                x="10" y="8"/>
                 <CatchSequence exception="TestException" id="_1ry2"
                                maxerror="0">
                   <TryStep id="_1ry6" name="constructed gui?" predelay="2000">
@@ -229,7 +237,7 @@
                     <MouseEventStep clicks="1" client="$(client)"
                                     component="NbMainWindow.Tab_Displayer"
                                     event="MOUSE_MPRC" id="_1ry8"
-                                    modifiers="16" x="67" y="8"/>
+                                    modifiers="16" x="10" y="8"/>
                     <CatchSequence exception="TestException" id="_1ry9"
                                    maxerror="0">
                       <ProcedureCall id="_1ryA"
