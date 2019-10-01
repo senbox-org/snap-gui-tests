@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.2.0">
+<RootStep id="_0" name="root" version="4.7.0">
   <include>qfs.qft</include>
   <include>snap_components.qft</include>
   <include>snap_main.qft</include>
@@ -1624,6 +1624,9 @@
         <Package id="_1rkK" name="dialog_SNAP_SNAP_Error">
           <Procedure id="_1oXJ" name="button_Cancel">
             <comment>@teststep Click button 'Cancel' in 'SNAP-SNAP - Error' dialog.</comment>
+            <ComponentWaiter client="$(client)"
+                             component="dialogSNAP_-_SNAP_-_Error" id="_1sZZ"
+                             timeout="60000"/>
             <IfSequence id="_1on0" test="${qftest:windows}">
               <ElseifSequence id="_1on1" name="MAC?"
                               test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
@@ -1635,6 +1638,9 @@
           </Procedure>
           <Procedure id="_1oZ-" name="button_OK">
             <comment>@teststep Click button 'No' in 'SNAP-SNAP - Error' dialog.</comment>
+            <ComponentWaiter client="$(client)"
+                             component="dialogSNAP_-_SNAP_-_Error" id="_1sZa"
+                             timeout="60000"/>
             <IfSequence id="_1on3" test="${qftest:windows}">
               <ElseifSequence id="_1on4" name="MAC?"
                               test="'${system:os.name}' .find('Mac OS X')&gt;=0"/>
