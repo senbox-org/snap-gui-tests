@@ -41,7 +41,6 @@ pipeline {
                 sh "mkdir $WORKSPACE/${build_dir}"
                 // generate list of json file to execute
                 sh "python3 $WORKSPACE/${script_dir}/filterjsontest.py $WORKSPACE/${test_dir}/tests/ > $WORKSPACE/${build_dir}/list"
-                sh "cat $WORKSPACE/${build_dir}/list"
                 echo "Build tests..."
                 // build tests
                 sh "python3 $WORKSPACE/${script_dir}/buildtests.py --rootdir $WORKSPACE --testdir $WORKSPACE/${test_dir} -f ${params.frequency} $WORKSPACE/${build_dir}/list"
