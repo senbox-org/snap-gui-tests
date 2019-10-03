@@ -87,6 +87,7 @@ if __name__ == "__main__":
     parser.add_argument("-d", "--description", default="Auto generated test", help="Simple description of the test")
     parser.add_argument("-f", "--frequency", default="daily", help="Simple description of the test")
     parser.add_argument("-i", "--interactive", action="store_true", help="Enable interactive shell")
+    parser.add_argument("-o", "--output", help="Output file")
 
     # Parse arguments 
     args = parser.parse_args()
@@ -137,5 +138,10 @@ if __name__ == "__main__":
                     "parameters": {},
                     "outputs": []
                 })
-    # Print the json file
-    print(json.dumps(test_lists, indent=4))
+    if args.output is None:
+        # If no output file is defined print the json structure 
+        print(json.dumps(test_lists, indent=4))
+    else:
+        # Save json to defined file 
+        with open(args.output, 'w') as f:
+            f.write(json.dumps(test_lists, indent=4))
