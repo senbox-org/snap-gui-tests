@@ -1,5 +1,6 @@
 """
-Simply extracts the list of json files in
+Simply extracts the list of json files from a 
+selected directory.
 
 @author: Martino Ferrari
 @email: manda.mgf@gmail.com
