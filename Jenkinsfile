@@ -21,6 +21,11 @@ pipeline {
         string(name: 'dockerTagName', defaultValue: 'snap:master', description: 'docker tag name to use')
         string(name: 'frequency', defaultValue: 'test', description: 'frequency tag to use')
     }
+    environment {
+        test_dir = 'gui-tests-resources'
+        build_dir = 'gui-tests-resources/testBuild'
+        script_dir = 'guit-tests-resources/script'
+    }
     stages {
         stage('GUI Tests') {
             agent { 
@@ -33,20 +38,18 @@ pipeline {
             steps {
                 echo "Prepare Tests..."
                 // init useful variables
-                sh "export test_dir=$WORKSPACE/gui-tests-resources && export build_dir=${test_dir}/testBuild && script_dir=${test_dir}/script"
-                // make build directory
-                sh "mkdir ${build_dir}"
+                sh "mkdir $WORKSPACE/${build_dir}"
                 // generate list of json file to execute
-                sh "python3 ${script_dir}/filterjsontest.py ${test_dir}/tests/ > ${build_dir}/list"
-                sh "cat ${build_dir}/list"
+                sh "python3 $WORKSPACE/${script_dir}/filterjsontest.py $WORKSPACE/${test_dir}/tests/ > $WORKSPACE/${build_dir}/list"
+                sh "cat $WORKSPACE/${build_dir}/list"
                 echo "Build tests..."
                 // build tests
-                sh "python3 ${script_dir}/buildtests.py --rootdir $WORKSPACE --testdir ${test_dir} -f ${params.frequency} ${build_dir}/list"
+                sh "python3 $WORKSPACE/${script_dir}/buildtests.py --rootdir $WORKSPACE --testdir $WORKSPACE/${test_dir} -f ${params.frequency} $WORKSPACE/${build_dir}/list"
                 echo "Launch GUI Tests with ${env.JOB_NAME} from ${env.GIT_BRANCH} using docker image snap-build-server.tilaa.cloud/${params.dockerTagName}"
                 // We use xvfb-run to emulate DISPLAY inside snap docker
-                sh "export qftest_data_dir=/data/Products/qftest && export qftest_snap_install_dir=/home/snap/snap/ && export qftest_snap_user_dir=/home/snap/.snap && xvfb-run /usr/local/bin/qftest -batch -runlog $WORKSPACE/qftest_logs -report $WORKSPACE/qftest_report -suitesfile ${build_dir}/qftests.lst"
+                sh "export qftest_data_dir=/data/Products/qftest && export qftest_snap_install_dir=/home/snap/snap/ && export qftest_snap_user_dir=/home/snap/.snap && xvfb-run /usr/local/bin/qftest -batch -runlog $WORKSPACE/qftest_logs -report $WORKSPACE/qftest_report -suitesfile $WORKSPACE/${build_dir}/qftests.lst"
                 // clean tests build
-                sh "python3 ${script_dir}/posttests.py --rootdir $WORKSPACE --testdir ${test_dir}"
+                sh "python3 $WORKSPACE/${script_dir}/posttests.py --rootdir $WORKSPACE --testdir $WORKSPACE/${test_dir}"
             }
             post {
                 always {
