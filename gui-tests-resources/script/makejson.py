@@ -16,11 +16,11 @@ def extract_path(path):
 
     Paramters
     ---------
-    path: test file path
+    - path: test file path
 
     Returns
     -------
-    string: if it is relative to the snap gui project otherwise None
+    - string: if it is relative to the snap gui project otherwise None
     """
     if path.startswith('snap/'):
         return path
@@ -41,15 +41,15 @@ def interactive_shell(name, test_path, def_author, def_frequency, def_descriptio
     
     Parameters
     ----------
-    name: testcase name
-    test_path: relative path of the test qft file
-    def_author: default author
-    def_frequency: default frequency
-    def_description: default description
+    - name: testcase name
+    - test_path: relative path of the test qft file
+    - def_author: default author
+    - def_frequency: default frequency
+    - def_description: default description
 
     Returns
     -------
-    dict : JSON test case object
+    - dict : JSON test case object
     """
     print(f'\nTest: {name}')
 
