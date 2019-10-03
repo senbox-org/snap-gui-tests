@@ -24,7 +24,7 @@ pipeline {
     environment {
         test_dir = 'gui-tests-resources'
         build_dir = 'gui-tests-resources/testBuild'
-        script_dir = 'guit-tests-resources/script'
+        script_dir = 'gui-tests-resources/script'
     }
     stages {
         stage('GUI Tests') {
