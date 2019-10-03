@@ -31,13 +31,15 @@ pipeline {
                 }
             }
             steps {
-                echo "Prepare Tests"
+                echo "Prepare Tests..."
                 // init useful variables
                 sh "export test_dir=$WORKSPACE/gui-tests-resources && export build_dir=${test_dir}/testBuild && script_dir=${test_dir}/script"
                 // make build directory
                 sh "mkdir ${build_dir}"
                 // generate list of json file to execute
                 sh "python3 ${script_dir}/filterjsontest.py ${test_dir}/tests/ > ${build_dir}/list"
+                sh "cat ${build_dir}/list"
+                echo "Build tests..."
                 // build tests
                 sh "python3 ${script_dir}/buildtests.py --rootdir $WORKSPACE --testdir ${test_dir} -f ${params.frequency} ${build_dir}/list"
                 echo "Launch GUI Tests with ${env.JOB_NAME} from ${env.GIT_BRANCH} using docker image snap-build-server.tilaa.cloud/${params.dockerTagName}"
