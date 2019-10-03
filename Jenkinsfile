@@ -19,7 +19,7 @@ pipeline {
     agent { label 'snap-test' }
     parameters {
         string(name: 'dockerTagName', defaultValue: 'snap:master', description: 'docker tag name to use')
-        string(name: 'testFileList', defaultValue: 'qftests.lst', description: 'name of the .lst file to use')
+        string(name: 'frequency', defaultValue: 'daily', description: 'frequency tag to use')
     }
     stages {
         stage('GUI Tests') {
@@ -31,9 +31,20 @@ pipeline {
                 }
             }
             steps {
+                echo "Prepare Tests"
+                // init useful variables
+                sh "export test_dir=$WORKSPACE/gui-tests-resources && export build_dir=${test_dir}/testBuild && script_dir=${test_dir}/script"
+                // make build directory
+                sh "mkdir ${build_dir}"
+                // generate list of json file to execute
+                sh "python3 ${script_dir}/filterjsontest.py ${test_dir}/tests/ > ${build_dir}/list"
+                // build tests
+                sh "python3 ${script_dir}/buildtests.py --rootdir $WORKSPACE --testdir ${test_dir} -f ${params.frequency} ${build_dir}/list"
                 echo "Launch GUI Tests with ${env.JOB_NAME} from ${env.GIT_BRANCH} using docker image snap-build-server.tilaa.cloud/${params.dockerTagName}"
                 // We use xvfb-run to emulate DISPLAY inside snap docker
-                sh "export qftest_data_dir=/data/Products/qftest && export qftest_snap_install_dir=/home/snap/snap/ && export qftest_snap_user_dir=/home/snap/.snap && xvfb-run /usr/local/bin/qftest -batch -runlog $WORKSPACE/qftest_logs -report $WORKSPACE/qftest_report -suitesfile $WORKSPACE/${params.testFileList}"
+                sh "export qftest_data_dir=/data/Products/qftest && export qftest_snap_install_dir=/home/snap/snap/ && export qftest_snap_user_dir=/home/snap/.snap && xvfb-run /usr/local/bin/qftest -batch -runlog $WORKSPACE/qftest_logs -report $WORKSPACE/qftest_report -suitesfile ${build_dir}/qftests.lst"
+                // clean tests build
+                sh "python3 ${script_dir}/posttests.py --rootdir $WORKSPACE --testdir ${test_dir}"
             }
             post {
                 always {
