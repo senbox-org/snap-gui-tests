@@ -19,7 +19,7 @@ pipeline {
     agent { label 'snap-test' }
     parameters {
         string(name: 'dockerTagName', defaultValue: 'snap:master', description: 'docker tag name to use')
-        string(name: 'frequency', defaultValue: 'daily', description: 'frequency tag to use')
+        string(name: 'frequency', defaultValue: 'test', description: 'frequency tag to use')
     }
     stages {
         stage('GUI Tests') {
