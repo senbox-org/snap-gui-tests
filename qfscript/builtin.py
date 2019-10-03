@@ -6,7 +6,6 @@ import qftxml
 import sys
 
 
-
 class ClientConnect(BaseBox):
     def __init__(self, path):
         self.path = path
@@ -23,6 +22,7 @@ class ClientConnect(BaseBox):
 
     def __repr__(self):
         return "connect("+self.path+")"
+
 
 class Main(BaseBox):
     def __init__(self, body):
@@ -51,6 +51,7 @@ class Main(BaseBox):
         res+='\n}'
         return res
     
+
 class DefProcedure(BaseBox):
     def __init__(self, name, args, body):
         self.args = args
@@ -67,9 +68,6 @@ class DefProcedure(BaseBox):
     
     def eval(self):
         scope.scope().def_proc(self.name, self.args, self.body)
-
-
-   
 
     
 class DefTest(BaseBox):
@@ -107,6 +105,7 @@ class Click(BaseBox):
         cid = self.comp_id.eval()
         qftxml.click(qftxml.current(), cid)
         pass
+
 
 class Menu(BaseBox):
     def __init__(self, window, item):

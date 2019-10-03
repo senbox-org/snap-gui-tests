@@ -1,7 +1,15 @@
+"""
+It manages the scopes during the executions as well as 
+the function definitions, calls, variable assignements and namespaces.
+
+@author: Martino Ferrari
+@email: manda.mgf@gmail.com 
+"""
 from rply.token import BaseBox
 import qftxml
 from lxml import etree
 
+# current scope. I know is a global variable... :(
 __current__ = None
 
 
@@ -11,6 +19,7 @@ def __init_scope__():
     
 
 def scope():
+    """gets current scope."""
     global __current__
     if __current__ is None:
         __init_scope__()
@@ -18,11 +27,13 @@ def scope():
 
 
 def set_scope(sc):
+    """sets current scope."""
     global __current__
     __current__ = sc
 
 
 def load_scope(res):
+    """opens a qfs script and imports all its functions."""
     with open(res+'.qfs','r') as f:
         import lexer
         import parser
@@ -40,7 +51,14 @@ def load_scope(res):
     return None
 
 class Scope:
+    """class representing a execution scope."""
     def __init__(self, parent, imported=None):
+        """
+        Parameters
+        ----------
+        - parent: parent scope
+        - imported: imported flag (avoid executation of tests and main function)
+        """
         self.parent = parent
         self.functions = {}
         self.variables = {}
@@ -53,6 +71,7 @@ class Scope:
             self.imported = imported
     
     def var(self, name):
+        """retrives variable from current scope or parent scopes."""
         if name in self.variables:
             return self.variables[name]
         elif self.parent is not None:
@@ -60,6 +79,19 @@ class Scope:
         raise NameError("Variable `"+name+"` is note defined")
         
     def fn(self, namespace, name, args):
+        """
+        executes function defined in current scope or parents scopes.
+        
+        Paramters
+        ---------
+        - namespace: function namespace (can be None if no namespace is defined) 
+        - name: function name
+        - args: value of its arguments
+
+        Returns
+        -------
+        returns the value returned from the function
+        """
         if namespace is None:
             if name in self.functions:
                 return self.functions[name].eval(args)
@@ -70,6 +102,7 @@ class Scope:
         raise NameError("Function `"+name+"` is not defined")
     
     def __eval_namespace__(self, ns, fname, args):
+        """manages the mess of namespaces and execute the function in its scope."""
         if ns[0] == 'std':
             qftxml.std_procedure(ns[1:], fname, args)
             return None
@@ -82,12 +115,15 @@ class Scope:
         return v
 
     def def_fn(self, name, args, body):
+        """defines function in the current scope."""
         self.functions[name] = Function(args, body)
 
     def def_proc(self, name, args, body):
+        """defines a QFTest procedure in the current scope."""
         self.functions[name] = Procedure(name, args, body)
     
     def has_var(self, name):
+        """check if variable its defined in the current scope or its parents."""
         if name in self.variables:
             return True
         elif self.parent is not None:
@@ -95,6 +131,7 @@ class Scope:
         return False
     
     def set_var(self, name, value):
+        """set variable value."""
         if name in self.variables:
             self.variables[name] = value
         elif self.parent is not None:
@@ -102,12 +139,15 @@ class Scope:
         return None
         
     def let_var(self, name):
+        """defines variable in current scope."""
         self.variables[name] = None
 
     def import_scope(self, name, scope):
+        """imports a scope in current scope."""
         self.imports[name] = scope
         
     def mod(self, name):
+        """retrives a module scope from the current scope or its parents."""
         if name in self.imports:
             return self.imports[name]
         elif self.parent is not None:
@@ -115,6 +155,10 @@ class Scope:
         return None
 
     def obj(self, id):
+        """
+        retrives object from current scope or its parents.
+        Not used for now.
+        """
         if id in self.objects:
             return self.objects[id]
         if self.parent is not None:
@@ -122,17 +166,24 @@ class Scope:
         raise NameError(f"Object `{id}` not found!")
 
     def is_testable(self):
+        """retruns if scope is testable.""" 
         return not self.imported
-
-    
 
             
 class Function(BaseBox):
+    """Function object."""
     def __init__(self, args, body):
+        """
+        Parameters
+        ----------
+        - args: function arguments
+        - body: function body
+        """
         self.args = args
         self.block = body
     
     def eval(self, args):
+        """evaluates function in a new empty scope."""
         set_scope(Scope(scope()))
         for (var, value) in zip(self.args, args):
             name = var.name
@@ -146,13 +197,22 @@ class Function(BaseBox):
 
     
 class Procedure(BaseBox):
+    """QFTest Procedure object."""
     def __init__(self, name, args, body):
+        """
+        Parameters
+        ----------
+        - name: procedure name
+        - args: procedure arguments
+        - body: procedure body
+        """
         self.args = args
         self.name = name
         self.block = body
         self.written = False
     
     def eval(self, args):
+        """compiles  the precedure body if needed and call the procedure."""
         if not self.written:
             self.__write_def__()
         self.__write_call__()
@@ -175,6 +235,7 @@ class Procedure(BaseBox):
 
 
 class RetValue(BaseBox):
+    """represents the value of a `return` call.""" 
     def __init__(self, value):
         self.value = value
         

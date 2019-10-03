@@ -1,8 +1,15 @@
+"""
+Parser definition, the parser will generate
+the AST from a list of tokens.
+
+@author: Martino Ferrari
+@email: manda.mgf@gmail.com
+"""
 from rply import ParserGenerator, ParsingError
 import ast
 import builtin
 
-
+# definition of a map for common operators
 __ops__ = {
     '+': ast.Add,
     '-': ast.Sub,
@@ -22,6 +29,7 @@ __ops__ = {
     '/=' : ast.Div
 }
 
+# definition of a map for common types
 __conv__ = {
     'float' : ast.NumFloat,
     'int' : ast.NumInt,
@@ -29,9 +37,11 @@ __conv__ = {
     'bool' : ast.TypBool
 }
 
-class Parser:
+class Parser:  
+    """manages the initialization and the configuration of the QFScript parser"""
   
     def __init__(self):
+        """initializes parser with symbols and priorities."""
         self.pg = ParserGenerator(
             # A list of all token names, accepted by the parser.
             ['LP','RP','INT', 'PRINT', 'READ', '2FLOAT', '2INT', '2BOOL', '2STRING', 'SEMI', 'COMMENT', 'LB', 'RB', 'LET', 'IDENTIFIER', 'EQ',
@@ -58,14 +68,18 @@ class Parser:
 
 
     def __init_parse__(self):
+        """initializes parsing rules."""
+
+        # this will generate the root node from a line node
         @self.pg.production('main : line')
         def main_ml(p):
             return builtin.Main(p[0])
 
+        # Expression rules definition (exp)
         @self.pg.production('exp : RETURN exp')
         def exp_return(p):
             return ast.Return(p[1])
-
+        
         @self.pg.production('exp : var')
         @self.pg.production('exp : f_call')
         def exp_var(p):
@@ -88,6 +102,60 @@ class Parser:
         def exp_float(p):
             return ast.NumFloat(p[0].getstr())
 
+        @self.pg.production('exp : var EQ exp')
+        def set_variable(p):
+            return ast.Assignment(p[0], p[2])
+
+        @self.pg.production('exp : var += exp')
+        @self.pg.production('exp : var -= exp')
+        @self.pg.production('exp : var *= exp')
+        @self.pg.production('exp : var /= exp')
+        def set_op(p):
+            op = p[1].getstr()
+            return ast.Assignment(p[0], __ops__[op](p[0], p[2]))
+
+        @self.pg.production('exp : var ++')
+        def set_pp(p):
+            return ast.Assignment(p[0], ast.Add(p[0], ast.NumInt(1)))
+
+        @self.pg.production('exp : var --')
+        def set_mm(p):
+            return ast.Assignment(p[0], ast.Sub(p[0], ast.NumInt(1)))
+
+        @self.pg.production('exp : EXTERNAL_VARIABLE')
+        def ext_var(p):
+            return ast.ExternalVariable(p[0].getstr())
+
+        @self.pg.production('exp : exp PLUS exp')
+        @self.pg.production('exp : exp MINUS exp')
+        @self.pg.production('exp : exp MUL exp')
+        @self.pg.production('exp : exp DIV exp')
+        @self.pg.production('exp : exp > exp')
+        @self.pg.production('exp : exp < exp')
+        @self.pg.production('exp : exp >= exp')
+        @self.pg.production('exp : exp <= exp')
+        @self.pg.production('exp : exp == exp')
+        @self.pg.production('exp : exp != exp')
+        @self.pg.production('exp : exp OR exp')
+        @self.pg.production('exp : exp AND exp')
+        def expression_binop(p):
+            left = p[0]
+            right = p[2]
+            return __ops__[p[1].getstr()](left, right)
+
+        @self.pg.production('exp : 2INT LP exp RP')
+        @self.pg.production('exp : 2FLOAT LP exp RP')
+        @self.pg.production('exp : 2BOOL LP exp RP')
+        @self.pg.production('exp : 2STRING LP exp RP')
+        def exp_conv(p):
+            op = __conv__[p[0].getstr()]
+            return op(p[2])
+
+        @self.pg.production('exp : NOT exp')
+        def exp_not(p):
+            return ast.Not(p[1])
+
+        # Function rules definition (f_call)
         @self.pg.production('f_call : PRINT arg')
         def fprint(p):
             return ast.Print(p[1])
@@ -108,6 +176,16 @@ class Parser:
         def fclcik(p):
             return builtin.Click(p[1][0])
 
+        @self.pg.production('f_call : IDENTIFIER arg')
+        def f_call(p):
+            return ast.FCall(p[0].getstr(), p[1])
+
+        @self.pg.production('f_call : identifier COLON f_call')
+        def id_fcall(p):
+            p[2].set_namespace(p[0])
+            return p[2]
+
+        # List of expressions and arguments rules definitions        
         @self.pg.production('exp_list : exp , exp')
         def exp_list(p):
             return [p[0], p[2]]
@@ -130,10 +208,12 @@ class Parser:
         def noarg(p):
             return []
 
+        # Skip comments rule
         @self.pg.production('skip : COMMENT')
         def skip_cmnt(p):
             return ast.Comment(p[0].getstr())
 
+        # Line rule definition
         @self.pg.production('line : exp SEMI')
         @self.pg.production('line : skip')
         @self.pg.production('line : f_def')
@@ -147,7 +227,16 @@ class Parser:
         @self.pg.production('line : line f_def')
         def line_line(p):
             return p[0].extend(p[1])
+        
+        @self.pg.production('line : IMPORT IDENTIFIER AS IDENTIFIER')
+        def l_import_id(p):
+            return ast.Line(ast.Import(p[1].getstr(), p[3].getstr()))
 
+        @self.pg.production('line : IMPORT IDENTIFIER')
+        def l_import(p):
+            return ast.Line(ast.Import(p[1].getstr()))
+
+        # Block rule definition
         @self.pg.production('block : LB line RB')
         def block(p):
             return ast.Block(p[1])
@@ -156,100 +245,13 @@ class Parser:
         def empty_block(p):
             return ast.Block(None)
 
-        @self.pg.production('var : IDENTIFIER')
-        def variable(p):
-            return ast.Variable(p[0].getstr())
-
-        @self.pg.production('var : LET var')
-        def let_variable(p):
-            p[1].let=True
-            return p[1]
-
-        @self.pg.production('f_def : FUNCTION f_call block')
-        def f_def(p):
-            return ast.FDefine(p[1].name, p[1].args, p[2])
-
-        @self.pg.production('f_def : PROCEDURE f_call block')
-        def p_def(p):
-            return builtin.DefProcedure(p[1].name, p[1].args, p[2])
-
         @self.pg.production('block : TEST arg block')
         def t_def(p):
             name = p[1][0]
             desc = p[1][1]
             body = p[2]
             return builtin.DefTest(name, desc, body) 
-
-        @self.pg.production('f_call : IDENTIFIER arg')
-        def f_call(p):
-            return ast.FCall(p[0].getstr(), p[1])
-
-        @self.pg.production('f_call : identifier COLON f_call')
-        def id_fcall(p):
-            p[2].set_namespace(p[0])
-            return p[2]
-
-        @self.pg.production('identifier : IDENTIFIER COLON IDENTIFIER')
-        def id_id(p):
-            return [p[0].getstr(), p[2].getstr()]
-
-        @self.pg.production('identifier : identifier COLON IDENTIFIER ')
-        def mid_id(p):
-            return p[0] + [p[2].getstr()]
-
-     
-
-        @self.pg.production('exp : var EQ exp')
-        def set_variable(p):
-            return ast.Assignment(p[0], p[2])
-
-        @self.pg.production('exp : var += exp')
-        @self.pg.production('exp : var -= exp')
-        @self.pg.production('exp : var *= exp')
-        @self.pg.production('exp : var /= exp')
-        def set_op(p):
-            op = p[1].getstr()
-            return ast.Assignment(p[0], __ops__[op](p[0], p[2]))
-
-        @self.pg.production('exp : var ++')
-        def set_pp(p):
-            return ast.Assignment(p[0], ast.Add(p[0], ast.NumInt(1)))
-
-        @self.pg.production('exp : var --')
-        def set_mm(p):
-            return ast.Assignment(p[0], ast.Sub(p[0], ast.NumInt(1)))
-
-
-        @self.pg.production('exp : exp PLUS exp')
-        @self.pg.production('exp : exp MINUS exp')
-        @self.pg.production('exp : exp MUL exp')
-        @self.pg.production('exp : exp DIV exp')
-        @self.pg.production('exp : exp > exp')
-        @self.pg.production('exp : exp < exp')
-        @self.pg.production('exp : exp >= exp')
-        @self.pg.production('exp : exp <= exp')
-        @self.pg.production('exp : exp == exp')
-        @self.pg.production('exp : exp != exp')
-        @self.pg.production('exp : exp OR exp')
-        @self.pg.production('exp : exp AND exp')
-        def expression_binop(p):
-            left = p[0]
-            right = p[2]
-            return __ops__[p[1].getstr()](left, right)
-
-
-        @self.pg.production('exp : 2INT LP exp RP')
-        @self.pg.production('exp : 2FLOAT LP exp RP')
-        @self.pg.production('exp : 2BOOL LP exp RP')
-        @self.pg.production('exp : 2STRING LP exp RP')
-        def exp_conv(p):
-            op = __conv__[p[0].getstr()]
-            return op(p[2])
-
-        @self.pg.production('exp : NOT exp')
-        def exp_not(p):
-            return ast.Not(p[1])
-
+        
         @self.pg.production('block : IF exp block')
         def exp_if(p):
             return ast.IfElse(p[1], p[2])
@@ -257,10 +259,6 @@ class Parser:
         @self.pg.production('block : IF exp block else')
         def exp_ifelse(p):
             return ast.IfElse(p[1], p[2], p[3])
-
-        @self.pg.production('else : ELSE block')
-        def b_else(p):
-            return p[1]
 
         @self.pg.production('block : WHILE exp block')
         def b_while(p):
@@ -270,22 +268,41 @@ class Parser:
         def b_for(p):
             return ast.For(p[2], p[4], p[6], p[8])
 
-        @self.pg.production('line : IMPORT IDENTIFIER AS IDENTIFIER')
-        def l_import_id(p):
-            return ast.Line(ast.Import(p[1].getstr(), p[3].getstr()))
+        # Var rule definition
+        @self.pg.production('var : IDENTIFIER')
+        def variable(p):
+            return ast.Variable(p[0].getstr())
 
-        @self.pg.production('line : IMPORT IDENTIFIER')
-        def l_import(p):
-            return ast.Line(ast.Import(p[1].getstr()))
+        @self.pg.production('var : LET var')
+        def let_variable(p):
+            p[1].let=True
+            return p[1]
 
-        @self.pg.production('exp : EXTERNAL_VARIABLE')
-        def ext_var(p):
-            return ast.ExternalVariable(p[0].getstr())
-        
+        # Function definition rule definition
+        @self.pg.production('f_def : FUNCTION f_call block')
+        def f_def(p):
+            return ast.FDefine(p[1].name, p[1].args, p[2])
 
+        @self.pg.production('f_def : PROCEDURE f_call block')
+        def p_def(p):
+            return builtin.DefProcedure(p[1].name, p[1].args, p[2])
 
-       
+            
+        # Identifier rule definition
+        @self.pg.production('identifier : IDENTIFIER COLON IDENTIFIER')
+        def id_id(p):
+            return [p[0].getstr(), p[2].getstr()]
+
+        @self.pg.production('identifier : identifier COLON IDENTIFIER ')
+        def mid_id(p):
+            return p[0] + [p[2].getstr()]
+
+        # Else rule definition
+        @self.pg.production('else : ELSE block')
+        def b_else(p):
+            return p[1]
 
     def get_parser(self):
+        """retrives a QFScript ready parser."""
         self.__init_parse__()
         return self.pg.build()

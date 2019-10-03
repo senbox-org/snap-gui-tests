@@ -1,17 +1,27 @@
+"""
+Console utilities.
+
+@author: Martino Ferrari
+@email: manda.mgf@gmail.com
+"""
+
 class color:
-   PURPLE = '\033[95m'
-   CYAN = '\033[96m'
-   DARKCYAN = '\033[36m'
-   BLUE = '\033[94m'
-   GREEN = '\033[92m'
-   YELLOW = '\033[93m'
-   RED = '\033[91m'
-   BOLD = '\033[1m'
-   UNDERLINE = '\033[4m'
-   END = '\033[0m'
-   ITALIC = '\x1B[3m'
+    """console codes for different colors and print styles."""
+    PURPLE = '\033[95m'
+    CYAN = '\033[96m'
+    DARKCYAN = '\033[36m'
+    BLUE = '\033[94m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    END = '\033[0m'
+    ITALIC = '\x1B[3m'
+
 
 def print_error(code, pos):
+    """prints a parsing error and show the line that generated it."""
     if pos is None:
         print("Error!!")
         return

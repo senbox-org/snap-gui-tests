@@ -1,22 +1,36 @@
+"""
+Custom lexer for QFScript language 
+
+@author: Martino Ferrari
+@email: manda.mgf@gmail.com
+"""
 from rply import LexerGenerator
 
 class Lexer():
+    """
+    Manages all the lexer definitions for tokenize QFScripts.
+    """
     def __init__(self):
+        # init lexer generator
         self.lexer = LexerGenerator()
 
     def _add_tokens(self):
+        """inits all tokens."""
 
-        self.lexer.add('COMMENT', r'//.*\n')
+        # comments
+        self.lexer.add('COMMENT', r'//.*\n') # in line only for the moment
 
-        #types
-        self.lexer.add('FLOAT', r'(\s-)?\d?\.\d+e?-\d+|(\s-)?\d+e?-\d+|(\s-)?\d+\.\d+')
+        # types
+        self.lexer.add('FLOAT', r'(\s-)?\d?\.\d+e?-\d+|(\s-)?\d+e?-\d+|(\s-)?\d+\.\d+')  
         self.lexer.add('INT', r'(\s-)?\d+')        
         self.lexer.add('STRING', r'(\"([^\\\n]|(\\.))*?\")|(\'([^\\\n]|(\\.))*?\')')
         self.lexer.add('BOOLEAN', r"true|false")
 
+        # increment and decrement shortcut
         self.lexer.add('++', r'\+\+')
         self.lexer.add('--', r'\-\-')
 
+        # operators
         self.lexer.add('PLUS', r'\+')
         self.lexer.add('MINUS', r'-')
         self.lexer.add('MUL', r'\*')
@@ -31,24 +45,28 @@ class Lexer():
         self.lexer.add('>', '>')
         self.lexer.add('<', '<')
 
+        # reflective operators
         self.lexer.add('+=', r'\+\=')
         self.lexer.add('-=', r'\-\=')
         self.lexer.add('/=', r'\/\=')
         self.lexer.add('*=', r'\*\=')
 
+        # parentesis
         self.lexer.add('LP', r'\(')
         self.lexer.add('RP', r'\)')
         self.lexer.add('LB', r'\{')
         self.lexer.add('RB', r'\}')
         self.lexer.add('LS', r'\[')
         self.lexer.add('RS', r'\]')
-
+        
+        # special symbols
         self.lexer.add('EQ', r'=')
         self.lexer.add(',', r'\,')
         self.lexer.add('DOT', r'\.')
         self.lexer.add('SEMI', r';')
         self.lexer.add('COLON', r':')
 
+        # generic keywords
         self.lexer.add('FUNCTION', r'func(?!\w)')
         self.lexer.add('PROCEDURE', r'proc(?!\w)')
         self.lexer.add('TEST', r'test(?!\w)')
@@ -73,7 +91,7 @@ class Lexer():
         self.lexer.add('CLICK', 'click')
         self.lexer.add('MENU', 'menu')
 
-        # main keywords
+        # other keywords
         self.lexer.add('RETURN', r'return(?!\w)')
         self.lexer.add('IMPORT', r'import(?!\w)')
         self.lexer.add('AS', r'as(?!\w)')
@@ -81,10 +99,11 @@ class Lexer():
         self.lexer.add('HEADER_IDENTIFIER', r"\@[a-zA-Z_][a-zA-Z0-9_]*")
         self.lexer.add('EXTERNAL_VARIABLE', r"\$[a-zA-Z_][a-zA-Z0-9_]*")
 
-
+        # ignore white spaces
         self.lexer.ignore(r'\s+')
 
 
     def get_lexer(self):
+        """retrives a QFScript ready lexer."""
         self._add_tokens()
         return self.lexer.build()
