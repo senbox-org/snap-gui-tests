@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.1.5">
+  <include>qfs.qft</include>
+  <include>../lib/snap_components.qft</include>
+  <reference>../lib/snap_base.qft</reference>
+  <reference>../lib/snap_components.qft</reference>
+  <TestSet id="_1" name="unnamed">
+    <TestCase id="_2" name="test1">
+      <ProcedureCall id="_1ryx" procedure="../lib/snap_base.qft#snap.start"/>
+      <ProcedureCall id="_1ryy"
+                     procedure="../lib/snap_base.qft#snap.prepareTest"/>
+      <BasicSequence id="_1ryb"
+                     name="Open product and apply operator S2 Resampling">
+        <ProcedureCall id="_1ryz"
+                       procedure="../lib/snap_base.qft#products.open">
+          <variable name="path">${env:test_data_dir}/</variable>
+        </ProcedureCall>
+        <ProcedureCall id="_1ry+" procedure="wait.product_is_opened"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="NbMainWindow.Product_Explorer.tree&amp;/0"
+                        event="MOUSE_MPRC" id="_1ryh" modifiers="16"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="NbMainWindow.Optical" event="MOUSE_MPRC"
+                        id="_1ryi" modifiers="16"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="NbMainWindow.Geometric" event="MOUSE_MPRC"
+                        id="_1ry-" modifiers="16"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="NbMainWindow.menuItemS2_Resampling_Processor"
+                        event="MOUSE_MPRC" id="_1ryo" modifiers="16"/>
+        <ComponentWaiter client="$(client)" component="dialogS2_Resampling2"
+                         id="_1ryp"/>
+        <CheckBooleanStep checktype="checked" client="$(client)"
+                          component="../lib/snap_components.qft#dialogS2_Resampling.saveToFileSelected"
+                          id="_E" resvarname="isChecked"/>
+        <IfSequence id="_F" name="is it checked?"
+                    test="&#34;$(isChecked)&#34; == &#34;true&#34;">
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="../lib/snap_components.qft#dialogS2_Resampling.saveToFileSelected"
+                          event="MOUSE_MPRC" id="_G" modifiers="16"/>
+        </IfSequence>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogS2_Resampling2.tabbed@Processing Parameters"
+                        event="MOUSE_MPRC" id="_1ryr" modifiers="16"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="buttonTipThe_method_used_for_aggregation_(downsampling_to_a_coarser_resolution)_of_flags."
+                        event="MOUSE_MPRC" id="_1rys" modifiers="16"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="listInvokerName:_flagDownsamplingMethod@FlagAnd"
+                        event="MOUSE_MPRC" id="_1ryt" modifiers="16"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="DefaultSingleTargetProductDialog.apply"
+                        event="MOUSE_MPRC" id="_1ryu" modifiers="16"/>
+        <ComponentWaiter client="$(client)" component="dialogSNAP_Error"
+                         id="_1ryv"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogSNAP_-_Error.buttonOK"
+                        event="MOUSE_MPRC" id="_1ryw" modifiers="16"/>
+      </BasicSequence>
+    </TestCase>
+  </TestSet>
+  <PackageRoot id="_3"/>
+  <ExtraSequence id="_4"/>
+  <WindowList id="_5">
+    <WindowStep class="Dialog" feature="S2 Resampling" height="434"
+                id="dialogS2_Resampling2" uid="_1ryQ" width="390" x="834"
+                y="398">
+      <extrafeature name="qfs:class" negate="false" regexp="false" state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                    state="0">Dialog</extrafeature>
+      <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                    state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Window:Dialog</extrafeature>
+      <ComponentStep class="TabPanel" classcount="1" classindex="0"
+                     height="315" id="dialogS2_Resampling2.tabbed" uid="_1ryR"
+                     width="360" x="15" y="70">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JTabbedPane</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">TabPanel</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JTabbedPane</extrafeature>
+        <ComponentStep class="Panel" classcount="13" classindex="0"
+                       feature="Tab: I/O Parameters" height="285"
+                       id="panelI/O_Parameters2" uid="_1ryS" width="355" x="2"
+                       y="27">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">org.esa.snap.core.gpf.ui.DefaultIOParametersPanel</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">Panel</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JPanel</extrafeature>
+          <extrafeature name="qfs:type" negate="false" regexp="false"
+                        state="0">Panel:TabPanelContent</extrafeature>
+          <ComponentStep class="CheckBox" classcount="2" classindex="0"
+                         feature="Save as:" height="25"
+                         id="saveToFileSelected" name="saveToFileSelected"
+                         uid="_1ryT" width="79" x="12" y="159">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JCheckBox</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">CheckBox</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">Save as:</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JCheckBox</extrafeature>
+          </ComponentStep>
+        </ComponentStep>
+        <ComponentStep class="Panel" classcount="13" classindex="9"
+                       feature="Tab: Processing Parameters" height="285"
+                       id="scrollProcessing_Parameters" uid="_1ryU"
+                       width="355" x="2" y="27">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JScrollPane</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">Panel</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JScrollPane</extrafeature>
+          <extrafeature name="qfs:type" negate="false" regexp="false"
+                        state="0">Panel:ScrollPanel</extrafeature>
+          <ComponentStep class="ComboBox" classcount="4" classindex="3"
+                         height="22" id="flagDownsamplingMethod"
+                         name="flagDownsamplingMethod" uid="_1ryV" width="174"
+                         x="173" y="83">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JComboBox</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">ComboBox</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">Flag downsampling method:</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JComboBox</extrafeature>
+            <ComponentStep class="Button" classcount="1" classindex="0"
+                           feature="ToolTip: The method used for aggregation (downsampling to a coarser resolution) of flags."
+                           id="buttonTipThe_method_used_for_aggregation_(downsampling_to_a_coarser_resolution)_of_flags."
+                           uid="_1ryW">
+              <extrafeature name="qfs:class" negate="false" regexp="false"
+                            state="0">com.sun.java.swing.plaf.windows.WindowsComboBoxUI$$XPComboBoxButton</extrafeature>
+              <extrafeature name="qfs:genericclass" negate="false"
+                            regexp="false" state="0">Button</extrafeature>
+              <extrafeature name="qfs:systemclass" negate="false"
+                            regexp="false" state="0">javax.swing.JButton</extrafeature>
+              <extrafeature name="qfs:type" negate="false" regexp="false"
+                            state="0">Button:ComboBoxButton</extrafeature>
+            </ComponentStep>
+          </ComponentStep>
+        </ComponentStep>
+      </ComponentStep>
+      <ComponentStep class="Popup"
+                     feature="InvokerName: flagDownsamplingMethod" height="92"
+                     id="popupInvokerName:_flagDownsamplingMethod" uid="_1ryX"
+                     width="174" x="190" y="202">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.plaf.basic.BasicComboPopup</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Popup</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.plaf.basic.BasicComboPopup</extrafeature>
+        <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Popup:ComboBoxPopup</extrafeature>
+        <ComponentStep class="Panel" classcount="2" classindex="0" height="90"
+                       id="popupInvokerName:_flagDownsamplingMethod.scroll"
+                       uid="_1ryY" width="172" x="1" y="1">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JScrollPane</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">Panel</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JScrollPane</extrafeature>
+          <extrafeature name="qfs:type" negate="false" regexp="false"
+                        state="0">Panel:ScrollPanel</extrafeature>
+          <ComponentStep class="List" classcount="1" classindex="0"
+                         feature="InvokerName: flagDownsamplingMethod"
+                         id="listInvokerName:_flagDownsamplingMethod"
+                         uid="_1ryZ">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JList</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">List</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">Flag downsampling method:</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JList</extrafeature>
+            <extrafeature name="qfs:type" negate="false" regexp="false"
+                          state="0">List:ComboBoxList</extrafeature>
+          </ComponentStep>
+        </ComponentStep>
+      </ComponentStep>
+      <ComponentStep class="Button" classcount="14" classindex="0"
+                     feature="Run" height="25"
+                     id="DefaultSingleTargetProductDialog.apply"
+                     name="DefaultSingleTargetProductDialog.apply" uid="_1rya"
+                     width="55" x="253" y="394">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Button</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">Run</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JButton</extrafeature>
+      </ComponentStep>
+    </WindowStep>
+  </WindowList>
+</RootStep>
