@@ -98,7 +98,7 @@ def eval_json(path, freq, rootdir, testdir):
         # iterate all json objects inside the file
         for test in tests:
             # check if the frequency of the test match the selected tag
-            if test['frequency'] == freq:
+            if test['frequency'].find(freq) >= 0:
                 # if is the case build the test
                 print(f"\tEnabled: {test['id']}")
                 tst_list.append(make_test(test, rootdir, os.path.join(rootdir, testdir, __BUILD_DIR__)))
