@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.1.5">
+  <include>qfs.qft</include>
+  <reference>../lib/snap_base.qft</reference>
+  <reference>../lib/snap_components.qft</reference>
+  <reference>../lib/snap_wait.qft</reference>
+  <TestSet id="_1" name="testset">
+    <TestCase id="_2" name="S2Resempling">
+      <ProcedureCall id="_6" procedure="../lib/snap_base.qft#snap.start"/>
+      <ProcedureCall id="_7"
+                     procedure="../lib/snap_base.qft#snap.prepareTest"/>
+      <ProcedureCall id="_8" procedure="../lib/snap_base.qft#products.open">
+        <variable name="path">${test_data_dir}/s2tbx/S2/L1C/S2B_MSIL1C_20170315T013719_N0100_R000_T52LEK_20170315T013714.SAFE/MTD_MSIL1C.xml</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_9"
+                     procedure="../lib/snap_wait.qft#wait.product_is_opened"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="../lib/snap_components.qft#NbMainWindow.Optical"
+                      event="MOUSE_MPRC" id="_A" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="../lib/snap_components.qft#NbMainWindow.Geometric"
+                      event="MOUSE_MPRC" id="_B" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="../lib/snap_components.qft#NbMainWindow.menuItemS2_Resampling_Processor"
+                      event="MOUSE_MPRC" id="_C" modifiers="16"/>
+      <ComponentWaiter client="$(client)"
+                       component="../lib/snap_components.qft#dialogS2_Resampling"
+                       id="_D" timeout="10000"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="../lib/snap_components.qft#dialogS2_Resampling.saveToFileSelected"
+                        id="_E" resvarname="isChecked"/>
+      <IfSequence id="_F" name="is it checked?"
+                  test="&#34;$(isChecked)&#34; == &#34;true&#34;">
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="../lib/snap_components.qft#dialogS2_Resampling.saveToFileSelected"
+                        event="MOUSE_MPRC" id="_G" modifiers="16"/>
+      </IfSequence>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="../lib/snap_components.qft#dialogS2_Resampling.apply"
+                      event="MOUSE_MPRC" id="_H" modifiers="16"/>
+      <ComponentWaiter client="$(client)"
+                       component="../lib/snap_components.qft#dialogS2Res_Success"
+                       id="_I" timeout="10000"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="../lib/snap_components.qft#dialogS2Res_Success.buttonOK"
+                      event="MOUSE_MPRC" id="_J" modifiers="16"/>
+    </TestCase>
+    <TestCase id="_K" name="S2ResemplingFail">
+      <ProcedureCall id="_L" procedure="../lib/snap_base.qft#snap.start"/>
+      <ProcedureCall id="_M"
+                     procedure="../lib/snap_base.qft#snap.prepareTest"/>
+      <ProcedureCall id="_N" procedure="../lib/snap_base.qft#products.open">
+        <variable name="path">${test_data_dir}/s2tbx/_collocation/NDSI_1703.dim</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_O"
+                     procedure="../lib/snap_wait.qft#wait.product_is_opened"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="../lib/snap_components.qft#NbMainWindow.Optical"
+                      event="MOUSE_MPRC" id="_P" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="../lib/snap_components.qft#NbMainWindow.Geometric"
+                      event="MOUSE_MPRC" id="_Q" modifiers="16"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="../lib/snap_components.qft#NbMainWindow.menuItemS2_Resampling_Processor"
+                      event="MOUSE_MPRC" id="_R" modifiers="16"/>
+      <ComponentWaiter client="$(client)"
+                       component="../lib/snap_components.qft#dialogS2_Resampling"
+                       id="_S" timeout="10000"/>
+      <CheckBooleanStep checktype="checked" client="$(client)"
+                        component="../lib/snap_components.qft#dialogS2_Resampling.saveToFileSelected"
+                        id="_T" resvarname="isChecked"/>
+      <IfSequence id="_U" name="is it checked?"
+                  test="&#34;$(isChecked)&#34; == &#34;true&#34;">
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="../lib/snap_components.qft#dialogS2_Resampling.saveToFileSelected"
+                        event="MOUSE_MPRC" id="_V" modifiers="16"/>
+      </IfSequence>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="../lib/snap_components.qft#dialogS2_Resampling.apply"
+                      event="MOUSE_MPRC" id="_W" modifiers="16"/>
+      <ComponentWaiter client="$(client)"
+                       component="../lib/snap_components.qft#dialogS2Res_Success"
+                       id="_X" timeout="10000"/>
+      <MouseEventStep clicks="1" client="$(client)"
+                      component="../lib/snap_components.qft#dialogS2Res_Success.buttonOK"
+                      event="MOUSE_MPRC" id="_Y" modifiers="16"/>
+    </TestCase>
+  </TestSet>
+  <PackageRoot id="_3"/>
+  <ExtraSequence id="_4"/>
+  <WindowList id="_5"/>
+</RootStep>
