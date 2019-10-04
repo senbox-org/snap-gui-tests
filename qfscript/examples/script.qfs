@@ -1,6 +1,45 @@
-test("openProduct", "test to check if it can open a product") {
+let base_dir = "/home/martino/copernicus/qftest/in/";
+
+let s2_product_dir = "sentinel2_S2B_MSIL1C_20190916T101029_N0208_R022_T32TPQ_20190916T135354/";
+let s2_file = "MTD_MSIL1C.xml";
+let product_s2 = base_dir + s2_product_dir + s2_file;
+
+let n1_product_dir = "sensors_platforms/MERIS/MER_RR__1P/N1/";
+let n1_file = "MER_RR__1PPBCM20030313_013337_000001012014_00332_05396_0000.N1";
+let product_n1 = base_dir + n1_product_dir + n1_file;
+
+test("s2Resampling", "test S2 Resampling operator on a sentinel 2 product") {
     std:base:snap:start();
     std:base:snap:prepareTest();
-    std:base:products:open($product_input);
-    std:base:products:closeAll();
+    std:base:products:open(product_s2);
+    std:wait:wait:product_is_opened();
+    click(std:components:NbMainWindow:Optical);
+    click(std:components:NbMainWindow:Geometric);
+    click(std:components:NbMainWindow:menuItemS2_Resampling_Processor);
+    waitfor(std:components:dialogS2_Resampling, 1500);
+    check_boolean(std:components:dialogS2_Resampling:saveToFileSelected, "checked", "isSelected");
+    if '"$(isSelected)" == "true"' {
+        click(std:components:dialogS2_Resampling:saveToFileSelected);
+    }
+    click(std:components:dialogS2_Resampling:apply);
+    waitfor(std:components:dialogS2Res_Success);
+    click(std:components:dialogS2Res_Success:buttonOK);
+}
+
+test("s2ErrorResampling", "test S2 Resampling operator on a wrong products") {
+    std:base:snap:start();
+    std:base:snap:prepareTest();
+    std:base:products:open(product_n1);
+    std:wait:wait:product_is_opened();
+    click(std:components:NbMainWindow:Optical);
+    click(std:components:NbMainWindow:Geometric);
+    click(std:components:NbMainWindow:menuItemS2_Resampling_Processor);
+    waitfor(std:components:dialogS2_Resampling, 1500);
+    check_boolean(std:components:dialogS2_Resampling:saveToFileSelected, "checked", "isSelected");
+    if '"$(isSelected)" == "true"' {
+        click(std:components:dialogS2_Resampling:saveToFileSelected);
+    }
+    click(std:components:dialogS2_Resampling:apply);
+    waitfor(std:components:dialogSNAP_Error);
+    click(std:components:dialogSNAP_Error:buttonCancel);  
 }
