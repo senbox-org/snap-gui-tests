@@ -37,6 +37,14 @@ __conv__ = {
     'bool' : ast.TypBool
 }
 
+# built-in functions
+__bin_fns__ = {
+    'window'        : builtin.Window,
+    'dialog'        : builtin.Dialog,
+    'waitfor'       : builtin.Wait,
+    "check_boolean" : builtin.CheckBoolean,
+}
+
 class Parser:  
     """manages the initialization and the configuration of the QFScript parser"""
   
@@ -178,6 +186,9 @@ class Parser:
 
         @self.pg.production('f_call : IDENTIFIER arg')
         def f_call(p):
+            f_name = p[0].getstr()
+            if f_name in __bin_fns__:
+                return __bin_fns__[f_name](p[1])
             return ast.FCall(p[0].getstr(), p[1])
 
         @self.pg.production('f_call : identifier COLON f_call')
@@ -192,9 +203,8 @@ class Parser:
 
         @self.pg.production('exp_list : exp_list , exp')
         def ext_exp_list(p):
-            x = p[0].append(p[2])
-            print(x)
-            return x
+            p[0].append(p[2])
+            return p[0]
             
         @self.pg.production('arg : LP exp RP')
         def arg(p):
@@ -272,6 +282,11 @@ class Parser:
         @self.pg.production('var : IDENTIFIER')
         def variable(p):
             return ast.Variable(p[0].getstr())
+
+        @self.pg.production('var : identifier COLON var')
+        def ns_variable(p):
+            p[2].set_namespace(p[0])
+            return p[2]
 
         @self.pg.production('var : LET var')
         def let_variable(p):

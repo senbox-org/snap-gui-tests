@@ -80,7 +80,7 @@ class DefTest(BaseBox):
     def eval(self):
         if self.__done__ or not scope.scope().is_testable():
             pass
-        test = etree.SubElement(qftxml.testset, "TestCase")
+        test = etree.SubElement(qftxml.__testset__, "TestCase")
         qftxml.set_id(test)
         test.set("name", self.name)
         test.set("reportname", self.description)
@@ -126,3 +126,55 @@ class Menu(BaseBox):
             name = item[1:] if submenu else item
             menu = qftxml.get_menuitem(menu, name, submenu)
         return menu.get('id')
+
+
+class Window(BaseBox):
+    def __init__(self, title):
+        self.title = title[0]
+
+    def eval(self):
+        title = self.title.eval()
+        return qftxml.get_win(title)
+
+
+class Dialog(BaseBox):
+    def __init__(self, args):
+        self.title = args[0]
+        self.modal = args[1] if len(args) > 1 else False
+        
+    def eval(self):
+        title = self.title.eval()
+        modal = self.modal if isinstance(self.modal, bool) else self.modal.eval()
+        # return qftxml.get_dialog(title, modal)
+
+class Wait(BaseBox):
+    def __init__(self, args):
+        self.compoent = args[0]
+        if len(args) > 1:
+            self.timeout = args[1]
+        else:
+            self.timeout = ast.NumInt(1000)
+
+    def eval(self):
+        comp = self.compoent.eval()
+        timeout = self.timeout.eval()
+        return qftxml.wait_for_component(qftxml.current(), comp, timeout)
+
+class CheckBoolean(BaseBox):
+    def __init__(self, args):
+        self.component = args[0]
+        if len(args) > 1:
+            self.checktype = args[1]
+        else:
+            self.checktype = ast.TypString("default")
+        if len(args) > 2:
+            self.varname = args[2]
+        else:
+            self.varname = None
+
+    def eval(self):
+        comp = self.component.eval()
+        check = self.checktype.eval()
+        var = None if self.varname is None else self.varname.eval()
+        qftxml.check_boolean(comp, check, var)
+        

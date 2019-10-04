@@ -87,9 +87,9 @@ class Lexer():
         self.lexer.add('2BOOL', r'bool')
 
         #QFTest specific
-        self.lexer.add('CONNECT', 'connect')
-        self.lexer.add('CLICK', 'click')
-        self.lexer.add('MENU', 'menu')
+        self.lexer.add('CONNECT', r'connect(?!\w)')
+        self.lexer.add('CLICK', r'click(?!\w)')
+        self.lexer.add('MENU', r'menu(?!\w)')
 
         # other keywords
         self.lexer.add('RETURN', r'return(?!\w)')

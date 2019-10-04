@@ -13,6 +13,7 @@ from utils import color
 from scope import Scope, RetValue
 import scope
 import sys
+import qftxml
 
     
 class Value(BaseBox):
@@ -231,15 +232,21 @@ class Read(BaseBox):
 
 class Variable(BaseBox):
     """variable node, represent both call and definition of a variable."""
-    def __init__(self, name, let = False):
+    def __init__(self, name, let = False, namespace = []):
         """
         Parameters
         ----------
         - name: name of the variable (identifier)
         - let: flag for definition or call (default false)
+        - namespace: variable namespace
         """
         self.name = name
         self.let = let
+        self.namespace = namespace
+
+    def set_namespace(self, ns):
+        """sets new namespace."""
+        self.namespace = ns
         
     def eval(self):
         """defines the variable or returns the value of the variable depending on
@@ -247,14 +254,14 @@ class Variable(BaseBox):
         if self.let:
             scope.scope().let_var(self.name)
         else:
-            return scope.scope().var(self.name)
+            return scope.scope().var(self.name, self.namespace)
         
     def __repr__(self):
         return ("let " if self.let else "") + self.name
     
     
 class FDefine(BaseBox):
-    """function definition node."""" 
+    """function definition node."""
     def __init__(self, name, args, body):
         """
         Parameters
@@ -328,7 +335,7 @@ class Assignment(BaseBox):
         ----------
         - left: variable
         - right: expression
-        """"
+        """
         self.left = left
         self.right = right
     
@@ -423,13 +430,23 @@ class IfElse(BaseBox):
         the else body.
         """ 
         cond = self.cond.eval()
-        if cond:
-            x = self.body.eval()
-            if x != None:
-                return RetValue(x)
-            return None
-        elif self.else_body is not None:
-            return self.else_body.eval()
+        if isinstance(cond, bool):
+            if cond:
+                x = self.body.eval()
+                if x != None:
+                    return RetValue(x)
+                return None
+            elif self.else_body is not None:
+                return self.else_body.eval()
+        else:
+            old = qftxml.current()
+            qftxml.if_seq("if", cond)
+            self.body.eval()
+            if self.else_body is not None:
+                qftxml.else_seq("else")
+                self.else_body.eval()    
+            qftxml.set_current(old)
+
         return None
     
     def __repr__(self):
@@ -499,6 +516,7 @@ class For(BaseBox):
             cond = self.cond.eval()
         scope.set_scope(scope.scope().parent)
         return None
+
 
 class Import(BaseBox):
     """import node. It include external script resources in a new namespace."""

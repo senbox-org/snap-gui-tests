@@ -8,6 +8,8 @@ the function definitions, calls, variable assignements and namespaces.
 from rply.token import BaseBox
 import qftxml
 from lxml import etree
+import lexer
+import parser
 
 # current scope. I know is a global variable... :(
 __current__ = None
@@ -35,8 +37,6 @@ def set_scope(sc):
 def load_scope(res):
     """opens a qfs script and imports all its functions."""
     with open(res+'.qfs','r') as f:
-        import lexer
-        import parser
         code = f.read()
         l = lexer.Lexer().get_lexer()
         p = parser.Parser().get_parser()
@@ -49,6 +49,7 @@ def load_scope(res):
         set_scope(old_scope)
         return new_scope
     return None
+
 
 class Scope:
     """class representing a execution scope."""
@@ -70,8 +71,11 @@ class Scope:
         else:
             self.imported = imported
     
-    def var(self, name):
+    def var(self, name, namespace=[]):
         """retrives variable from current scope or parent scopes."""
+        if len(namespace) > 0:
+            if namespace[0] == 'std':
+                return qftxml.std_var(namespace[1:], name)
         if name in self.variables:
             return self.variables[name]
         elif self.parent is not None:
@@ -105,6 +109,9 @@ class Scope:
         """manages the mess of namespaces and execute the function in its scope."""
         if ns[0] == 'std':
             qftxml.std_procedure(ns[1:], fname, args)
+            return None
+        if ns[0] == "qfs":
+            qftxml.qfs_procedure(ns[1:], fname, args)
             return None
         mod = self.mod(ns[0])
         if mod is None:
@@ -224,7 +231,7 @@ class Procedure(BaseBox):
         pass
 
     def __write_def__(self):
-        proc = etree.SubElement(qftxml.package, "Procedure")
+        proc = etree.SubElement(qftxml.__package__, "Procedure")
         qftxml.set_id(proc)
         proc.set("name", self.name)
         old_current = qftxml.current()
