@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.7.0">
+<RootStep id="_0" name="root" version="4.1.5">
   <include>qfs.qft</include>
   <include>snap_do_click.qft</include>
   <include>snap_check.qft</include>
@@ -219,6 +219,14 @@
           <TryStep id="_1rv4" name="constructed gui?">
             <ProcedureCall id="_1ryK" procedure="modal.CloseCheckUpdate"/>
             <ProcedureCall id="_1ryE" procedure="modal.CloseUpdate"/>
+            <ProcedureCall id="_1lJi"
+                           procedure="qfs.swing.cleanup.closeAllDialogs">
+              <variable name="maxDialogs">10</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1ryL"
+                           procedure="qfs.swing.cleanup.closeAllModalDialogs">
+              <variable name="maxDialogs">5</variable>
+            </ProcedureCall>
             <MouseEventStep clicks="1" client="$(client)"
                             component="NbMainWindow.Tab_Displayer"
                             event="MOUSE_MPRC" id="_1rxz" modifiers="16"
