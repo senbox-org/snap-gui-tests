@@ -100,7 +100,7 @@ class Scope:
             if name in self.functions:
                 return self.functions[name].eval(args)
             elif self.parent is not None:
-                return self.parent.fn(name, args)
+                return self.parent.fn(None, name, args)
         else:
             return self.__eval_namespace__(namespace, name, args)
         raise NameError("Function `"+name+"` is not defined")
