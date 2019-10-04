@@ -58,6 +58,38 @@
             </ElseSequence>
           </IfSequence>
         </Procedure>
+        <Procedure id="_1sMj" name="band_maths_with_menubar">
+          <comment>@teststep Open Band Maths tool.</comment>
+          <ProcedureCall id="_1sMk" procedure="do_click.menubar"/>
+          <ProcedureCall id="_1sMl" procedure="do_click.menu.raster"/>
+          <ProcedureCall id="_1sMm"
+                         procedure="check.menu.tools.menuItemBandMath_enabled"/>
+          <IfSequence id="_1sMn"
+                      test="&#34;$(menuItemBandMath_enabled)&#34;==&#34;true&#34;">
+            <TryStep id="_1sMo">
+              <ProcedureCall id="_1sMp" procedure="utility.bandMaths"/>
+              <CatchSequence exception="TestException" id="_1sMq"
+                             maxerror="0">
+                <TryStep id="_1sMr">
+                  <ProcedureCall id="_1sMs" procedure="utility.bandMaths"/>
+                  <CatchSequence exception="TestException" id="_1sMt"
+                                 maxerror="0">
+                    <ProcedureCall id="_1sMu"
+                                   procedure="run-log.error_message.tool_does_not_appear">
+                      <variable name="tool">Band Maths tool</variable>
+                    </ProcedureCall>
+                  </CatchSequence>
+                </TryStep>
+              </CatchSequence>
+            </TryStep>
+            <ElseSequence id="_1sMv">
+              <ProcedureCall id="_1sMw"
+                             procedure="run-log.error_message.menu_item_is_disabled">
+                <variable name="menu">Create Band from Math Expression...</variable>
+              </ProcedureCall>
+            </ElseSequence>
+          </IfSequence>
+        </Procedure>
         <Package id="_1ptq" name="image_analysis">
           <Procedure id="_1ptr" name="em_cluster_analysis">
             <comment>@teststep Open EM Cluster Analysis.</comment>
