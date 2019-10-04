@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.7.0">
+  <include>qfs.qft</include>
+  <TestSet id="_1" name="TestSet">
+    <TestCase id="_5" name="s2Resampling" reportname="test S2 Resampling operator on a sentinel 2 product">
+      <ProcedureCall id="_6" procedure="snap.start"/>
+      <ProcedureCall id="_7" procedure="snap.prepareTest"/>
+      <ProcedureCall id="_8" procedure="products.open">
+        <variable name="path">${env:test_data_dir}/in/s2tbx/S2/L1C/S2B_MSIL1C_20170315T013719_N0100_R000_T52LEK_20170315T013714.SAFE/MTD_MSIL1C.xml</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_9" procedure="wait.product_is_opened"/>
+      <MouseEventStep id="_10" clicks="1" client="$(client)" component="NbMainWindow.Optical" event="MOUSE_MPRC" modifiers="16"/>
+      <MouseEventStep id="_11" clicks="1" client="$(client)" component="NbMainWindow.Geometric" event="MOUSE_MPRC" modifiers="16"/>
+      <MouseEventStep id="_12" clicks="1" client="$(client)" component="NbMainWindow.menuItemS2_Resampling_Processor" event="MOUSE_MPRC" modifiers="16"/>
+      <ComponentWaiter client="$(client)" component="dialogS2_Resampling" timeout="1500" id="_13"/>
+      <CheckBooleanStep id="_14" client="$(client)" component="dialogS2_Resampling.saveToFileSelected" checktype="checked" resvarname="isSelected"/>
+      <IfSequence id="_15" name="if" test="&quot;$(isSelected)&quot; == &quot;true&quot;">
+        <MouseEventStep id="_16" clicks="1" client="$(client)" component="dialogS2_Resampling.saveToFileSelected" event="MOUSE_MPRC" modifiers="16"/>
+      </IfSequence>
+      <MouseEventStep id="_17" clicks="1" client="$(client)" component="dialogS2_Resampling.apply" event="MOUSE_MPRC" modifiers="16"/>
+      <ComponentWaiter client="$(client)" component="dialogS2Res_Success" timeout="1000" id="_18"/>
+      <MouseEventStep id="_19" clicks="1" client="$(client)" component="dialogS2Res_Success.buttonOK" event="MOUSE_MPRC" modifiers="16"/>
+    </TestCase>
+    <TestCase id="_20" name="s2ErrorResampling" reportname="test S2 Resampling operator on a wrong products">
+      <ProcedureCall id="_21" procedure="snap.start"/>
+      <ProcedureCall id="_22" procedure="snap.prepareTest"/>
+      <ProcedureCall id="_23" procedure="products.open">
+        <variable name="path">${env:test_data_dir}/in/s2tbx/_collocation/NDSI_1703.dim</variable>
+      </ProcedureCall>
+      <ProcedureCall id="_24" procedure="wait.product_is_opened"/>
+      <MouseEventStep id="_25" clicks="1" client="$(client)" component="NbMainWindow.Optical" event="MOUSE_MPRC" modifiers="16"/>
+      <MouseEventStep id="_26" clicks="1" client="$(client)" component="NbMainWindow.Geometric" event="MOUSE_MPRC" modifiers="16"/>
+      <MouseEventStep id="_27" clicks="1" client="$(client)" component="NbMainWindow.menuItemS2_Resampling_Processor" event="MOUSE_MPRC" modifiers="16"/>
+      <ComponentWaiter client="$(client)" component="dialogS2_Resampling" timeout="1500" id="_28"/>
+      <CheckBooleanStep id="_29" client="$(client)" component="dialogS2_Resampling.saveToFileSelected" checktype="checked" resvarname="isSelected"/>
+      <IfSequence id="_30" name="if" test="&quot;$(isSelected)&quot; == &quot;true&quot;">
+        <MouseEventStep id="_31" clicks="1" client="$(client)" component="dialogS2_Resampling.saveToFileSelected" event="MOUSE_MPRC" modifiers="16"/>
+      </IfSequence>
+      <MouseEventStep id="_32" clicks="1" client="$(client)" component="dialogS2_Resampling.apply" event="MOUSE_MPRC" modifiers="16"/>
+      <ComponentWaiter client="$(client)" component="dialogSNAP_Error" timeout="1000" id="_33"/>
+      <MouseEventStep id="_34" clicks="1" client="$(client)" component="dialogSNAP_Error.buttonCancel" event="MOUSE_MPRC" modifiers="16"/>
+    </TestCase>
+  </TestSet>
+  <PackageRoot id="_2"/>
+  <ExtraSequence id="_3"/>
+  <WindowList id="_4"/>
+  <include>../lib/snap_base.qft</include>
+  <include>../lib/snap_wait.qft</include>
+  <include>../lib/snap_components.qft</include>
+</RootStep>
