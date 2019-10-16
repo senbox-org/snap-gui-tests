@@ -96,8 +96,7 @@ class Lexer():
         self.lexer.add('IMPORT', r'import(?!\w)')
         self.lexer.add('AS', r'as(?!\w)')
         self.lexer.add('IDENTIFIER', r"[a-zA-Z_][a-zA-Z0-9_]*")
-        self.lexer.add('HEADER_IDENTIFIER', r"\@[a-zA-Z_][a-zA-Z0-9_]*")
-        self.lexer.add('EXTERNAL_VARIABLE', r"\$[a-zA-Z_][a-zA-Z0-9_]*")
+        self.lexer.add('EXTERNAL_VARIABLE', r"\@[a-zA-Z_][a-zA-Z0-9_]*")
 
         # ignore white spaces
         self.lexer.ignore(r'\s+')
