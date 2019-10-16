@@ -65,7 +65,7 @@ def constraint_input(text, possible_inputs):
     return x
 
 
-def instanciate_variable(variable):
+def set_variable(variable):
     """
     Lets user defining 
     """
@@ -120,7 +120,7 @@ def interactive_shell(name, test_path, def_author, def_frequency, def_descriptio
             defined = []
             for v in variables:
                 if v.text not in defined:
-                    name, value, mode = instanciate_variable(v)
+                    name, value, mode = set_variable(v)
                     defined.append(name)
                     if mode == VariableMode.INPUT:
                         inputs[name] = value
@@ -204,7 +204,7 @@ if __name__ == "__main__":
                 outputs = []
                 for v in variables:
                     if v.text not in defined:
-                        name, value, mode = instanciate_variable(v)
+                        name, value, mode = set_variable(v)
                         defined.append(name)
                         if mode == VariableMode.INPUT:
                             inputs[name] = value
