@@ -6,8 +6,15 @@ Generate JSON test file from QFT XML test files.
 """
 import argparse
 from lxml import etree
+from enum import Enum
 import json
 import sys
+
+
+class VariableMode(Enum):
+    """Simple enum for Variable Mode."""
+    INPUT = 1
+    OUTPUT = 0
 
 
 def extract_path(path):
@@ -35,7 +42,42 @@ def check_input(value, def_value):
     return value if len(value) > 0 else def_value
 
 
-def interactive_shell(name, test_path, def_author, def_frequency, def_description):
+def has_child(root, element):
+    """Checks if element contains another element."""
+    eroot = element.getparent()
+    if eroot == root:
+        return True
+    if eroot is None:
+        return False
+    return has_child(root, eroot)
+
+
+def constraint_input(text, possible_inputs):
+    """
+    Constarint input to a predifined number of options
+    """ 
+    x = None
+    while x is None:
+        print(text, end='')
+        x = input()
+        if x not in possible_inputs:
+            x = None
+    return x
+
+
+def instanciate_variable(variable):
+    """
+    Lets user defining 
+    """
+    name = variable.text
+    print(f' variable {name}')
+    input_mode =  check_input(constraint_input('  use as (i:input, o:output) [i]: ', ['i','o','']), 'i')
+    mode = VariableMode.OUTPUT if input_mode == 'o' else VariableMode.INPUT
+    print(f'  value: ', end='') 
+    value = input()
+    return name, value, mode
+
+def interactive_shell(name, test_path, def_author, def_frequency, def_description, variables=[]):
     """
     Generates a test JSON entry from user input.
     
@@ -46,6 +88,7 @@ def interactive_shell(name, test_path, def_author, def_frequency, def_descriptio
     - def_author: default author
     - def_frequency: default frequency
     - def_description: default description
+    - variables: list of external variables
 
     Returns
     -------
@@ -53,30 +96,57 @@ def interactive_shell(name, test_path, def_author, def_frequency, def_descriptio
     """
     print(f'\nTest: {name}')
 
-    print("Enabled [y]: ", end="")
+    print(" Enabled [y]: ", end="")
     if input() == "n":
         return None
 
-    print(f"Author [{def_author}]:",end="")
+    print(f" Author [{def_author}]:",end="")
     author = check_input(input(), def_author)
-    
-    print(f"Description [{def_description}]: ", end="")
-    description = check_input(input(), def_description)
 
-    print(f"Frequency [{def_frequency}]: ", end="")
-    frequency = check_input(input(), def_frequency)
+    done = False
+    i = 0
+    tests = []
+    while not done:        
+        id = name + ("" if i == 0 else f"_{i}")
+        print(f" Description [{def_description}]: ", end="")
+        description = check_input(input(), def_description)
 
-    return {
-                "id": name,
-                "author": author,
-                "description": description,
-                "frequency": frequency,
-                "testPath": test_path,
-                "testCase": name,
-                "inputs" : {},
-                "parameters": {},
-                "outputs": []
-            }
+        print(f" Frequency [{def_frequency}]: ", end="")
+        frequency = check_input(input(), def_frequency)
+        inputs = {}
+        parameters = {}
+        outputs = []
+        if len(variables) > 0:
+            defined = []
+            for v in variables:
+                if v.text not in defined:
+                    name, value, mode = instanciate_variable(v)
+                    defined.append(name)
+                    if mode == VariableMode.INPUT:
+                        inputs[name] = value
+                    else:
+                        parameters[name] = value
+                        outputs.append(value)
+
+        tests.append({
+                    "id": id,
+                    "author": author,
+                    "description": description,
+                    "frequency": frequency,
+                    "testPath": test_path,
+                    "testCase": name,
+                    "inputs" : inputs,
+                    "parameters": parameters,
+                    "outputs": outputs
+                })
+        i += 1
+        done = True
+        if len(variables):
+            another_iteration = check_input(constraint_input(' define another instance for the same test? (y,n) [n] ', ['y','n','']), 'n')
+            done = True if another_iteration == 'n' else False
+            if not done:
+                print()
+    return tests
 
 
 if __name__ == "__main__":
@@ -107,6 +177,7 @@ if __name__ == "__main__":
     # Parse Test XML file
     tree = etree.parse(args.testfile)
     findTestCase = etree.XPath("//TestCase")
+    findExtVariables = etree.XPath("//*[starts-with(text(),'@')]")
 
     # Iterate all the TestCase nodes
     test_lists = []
@@ -118,15 +189,28 @@ if __name__ == "__main__":
             enabled = not t.get('disabled')
         if enabled:      
             description = def_description
-            if 'reportname' in t.attrib:
-                description = t.get('reportname')
+            variables = list(filter(lambda x: has_child(t,x), findExtVariables.evaluate(t)))
+            description = t.get('reportname')
             # Add the test to the list of tests
             if interactive:
-                testcase = interactive_shell(testcase, test_path, def_author, def_frequency, description)
+                testcase = interactive_shell(testcase, test_path, def_author, def_frequency, description, variables)
                 if testcase is None:
                     continue
-                test_lists.append(testcase)
+                test_lists += testcase
             else:
+                defined = []
+                inputs = {}
+                parameters = {}
+                outputs = []
+                for v in variables:
+                    if v.text not in defined:
+                        name, value, mode = instanciate_variable(v)
+                        defined.append(name)
+                        if mode == VariableMode.INPUT:
+                            inputs[name] = value
+                        else:
+                            parameters[name] = value
+                            outputs.append(value)
                 test_lists.append({
                     "id": testcase,
                     "author": def_author,
@@ -134,9 +218,9 @@ if __name__ == "__main__":
                     "frequency": def_frequency,
                     "testPath": test_path,
                     "testCase": testcase,
-                    "inputs" : {},
-                    "parameters": {},
-                    "outputs": []
+                    "inputs" : inputs,
+                    "parameters": parameters,
+                    "outputs": outputs
                 })
     if args.output is None:
         # If no output file is defined print the json structure 
