@@ -1,12 +1,3 @@
-let base_dir = "${env:test_data_dir}/";
-
-let s2_product_dir = "s2tbx/S2/L1C/S2B_MSIL1C_20170315T013719_N0100_R000_T52LEK_20170315T013714.SAFE/";
-let s2_file = "MTD_MSIL1C.xml";
-let product_s2 = base_dir + s2_product_dir + s2_file;
-
-let ns2_product_dir = "s2tbx/_collocation/";
-let ns2_file = "NDSI_1703.dim";
-let product_ns2 = base_dir + ns2_product_dir + ns2_file;
 
 func test_resempling(path) {
     std:base:snap:start();
@@ -25,13 +16,13 @@ func test_resempling(path) {
 }
 
 test("s2Resampling", "test S2 Resampling operator on a sentinel 2 product") {
-    test_resempling(product_s2);
+    test_resempling(@s2product);
     waitfor(std:components:dialogS2Res_Success);
     click(std:components:dialogS2Res_Success:buttonOK);
 }
 
 test("s2ErrorResampling", "test S2 Resampling operator on a wrong products") {
-    test_resempling(product_ns2);
+    test_resempling(@non_s2product);
     waitfor(std:components:dialogSNAP_Error);
     click(std:components:dialogSNAP_Error:buttonCancel);  
 }
