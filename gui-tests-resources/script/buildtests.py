@@ -37,6 +37,15 @@ def create_folders(tree, base="."):
             os.mkdir(cd)
 
 
+def set_variables(test, inputs, parameters):
+    """replaces the variable names with the value for a specific test."""
+    for varnane in inputs:
+        for e in test.xpath(f"//*[starts-with(text(),'{varnane}')]"):
+            e.text = inputs[varnane]
+    for varnane in parameters:
+        for e in test.xpath(f"//*[starts-with(text(),'{varnane}')]"):
+            e.text = parameters[varnane]
+
 def make_test(test, rootdir, testdir):
     """
     Builds a QFT test file from a JSON test definition.
@@ -62,6 +71,9 @@ def make_test(test, rootdir, testdir):
     for t in findTestCase(tree): 
         if t.get('name') != id:
             t.getparent().remove(t)
+        else:
+            # replace variables with the json defined values
+            set_variables(t, test['inputs'], test['parameters'])
     # create the new filename for the test using its id and old file name
     id_path = testpath[:-4]+"_"+id.replace(r"[\s\ \t ]","_").replace(" ", "_")+".qft"
     # create the absolute path of the test relative to the target destination
