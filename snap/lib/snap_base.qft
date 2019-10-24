@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.7.0">
+  <include>qfs.qft</include>
+  <reference>snap_close.qft</reference>
+  <reference>snap_main.qft</reference>
+  <PackageRoot id="_3">
+    <Package id="_n" name="snap">
+      <Procedure id="_u" name="prepareTest">
+        <TryStep id="_11" name="try to close all dialog">
+          <ProcedureCall id="_v" procedure="snap_close.qft#close.dialog"/>
+        </TryStep>
+        <TryStep id="_13" name="Try to close all modal dialogs">
+          <ProcedureCall id="_w"
+                         procedure="snap_close.qft#close.modal_dialogs"/>
+        </TryStep>
+        <TryStep id="_14" name="Try to close all products">
+          <ProcedureCall id="_y" procedure="products.closeAll"/>
+        </TryStep>
+      </Procedure>
+      <Procedure id="_r" name="stop">
+        <ProcessWaiter client="$(client)" errorlevel="1" id="_t"
+                       raise="false"/>
+        <ClientStopper client="$(client)" id="_s"/>
+      </Procedure>
+      <Procedure id="_p" name="start">
+        <ProcedureCall id="_q"
+                       procedure="snap_main.qft#start.snap.application"/>
+      </Procedure>
+    </Package>
+    <Package id="_6" name="products">
+      <Procedure id="_1L" name="wait">
+        <TryStep id="_1N" name="wait for document to load"/>
+        <DocumentWaiter client="$(client)" component="NbMainWindow"
+                        errorlevel="0" id="_1M" raise="false"
+                        timeout="10000"/>
+      </Procedure>
+      <Procedure id="_1J" name="closeAll">
+        <ProcedureCall id="_1K"
+                       procedure="snap_close.qft#close.all_products"/>
+      </Procedure>
+      <Procedure id="_7" name="open">
+        <variable name="path">/home/martino/copernicus/qftest/in/sensors_platforms/MERIS/MER_RR__1P/N1/MER_RR__1_test.N1</variable>
+        <BasicSequence id="_G" name="open product">
+          <MouseEventStep clicks="1" client="$(client)" component="File"
+                          event="MOUSE_MPRC" id="_I" modifiers="16"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="menuItemOpen_Product..."
+                          event="MOUSE_MPRC" id="_K" modifiers="16"/>
+          <ComponentWaiter client="$(client)"
+                           component="dialogSNAP_-_Open_Product" id="_L"/>
+          <MouseEventStep clicks="1" client="$(client)"
+                          component="textFile_Name:" event="MOUSE_MPRC"
+                          id="_Q" modifiers="16" x="89" y="13"/>
+          <TextInputStep clear="true" client="$(client)"
+                         component="textFile_Name:" id="_R">
+            <text>$(path)</text>
+          </TextInputStep>
+          <MouseEventStep clicks="1" client="$(client)" component="buttonOK"
+                          event="MOUSE_MPRC" id="_f" modifiers="16"/>
+        </BasicSequence>
+      </Procedure>
+    </Package>
+  </PackageRoot>
+  <ExtraSequence id="_4"/>
+  <WindowList id="_5">
+    <WindowStep class="Window" feature="SNAP" height="1053" id="NbMainWindow"
+                name="NbMainWindow" uid="_8" width="1920" x="0" y="27">
+      <extrafeature name="qfs:class" negate="false" regexp="false" state="0">javax.swing.JFrame</extrafeature>
+      <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                    state="0">Window</extrafeature>
+      <extrafeature name="qfs:label" negate="false" regexp="false" state="1">SNAP</extrafeature>
+      <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                    state="0">javax.swing.JFrame</extrafeature>
+      <ComponentStep class="MenuBar" classcount="1" classindex="0" height="24"
+                     id="NbMainWindow.menubar" uid="_9" width="1920" x="0"
+                     y="37">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">org.openide.awt.MenuBar</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">MenuBar</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JMenuBar</extrafeature>
+        <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Menu:MenuBar</extrafeature>
+        <ComponentStep class="MenuItem" classcount="547" classindex="0"
+                       feature="File" height="22" id="File" name="File"
+                       uid="_A" width="33" x="1" y="1">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">org.openide.awt.MenuBar$$LazyMenu</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">MenuItem</extrafeature>
+          <extrafeature name="qfs:label" negate="false" regexp="false"
+                        state="1">File</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JMenu</extrafeature>
+          <ComponentStep class="MenuItem" classcount="166" classindex="1"
+                         feature="Reopen Product" height="25"
+                         id="menuReopen_Product" uid="_B" width="207">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JMenu</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">MenuItem</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">Reopen Product</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JMenu</extrafeature>
+          </ComponentStep>
+          <ComponentStep class="MenuItem" classcount="166" classindex="0"
+                         feature="Open Product..." height="25"
+                         id="menuItemOpen_Product..." uid="_C" width="207">
+            <extrafeature name="imagehash" negate="false" regexp="false"
+                          state="1">1105340009</extrafeature>
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">org.openide.awt.Actions$$MenuItem</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">MenuItem</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">Open Product...</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JMenuItem</extrafeature>
+          </ComponentStep>
+        </ComponentStep>
+      </ComponentStep>
+      <ComponentStep class="Panel" classcount="74" classindex="27"
+                     height="432" id="Content_displayer"
+                     name="Content displayer" uid="_Y" width="485" x="4"
+                     y="128">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JPanel</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">Panel</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JPanel</extrafeature>
+        <ComponentStep class="javax.swing.JComponent" classcount="37"
+                       classindex="0" height="431" id="Product_Explorer"
+                       name="Product_Explorer" uid="_Z" width="483" x="1"
+                       y="0">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">org.esa.snap.rcp.windows.ProductExplorerTopComponent</extrafeature>
+          <extrafeature name="qfs:label" negate="false" regexp="false"
+                        state="1">Lists all open products</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JComponent</extrafeature>
+          <ComponentStep class="Panel" classcount="2" classindex="0"
+                         height="431" id="Product_Explorer.scroll" uid="_a"
+                         width="483" x="0" y="0">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">org.esa.snap.rcp.windows.ProductExplorerTopComponent$$DndBeanTreeView</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">Panel</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JScrollPane</extrafeature>
+            <extrafeature name="qfs:type" negate="false" regexp="false"
+                          state="0">Panel:ScrollPanel</extrafeature>
+            <ComponentStep class="Tree" classcount="1" classindex="0"
+                           id="Product_Explorer.treeThis_tool_window_is_used_to_visualise_the_uncertainty_information_associated_with_a_band_shown_in_an_image_view._Right_now,_there_is_no_selected_image_view_or_uncertainty_information_is_unavailable."
+                           uid="_b">
+              <extrafeature name="qfs:class" negate="false" regexp="false"
+                            state="0">org.openide.explorer.view.TreeView$$ExplorerTree</extrafeature>
+              <extrafeature name="qfs:genericclass" negate="false"
+                            regexp="false" state="0">Tree</extrafeature>
+              <extrafeature name="qfs:label" negate="false" regexp="false"
+                            state="1">This tool window is used to visualise the uncertainty information associated with a band shown in an image view. Right now, there is no selected image view or uncertainty information is unavailable.</extrafeature>
+              <extrafeature name="qfs:systemclass" negate="false"
+                            regexp="false" state="0">javax.swing.JTree</extrafeature>
+            </ComponentStep>
+          </ComponentStep>
+        </ComponentStep>
+      </ComponentStep>
+    </WindowStep>
+    <WindowStep class="Dialog" feature="SNAP - Open Product" height="437"
+                id="dialogSNAP_-_Open_Product" modal="true" uid="_D"
+                width="966" x="491" y="318">
+      <extrafeature name="qfs:class" negate="false" regexp="false" state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                    state="0">Dialog</extrafeature>
+      <extrafeature name="qfs:label" negate="false" regexp="false" state="1">SNAP - Open Product</extrafeature>
+      <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                    state="0">javax.swing.JDialog</extrafeature>
+      <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Window:Dialog</extrafeature>
+      <ComponentStep class="FileChooser" classcount="1" classindex="0"
+                     height="400"
+                     id="dialogSNAP_-_Open_Product.fileChooserSNAP_-_Open_Product"
+                     uid="_E" width="966" x="0" y="37">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">org.esa.snap.rcp.actions.file.ProductFileChooser</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">FileChooser</extrafeature>
+        <extrafeature name="qfs:label" negate="false" regexp="false"
+                      state="1">SNAP - Open Product</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JFileChooser</extrafeature>
+        <ComponentStep class="TextField" classcount="1" classindex="0"
+                       feature="Label: File Name:" height="33"
+                       id="textFile_Name:" uid="_F" width="843" x="112"
+                       y="290">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JTextField</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">TextField</extrafeature>
+          <extrafeature name="qfs:label" negate="false" regexp="false"
+                        state="1">File Name:</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JTextField</extrafeature>
+        </ComponentStep>
+        <ComponentStep class="Panel" classcount="11" classindex="5"
+                       height="228" id="dialogSNAP_-_Open_Product.scroll"
+                       uid="_V" width="943" x="12" y="51">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JScrollPane</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">Panel</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JScrollPane</extrafeature>
+          <extrafeature name="qfs:type" negate="false" regexp="false"
+                        state="0">Panel:ScrollPanel</extrafeature>
+          <ComponentStep class="List" classcount="1" classindex="0"
+                         id="dialogSNAP_-_Open_Product.listLook_In:" uid="_W">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JList</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">List</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">Look In:</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JList</extrafeature>
+          </ComponentStep>
+        </ComponentStep>
+        <ComponentStep class="Button" classcount="11" classindex="9"
+                       feature="OK" height="26" id="buttonOK" uid="_X"
+                       width="54" x="842" y="363">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JButton</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">Button</extrafeature>
+          <extrafeature name="qfs:label" negate="false" regexp="false"
+                        state="1">OK</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JButton</extrafeature>
+        </ComponentStep>
+      </ComponentStep>
+    </WindowStep>
+  </WindowList>
+</RootStep>

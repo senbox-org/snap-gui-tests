@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE RootStep>
-<RootStep id="_0" name="root" version="4.1.1">
+<RootStep id="_0" name="root" version="4.1.5">
   <include>qfs.qft</include>
   <include>snap_do_click.qft</include>
   <include>snap_check.qft</include>
@@ -56,6 +56,17 @@
   <variable name="client">snap</variable>
   <PackageRoot id="_3">
     <comment>snap</comment>
+    <Package id="_1ryC" name="modal">
+      <Procedure id="_1ryI" name="CloseCheckUpdate">
+        <MouseEventStep clicks="1" client="$(client)" component="buttonNo3"
+                        event="MOUSE_MPRC" id="_1ryJ" modifiers="16"/>
+      </Procedure>
+      <Procedure id="_1ryD" name="CloseUpdate">
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="dialogPlugin_Installer.buttonFinish"
+                        event="MOUSE_MPRC" id="_M" modifiers="16"/>
+      </Procedure>
+    </Package>
     <Package id="_1l8u" name="dependencies">
       <Dependency id="_1lWZ" name="start_application">
         <SetupSequence id="_1lWa" name="start">
@@ -206,6 +217,18 @@
             </CatchSequence>
           </TryStep>
           <TryStep id="_1rv4" name="constructed gui?">
+            <ComponentWaiter client="$(client)"
+                             component="dialogSNAP_-_SNAP_Update" id="_1pP0"/>
+            <ProcedureCall id="_1ryK" procedure="modal.CloseCheckUpdate"/>
+            <ProcedureCall id="_1ryE" procedure="modal.CloseUpdate"/>
+            <ProcedureCall id="_1lJi"
+                           procedure="qfs.swing.cleanup.closeAllDialogs">
+              <variable name="maxDialogs">10</variable>
+            </ProcedureCall>
+            <ProcedureCall id="_1ryL"
+                           procedure="qfs.swing.cleanup.closeAllModalDialogs">
+              <variable name="maxDialogs">5</variable>
+            </ProcedureCall>
             <MouseEventStep clicks="1" client="$(client)"
                             component="NbMainWindow.Tab_Displayer"
                             event="MOUSE_MPRC" id="_1rxz" modifiers="16" x="8"
