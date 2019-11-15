@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE RootStep>
+<RootStep id="_0" name="root" version="4.1.5">
+  <include>qfs.qft</include>
+  <include>../lib/snap_main.qft</include>
+  <TestSet id="_1" name="030_basic_help">
+    <DependencyReference id="_1lXI"
+                         reference="dependencies.start_application"/>
+    <TestCase id="_2" name="open_help_and_check_some">
+      <BasicSequence id="_1lXU" name="Recorded 15/11/19 10:50">
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="NbMainWindow.Help" event="MOUSE_MPRC"
+                        id="_1lXV" modifiers="16"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="menuItemHelp_Contents" event="MOUSE_MPRC"
+                        id="_1lXW" modifiers="16"/>
+        <ComponentWaiter client="$(client)"
+                         component="dialogLoading_help_sets..." errorlevel="0"
+                         id="_1lXX" raise="false"/>
+        <ComponentWaiter client="$(client)" component="frameHelp" id="_1lXY"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="frameHelp.tabContents.tree@/Command Line Interface (GPF)/GPF Overview"
+                        event="MOUSE_MPRC" id="_1lXc" modifiers="16"/>
+        <CheckStringStep client="$(client)"
+                         component="frameHelp.comRight.editor" id="_-"
+                         predelay="500" raise="true" regexp="true">
+          <text>(.|\n)*The SNAP Graph Processing Framework(.|\n)*</text>
+        </CheckStringStep>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="frameHelp.tabContents.tree@/SMOS Box"
+                        event="MOUSE_MPRC" id="_1lXd" modifiers="16"/>
+        <CheckStringStep client="$(client)"
+                         component="frameHelp.comRight.editor" id="_1lXy"
+                         predelay="500" raise="true" regexp="true">
+          <text>(.|\n)*SMOS-Box(.|\n)*</text>
+        </CheckStringStep>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="frameHelp.tabContents.tree@/Sentinel Toolbox Application/Optical"
+                        event="MOUSE_MPRC" id="_1lXe" modifiers="16" x="-12"
+                        y="6"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="frameHelp.tabContents.tree@/Sentinel Toolbox Application/Optical/Geometric"
+                        event="MOUSE_MPRC" id="_1lXf" modifiers="16" x="-15"
+                        y="10"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="frameHelp.tabContents.tree@/Sentinel Toolbox Application/Optical/Geometric/S2 Resample"
+                        event="MOUSE_MPRC" id="_1lXg" modifiers="16"/>
+        <CheckStringStep client="$(client)"
+                         component="frameHelp.comRight.editor" id="_1lXz"
+                         predelay="500" raise="true" regexp="true">
+          <text>(.|\n)*Resample Sentinel-2 Products(.|\n)*</text>
+        </CheckStringStep>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="frameHelp.tabContents.tree@/Sentinel Toolbox Application/Optical/Geometric/Sentinel-3 SLSTR L1B PDU Stitching"
+                        event="MOUSE_MPRC" id="_1lXl" modifiers="16"/>
+        <CheckStringStep client="$(client)"
+                         component="frameHelp.comRight.editor" id="_1lX+"
+                         predelay="500" raise="true" regexp="true">
+          <text>(.|\n)*Sentinel-3 SLSTR L1B Product Dissemination Unit Stitching Operator(.|\n)*</text>
+        </CheckStringStep>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="frameHelp.tabContents.tree@/Sentinel Toolbox Application/Radar"
+                        event="MOUSE_MPRC" id="_1lXm" modifiers="16"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="frameHelp.tabContents.tree@/Sentinel Toolbox Application/Radar"
+                        event="MOUSE_MPRC" id="_1lXn" modifiers="16" x="-13"
+                        y="6"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="frameHelp.tabContents.tree@/Sentinel Toolbox Application/Radar/Sentinel-1 TOPS"
+                        event="MOUSE_MPRC" id="_1lXo" modifiers="16" x="-12"
+                        y="9"/>
+        <MouseEventStep clicks="1" client="$(client)"
+                        component="frameHelp.tabContents.tree@/Sentinel Toolbox Application/Radar/Sentinel-1 TOPS/TOPSAR Split"
+                        event="MOUSE_MPRC" id="_1lXp" modifiers="16"/>
+        <CheckStringStep client="$(client)"
+                         component="frameHelp.comRight.editor" id="_1lX-"
+                         predelay="500" raise="true" regexp="true">
+          <text>(.|\n)*Sentinel-1 TOPSAR Split(.|\n)*</text>
+        </CheckStringStep>
+      </BasicSequence>
+    </TestCase>
+  </TestSet>
+  <PackageRoot id="_3"/>
+  <ExtraSequence id="_4"/>
+  <WindowList id="_5">
+    <WindowStep class="Window" feature="SNAP" height="861" id="NbMainWindow3"
+                name="NbMainWindow" uid="_1lXJ" width="1236" x="281" y="225">
+      <extrafeature name="qfs:class" negate="false" regexp="false" state="0">javax.swing.JFrame</extrafeature>
+      <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                    state="0">Window</extrafeature>
+      <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                    state="0">javax.swing.JFrame</extrafeature>
+      <ComponentStep class="MenuBar" classcount="1" classindex="0" height="24"
+                     id="NbMainWindow3.menubar" uid="_1lXK" width="1218" x="9"
+                     y="36">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">org.openide.awt.MenuBar</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">MenuBar</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JMenuBar</extrafeature>
+        <extrafeature name="qfs:type" negate="false" regexp="false" state="0">Menu:MenuBar</extrafeature>
+        <ComponentStep class="MenuItem" classcount="572" classindex="563"
+                       feature="Help" height="24" id="Help" name="Help"
+                       uid="_1lXL" width="41" x="523" y="0">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">org.openide.awt.MenuBar$$LazyMenu</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">MenuItem</extrafeature>
+          <extrafeature name="qfs:label" negate="false" regexp="false"
+                        state="1">Help</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JMenu</extrafeature>
+          <ComponentStep class="MenuItem" classcount="8" classindex="0"
+                         feature="Help Contents" height="27"
+                         id="menuItemHelp_Contents" uid="_1lXM" width="249">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">org.openide.awt.Actions$$MenuItem</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">MenuItem</extrafeature>
+            <extrafeature name="qfs:label" negate="false" regexp="false"
+                          state="1">Help Contents</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JMenuItem</extrafeature>
+          </ComponentStep>
+        </ComponentStep>
+      </ComponentStep>
+    </WindowStep>
+    <WindowStep class="Window" feature="Help" height="838" id="frameHelp"
+                uid="_1lXN" width="1004" x="486" y="143">
+      <extrafeature name="qfs:class" negate="false" regexp="false" state="0">javax.swing.JFrame</extrafeature>
+      <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                    state="0">Window</extrafeature>
+      <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                    state="0">javax.swing.JFrame</extrafeature>
+      <ComponentStep class="SplitPanel" classcount="1" classindex="0"
+                     height="760" id="frameHelp.split" uid="_1lXO" width="986"
+                     x="9" y="69">
+        <extrafeature name="qfs:class" negate="false" regexp="false"
+                      state="0">javax.swing.JSplitPane</extrafeature>
+        <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                      state="0">SplitPanel</extrafeature>
+        <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                      state="0">javax.swing.JSplitPane</extrafeature>
+        <ComponentStep class="Divider" classcount="1" classindex="0"
+                       feature="Horizontal" id="frameHelp.dividerHorizontal"
+                       uid="_1lXP">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">com.sun.java.swing.plaf.windows.WindowsSplitPaneDivider</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">Divider</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.plaf.basic.BasicSplitPaneDivider</extrafeature>
+        </ComponentStep>
+        <ComponentStep class="TabPanel" classcount="1" classindex="0"
+                       feature="Split: Left" id="tabbedLeft" uid="_1lXQ" x="1"
+                       y="1">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.swing.JTabbedPane</extrafeature>
+          <extrafeature name="qfs:genericclass" negate="false" regexp="false"
+                        state="0">TabPanel</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JTabbedPane</extrafeature>
+          <ComponentStep class="javax.swing.JComponent" classcount="24"
+                         classindex="0" feature="Tab: Contents" height="728"
+                         id="tabContents" uid="_1lXR" width="302" x="2"
+                         y="27">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.help.JHelpTOCNavigator</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JComponent</extrafeature>
+            <ComponentStep class="Panel" classcount="2" classindex="0"
+                           height="728" id="tabContents.scroll" uid="_1lXS"
+                           width="302" x="0" y="0">
+              <extrafeature name="qfs:class" negate="false" regexp="false"
+                            state="0">javax.swing.JScrollPane</extrafeature>
+              <extrafeature name="qfs:genericclass" negate="false"
+                            regexp="false" state="0">Panel</extrafeature>
+              <extrafeature name="qfs:systemclass" negate="false"
+                            regexp="false" state="0">javax.swing.JScrollPane</extrafeature>
+              <extrafeature name="qfs:type" negate="false" regexp="false"
+                            state="0">Panel:ScrollPanel</extrafeature>
+              <ComponentStep class="ScrollBar" classcount="2" classindex="0"
+                             feature="Vertical"
+                             id="tabContents.scrollbarVertical" uid="_1lXT"
+                             x="0" y="0">
+                <extrafeature name="qfs:class" negate="false" regexp="false"
+                              state="0">javax.swing.JScrollPane$$ScrollBar</extrafeature>
+                <extrafeature name="qfs:genericclass" negate="false"
+                              regexp="false" state="0">ScrollBar</extrafeature>
+                <extrafeature name="qfs:systemclass" negate="false"
+                              regexp="false" state="0">javax.swing.JScrollPane$$ScrollBar</extrafeature>
+              </ComponentStep>
+            </ComponentStep>
+          </ComponentStep>
+        </ComponentStep>
+        <ComponentStep class="javax.swing.JComponent" classcount="37"
+                       classindex="25" feature="Split: Right"
+                       id="frameHelp.comRight" uid="_1lXu">
+          <extrafeature name="qfs:class" negate="false" regexp="false"
+                        state="0">javax.help.JHelpContentViewer</extrafeature>
+          <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                        state="0">javax.swing.JComponent</extrafeature>
+          <ComponentStep class="Panel" classcount="2" classindex="0"
+                         height="758" id="frameHelp2.comRight.scroll"
+                         uid="_1lXv" width="672" x="0" y="0">
+            <extrafeature name="qfs:class" negate="false" regexp="false"
+                          state="0">javax.swing.JScrollPane</extrafeature>
+            <extrafeature name="qfs:genericclass" negate="false"
+                          regexp="false" state="0">Panel</extrafeature>
+            <extrafeature name="qfs:systemclass" negate="false" regexp="false"
+                          state="0">javax.swing.JScrollPane</extrafeature>
+            <extrafeature name="qfs:type" negate="false" regexp="false"
+                          state="0">Panel:ScrollPanel</extrafeature>
+            <ComponentStep class="ScrollBar" classcount="2" classindex="0"
+                           feature="Vertical"
+                           id="frameHelp2.comRight.scrollbarVertical"
+                           uid="_1lXw" x="0" y="0">
+              <extrafeature name="qfs:class" negate="false" regexp="false"
+                            state="0">javax.swing.JScrollPane$$ScrollBar</extrafeature>
+              <extrafeature name="qfs:genericclass" negate="false"
+                            regexp="false" state="0">ScrollBar</extrafeature>
+              <extrafeature name="qfs:systemclass" negate="false"
+                            regexp="false" state="0">javax.swing.JScrollPane$$ScrollBar</extrafeature>
+            </ComponentStep>
+            <ComponentStep class="ScrollBar" classcount="2" classindex="1"
+                           feature="Horizontal"
+                           id="frameHelp2.comRight.scrollbarHorizontal"
+                           uid="_1lXx" x="0" y="0">
+              <extrafeature name="qfs:class" negate="false" regexp="false"
+                            state="0">javax.swing.JScrollPane$$ScrollBar</extrafeature>
+              <extrafeature name="qfs:genericclass" negate="false"
+                            regexp="false" state="0">ScrollBar</extrafeature>
+              <extrafeature name="qfs:systemclass" negate="false"
+                            regexp="false" state="0">javax.swing.JScrollPane$$ScrollBar</extrafeature>
+            </ComponentStep>
+          </ComponentStep>
+        </ComponentStep>
+      </ComponentStep>
+    </WindowStep>
+  </WindowList>
+</RootStep>
