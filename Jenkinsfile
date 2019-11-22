@@ -18,7 +18,7 @@
 pipeline {
     agent { label 'snap-test' }
     parameters {
-        string(name: 'dockerTagName', defaultValue: 'snap:master', description: 'docker tag name to use')
+        string(name: 'dockerTagName', defaultValue: 'snap:7.x', description: 'docker tag name to use')
         string(name: 'testFileList', defaultValue: 'qftests.lst', description: 'name of the .lst file to use')
     }
     stages {
