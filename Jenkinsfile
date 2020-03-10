@@ -33,15 +33,15 @@ pipeline {
             steps {
                 echo "Launch GUI Tests with ${env.JOB_NAME} from ${env.GIT_BRANCH} using docker image snap-build-server.tilaa.cloud/${params.dockerTagName}"
                 // We use xvfb-run to emulate DISPLAY inside snap docker
-                sh "export qftest_data_dir=/data/ssd/testData/snap-gui-tests/qftest && export qftest_snap_install_dir=/home/snap/snap/ && export qftest_snap_user_dir=/home/snap/.snap && xvfb-run --server-args=\"-screen 0 1280x1024x24\" /usr/local/bin/qftest -batch -runlog $WORKSPACE/qftest_logs -report $WORKSPACE/qftest_report -suitesfile $WORKSPACE/${params.testFileList}"
+                // sh "export qftest_data_dir=/data/ssd/testData/snap-gui-tests/qftest && export qftest_snap_install_dir=/home/snap/snap/ && export qftest_snap_user_dir=/home/snap/.snap && xvfb-run --server-args=\"-screen 0 1280x1024x24\" /usr/local/bin/qftest -batch -runlog $WORKSPACE/qftest_logs -report $WORKSPACE/qftest_report -suitesfile $WORKSPACE/${params.testFileList}"
             }
             post {
                 always {
                     sh "ls -l $WORKSPACE"
                     //sh "tar zcvf qftest_report.tgz qftest_report"
-                    sh "ls -l $WORKSPACE/qftest_report"
-                    archiveArtifacts artifacts: "qftest_report/**/*.*", fingerprint: true
-                    junit "qftest_report/report_junit.xml"
+                    // sh "ls -l $WORKSPACE/qftest_report"
+                    // archiveArtifacts artifacts: "qftest_report/**/*.*", fingerprint: true
+                    // junit "qftest_report/report_junit.xml"
                 }
             }
         }
