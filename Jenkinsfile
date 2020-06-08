@@ -25,7 +25,7 @@ pipeline {
         stage('GUI Tests') {
             agent { 
                 docker {
-                    image "snap-build-server.tilaa.cloud/${params.dockerTagName}"
+                    image "snap-build-server.tilaa.cloud/snap:master"
                     label 'snap-execution' 
                     args "--group-add 1006 -v /data/ssd/testData:/data/ssd/testData -v /opt/qftest/license:/home/snap/qftest/license"
                 }
@@ -33,7 +33,7 @@ pipeline {
             steps {
                 echo "Launch GUI Tests with ${env.JOB_NAME} from ${env.GIT_BRANCH} using docker image snap-build-server.tilaa.cloud/${params.dockerTagName}"
                 // We use xvfb-run to emulate DISPLAY inside snap docker
-                sh "export qftest_data_dir=/data/ssd/testData/snap-gui-tests/qftest && export qftest_snap_install_dir=/home/snap/snap/ && export qftest_snap_user_dir=/home/snap/.snap && xvfb-run --server-args=\"-screen 0 1280x1024x24\" /usr/local/bin/qftest -batch -runlog $WORKSPACE/qftest_logs -report $WORKSPACE/qftest_report -suitesfile $WORKSPACE/${params.testFileList}"
+                // sh "export qftest_data_dir=/data/ssd/testData/snap-gui-tests/qftest && export qftest_snap_install_dir=/home/snap/snap/ && export qftest_snap_user_dir=/home/snap/.snap && xvfb-run --server-args=\"-screen 0 1280x1024x24\" /usr/local/bin/qftest -batch -runlog $WORKSPACE/qftest_logs -report $WORKSPACE/qftest_report -suitesfile $WORKSPACE/${params.testFileList}"
             }
             post {
                 always {
