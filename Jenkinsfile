@@ -35,27 +35,6 @@ pipeline {
                 // We use xvfb-run to emulate DISPLAY inside snap docker
                 // sh "export qftest_data_dir=/data/ssd/testData/snap-gui-tests/qftest && export qftest_snap_install_dir=/home/snap/snap/ && export qftest_snap_user_dir=/home/snap/.snap && xvfb-run --server-args=\"-screen 0 1280x1024x24\" /usr/local/bin/qftest -batch -runlog $WORKSPACE/qftest_logs -report $WORKSPACE/qftest_report -suitesfile $WORKSPACE/${params.testFileList}"
             }
-            post {
-                always {
-                	echo "done"
-                }
-            }
-        }
-    }
-    post {
-        failure {
-            step (
-                emailext(
-                    subject: "[SNAP] JENKINS-NOTIFICATION: ${currentBuild.result ?: 'SUCCESS'} : Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-                    body: """Build status : ${currentBuild.result ?: 'SUCCESS'}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':
-Check console output at ${env.BUILD_URL}
-${env.JOB_NAME} [${env.BUILD_NUMBER}]""",
-                    attachLog: true,
-                    compressLog: true,
-                    //to: "${SNAP_INTERNAL_MAIL_LIST}"
-                    to: "omar.barrilero@c-s.fr, jean.seyral@c-s.fr"
-                )
-            )
         }
     }
 }
