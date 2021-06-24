@@ -16,6 +16,10 @@
  */
 
 pipeline {
+    options {
+            buildDiscarder(logRotator(daysToKeepStr: '10', artifactDaysToKeepStr: '10'))
+            timeout(time: 20, unit: 'HOURS')
+    }
     agent { label 'snap-test' }
     parameters {
         string(name: 'dockerTagName', defaultValue: 'snap:master', description: 'docker tag name to use')
